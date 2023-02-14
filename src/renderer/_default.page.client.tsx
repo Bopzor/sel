@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import { PageContextProvider } from './page-context';
 import { PageContextClient } from './types';
 
+import '@fontsource/inter/variable.css';
 import '../styles.css';
 
 export const clientRouting = true;

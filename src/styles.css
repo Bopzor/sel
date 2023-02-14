@@ -2,6 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  body {
+    @apply font-inter text-neutral bg-body;
+  }
+}
+
+@layer components {
+  .content {
+    @apply max-w-page mx-auto px-2;
+  }
+}
+
 @layer utilities {
   .row {
     @apply flex flex-row;
@@ -9,5 +21,13 @@
 
   .col {
     @apply flex flex-col;
+  }
+
+  .typo-title {
+    @apply font-bold text-xl;
+  }
+
+  .typo-subtitle {
+    @apply font-semibold text-lg;
   }
 }
