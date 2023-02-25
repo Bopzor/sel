@@ -1,0 +1,49 @@
+import { CommandHandler } from '../../../../common/cqs/command-handler';
+import { EventPublisher } from '../../../../common/cqs/event-publisher';
+import { DomainError } from '../../../../common/ddd/domain-error';
+import { DomainEvent } from '../../../../common/ddd/domain-event';
+import { assertEntity } from '../../../../common/entity-not-found.error';
+import { Request } from '../../entities/request.entity';
+import { RequestRepository } from '../../request.repository';
+
+export type EditRequestCommand = {
+  id: string;
+  title?: string;
+  description?: string;
+};
+
+export class EditRequestHandler implements CommandHandler<EditRequestCommand> {
+  constructor(
+    private readonly publisher: EventPublisher,
+    private readonly requestRepository: RequestRepository
+  ) {}
+
+  async handle(command: EditRequestCommand): Promise<void> {
+    const request = await this.requestRepository.findById(command.id);
+
+    assertEntity(Request, request, { id: command.id });
+
+    let edited = false;
+
+    if (command.title && command.title !== request.title) {
+      request.title = command.title;
+      edited = true;
+    }
+
+    if (command.description && command.description !== request.description) {
+      request.description = command.description;
+      edited = true;
+    }
+
+    if (!edited) {
+      throw new NoEditedField();
+    }
+
+    await this.requestRepository.save(request);
+    this.publisher.publish(new RequestEditedEvent());
+  }
+}
+
+export class NoEditedField extends DomainError {}
+
+export class RequestEditedEvent extends DomainEvent {}
