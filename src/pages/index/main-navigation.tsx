@@ -3,7 +3,7 @@ import clsx from 'clsx';
 export const MainNavigation = () => (
   <nav className="grid grid-cols-2 gap-2">
     <Section
-      href="/"
+      href="/demandes"
       className="bg-requests"
       title="Demandes"
       description="Voir la liste des demandes en cours"

@@ -1,5 +1,6 @@
 import ReactDOM from 'react-dom/client';
 
+import { Layout } from './layout/layout';
 import { PageContextProvider } from './page-context';
 import { PageContextClient } from './types';
 
@@ -18,7 +19,9 @@ export function render(pageContext: PageContextClient) {
 
   const page = (
     <PageContextProvider context={pageContext}>
-      <Page {...pageProps} />
+      <Layout>
+        <Page {...pageProps} />
+      </Layout>
     </PageContextProvider>
   );
 
