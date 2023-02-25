@@ -4,7 +4,7 @@ export const News = () => (
   <div className="col gap-2">
     <h2 className="typo-title">Actualités</h2>
 
-    <div className="row gap-4 rounded bg-neutral p-2 shadow">
+    <div className="card row gap-4 p-2">
       <div className="col gap-1">
         <p className="typo-subtitle">Joyeuses fêtes de fin d'année à tous !</p>
 

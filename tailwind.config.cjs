@@ -3,11 +3,12 @@ const colors = require('tailwindcss/colors');
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ['src/**/*.tsx'],
-  plugins: [],
+  plugins: [require('@tailwindcss/line-clamp')],
 
   theme: {
     spacing: {
       0: 0,
+      1.5: '1.5rem',
       1: '1rem',
       2: '2rem',
       3: '3rem',
@@ -31,6 +32,9 @@ module.exports = {
       neutral: '#121212',
       inverted: '#FFFFFF',
       muted: '#121212CC',
+    },
+    fill: {
+      icon: colors.gray[600],
     },
 
     fontFamily: {

@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 
 import { PageContextClient } from './types';
 
-type PageContext = Pick<PageContextClient, 'urlPathname'>;
+type PageContext = Pick<PageContextClient, 'urlPathname' | 'routeParams'>;
 
 const pageContext = React.createContext<PageContext>({} as PageContextClient);
 
@@ -21,4 +21,12 @@ const usePageContext = () => {
 
 export const usePathname = () => {
   return usePageContext().urlPathname;
+};
+
+const useRouteParams = () => {
+  return usePageContext().routeParams;
+};
+
+export const useRouteParam = (param: string) => {
+  return useRouteParams()[param];
 };

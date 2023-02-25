@@ -12,6 +12,10 @@
   .content {
     @apply max-w-page mx-auto px-2;
   }
+
+  .card {
+    @apply rounded bg-neutral shadow;
+  }
 }
 
 @layer utilities {

@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 
 export const MainNavigation = () => (
-  <nav className="grid grid-cols-2 gap-2">
+  <nav className="my-2 grid grid-cols-2 gap-2">
     <Section
       href="/demandes"
       className="bg-requests"

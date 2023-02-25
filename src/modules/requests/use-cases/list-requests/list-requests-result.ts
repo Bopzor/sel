@@ -1,6 +1,7 @@
 export type ListRequestsResult = Array<ListRequestsItem>;
 
-type ListRequestsItem = {
+export type ListRequestsItem = {
   id: string;
   title: string;
+  description: string;
 };

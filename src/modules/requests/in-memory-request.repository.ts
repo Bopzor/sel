@@ -10,6 +10,7 @@ export class InMemoryRequestRepository extends InMemoryRepository<Request> imple
     return this.all().map((request) => ({
       id: request.id,
       title: request.title,
+      description: request.description,
     }));
   }
 

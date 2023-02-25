@@ -11,6 +11,8 @@
   },
   "dependencies": {
     "@fontsource/inter": "^4.5.15",
+    "@heroicons/react": "^2.0.16",
+    "@tailwindcss/line-clamp": "^0.4.2",
     "@types/compression": "^1.7.2",
     "@types/express": "^4.17.17",
     "@types/node": "^18.13.0",

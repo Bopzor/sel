@@ -7,6 +7,7 @@ type PageProps = object;
 type PageContextCustom = {
   Page: Page;
   pageProps?: PageProps;
+  routeParams: Record<string, string>;
 };
 
 export type PageContextServer = PageContextBuiltIn<Page> & PageContextCustom;

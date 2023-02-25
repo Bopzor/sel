@@ -8,7 +8,7 @@ import { Layout } from './layout/layout';
 import { PageContextProvider } from './page-context';
 import type { PageContextServer } from './types';
 
-export const passToClient = ['pageProps'];
+export const passToClient = ['pageProps', 'routeParams'];
 
 export function render(pageContext: PageContextServer) {
   const { Page, pageProps } = pageContext;

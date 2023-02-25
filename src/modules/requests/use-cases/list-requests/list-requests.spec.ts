@@ -19,6 +19,7 @@ describe('ListRequests', () => {
       {
         id: 'id',
         title: 'title',
+        description: 'description',
       },
     ]);
   });

@@ -7,6 +7,6 @@ type LayoutProps = {
 export const Layout = ({ children }: LayoutProps) => (
   <>
     <PageHeader />
-    <main className="content col gap-4 py-4">{children}</main>
+    <main className="content col gap-2 py-2">{children}</main>
   </>
 );
