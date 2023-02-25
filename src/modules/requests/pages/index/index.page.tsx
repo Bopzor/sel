@@ -4,10 +4,12 @@ import { useQuery } from '../../../../app/api.context';
 import { BackLink } from '../../../../app/components/back-link';
 import { For } from '../../../../app/components/for';
 import { Input } from '../../../../app/components/input';
+import { useTranslate } from '../../../../app/i18n.context';
 import { RequestCard } from '../../components/request-card';
 import { ListRequestsHandler } from '../../use-cases/list-requests/list-requests';
 
 export const Page = () => {
+  const t = useTranslate('common');
   const [requests] = useQuery(ListRequestsHandler, {});
 
   return (
@@ -16,7 +18,7 @@ export const Page = () => {
 
       <Input
         type="search"
-        placeholder="Rechercher..."
+        placeholder={t('Search') ?? undefined}
         start={<MagnifyingGlassIcon className="h-1.5 w-1.5 fill-icon" />}
       />
 

@@ -1,0 +1,20 @@
+{
+  "common": {
+    "Back": "Back",
+    "Search": "Search"
+  },
+  "layout": {
+    "Local trading system": "Local trading system"
+  },
+  "home": {
+    "Requests": "Requests",
+    "View the list of pending requests": "View the list of pending requests",
+    "Events": "Events",
+    "Workshops, ...": "Workshops, ...",
+    "Members": "Members",
+    "Your LTS's members": "Your LTS's members",
+    "Tools": "Tools",
+    "Giving a lending tools": "Giving a lending tools",
+    "News": "News"
+  }
+}

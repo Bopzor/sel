@@ -1,3 +1,5 @@
+import { T } from '../../app/i18n.context';
+
 import logo from './logo.png';
 
 export const PageHeader = () => (
@@ -5,7 +7,9 @@ export const PageHeader = () => (
     <div className="content row items-center">
       <a href="/" className="row mr-auto items-center gap-2">
         <img src={logo} alt="Logo" width={64} height={64} />
-        <span className="text-xl font-semibold">Système d'Échange Local</span>
+        <span className="text-xl font-semibold">
+          <T ns="layout">Local trading system</T>
+        </span>
       </a>
 
       <div className="col items-center">
