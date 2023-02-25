@@ -1,5 +1,8 @@
 import ReactDOM from 'react-dom/client';
 
+import { ApiProvider } from '../app/api.context';
+
+import { apiContext } from './in-memory-api-context';
 import { Layout } from './layout/layout';
 import { PageContextProvider } from './page-context';
 import { PageContextClient } from './types';
@@ -19,9 +22,11 @@ export function render(pageContext: PageContextClient) {
 
   const page = (
     <PageContextProvider context={pageContext}>
-      <Layout>
-        <Page {...pageProps} />
-      </Layout>
+      <ApiProvider value={apiContext}>
+        <Layout>
+          <Page {...pageProps} />
+        </Layout>
+      </ApiProvider>
     </PageContextProvider>
   );
 

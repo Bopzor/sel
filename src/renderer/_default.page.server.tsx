@@ -1,6 +1,9 @@
 import ReactDOMServer from 'react-dom/server';
 import { dangerouslySkipEscape, escapeInject } from 'vite-plugin-ssr';
 
+import { ApiProvider } from '../app/api.context';
+
+import { apiContext } from './in-memory-api-context';
 import { Layout } from './layout/layout';
 import { PageContextProvider } from './page-context';
 import type { PageContextServer } from './types';
@@ -13,9 +16,11 @@ export function render(pageContext: PageContextServer) {
   const html = ReactDOMServer.renderToString(
     <Document>
       <PageContextProvider context={pageContext}>
-        <Layout>
-          <Page {...pageProps} />
-        </Layout>
+        <ApiProvider value={apiContext}>
+          <Layout>
+            <Page {...pageProps} />
+          </Layout>
+        </ApiProvider>
       </PageContextProvider>
     </Document>
   );

@@ -1,4 +1,3 @@
-import { EntityNotFoundError } from '../../../../common/entity-not-found.error';
 import { Request } from '../../entities/request.entity';
 import { InMemoryRequestRepository } from '../../in-memory-request.repository';
 
@@ -27,15 +26,11 @@ describe('GetRequest', () => {
     });
   });
 
-  it('fails when the request does not exist', async () => {
+  it('returns undefined when the request does not exist', async () => {
     const query: GetRequestQuery = {
       id: 'id',
     };
 
-    await expect(getRequestHandler.handle(query)).rejects.test((error) => {
-      assert(error instanceof EntityNotFoundError);
-      expect(error.entityName).toEqual('Request');
-      expect(error.where).toEqual({ id: 'id' });
-    });
+    await expect(getRequestHandler.handle(query)).resolves.toBeUndefined();
   });
 });
