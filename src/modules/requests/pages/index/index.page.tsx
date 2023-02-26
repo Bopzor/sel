@@ -3,6 +3,7 @@ import { MagnifyingGlassIcon, PlusIcon } from '@heroicons/react/24/solid';
 import { useQuery } from '../../../../app/api.context';
 import { BackLink } from '../../../../app/components/back-link';
 import { LinkButton } from '../../../../app/components/button';
+import { FallbackSpinner } from '../../../../app/components/fallback';
 import { For } from '../../../../app/components/for';
 import { Input } from '../../../../app/components/input';
 import { T, useTranslate } from '../../../../app/i18n.context';
@@ -31,7 +32,7 @@ export const Page = () => {
         </LinkButton>
       </div>
 
-      <For fallback={<>loading</>} each={requests}>
+      <For each={requests} fallback={<FallbackSpinner />}>
         {(request) => (
           <a key={request.id} href={`/demandes/${request.id}`}>
             <RequestCard request={request} clampDescription />

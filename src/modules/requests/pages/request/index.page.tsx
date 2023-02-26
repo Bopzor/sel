@@ -1,5 +1,6 @@
 import { useQuery } from '../../../../app/api.context';
 import { BackLink } from '../../../../app/components/back-link';
+import { FallbackSpinner } from '../../../../app/components/fallback';
 import { Show } from '../../../../app/components/show';
 import { useRouteParam } from '../../../../renderer/page-context';
 import { Request } from '../../aliases';
@@ -14,7 +15,7 @@ export const Page = () => {
     <>
       <BackLink href="/demandes" />
 
-      <Show when={request} fallback={<>loading</>}>
+      <Show when={request} fallback={<FallbackSpinner />}>
         {(request) => <RequestComponent request={request} />}
       </Show>
     </>
