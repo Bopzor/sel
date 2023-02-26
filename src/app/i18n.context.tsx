@@ -2,6 +2,8 @@ import i18n from 'i18next';
 import { useCallback } from 'react';
 import { initReactI18next, I18nextProvider, useTranslation } from 'react-i18next';
 
+export { Trans } from 'react-i18next';
+
 import en from './lang/en.json';
 import fr from './lang/fr.json';
 

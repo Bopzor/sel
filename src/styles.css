@@ -20,6 +20,14 @@
   body {
     @apply font-inter text-neutral bg-body;
   }
+
+  strong {
+    @apply font-semibold;
+  }
+
+  svg {
+    @apply fill-icon;
+  }
 }
 
 @layer components {

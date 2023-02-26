@@ -2,6 +2,7 @@
   "common": {
     "Back": "Back",
     "Search": "Search",
+    "This feature is not available yet": "This feature is not available yet",
     "formErrors": {
       "default": "{{label}} is invalid",
       "required": "{{label}} is required"
@@ -31,6 +32,9 @@
     "Edit": "Edit",
     "Edit a request": "Edit a request",
     "Update": "Update",
+    "Convert into exchange": "Convertir en échange",
+    "Requested at": "Requested at <strong>{{date}}</strong>",
+    "Last updated at": "Last updated at <strong>{{date}}</strong>",
     "requestForm": {
       "title": "Le titre de la demande",
       "description": "La description de la demande"

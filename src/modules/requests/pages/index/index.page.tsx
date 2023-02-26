@@ -7,8 +7,9 @@ import { FallbackSpinner } from '../../../../app/components/fallback';
 import { For } from '../../../../app/components/for';
 import { Input } from '../../../../app/components/input';
 import { Translation, useTranslate } from '../../../../app/i18n.context';
-import { RequestCard } from '../../components/request-card';
 import { ListRequestsHandler } from '../../use-cases/list-requests/list-requests';
+
+import { RequestItemCard } from './request-item-card';
 
 const T = Translation.create('requests');
 
@@ -22,7 +23,7 @@ export const Page = () => {
 
       <div className="col items-start gap-2 md:flex-row-reverse md:items-stretch">
         <LinkButton href="/demandes/créer">
-          <PlusIcon className="h-1.5 w-1.5" />
+          <PlusIcon className="h-1.5 w-1.5 fill-white" />
           <T>Create a request</T>
         </LinkButton>
 
@@ -37,7 +38,7 @@ export const Page = () => {
       <For each={requests} fallback={<FallbackSpinner />}>
         {(request) => (
           <a key={request.id} href={`/demandes/${request.id}`}>
-            <RequestCard request={request} clampDescription />
+            <RequestItemCard request={request} />
           </a>
         )}
       </For>

@@ -4,6 +4,7 @@ import { CommandHandler } from '../common/cqs/command-handler';
 import { QueryHandler } from '../common/cqs/query-handler';
 import { RealDateAdapter } from '../common/ports/date/real-date.adapter';
 import { StubEventPublisher } from '../common/stub-event-publisher';
+import { Timestamp } from '../common/timestamp.value-object';
 import { create } from '../modules/requests/factories';
 import { InMemoryRequestRepository } from '../modules/requests/in-memory-request.repository';
 import { CreateRequestHandler } from '../modules/requests/use-cases/create-request/create-request';
@@ -61,6 +62,11 @@ repository.add(
     id: 'id1',
     title: 'Hello world!',
     description: 'First request.',
+    creationDate: Timestamp.from('2022-01-01T12:42'),
+    lastEditionDate: Timestamp.from('2022-01-01T12:42'),
+  })
+);
+
   })
 );
 

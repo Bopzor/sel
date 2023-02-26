@@ -34,10 +34,12 @@ module.exports = {
       neutral: '#121212',
       inverted: '#FFFFFF',
       white: '#FFFFFF',
-      muted: '#121212CC',
+      muted: '#121212BB',
       red: colors.red[500],
+      green: colors.green[700],
     },
     fill: {
+      white: 'white',
       icon: colors.gray[600],
     },
 
@@ -45,6 +47,7 @@ module.exports = {
       inter: 'InterVariable',
     },
     fontSize: {
+      xs: ['0.75rem', '1rem'],
       sm: ['0.875rem', '1.25rem'],
       base: ['var(--default-font-size)', '1.5rem'],
       lg: ['1.125rem', '1.75rem'],
