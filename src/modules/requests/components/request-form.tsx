@@ -1,11 +1,11 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
-import * as yup from 'yup';
 
 import { Button } from '../../../app/components/button';
 import { FormControl } from '../../../app/components/form-control';
 import { Input } from '../../../app/components/input';
 import { Translation, useTranslate } from '../../../app/i18n.context';
+import { yup } from '../../../common/yup';
 
 const requestFormSchema = yup.object({
   title: yup.string().required(),

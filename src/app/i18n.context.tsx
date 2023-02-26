@@ -1,4 +1,5 @@
 import i18n from 'i18next';
+import { useCallback } from 'react';
 import { initReactI18next, I18nextProvider, useTranslation } from 'react-i18next';
 
 import en from './lang/en.json';
@@ -41,4 +42,16 @@ export const Translation = ({ ns, children }: TranslationProps) => {
 
 Translation.create = (ns: Namespace): React.ComponentType<Omit<TranslationProps, 'ns'>> => {
   return ({ children }) => <Translation ns={ns}>{children}</Translation>;
+};
+
+export const useFormatDate = (options?: Intl.DateTimeFormatOptions) => {
+  const { i18n } = useTranslation();
+
+  return useCallback(
+    (dateStr: string) => {
+      return new Intl.DateTimeFormat(i18n.language, options).format(new Date(dateStr));
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [i18n]
+  );
 };

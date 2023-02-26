@@ -1,7 +1,9 @@
+import { Timestamp } from '../../../../common/timestamp.value-object';
 import { Request } from '../../entities/request.entity';
 import { InMemoryRequestRepository } from '../../in-memory-request.repository';
 
 import { ListRequestsHandler } from './list-requests';
+import { ListRequestsResult } from './list-requests-result';
 
 describe('ListRequests', () => {
   let requestRepository: InMemoryRequestRepository;
@@ -13,13 +15,26 @@ describe('ListRequests', () => {
   });
 
   it('retrieves the list of requests', async () => {
-    requestRepository.add(new Request({ id: 'id', title: 'title', description: 'description' }));
+    const creationDate = Timestamp.from('2022-01-01');
+    const lastEditionDate = Timestamp.from('2022-01-02');
 
-    await expect(listRequestsHandler.handle()).resolves.toEqual([
+    const request = new Request({
+      id: 'id',
+      title: 'title',
+      description: 'description',
+      creationDate,
+      lastEditionDate,
+    });
+
+    requestRepository.add(request);
+
+    await expect(listRequestsHandler.handle()).resolves.toEqual<ListRequestsResult>([
       {
         id: 'id',
         title: 'title',
         description: 'description',
+        creationDate: creationDate.toString(),
+        lastEditionDate: lastEditionDate.toString(),
       },
     ]);
   });

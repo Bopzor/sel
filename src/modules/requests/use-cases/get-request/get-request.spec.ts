@@ -1,7 +1,9 @@
+import { Timestamp } from '../../../../common/timestamp.value-object';
 import { Request } from '../../entities/request.entity';
 import { InMemoryRequestRepository } from '../../in-memory-request.repository';
 
 import { GetRequestHandler, GetRequestQuery } from './get-request';
+import { GetRequestResult } from './get-request-result';
 
 describe('GetRequest', () => {
   let requestRepository: InMemoryRequestRepository;
@@ -13,16 +15,29 @@ describe('GetRequest', () => {
   });
 
   it("retrieves an existing request's details", async () => {
-    requestRepository.add(new Request({ id: 'id', title: 'title', description: 'description' }));
+    const creationDate = Timestamp.from('2022-01-01');
+    const lastEditionDate = Timestamp.from('2022-01-02');
+
+    const request = new Request({
+      id: 'id',
+      title: 'title',
+      description: 'description',
+      creationDate,
+      lastEditionDate,
+    });
+
+    requestRepository.add(request);
 
     const query: GetRequestQuery = {
       id: 'id',
     };
 
-    await expect(getRequestHandler.handle(query)).resolves.toEqual({
+    await expect(getRequestHandler.handle(query)).resolves.toEqual<GetRequestResult>({
       id: 'id',
       title: 'title',
       description: 'description',
+      creationDate: creationDate.toString(),
+      lastEditionDate: lastEditionDate.toString(),
     });
   });
 

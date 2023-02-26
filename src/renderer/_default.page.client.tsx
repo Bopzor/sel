@@ -1,5 +1,4 @@
 import ReactDOM from 'react-dom/client';
-import * as yup from 'yup';
 
 import { ApiProvider } from '../app/api.context';
 
@@ -13,13 +12,6 @@ import '../styles.css';
 
 export const clientRouting = true;
 export const hydrationCanBeAborted = true;
-
-yup.setLocale({
-  mixed: {
-    default: 'default',
-    required: 'required',
-  },
-});
 
 let root: ReactDOM.Root;
 

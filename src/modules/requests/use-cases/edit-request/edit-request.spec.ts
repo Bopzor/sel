@@ -1,5 +1,7 @@
 import { EntityNotFoundError } from '../../../../common/entity-not-found.error';
+import { StubDateAdapter } from '../../../../common/ports/date/stub-date.adapter';
 import { StubEventPublisher } from '../../../../common/stub-event-publisher';
+import { Timestamp } from '../../../../common/timestamp.value-object';
 import { create } from '../../factories';
 import { InMemoryRequestRepository } from '../../in-memory-request.repository';
 
@@ -25,6 +27,17 @@ describe('EditRequest', () => {
     assert(request);
     expect(request.title).toEqual('edited');
     expect(request.description).toEqual('description');
+  });
+
+  it("updates the request's date", async () => {
+    const command: EditRequestCommand = {
+      id: 'id',
+      title: 'edited',
+    };
+
+    await expect(test.act(command)).resolves.toBeUndefined();
+
+    expect(test.request).toHaveProperty('lastEditionDate', test.now);
   });
 
   it('publishes a RequestEditedEvent', async () => {
@@ -73,9 +86,17 @@ describe('EditRequest', () => {
 });
 
 class Test {
+  public now = Timestamp.from('2022-01-02');
+
+  private dateAdapter = new StubDateAdapter();
   private publisher = new StubEventPublisher();
   private requestRepository = new InMemoryRequestRepository();
-  private editRequestHandler = new EditRequestHandler(this.publisher, this.requestRepository);
+
+  private editRequestHandler = new EditRequestHandler(
+    this.dateAdapter,
+    this.publisher,
+    this.requestRepository
+  );
 
   get events() {
     return this.publisher.events;
@@ -90,7 +111,16 @@ class Test {
   }
 
   arrange() {
-    this.requestRepository.add(create.request({ id: 'id', title: 'title', description: 'description' }));
+    this.dateAdapter.setNow(this.now);
+    this.requestRepository.add(
+      create.request({
+        id: 'id',
+        title: 'title',
+        description: 'description',
+        creationDate: Timestamp.from('2022-01-01'),
+        lastEditionDate: Timestamp.from('2022-01-01'),
+      })
+    );
   }
 
   act(command: EditRequestCommand) {

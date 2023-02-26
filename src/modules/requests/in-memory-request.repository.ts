@@ -11,6 +11,8 @@ export class InMemoryRequestRepository extends InMemoryRepository<Request> imple
       id: request.id,
       title: request.title,
       description: request.description,
+      creationDate: request.creationDate.toString(),
+      lastEditionDate: request.lastEditionDate.toString(),
     }));
   }
 
@@ -25,6 +27,8 @@ export class InMemoryRequestRepository extends InMemoryRepository<Request> imple
       id: request.id,
       title: request.title,
       description: request.description,
+      creationDate: request.creationDate.toString(),
+      lastEditionDate: request.lastEditionDate.toString(),
     };
   }
 }

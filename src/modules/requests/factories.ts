@@ -1,4 +1,5 @@
 import { EntityFactory } from '../../common/factory';
+import { Timestamp } from '../../common/timestamp.value-object';
 
 import { Request } from './entities/request.entity';
 
@@ -12,6 +13,8 @@ export const create: Factories = {
       id: '',
       title: '',
       description: '',
+      creationDate: new Timestamp(0),
+      lastEditionDate: new Timestamp(0),
       ...overrides,
     });
   },

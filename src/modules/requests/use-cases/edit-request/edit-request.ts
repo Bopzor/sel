@@ -3,6 +3,7 @@ import { EventPublisher } from '../../../../common/cqs/event-publisher';
 import { DomainError } from '../../../../common/ddd/domain-error';
 import { DomainEvent } from '../../../../common/ddd/domain-event';
 import { assertEntity } from '../../../../common/entity-not-found.error';
+import { DatePort } from '../../../../common/ports/date/date.port';
 import { Request } from '../../entities/request.entity';
 import { RequestRepository } from '../../request.repository';
 
@@ -14,6 +15,7 @@ export type EditRequestCommand = {
 
 export class EditRequestHandler implements CommandHandler<EditRequestCommand> {
   constructor(
+    private readonly dateAdapter: DatePort,
     private readonly publisher: EventPublisher,
     private readonly requestRepository: RequestRepository
   ) {}
@@ -38,6 +40,8 @@ export class EditRequestHandler implements CommandHandler<EditRequestCommand> {
     if (!edited) {
       throw new NoEditedField();
     }
+
+    request.lastEditionDate = this.dateAdapter.now();
 
     await this.requestRepository.save(request);
     this.publisher.publish(new RequestEditedEvent());

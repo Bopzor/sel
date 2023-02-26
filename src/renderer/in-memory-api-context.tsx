@@ -2,7 +2,7 @@ import { ApiContext, ClassType, CommandBus, QueryBus } from '../app/api.context'
 import { assert } from '../common/assert';
 import { CommandHandler } from '../common/cqs/command-handler';
 import { QueryHandler } from '../common/cqs/query-handler';
-import { createId } from '../common/create-id';
+import { RealDateAdapter } from '../common/ports/date/real-date.adapter';
 import { StubEventPublisher } from '../common/stub-event-publisher';
 import { create } from '../modules/requests/factories';
 import { InMemoryRequestRepository } from '../modules/requests/in-memory-request.repository';
@@ -32,14 +32,15 @@ class InMemoryQueryBus implements QueryBus {
 }
 
 class InMemoryCommandBus implements CommandBus {
+  private dateAdapter = new RealDateAdapter();
   private publisher = new StubEventPublisher();
 
-  constructor(private repository: InMemoryRequestRepository) {}
-
   private handlers = new Map<ClassType<CommandHandler<object>>, CommandHandler<object>>([
-    [CreateRequestHandler, new CreateRequestHandler(this.publisher, this.repository)],
-    [EditRequestHandler, new EditRequestHandler(this.publisher, this.repository)],
+    [CreateRequestHandler, new CreateRequestHandler(this.dateAdapter, this.publisher, this.repository)],
+    [EditRequestHandler, new EditRequestHandler(this.dateAdapter, this.publisher, this.repository)],
   ]);
+
+  constructor(private repository: InMemoryRequestRepository) {}
 
   async execute<Command extends object>(
     Handler: ClassType<CommandHandler<Command>>,
@@ -57,7 +58,7 @@ const repository = new InMemoryRequestRepository();
 
 repository.add(
   create.request({
-    id: createId(),
+    id: 'id1',
     title: 'Hello world!',
     description: 'First request.',
   })
