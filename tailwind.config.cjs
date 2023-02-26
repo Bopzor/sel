@@ -35,6 +35,7 @@ module.exports = {
       inverted: '#FFFFFF',
       white: '#FFFFFF',
       muted: '#121212CC',
+      red: colors.red[500],
     },
     fill: {
       icon: colors.gray[600],

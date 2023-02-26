@@ -25,7 +25,7 @@ export const I18nProvider = ({ children }: I18nProviderProps) => (
 export const useTranslate = (ns: Namespace) => {
   const [t] = useTranslation(ns);
 
-  return (key: string) => t(key) ?? undefined;
+  return (key: string, args: Record<string, unknown> = {}) => t(key, args) ?? undefined;
 };
 
 type TranslationProps = {
@@ -35,6 +35,7 @@ type TranslationProps = {
 
 export const Translation = ({ ns, children }: TranslationProps) => {
   const t = useTranslate(ns);
+
   return <>{t(children)}</>;
 };
 

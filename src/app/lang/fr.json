@@ -1,7 +1,11 @@
 {
   "common": {
     "Back": "Retour",
-    "Search": "Rechercher"
+    "Search": "Rechercher",
+    "formErrors": {
+      "default": "{{label}} est invalide",
+      "required": "{{label}} est obligatoire"
+    }
   },
   "layout": {
     "Local trading system": "Système d'échange local"
@@ -26,6 +30,10 @@
     "Publish": "Publier",
     "Edit": "Modifier",
     "Edit a request": "Modifier une demande",
-    "Update": "Mettre à jour"
+    "Update": "Mettre à jour",
+    "requestForm": {
+      "title": "Le titre de la demande",
+      "description": "La description de la demande"
+    }
   }
 }
