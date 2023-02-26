@@ -16,5 +16,13 @@
     "Tools": "Tools",
     "Giving a lending tools": "Giving a lending tools",
     "News": "News"
+  },
+  "requests": {
+    "Create a request": "Create a request",
+    "Request title": "Request title",
+    "Climbing equipment loan": "Climbing equipment loan",
+    "Description": "Description",
+    "I am looking for...": "I am looking for...",
+    "Publish": "Publish"
   }
 }

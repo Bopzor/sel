@@ -8,8 +8,9 @@ module.exports = {
   theme: {
     spacing: {
       0: 0,
-      1.5: '1.5rem',
+      0.5: '0.5rem',
       1: '1rem',
+      1.5: '1.5rem',
       2: '2rem',
       3: '3rem',
       4: '4rem',
@@ -27,10 +28,12 @@ module.exports = {
       events: colors.yellow[400],
       members: colors.green[400],
       tools: colors.blue[400],
+      green: colors.green[600],
     },
     textColor: {
       neutral: '#121212',
       inverted: '#FFFFFF',
+      white: '#FFFFFF',
       muted: '#121212CC',
     },
     fill: {
@@ -41,6 +44,7 @@ module.exports = {
       inter: 'InterVariable',
     },
     fontSize: {
+      sm: ['0.875rem', '1.25rem'],
       base: ['1rem', '1.5rem'],
       lg: ['1.125rem', '1.75rem'],
       xl: ['1.5rem', '2rem'],

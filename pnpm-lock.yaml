@@ -31,9 +31,11 @@ specifiers:
   happy-dom: ^8.3.2
   i18next: ^22.4.10
   lodash.clonedeep: ^4.5.0
+  nanoid: ^4.0.1
   postcss: ^8.4.21
   react: ^18.2.0
   react-dom: ^18.2.0
+  react-hook-form: ^7.43.2
   react-i18next: ^12.2.0
   react-query: ^3.39.3
   tailwindcss: ^3.2.6
@@ -59,9 +61,11 @@ dependencies:
   express: 4.18.2
   i18next: 22.4.10
   lodash.clonedeep: 4.5.0
+  nanoid: 4.0.1
   postcss: 8.4.21
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
+  react-hook-form: 7.43.2_react@18.2.0
   react-i18next: 12.2.0_3yopsigl4h4eb2nqrqfsy65uwi
   react-query: 3.39.3_biqbaboplfbrettd7655fr4n2y
   tailwindcss: 3.2.6_aesdjsunmf4wiehhujt67my7tu
@@ -3043,6 +3047,12 @@ packages:
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
     hasBin: true
 
+  /nanoid/4.0.1:
+    resolution: {integrity: sha512-udKGtCCUafD3nQtJg9wBhRP3KMbPglUsgV5JVsXhvyBs/oefqb4sqMEhKBBgqZncYowu58p1prsZQBYvAj/Gww==}
+    engines: {node: ^14 || ^16 || >=18}
+    hasBin: true
+    dev: false
+
   /natural-compare-lite/1.4.0:
     resolution: {integrity: sha512-Tj+HTDSJJKaZnfiuw+iaF9skdPpTo2GtEly5JHnWV/hfv2Qj/9RKsGISQtLh2ox3l5EAGw487hnBee0sIJ6v2g==}
     dev: true
@@ -3433,6 +3443,15 @@ packages:
       loose-envify: 1.4.0
       react: 18.2.0
       scheduler: 0.23.0
+
+  /react-hook-form/7.43.2_react@18.2.0:
+    resolution: {integrity: sha512-NvD3Oe2Y9hhqo2R4I4iJigDzSLpdMnzUpNMxlnzTbdiT7NT3BW0GxWCzEtwPudZMUPbZhNcSy1EcGAygyhDORg==}
+    engines: {node: '>=12.22.0'}
+    peerDependencies:
+      react: ^16.8.0 || ^17 || ^18
+    dependencies:
+      react: 18.2.0
+    dev: false
 
   /react-i18next/12.2.0_3yopsigl4h4eb2nqrqfsy65uwi:
     resolution: {integrity: sha512-5XeVgSygaGfyFmDd2WcXvINRw2WEC1XviW1LXY/xLOEMzsCFRwKqfnHN+hUjla8ZipbVJR27GCMSuTr0BhBBBQ==}

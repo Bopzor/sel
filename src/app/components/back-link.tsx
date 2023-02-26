@@ -7,7 +7,7 @@ type BackLinkProps = {
 };
 
 export const BackLink = ({ href }: BackLinkProps) => (
-  <a href={href} className="row items-center gap-1">
+  <a href={href} className="row items-center gap-1 font-medium">
     <ArrowLeftIcon className="h-1 w-1" /> <T ns="common">Back</T>
   </a>
 );

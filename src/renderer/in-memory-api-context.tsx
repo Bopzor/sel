@@ -2,6 +2,7 @@ import { ApiContext, ClassType, CommandBus, QueryBus } from '../app/api.context'
 import { assert } from '../common/assert';
 import { CommandHandler } from '../common/cqs/command-handler';
 import { QueryHandler } from '../common/cqs/query-handler';
+import { createId } from '../common/create-id';
 import { StubEventPublisher } from '../common/stub-event-publisher';
 import { create } from '../modules/requests/factories';
 import { InMemoryRequestRepository } from '../modules/requests/in-memory-request.repository';
@@ -11,16 +12,7 @@ import { GetRequestHandler } from '../modules/requests/use-cases/get-request/get
 import { ListRequestsHandler } from '../modules/requests/use-cases/list-requests/list-requests';
 
 class InMemoryQueryBus implements QueryBus {
-  private repository = new InMemoryRequestRepository();
-
-  constructor() {
-    this.repository.add(
-      create.request({
-        id: 'id',
-        title: 'Hello world!',
-      })
-    );
-  }
+  constructor(private repository: InMemoryRequestRepository) {}
 
   private handlers = new Map<ClassType<QueryHandler<object, unknown>>, QueryHandler<object, unknown>>([
     [GetRequestHandler, new GetRequestHandler(this.repository)],
@@ -41,7 +33,8 @@ class InMemoryQueryBus implements QueryBus {
 
 class InMemoryCommandBus implements CommandBus {
   private publisher = new StubEventPublisher();
-  private repository = new InMemoryRequestRepository();
+
+  constructor(private repository: InMemoryRequestRepository) {}
 
   private handlers = new Map<ClassType<CommandHandler<object>>, CommandHandler<object>>([
     [CreateRequestHandler, new CreateRequestHandler(this.publisher, this.repository)],
@@ -60,7 +53,17 @@ class InMemoryCommandBus implements CommandBus {
   }
 }
 
+const repository = new InMemoryRequestRepository();
+
+repository.add(
+  create.request({
+    id: createId(),
+    title: 'Hello world!',
+    description: 'First request.',
+  })
+);
+
 export const apiContext: ApiContext = {
-  queryBus: new InMemoryQueryBus(),
-  commandBus: new InMemoryCommandBus(),
+  queryBus: new InMemoryQueryBus(repository),
+  commandBus: new InMemoryCommandBus(repository),
 };

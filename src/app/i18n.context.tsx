@@ -4,7 +4,7 @@ import { initReactI18next, I18nextProvider, useTranslation } from 'react-i18next
 import en from './lang/en.json';
 import fr from './lang/fr.json';
 
-type Namespace = 'common' | 'layout' | 'home';
+type Namespace = 'common' | 'layout' | 'home' | 'requests';
 
 void i18n.use(initReactI18next).init({
   resources: { en, fr },

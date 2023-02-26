@@ -16,5 +16,13 @@
     "Tools": "Matériel",
     "Giving a lending tools": "Dons d'objets et prêts de matériel",
     "News": "Actualités"
+  },
+  "requests": {
+    "Create a request": "Créer une demande",
+    "Request title": "Titre de la demande",
+    "Climbing equipment loan": "Prêt de matériel d'escalade",
+    "Description": "Description",
+    "I am looking for...": "Je recherche...",
+    "Publish": "Publier"
   }
 }

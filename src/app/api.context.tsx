@@ -1,4 +1,4 @@
-import { createContext, useContext } from 'react';
+import { createContext, useCallback, useContext } from 'react';
 import { QueryClient, QueryClientProvider, useQuery as useReactQuery } from 'react-query';
 
 import { assert } from '../common/assert';
@@ -68,4 +68,15 @@ export const useQuery = <Query extends object, Result>(
       error: result.error,
     },
   ];
+};
+
+export const useExecuteCommand = <Command extends object>(Handler: ClassType<CommandHandler<Command>>) => {
+  const { commandBus } = useApiContext();
+
+  return useCallback(
+    (command: Command) => {
+      return commandBus.execute(Handler, command);
+    },
+    [commandBus, Handler]
+  );
 };
