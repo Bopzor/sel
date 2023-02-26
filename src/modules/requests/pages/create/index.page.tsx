@@ -43,7 +43,10 @@ export const Page = () => {
       {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
       <form className="col gap-2" onSubmit={handleSubmit(onSubmit)}>
         <FormControl label={<T>Request title</T>}>
-          <Input placeholder={t('Climbing equipment loan')} {...register('title', { required: true })} />
+          <Input
+            placeholder={t('Example: Climbing equipment loan')}
+            {...register('title', { required: true })}
+          />
         </FormControl>
 
         <FormControl label={<T>Description</T>}>
