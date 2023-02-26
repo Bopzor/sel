@@ -1,31 +1,31 @@
 import clsx from 'clsx';
 
-import { useTranslate } from '../../app/i18n.context';
+import { Translation } from '../../app/i18n.context';
 
-export const MainNavigation = () => {
-  const t = useTranslate('home');
+const T = Translation.create('home');
 
-  return (
-    <nav className="my-2 grid grid-cols-2 gap-2">
-      <Section
-        href="/demandes"
-        className="bg-requests"
-        title={t('Requests')}
-        description={t('View the list of pending requests')}
-      />
+export const MainNavigation = () => (
+  <nav className="my-2 grid grid-cols-2 gap-2">
+    <Section
+      href="/demandes"
+      className="bg-requests"
+      title={<T>Requests</T>}
+      description={<T>View the list of pending requests</T>}
+    />
 
-      <Section href="/" className="bg-events" title={t('Events')} description={t('Workshops, ...')} />
-      <Section href="/" className="bg-members" title={t('Members')} description={t("Your LTS's members")} />
-      <Section href="/" className="bg-tools" title={t('Tools')} description={t('Giving a lending tools')} />
-    </nav>
-  );
-};
+    <Section href="/" className="bg-events" title={<T>Events</T>} description={<T>Workshops, ...</T>} />
+
+    <Section href="/" className="bg-members" title={<T>Members</T>} description={<T>Your LTS's members</T>} />
+
+    <Section href="/" className="bg-tools" title={<T>Tools</T>} description={<T>Giving a lending tools</T>} />
+  </nav>
+);
 
 type SectionProps = {
   href: string;
   className: string;
-  title: string;
-  description: string;
+  title: React.ReactNode;
+  description: React.ReactNode;
 };
 
 export const Section = ({ href, className, title, description }: SectionProps) => (

@@ -23,15 +23,21 @@ export const I18nProvider = ({ children }: I18nProviderProps) => (
 );
 
 export const useTranslate = (ns: Namespace) => {
-  return useTranslation(ns).t;
+  const [t] = useTranslation(ns);
+
+  return (key: string) => t(key) ?? undefined;
 };
 
-type TProps = {
+type TranslationProps = {
   ns: Namespace;
   children: string;
 };
 
-export const T = ({ ns, children }: TProps) => {
+export const Translation = ({ ns, children }: TranslationProps) => {
   const t = useTranslate(ns);
   return <>{t(children)}</>;
+};
+
+Translation.create = (ns: Namespace): React.ComponentType<Omit<TranslationProps, 'ns'>> => {
+  return ({ children }) => <Translation ns={ns}>{children}</Translation>;
 };

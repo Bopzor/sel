@@ -6,9 +6,11 @@ import { LinkButton } from '../../../../app/components/button';
 import { FallbackSpinner } from '../../../../app/components/fallback';
 import { For } from '../../../../app/components/for';
 import { Input } from '../../../../app/components/input';
-import { T, useTranslate } from '../../../../app/i18n.context';
+import { Translation, useTranslate } from '../../../../app/i18n.context';
 import { RequestCard } from '../../components/request-card';
 import { ListRequestsHandler } from '../../use-cases/list-requests/list-requests';
+
+const T = Translation.create('requests');
 
 export const Page = () => {
   const t = useTranslate('common');
@@ -21,14 +23,14 @@ export const Page = () => {
       <div className="row items-stretch gap-2">
         <Input
           type="search"
-          placeholder={t('Search') ?? undefined}
+          placeholder={t('Search')}
           start={<MagnifyingGlassIcon className="h-1.5 w-1.5 fill-icon" />}
           width="full"
         />
 
         <LinkButton href="/demandes/créer">
           <PlusIcon className="h-1.5 w-1.5" />
-          <T ns="requests">Create a request</T>
+          <T>Create a request</T>
         </LinkButton>
       </div>
 

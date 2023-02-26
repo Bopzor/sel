@@ -1,6 +1,6 @@
 import { ArrowLeftIcon } from '@heroicons/react/24/solid';
 
-import { T } from '../i18n.context';
+import { Translation } from '../i18n.context';
 
 type BackLinkProps = {
   href: string;
@@ -8,6 +8,6 @@ type BackLinkProps = {
 
 export const BackLink = ({ href }: BackLinkProps) => (
   <a href={href} className="row items-center gap-1 font-medium">
-    <ArrowLeftIcon className="h-1 w-1" /> <T ns="common">Back</T>
+    <ArrowLeftIcon className="h-1 w-1" /> <Translation ns="common">Back</Translation>
   </a>
 );

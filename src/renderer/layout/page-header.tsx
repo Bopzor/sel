@@ -1,6 +1,8 @@
-import { T } from '../../app/i18n.context';
+import { Translation } from '../../app/i18n.context';
 
 import logo from './logo.png';
+
+const T = Translation.create('layout');
 
 export const PageHeader = () => (
   <header className="bg-primary py-1 text-inverted">
@@ -8,7 +10,7 @@ export const PageHeader = () => (
       <a href="/" className="row mr-auto items-center gap-2">
         <img src={logo} alt="Logo" width={64} height={64} />
         <span className="text-xl font-semibold">
-          <T ns="layout">Local trading system</T>
+          <T>Local trading system</T>
         </span>
       </a>
 

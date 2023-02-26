@@ -1,11 +1,13 @@
-import { T } from '../../app/i18n.context';
+import { Translation } from '../../app/i18n.context';
 
 import image from './image.jpg';
+
+const T = Translation.create('home');
 
 export const News = () => (
   <div className="col gap-2">
     <h2 className="typo-title">
-      <T ns="home">News</T>
+      <T>News</T>
     </h2>
 
     <div className="card row gap-4 p-2">
