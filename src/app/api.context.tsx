@@ -1,5 +1,6 @@
 import { createContext, useCallback, useContext } from 'react';
 import { QueryClient, QueryClientProvider, useQuery as useReactQuery } from 'react-query';
+import { ReactQueryDevtools } from 'react-query/devtools';
 
 import { assert } from '../common/assert';
 import { CommandHandler } from '../common/cqs/command-handler';
@@ -39,7 +40,11 @@ type ApiProviderProps = {
 
 export const ApiProvider = ({ value, children }: ApiProviderProps) => (
   <apiContext.Provider value={value}>
-    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+    <QueryClientProvider client={queryClient}>
+      <ReactQueryDevtools initialIsOpen={false} />
+
+      {children}
+    </QueryClientProvider>
   </apiContext.Provider>
 );
 

@@ -3,7 +3,7 @@ import { GetRequestResult } from './use-cases/get-request/get-request-result';
 import { ListRequestsResult } from './use-cases/list-requests/list-requests-result';
 
 export interface RequestRepository {
-  listRequests(): Promise<ListRequestsResult>;
+  listRequests(search?: string): Promise<ListRequestsResult>;
   getRequest(id: string): Promise<GetRequestResult | undefined>;
 
   findById(id: string): Promise<Request | undefined>;

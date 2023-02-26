@@ -1,4 +1,5 @@
 import { MagnifyingGlassIcon, PlusIcon } from '@heroicons/react/24/solid';
+import { useState } from 'react';
 
 import { useQuery } from '../../../../app/api.context';
 import { BackLink } from '../../../../app/components/back-link';
@@ -15,7 +16,14 @@ const T = Translation.create('requests');
 
 export const Page = () => {
   const t = useTranslate('common');
-  const [requests] = useQuery(ListRequestsHandler, {});
+  const [search, setSearch] = useState('');
+  const [requests] = useQuery(ListRequestsHandler, { search });
+
+  const handleChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
+    const value = event.target.value;
+
+    setSearch(value);
+  };
 
   return (
     <>
@@ -32,6 +40,8 @@ export const Page = () => {
           placeholder={t('Search')}
           start={<MagnifyingGlassIcon className="h-1.5 w-1.5 fill-icon" />}
           width="full"
+          value={search}
+          onChange={handleChange}
         />
       </div>
 

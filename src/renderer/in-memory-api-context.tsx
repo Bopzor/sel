@@ -67,9 +67,6 @@ repository.add(
   })
 );
 
-  })
-);
-
 export const apiContext: ApiContext = {
   queryBus: new InMemoryQueryBus(repository),
   commandBus: new InMemoryCommandBus(repository),

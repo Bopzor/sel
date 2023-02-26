@@ -1,5 +1,6 @@
 import { Timestamp } from '../../../../common/timestamp.value-object';
 import { Request } from '../../entities/request.entity';
+import { create } from '../../factories';
 import { InMemoryRequestRepository } from '../../in-memory-request.repository';
 
 import { ListRequestsHandler } from './list-requests';
@@ -36,6 +37,17 @@ describe('ListRequests', () => {
         creationDate: creationDate.toString(),
         lastEditionDate: lastEditionDate.toString(),
       },
+    ]);
+  });
+
+  it('retrieves the list of requests matching a search query', async () => {
+    requestRepository.add(create.request({ description: 'cat' }));
+    requestRepository.add(create.request({ description: 'bat' }));
+
+    await expect(listRequestsHandler.handle({ search: 'cat' })).resolves.toEqual<ListRequestsResult>([
+      expect.objectContaining({
+        description: 'cat',
+      }),
     ]);
   });
 });

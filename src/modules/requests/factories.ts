@@ -1,3 +1,4 @@
+import { createId } from '../../common/create-id';
 import { EntityFactory } from '../../common/factory';
 import { Timestamp } from '../../common/timestamp.value-object';
 
@@ -10,7 +11,7 @@ type Factories = {
 export const create: Factories = {
   request(overrides = {}) {
     return new Request({
-      id: '',
+      id: createId(),
       title: '',
       description: '',
       creationDate: new Timestamp(0),
