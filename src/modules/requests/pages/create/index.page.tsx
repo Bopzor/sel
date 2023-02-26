@@ -2,6 +2,7 @@ import { useForm } from 'react-hook-form';
 import { navigate } from 'vite-plugin-ssr/client/router';
 
 import { useExecuteCommand } from '../../../../app/api.context';
+import { BackLink } from '../../../../app/components/back-link';
 import { Button } from '../../../../app/components/button';
 import { FormControl } from '../../../../app/components/form-control';
 import { Input } from '../../../../app/components/input';
@@ -34,6 +35,8 @@ export const Page = () => {
 
   return (
     <>
+      <BackLink href="/demandes" />
+
       <h2 className="text-xl font-bold">{t('Create a request')}</h2>
 
       {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
@@ -54,7 +57,7 @@ export const Page = () => {
           />
         </FormControl>
 
-        <Button type="submit" loading={formState.isSubmitting}>
+        <Button type="submit" loading={formState.isSubmitting} className="self-start">
           {t('Publish')}
         </Button>
       </form>
