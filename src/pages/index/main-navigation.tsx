@@ -5,7 +5,7 @@ import { Translation } from '../../app/i18n.context';
 const T = Translation.create('home');
 
 export const MainNavigation = () => (
-  <nav className="my-2 grid grid-cols-2 gap-2">
+  <nav className="my-2 grid grid-cols-1 gap-2 md:grid-cols-2">
     <Section
       href="/demandes"
       className="bg-requests"

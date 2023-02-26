@@ -20,18 +20,18 @@ export const Page = () => {
     <>
       <BackLink href="/" />
 
-      <div className="row items-stretch gap-2">
+      <div className="col items-start gap-2 md:flex-row-reverse md:items-stretch">
+        <LinkButton href="/demandes/créer">
+          <PlusIcon className="h-1.5 w-1.5" />
+          <T>Create a request</T>
+        </LinkButton>
+
         <Input
           type="search"
           placeholder={t('Search')}
           start={<MagnifyingGlassIcon className="h-1.5 w-1.5 fill-icon" />}
           width="full"
         />
-
-        <LinkButton href="/demandes/créer">
-          <PlusIcon className="h-1.5 w-1.5" />
-          <T>Create a request</T>
-        </LinkButton>
       </div>
 
       <For each={requests} fallback={<FallbackSpinner />}>

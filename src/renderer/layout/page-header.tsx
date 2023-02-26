@@ -9,7 +9,7 @@ export const PageHeader = () => (
     <div className="content row items-center">
       <a href="/" className="row mr-auto items-center gap-2">
         <img src={logo} alt="Logo" width={64} height={64} />
-        <span className="text-xl font-semibold">
+        <span className="text-lg font-semibold md:text-xl">
           <T>Local trading system</T>
         </span>
       </a>

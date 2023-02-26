@@ -2,7 +2,21 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --default-font-size: 1rem;
+}
+
+@media screen and (max-width: 768px) {
+  :root {
+    --default-font-size: 0.875rem;
+  }
+}
+
 @layer base {
+  html {
+    @apply text-base;
+  }
+
   body {
     @apply font-inter text-neutral bg-body;
   }
