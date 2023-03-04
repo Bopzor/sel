@@ -8,6 +8,7 @@ import { StubEventPublisher } from '../common/stub-event-publisher';
 import { Timestamp } from '../common/timestamp.value-object';
 import { create as memberFactories } from '../modules/members/factories';
 import { InMemoryMemberRepository } from '../modules/members/in-memory-member.repository';
+import { GetMemberQueryHandler } from '../modules/members/use-cases/get-member/get-member';
 import { create as requestFactories } from '../modules/requests/factories';
 import { InMemoryRequestRepository } from '../modules/requests/in-memory-request.repository';
 import { CreateRequestHandler } from '../modules/requests/use-cases/create-request/create-request';
@@ -22,13 +23,21 @@ class InMemoryBus implements QueryBus, CommandBus {
   private publisher = new StubEventPublisher();
 
   private handlers = new Map<ClassType<Handler>, Handler>([
-    [GetRequestHandler, new GetRequestHandler(this.repository)],
-    [ListRequestsHandler, new ListRequestsHandler(this.repository)],
-    [CreateRequestHandler, new CreateRequestHandler(this.dateAdapter, this.publisher, this.repository)],
-    [EditRequestHandler, new EditRequestHandler(this.dateAdapter, this.publisher, this.repository)],
+    [GetRequestHandler, new GetRequestHandler(this.requestRepository)],
+    [ListRequestsHandler, new ListRequestsHandler(this.requestRepository)],
+    [
+      CreateRequestHandler,
+      new CreateRequestHandler(this.dateAdapter, this.publisher, this.requestRepository),
+    ],
+    [EditRequestHandler, new EditRequestHandler(this.dateAdapter, this.publisher, this.requestRepository)],
+
+    [GetMemberQueryHandler, new GetMemberQueryHandler(this.memberRepository)],
   ]);
 
-  constructor(private repository: InMemoryRequestRepository) {}
+  constructor(
+    private requestRepository: InMemoryRequestRepository,
+    private memberRepository: InMemoryMemberRepository
+  ) {}
 
   async execute<Command extends object>(
     Handler: ClassType<CommandHandler<Command>>,
@@ -76,7 +85,7 @@ requestRepository.add(
   })
 );
 
-const bus = new InMemoryBus(requestRepository);
+const bus = new InMemoryBus(requestRepository, memberRepository);
 
 export const apiContext: ApiContext = {
   queryBus: bus,

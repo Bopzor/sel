@@ -1,4 +1,5 @@
 import { Translation } from '../../app/i18n.context';
+import { MemberAvatarName } from '../../modules/members/components/member-avatar-name';
 
 import logo from './logo.png';
 
@@ -14,10 +15,7 @@ export const PageHeader = () => (
         </span>
       </a>
 
-      <div className="col items-center">
-        <div className="h-3 w-3 rounded-full bg-neutral/80" />
-        <span className="font-medium">Nils</span>
-      </div>
+      <MemberAvatarName />
     </div>
   </header>
 );
