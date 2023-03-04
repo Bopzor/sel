@@ -14,7 +14,7 @@ export interface QueryBus {
   execute<Query extends object, Result>(
     Handler: ClassType<QueryHandler<Query, Result>>,
     query: Query
-  ): Result;
+  ): Promise<Result>;
 }
 
 export interface CommandBus {

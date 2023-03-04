@@ -12,31 +12,15 @@ import { EditRequestHandler } from '../modules/requests/use-cases/edit-request/e
 import { GetRequestHandler } from '../modules/requests/use-cases/get-request/get-request';
 import { ListRequestsHandler } from '../modules/requests/use-cases/list-requests/list-requests';
 
-class InMemoryQueryBus implements QueryBus {
-  constructor(private repository: InMemoryRequestRepository) {}
+type Handler = CommandHandler<object> | QueryHandler<object, unknown>;
 
-  private handlers = new Map<ClassType<QueryHandler<object, unknown>>, QueryHandler<object, unknown>>([
-    [GetRequestHandler, new GetRequestHandler(this.repository)],
-    [ListRequestsHandler, new ListRequestsHandler(this.repository)],
-  ]);
-
-  execute<Query extends object, Result>(
-    Handler: ClassType<QueryHandler<Query, Result>>,
-    query: Query
-  ): Result {
-    const handler = this.handlers.get(Handler);
-
-    assert(handler);
-
-    return handler.handle(query) as Result;
-  }
-}
-
-class InMemoryCommandBus implements CommandBus {
+class InMemoryBus implements QueryBus, CommandBus {
   private dateAdapter = new RealDateAdapter();
   private publisher = new StubEventPublisher();
 
-  private handlers = new Map<ClassType<CommandHandler<object>>, CommandHandler<object>>([
+  private handlers = new Map<ClassType<Handler>, Handler>([
+    [GetRequestHandler, new GetRequestHandler(this.repository)],
+    [ListRequestsHandler, new ListRequestsHandler(this.repository)],
     [CreateRequestHandler, new CreateRequestHandler(this.dateAdapter, this.publisher, this.repository)],
     [EditRequestHandler, new EditRequestHandler(this.dateAdapter, this.publisher, this.repository)],
   ]);
@@ -45,13 +29,22 @@ class InMemoryCommandBus implements CommandBus {
 
   async execute<Command extends object>(
     Handler: ClassType<CommandHandler<Command>>,
-    command: Command
-  ): Promise<void> {
+    param: Command
+  ): Promise<void>;
+
+  async execute<Query extends object, Result>(
+    Handler: ClassType<QueryHandler<Query, Result>>,
+    param: Query
+  ): Promise<Result>;
+
+  async execute(Handler: ClassType<Handler>, param: object): Promise<unknown> {
     const handler = this.handlers.get(Handler);
 
     assert(handler);
 
-    await handler.handle(command);
+    await new Promise((r) => setTimeout(r, 1000));
+
+    return handler.handle(param);
   }
 }
 
@@ -67,7 +60,9 @@ repository.add(
   })
 );
 
+const bus = new InMemoryBus(repository);
+
 export const apiContext: ApiContext = {
-  queryBus: new InMemoryQueryBus(repository),
-  commandBus: new InMemoryCommandBus(repository),
+  queryBus: bus,
+  commandBus: bus,
 };
