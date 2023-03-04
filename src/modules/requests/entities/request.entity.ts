@@ -3,6 +3,7 @@ import { Timestamp } from '../../../common/timestamp.value-object';
 
 type RequestProps = {
   id: string;
+  requesterId: string;
   title: string;
   description: string;
   creationDate: Timestamp;
@@ -12,6 +13,10 @@ type RequestProps = {
 export class Request extends Entity<RequestProps> {
   get id() {
     return this.props.id;
+  }
+
+  get requesterId() {
+    return this.props.requesterId;
   }
 
   get title() {

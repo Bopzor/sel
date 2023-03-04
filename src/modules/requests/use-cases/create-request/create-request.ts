@@ -7,6 +7,7 @@ import { RequestRepository } from '../../request.repository';
 
 export type CreateRequestCommand = {
   id: string;
+  requesterId: string;
   title: string;
   description: string;
 };

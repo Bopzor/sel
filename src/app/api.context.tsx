@@ -64,7 +64,9 @@ export const useQuery = <Query extends object, Result>(
 ): AsyncResource<Result> => {
   const { queryBus } = useApiContext();
 
-  const result = useReactQuery<Result>([Handler.name, query], () => queryBus.execute(Handler, query));
+  const result = useReactQuery<Result>([Handler.name, query], () => queryBus.execute(Handler, query), {
+    retry: false,
+  });
 
   return [
     result.data,

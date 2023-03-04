@@ -9,6 +9,7 @@ export default defineConfig({
   test: {
     globals: true,
     watch: false,
+    reporters: 'verbose',
     environment: 'happy-dom',
     setupFiles: 'src/vitest.setup.ts',
   },

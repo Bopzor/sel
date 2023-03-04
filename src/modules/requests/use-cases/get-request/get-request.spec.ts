@@ -1,4 +1,6 @@
+import { InMemoryDatabaseImpl } from '../../../../app/in-memory-database';
 import { Timestamp } from '../../../../common/timestamp.value-object';
+import { Member } from '../../../members/entities/member.entity';
 import { Request } from '../../entities/request.entity';
 import { InMemoryRequestRepository } from '../../in-memory-request.repository';
 
@@ -6,12 +8,23 @@ import { GetRequestHandler, GetRequestQuery } from './get-request';
 import { GetRequestResult } from './get-request-result';
 
 describe('GetRequest', () => {
+  let database: InMemoryDatabaseImpl;
   let requestRepository: InMemoryRequestRepository;
   let getRequestHandler: GetRequestHandler;
 
   beforeEach(() => {
-    requestRepository = new InMemoryRequestRepository();
+    database = new InMemoryDatabaseImpl();
+    requestRepository = new InMemoryRequestRepository(database);
     getRequestHandler = new GetRequestHandler(requestRepository);
+
+    database.setEntity(
+      new Member({
+        id: 'requesterId',
+        email: 'requester@domain.tld',
+        firstName: '',
+        lastName: '',
+      })
+    );
   });
 
   it("retrieves an existing request's details", async () => {
@@ -20,6 +33,7 @@ describe('GetRequest', () => {
 
     const request = new Request({
       id: 'id',
+      requesterId: 'requesterId',
       title: 'title',
       description: 'description',
       creationDate,
@@ -34,6 +48,11 @@ describe('GetRequest', () => {
 
     await expect(getRequestHandler.handle(query)).resolves.toEqual<GetRequestResult>({
       id: 'id',
+      requester: {
+        id: 'requesterId',
+        name: ' ',
+        email: 'requester@domain.tld',
+      },
       title: 'title',
       description: 'description',
       creationDate: creationDate.toString(),

@@ -12,6 +12,7 @@ export const create: Factories = {
   request(overrides = {}) {
     return new Request({
       id: createId(),
+      requesterId: '',
       title: '',
       description: '',
       creationDate: new Timestamp(0),

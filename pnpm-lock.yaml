@@ -9,6 +9,7 @@ specifiers:
   '@testing-library/jest-dom': ^5.16.5
   '@testing-library/react': ^13.4.0
   '@types/compression': ^1.7.2
+  '@types/crypto-js': ^4.1.1
   '@types/express': ^4.17.17
   '@types/lodash.clonedeep': ^4.5.7
   '@types/node': ^18.13.0
@@ -21,6 +22,7 @@ specifiers:
   autoprefixer: ^10.4.13
   clsx: ^1.2.1
   compression: ^1.7.4
+  crypto-js: ^4.1.1
   eslint: ^8.34.0
   eslint-import-resolver-typescript: ^3.5.3
   eslint-plugin-import: npm:eslint-plugin-i@2.26.0-2
@@ -53,6 +55,7 @@ dependencies:
   '@hookform/resolvers': 2.9.11_react-hook-form@7.43.2
   '@tailwindcss/line-clamp': 0.4.2_tailwindcss@3.2.6
   '@types/compression': 1.7.2
+  '@types/crypto-js': 4.1.1
   '@types/express': 4.17.17
   '@types/node': 18.13.0
   '@types/react': 18.0.28
@@ -61,6 +64,7 @@ dependencies:
   autoprefixer: 10.4.13_postcss@8.4.21
   clsx: 1.2.1
   compression: 1.7.4
+  crypto-js: 4.1.1
   express: 4.18.2
   i18next: 22.4.10
   lodash.clonedeep: 4.5.0
@@ -785,6 +789,10 @@ packages:
     resolution: {integrity: sha512-cdeYyv4KWoEgpBISTxWvqYsVy444DOqehiF3fM3ne10AmJ62RSyNkUnxMJXHQWRQQX2eR94m5y1IZyDwBjV9FQ==}
     dependencies:
       '@types/node': 18.13.0
+    dev: false
+
+  /@types/crypto-js/4.1.1:
+    resolution: {integrity: sha512-BG7fQKZ689HIoc5h+6D2Dgq1fABRa0RbBWKBd9SP/MVRVXROflpm5fhwyATX5duFmbStzyzyycPB8qUYKDH3NA==}
     dev: false
 
   /@types/express-serve-static-core/4.17.33:
@@ -1547,6 +1555,10 @@ packages:
       shebang-command: 2.0.0
       which: 2.0.2
     dev: true
+
+  /crypto-js/4.1.1:
+    resolution: {integrity: sha512-o2JlM7ydqd3Qk9CA0L4NL6mTzU2sdx96a+oOfPu8Mkl/PK51vSyoi8/rQ8NknZtk44vq15lmhAj9CIAGwgeWKw==}
+    dev: false
 
   /css.escape/1.5.1:
     resolution: {integrity: sha512-YUifsXXuknHlUsmlgyY0PKzgPOr7/FjCePfHNt0jxm83wHZi44VDMQ7/fGNkjY3/jV1MC+1CmZbaHzugyeRtpg==}

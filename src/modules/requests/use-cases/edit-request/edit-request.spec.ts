@@ -1,3 +1,4 @@
+import { InMemoryDatabaseImpl } from '../../../../app/in-memory-database';
 import { EntityNotFoundError } from '../../../../common/entity-not-found.error';
 import { StubDateAdapter } from '../../../../common/ports/date/stub-date.adapter';
 import { StubEventPublisher } from '../../../../common/stub-event-publisher';
@@ -51,6 +52,8 @@ describe('EditRequest', () => {
     expect(test.events).toContainEqual(new RequestEditedEvent());
   });
 
+  it.todo("fails when editing someone else's request");
+
   it('fails when the request does not exist', async () => {
     const command: EditRequestCommand = {
       id: 'other-id',
@@ -90,7 +93,8 @@ class Test {
 
   private dateAdapter = new StubDateAdapter();
   private publisher = new StubEventPublisher();
-  private requestRepository = new InMemoryRequestRepository();
+  private database = new InMemoryDatabaseImpl();
+  private requestRepository = new InMemoryRequestRepository(this.database);
 
   private editRequestHandler = new EditRequestHandler(
     this.dateAdapter,

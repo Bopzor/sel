@@ -1,3 +1,4 @@
+import { InMemoryDatabaseImpl } from '../../../../app/in-memory-database';
 import { StubDateAdapter } from '../../../../common/ports/date/stub-date.adapter';
 import { StubEventPublisher } from '../../../../common/stub-event-publisher';
 import { Timestamp } from '../../../../common/timestamp.value-object';
@@ -15,6 +16,7 @@ describe('CreateRequest', () => {
   it('creates a new request', async () => {
     const command: CreateRequestCommand = {
       id: 'id',
+      requesterId: 'requesterId',
       title: 'title',
       description: 'description',
     };
@@ -33,6 +35,7 @@ describe('CreateRequest', () => {
   it('publishes a RequestCreatedEvent', async () => {
     const command: CreateRequestCommand = {
       id: 'id',
+      requesterId: 'requesterId',
       title: 'title',
       description: 'description',
     };
@@ -48,7 +51,8 @@ class Test {
 
   private dateAdapter = new StubDateAdapter();
   private publisher = new StubEventPublisher();
-  private requestRepository = new InMemoryRequestRepository();
+  private database = new InMemoryDatabaseImpl();
+  private requestRepository = new InMemoryRequestRepository(this.database);
 
   private createRequestHandler = new CreateRequestHandler(
     this.dateAdapter,

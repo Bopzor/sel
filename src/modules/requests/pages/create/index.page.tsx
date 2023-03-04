@@ -22,6 +22,7 @@ export const Page = () => {
 
     await createRequest({
       id,
+      requesterId: 'nils',
       title,
       description,
     });
