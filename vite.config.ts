@@ -6,6 +6,9 @@ import ssr from 'vite-plugin-ssr/plugin';
 
 export default defineConfig({
   plugins: [react(), ssr()],
+  build: {
+    sourcemap: true,
+  },
   test: {
     globals: true,
     watch: false,

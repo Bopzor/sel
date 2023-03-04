@@ -26,6 +26,9 @@ async function startServer() {
     const viteDevServer = await vite.createServer({
       root,
       server: { middlewareMode: true },
+      build: {
+        sourcemap: true,
+      },
     });
 
     app.use(viteDevServer.middlewares);
