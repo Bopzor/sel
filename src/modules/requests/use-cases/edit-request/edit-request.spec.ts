@@ -1,4 +1,4 @@
-import { InMemoryDatabaseImpl } from '../../../../app/in-memory-database';
+import { InMemoryDatabase } from '../../../../app/in-memory-database';
 import { EntityNotFoundError } from '../../../../common/entity-not-found.error';
 import { StubDateAdapter } from '../../../../common/ports/date/stub-date.adapter';
 import { StubEventPublisher } from '../../../../common/stub-event-publisher';
@@ -93,7 +93,7 @@ class Test {
 
   private dateAdapter = new StubDateAdapter();
   private publisher = new StubEventPublisher();
-  private database = new InMemoryDatabaseImpl();
+  private database = new InMemoryDatabase();
   private requestRepository = new InMemoryRequestRepository(this.database);
 
   private editRequestHandler = new EditRequestHandler(

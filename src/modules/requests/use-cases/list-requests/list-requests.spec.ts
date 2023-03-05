@@ -1,4 +1,4 @@
-import { InMemoryDatabaseImpl } from '../../../../app/in-memory-database';
+import { InMemoryDatabase } from '../../../../app/in-memory-database';
 import { Timestamp } from '../../../../common/timestamp.value-object';
 import { Member } from '../../../members/entities/member.entity';
 import { Request } from '../../entities/request.entity';
@@ -9,12 +9,12 @@ import { ListRequestsHandler } from './list-requests';
 import { ListRequestsResult } from './list-requests-result';
 
 describe('ListRequests', () => {
-  let database: InMemoryDatabaseImpl;
+  let database: InMemoryDatabase;
   let requestRepository: InMemoryRequestRepository;
   let listRequestsHandler: ListRequestsHandler;
 
   beforeEach(() => {
-    database = new InMemoryDatabaseImpl();
+    database = new InMemoryDatabase();
     requestRepository = new InMemoryRequestRepository(database);
     listRequestsHandler = new ListRequestsHandler(requestRepository);
 

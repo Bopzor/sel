@@ -1,11 +1,11 @@
 import { Entity } from '../common/ddd/entity';
-import { InMemoryDatabase } from '../common/in-memory-repository';
+import { InMemoryDatabaseInterface } from '../common/in-memory-repository';
 import { Member } from '../modules/members/entities/member.entity';
 import { Request } from '../modules/requests/entities/request.entity';
 
 import { ClassType } from './api.context';
 
-export class InMemoryDatabaseImpl implements InMemoryDatabase {
+export class InMemoryDatabase implements InMemoryDatabaseInterface {
   private db = new Map<ClassType<Entity>, Map<string, Entity>>([
     [Request, new Map()],
     [Member, new Map()],

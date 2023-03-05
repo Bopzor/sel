@@ -1,4 +1,4 @@
-import { InMemoryDatabaseImpl } from '../../../../app/in-memory-database';
+import { InMemoryDatabase } from '../../../../app/in-memory-database';
 import { Timestamp } from '../../../../common/timestamp.value-object';
 import { Member } from '../../../members/entities/member.entity';
 import { Request } from '../../entities/request.entity';
@@ -8,12 +8,12 @@ import { GetRequestHandler, GetRequestQuery } from './get-request';
 import { GetRequestResult } from './get-request-result';
 
 describe('GetRequest', () => {
-  let database: InMemoryDatabaseImpl;
+  let database: InMemoryDatabase;
   let requestRepository: InMemoryRequestRepository;
   let getRequestHandler: GetRequestHandler;
 
   beforeEach(() => {
-    database = new InMemoryDatabaseImpl();
+    database = new InMemoryDatabase();
     requestRepository = new InMemoryRequestRepository(database);
     getRequestHandler = new GetRequestHandler(requestRepository);
 

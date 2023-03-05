@@ -4,14 +4,14 @@ import { ClassType } from '../app/api.context';
 
 import { Entity } from './ddd/entity';
 
-export interface InMemoryDatabase {
+export interface InMemoryDatabaseInterface {
   getEntities<E extends Entity>(EntityClass: ClassType<E>): Map<string, E>;
 }
 
 export abstract class InMemoryRepository<Item extends Entity> {
   protected abstract entity: ClassType<Item>;
 
-  constructor(protected readonly db: InMemoryDatabase) {}
+  constructor(protected readonly db: InMemoryDatabaseInterface) {}
 
   private get items() {
     return this.db.getEntities(this.entity);

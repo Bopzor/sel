@@ -1,4 +1,4 @@
-import { InMemoryDatabaseImpl } from '../../../../app/in-memory-database';
+import { InMemoryDatabase } from '../../../../app/in-memory-database';
 import { StubDateAdapter } from '../../../../common/ports/date/stub-date.adapter';
 import { StubEventPublisher } from '../../../../common/stub-event-publisher';
 import { Timestamp } from '../../../../common/timestamp.value-object';
@@ -51,7 +51,7 @@ class Test {
 
   private dateAdapter = new StubDateAdapter();
   private publisher = new StubEventPublisher();
-  private database = new InMemoryDatabaseImpl();
+  private database = new InMemoryDatabase();
   private requestRepository = new InMemoryRequestRepository(this.database);
 
   private createRequestHandler = new CreateRequestHandler(
