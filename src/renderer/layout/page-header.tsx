@@ -1,5 +1,9 @@
+import { Spinner } from '../../app/components/spinner';
+import { useQuery } from '../../app/hooks/use-query';
 import { Translation } from '../../app/i18n.context';
 import { MemberAvatarName } from '../../modules/members/components/member-avatar-name';
+import { TOKENS } from '../../tokens';
+import { assert } from '../../utils/assert';
 
 import logo from './logo.png';
 
@@ -15,7 +19,20 @@ export const PageHeader = () => (
         </span>
       </a>
 
-      <MemberAvatarName />
+      <AuthenticatedMemberAvatarName />
     </div>
   </header>
 );
+
+const AuthenticatedMemberAvatarName = () => {
+  const [member, { loading }] = useQuery(TOKENS.getMemberHandler, { id: 'nils' });
+
+  if (loading) {
+    return <Spinner className="h-4 w-3 fill-white" />;
+  }
+
+  // TODO remove
+  assert(member);
+
+  return <MemberAvatarName member={member} />;
+};

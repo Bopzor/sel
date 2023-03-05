@@ -1,23 +1,22 @@
-import { Spinner } from '../../../app/components/spinner';
-import { useQuery } from '../../../app/hooks/use-query';
-import { TOKENS } from '../../../tokens';
-import { assert } from '../../../utils/assert';
+import clsx from 'clsx';
+
 import { gravatarUrl } from '../../../utils/gravatar';
+import { Member } from '../aliases';
 
-export const MemberAvatarName = () => {
-  const [member, { loading }] = useQuery(TOKENS.getMemberHandler, { id: 'nils' });
-
-  if (loading) {
-    return <Spinner className="h-4 w-3 fill-white" />;
-  }
-
-  // TODO remove
-  assert(member);
-
-  return (
-    <div className="col items-center">
-      <img className="h-3 w-3 rounded-full" src={gravatarUrl(member.email)} alt="member" />
-      <span className="font-medium">{member.fullName}</span>
-    </div>
-  );
+type MemberAvatarNameProps = {
+  className?: string;
+  inline?: boolean;
+  size?: 'small';
+  member: Pick<Member, 'id' | 'email' | 'fullName'>;
 };
+
+export const MemberAvatarName = ({ className, inline, size, member }: MemberAvatarNameProps) => (
+  <div className={clsx('items-center gap-0.5 font-medium', inline ? 'row' : 'col', className)}>
+    <img
+      className={clsx(' rounded-full', size === 'small' ? 'h-2 w-2' : 'h-3 w-3')}
+      src={gravatarUrl(member.email)}
+      alt="member"
+    />
+    <span className="font-medium">{member.fullName}</span>
+  </div>
+);

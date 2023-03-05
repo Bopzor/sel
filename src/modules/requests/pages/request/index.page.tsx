@@ -8,6 +8,7 @@ import { useQuery } from '../../../../app/hooks/use-query';
 import { Trans, Translation, useFormatDate, useTranslate } from '../../../../app/i18n.context';
 import { useRouteParam } from '../../../../renderer/page-context';
 import { TOKENS } from '../../../../tokens';
+import { MemberAvatarName } from '../../../members/components/member-avatar-name';
 import { Request } from '../../aliases';
 
 const T = Translation.create('requests');
@@ -60,12 +61,11 @@ export const RequestInformation = ({ request, className }: RequestInformationPro
   const t = useTranslate('common');
   const formatDate = useFormatDate({ dateStyle: 'medium', timeStyle: 'short' });
 
+  const requester = request.requester;
+
   return (
     <aside className={clsx('card col gap-1 p-1 pt-2', className)}>
-      <div className="col items-center gap-0.5 font-medium">
-        <div className="h-4 w-4 rounded-full bg-inverted/20" />
-        Nils
-      </div>
+      <MemberAvatarName member={{ ...requester, fullName: requester.name }} />
 
       <div className="col gap-1 text-muted">
         <div className="text-sm leading-6">
@@ -76,7 +76,7 @@ export const RequestInformation = ({ request, className }: RequestInformationPro
             href="mailto:myself@domain.tld"
             className="row items-center gap-0.5 font-semibold hover:underline"
           >
-            <EnvelopeIcon className="h-1 w-1" /> myself@domain.tld
+            <EnvelopeIcon className="h-1 w-1" /> {requester.email}
           </a>
         </div>
 
