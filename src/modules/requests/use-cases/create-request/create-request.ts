@@ -1,7 +1,10 @@
+import { injected } from 'brandi';
+
 import { CommandHandler } from '../../../../common/cqs/command-handler';
 import { EventPublisher } from '../../../../common/cqs/event-publisher';
 import { DomainEvent } from '../../../../common/ddd/domain-event';
 import { DatePort } from '../../../../common/ports/date/date.port';
+import { TOKENS } from '../../../../tokens';
 import { Request } from '../../entities/request.entity';
 import { RequestRepository } from '../../request.repository';
 
@@ -32,5 +35,7 @@ export class CreateRequestHandler implements CommandHandler<CreateRequestCommand
     this.publisher.publish(new RequestCreatedEvent());
   }
 }
+
+injected(CreateRequestHandler, TOKENS.dateAdapter, TOKENS.publisher, TOKENS.requestRepository);
 
 export class RequestCreatedEvent extends DomainEvent {}

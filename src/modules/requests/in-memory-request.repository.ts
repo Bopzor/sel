@@ -1,4 +1,7 @@
+import { injected } from 'brandi';
+
 import { InMemoryRepository } from '../../common/in-memory-repository';
+import { TOKENS } from '../../tokens';
 import { assert } from '../../utils/assert';
 import { Member } from '../members/entities/member.entity';
 
@@ -68,3 +71,5 @@ export class InMemoryRequestRepository extends InMemoryRepository<Request> imple
     };
   }
 }
+
+injected(InMemoryRequestRepository, TOKENS.inMemoryDatabase);

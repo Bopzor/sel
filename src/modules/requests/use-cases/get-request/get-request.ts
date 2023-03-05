@@ -1,4 +1,7 @@
+import { injected } from 'brandi';
+
 import { QueryHandler } from '../../../../common/cqs/query-handler';
+import { TOKENS } from '../../../../tokens';
 import { RequestRepository } from '../../request.repository';
 
 import { GetRequestResult } from './get-request-result';
@@ -14,3 +17,5 @@ export class GetRequestHandler implements QueryHandler<GetRequestQuery, GetReque
     return this.requestRepository.getRequest(query.id);
   }
 }
+
+injected(GetRequestHandler, TOKENS.requestRepository);

@@ -1,9 +1,12 @@
+import { injected } from 'brandi';
+
 import { CommandHandler } from '../../../../common/cqs/command-handler';
 import { EventPublisher } from '../../../../common/cqs/event-publisher';
 import { DomainError } from '../../../../common/ddd/domain-error';
 import { DomainEvent } from '../../../../common/ddd/domain-event';
 import { assertEntity } from '../../../../common/entity-not-found.error';
 import { DatePort } from '../../../../common/ports/date/date.port';
+import { TOKENS } from '../../../../tokens';
 import { Request } from '../../entities/request.entity';
 import { RequestRepository } from '../../request.repository';
 
@@ -47,6 +50,8 @@ export class EditRequestHandler implements CommandHandler<EditRequestCommand> {
     this.publisher.publish(new RequestEditedEvent());
   }
 }
+
+injected(EditRequestHandler, TOKENS.dateAdapter, TOKENS.publisher, TOKENS.requestRepository);
 
 export class NoEditedField extends DomainError {}
 

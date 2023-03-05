@@ -1,4 +1,7 @@
+import { injected } from 'brandi';
+
 import { QueryHandler } from '../../../../common/cqs/query-handler';
+import { TOKENS } from '../../../../tokens';
 import { RequestRepository } from '../../request.repository';
 
 import { ListRequestsResult } from './list-requests-result';
@@ -14,3 +17,5 @@ export class ListRequestsHandler implements QueryHandler<ListRequestsQuery, List
     return this.requestRepository.listRequests(search);
   }
 }
+
+injected(ListRequestsHandler, TOKENS.requestRepository);

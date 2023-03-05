@@ -2,10 +2,10 @@ import { useQuery } from '../../../app/api.context';
 import { Spinner } from '../../../app/components/spinner';
 import { assert } from '../../../utils/assert';
 import { gravatarUrl } from '../../../utils/gravatar';
-import { GetMemberQueryHandler } from '../use-cases/get-member/get-member';
+import { GetMemberHandler } from '../use-cases/get-member/get-member';
 
 export const MemberAvatarName = () => {
-  const [member, { loading }] = useQuery(GetMemberQueryHandler, { id: 'nils' });
+  const [member, { loading }] = useQuery(GetMemberHandler, { id: 'nils' });
 
   if (loading) {
     return <Spinner className="h-4 w-3 fill-white" />;
