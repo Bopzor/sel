@@ -1,3 +1,3 @@
-export interface CommandHandler<Command extends object> {
+export interface CommandHandler<Command> {
   handle(command: Command): void | Promise<void>;
 }

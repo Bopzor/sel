@@ -1,6 +1,6 @@
 import clone from 'lodash.clonedeep';
 
-import { ClassType } from '../app/api.context';
+import { ClassType } from '../utils/class-type';
 
 import { Entity } from './ddd/entity';
 

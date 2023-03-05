@@ -1,20 +1,20 @@
 import { EnvelopeIcon, PhoneIcon } from '@heroicons/react/24/solid';
 import clsx from 'clsx';
 
-import { useQuery } from '../../../../app/api.context';
 import { BackLink } from '../../../../app/components/back-link';
 import { FallbackSpinner } from '../../../../app/components/fallback';
 import { Show } from '../../../../app/components/show';
+import { useQuery } from '../../../../app/hooks/use-query';
 import { Trans, Translation, useFormatDate, useTranslate } from '../../../../app/i18n.context';
 import { useRouteParam } from '../../../../renderer/page-context';
+import { TOKENS } from '../../../../tokens';
 import { Request } from '../../aliases';
-import { GetRequestHandler } from '../../use-cases/get-request/get-request';
 
 const T = Translation.create('requests');
 
 export const Page = () => {
   const requestId = useRouteParam('requestId');
-  const [request] = useQuery(GetRequestHandler, { id: requestId });
+  const [request] = useQuery(TOKENS.getRequestHandler, { id: requestId });
 
   return (
     <>

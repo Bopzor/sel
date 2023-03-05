@@ -1,11 +1,11 @@
 import { navigate } from 'vite-plugin-ssr/client/router';
 
-import { useExecuteCommand } from '../../../../app/api.context';
 import { BackLink } from '../../../../app/components/back-link';
+import { useExecuteCommand } from '../../../../app/hooks/use-execute-command';
 import { Translation } from '../../../../app/i18n.context';
 import { createId } from '../../../../common/create-id';
+import { TOKENS } from '../../../../tokens';
 import { RequestForm } from '../../components/request-form';
-import { CreateRequestHandler } from '../../use-cases/create-request/create-request';
 
 const T = Translation.create('requests');
 
@@ -15,7 +15,7 @@ type RequestFormShape = {
 };
 
 export const Page = () => {
-  const createRequest = useExecuteCommand(CreateRequestHandler);
+  const createRequest = useExecuteCommand(TOKENS.createRequestHandler);
 
   const onSubmit = async ({ title, description }: RequestFormShape) => {
     const id = createId();

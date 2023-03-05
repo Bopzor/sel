@@ -1,3 +1,3 @@
-export interface QueryHandler<Query extends object, Result> {
+export interface QueryHandler<Query, Result> {
   handle(query: Query): Promise<Result>;
 }

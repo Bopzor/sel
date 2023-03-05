@@ -2,8 +2,7 @@ import { Entity } from '../common/ddd/entity';
 import { InMemoryDatabaseInterface } from '../common/in-memory-repository';
 import { Member } from '../modules/members/entities/member.entity';
 import { Request } from '../modules/requests/entities/request.entity';
-
-import { ClassType } from './api.context';
+import { ClassType } from '../utils/class-type';
 
 export class InMemoryDatabase implements InMemoryDatabaseInterface {
   private db = new Map<ClassType<Entity>, Map<string, Entity>>([

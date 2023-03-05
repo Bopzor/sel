@@ -1,22 +1,22 @@
 import { navigate } from 'vite-plugin-ssr/client/router';
 
-import { useExecuteCommand, useQuery } from '../../../../app/api.context';
 import { BackLink } from '../../../../app/components/back-link';
 import { FallbackSpinner } from '../../../../app/components/fallback';
 import { Show } from '../../../../app/components/show';
+import { useExecuteCommand } from '../../../../app/hooks/use-execute-command';
+import { useQuery } from '../../../../app/hooks/use-query';
 import { Translation } from '../../../../app/i18n.context';
 import { useRouteParam } from '../../../../renderer/page-context';
+import { TOKENS } from '../../../../tokens';
 import { RequestForm, RequestFormShape } from '../../components/request-form';
-import { EditRequestHandler } from '../../use-cases/edit-request/edit-request';
-import { GetRequestHandler } from '../../use-cases/get-request/get-request';
 
 const T = Translation.create('requests');
 
 export const Page = () => {
   const requestId = useRouteParam('requestId');
-  const [request] = useQuery(GetRequestHandler, { id: requestId });
+  const [request] = useQuery(TOKENS.getRequestHandler, { id: requestId });
 
-  const editRequest = useExecuteCommand(EditRequestHandler);
+  const editRequest = useExecuteCommand(TOKENS.editRequestHandler);
 
   const onSubmit = async ({ title, description }: RequestFormShape) => {
     await editRequest({

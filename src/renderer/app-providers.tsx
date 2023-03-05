@@ -1,10 +1,8 @@
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 
-import { ApiProvider } from '../app/api.context';
 import { ContainerProvider } from '../app/container';
 
-import { apiContext } from './in-memory-api-context';
 import { PageContextProvider } from './page-context';
 import { PageContext } from './types';
 
@@ -18,12 +16,10 @@ type AppProvidersProps = {
 export const AppProviders = ({ context, children }: AppProvidersProps) => (
   <PageContextProvider context={context}>
     <ContainerProvider>
-      <ApiProvider value={apiContext}>
-        <QueryClientProvider client={queryClient}>
-          <ReactQueryDevtools initialIsOpen={false} />
-          {children}
-        </QueryClientProvider>
-      </ApiProvider>
+      <QueryClientProvider client={queryClient}>
+        <ReactQueryDevtools initialIsOpen={false} />
+        {children}
+      </QueryClientProvider>
     </ContainerProvider>
   </PageContextProvider>
 );

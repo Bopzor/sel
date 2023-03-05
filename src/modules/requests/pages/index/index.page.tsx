@@ -1,14 +1,14 @@
 import { MagnifyingGlassIcon, PlusIcon } from '@heroicons/react/24/solid';
 import { useState } from 'react';
 
-import { useQuery } from '../../../../app/api.context';
 import { BackLink } from '../../../../app/components/back-link';
 import { LinkButton } from '../../../../app/components/button';
 import { FallbackSpinner } from '../../../../app/components/fallback';
 import { For } from '../../../../app/components/for';
 import { Input } from '../../../../app/components/input';
+import { useQuery } from '../../../../app/hooks/use-query';
 import { Translation, useTranslate } from '../../../../app/i18n.context';
-import { ListRequestsHandler } from '../../use-cases/list-requests/list-requests';
+import { TOKENS } from '../../../../tokens';
 
 import { RequestItemCard } from './request-item-card';
 
@@ -17,7 +17,7 @@ const T = Translation.create('requests');
 export const Page = () => {
   const t = useTranslate('common');
   const [search, setSearch] = useState('');
-  const [requests] = useQuery(ListRequestsHandler, { search });
+  const [requests] = useQuery(TOKENS.listRequestsHandler, { search });
 
   const handleChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
     const value = event.target.value;
