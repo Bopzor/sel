@@ -20,6 +20,8 @@ specifiers:
   '@typescript-eslint/parser': ^5.52.0
   '@vitejs/plugin-react': ^3.1.0
   autoprefixer: ^10.4.13
+  brandi: ^5.0.0
+  brandi-react: ^5.0.0
   clsx: ^1.2.1
   compression: ^1.7.4
   crypto-js: ^4.1.1
@@ -62,6 +64,8 @@ dependencies:
   '@types/react-dom': 18.0.10
   '@vitejs/plugin-react': 3.1.0_vite@4.1.1
   autoprefixer: 10.4.13_postcss@8.4.21
+  brandi: 5.0.0
+  brandi-react: 5.0.0_brandi@5.0.0+react@18.2.0
   clsx: 1.2.1
   compression: 1.7.4
   crypto-js: 4.1.1
@@ -1341,6 +1345,20 @@ packages:
     engines: {node: '>=8'}
     dependencies:
       fill-range: 7.0.1
+
+  /brandi-react/5.0.0_brandi@5.0.0+react@18.2.0:
+    resolution: {integrity: sha512-EnJXip83QYe7uS8e1J6Yeng1eGeI1MCshPqUJ5/c8ujffDeH633I8t1UluPLR4ZtC3UWCdTh6yOz4UDkyPSPfA==}
+    peerDependencies:
+      brandi: ^3 || ^4 || ^5
+      react: ^16.8.0 || ^17 || ^18
+    dependencies:
+      brandi: 5.0.0
+      react: 18.2.0
+    dev: false
+
+  /brandi/5.0.0:
+    resolution: {integrity: sha512-oztvITQgvuFb2K+NWdHLx0mMH8TGO3ASrQ43FZzmfiq5rCj0DRlsuZ6Efi/yeu3hyGx/Y+Z1xLGp2qzDWpiNYA==}
+    dev: false
 
   /broadcast-channel/3.7.0:
     resolution: {integrity: sha512-cIAKJXAxGJceNZGTZSBzMxzyOn72cVgPnKx4dc6LRjQgbaJUQqhy5rzL3zbMxkMWsGKkv2hSFkPRMEXfoMZ2Mg==}

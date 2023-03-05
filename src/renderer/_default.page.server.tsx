@@ -1,11 +1,8 @@
 import ReactDOMServer from 'react-dom/server';
 import { dangerouslySkipEscape, escapeInject } from 'vite-plugin-ssr';
 
-import { ApiProvider } from '../app/api.context';
-
-import { apiContext } from './in-memory-api-context';
+import { AppProviders } from './app-providers';
 import { Layout } from './layout/layout';
-import { PageContextProvider } from './page-context';
 import type { PageContextServer } from './types';
 
 export const passToClient = ['pageProps', 'routeParams'];
@@ -15,13 +12,11 @@ export function render(pageContext: PageContextServer) {
 
   const html = ReactDOMServer.renderToString(
     <Document>
-      <PageContextProvider context={pageContext}>
-        <ApiProvider value={apiContext}>
-          <Layout>
-            <Page {...pageProps} />
-          </Layout>
-        </ApiProvider>
-      </PageContextProvider>
+      <AppProviders context={pageContext}>
+        <Layout>
+          <Page {...pageProps} />
+        </Layout>
+      </AppProviders>
     </Document>
   );
 

@@ -1,6 +1,5 @@
 import { createContext, useCallback, useContext } from 'react';
-import { QueryClient, QueryClientProvider, useQuery as useReactQuery } from 'react-query';
-import { ReactQueryDevtools } from 'react-query/devtools';
+import { useQuery as useReactQuery } from 'react-query';
 
 import { assert } from '../common/assert';
 import { CommandHandler } from '../common/cqs/command-handler';
@@ -31,21 +30,13 @@ export type ApiContext = {
 
 const apiContext = createContext<ApiContext | null>(null);
 
-const queryClient = new QueryClient();
-
 type ApiProviderProps = {
   value: ApiContext;
   children: React.ReactNode;
 };
 
 export const ApiProvider = ({ value, children }: ApiProviderProps) => (
-  <apiContext.Provider value={value}>
-    <QueryClientProvider client={queryClient}>
-      <ReactQueryDevtools initialIsOpen={false} />
-
-      {children}
-    </QueryClientProvider>
-  </apiContext.Provider>
+  <apiContext.Provider value={value}>{children}</apiContext.Provider>
 );
 
 const useApiContext = () => {

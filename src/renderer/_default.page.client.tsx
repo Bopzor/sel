@@ -1,10 +1,7 @@
 import ReactDOM from 'react-dom/client';
 
-import { ApiProvider } from '../app/api.context';
-
-import { apiContext } from './in-memory-api-context';
+import { AppProviders } from './app-providers';
 import { Layout } from './layout/layout';
-import { PageContextProvider } from './page-context';
 import { PageContextClient } from './types';
 
 import '@fontsource/inter/variable.css';
@@ -21,13 +18,11 @@ export function render(pageContext: PageContextClient) {
   const container = document.getElementById('app') as HTMLElement;
 
   const page = (
-    <PageContextProvider context={pageContext}>
-      <ApiProvider value={apiContext}>
-        <Layout>
-          <Page {...pageProps} />
-        </Layout>
-      </ApiProvider>
-    </PageContextProvider>
+    <AppProviders context={pageContext}>
+      <Layout>
+        <Page {...pageProps} />
+      </Layout>
+    </AppProviders>
   );
 
   if (pageContext.isHydration) {
