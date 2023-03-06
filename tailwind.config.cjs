@@ -38,6 +38,10 @@ module.exports = {
       red: colors.red[500],
       green: colors.green[700],
     },
+    borderColor: {
+      DEFAULT: colors.gray[200],
+      primary: '#005F7E',
+    },
     fill: {
       white: 'white',
       icon: colors.gray[600],

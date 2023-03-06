@@ -19,6 +19,16 @@ memberRepository.add(
   })
 );
 
+memberRepository.add(
+  memberFactories.member({
+    id: 'vio',
+    email: 'vio@bopzor.me',
+    firstName: 'vio',
+    lastName: 'vio',
+    phoneNumber: '07 70 07 70 07',
+  })
+);
+
 requestRepository.add(
   requestFactories.request({
     id: 'id2',

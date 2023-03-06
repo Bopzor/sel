@@ -12,9 +12,7 @@ export class InMemoryMemberRepository extends InMemoryRepository<Member> impleme
   protected entity = Member;
 
   async listMembers(): Promise<ListMembersResult> {
-    return this.all().map((member) => ({
-      id: member.id,
-    }));
+    return this.all().map(this.transformToResult);
   }
 
   async getMember(id: string): Promise<GetMemberResult | undefined> {
@@ -24,6 +22,10 @@ export class InMemoryMemberRepository extends InMemoryRepository<Member> impleme
       return;
     }
 
+    return this.transformToResult(member);
+  }
+
+  private transformToResult(this: void, member: Member) {
     return {
       id: member.id,
       email: member.email,

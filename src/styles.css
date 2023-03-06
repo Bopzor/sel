@@ -49,6 +49,10 @@
     @apply flex flex-col;
   }
 
+  .flex-3 {
+    flex: 3;
+  }
+
   .typo-title {
     @apply font-bold text-xl;
   }
