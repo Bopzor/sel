@@ -1,7 +1,7 @@
 import { Container } from 'brandi';
 import { ContainerProvider as BrandiContainerProvider } from 'brandi-react';
 
-import { StubDateAdapter } from '../common/ports/date/stub-date.adapter';
+import { RealDateAdapter } from '../common/ports/date/real-date.adapter';
 import { StubEventPublisher } from '../common/stub-event-publisher';
 import { InMemoryMemberRepository } from '../modules/members/in-memory-member.repository';
 import { GetMemberHandler } from '../modules/members/use-cases/get-member/get-member';
@@ -16,7 +16,7 @@ import { InMemoryDatabase } from './in-memory-database';
 
 export const container = new Container();
 
-container.bind(TOKENS.dateAdapter).toInstance(StubDateAdapter).inSingletonScope();
+container.bind(TOKENS.dateAdapter).toInstance(RealDateAdapter).inSingletonScope();
 container.bind(TOKENS.publisher).toInstance(StubEventPublisher).inSingletonScope();
 container.bind(TOKENS.inMemoryDatabase).toInstance(InMemoryDatabase).inSingletonScope();
 container.bind(TOKENS.requestRepository).toInstance(InMemoryRequestRepository).inSingletonScope();
