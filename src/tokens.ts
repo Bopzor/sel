@@ -5,6 +5,7 @@ import { InMemoryDatabaseInterface } from './common/in-memory-repository';
 import { DatePort } from './common/ports/date/date.port';
 import { MemberRepository } from './modules/members/member.repository';
 import { GetMemberHandler } from './modules/members/use-cases/get-member/get-member';
+import { ListMembersHandler } from './modules/members/use-cases/list-members/list-members';
 import { RequestRepository } from './modules/requests/request.repository';
 import { CreateRequestHandler } from './modules/requests/use-cases/create-request/create-request';
 import { EditRequestHandler } from './modules/requests/use-cases/edit-request/edit-request';
@@ -21,5 +22,6 @@ export const TOKENS = {
   listRequestsHandler: token<ListRequestsHandler>('listRequestsHandler'),
   createRequestHandler: token<CreateRequestHandler>('createRequestHandler'),
   editRequestHandler: token<EditRequestHandler>('editRequestHandler'),
+  listMembersHandler: token<ListMembersHandler>('listMembersHandler'),
   getMemberHandler: token<GetMemberHandler>('getMemberHandler'),
 };

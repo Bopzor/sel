@@ -5,6 +5,7 @@ import { RealDateAdapter } from '../common/ports/date/real-date.adapter';
 import { StubEventPublisher } from '../common/stub-event-publisher';
 import { InMemoryMemberRepository } from '../modules/members/in-memory-member.repository';
 import { GetMemberHandler } from '../modules/members/use-cases/get-member/get-member';
+import { ListMembersHandler } from '../modules/members/use-cases/list-members/list-members';
 import { InMemoryRequestRepository } from '../modules/requests/in-memory-request.repository';
 import { CreateRequestHandler } from '../modules/requests/use-cases/create-request/create-request';
 import { EditRequestHandler } from '../modules/requests/use-cases/edit-request/edit-request';
@@ -25,6 +26,7 @@ container.bind(TOKENS.getRequestHandler).toInstance(GetRequestHandler).inSinglet
 container.bind(TOKENS.listRequestsHandler).toInstance(ListRequestsHandler).inSingletonScope();
 container.bind(TOKENS.createRequestHandler).toInstance(CreateRequestHandler).inSingletonScope();
 container.bind(TOKENS.editRequestHandler).toInstance(EditRequestHandler).inSingletonScope();
+container.bind(TOKENS.listMembersHandler).toInstance(ListMembersHandler).inSingletonScope();
 container.bind(TOKENS.getMemberHandler).toInstance(GetMemberHandler).inSingletonScope();
 
 type ContainerProviderProps = {

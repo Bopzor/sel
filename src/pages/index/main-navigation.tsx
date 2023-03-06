@@ -15,7 +15,12 @@ export const MainNavigation = () => (
 
     <Section href="/" className="bg-events" title={<T>Events</T>} description={<T>Workshops, ...</T>} />
 
-    <Section href="/" className="bg-members" title={<T>Members</T>} description={<T>Your LTS's members</T>} />
+    <Section
+      href="/membres"
+      className="bg-members"
+      title={<T>Members</T>}
+      description={<T>Your LTS's members</T>}
+    />
 
     <Section href="/" className="bg-tools" title={<T>Tools</T>} description={<T>Giving a lending tools</T>} />
   </nav>
