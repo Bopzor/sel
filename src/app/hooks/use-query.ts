@@ -12,7 +12,7 @@ export const useQuery = <Query, Result>(
 ): AsyncResource<Result> => {
   const handler = useInjection(token);
 
-  const result = useReactQuery<Result>([handler, query], () => handler.handle(query), {
+  const result = useReactQuery<Result>([handler.constructor.name, query], () => handler.handle(query), {
     retry: false,
   });
 
