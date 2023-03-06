@@ -4,6 +4,7 @@ export type GetRequestResult = {
     id: string;
     name: string;
     email: string;
+    phoneNumber: string;
   };
   title: string;
   description: string;

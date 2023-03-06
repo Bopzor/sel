@@ -6,6 +6,7 @@ export type ListRequestsItem = {
     id: string;
     name: string;
     email: string;
+    phoneNumber: string;
   };
   title: string;
   description: string;

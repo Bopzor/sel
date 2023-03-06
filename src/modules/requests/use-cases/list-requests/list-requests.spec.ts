@@ -24,6 +24,7 @@ describe('ListRequests', () => {
         email: 'requester@domain.tld',
         firstName: '',
         lastName: '',
+        phoneNumber: '',
       })
     );
   });
@@ -50,6 +51,7 @@ describe('ListRequests', () => {
           id: 'requesterId',
           name: ' ',
           email: 'requester@domain.tld',
+          phoneNumber: '',
         },
         title: 'title',
         description: 'description',

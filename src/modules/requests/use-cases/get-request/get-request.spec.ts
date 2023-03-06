@@ -20,9 +20,10 @@ describe('GetRequest', () => {
     database.setEntity(
       new Member({
         id: 'requesterId',
-        email: 'requester@domain.tld',
         firstName: '',
         lastName: '',
+        email: 'requester@domain.tld',
+        phoneNumber: '',
       })
     );
   });
@@ -52,6 +53,7 @@ describe('GetRequest', () => {
         id: 'requesterId',
         name: ' ',
         email: 'requester@domain.tld',
+        phoneNumber: '',
       },
       title: 'title',
       description: 'description',

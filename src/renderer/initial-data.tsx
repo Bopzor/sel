@@ -15,6 +15,7 @@ memberRepository.add(
     email: 'nils@nilscox.dev',
     firstName: 'nils',
     lastName: 'cox',
+    phoneNumber: '06 60 06 60 06',
   })
 );
 

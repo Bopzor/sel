@@ -11,9 +11,10 @@ export const create: Factories = {
   member(overrides = {}) {
     return new Member({
       id: createId(),
-      email: '',
       firstName: '',
       lastName: '',
+      email: '',
+      phoneNumber: '',
       ...overrides,
     });
   },

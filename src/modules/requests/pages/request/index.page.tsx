@@ -69,8 +69,11 @@ export const RequestInformation = ({ request, className }: RequestInformationPro
 
       <div className="col gap-1 text-muted">
         <div className="text-sm leading-6">
-          <a href="tel:0660066006" className="row items-center gap-0.5 font-semibold hover:underline">
-            <PhoneIcon className="h-1 w-1" /> 06 60 06 60 06
+          <a
+            href={`tel:${requester.phoneNumber}`}
+            className="row items-center gap-0.5 font-semibold hover:underline"
+          >
+            <PhoneIcon className="h-1 w-1" /> {requester.phoneNumber}
           </a>
           <a
             href="mailto:myself@domain.tld"
