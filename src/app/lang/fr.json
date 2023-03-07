@@ -39,5 +39,8 @@
       "title": "Le titre de la demande",
       "description": "La description de la demande"
     }
+  },
+  "members": {
+    "No members match this search query": "Aucun membre ne correspond à cette recherche"
   }
 }

@@ -11,8 +11,16 @@ import { ListMembersResult } from './use-cases/list-members/list-members-result'
 export class InMemoryMemberRepository extends InMemoryRepository<Member> implements MemberRepository {
   protected entity = Member;
 
-  async listMembers(): Promise<ListMembersResult> {
-    return this.all().map(this.transformToResult);
+  async listMembers(search?: string): Promise<ListMembersResult> {
+    const matchMember = (member: Member) => {
+      if (!search) {
+        return true;
+      }
+
+      return [member.fullName, member.email, member.phoneNumber].some((value) => value.includes(search));
+    };
+
+    return this.filter(matchMember).map(this.transformToResult);
   }
 
   async getMember(id: string): Promise<GetMemberResult | undefined> {

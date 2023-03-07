@@ -14,7 +14,7 @@ export class ListMembersHandler implements QueryHandler<ListMembersQuery, ListMe
   constructor(private readonly repository: MemberRepository) {}
 
   handle(query: ListMembersQuery): Promise<ListMembersResult> {
-    return this.repository.listMembers();
+    return this.repository.listMembers(query.search);
   }
 }
 
