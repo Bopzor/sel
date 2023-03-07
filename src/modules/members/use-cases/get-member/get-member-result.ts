@@ -4,4 +4,12 @@ export type GetMemberResult = {
   firstName: string;
   lastName: string;
   fullName: string;
+  address: {
+    line1: string;
+    line2?: string;
+    postalCode: string;
+    city: string;
+    country: string;
+    position: [lat: number, lng: number];
+  };
 };

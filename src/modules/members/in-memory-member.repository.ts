@@ -40,6 +40,14 @@ export class InMemoryMemberRepository extends InMemoryRepository<Member> impleme
       firstName: member.firstName,
       lastName: member.lastName,
       fullName: member.fullName,
+      address: {
+        line1: member.address.line1,
+        line2: member.address.line2,
+        postalCode: member.address.postalCode,
+        city: member.address.city,
+        country: member.address.country,
+        position: member.address.position,
+      },
     };
   }
 }

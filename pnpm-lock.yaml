@@ -11,6 +11,7 @@ specifiers:
   '@types/compression': ^1.7.2
   '@types/crypto-js': ^4.1.1
   '@types/express': ^4.17.17
+  '@types/leaflet': ^1.9.1
   '@types/lodash.clonedeep': ^4.5.7
   '@types/node': ^18.13.0
   '@types/react': ^18.0.28
@@ -35,6 +36,7 @@ specifiers:
   express: ^4.18.2
   happy-dom: ^8.3.2
   i18next: ^22.4.10
+  leaflet: ^1.9.3
   lodash.clonedeep: ^4.5.0
   nanoid: ^4.0.1
   postcss: ^8.4.21
@@ -42,6 +44,7 @@ specifiers:
   react-dom: ^18.2.0
   react-hook-form: ^7.43.2
   react-i18next: ^12.2.0
+  react-leaflet: ^4.2.1
   react-query: ^3.39.3
   tailwindcss: ^3.2.6
   ts-node: ^10.9.1
@@ -59,6 +62,7 @@ dependencies:
   '@types/compression': 1.7.2
   '@types/crypto-js': 4.1.1
   '@types/express': 4.17.17
+  '@types/leaflet': 1.9.1
   '@types/node': 18.13.0
   '@types/react': 18.0.28
   '@types/react-dom': 18.0.10
@@ -71,6 +75,7 @@ dependencies:
   crypto-js: 4.1.1
   express: 4.18.2
   i18next: 22.4.10
+  leaflet: 1.9.3
   lodash.clonedeep: 4.5.0
   nanoid: 4.0.1
   postcss: 8.4.21
@@ -78,6 +83,7 @@ dependencies:
   react-dom: 18.2.0_react@18.2.0
   react-hook-form: 7.43.2_react@18.2.0
   react-i18next: 12.2.0_3yopsigl4h4eb2nqrqfsy65uwi
+  react-leaflet: 4.2.1_yydtlhsdonbqao6vgvkwhv2zki
   react-query: 3.39.3_biqbaboplfbrettd7655fr4n2y
   tailwindcss: 3.2.6_aesdjsunmf4wiehhujt67my7tu
   ts-node: 10.9.1_4bewfcp2iebiwuold25d6rgcsy
@@ -695,6 +701,18 @@ packages:
     resolution: {integrity: sha512-a5Sab1C4/icpTZVzZc5Ghpz88yQtGOyNqYXcZgOssB2uuAr+wF/MvN6bgtW32q7HHrvBki+BsZ0OuNv6EV3K9g==}
     dev: false
 
+  /@react-leaflet/core/2.1.0_yydtlhsdonbqao6vgvkwhv2zki:
+    resolution: {integrity: sha512-Qk7Pfu8BSarKGqILj4x7bCSZ1pjuAPZ+qmRwH5S7mDS91VSbVVsJSrW4qA+GPrro8t69gFYVMWb1Zc4yFmPiVg==}
+    peerDependencies:
+      leaflet: ^1.9.0
+      react: ^18.0.0
+      react-dom: ^18.0.0
+    dependencies:
+      leaflet: 1.9.3
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+    dev: false
+
   /@sinclair/typebox/0.25.21:
     resolution: {integrity: sha512-gFukHN4t8K4+wVC+ECqeqwzBDeFeTzBXroBTqE6vcWrQGbEUpHO7LYdG0f4xnvYq4VOEwITSlHlp0JBAIFMS/g==}
     dev: true
@@ -816,6 +834,10 @@ packages:
       '@types/serve-static': 1.15.0
     dev: false
 
+  /@types/geojson/7946.0.10:
+    resolution: {integrity: sha512-Nmh0K3iWQJzniTuPRcJn5hxXkfB1T1pgB89SBig5PlJQU5yocazeu4jATJlaA0GYFKWMqDdvYemoSnF2pXgLVA==}
+    dev: false
+
   /@types/istanbul-lib-coverage/2.0.4:
     resolution: {integrity: sha512-z/QT1XN4K4KYuslS23k62yDIDLwLFkzxOuMplDtObz0+y7VqJCaO2o+SPwHCvLFZh7xazvvoor2tA/hPz9ee7g==}
     dev: true
@@ -842,6 +864,12 @@ packages:
   /@types/json-schema/7.0.11:
     resolution: {integrity: sha512-wOuvG1SN4Us4rez+tylwwwCV1psiNVOkJeM3AUWUNWg/jDQY2+HE/444y5gc+jBmRqASOm2Oeh5c1axHobwRKQ==}
     dev: true
+
+  /@types/leaflet/1.9.1:
+    resolution: {integrity: sha512-lYawM3I3lLO6rmBASaqdGgY6zUL4YHr3H79/axx7FNYyPXuj0P1DZHbkNo8Itbv0i7Y9EryLWtDXXROMygXhRA==}
+    dependencies:
+      '@types/geojson': 7946.0.10
+    dev: false
 
   /@types/lodash.clonedeep/4.5.7:
     resolution: {integrity: sha512-ccNqkPptFIXrpVqUECi60/DFxjNKsfoQxSQsgcBJCX/fuX1wgyQieojkcWH/KpE3xzLoWN/2k+ZeGqIN3paSvw==}
@@ -2912,6 +2940,10 @@ packages:
       language-subtag-registry: 0.3.22
     dev: true
 
+  /leaflet/1.9.3:
+    resolution: {integrity: sha512-iB2cR9vAkDOu5l3HAay2obcUHZ7xwUBBjph8+PGtmW/2lYhbLizWtG7nTeYht36WfOslixQF9D/uSIzhZgGMfQ==}
+    dev: false
+
   /levn/0.4.1:
     resolution: {integrity: sha512-+bT2uH4E5LGE7h/n3evcS/sQlJXCpIp6ym8OWJ5eV6+67Dsql/LaaT7qJBAt2rzfoa/5QBGBhxDix1dMt2kQKQ==}
     engines: {node: '>= 0.8.0'}
@@ -3530,6 +3562,19 @@ packages:
   /react-is/18.2.0:
     resolution: {integrity: sha512-xWGDIW6x921xtzPkhiULtthJHoJvBbF3q26fzloPCK0hsvxtPVelvftw3zjbHWSkR2km9Z+4uxbDDK/6Zw9B8w==}
     dev: true
+
+  /react-leaflet/4.2.1_yydtlhsdonbqao6vgvkwhv2zki:
+    resolution: {integrity: sha512-p9chkvhcKrWn/H/1FFeVSqLdReGwn2qmiobOQGO3BifX+/vV/39qhY8dGqbdcPh1e6jxh/QHriLXr7a4eLFK4Q==}
+    peerDependencies:
+      leaflet: ^1.9.0
+      react: ^18.0.0
+      react-dom: ^18.0.0
+    dependencies:
+      '@react-leaflet/core': 2.1.0_yydtlhsdonbqao6vgvkwhv2zki
+      leaflet: 1.9.3
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+    dev: false
 
   /react-query/3.39.3_biqbaboplfbrettd7655fr4n2y:
     resolution: {integrity: sha512-nLfLz7GiohKTJDuT4us4X3h/8unOh+00MLb2yJoGTPjxKs2bc1iDhkNx2bd5MKklXnOD3NrVZ+J2UXujA5In4g==}

@@ -2,6 +2,7 @@ import { MagnifyingGlassIcon } from '@heroicons/react/24/solid';
 import { useState } from 'react';
 
 import { BackLink } from '../../../../app/components/back-link';
+import { ClientOnly } from '../../../../app/components/client-only';
 import { FallbackSpinner } from '../../../../app/components/fallback';
 import { Show } from '../../../../app/components/show';
 import { useQuery } from '../../../../app/hooks/use-query';
@@ -33,7 +34,14 @@ const MembersListPage = () => {
             </div>
           </Show>
         </div>
-        <div className="flex-3 min-h-[400px] bg-inverted/10" />
+
+        <div className="flex-3">
+          <ClientOnly
+            load={() => import('./members-map')}
+            props={{ members }}
+            fallback={<FallbackSpinner />}
+          />
+        </div>
       </div>
     </>
   );

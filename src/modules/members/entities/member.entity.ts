@@ -1,11 +1,14 @@
 import { Entity } from '../../../common/ddd/entity';
 
+import { Address } from './address.value-object';
+
 type MemberProps = {
   id: string;
   firstName: string;
   lastName: string;
   email: string;
   phoneNumber: string;
+  address: Address;
 };
 
 export class Member extends Entity<MemberProps> {
@@ -31,5 +34,9 @@ export class Member extends Entity<MemberProps> {
 
   get phoneNumber() {
     return this.props.phoneNumber;
+  }
+
+  get address() {
+    return this.props.address;
   }
 }
