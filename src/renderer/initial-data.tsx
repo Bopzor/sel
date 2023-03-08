@@ -402,29 +402,20 @@ const members = [
   },
 ];
 
-for (const { address, ...member } of members.slice(0, 100)) {
+for (const [index, { address, ...member }] of Object.entries(members)) {
   memberRepository.add(
     memberFactories.member({
+      id: index,
       ...member,
       address: memberFactories.address(address as any),
     })
   );
 }
 
-memberRepository.add(
-  memberFactories.member({
-    id: 'nils',
-    email: 'nils@nilscox.dev',
-    firstName: 'nils',
-    lastName: 'cox',
-    phoneNumber: '06 60 06 60 06',
-  })
-);
-
 requestRepository.add(
   requestFactories.request({
     id: 'id2',
-    requesterId: 'nils',
+    requesterId: '1',
     title: 'Garde de chats pendant noël',
     description:
       "Bonjour ! Je cherche quelqu'un qui pourrait passer nourrir et câliner mes chats du 23 au 26 décembre Eat plants, meow, and throw up because i ate plants. Kitty attack like a vicious monster. Cat dog hate mouse eat string barf pillow no baths hate everything stare out cat door then go back inside for damn that dog yet ask for petting stare at ceiling.",
@@ -436,7 +427,7 @@ requestRepository.add(
 requestRepository.add(
   requestFactories.request({
     id: 'id3',
-    requesterId: 'nils',
+    requesterId: '2',
     title: 'Jeu du Loup Garou',
     description:
       "Bonjour. J'organise l'anniversaire de mon fils ce samedi, j'aimerais avoir le jeu du loup garou. Est ce que quelqu'un pourrait me le prêter ? Merci",
