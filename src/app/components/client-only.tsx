@@ -7,6 +7,7 @@ type ClientOnlyProps<Props> = Props & {
 };
 
 export const ClientOnly = <Props,>({ load, ...props }: ClientOnlyProps<Props>) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [Component, setComponent] = useState<React.ComponentType<any>>(
     // eslint-disable-next-line react/display-name
     () => () => <FallbackSpinner />

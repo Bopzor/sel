@@ -1,10 +1,10 @@
 import { Request } from './entities/request.entity';
-import { GetRequestResult } from './use-cases/get-request/get-request-result';
-import { ListRequestsResult } from './use-cases/list-requests/list-requests-result';
+
+import { Request as RequestResult } from './index';
 
 export interface RequestRepository {
-  listRequests(search?: string): Promise<ListRequestsResult>;
-  getRequest(id: string): Promise<GetRequestResult | undefined>;
+  listRequests(search?: string): Promise<RequestResult[]>;
+  getRequest(id: string): Promise<RequestResult | undefined>;
 
   findById(id: string): Promise<Request | undefined>;
   save(request: Request): Promise<void>;

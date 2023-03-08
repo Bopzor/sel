@@ -2,12 +2,12 @@
 
 import clsx from 'clsx';
 
-import { Members } from '../../aliases';
 import { MemberAvatarName } from '../../components/member-avatar-name';
+import { Member } from '../../index';
 
 type MembersListProps = {
-  members: Members;
-  setActive: (member: Members[number] | undefined) => void;
+  members: Member[];
+  setActive: (member: Member | undefined) => void;
 };
 
 export const MembersList = ({ members, setActive }: MembersListProps) => (
@@ -19,7 +19,7 @@ export const MembersList = ({ members, setActive }: MembersListProps) => (
 );
 
 type MemberItemProps = {
-  member: Members[number];
+  member: Member;
   onHover: () => void;
 };
 

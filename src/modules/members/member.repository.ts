@@ -1,7 +1,8 @@
 import { GetMemberResult } from './use-cases/get-member/get-member-result';
-import { ListMembersResult } from './use-cases/list-members/list-members-result';
+
+import { Member } from './index';
 
 export interface MemberRepository {
-  listMembers(search?: string): Promise<ListMembersResult>;
+  listMembers(search?: string): Promise<Member[]>;
   getMember(id: string): Promise<GetMemberResult | undefined>;
 }

@@ -25,7 +25,7 @@ export const PageHeader = () => (
 );
 
 const AuthenticatedMemberAvatarName = () => {
-  const [member, { loading }] = useQuery(TOKENS.getMemberHandler, { id: '0' });
+  const [member, { loading }] = useQuery(TOKENS.getMemberHandler, { id: 'member01' });
 
   if (loading) {
     return <Spinner className="h-4 w-3 fill-white" />;

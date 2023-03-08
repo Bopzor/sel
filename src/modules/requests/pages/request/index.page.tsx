@@ -9,7 +9,7 @@ import { Trans, Translation, useFormatDate, useTranslate } from '../../../../app
 import { useRouteParam } from '../../../../renderer/page-context';
 import { TOKENS } from '../../../../tokens';
 import { MemberAvatarName } from '../../../members/components/member-avatar-name';
-import { Request } from '../../aliases';
+import { Request } from '../../index';
 
 const T = Translation.create('requests');
 
@@ -65,7 +65,7 @@ export const RequestInformation = ({ request, className }: RequestInformationPro
 
   return (
     <aside className={clsx('card col gap-1 p-1 pt-2', className)}>
-      <MemberAvatarName member={{ ...requester, fullName: requester.name }} />
+      <MemberAvatarName member={requester} />
 
       <div className="col gap-1 text-muted">
         <div className="text-sm leading-6">

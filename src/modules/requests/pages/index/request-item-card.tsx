@@ -1,6 +1,6 @@
 import { useFormatDate } from '../../../../app/i18n.context';
 import { MemberAvatarName } from '../../../members/components/member-avatar-name';
-import { Request } from '../../aliases';
+import { Request } from '../../index';
 
 type RequestItemCardProps = {
   request: Request;
@@ -14,7 +14,7 @@ export const RequestItemCard = ({ request }: RequestItemCardProps) => {
   return (
     <div className="card col gap-1 p-1">
       <div className="col flex gap-1 md:flex-row-reverse md:items-start md:justify-between">
-        <MemberAvatarName inline size="small" member={{ ...requester, fullName: requester.name }} />
+        <MemberAvatarName inline size="small" member={requester} />
 
         {/* eslint-disable-next-line tailwindcss/no-arbitrary-value */}
         <strong className="pt-[4px] text-muted">{request.title}</strong>

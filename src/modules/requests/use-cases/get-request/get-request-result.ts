@@ -1,11 +1,8 @@
+import { Member } from '../../../members';
+
 export type GetRequestResult = {
   id: string;
-  requester: {
-    id: string;
-    name: string;
-    email: string;
-    phoneNumber: string;
-  };
+  requester: Member;
   title: string;
   description: string;
   creationDate: string;

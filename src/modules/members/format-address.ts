@@ -1,4 +1,4 @@
-import { Member } from './aliases';
+import { Member } from './index';
 
 export const formatAddress = (address: Member['address']) => {
   return [

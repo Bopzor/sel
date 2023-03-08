@@ -1,5 +1,5 @@
 import { ClientOnly } from '../../../../app/components/client-only';
-import { Member } from '../../aliases';
+import { Member } from '../../index';
 
 type MemberMapProps = {
   member: Member;

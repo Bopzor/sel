@@ -7,9 +7,9 @@ import { useQuery } from '../../../../app/hooks/use-query';
 import { Translation } from '../../../../app/i18n.context';
 import { useRouteParam } from '../../../../renderer/page-context';
 import { TOKENS } from '../../../../tokens';
-import { Member } from '../../aliases';
 import { MemberAvatarName } from '../../components/member-avatar-name';
 import { formatAddress } from '../../format-address';
+import { Member } from '../../index';
 
 import { MemberMap } from './member-map';
 

@@ -7,13 +7,13 @@ import { Member } from '../members/entities/member.entity';
 
 import { Request } from './entities/request.entity';
 import { RequestRepository } from './request.repository';
-import { GetRequestResult } from './use-cases/get-request/get-request-result';
-import { ListRequestsResult } from './use-cases/list-requests/list-requests-result';
+
+import { Request as RequestResult, transformRequest } from './index';
 
 export class InMemoryRequestRepository extends InMemoryRepository<Request> implements RequestRepository {
   protected entity = Request;
 
-  async listRequests(search?: string): Promise<ListRequestsResult> {
+  async listRequests(search?: string): Promise<RequestResult[]> {
     return this.all()
       .filter(({ title, description }) => {
         if (!search) {
@@ -30,23 +30,11 @@ export class InMemoryRequestRepository extends InMemoryRepository<Request> imple
 
         assert(requester, `expected member "${request.requesterId}" to be defined`);
 
-        return {
-          id: request.id,
-          requester: {
-            id: requester.id,
-            name: requester.fullName,
-            email: requester.email,
-            phoneNumber: requester.phoneNumber,
-          },
-          title: request.title,
-          description: request.description,
-          creationDate: request.creationDate.toString(),
-          lastEditionDate: request.lastEditionDate.toString(),
-        };
+        return transformRequest(request, requester);
       });
   }
 
-  async getRequest(id: string): Promise<GetRequestResult | undefined> {
+  async getRequest(id: string): Promise<RequestResult | undefined> {
     const request = this.get(id);
 
     if (!request) {
@@ -58,19 +46,7 @@ export class InMemoryRequestRepository extends InMemoryRepository<Request> imple
 
     assert(requester, `expected member "${request.requesterId}" to be defined`);
 
-    return {
-      id: request.id,
-      requester: {
-        id: requester.id,
-        name: requester.fullName,
-        email: requester.email,
-        phoneNumber: requester.phoneNumber,
-      },
-      title: request.title,
-      description: request.description,
-      creationDate: request.creationDate.toString(),
-      lastEditionDate: request.lastEditionDate.toString(),
-    };
+    return transformRequest(request, requester);
   }
 }
 

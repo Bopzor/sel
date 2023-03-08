@@ -1,10 +1,10 @@
 import { ClientOnly } from '../../../../app/components/client-only';
-import { Members } from '../../aliases';
 import { MemberAvatarName } from '../../components/member-avatar-name';
 import { formatAddress } from '../../format-address';
+import { Member } from '../../index';
 
 type MembersMapProps = {
-  members: Members;
+  members: Member[];
   popupOpen?: string;
 };
 

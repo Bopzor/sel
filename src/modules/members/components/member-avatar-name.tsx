@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 
 import { gravatarUrl } from '../../../utils/gravatar';
-import { Member } from '../aliases';
+import { Member } from '../index';
 
 type MemberAvatarNameProps = {
   className?: string;

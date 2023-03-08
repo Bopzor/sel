@@ -7,7 +7,7 @@ import { Show } from '../../../../app/components/show';
 import { useQuery } from '../../../../app/hooks/use-query';
 import { Translation, useTranslate } from '../../../../app/i18n.context';
 import { TOKENS } from '../../../../tokens';
-import { Members } from '../../aliases';
+import { Member } from '../../index';
 
 import { MembersList } from './members-list';
 import { MembersMap } from './members-map';
@@ -15,7 +15,7 @@ import { MembersMap } from './members-map';
 const T = Translation.create('members');
 
 const MembersListPage = () => {
-  const [activeMember, setActiveMember] = useState<Members[number]>();
+  const [activeMember, setActiveMember] = useState<Member>();
   const [search, setSearch] = useState('');
   const [members] = useQuery(TOKENS.listMembersHandler, { search });
 
