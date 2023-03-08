@@ -2,7 +2,6 @@ import { MagnifyingGlassIcon } from '@heroicons/react/24/solid';
 import { useState } from 'react';
 
 import { BackLink } from '../../../../app/components/back-link';
-import { ClientOnly } from '../../../../app/components/client-only';
 import { FallbackSpinner } from '../../../../app/components/fallback';
 import { Show } from '../../../../app/components/show';
 import { useQuery } from '../../../../app/hooks/use-query';
@@ -10,6 +9,7 @@ import { Translation, useTranslate } from '../../../../app/i18n.context';
 import { TOKENS } from '../../../../tokens';
 
 import { MembersList } from './members-list';
+import { MembersMap } from './members-map';
 
 const T = Translation.create('members');
 
@@ -36,11 +36,7 @@ const MembersListPage = () => {
         </div>
 
         <div className="md:col h-[24rem] md:h-[36rem] md:flex-1 md:pb-1">
-          <ClientOnly
-            load={() => import('../../components/members-map')}
-            props={{ members }}
-            fallback={<FallbackSpinner />}
-          />
+          <MembersMap members={members ?? []} />
         </div>
       </div>
     </>

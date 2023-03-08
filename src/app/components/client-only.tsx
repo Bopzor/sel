@@ -1,14 +1,16 @@
-import { Suspense, useState, useEffect, lazy } from 'react';
+import { lazy, Suspense, useEffect, useState } from 'react';
 
-type ClientOnlyProps = {
-  load: () => Promise<{ default: React.ComponentType<any> }>;
-  props?: any;
-  fallback: React.ReactNode;
+import { FallbackSpinner } from './fallback';
+
+type ClientOnlyProps<Props> = Props & {
+  load: () => Promise<{ default: React.ComponentType<Props> }>;
 };
 
-export const ClientOnly = ({ load, props, fallback }: ClientOnlyProps) => {
-  // eslint-disable-next-line react/display-name
-  const [Component, setComponent] = useState<React.ComponentType>(() => () => <>{fallback}</>);
+export const ClientOnly = <Props,>({ load, ...props }: ClientOnlyProps<Props>) => {
+  const [Component, setComponent] = useState<React.ComponentType<any>>(
+    // eslint-disable-next-line react/display-name
+    () => () => <FallbackSpinner />
+  );
 
   useEffect(() => {
     setComponent(() => lazy(load));
@@ -16,7 +18,7 @@ export const ClientOnly = ({ load, props, fallback }: ClientOnlyProps) => {
   }, []);
 
   return (
-    <Suspense fallback={fallback}>
+    <Suspense fallback={<FallbackSpinner />}>
       <Component {...props} />
     </Suspense>
   );
