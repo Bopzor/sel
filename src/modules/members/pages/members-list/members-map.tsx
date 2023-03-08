@@ -13,9 +13,8 @@ const MembersMap = ({ members }: MembersMapProps) => {
     <MapContainer
       center={[43.836, 5.042]}
       zoom={13}
-      scrollWheelZoom={false}
-      style={{ height: 400 }}
-      className="rounded"
+      style={{ height: '100%' }}
+      className="rounded outline-none"
     >
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'

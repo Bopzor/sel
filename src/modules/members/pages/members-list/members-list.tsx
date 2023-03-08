@@ -6,7 +6,7 @@ type MembersListProps = {
 };
 
 export const MembersList = ({ members }: MembersListProps) => (
-  <div className="col gap-1">
+  <div className="col flex-1 overflow-y-auto px-1">
     {members.map((member) => (
       <MemberItem key={member.id} member={member} />
     ))}
@@ -17,4 +17,6 @@ type MemberItemProps = {
   member: Members[number];
 };
 
-const MemberItem = ({ member }: MemberItemProps) => <MemberAvatarName inline size="small" member={member} />;
+const MemberItem = ({ member }: MemberItemProps) => (
+  <MemberAvatarName inline size="small" member={member} className="py-0.5" />
+);

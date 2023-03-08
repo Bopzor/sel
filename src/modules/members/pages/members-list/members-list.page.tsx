@@ -21,21 +21,21 @@ const MembersListPage = () => {
     <>
       <BackLink href="/" />
 
-      <div className="row items-start gap-4">
-        <div className="card flex-1 p-1">
+      <div className="col md:row gap-3 overflow-hidden pb-1 md:h-[36rem] md:items-start">
+        <div className="card col max-h-full md:w-[22rem]">
           <SearchMemberInput search={search} onSearch={setSearch} />
           <Show when={members} fallback={<FallbackSpinner />}>
             {(members) => <MembersList members={members} />}
           </Show>
 
           <Show when={members?.length === 0}>
-            <div className="py-1 text-center text-sm font-medium text-muted">
+            <div className="py-2 px-1 text-center text-sm font-medium text-muted">
               <T>No members match this search query</T>
             </div>
           </Show>
         </div>
 
-        <div className="flex-3">
+        <div className="md:col h-[24rem] md:h-[36rem] md:flex-1 md:pb-1">
           <ClientOnly
             load={() => import('./members-map')}
             props={{ members }}
@@ -58,12 +58,14 @@ const SearchMemberInput = ({ search, onSearch }: SearchMemberInputProps) => {
   const t = useTranslate('common');
 
   return (
-    <div className="row mb-1 gap-0.5 border-b-2 py-0.5 focus-within:border-b-primary">
-      <MagnifyingGlassIcon className="h-1.5 w-1.5 fill-icon" />
+    <div className="row mx-1 my-0.5 gap-0.5 border-b-2 py-0.5 focus-within:border-b-primary">
+      <div>
+        <MagnifyingGlassIcon className="h-1.5 w-1.5 fill-icon" />
+      </div>
       <input
         type="search"
         placeholder={t('Search')}
-        className="outline-none"
+        className="w-full flex-1 outline-none"
         value={search}
         onChange={(event) => onSearch(event.target.value)}
       />
