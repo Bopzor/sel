@@ -1,6 +1,6 @@
 import { MapContainer, Marker, TileLayer } from 'react-leaflet';
 
-import { Member } from '../../aliases';
+import { Member } from '../aliases';
 
 import 'leaflet/dist/leaflet.css';
 

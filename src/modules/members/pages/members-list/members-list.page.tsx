@@ -37,7 +37,7 @@ const MembersListPage = () => {
 
         <div className="md:col h-[24rem] md:h-[36rem] md:flex-1 md:pb-1">
           <ClientOnly
-            load={() => import('./members-map')}
+            load={() => import('../../components/members-map')}
             props={{ members }}
             fallback={<FallbackSpinner />}
           />

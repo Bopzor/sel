@@ -41,6 +41,9 @@
     }
   },
   "members": {
-    "No members match this search query": "Aucun membre ne correspond à cette recherche"
+    "No members match this search query": "Aucun membre ne correspond à cette recherche",
+    "Phone number": "Numéro de téléphone",
+    "Email address": "Adresse email",
+    "Mailing Address": "Adresse postale"
   }
 }

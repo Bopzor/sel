@@ -4,6 +4,7 @@ export type GetMemberResult = {
   firstName: string;
   lastName: string;
   fullName: string;
+  phoneNumber: string;
   address: {
     line1: string;
     line2?: string;

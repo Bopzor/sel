@@ -18,5 +18,7 @@ type MemberItemProps = {
 };
 
 const MemberItem = ({ member }: MemberItemProps) => (
-  <MemberAvatarName inline size="small" member={member} className="py-0.5" />
+  <a href={`/membres/${member.id}`} className="py-0.5">
+    <MemberAvatarName inline size="small" member={member} />
+  </a>
 );
