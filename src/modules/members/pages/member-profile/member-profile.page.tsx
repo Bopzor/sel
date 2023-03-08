@@ -9,6 +9,7 @@ import { useRouteParam } from '../../../../renderer/page-context';
 import { TOKENS } from '../../../../tokens';
 import { Member } from '../../aliases';
 import { MemberAvatarName } from '../../components/member-avatar-name';
+import { formatAddress } from '../../format-address';
 
 import { MemberMap } from './member-map';
 
@@ -64,13 +65,6 @@ const MemberProfile = ({ member }: MemberProfileProps) => (
     </div>
   </div>
 );
-
-const formatAddress = (address: Member['address']) => {
-  return [
-    [address.line1, address.line2].filter(Boolean).join('\n'),
-    `${address.postalCode} ${address.city}`,
-  ].join('\n');
-};
 
 type LabelValueProps = {
   label: React.ReactNode;

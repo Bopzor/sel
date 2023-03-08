@@ -9,6 +9,11 @@ export const MemberMap = ({ member }: MemberMapProps) => (
   <ClientOnly
     load={() => import('../../../../app/components/map')}
     center={member.address.position}
-    markers={[member.address.position]}
+    markers={[
+      {
+        key: member.id,
+        position: member.address.position,
+      },
+    ]}
   />
 );

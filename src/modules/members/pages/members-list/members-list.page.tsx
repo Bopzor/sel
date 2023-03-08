@@ -7,6 +7,7 @@ import { Show } from '../../../../app/components/show';
 import { useQuery } from '../../../../app/hooks/use-query';
 import { Translation, useTranslate } from '../../../../app/i18n.context';
 import { TOKENS } from '../../../../tokens';
+import { Members } from '../../aliases';
 
 import { MembersList } from './members-list';
 import { MembersMap } from './members-map';
@@ -14,6 +15,7 @@ import { MembersMap } from './members-map';
 const T = Translation.create('members');
 
 const MembersListPage = () => {
+  const [activeMember, setActiveMember] = useState<Members[number]>();
   const [search, setSearch] = useState('');
   const [members] = useQuery(TOKENS.listMembersHandler, { search });
 
@@ -25,7 +27,7 @@ const MembersListPage = () => {
         <div className="card col max-h-full md:w-[22rem]">
           <SearchMemberInput search={search} onSearch={setSearch} />
           <Show when={members} fallback={<FallbackSpinner />}>
-            {(members) => <MembersList members={members} />}
+            {(members) => <MembersList members={members} setActive={setActiveMember} />}
           </Show>
 
           <Show when={members?.length === 0}>
@@ -36,7 +38,7 @@ const MembersListPage = () => {
         </div>
 
         <div className="md:col h-[24rem] md:h-[36rem] md:flex-1 md:pb-1">
-          <MembersMap members={members ?? []} />
+          <MembersMap members={members ?? []} popupOpen={activeMember?.id} />
         </div>
       </div>
     </>
