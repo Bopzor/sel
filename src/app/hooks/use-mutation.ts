@@ -4,7 +4,7 @@ import { useCallback } from 'react';
 
 import { CommandHandler } from '../../common/cqs/command-handler';
 
-export const useExecuteCommand = <Command>(token: Token<CommandHandler<Command>>) => {
+export const useMutation = <Command>(token: Token<CommandHandler<Command>>) => {
   const handler = useInjection(token);
 
   return useCallback(
