@@ -3,10 +3,10 @@ import { EnvelopeIcon, HomeIcon, PhoneIcon } from '@heroicons/react/24/solid';
 import { BackLink } from '../../../../app/components/back-link';
 import { FallbackSpinner } from '../../../../app/components/fallback';
 import { Show } from '../../../../app/components/show';
+import { FRONT_TOKENS } from '../../../../app/front-tokens';
 import { useQuery } from '../../../../app/hooks/use-query';
 import { Translation } from '../../../../app/i18n.context';
 import { useRouteParam } from '../../../../renderer/page-context';
-import { TOKENS } from '../../../../tokens';
 import { MemberAvatarName } from '../../components/member-avatar-name';
 import { formatAddress } from '../../format-address';
 import { Member } from '../../index';
@@ -17,7 +17,7 @@ const T = Translation.create('members');
 
 export const Page = () => {
   const id = useRouteParam('memberId');
-  const [member] = useQuery(TOKENS.getMemberHandler, { id });
+  const [member] = useQuery(FRONT_TOKENS.membersService, 'getMember', id);
 
   return (
     <>

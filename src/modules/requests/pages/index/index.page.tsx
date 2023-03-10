@@ -6,9 +6,9 @@ import { LinkButton } from '../../../../app/components/button';
 import { FallbackSpinner } from '../../../../app/components/fallback';
 import { For } from '../../../../app/components/for';
 import { Input } from '../../../../app/components/input';
+import { FRONT_TOKENS } from '../../../../app/front-tokens';
 import { useQuery } from '../../../../app/hooks/use-query';
 import { Translation, useTranslate } from '../../../../app/i18n.context';
-import { TOKENS } from '../../../../tokens';
 
 import { RequestItemCard } from './request-item-card';
 
@@ -17,7 +17,7 @@ const T = Translation.create('requests');
 export const Page = () => {
   const t = useTranslate('common');
   const [search, setSearch] = useState('');
-  const [requests] = useQuery(TOKENS.listRequestsHandler, { search });
+  const [requests] = useQuery(FRONT_TOKENS.requestsService, 'listRequests', search);
 
   const handleChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
     const value = event.target.value;

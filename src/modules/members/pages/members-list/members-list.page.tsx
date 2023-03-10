@@ -4,9 +4,9 @@ import { useState } from 'react';
 import { BackLink } from '../../../../app/components/back-link';
 import { FallbackSpinner } from '../../../../app/components/fallback';
 import { Show } from '../../../../app/components/show';
+import { FRONT_TOKENS } from '../../../../app/front-tokens';
 import { useQuery } from '../../../../app/hooks/use-query';
 import { Translation, useTranslate } from '../../../../app/i18n.context';
-import { TOKENS } from '../../../../tokens';
 import { Member } from '../../index';
 
 import { MembersList } from './members-list';
@@ -17,7 +17,7 @@ const T = Translation.create('members');
 const MembersListPage = () => {
   const [activeMember, setActiveMember] = useState<Member>();
   const [search, setSearch] = useState('');
-  const [members] = useQuery(TOKENS.listMembersHandler, { search });
+  const [members] = useQuery(FRONT_TOKENS.membersService, 'listMembers', search);
 
   return (
     <>

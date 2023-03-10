@@ -2,8 +2,13 @@ import path from 'node:path';
 import url from 'node:url';
 
 import compression from 'compression';
-import express, { type RequestHandler } from 'express';
+import express, { Router, type RequestHandler } from 'express';
 import { renderPage } from 'vite-plugin-ssr';
+
+import { router as membersRouter } from './modules/members/api/members.api';
+import { router as requestsRouter } from './modules/requests/api/requests.api';
+
+import './renderer/initial-data';
 
 const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
 
@@ -34,7 +39,8 @@ async function startServer() {
     app.use(viteDevServer.middlewares);
   }
 
-  const handleRequest: AsyncRequestHandler = async (req, res, next) => {
+  // eslint-disable-next-line @typescript-eslint/no-misused-promises
+  const handleRequest: RequestHandler = async (req, res, next) => {
     const { httpResponse } = await renderPage({
       urlOriginal: req.originalUrl,
       headers: req.headers,
@@ -53,17 +59,23 @@ async function startServer() {
     res.status(statusCode).type(contentType).send(body);
   };
 
-  app.get('*', asyncRequestHandler(handleRequest));
+  app.use('/api', api());
+  app.get('*', handleRequest);
 
   app.listen(Number(port), host, () => {
     console.log(`Server running at http://${host}:${port}`);
   });
 }
 
-type AsyncRequestHandler = (...params: Parameters<RequestHandler>) => Promise<void>;
+const api = () => {
+  const router = Router();
 
-function asyncRequestHandler(fn: AsyncRequestHandler): RequestHandler {
-  return (req, res, next) => {
-    fn(req, res, next).catch(next);
-  };
-}
+  router.use('/members', membersRouter);
+  router.use('/requests', requestsRouter);
+
+  router.use((req, res) => {
+    res.status(404).end();
+  });
+
+  return router;
+};

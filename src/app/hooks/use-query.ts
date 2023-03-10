@@ -2,17 +2,26 @@ import { Token } from 'brandi';
 import { useInjection } from 'brandi-react';
 import { useQuery as useReactQuery } from 'react-query';
 
-import { QueryHandler } from '../../common/cqs/query-handler';
-
 type AsyncResource<Data> = [Data | undefined, { loading: boolean; error: unknown }];
 
-export const useQuery = <Query, Result>(
-  token: Token<QueryHandler<Query, Result>>,
-  query: Query
-): AsyncResource<Result> => {
-  const handler = useInjection(token);
+type Methods<Service> = {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  [Key in keyof Service]: Service[Key] extends (...args: any[]) => any ? Service[Key] : never;
+};
 
-  const result = useReactQuery<Result>([handler.constructor.name, query], () => handler.handle(query), {
+type UseQuery = <Service, ServiceMethods extends Methods<Service>, Method extends keyof ServiceMethods>(
+  token: Token<Service>,
+  method: Method,
+  ...params: Parameters<ServiceMethods[Method]>
+) => AsyncResource<Awaited<ReturnType<ServiceMethods[Method]>>>;
+
+export const useQuery: UseQuery = (token, method, ...params) => {
+  const service = useInjection(token) as {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    [method in typeof method]: (...args: typeof params) => any;
+  };
+
+  const result = useReactQuery([token, method, params], () => service[method](...params), {
     retry: false,
   });
 

@@ -3,6 +3,7 @@ import { navigate } from 'vite-plugin-ssr/client/router';
 import { BackLink } from '../../../../app/components/back-link';
 import { FallbackSpinner } from '../../../../app/components/fallback';
 import { Show } from '../../../../app/components/show';
+import { FRONT_TOKENS } from '../../../../app/front-tokens';
 import { useExecuteCommand } from '../../../../app/hooks/use-execute-command';
 import { useQuery } from '../../../../app/hooks/use-query';
 import { Translation } from '../../../../app/i18n.context';
@@ -14,7 +15,7 @@ const T = Translation.create('requests');
 
 export const Page = () => {
   const requestId = useRouteParam('requestId');
-  const [request] = useQuery(TOKENS.getRequestHandler, { id: requestId });
+  const [request] = useQuery(FRONT_TOKENS.requestsService, 'getRequest', requestId);
 
   const editRequest = useExecuteCommand(TOKENS.editRequestHandler);
 

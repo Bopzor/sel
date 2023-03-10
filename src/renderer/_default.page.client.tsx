@@ -7,8 +7,6 @@ import { PageContextClient } from './types';
 import '@fontsource/inter/variable.css';
 import '../styles.css';
 
-import './initial-data';
-
 export const clientRouting = true;
 export const hydrationCanBeAborted = true;
 

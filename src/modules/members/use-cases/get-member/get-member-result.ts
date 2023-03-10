@@ -1,3 +1,6 @@
+import { createId } from '../../../../common/create-id';
+import { Factory } from '../../../../common/factory';
+
 export type GetMemberResult = {
   id: string;
   email: string;
@@ -14,3 +17,21 @@ export type GetMemberResult = {
     position: [lat: number, lng: number];
   };
 };
+
+export const createGetMemberResult: Factory<GetMemberResult> = (overrides) => ({
+  id: createId(),
+  email: '',
+  firstName: '',
+  lastName: '',
+  fullName: '',
+  phoneNumber: '',
+  address: {
+    line1: '',
+    line2: '',
+    postalCode: '',
+    city: '',
+    country: '',
+    position: [0, 0],
+  },
+  ...overrides,
+});
