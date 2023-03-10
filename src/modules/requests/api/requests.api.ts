@@ -4,6 +4,8 @@ import { Router } from 'express';
 
 import { container } from '../../../app/container';
 import { TOKENS } from '../../../tokens';
+import { createRequestBody } from '../shared/create-request-body.schema';
+import { editRequestBody } from '../shared/edit-request-body.schema';
 import { ListRequestsQuery } from '../use-cases/list-requests/list-requests';
 
 export const router = Router();
@@ -34,4 +36,28 @@ router.get('/:requestId', async (req, res) => {
   }
 
   res.json(request);
+});
+
+router.post('/', async (req, res) => {
+  const command = await createRequestBody.validate(req.body, { abortEarly: false });
+  const handler = container.get(TOKENS.createRequestHandler);
+
+  await handler.handle({
+    requesterId: 'member01',
+    ...command,
+  });
+
+  res.status(201).end();
+});
+
+router.put('/:requestId', async (req, res) => {
+  const command = await editRequestBody.validate(req.body, { abortEarly: false });
+  const handler = container.get(TOKENS.editRequestHandler);
+
+  await handler.handle({
+    id: req.params.requestId,
+    ...command,
+  });
+
+  res.status(204).end();
 });

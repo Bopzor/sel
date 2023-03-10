@@ -1,10 +1,10 @@
 import { navigate } from 'vite-plugin-ssr/client/router';
 
 import { BackLink } from '../../../../app/components/back-link';
+import { FRONT_TOKENS } from '../../../../app/front-tokens';
 import { useMutation } from '../../../../app/hooks/use-mutation';
 import { Translation } from '../../../../app/i18n.context';
 import { createId } from '../../../../common/create-id';
-import { TOKENS } from '../../../../tokens';
 import { RequestForm } from '../../components/request-form';
 
 const T = Translation.create('requests');
@@ -15,14 +15,13 @@ type RequestFormShape = {
 };
 
 export const Page = () => {
-  const createRequest = useMutation(TOKENS.createRequestHandler);
+  const [createRequest] = useMutation(FRONT_TOKENS.requestsService, 'createRequest');
 
   const onSubmit = async ({ title, description }: RequestFormShape) => {
     const id = createId();
 
     await createRequest({
       id,
-      requesterId: 'nils',
       title,
       description,
     });

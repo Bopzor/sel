@@ -2,12 +2,9 @@ import { Token } from 'brandi';
 import { useInjection } from 'brandi-react';
 import { useQuery as useReactQuery } from 'react-query';
 
-type AsyncResource<Data> = [Data | undefined, { loading: boolean; error: unknown }];
+import { Methods } from '../../utils/methods';
 
-type Methods<Service> = {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  [Key in keyof Service]: Service[Key] extends (...args: any[]) => any ? Service[Key] : never;
-};
+type AsyncResource<Data> = [Data | undefined, { loading: boolean; error: unknown }];
 
 type UseQuery = <Service, ServiceMethods extends Methods<Service>, Method extends keyof ServiceMethods>(
   token: Token<Service>,

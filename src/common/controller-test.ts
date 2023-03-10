@@ -6,6 +6,7 @@ import express, { RequestHandler } from 'express';
 
 import { container } from '../app/container';
 
+import { CommandHandler } from './cqs/command-handler';
 import { QueryHandler } from './cqs/query-handler';
 
 export class ControllerTest {
@@ -17,6 +18,7 @@ export class ControllerTest {
   async init() {
     container.capture?.();
 
+    this.app.use(express.json());
     this.app.use(this.middleware);
 
     await new Promise<void>((resolve) => {
@@ -40,6 +42,12 @@ export class ControllerTest {
 
   fetch(url: string, opts?: RequestInit) {
     return fetch(this.baseUrl + url, opts);
+  }
+
+  overrideCommandHandler(token: Token<CommandHandler<unknown>>, handle: () => void) {
+    container.bind(token).toConstant({
+      handle: handle as () => Promise<void>,
+    });
   }
 
   overrideQueryHandler<Result>(token: Token<QueryHandler<unknown, Result>>, handle: () => Result) {

@@ -2,9 +2,10 @@ import path from 'node:path';
 import url from 'node:url';
 
 import compression from 'compression';
-import express, { Router, type RequestHandler } from 'express';
+import express, { ErrorRequestHandler, Router, type RequestHandler } from 'express';
 import { renderPage } from 'vite-plugin-ssr';
 
+import { yup } from './common/yup';
 import { router as membersRouter } from './modules/members/api/members.api';
 import { router as requestsRouter } from './modules/requests/api/requests.api';
 
@@ -60,7 +61,7 @@ async function startServer() {
   };
 
   app.use('/api', api());
-  app.get('*', handleRequest);
+  app.get(/.*/, handleRequest);
 
   app.listen(Number(port), host, () => {
     console.log(`Server running at http://${host}:${port}`);
@@ -70,12 +71,31 @@ async function startServer() {
 const api = () => {
   const router = Router();
 
+  router.use(express.json());
+
   router.use('/members', membersRouter);
   router.use('/requests', requestsRouter);
 
-  router.use((req, res) => {
-    res.status(404).end();
-  });
+  router.use(apiEndpointNotFoundHandler);
+
+  router.use(validationErrorHandler);
+  router.use(fallbackErrorHandler);
 
   return router;
+};
+
+const apiEndpointNotFoundHandler: RequestHandler = (req, res, _next) => {
+  res.status(404).end();
+};
+
+const validationErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
+  if (err instanceof yup.ValidationError) {
+    res.status(400).json(err);
+  } else {
+    next();
+  }
+};
+
+const fallbackErrorHandler: ErrorRequestHandler = (err, req, res, _next) => {
+  res.status(500).json(err);
 };

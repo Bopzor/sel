@@ -1,16 +1,33 @@
 import { Token } from 'brandi';
 import { useInjection } from 'brandi-react';
 import { useCallback } from 'react';
+import { useMutation as useReactMutation } from 'react-query';
 
-import { CommandHandler } from '../../common/cqs/command-handler';
+import { Methods } from '../../utils/methods';
 
-export const useMutation = <Command>(token: Token<CommandHandler<Command>>) => {
-  const handler = useInjection(token);
+type AsyncMutation<Params extends unknown[]> = [
+  (...params: Params) => Promise<void>,
+  { loading: boolean; error: unknown }
+];
 
-  return useCallback(
-    (command: Command) => {
-      return handler.handle(command);
-    },
-    [handler]
-  );
+type UseMutation = <Service, ServiceMethods extends Methods<Service>, Method extends keyof ServiceMethods>(
+  token: Token<Service>,
+  method: Method
+) => AsyncMutation<Parameters<ServiceMethods[Method]>>;
+
+export const useMutation: UseMutation = (token, method) => {
+  const service = useInjection(token) as {
+    [method in typeof method]: (...args: unknown[]) => Promise<void>;
+  };
+
+  const result = useReactMutation(async (params: unknown[]) => {
+    await service[method](...params);
+  });
+
+  const mutate = result.mutate;
+
+  return [
+    useCallback(async (...params: unknown[]) => mutate(params), [mutate]),
+    { loading: result.isLoading, error: result.error },
+  ];
 };

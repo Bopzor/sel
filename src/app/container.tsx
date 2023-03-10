@@ -1,5 +1,4 @@
 import { Container } from 'brandi';
-import { ContainerProvider as BrandiContainerProvider } from 'brandi-react';
 
 import { RealDateAdapter } from '../common/ports/date/real-date.adapter';
 import { StubEventPublisher } from '../common/stub-event-publisher';
@@ -28,11 +27,3 @@ container.bind(TOKENS.createRequestHandler).toInstance(CreateRequestHandler).inS
 container.bind(TOKENS.editRequestHandler).toInstance(EditRequestHandler).inSingletonScope();
 container.bind(TOKENS.listMembersHandler).toInstance(ListMembersHandler).inSingletonScope();
 container.bind(TOKENS.getMemberHandler).toInstance(GetMemberHandler).inSingletonScope();
-
-type ContainerProviderProps = {
-  children: React.ReactNode;
-};
-
-export const ContainerProvider = ({ children }: ContainerProviderProps) => (
-  <BrandiContainerProvider container={container}>{children}</BrandiContainerProvider>
-);

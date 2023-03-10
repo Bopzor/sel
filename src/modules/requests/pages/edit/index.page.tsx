@@ -8,7 +8,6 @@ import { useMutation } from '../../../../app/hooks/use-mutation';
 import { useQuery } from '../../../../app/hooks/use-query';
 import { Translation } from '../../../../app/i18n.context';
 import { useRouteParam } from '../../../../renderer/page-context';
-import { TOKENS } from '../../../../tokens';
 import { RequestForm, RequestFormShape } from '../../components/request-form';
 
 const T = Translation.create('requests');
@@ -17,11 +16,10 @@ export const Page = () => {
   const requestId = useRouteParam('requestId');
   const [request] = useQuery(FRONT_TOKENS.requestsService, 'getRequest', requestId);
 
-  const editRequest = useMutation(TOKENS.editRequestHandler);
+  const [editRequest] = useMutation(FRONT_TOKENS.requestsService, 'editRequest');
 
   const onSubmit = async ({ title, description }: RequestFormShape) => {
-    await editRequest({
-      id: requestId,
+    await editRequest(requestId, {
       title,
       description,
     });
