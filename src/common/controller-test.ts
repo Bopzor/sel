@@ -4,7 +4,7 @@ import { AddressInfo } from 'node:net';
 import { Token } from 'brandi';
 import express, { RequestHandler } from 'express';
 
-import { container } from '../app/container';
+import { container } from '../api/container';
 
 import { CommandHandler } from './cqs/command-handler';
 import { QueryHandler } from './cqs/query-handler';

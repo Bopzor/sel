@@ -5,7 +5,7 @@ import { AppProviders } from './app-providers';
 import { Layout } from './layout/layout';
 import type { PageContextServer } from './types';
 
-import './initial-data';
+import '../api/initial-data';
 
 export const passToClient = ['pageProps', 'routeParams'];
 

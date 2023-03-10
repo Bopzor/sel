@@ -3,8 +3,8 @@ import { EntityNotFoundError } from '../../../../common/entity-not-found.error';
 import { StubDateAdapter } from '../../../../common/ports/date/stub-date.adapter';
 import { StubEventPublisher } from '../../../../common/stub-event-publisher';
 import { Timestamp } from '../../../../common/timestamp.value-object';
+import { InMemoryRequestRepository } from '../../api/in-memory-request.repository';
 import { create } from '../../factories';
-import { InMemoryRequestRepository } from '../../in-memory-request.repository';
 
 import { EditRequestCommand, EditRequestHandler, NoEditedField, RequestEditedEvent } from './edit-request';
 

@@ -9,7 +9,7 @@ import { yup } from './common/yup';
 import { router as membersRouter } from './modules/members/api/members.api';
 import { router as requestsRouter } from './modules/requests/api/requests.api';
 
-import './renderer/initial-data';
+import './api/initial-data';
 
 const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
 

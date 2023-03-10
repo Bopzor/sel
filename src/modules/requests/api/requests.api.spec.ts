@@ -1,7 +1,7 @@
 import { afterEach, beforeEach } from 'vitest';
 
+import { TOKENS } from '../../../api/tokens';
 import { ControllerTest } from '../../../common/controller-test';
-import { TOKENS } from '../../../tokens';
 import { createGetRequestResult } from '../use-cases/get-request/get-request-result';
 
 import { router } from './requests.api';

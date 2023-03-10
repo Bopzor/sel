@@ -1,13 +1,12 @@
 import { injected } from 'brandi';
 
-import { InMemoryRepository } from '../../common/in-memory-repository';
-import { TOKENS } from '../../tokens';
+import { TOKENS } from '../../../api/tokens';
+import { InMemoryRepository } from '../../../common/in-memory-repository';
+import { Member } from '../entities/member.entity';
+import { Member as MemberResult, transformMember } from '../index';
+import { GetMemberResult } from '../use-cases/get-member/get-member-result';
 
-import { Member } from './entities/member.entity';
 import { MemberRepository } from './member.repository';
-import { GetMemberResult } from './use-cases/get-member/get-member-result';
-
-import { Member as MemberResult, transformMember } from './index';
 
 export class InMemoryMemberRepository extends InMemoryRepository<Member> implements MemberRepository {
   protected entity = Member;

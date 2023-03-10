@@ -1,8 +1,8 @@
 import { injected } from 'brandi';
 
+import { TOKENS } from '../../../../api/tokens';
 import { QueryHandler } from '../../../../common/cqs/query-handler';
-import { TOKENS } from '../../../../tokens';
-import { MemberRepository } from '../../member.repository';
+import { MemberRepository } from '../../api/member.repository';
 import { GetMemberResult } from '../get-member/get-member-result';
 
 export type ListMembersQuery = {

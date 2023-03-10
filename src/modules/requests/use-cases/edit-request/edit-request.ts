@@ -1,14 +1,14 @@
 import { injected } from 'brandi';
 
+import { TOKENS } from '../../../../api/tokens';
 import { CommandHandler } from '../../../../common/cqs/command-handler';
 import { EventPublisher } from '../../../../common/cqs/event-publisher';
 import { DomainError } from '../../../../common/ddd/domain-error';
 import { DomainEvent } from '../../../../common/ddd/domain-event';
 import { assertEntity } from '../../../../common/entity-not-found.error';
 import { DatePort } from '../../../../common/ports/date/date.port';
-import { TOKENS } from '../../../../tokens';
+import { RequestRepository } from '../../api/request.repository';
 import { Request } from '../../entities/request.entity';
-import { RequestRepository } from '../../request.repository';
 
 export type EditRequestCommand = {
   id: string;

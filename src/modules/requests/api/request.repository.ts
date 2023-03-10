@@ -1,6 +1,5 @@
-import { Request } from './entities/request.entity';
-
-import { Request as RequestResult } from './index';
+import { Request } from '../entities/request.entity';
+import { Request as RequestResult } from '../index';
 
 export interface RequestRepository {
   listRequests(search?: string): Promise<RequestResult[]>;

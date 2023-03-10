@@ -2,8 +2,8 @@
 
 import { Router } from 'express';
 
-import { container } from '../../../app/container';
-import { TOKENS } from '../../../tokens';
+import { container } from '../../../api/container';
+import { TOKENS } from '../../../api/tokens';
 import { createRequestBody } from '../shared/create-request-body.schema';
 import { editRequestBody } from '../shared/edit-request-body.schema';
 import { ListRequestsQuery } from '../use-cases/list-requests/list-requests';

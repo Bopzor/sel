@@ -1,14 +1,12 @@
 import { injected } from 'brandi';
 
-import { InMemoryRepository } from '../../common/in-memory-repository';
-import { TOKENS } from '../../tokens';
-import { assert } from '../../utils/assert';
-import { Member } from '../members/entities/member.entity';
+import { TOKENS } from '../../../api/tokens';
+import { InMemoryRepository } from '../../../common/in-memory-repository';
+import { Member } from '../../members/entities/member.entity';
+import { Request } from '../entities/request.entity';
+import { Request as RequestResult, transformRequest } from '../index';
 
-import { Request } from './entities/request.entity';
 import { RequestRepository } from './request.repository';
-
-import { Request as RequestResult, transformRequest } from './index';
 
 export class InMemoryRequestRepository extends InMemoryRepository<Request> implements RequestRepository {
   protected entity = Request;

@@ -1,10 +1,11 @@
-import { container } from '../app/container';
 import { Timestamp } from '../common/timestamp.value-object';
+import { InMemoryMemberRepository } from '../modules/members/api/in-memory-member.repository';
 import { create as memberFactories } from '../modules/members/factories';
-import { InMemoryMemberRepository } from '../modules/members/in-memory-member.repository';
+import { InMemoryRequestRepository } from '../modules/requests/api/in-memory-request.repository';
 import { create as requestFactories } from '../modules/requests/factories';
-import { InMemoryRequestRepository } from '../modules/requests/in-memory-request.repository';
-import { TOKENS } from '../tokens';
+
+import { container } from './container';
+import { TOKENS } from './tokens';
 
 const requestRepository = container.get(TOKENS.requestRepository) as InMemoryRequestRepository;
 const memberRepository = container.get(TOKENS.memberRepository) as InMemoryMemberRepository;

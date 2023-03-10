@@ -2,8 +2,8 @@
 
 import { Router } from 'express';
 
-import { container } from '../../../app/container';
-import { TOKENS } from '../../../tokens';
+import { container } from '../../../api/container';
+import { TOKENS } from '../../../api/tokens';
 import { ListMembersQuery } from '../use-cases/list-members/list-members';
 
 export const router = Router();
