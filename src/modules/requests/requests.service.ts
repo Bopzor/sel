@@ -11,7 +11,7 @@ export class RequestsService {
       searchParams.set('search', search);
     }
 
-    const response = await fetch(`/api/requests?${searchParams}`);
+    const response = await fetch(`http://localhost:8000/api/requests?${searchParams}`);
 
     if (!response.ok) {
       throw new Error('not ok');
@@ -23,7 +23,7 @@ export class RequestsService {
   }
 
   async getRequest(requestId: string): Promise<Request> {
-    const response = await fetch(`/api/requests/${requestId}`);
+    const response = await fetch(`http://localhost:8000/api/requests/${requestId}`);
 
     if (!response.ok) {
       throw new Error('not ok');
@@ -35,7 +35,7 @@ export class RequestsService {
   }
 
   async createRequest(request: CreateRequestBody) {
-    await fetch('/api/requests', {
+    await fetch('http://localhost:8000/api/requests', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -45,7 +45,7 @@ export class RequestsService {
   }
 
   async editRequest(requestId: string, request: EditRequestBody) {
-    await fetch(`/api/requests/${requestId}`, {
+    await fetch(`http://localhost:8000/api/requests/${requestId}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',

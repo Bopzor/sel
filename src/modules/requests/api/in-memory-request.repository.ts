@@ -2,6 +2,7 @@ import { injected } from 'brandi';
 
 import { TOKENS } from '../../../api/tokens';
 import { InMemoryRepository } from '../../../common/in-memory-repository';
+import { assert } from '../../../utils/assert';
 import { Member } from '../../members/entities/member.entity';
 import { Request } from '../entities/request.entity';
 import { Request as RequestResult, transformRequest } from '../index';

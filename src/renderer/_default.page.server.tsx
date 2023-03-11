@@ -1,4 +1,5 @@
 import ReactDOMServer from 'react-dom/server';
+import { dehydrate, Hydrate } from 'react-query';
 import { dangerouslySkipEscape, escapeInject } from 'vite-plugin-ssr';
 
 import { AppProviders } from './app-providers';
@@ -7,17 +8,23 @@ import type { PageContextServer } from './types';
 
 import '../api/initial-data';
 
-export const passToClient = ['pageProps', 'routeParams'];
+export const passToClient = ['pageProps', 'routeParams', 'dehydratedState'];
 
-export function render(pageContext: PageContextServer) {
-  const { Page, pageProps } = pageContext;
+export async function render(pageContext: PageContextServer) {
+  const { Page, pageProps, FRONT_TOKENS, queryClient, prefetchQuery } = pageContext;
+
+  await prefetchQuery(FRONT_TOKENS.membersService, 'getMember', 'member01');
+
+  const dehydratedState = dehydrate(queryClient);
 
   const html = ReactDOMServer.renderToString(
     <Document>
       <AppProviders context={pageContext}>
-        <Layout>
-          <Page {...pageProps} />
-        </Layout>
+        <Hydrate state={dehydratedState}>
+          <Layout>
+            <Page {...pageProps} />
+          </Layout>
+        </Hydrate>
       </AppProviders>
     </Document>
   );
@@ -26,6 +33,9 @@ export function render(pageContext: PageContextServer) {
 
   return {
     documentHtml,
+    pageContext: {
+      dehydratedState,
+    },
   };
 }
 

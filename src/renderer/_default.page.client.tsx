@@ -1,4 +1,5 @@
 import ReactDOM from 'react-dom/client';
+import { Hydrate } from 'react-query';
 
 import { AppProviders } from './app-providers';
 import { Layout } from './layout/layout';
@@ -13,15 +14,17 @@ export const hydrationCanBeAborted = true;
 let root: ReactDOM.Root;
 
 export function render(pageContext: PageContextClient) {
-  const { Page, pageProps } = pageContext;
+  const { Page, pageProps, dehydratedState } = pageContext;
 
   const container = document.getElementById('app') as HTMLElement;
 
   const page = (
     <AppProviders context={pageContext}>
-      <Layout>
-        <Page {...pageProps} />
-      </Layout>
+      <Hydrate state={dehydratedState}>
+        <Layout>
+          <Page {...pageProps} />
+        </Layout>
+      </Hydrate>
     </AppProviders>
   );
 

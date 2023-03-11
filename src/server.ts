@@ -3,8 +3,11 @@ import url from 'node:url';
 
 import compression from 'compression';
 import express, { ErrorRequestHandler, Router, type RequestHandler } from 'express';
+import { QueryClient } from 'react-query';
 import { renderPage } from 'vite-plugin-ssr';
 
+import { frontContainer } from './app/front-tokens';
+import { prefetchQuery } from './app/prefetch-query';
 import { yup } from './common/yup';
 import { router as membersRouter } from './modules/members/api/members.api';
 import { router as requestsRouter } from './modules/requests/api/requests.api';
@@ -42,9 +45,16 @@ async function startServer() {
 
   // eslint-disable-next-line @typescript-eslint/no-misused-promises
   const handleRequest: RequestHandler = async (req, res, next) => {
+    const [container, FRONT_TOKENS] = frontContainer();
+    const queryClient = new QueryClient();
+
     const { httpResponse } = await renderPage({
       urlOriginal: req.originalUrl,
       headers: req.headers,
+      queryClient,
+      container,
+      FRONT_TOKENS,
+      prefetchQuery: prefetchQuery(container, queryClient),
     });
 
     if (!httpResponse) {

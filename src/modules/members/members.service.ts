@@ -8,7 +8,7 @@ export class MembersService {
       searchParams.set('search', search);
     }
 
-    const response = await fetch(`/api/members?${searchParams}`);
+    const response = await fetch(`http://localhost:8000/api/members?${searchParams}`);
 
     if (!response.ok) {
       throw new Error('not ok');
@@ -20,7 +20,7 @@ export class MembersService {
   }
 
   async getMember(memberId: string): Promise<Member> {
-    const response = await fetch(`/api/members/${memberId}`);
+    const response = await fetch(`http://localhost:8000/api/members/${memberId}`);
 
     if (!response.ok) {
       throw new Error('not ok');

@@ -9,10 +9,16 @@ export const FRONT_TOKENS = {
   requestsService: token<RequestsService>('requestsService'),
 };
 
-const container = new Container();
+export const frontContainer = () => {
+  const container = new Container();
 
-container.bind(FRONT_TOKENS.membersService).toInstance(MembersService).inSingletonScope();
-container.bind(FRONT_TOKENS.requestsService).toInstance(RequestsService).inSingletonScope();
+  container.bind(FRONT_TOKENS.membersService).toInstance(MembersService).inSingletonScope();
+  container.bind(FRONT_TOKENS.requestsService).toInstance(RequestsService).inSingletonScope();
+
+  return [container, FRONT_TOKENS] as const;
+};
+
+export const [container] = frontContainer();
 
 type ContainerProviderProps = {
   children: React.ReactNode;
