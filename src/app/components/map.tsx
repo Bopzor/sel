@@ -38,7 +38,7 @@ const Map = ({ center, markers }: MapProps) => {
       center={center}
       zoom={13}
       style={{ height: '100%' }}
-      className="rounded outline-none"
+      className="rounded shadow outline-none"
     >
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
