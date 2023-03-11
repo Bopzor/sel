@@ -2,6 +2,8 @@ import ReactDOMServer from 'react-dom/server';
 import { dehydrate, Hydrate } from 'react-query';
 import { dangerouslySkipEscape, escapeInject } from 'vite-plugin-ssr';
 
+import { FRONT_TOKENS } from '../app/front-tokens';
+
 import { AppProviders } from './app-providers';
 import { Layout } from './layout/layout';
 import type { PageContextServer } from './types';
@@ -11,7 +13,7 @@ import '../api/initial-data';
 export const passToClient = ['pageProps', 'routeParams', 'dehydratedState'];
 
 export async function render(pageContext: PageContextServer) {
-  const { Page, pageProps, FRONT_TOKENS, queryClient, prefetchQuery } = pageContext;
+  const { Page, pageProps, queryClient, prefetchQuery } = pageContext;
 
   await prefetchQuery(FRONT_TOKENS.membersService, 'getMember', 'member01');
 

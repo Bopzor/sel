@@ -1,4 +1,4 @@
-import { Container, token } from 'brandi';
+import { token, Container } from 'brandi';
 import { ContainerProvider as BrandiContainerProvider } from 'brandi-react';
 
 import { MembersService } from '../modules/members/members.service';
@@ -9,16 +9,10 @@ export const FRONT_TOKENS = {
   requestsService: token<RequestsService>('requestsService'),
 };
 
-export const frontContainer = () => {
-  const container = new Container();
+export const container = new Container();
 
-  container.bind(FRONT_TOKENS.membersService).toInstance(MembersService).inSingletonScope();
-  container.bind(FRONT_TOKENS.requestsService).toInstance(RequestsService).inSingletonScope();
-
-  return [container, FRONT_TOKENS] as const;
-};
-
-export const [container] = frontContainer();
+container.bind(FRONT_TOKENS.membersService).toInstance(MembersService).inSingletonScope();
+container.bind(FRONT_TOKENS.requestsService).toInstance(RequestsService).inSingletonScope();
 
 type ContainerProviderProps = {
   children: React.ReactNode;

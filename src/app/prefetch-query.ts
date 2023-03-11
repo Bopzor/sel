@@ -1,7 +1,9 @@
-import { Container, Token } from 'brandi';
+import { Token } from 'brandi';
 import { QueryClient } from 'react-query';
 
 import { Methods } from '../utils/methods';
+
+import { container } from './front-tokens';
 
 export type PrefetchQuery = <
   Service,
@@ -14,7 +16,7 @@ export type PrefetchQuery = <
 ) => Promise<void>;
 
 export const prefetchQuery =
-  (container: Container, queryClient: QueryClient): PrefetchQuery =>
+  (queryClient: QueryClient): PrefetchQuery =>
   async (token, method, ...params) => {
     const service = container.get(token) as {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any

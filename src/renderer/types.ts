@@ -2,7 +2,6 @@ import { DehydratedState, QueryClient } from 'react-query';
 import type { PageContextBuiltIn } from 'vite-plugin-ssr';
 import type { PageContextBuiltInClient } from 'vite-plugin-ssr/client/router';
 
-import { FRONT_TOKENS } from '../app/front-tokens';
 import type { PrefetchQuery } from '../app/prefetch-query';
 
 type Page = (pageProps: PageProps) => React.ReactElement;
@@ -15,7 +14,6 @@ type PageContextCustom = {
 };
 
 type ServerContext = {
-  FRONT_TOKENS: typeof FRONT_TOKENS;
   queryClient: QueryClient;
   prefetchQuery: PrefetchQuery;
 };
