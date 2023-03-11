@@ -1,14 +1,15 @@
 import path from 'node:path';
 import url from 'node:url';
 
+import { MikroORM, RequestContext } from '@mikro-orm/core';
 import compression from 'compression';
-import dotenv from 'dotenv';
 import express, { ErrorRequestHandler, Router, type RequestHandler } from 'express';
 import { QueryClient } from 'react-query';
 import { renderPage } from 'vite-plugin-ssr';
 
-dotenv.config();
+import './api/env';
 
+import mikroOrmConfig from './api/persistence/mikro-orm.config';
 import { prefetchQuery } from './app/prefetch-query';
 import { yup } from './common/yup';
 import { router as membersRouter } from './modules/members/api/members.api';
@@ -28,6 +29,12 @@ void startServer();
 
 async function startServer() {
   const app = express();
+
+  const orm = await MikroORM.init(mikroOrmConfig);
+
+  app.use((req, res, next) => {
+    RequestContext.create(orm.em, next);
+  });
 
   app.use(compression());
 
