@@ -76,7 +76,7 @@ export const RequestInformation = ({ request, className }: RequestInformationPro
             <PhoneIcon className="h-1 w-1" /> {requester.phoneNumber}
           </a>
           <a
-            href="mailto:myself@domain.tld"
+            href={`mailto:${requester.email}`}
             className="row items-center gap-0.5 font-semibold hover:underline"
           >
             <EnvelopeIcon className="h-1 w-1" /> {requester.email}

@@ -49,7 +49,7 @@ const MemberProfile = ({ member }: MemberProfileProps) => (
         </LabelValue>
 
         <LabelValue label={<T>Email address</T>} icon={<EnvelopeIcon className="h-1 w-1" />}>
-          <a href="mailto:myself@domain.tld" className="hover:underline">
+          <a href={`mailto:${member.email}`} className="hover:underline">
             {member.email}
           </a>
         </LabelValue>
