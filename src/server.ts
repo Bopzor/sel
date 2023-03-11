@@ -2,9 +2,12 @@ import path from 'node:path';
 import url from 'node:url';
 
 import compression from 'compression';
+import dotenv from 'dotenv';
 import express, { ErrorRequestHandler, Router, type RequestHandler } from 'express';
 import { QueryClient } from 'react-query';
 import { renderPage } from 'vite-plugin-ssr';
+
+dotenv.config();
 
 import { prefetchQuery } from './app/prefetch-query';
 import { yup } from './common/yup';
@@ -16,8 +19,9 @@ import './api/initial-data';
 const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
 
 const prod = process.env.NODE_ENV === 'production';
-const host = process.env.HOST ?? 'localhost';
-const port = process.env.PORT ?? 8000;
+const host = process.env.HOST as string;
+const port = process.env.PORT as string;
+
 const root = path.resolve(__dirname, '..');
 
 void startServer();

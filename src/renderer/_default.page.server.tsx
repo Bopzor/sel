@@ -8,8 +8,6 @@ import { AppProviders } from './app-providers';
 import { Layout } from './layout/layout';
 import type { PageContextServer } from './types';
 
-import '../api/initial-data';
-
 export const passToClient = ['pageProps', 'routeParams', 'dehydratedState'];
 
 export async function render(pageContext: PageContextServer) {
