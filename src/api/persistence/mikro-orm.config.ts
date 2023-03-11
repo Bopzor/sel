@@ -8,13 +8,16 @@ import { TsMorphMetadataProvider } from '@mikro-orm/reflection';
 import '../env';
 
 import { SqlMemberEntity } from '../../modules/members/api/entities/sql-member.entity';
+import { SqlRequestEntity } from '../../modules/requests/api/entities/sql-request.entity';
 
 const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
+
+const entities = [SqlMemberEntity, SqlRequestEntity];
 
 export default defineConfig<PostgreSqlDriver>({
   metadataProvider: TsMorphMetadataProvider,
   type: 'postgresql',
-  entities: [SqlMemberEntity],
+  entities,
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,

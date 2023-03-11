@@ -7,7 +7,10 @@
     "build": "vite build",
     "start": "ts-node src/server",
     "test": "vitest",
-    "lint": "eslint src"
+    "lint": "eslint src",
+    "mikro-orm": "NODE_NO_WARNINGS=1 NODE_OPTIONS='--loader ts-node/esm' pnpm mikro-orm-esm",
+    "db:migrate": "pnpm mikro-orm migration:up",
+    "db:reset": "pnpm mikro-orm migration:fresh"
   },
   "dependencies": {
     "@fontsource/inter": "^4.5.15",
