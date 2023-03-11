@@ -26,6 +26,7 @@ specifiers:
   clsx: ^1.2.1
   compression: ^1.7.4
   crypto-js: ^4.1.1
+  dotenv: ^16.0.3
   eslint: ^8.34.0
   eslint-import-resolver-typescript: ^3.5.3
   eslint-plugin-import: npm:eslint-plugin-i@2.26.0-2
@@ -73,6 +74,7 @@ dependencies:
   clsx: 1.2.1
   compression: 1.7.4
   crypto-js: 4.1.1
+  dotenv: 16.0.3
   express: 5.0.0-beta.1
   i18next: 22.4.10
   leaflet: 1.9.3
@@ -1779,6 +1781,11 @@ packages:
   /dom-accessibility-api/0.5.16:
     resolution: {integrity: sha512-X7BJ2yElsnOJ30pZF4uIIDfBEVgF4XEBxL9Bxhy6dnrm5hkzqmsWHGTiHqRiITNhMyFLyAiWndIJP7Z1NTteDg==}
     dev: true
+
+  /dotenv/16.0.3:
+    resolution: {integrity: sha512-7GO6HghkA5fYG9TYnNxi14/7K9f5occMlp3zXAuSxn7CKCxt9xbNWG7yF8hTCSUchlfWSe3uLmlPfigevRItzQ==}
+    engines: {node: '>=12'}
+    dev: false
 
   /eastasianwidth/0.2.0:
     resolution: {integrity: sha512-I88TYZWc9XiYHRQ4/3c5rjjfgkjhLyW2luGIheGERbNQ6OY7yTybanSpDXZa8y7VUP9YmDcYa+eyq4ca7iLqWA==}
