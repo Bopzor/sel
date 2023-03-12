@@ -15,5 +15,6 @@ export default defineConfig({
     reporters: 'verbose',
     environment: 'happy-dom',
     setupFiles: 'src/vitest.setup.ts',
+    threads: false,
   },
 });

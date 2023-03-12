@@ -1,17 +1,16 @@
 import { injected } from 'brandi';
 
-import { TOKENS } from '../../../api/tokens';
-import { InMemoryRepository } from '../../../common/in-memory-repository';
-import { Member } from '../entities/member.entity';
-import { Member as MemberResult, transformMember } from '../index';
-import { GetMemberResult } from '../use-cases/get-member/get-member-result';
-
-import { MemberRepository } from './member.repository';
+import { transformMember } from '../..';
+import { TOKENS } from '../../../../api/tokens';
+import { InMemoryRepository } from '../../../../common/in-memory-repository';
+import { Member } from '../../entities/member.entity';
+import { GetMemberResult } from '../../use-cases/get-member/get-member-result';
+import { MemberRepository } from '../member.repository';
 
 export class InMemoryMemberRepository extends InMemoryRepository<Member> implements MemberRepository {
   protected entity = Member;
 
-  async listMembers(search?: string): Promise<MemberResult[]> {
+  async listMembers(search?: string): Promise<GetMemberResult[]> {
     const matchMember = (member: Member) => {
       if (!search) {
         return true;

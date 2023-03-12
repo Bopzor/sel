@@ -9,13 +9,15 @@ import { renderPage } from 'vite-plugin-ssr';
 
 import './api/env';
 
+import { container } from './api/container';
 import mikroOrmConfig from './api/persistence/mikro-orm.config';
+import { TOKENS } from './api/tokens';
 import { prefetchQuery } from './app/prefetch-query';
 import { yup } from './common/yup';
 import { router as membersRouter } from './modules/members/api/members.api';
 import { router as requestsRouter } from './modules/requests/api/requests.api';
 
-import './api/initial-data';
+Error.stackTraceLimit = Infinity;
 
 const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
 
@@ -29,12 +31,6 @@ void startServer();
 
 async function startServer() {
   const app = express();
-
-  const orm = await MikroORM.init(mikroOrmConfig);
-
-  app.use((req, res, next) => {
-    RequestContext.create(orm.em, next);
-  });
 
   app.use(compression());
 
@@ -77,7 +73,7 @@ async function startServer() {
     res.status(statusCode).type(contentType).send(body);
   };
 
-  app.use('/api', api());
+  app.use('/api', await api());
   app.get(/.*/, handleRequest);
 
   app.listen(Number(port), host, () => {
@@ -85,10 +81,17 @@ async function startServer() {
   });
 }
 
-const api = () => {
+const api = async () => {
+  const orm = await MikroORM.init(mikroOrmConfig);
   const router = Router();
 
   router.use(express.json());
+
+  container.bind(TOKENS.orm).toConstant(orm);
+
+  router.use((req, res, next) => {
+    RequestContext.create(orm.em, next);
+  });
 
   router.use('/members', membersRouter);
   router.use('/requests', requestsRouter);
@@ -109,10 +112,11 @@ const validationErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
   if (err instanceof yup.ValidationError) {
     res.status(400).json(err);
   } else {
-    next();
+    next(err);
   }
 };
 
 const fallbackErrorHandler: ErrorRequestHandler = (err, req, res, _next) => {
-  res.status(500).json(err);
+  console.error(err);
+  res.status(500).send(err.message);
 };

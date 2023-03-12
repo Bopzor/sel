@@ -2,7 +2,7 @@ import { InMemoryDatabase } from '../../../../app/in-memory-database';
 import { StubDateAdapter } from '../../../../common/ports/date/stub-date.adapter';
 import { StubEventPublisher } from '../../../../common/stub-event-publisher';
 import { Timestamp } from '../../../../common/timestamp.value-object';
-import { InMemoryRequestRepository } from '../../api/in-memory-request.repository';
+import { InMemoryRequestRepository } from '../../api/repositories/in-memory-request.repository';
 
 import { CreateRequestHandler, CreateRequestCommand, RequestCreatedEvent } from './create-request';
 

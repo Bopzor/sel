@@ -7,7 +7,7 @@ import { DomainError } from '../../../../common/ddd/domain-error';
 import { DomainEvent } from '../../../../common/ddd/domain-event';
 import { assertEntity } from '../../../../common/entity-not-found.error';
 import { DatePort } from '../../../../common/ports/date/date.port';
-import { RequestRepository } from '../../api/request.repository';
+import { RequestRepository } from '../../api/repositories/request.repository';
 import { Request } from '../../entities/request.entity';
 
 export type EditRequestCommand = {

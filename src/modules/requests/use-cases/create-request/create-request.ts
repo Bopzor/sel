@@ -5,7 +5,7 @@ import { CommandHandler } from '../../../../common/cqs/command-handler';
 import { EventPublisher } from '../../../../common/cqs/event-publisher';
 import { DomainEvent } from '../../../../common/ddd/domain-event';
 import { DatePort } from '../../../../common/ports/date/date.port';
-import { RequestRepository } from '../../api/request.repository';
+import { RequestRepository } from '../../api/repositories/request.repository';
 import { Request } from '../../entities/request.entity';
 
 export type CreateRequestCommand = {

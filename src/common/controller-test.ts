@@ -5,6 +5,9 @@ import { Token } from 'brandi';
 import express, { RequestHandler } from 'express';
 
 import { container } from '../api/container';
+import { TOKENS } from '../api/tokens';
+import { InMemoryMemberRepository } from '../modules/members/api/repositories/in-memory-member.repository';
+import { InMemoryRequestRepository } from '../modules/requests/api/repositories/in-memory-request.repository';
 
 import { CommandHandler } from './cqs/command-handler';
 import { QueryHandler } from './cqs/query-handler';
@@ -13,7 +16,10 @@ export class ControllerTest {
   app = express();
   server?: Server;
 
-  constructor(private middleware: RequestHandler) {}
+  constructor(private middleware: RequestHandler) {
+    container.bind(TOKENS.memberRepository).toInstance(InMemoryMemberRepository).inSingletonScope();
+    container.bind(TOKENS.requestRepository).toInstance(InMemoryRequestRepository).inSingletonScope();
+  }
 
   async init() {
     container.capture?.();
