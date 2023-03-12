@@ -3,14 +3,14 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "pnpm start",
+    "dev": "yarn start",
     "build": "vite build",
     "start": "ts-node src/server",
     "test": "vitest",
     "lint": "eslint src",
-    "mikro-orm": "NODE_NO_WARNINGS=1 NODE_OPTIONS='--loader ts-node/esm' pnpm mikro-orm-esm",
-    "db:migrate": "pnpm mikro-orm migration:up",
-    "db:reset": "pnpm mikro-orm migration:fresh"
+    "mikro-orm": "NODE_NO_WARNINGS=1 NODE_OPTIONS='--loader ts-node/esm' yarn mikro-orm-esm",
+    "db:migrate": "yarn mikro-orm migration:up",
+    "db:reset": "yarn mikro-orm migration:fresh"
   },
   "dependencies": {
     "@fontsource/inter": "^4.5.15",
@@ -78,7 +78,7 @@
     "tough-cookie": "^4.1.2",
     "vitest": "^0.28.5"
   },
-  "packageManager": "pnpm@7.29.1",
+  "packageManager": "yarn@1.22.19",
   "mikro-orm": {
     "useTsNode": true,
     "configPaths": [

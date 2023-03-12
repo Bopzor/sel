@@ -1,13 +1,12 @@
 name: setup
-description: install pnpm, node and project dependencies
+description: install yarn, node and project dependencies
 
 runs:
   using: composite
   steps:
-    - uses: pnpm/action-setup@v2
     - uses: actions/setup-node@v3
       with:
         node-version: 18
-        cache: pnpm
-    - run: pnpm install --frozen-lockfile
+        cache: yarn
+    - run: yarn install --frozen-lockfile
       shell: sh

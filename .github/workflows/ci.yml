@@ -11,7 +11,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: ./.github/actions/setup
-      - run: pnpm lint
+      - run: yarn lint
 
   typechecking:
     name: Typechecking
@@ -19,7 +19,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: ./.github/actions/setup
-      - run: pnpm tsc
+      - run: yarn tsc
 
   tests:
     name: Tests
@@ -38,7 +38,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: ./.github/actions/setup
-      - run: pnpm test
+      - run: yarn test
         env:
           DB_HOST: database
           DB_USER: postgres
