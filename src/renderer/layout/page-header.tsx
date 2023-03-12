@@ -25,7 +25,7 @@ export const PageHeader = () => (
 );
 
 const AuthenticatedMemberAvatarName = () => {
-  const [member, { loading, error }] = useQuery(FRONT_TOKENS.membersService, 'getMember', 'member01');
+  const [member, { loading, error }] = useQuery(FRONT_TOKENS.authenticationService, 'getAuthenticatedMember');
 
   if (error) {
     throw error;

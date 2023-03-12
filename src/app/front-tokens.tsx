@@ -1,6 +1,7 @@
 import { Container, token } from 'brandi';
 import { ContainerProvider as BrandiContainerProvider } from 'brandi-react';
 
+import { AuthenticationService } from '../modules/authentication/authentication.service';
 import { MembersService } from '../modules/members/members.service';
 import { RequestsService } from '../modules/requests/requests.service';
 
@@ -11,6 +12,7 @@ declare global {
 }
 
 const createTokens = () => ({
+  authenticationService: token<AuthenticationService>('authenticationService'),
   membersService: token<MembersService>('membersService'),
   requestsService: token<RequestsService>('requestsService'),
 });
@@ -21,6 +23,7 @@ globalThis.__FRONT_TOKENS ??= FRONT_TOKENS;
 export const container = globalThis.__container ?? new Container();
 globalThis.__container ??= container;
 
+container.bind(FRONT_TOKENS.authenticationService).toInstance(AuthenticationService).inSingletonScope();
 container.bind(FRONT_TOKENS.membersService).toInstance(MembersService).inSingletonScope();
 container.bind(FRONT_TOKENS.requestsService).toInstance(RequestsService).inSingletonScope();
 
