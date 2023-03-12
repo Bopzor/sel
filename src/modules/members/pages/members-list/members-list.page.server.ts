@@ -1,6 +1,6 @@
 import { FRONT_TOKENS } from '../../../../app/front-tokens';
-import { PageContextServer } from '../../../../renderer/types';
+import { ssr } from '../../../../app/prefetch-query';
 
-export const onBeforeRender = async ({ prefetchQuery }: PageContextServer) => {
-  await prefetchQuery(FRONT_TOKENS.membersService, 'listMembers', '');
-};
+export const onBeforeRender = ssr(async (prefetch) => {
+  await prefetch(FRONT_TOKENS.membersService, 'listMembers', '');
+});

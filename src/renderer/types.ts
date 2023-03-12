@@ -2,8 +2,6 @@ import { DehydratedState, QueryClient } from 'react-query';
 import type { PageContextBuiltIn } from 'vite-plugin-ssr';
 import type { PageContextBuiltInClient } from 'vite-plugin-ssr/client/router';
 
-import type { PrefetchQuery } from '../app/prefetch-query';
-
 type Page = (pageProps: PageProps) => React.ReactElement;
 type PageProps = object;
 
@@ -14,8 +12,8 @@ type PageContextCustom = {
 };
 
 type ServerContext = {
+  cookie?: string;
   queryClient: QueryClient;
-  prefetchQuery: PrefetchQuery;
 };
 
 type ClientContext = {

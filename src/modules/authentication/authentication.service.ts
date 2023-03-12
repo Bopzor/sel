@@ -1,8 +1,18 @@
+import { injected } from 'brandi';
+
+import { FRONT_TOKENS } from '../../app/front-tokens';
+import { HttpClient } from '../../app/http-client';
 import { Member } from '../members';
 
 export class AuthenticationService {
-  async getAuthenticatedMember(): Promise<Member> {
-    const response = await fetch('http://localhost:8000/api/auth/me');
+  constructor(private readonly http: HttpClient) {}
+
+  async getAuthenticatedMember(): Promise<Member | undefined> {
+    const response = await this.http.get('/api/auth/me');
+
+    if (response.status === 401) {
+      return;
+    }
 
     if (!response.ok) {
       throw new Error('not ok');
@@ -14,16 +24,12 @@ export class AuthenticationService {
   }
 
   async login(memberId: string): Promise<void> {
-    const response = await fetch('http://localhost:8000/api/auth/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ memberId }),
-    });
+    const response = await this.http.post('/api/auth/login', { memberId });
 
     if (!response.ok) {
       throw new Error('not ok');
     }
   }
 }
+
+injected(AuthenticationService, FRONT_TOKENS.httpClient);
