@@ -21,7 +21,7 @@ describe('members api', () => {
       return [createGetMemberResult({ id: 'memberId' })];
     });
 
-    const response = await test.fetch('/');
+    const response = await test.agent.get('/');
 
     expect(await response.json()).toEqual([expect.objectContaining({ id: 'memberId' })]);
   });
@@ -31,7 +31,7 @@ describe('members api', () => {
 
     test.overrideQueryHandler(TOKENS.listMembersHandler, handle);
 
-    await test.fetch('/?search=toto');
+    await test.agent.get('/?search=toto');
 
     expect(handle).toHaveBeenCalledWith({ search: 'toto' });
   });
@@ -41,13 +41,13 @@ describe('members api', () => {
       return createGetMemberResult({ id: 'memberId' });
     });
 
-    const response = await test.fetch('/memberId');
+    const response = await test.agent.get('/memberId');
 
     expect(await response.json()).toEqual(expect.objectContaining({ id: 'memberId' }));
   });
 
   it('returns a 404 status code when the member does not exist', async () => {
-    const response = await test.fetch('/memberId');
+    const response = await test.agent.get('/memberId');
 
     expect(response.status).toEqual(404);
   });

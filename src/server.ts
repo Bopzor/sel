@@ -11,9 +11,11 @@ import './api/env';
 
 import { container } from './api/container';
 import mikroOrmConfig from './api/persistence/mikro-orm.config';
+import { sessionMiddleware } from './api/session-middleware';
 import { TOKENS } from './api/tokens';
 import { prefetchQuery } from './app/prefetch-query';
 import { yup } from './common/yup';
+import { router as authRouter } from './modules/authentication/authentication.controller';
 import { router as membersRouter } from './modules/members/api/members.api';
 import { router as requestsRouter } from './modules/requests/api/requests.api';
 
@@ -33,6 +35,7 @@ async function startServer() {
   const app = express();
 
   app.use(compression());
+  app.use(sessionMiddleware);
 
   if (prod) {
     app.use(express.static(path.join(root, 'dist', 'client')));
@@ -93,6 +96,7 @@ const api = async () => {
     RequestContext.create(orm.em, next);
   });
 
+  router.use('/auth', authRouter);
   router.use('/members', membersRouter);
   router.use('/requests', requestsRouter);
 

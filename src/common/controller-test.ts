@@ -1,20 +1,21 @@
-import { Server } from 'node:http';
-import { AddressInfo } from 'node:net';
-
 import { Token } from 'brandi';
-import express, { RequestHandler } from 'express';
+import express, { ErrorRequestHandler, RequestHandler } from 'express';
 
 import { container } from '../api/container';
+import { sessionMiddleware } from '../api/session-middleware';
 import { TOKENS } from '../api/tokens';
 import { InMemoryMemberRepository } from '../modules/members/api/repositories/in-memory-member.repository';
 import { InMemoryRequestRepository } from '../modules/requests/api/repositories/in-memory-request.repository';
 
 import { CommandHandler } from './cqs/command-handler';
 import { QueryHandler } from './cqs/query-handler';
+import { FetchAgent } from './fetch-agent';
 
 export class ControllerTest {
   app = express();
-  server?: Server;
+  agent = new FetchAgent(this.app);
+
+  logError = true;
 
   constructor(private middleware: RequestHandler) {
     container.bind(TOKENS.memberRepository).toInstance(InMemoryMemberRepository).inSingletonScope();
@@ -25,29 +26,24 @@ export class ControllerTest {
     container.capture?.();
 
     this.app.use(express.json());
+    this.app.use(sessionMiddleware);
+
     this.app.use(this.middleware);
 
-    await new Promise<void>((resolve) => {
-      this.server = this.app.listen(resolve);
-    });
+    const errorHandler: ErrorRequestHandler = (err, req, res, _next) => {
+      if (this.logError) {
+        console.error(err);
+      }
+
+      res.status(500).send(err.message);
+    };
+
+    this.app.use(errorHandler);
   }
 
   async cleanup() {
-    await new Promise<void>((resolve, reject) => {
-      this.server?.close((err) => (err ? reject(err) : resolve()));
-    });
-
+    await this.agent.closeServer();
     container.restore?.();
-  }
-
-  get baseUrl() {
-    const addr = this.server?.address() as AddressInfo;
-
-    return `http://localhost:${addr.port}`;
-  }
-
-  fetch(url: string, opts?: RequestInit) {
-    return fetch(this.baseUrl + url, opts);
   }
 
   overrideCommandHandler(token: Token<CommandHandler<unknown>>, handle: () => void) {

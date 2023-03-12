@@ -22,7 +22,7 @@ describe('requests api', () => {
         return [createGetRequestResult({ id: 'requestId' })];
       });
 
-      const response = await test.fetch('/');
+      const response = await test.agent.get('/');
 
       expect(await response.json()).toEqual([expect.objectContaining({ id: 'requestId' })]);
     });
@@ -32,7 +32,7 @@ describe('requests api', () => {
 
       test.overrideQueryHandler(TOKENS.listRequestsHandler, handle);
 
-      await test.fetch('/?search=toto');
+      await test.agent.get('/?search=toto');
 
       expect(handle).toHaveBeenCalledWith({ search: 'toto' });
     });
@@ -44,13 +44,13 @@ describe('requests api', () => {
         return createGetRequestResult({ id: 'requestId' });
       });
 
-      const response = await test.fetch('/requestId');
+      const response = await test.agent.get('/requestId');
 
       expect(await response.json()).toEqual(expect.objectContaining({ id: 'requestId' }));
     });
 
     it('returns a 404 status code when the request does not exist', async () => {
-      const response = await test.fetch('/requestId');
+      const response = await test.agent.get('/requestId');
 
       expect(response.status).toEqual(404);
     });
@@ -62,14 +62,10 @@ describe('requests api', () => {
 
       test.overrideCommandHandler(TOKENS.createRequestHandler, createRequest);
 
-      await test.fetch('/', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          id: 'requestId',
-          title: 'title',
-          description: 'description',
-        }),
+      await test.agent.post('/', {
+        id: 'requestId',
+        title: 'title',
+        description: 'description',
       });
 
       expect(createRequest).toHaveBeenCalledWith({
@@ -87,13 +83,9 @@ describe('requests api', () => {
 
       test.overrideCommandHandler(TOKENS.editRequestHandler, editRequest);
 
-      await test.fetch('/requestId', {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          title: 'title',
-          description: 'description',
-        }),
+      await test.agent.put('/requestId', {
+        title: 'title',
+        description: 'description',
       });
 
       expect(editRequest).toHaveBeenCalledWith({
