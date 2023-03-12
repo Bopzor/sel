@@ -455,7 +455,10 @@ const requests = [
 main().catch(console.error);
 
 async function main() {
-  const orm = await MikroORM.init(mikroOrmConfig);
+  const orm = await MikroORM.init({
+    ...mikroOrmConfig,
+    allowGlobalContext: true,
+  });
 
   container.bind(TOKENS.orm).toConstant(orm);
 

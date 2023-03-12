@@ -25,5 +25,11 @@ export default defineConfig<PostgreSqlDriver>({
   cache: { enabled: false },
   migrations: {
     path: path.resolve(__dirname, 'migrations'),
+    disableForeignKeys: false,
+  },
+  driverOptions: {
+    connection: {
+      ssl: process.env.NODE_ENV === 'production',
+    },
   },
 });
