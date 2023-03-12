@@ -58,6 +58,10 @@ void startServer();
 async function startServer() {
   const app = express();
 
+  if (prod) {
+    app.set('trust proxy', 1);
+  }
+
   app.use(compression());
   app.use(sessionMiddleware);
 
