@@ -6,8 +6,8 @@ import { RequestsService } from '../modules/requests/requests.service';
 
 /* eslint-disable no-var */
 declare global {
-  var FRONT_TOKENS: ReturnType<typeof createTokens>;
-  var container: Container;
+  var __FRONT_TOKENS: ReturnType<typeof createTokens>;
+  var __container: Container;
 }
 
 const createTokens = () => ({
@@ -15,11 +15,11 @@ const createTokens = () => ({
   requestsService: token<RequestsService>('requestsService'),
 });
 
-export const FRONT_TOKENS = globalThis.FRONT_TOKENS ?? createTokens();
-globalThis.FRONT_TOKENS ??= FRONT_TOKENS;
+export const FRONT_TOKENS = globalThis.__FRONT_TOKENS ?? createTokens();
+globalThis.__FRONT_TOKENS ??= FRONT_TOKENS;
 
-export const container = globalThis.container ?? new Container();
-globalThis.container ??= container;
+export const container = globalThis.__container ?? new Container();
+globalThis.__container ??= container;
 
 container.bind(FRONT_TOKENS.membersService).toInstance(MembersService).inSingletonScope();
 container.bind(FRONT_TOKENS.requestsService).toInstance(RequestsService).inSingletonScope();

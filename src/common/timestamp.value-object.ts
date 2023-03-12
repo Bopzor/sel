@@ -1,8 +1,8 @@
 import { ValueObject } from './ddd/value-object';
 
 export class Timestamp extends ValueObject<number> {
-  static from(dateStr: string) {
-    return new Timestamp(new Date(dateStr).getTime());
+  static from(value: string | Date) {
+    return new Timestamp(new Date(value).getTime());
   }
 
   toString() {

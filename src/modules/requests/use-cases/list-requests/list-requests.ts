@@ -2,7 +2,7 @@ import { injected } from 'brandi';
 
 import { TOKENS } from '../../../../api/tokens';
 import { QueryHandler } from '../../../../common/cqs/query-handler';
-import { RequestRepository } from '../../api/request.repository';
+import { RequestRepository } from '../../api/repositories/request.repository';
 import { GetRequestResult } from '../get-request/get-request-result';
 
 export type ListRequestsQuery = {
