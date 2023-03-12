@@ -5,6 +5,7 @@ import { MikroORM, RequestContext } from '@mikro-orm/core';
 import compression from 'compression';
 import express, { ErrorRequestHandler, Router, type RequestHandler } from 'express';
 import { QueryClient } from 'react-query';
+import * as vite from 'vite';
 import { renderPage } from 'vite-plugin-ssr';
 
 import './api/env';
@@ -13,7 +14,6 @@ import { container } from './api/container';
 import mikroOrmConfig from './api/persistence/mikro-orm.config';
 import { sessionMiddleware } from './api/session-middleware';
 import { TOKENS } from './api/tokens';
-import { prefetchQuery } from './app/prefetch-query';
 import { yup } from './common/yup';
 import { router as authRouter } from './modules/authentication/authentication.controller';
 import { router as membersRouter } from './modules/members/api/members.api';
@@ -28,61 +28,6 @@ const host = process.env.HOST as string;
 const port = process.env.PORT as string;
 
 const root = path.resolve(__dirname, '..');
-
-void startServer();
-
-async function startServer() {
-  const app = express();
-
-  app.use(compression());
-  app.use(sessionMiddleware);
-
-  if (prod) {
-    app.use(express.static(path.join(root, 'dist', 'client')));
-  } else {
-    const vite = await import('vite');
-    const viteDevServer = await vite.createServer({
-      root,
-      server: { middlewareMode: true },
-      build: {
-        sourcemap: true,
-      },
-    });
-
-    app.use(viteDevServer.middlewares);
-  }
-
-  // eslint-disable-next-line @typescript-eslint/no-misused-promises
-  const handleRequest: RequestHandler = async (req, res, next) => {
-    const queryClient = new QueryClient();
-
-    const { httpResponse } = await renderPage({
-      urlOriginal: req.originalUrl,
-      headers: req.headers,
-      queryClient,
-      prefetchQuery: prefetchQuery(queryClient),
-    });
-
-    if (!httpResponse) {
-      return next();
-    }
-
-    const { body, statusCode, contentType, earlyHints } = httpResponse;
-
-    res.writeEarlyHints?.({
-      link: earlyHints.map((e) => e.earlyHintLink),
-    });
-
-    res.status(statusCode).type(contentType).send(body);
-  };
-
-  app.use('/api', await api());
-  app.get(/.*/, handleRequest);
-
-  app.listen(Number(port), host, () => {
-    console.log(`Server running at http://${host}:${port}`);
-  });
-}
 
 const api = async () => {
   const orm = await MikroORM.init(mikroOrmConfig);
@@ -107,6 +52,59 @@ const api = async () => {
 
   return router;
 };
+
+void startServer();
+
+async function startServer() {
+  const app = express();
+
+  app.use(compression());
+  app.use(sessionMiddleware);
+
+  if (prod) {
+    app.use(express.static(path.join(root, 'dist', 'client')));
+  } else {
+    const viteDevServer = await vite.createServer({
+      root,
+      server: { middlewareMode: true },
+      build: {
+        sourcemap: true,
+      },
+    });
+
+    app.use(viteDevServer.middlewares);
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-misused-promises
+  const handleRequest: RequestHandler = async (req, res, next) => {
+    const queryClient = new QueryClient();
+
+    const { httpResponse } = await renderPage({
+      urlOriginal: req.originalUrl,
+      cookie: req.headers.cookie,
+      queryClient,
+    });
+
+    if (!httpResponse) {
+      return next();
+    }
+
+    const { body, statusCode, contentType, earlyHints } = httpResponse;
+
+    res.writeEarlyHints?.({
+      link: earlyHints.map((e) => e.earlyHintLink),
+    });
+
+    res.status(statusCode).type(contentType).send(body);
+  };
+
+  app.use('/api', await api());
+  app.get(/.*/, handleRequest);
+
+  app.listen(Number(port), host, () => {
+    console.log(`Server running at http://${host}:${port}`);
+  });
+}
 
 const apiEndpointNotFoundHandler: RequestHandler = (req, res, _next) => {
   res.status(404).end();

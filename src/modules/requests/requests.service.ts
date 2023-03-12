@@ -1,9 +1,16 @@
+import { injected } from 'brandi';
+
+import { FRONT_TOKENS } from '../../app/front-tokens';
+import { HttpClient } from '../../app/http-client';
+
 import { CreateRequestBody } from './shared/create-request-body.schema';
 import { EditRequestBody } from './shared/edit-request-body.schema';
 
 import { Request } from './index';
 
 export class RequestsService {
+  constructor(private readonly http: HttpClient) {}
+
   async listRequests(search?: string): Promise<Request[]> {
     const searchParams = new URLSearchParams();
 
@@ -11,7 +18,7 @@ export class RequestsService {
       searchParams.set('search', search);
     }
 
-    const response = await fetch(`http://localhost:8000/api/requests?${searchParams}`);
+    const response = await this.http.get(`/api/requests?${searchParams}`);
 
     if (!response.ok) {
       throw new Error('not ok');
@@ -23,7 +30,7 @@ export class RequestsService {
   }
 
   async getRequest(requestId: string): Promise<Request> {
-    const response = await fetch(`http://localhost:8000/api/requests/${requestId}`);
+    const response = await this.http.get(`/api/requests/${requestId}`);
 
     if (!response.ok) {
       throw new Error('not ok');
@@ -35,22 +42,12 @@ export class RequestsService {
   }
 
   async createRequest(request: CreateRequestBody) {
-    await fetch('http://localhost:8000/api/requests', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(request),
-    });
+    await this.http.post('/api/requests', request);
   }
 
   async editRequest(requestId: string, request: EditRequestBody) {
-    await fetch(`http://localhost:8000/api/requests/${requestId}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(request),
-    });
+    await this.http.put(`/api/requests/${requestId}`, request);
   }
 }
+
+injected(RequestsService, FRONT_TOKENS.httpClient);

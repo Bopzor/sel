@@ -44,3 +44,4 @@ jobs:
           DB_USER: postgres
           DB_PASSWORD: postgres
           DB_NAME: postgres
+          SESSION_SECRET: secret

@@ -1,8 +1,8 @@
 import { FRONT_TOKENS } from '../../../../app/front-tokens';
-import { PageContextServer } from '../../../../renderer/types';
+import { ssr } from '../../../../app/prefetch-query';
 
-export const onBeforeRender = async ({ routeParams, prefetchQuery }: PageContextServer) => {
+export const onBeforeRender = ssr(async (prefetch, { routeParams }) => {
   const memberId = routeParams.memberId;
 
-  await prefetchQuery(FRONT_TOKENS.membersService, 'getMember', memberId);
-};
+  await prefetch(FRONT_TOKENS.membersService, 'getMember', memberId);
+});

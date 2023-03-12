@@ -2,7 +2,7 @@ import { useRef } from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 
-import { ContainerProvider } from '../app/front-tokens';
+import { ContainerProvider } from '../app/container';
 
 import { PageContextProvider } from './page-context';
 import { PageContext } from './types';

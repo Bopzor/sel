@@ -1,6 +1,13 @@
+import { injected } from 'brandi';
+
+import { FRONT_TOKENS } from '../../app/front-tokens';
+import { HttpClient } from '../../app/http-client';
+
 import { Member } from './index';
 
 export class MembersService {
+  constructor(private readonly http: HttpClient) {}
+
   async listMembers(search?: string): Promise<Member[]> {
     const searchParams = new URLSearchParams();
 
@@ -8,7 +15,7 @@ export class MembersService {
       searchParams.set('search', search);
     }
 
-    const response = await fetch(`http://localhost:8000/api/members?${searchParams}`);
+    const response = await this.http.get(`/api/members?${searchParams}`);
 
     if (!response.ok) {
       throw new Error('not ok');
@@ -20,7 +27,7 @@ export class MembersService {
   }
 
   async getMember(memberId: string): Promise<Member> {
-    const response = await fetch(`http://localhost:8000/api/members/${memberId}`);
+    const response = await this.http.get(`/api/members/${memberId}`);
 
     if (!response.ok) {
       throw new Error('not ok');
@@ -31,3 +38,5 @@ export class MembersService {
     return member;
   }
 }
+
+injected(MembersService, FRONT_TOKENS.httpClient);
