@@ -28,6 +28,11 @@ export class ControllerTest {
     this.app.use(express.json());
     this.app.use(sessionMiddleware);
 
+    this.app.post('/set-member-id', (req, res, next) => {
+      req.session.memberId = req.body.memberId;
+      next();
+    });
+
     this.app.use(this.middleware);
 
     const errorHandler: ErrorRequestHandler = (err, req, res, _next) => {
@@ -44,6 +49,14 @@ export class ControllerTest {
   async cleanup() {
     await this.agent.closeServer();
     container.restore?.();
+  }
+
+  async as(memberId: string) {
+    const agent = new FetchAgent(this.app);
+
+    await agent.post('/set-member-id', { memberId });
+
+    return agent;
   }
 
   overrideCommandHandler(token: Token<CommandHandler<unknown>>, handle: () => void) {
