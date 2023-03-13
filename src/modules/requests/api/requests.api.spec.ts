@@ -62,7 +62,9 @@ describe('requests api', () => {
 
       test.overrideCommandHandler(TOKENS.createRequestHandler, createRequest);
 
-      await test.agent.post('/', {
+      const agent = await test.as('requesterId');
+
+      await agent.post('/', {
         id: 'requestId',
         title: 'title',
         description: 'description',
@@ -70,7 +72,7 @@ describe('requests api', () => {
 
       expect(createRequest).toHaveBeenCalledWith({
         id: 'requestId',
-        requesterId: 'member01',
+        requesterId: 'requesterId',
         title: 'title',
         description: 'description',
       });

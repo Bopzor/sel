@@ -4,6 +4,7 @@ import { Router } from 'express';
 
 import { container } from '../../../api/container';
 import { TOKENS } from '../../../api/tokens';
+import { assert } from '../../../utils/assert';
 import { createRequestBody } from '../shared/create-request-body.schema';
 import { editRequestBody } from '../shared/edit-request-body.schema';
 import { ListRequestsQuery } from '../use-cases/list-requests/list-requests';
@@ -42,8 +43,11 @@ router.post('/', async (req, res) => {
   const command = await createRequestBody.validate(req.body, { abortEarly: false });
   const handler = container.get(TOKENS.createRequestHandler);
 
+  const memberId = req.session.memberId;
+  assert(memberId, 'request must be authenticated');
+
   await handler.handle({
-    requesterId: 'member01',
+    requesterId: memberId,
     ...command,
   });
 
