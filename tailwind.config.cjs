@@ -3,7 +3,7 @@ const colors = require('tailwindcss/colors');
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ['src/**/*.tsx'],
-  plugins: [require('@tailwindcss/line-clamp')],
+  plugins: [require('@tailwindcss/line-clamp'), require('@tailwindcss/typography')],
 
   theme: {
     spacing: {
@@ -16,6 +16,7 @@ module.exports = {
       4: '4rem',
     },
     maxWidth: {
+      none: 'none',
       page: '85rem',
     },
 
@@ -37,6 +38,7 @@ module.exports = {
       muted: '#121212BB',
       red: colors.red[500],
       green: colors.green[700],
+      icon: colors.gray[600],
     },
     borderColor: {
       DEFAULT: colors.gray[200],
@@ -59,6 +61,7 @@ module.exports = {
     },
 
     borderRadius: {
+      xs: '0.25rem',
       DEFAULT: '0.5rem',
       lg: '1rem',
       full: '9999px',

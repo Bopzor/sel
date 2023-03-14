@@ -2,6 +2,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 
 import { Button } from '../../../app/components/button';
+import { Editor } from '../../../app/components/editor';
 import { FormControl } from '../../../app/components/form-control';
 import { Input } from '../../../app/components/input';
 import { Translation, useTranslate } from '../../../app/i18n.context';
@@ -25,7 +26,7 @@ type RequestFormProps = {
 export const RequestForm = ({ initialValues, submitButtonLabel, onSubmit }: RequestFormProps) => {
   const t = useTranslate('requests');
 
-  const { register, handleSubmit, formState } = useForm<RequestFormShape>({
+  const { register, setValue, handleSubmit, formState } = useForm<RequestFormShape>({
     defaultValues: initialValues,
     resolver: yupResolver(requestFormSchema),
   });
@@ -46,11 +47,10 @@ export const RequestForm = ({ initialValues, submitButtonLabel, onSubmit }: Requ
         errorLabel={t('requestForm.description')}
         error={formState.errors.description}
       >
-        <textarea
-          placeholder={t('I am looking for...')}
-          className="resize-y rounded p-1 outline-none focus:shadow"
-          rows={4}
-          {...register('description')}
+        <Editor
+          initialHtml={initialValues?.description}
+          placeholder={t('requests')}
+          onChange={(html) => setValue('description', html)}
         />
       </FormControl>
 

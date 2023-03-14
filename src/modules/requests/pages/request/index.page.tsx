@@ -35,9 +35,10 @@ type RequestComponentProps = {
 const RequestComponent = ({ request }: RequestComponentProps) => (
   <div className="row gap-2">
     <div className="col flex-1 gap-2">
-      <div className="card col gap-1 p-2">
-        <strong className="text-muted">{request.title}</strong>
-        <p>{request.description}</p>
+      <div className="card col gap-2 p-2">
+        <strong className="border-b pb-1 text-xl text-muted">{request.title}</strong>
+        {/* todo: sanitize input */}
+        <div dangerouslySetInnerHTML={{ __html: request.description }} className="prose max-w-none" />
       </div>
 
       <div className="col gap-2 md:hidden">

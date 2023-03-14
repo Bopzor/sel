@@ -17,10 +17,14 @@ export const RequestItemCard = ({ request }: RequestItemCardProps) => {
         <MemberAvatarName inline size="small" member={requester} />
 
         {/* eslint-disable-next-line tailwindcss/no-arbitrary-value */}
-        <strong className="pt-[4px] text-muted">{request.title}</strong>
+        <strong className="pt-[4px] text-lg text-muted">{request.title}</strong>
       </div>
 
-      <p className="line-clamp-3">{request.description}</p>
+      <div
+        // todo: sanitize input
+        dangerouslySetInnerHTML={{ __html: request.description }}
+        className="prose max-w-none line-clamp-4"
+      />
 
       <div title={formatDateFull(request.creationDate)} className="self-start text-sm text-muted">
         {formatDate(request.creationDate)}
