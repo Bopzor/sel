@@ -6,6 +6,10 @@ module.exports = {
   plugins: [require('@tailwindcss/line-clamp'), require('@tailwindcss/typography')],
 
   theme: {
+    screens: {
+      md: '768px',
+    },
+
     spacing: {
       0: 0,
       0.5: '0.5rem',
@@ -32,6 +36,7 @@ module.exports = {
       green: colors.green[600],
     },
     textColor: {
+      inherit: 'inherit',
       neutral: '#121212',
       inverted: '#FFFFFF',
       white: '#FFFFFF',

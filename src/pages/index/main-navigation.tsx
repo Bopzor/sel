@@ -3,26 +3,37 @@ import clsx from 'clsx';
 import { Translation } from '../../app/i18n.context';
 
 const T = Translation.create('home');
+const TLayout = Translation.create('layout');
 
 export const MainNavigation = () => (
   <nav className="my-2 grid grid-cols-1 gap-2 md:grid-cols-2">
     <Section
       href="/demandes"
       className="bg-requests"
-      title={<T>Requests</T>}
+      title={<TLayout>Requests</TLayout>}
       description={<T>View the list of pending requests</T>}
     />
 
-    <Section href="/" className="bg-events" title={<T>Events</T>} description={<T>Workshops, ...</T>} />
+    <Section
+      href="/"
+      className="bg-events"
+      title={<TLayout>Events</TLayout>}
+      description={<T>Workshops, ...</T>}
+    />
 
     <Section
       href="/membres"
       className="bg-members"
-      title={<T>Members</T>}
+      title={<TLayout>Members</TLayout>}
       description={<T>Your LTS's members</T>}
     />
 
-    <Section href="/" className="bg-tools" title={<T>Tools</T>} description={<T>Giving a lending tools</T>} />
+    <Section
+      href="/"
+      className="bg-tools"
+      title={<TLayout>Tools</TLayout>}
+      description={<T>Giving a lending tools</T>}
+    />
   </nav>
 );
 

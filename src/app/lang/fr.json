@@ -9,7 +9,11 @@
     }
   },
   "layout": {
-    "Local trading system": "Système d'échange local"
+    "Local trading system": "Système d'échange local",
+    "Requests": "Demandes",
+    "Events": "Événements",
+    "Members": "Membres",
+    "Tools": "Matériel"
   },
   "home": {
     "Requests": "Demandes",

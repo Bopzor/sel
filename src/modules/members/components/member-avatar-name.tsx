@@ -17,6 +17,6 @@ export const MemberAvatarName = ({ className, inline, size, member }: MemberAvat
       src={gravatarUrl(member.email)}
       alt="member"
     />
-    <span className="font-medium">{member.fullName}</span>
+    <span className="text-center font-medium">{member.fullName}</span>
   </div>
 );
