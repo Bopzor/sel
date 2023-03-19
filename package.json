@@ -4,7 +4,8 @@
   "type": "module",
   "scripts": {
     "dev": "yarn start",
-    "build": "vite build",
+    "build": "vite build && yarn copy-assets",
+    "copy-assets": "cp -r node_modules/leaflet/dist/images/marker-*.png dist/client",
     "start": "ts-node src/server",
     "test": "vitest",
     "lint": "eslint src",
