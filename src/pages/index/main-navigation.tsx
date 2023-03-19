@@ -15,7 +15,7 @@ export const MainNavigation = () => (
     />
 
     <Section
-      href="/"
+      href="/événements"
       className="bg-events"
       title={<TLayout>Events</TLayout>}
       description={<T>Workshops, ...</T>}

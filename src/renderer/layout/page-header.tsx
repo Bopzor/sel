@@ -1,10 +1,10 @@
-import { LinkButton } from '../../app/components/button';
 import { FRONT_TOKENS } from '../../app/front-tokens';
 import { useQuery } from '../../app/hooks/use-query';
 import { Translation } from '../../app/i18n.context';
 import { MemberAvatarName } from '../../modules/members/components/member-avatar-name';
 import { usePathname } from '../page-context';
 
+import { Navigation } from './header-navigation';
 import logo from './logo.png';
 
 const T = Translation.create('layout');
@@ -36,23 +36,3 @@ export const PageHeader = () => {
     </header>
   );
 };
-
-const Navigation = () => (
-  <nav className="mt-1 grid grid-cols-2 gap-1 text-neutral md:ml-auto md:max-w-[48rem] md:grid-cols-4">
-    <LinkButton href="/demandes" className="!inline-block !bg-requests text-center !text-inherit">
-      <T>Requests</T>
-    </LinkButton>
-
-    <LinkButton href="#" className="!inline-block !bg-events text-center !text-inherit">
-      <T>Events</T>
-    </LinkButton>
-
-    <LinkButton href="/membres" className="!inline-block !bg-members text-center !text-inherit">
-      <T>Members</T>
-    </LinkButton>
-
-    <LinkButton href="#" className="!inline-block !bg-tools text-center !text-inherit">
-      <T>Tools</T>
-    </LinkButton>
-  </nav>
-);
