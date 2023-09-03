@@ -1,6 +1,6 @@
 {
   "include": ["src/**/*"],
-  "references": [{ "path": "../../packages/shared" }],
+  "references": [{ "path": "../../packages/shared" }, { "path": "../../packages/utils" }],
   "compilerOptions": {
     "module": "ESNext",
     "target": "ESNext",

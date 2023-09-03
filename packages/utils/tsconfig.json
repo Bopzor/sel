@@ -1,6 +1,5 @@
 {
   "include": ["src/**/*"],
-  "references": [{ "path": "../utils" }],
   "compilerOptions": {
     "module": "ESNext",
     "target": "ESNext",

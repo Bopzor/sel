@@ -1,9 +1,10 @@
+import { assert } from '@sel/utils';
+
 import { container } from './container';
 import { createAddress } from './members/entities/address';
 import { createMember } from './members/entities/member';
 import { InMemoryMembersRepository } from './members/in-memory-members-repository';
 import { TOKENS } from './tokens';
-import { assert } from './utils';
 
 const repo = container.get(TOKENS.membersRepository);
 assert(repo instanceof InMemoryMembersRepository);

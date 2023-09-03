@@ -1,4 +1,4 @@
-import { createFactory } from '../../utils';
+import { createFactory } from '@sel/utils';
 
 export type Address = {
   line1: string;

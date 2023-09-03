@@ -1,4 +1,4 @@
-import { createFactory, createId } from '../../utils';
+import { createFactory, createId } from '@sel/utils';
 
 import { Address, createAddress } from './address';
 
