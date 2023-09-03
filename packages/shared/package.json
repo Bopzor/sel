@@ -1,0 +1,16 @@
+{
+  "name": "@sel/shared",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "lint": "eslint src"
+  },
+  "devDependencies": {
+    "@sel/eslint-config": "workspace:*",
+    "typescript": "^5.2.2"
+  }
+}

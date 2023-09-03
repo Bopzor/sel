@@ -1,19 +1,16 @@
 {
   "include": ["src/**/*"],
-  "references": [{ "path": "../../packages/shared" }],
   "compilerOptions": {
     "module": "ESNext",
     "target": "ESNext",
     "moduleResolution": "Node",
-    "noEmit": true,
+    "outDir": "dist",
+    "rootDir": "src",
+    "composite": true,
+    "declaration": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
     "strict": true,
     "forceConsistentCasingInFileNames": true
-  },
-  "ts-node": {
-    "transpileOnly": true,
-    "esm": true,
-    "experimentalSpecifierResolution": "node"
   }
 }
