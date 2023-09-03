@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "nodemon -w -e ts -x 'pnpm start'",
+    "dev": "nodemon -w src -e ts -x 'pnpm start'",
     "start": "ts-node src/index.ts",
     "lint": "eslint src"
   },
