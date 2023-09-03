@@ -3,7 +3,7 @@
   "compilerOptions": {
     "module": "ESNext",
     "target": "ESNext",
-    "moduleResolution": "node16",
+    "moduleResolution": "Node",
     "noEmit": true,
     "esModuleInterop": true,
     "skipLibCheck": true,

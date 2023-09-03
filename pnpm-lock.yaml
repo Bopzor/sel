@@ -10,6 +10,9 @@ importers:
 
   apps/server:
     dependencies:
+      ditox:
+        specifier: ^2.3.1
+        version: 2.3.1
       express:
         specifier: 5.0.0-beta.1
         version: 5.0.0-beta.1
@@ -1628,6 +1631,11 @@ packages:
     dependencies:
       path-type: 4.0.0
     dev: true
+
+  /ditox@2.3.1:
+    resolution: {integrity: sha512-jXyIF3ygFI8iOF6u2a4stmmpxc7SM/bx+elFr+UtNqslCbQ3ikrWnhJahL4pkr0w8t1Tuz2vGyQ/mPigLspV/Q==}
+    engines: {node: '>=12'}
+    dev: false
 
   /dlv@1.1.3:
     resolution: {integrity: sha512-+HlytyjlPKnIG8XuRG8WvmBP8xs8P71y+SKKS6ZXWoEgLuePxtDoUEiH7WkdePWrQ5JBpE6aoVqfZfJUQkjXwA==}
