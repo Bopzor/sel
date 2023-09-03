@@ -1,6 +1,7 @@
 {
   "include": ["src/**/*"],
-  "files": ["tailwind.config.ts"],
+  "files": ["tailwind.config.ts", "src/test-store.ts"],
+  "references": [{ "path": "../../packages/shared" }, { "path": "../../packages/utils" }],
   "compilerOptions": {
     "strict": true,
     "target": "ESNext",

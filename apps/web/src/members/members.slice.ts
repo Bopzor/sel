@@ -1,5 +1,7 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 
+import { AppState } from '../store/types';
+
 import { membersFetched } from './use-cases/fetch-members/fetch-members';
 
 const membersAdapter = createEntityAdapter();
@@ -12,3 +14,7 @@ export const membersSlice = createSlice({
     builder.addCase(membersFetched, membersAdapter.addMany.bind(membersAdapter));
   },
 });
+
+export const { selectAll: selectMembers } = membersAdapter.getSelectors(
+  (state: AppState) => state[membersSlice.name]
+);

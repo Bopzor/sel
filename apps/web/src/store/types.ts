@@ -12,3 +12,5 @@ export type AppDispatch = AppStore['dispatch'];
 export type AppState = ReturnType<AppGetState>;
 
 export type AppThunk<ReturnType> = ThunkAction<ReturnType, AppState, Dependencies, AnyAction>;
+
+export type AppSelector<Params extends unknown[], Result> = (state: AppState, ...params: Params) => Result;

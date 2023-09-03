@@ -1,9 +1,4 @@
-import { Member } from '@sel/shared';
-
-export interface MembersGateway {
-  listMembers(): Promise<Member[]>;
-  getMember(memberId: string): Promise<Member | undefined>;
-}
+import { MembersGateway } from './members/members.gateway';
 
 export type Dependencies = {
   membersGateway: MembersGateway;
