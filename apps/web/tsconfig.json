@@ -1,5 +1,6 @@
 {
   "include": ["src/**/*"],
+  "files": ["tailwind.config.ts"],
   "compilerOptions": {
     "strict": true,
     "target": "ESNext",

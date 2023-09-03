@@ -1,5 +1,5 @@
 import type { Component } from 'solid-js';
 
 export const App: Component = () => {
-  return <>SEL</>;
+  return <div class="col">SEL</div>;
 };
