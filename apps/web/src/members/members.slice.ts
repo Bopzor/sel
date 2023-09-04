@@ -1,10 +1,11 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
+import { Member } from '@sel/shared';
 
 import { AppState } from '../store/types';
 
 import { membersFetched } from './use-cases/fetch-members/fetch-members';
 
-const membersAdapter = createEntityAdapter();
+const membersAdapter = createEntityAdapter<Member>();
 
 export const membersSlice = createSlice({
   name: 'members',

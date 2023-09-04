@@ -14,4 +14,10 @@ module.exports = {
       jsx: true,
     },
   },
+
+  settings: {
+    tailwindcss: {
+      config: 'tailwind.config.ts',
+    },
+  },
 };

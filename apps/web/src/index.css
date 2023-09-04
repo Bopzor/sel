@@ -11,3 +11,9 @@
     @apply flex flex-row;
   }
 }
+
+@layer base {
+  body {
+    background-color: #fbfbfd;
+  }
+}

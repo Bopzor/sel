@@ -15,6 +15,7 @@
     "@sel/eslint-config": "workspace:*",
     "@sel/shared": "workspace:*",
     "@sel/utils": "workspace:*",
+    "@types/crypto-js": "^4.1.2",
     "autoprefixer": "^10.4.15",
     "eslint-plugin-solid": "^0.13.0",
     "eslint-plugin-tailwindcss": "^3.13.0",
@@ -29,6 +30,7 @@
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.5",
+    "crypto-js": "^4.1.1",
     "solid-js": "^1.7.11"
   }
 }

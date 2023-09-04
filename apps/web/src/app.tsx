@@ -1,20 +1,16 @@
-import { createEffect, type Component } from 'solid-js';
+import { type Component } from 'solid-js';
 
-import { Fetcher } from './fetcher';
-import { ApiMembersGateway } from './members/api-members.gateway';
-import { fetchMembers } from './members/use-cases/fetch-members/fetch-members';
-import { createStore } from './store/create-store';
-
-const fetcher = new Fetcher();
-
-const store = createStore({
-  membersGateway: new ApiMembersGateway(fetcher),
-});
+import { Header } from './layout/header/header';
+import { MembersPage } from './members/members.page';
 
 export const App: Component = () => {
-  createEffect(() => {
-    void store.dispatch(fetchMembers());
-  });
+  return (
+    <div class="col">
+      <Header />
 
-  return <div class="col">SEL</div>;
+      <div class="p-8">
+        <MembersPage />
+      </div>
+    </div>
+  );
 };

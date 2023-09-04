@@ -54,6 +54,9 @@ importers:
       '@reduxjs/toolkit':
         specifier: ^1.9.5
         version: 1.9.5
+      crypto-js:
+        specifier: ^4.1.1
+        version: 4.1.1
       solid-js:
         specifier: ^1.7.11
         version: 1.7.11
@@ -67,6 +70,9 @@ importers:
       '@sel/utils':
         specifier: workspace:*
         version: link:../../packages/utils
+      '@types/crypto-js':
+        specifier: ^4.1.2
+        version: 4.1.2
       autoprefixer:
         specifier: ^10.4.15
         version: 10.4.15(postcss@8.4.29)
@@ -1088,6 +1094,10 @@ packages:
       '@types/node': 20.5.9
     dev: true
 
+  /@types/crypto-js@4.1.2:
+    resolution: {integrity: sha512-t33RNmTu5ufG/sorROIafiCVJMx3jz95bXUMoPAZcUD14fxMXnuTzqzXZoxpR0tNx2xpw11Dlmem9vGCsrSOfA==}
+    dev: true
+
   /@types/express-serve-static-core@4.17.36:
     resolution: {integrity: sha512-zbivROJ0ZqLAtMzgzIUC4oNqDG9iF0lSsAqpOD9kbs5xcIM3dTiyuHvBc7R8MtWBp3AAWGaovJa+wzWPjLYW7Q==}
     dependencies:
@@ -1715,6 +1725,10 @@ packages:
       shebang-command: 2.0.0
       which: 2.0.2
     dev: true
+
+  /crypto-js@4.1.1:
+    resolution: {integrity: sha512-o2JlM7ydqd3Qk9CA0L4NL6mTzU2sdx96a+oOfPu8Mkl/PK51vSyoi8/rQ8NknZtk44vq15lmhAj9CIAGwgeWKw==}
+    dev: false
 
   /css.escape@1.5.1:
     resolution: {integrity: sha512-YUifsXXuknHlUsmlgyY0PKzgPOr7/FjCePfHNt0jxm83wHZi44VDMQ7/fGNkjY3/jV1MC+1CmZbaHzugyeRtpg==}
