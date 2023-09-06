@@ -9,7 +9,7 @@
     "build": "vite build",
     "serve": "vite preview",
     "lint": "eslint src",
-    "test": "vitest"
+    "test": "NODE_ENV=test vitest"
   },
   "devDependencies": {
     "@sel/eslint-config": "workspace:*",
@@ -31,6 +31,7 @@
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.5",
     "crypto-js": "^4.1.1",
+    "solid-heroicons": "^3.2.4",
     "solid-js": "^1.7.11"
   }
 }

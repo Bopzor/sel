@@ -57,6 +57,9 @@ importers:
       crypto-js:
         specifier: ^4.1.1
         version: 4.1.1
+      solid-heroicons:
+        specifier: ^3.2.4
+        version: 3.2.4(solid-js@1.7.11)
       solid-js:
         specifier: ^1.7.11
         version: 1.7.11
@@ -3564,6 +3567,14 @@ packages:
     transitivePeerDependencies:
       - supports-color
     dev: true
+
+  /solid-heroicons@3.2.4(solid-js@1.7.11):
+    resolution: {integrity: sha512-u6BMdFLvkJnvUGYzdFcWp1wvJ4hb9Y1zd3AbZ9D3bUmmiy9jBzNZX+RcqBCI2EKRvdQwAb1UB9bkESfqfhayDg==}
+    peerDependencies:
+      solid-js: '>= ^1.2.5'
+    dependencies:
+      solid-js: 1.7.11
+    dev: false
 
   /solid-js@1.7.11:
     resolution: {integrity: sha512-JkuvsHt8jqy7USsy9xJtT18aF9r2pFO+GB8JQ2XGTvtF49rGTObB46iebD25sE3qVNvIbwglXOXdALnJq9IHtQ==}

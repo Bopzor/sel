@@ -1,11 +1,13 @@
 import { Member } from '@sel/shared';
-import { Component, createEffect, For } from 'solid-js';
+import { Icon } from 'solid-heroicons';
+import { magnifyingGlass } from 'solid-heroicons/solid';
+import { Component, createEffect, createSignal, For } from 'solid-js';
 
 import { MemberAvatar } from '../components/member-avatar';
 import { selector } from '../store/selector';
 import { store } from '../store/store';
 
-import { selectMembers } from './members.slice';
+import { selectFilteredMembers } from './members.slice';
 import { fetchMembers } from './use-cases/fetch-members/fetch-members';
 
 export const MembersPage: Component = () => {
@@ -22,20 +24,50 @@ export const MembersPage: Component = () => {
 };
 
 const MembersList: Component = () => {
-  const members = selector(selectMembers);
+  const [search, setSearch] = createSignal('');
+
+  // eslint-disable-next-line solid/reactivity
+  const members = selector((state) => selectFilteredMembers(state, search()));
 
   return (
-    <ul class="w-[22rem] overflow-hidden rounded bg-neutral shadow">
-      <For each={members()}>{(member) => <MembersListItem member={member} />}</For>
-    </ul>
+    <div class="w-[22rem] overflow-hidden rounded-lg bg-neutral shadow">
+      <SearchMemberInput search={search()} onSearch={setSearch} />
+
+      <ul>
+        <For each={members()}>{(member) => <MembersListItem member={member} />}</For>
+      </ul>
+    </div>
   );
 };
 
 const MembersListItem: Component<{ member: Member }> = (props) => (
   <li>
-    <a href="#" class="row gap-2 p-2 hover:bg-inverted/5">
+    <a href="#" class="row items-center gap-2 px-4 py-2 hover:bg-inverted/5">
       <MemberAvatar class="inline-block h-8 w-8 rounded-full" member={props.member} />
       {props.member.firstName} {props.member.lastName}
     </a>
   </li>
 );
+
+type SearchMemberInputProps = {
+  search: string;
+  onSearch: (value: string) => void;
+};
+
+const SearchMemberInput: Component<SearchMemberInputProps> = (props) => {
+  return (
+    <div class="row mx-4 my-2 gap-1 border-b-2 py-1 transition-colors focus-within:border-b-primary">
+      <div>
+        <Icon path={magnifyingGlass} class="h-5 w-5 fill-icon" />
+      </div>
+
+      <input
+        type="search"
+        placeholder="Rechercher"
+        class="flex-1 outline-none"
+        value={props.search}
+        onInput={(event) => props.onSearch(event.target.value)}
+      />
+    </div>
+  );
+};
