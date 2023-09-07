@@ -11,10 +11,14 @@ export default {
       body: '#F0F0F0',
       green: colors.green[600],
       icon: colors.gray[600],
+      white: colors.white,
     },
     borderColor: {
       primary: '#005F7E',
       DEFAULT: colors.gray[200],
+    },
+    fontFamily: {
+      sans: ['Inter variable', 'sans-serif'],
     },
   },
   plugins: [],

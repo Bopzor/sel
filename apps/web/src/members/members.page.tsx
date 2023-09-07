@@ -3,6 +3,7 @@ import { Icon } from 'solid-heroicons';
 import { magnifyingGlass } from 'solid-heroicons/solid';
 import { Component, createEffect, createSignal, For } from 'solid-js';
 
+import { Map } from '../components/map';
 import { MemberAvatar } from '../components/member-avatar';
 import { selector } from '../store/selector';
 import { store } from '../store/store';
@@ -16,9 +17,9 @@ export const MembersPage: Component = () => {
   });
 
   return (
-    <div class="col md:row gap-4">
+    <div class="col md:row gap-6">
       <MembersList />
-      <div class="h-10 flex-1 bg-inverted/10" />
+      <Map center={[43.836, 5.042]} class="min-h-[600px] flex-1 rounded-lg shadow outline-none" />
     </div>
   );
 };
@@ -30,7 +31,7 @@ const MembersList: Component = () => {
   const members = selector((state) => selectFilteredMembers(state, search()));
 
   return (
-    <div class="w-[22rem] overflow-hidden rounded-lg bg-neutral shadow">
+    <div class="w-full self-start overflow-hidden rounded-lg bg-neutral shadow md:w-[22rem]">
       <SearchMemberInput search={search()} onSearch={setSearch} />
 
       <ul>
