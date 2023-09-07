@@ -7,6 +7,7 @@ export class StubMembersGateway implements MembersGateway {
   members = new Array<Member>();
 
   async listMembers(): Promise<Member[]> {
+    await new Promise((r) => setTimeout(r, 1000));
     return this.members;
   }
 

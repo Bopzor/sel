@@ -1,10 +1,11 @@
 import { Member } from '@sel/shared';
 import { Icon } from 'solid-heroicons';
 import { magnifyingGlass } from 'solid-heroicons/solid';
-import { Component, createEffect, createSignal, For } from 'solid-js';
+import { Component, createEffect, createMemo, createSignal, For, Setter } from 'solid-js';
 
-import { Map } from '../components/map';
-import { MemberAvatar } from '../components/member-avatar';
+import { Map, MapMarker } from '../components/map';
+import { MemberAddress } from '../components/member-address';
+import { MemberAvatarName } from '../components/member-avatar-name';
 import { selector } from '../store/selector';
 import { store } from '../store/store';
 
@@ -12,47 +13,80 @@ import { selectFilteredMembers } from './members.slice';
 import { fetchMembers } from './use-cases/fetch-members/fetch-members';
 
 export const MembersPage: Component = () => {
-  createEffect(() => {
-    void store.dispatch(fetchMembers());
-  });
-
-  return (
-    <div class="col md:row gap-6">
-      <MembersList />
-      <Map center={[43.836, 5.042]} class="min-h-[600px] flex-1 rounded-lg shadow outline-none" />
-    </div>
-  );
-};
-
-const MembersList: Component = () => {
   const [search, setSearch] = createSignal('');
 
   // eslint-disable-next-line solid/reactivity
   const members = selector((state) => selectFilteredMembers(state, search()));
 
+  createEffect(() => {
+    void store.dispatch(fetchMembers());
+  });
+
+  const [openPopup, setOpenPopup] = createSignal<Member>();
+
+  const markers = createMemo(() =>
+    members().map((member): MapMarker<Member> => ({ position: member.address.position, payload: member }))
+  );
+
+  return (
+    <div class="col md:row gap-6">
+      <MembersList members={members()} search={search()} onSearch={setSearch} onHighlight={setOpenPopup} />
+      <Map
+        center={[43.836, 5.042]}
+        markers={markers()}
+        openPopup={openPopup()}
+        getPopup={(member) => (
+          <div class="col min-w-[12rem] gap-2">
+            <div class="text-base font-medium">
+              <MemberAvatarName member={member} />
+            </div>
+            <hr />
+            <MemberAddress address={member.address} />
+          </div>
+        )}
+        class="min-h-[600px] flex-1 rounded-lg shadow outline-none"
+      />
+    </div>
+  );
+};
+
+type MembersListProps = {
+  members: Member[];
+  search: string;
+  onSearch: Setter<string>;
+  onHighlight: (member: Member | undefined) => void;
+};
+
+const MembersList: Component<MembersListProps> = (props) => {
   return (
     <div class="w-full self-start overflow-hidden rounded-lg bg-neutral shadow md:w-[22rem]">
-      <SearchMemberInput search={search()} onSearch={setSearch} />
+      <SearchMemberInput search={props.search} onSearch={props.onSearch} />
 
-      <ul>
-        <For each={members()}>{(member) => <MembersListItem member={member} />}</For>
+      <ul onMouseLeave={() => props.onHighlight(undefined)}>
+        <For each={props.members}>
+          {(member) => <MembersListItem member={member} onHighlight={() => props.onHighlight(member)} />}
+        </For>
       </ul>
     </div>
   );
 };
 
-const MembersListItem: Component<{ member: Member }> = (props) => (
-  <li>
-    <a href="#" class="row items-center gap-2 px-4 py-2 hover:bg-inverted/5">
-      <MemberAvatar class="inline-block h-8 w-8 rounded-full" member={props.member} />
-      {props.member.firstName} {props.member.lastName}
+type MembersListItemProps = {
+  member: Member;
+  onHighlight: () => void;
+};
+
+const MembersListItem: Component<MembersListItemProps> = (props) => (
+  <li onMouseEnter={() => props.onHighlight()}>
+    <a href="#" class="block px-4 py-2 hover:bg-inverted/5">
+      <MemberAvatarName member={props.member} />
     </a>
   </li>
 );
 
 type SearchMemberInputProps = {
   search: string;
-  onSearch: (value: string) => void;
+  onSearch: Setter<string>;
 };
 
 const SearchMemberInput: Component<SearchMemberInputProps> = (props) => {
