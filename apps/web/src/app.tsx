@@ -5,12 +5,12 @@ import { MembersPage } from './members/members.page';
 
 export const App: Component = () => {
   return (
-    <div class="col">
+    <>
       <Header />
 
-      <div class="p-8">
+      <main class="mx-auto max-w-[1300px] px-4 py-8">
         <MembersPage />
-      </div>
-    </div>
+      </main>
+    </>
   );
 };
