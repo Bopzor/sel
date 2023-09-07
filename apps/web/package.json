@@ -32,6 +32,7 @@
   "dependencies": {
     "@fontsource-variable/inter": "^5.0.8",
     "@reduxjs/toolkit": "^1.9.5",
+    "@solidjs/router": "^0.8.3",
     "clsx": "^2.0.0",
     "crypto-js": "^4.1.1",
     "leaflet": "^1.9.4",
