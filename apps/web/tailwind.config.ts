@@ -35,6 +35,9 @@ export default {
     fontFamily: {
       sans: ['Inter variable', 'sans-serif'],
     },
+    lineHeight: {
+      0: '0',
+    },
     extend: {
       spacing: {
         em: '1em',

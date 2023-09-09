@@ -10,10 +10,10 @@ const T = Translate.prefix('layout.header');
 export const Header: Component = () => {
   return (
     <header class="border-b-2 border-b-[#004359] bg-primary">
-      <div class="mx-auto max-w-[1300px] p-4">
-        <Link unstyled href="/" class="row items-center">
+      <div class="mx-auto max-w-[1300px] p-4 leading-0">
+        <Link unstyled href="/" class="inline-flex flex-row items-center">
           <img src={logo} alt="SEL'ons-nous logo" width={64} height={64} class="mr-6 rounded" />
-          <div class="flex-1">
+          <div>
             <div class="text-lg font-semibold text-white md:text-2xl">
               <T id="title" />
             </div>
