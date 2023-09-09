@@ -2,6 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  body {
+    background-color: #f9f9fb;
+    color: theme('textColor.neutral')
+  }
+}
+
+
 @layer utilities {
   .col {
     @apply flex flex-col;
@@ -12,11 +20,14 @@
   }
 }
 
-@layer base {
-  body {
-    background-color: #f9f9fb;
+@layer components {
+  .card {
+    border-radius: theme('borderRadius.lg');
+    box-shadow: theme('boxShadow.DEFAULT');
+    background-color: theme('colors.neutral');
   }
 }
+
 
 .leaflet-container {
   font-family: inherit;

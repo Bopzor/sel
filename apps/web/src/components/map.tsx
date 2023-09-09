@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import * as leaflet from 'leaflet';
 import { JSX, createEffect, onMount } from 'solid-js';
 
@@ -12,7 +13,7 @@ type MapProps<T> = {
   center: [lat: number, lng: number];
   markers?: Array<MapMarker<T>>;
   openPopup?: T;
-  getPopup: (payload: T) => JSX.Element;
+  getPopup?: (payload: T) => JSX.Element;
   class?: string;
 };
 
@@ -38,10 +39,11 @@ export const Map = <T,>(props: MapProps<T>) => {
     markers.clear();
 
     for (const { position, payload } of props.markers ?? []) {
-      const marker = leaflet
-        .marker(position)
-        .addTo(map)
-        .bindPopup(props.getPopup(payload) as HTMLElement);
+      const marker = leaflet.marker(position).addTo(map);
+
+      if (props.getPopup) {
+        marker.bindPopup(props.getPopup(payload) as HTMLElement);
+      }
 
       markers.set(payload, marker);
     }
@@ -60,5 +62,5 @@ export const Map = <T,>(props: MapProps<T>) => {
     }
   });
 
-  return <div class={props.class} ref={(ref) => (elem = ref)} />;
+  return <div class={clsx('outline-none', props.class)} ref={(ref) => (elem = ref)} />;
 };

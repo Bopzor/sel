@@ -1,17 +1,27 @@
 import type { Config } from 'tailwindcss';
 import colors from 'tailwindcss/colors';
 
+const commonColors = {
+  white: colors.white,
+  black: colors.black,
+  primary: '#005F7E',
+};
+
 export default {
   content: ['src/**/*.tsx'],
   theme: {
     colors: {
-      neutral: '#FFFFFF',
-      inverted: '#000000',
-      primary: '#005F7E',
+      ...commonColors,
+      neutral: colors.white,
+      inverted: colors.black,
       body: '#F0F0F0',
       green: colors.green[600],
       icon: colors.gray[600],
-      white: colors.white,
+    },
+    textColor: {
+      ...commonColors,
+      neutral: colors.neutral[900],
+      dim: colors.gray[600],
     },
     borderColor: {
       primary: '#005F7E',
@@ -19,6 +29,11 @@ export default {
     },
     fontFamily: {
       sans: ['Inter variable', 'sans-serif'],
+    },
+    extend: {
+      spacing: {
+        em: '1em',
+      },
     },
   },
   plugins: [],

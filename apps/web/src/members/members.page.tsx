@@ -4,6 +4,7 @@ import { Icon } from 'solid-heroicons';
 import { magnifyingGlass } from 'solid-heroicons/solid';
 import { Component, createEffect, createMemo, createSignal, For, Setter } from 'solid-js';
 
+import { BackLink } from '../components/back-link';
 import { Map, MapMarker } from '../components/map';
 import { MemberAddress } from '../components/member-address';
 import { MemberAvatarName } from '../components/member-avatar-name';
@@ -30,24 +31,28 @@ export const MembersPage: Component = () => {
   );
 
   return (
-    <div class="col md:row gap-6">
-      <MembersList members={members()} search={search()} onSearch={setSearch} onHighlight={setOpenPopup} />
-      <Map
-        center={[43.836, 5.042]}
-        markers={markers()}
-        openPopup={openPopup()}
-        getPopup={(member) => (
-          <div class="col min-w-[12rem] gap-2">
-            <div class="text-base font-medium">
-              <MemberAvatarName member={member} />
+    <>
+      <BackLink href="/" />
+
+      <div class="col md:row gap-6">
+        <MembersList members={members()} search={search()} onSearch={setSearch} onHighlight={setOpenPopup} />
+        <Map
+          center={[43.836, 5.042]}
+          markers={markers()}
+          openPopup={openPopup()}
+          getPopup={(member) => (
+            <div class="col min-w-[12rem] gap-2">
+              <div class="text-base font-medium">
+                <MemberAvatarName member={member} />
+              </div>
+              <hr />
+              <MemberAddress address={member.address} />
             </div>
-            <hr />
-            <MemberAddress address={member.address} />
-          </div>
-        )}
-        class="min-h-[600px] flex-1 rounded-lg shadow outline-none"
-      />
-    </div>
+          )}
+          class="min-h-[600px] flex-1 rounded-lg shadow"
+        />
+      </div>
+    </>
   );
 };
 
@@ -60,7 +65,7 @@ type MembersListProps = {
 
 const MembersList: Component<MembersListProps> = (props) => {
   return (
-    <div class="w-full self-start overflow-hidden rounded-lg bg-neutral shadow md:w-[22rem]">
+    <div class="card w-full self-start overflow-hidden md:w-[22rem]">
       <SearchMemberInput search={props.search} onSearch={props.onSearch} />
 
       <ul onMouseLeave={() => props.onHighlight(undefined)}>
