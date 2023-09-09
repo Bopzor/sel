@@ -5,10 +5,9 @@
 @layer base {
   body {
     background-color: #f9f9fb;
-    color: theme('textColor.neutral')
+    color: theme('textColor.neutral');
   }
 }
-
 
 @layer utilities {
   .col {
@@ -28,7 +27,6 @@
   }
 }
 
-
 .leaflet-container {
-  font-family: inherit;
+  font-family: inherit !important;
 }
