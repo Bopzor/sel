@@ -3,12 +3,13 @@ import { lazy, type Component } from 'solid-js';
 
 import { Header } from './layout/header/header';
 
-const HomePage = lazyImport('./home-page', 'HomePage');
-const MembersPage = lazyImport('./members/members.page', 'MembersPage');
-const MemberPage = lazyImport('./members/member.page', 'MemberPage');
+const HomePage = lazyImport(() => import('./home-page'), 'HomePage');
+const MembersPage = lazyImport(() => import('./members/members.page'), 'MembersPage');
+const MemberPage = lazyImport(() => import('./members/member.page'), 'MemberPage');
 
-function lazyImport(path: string, name: string) {
-  return lazy(() => import(path).then((module) => ({ default: module[name] })));
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function lazyImport(module: () => Promise<any>, name: string) {
+  return lazy(() => module().then((module) => ({ default: module[name] })));
 }
 
 export const App: Component = () => {
