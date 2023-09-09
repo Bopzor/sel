@@ -1,10 +1,10 @@
 import { Member } from '@sel/shared';
-import { A } from '@solidjs/router';
 import { Icon } from 'solid-heroicons';
 import { magnifyingGlass } from 'solid-heroicons/solid';
 import { Component, createEffect, createMemo, createSignal, For, Setter } from 'solid-js';
 
 import { BackLink } from '../components/back-link';
+import { Link } from '../components/link';
 import { Map, MapMarker } from '../components/map';
 import { MemberAddress } from '../components/member-address';
 import { MemberAvatarName } from '../components/member-avatar-name';
@@ -84,9 +84,13 @@ type MembersListItemProps = {
 
 const MembersListItem: Component<MembersListItemProps> = (props) => (
   <li onMouseEnter={() => props.onHighlight()}>
-    <A href={`/membre/${props.member.id}`} class="block px-4 py-2 hover:bg-inverted/5">
+    <Link
+      unstyled
+      href={`/membre/${props.member.id}`}
+      class="row items-center gap-2 px-4 py-2 hover:bg-inverted/5"
+    >
       <MemberAvatarName member={props.member} />
-    </A>
+    </Link>
   </li>
 );
 

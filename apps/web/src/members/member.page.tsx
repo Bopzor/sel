@@ -2,7 +2,7 @@ import { Member } from '@sel/shared';
 import { useParams } from '@solidjs/router';
 import { Icon } from 'solid-heroicons';
 import { envelope, home, phone, user } from 'solid-heroicons/solid';
-import { Component, ComponentProps, createEffect, JSX, ParentProps, Show } from 'solid-js';
+import { Component, ComponentProps, ParentProps, Show, createEffect } from 'solid-js';
 
 import { BackLink } from '../components/back-link';
 import { Map } from '../components/map';
@@ -31,7 +31,9 @@ export const MemberPage: Component = () => {
       <Show when={member()} fallback={<>Loading...</>}>
         {(member) => (
           <div class="card gap-4 p-8">
-            <MemberAvatarName member={member()} />
+            <div class="row items-center gap-2">
+              <MemberAvatarName size="large" member={member()} />
+            </div>
 
             <hr class="my-6" />
 
