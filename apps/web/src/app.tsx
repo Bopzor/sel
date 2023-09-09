@@ -3,7 +3,7 @@ import { lazy, type Component } from 'solid-js';
 
 import { Header } from './layout/header/header';
 
-const HomePage = lazyImport(() => import('./home-page'), 'HomePage');
+const HomePage = lazyImport(() => import('./home/home.page'), 'HomePage');
 const MembersPage = lazyImport(() => import('./members/members.page'), 'MembersPage');
 const MemberPage = lazyImport(() => import('./members/member.page'), 'MemberPage');
 

@@ -5,6 +5,10 @@ const commonColors = {
   white: colors.white,
   black: colors.black,
   primary: '#005F7E',
+  requests: colors.red[400],
+  events: colors.yellow[400],
+  members: colors.green[400],
+  tools: colors.blue[400],
 };
 
 export default {
@@ -24,6 +28,7 @@ export default {
       dim: colors.gray[600],
     },
     borderColor: {
+      ...commonColors,
       primary: '#005F7E',
       DEFAULT: colors.gray[200],
     },

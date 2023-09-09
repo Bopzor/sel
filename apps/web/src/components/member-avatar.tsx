@@ -11,6 +11,11 @@ export const gravatarUrl = (email: string) => {
   return `https://www.gravatar.com/avatar/${md5(email.trim().toLowerCase())}?${params}`;
 };
 
-export const MemberAvatar: Component<{ member: Member; class?: string }> = (props) => {
-  return <img class={props.class} src={gravatarUrl(props.member.email)} />;
+type MemberAvatarProps = {
+  member: Member;
+  class?: string;
+};
+
+export const MemberAvatar: Component<MemberAvatarProps> = (props) => {
+  return <img src={gravatarUrl(props.member.email)} class={props.class} />;
 };
