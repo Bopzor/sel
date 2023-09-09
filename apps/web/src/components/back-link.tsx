@@ -1,6 +1,8 @@
 import { Icon } from 'solid-heroicons';
 import { arrowLeft } from 'solid-heroicons/solid';
 
+import { Translate } from '../intl/translate';
+
 import { Link } from './link';
 
 type BackLinkProps = {
@@ -8,8 +10,10 @@ type BackLinkProps = {
 };
 
 export const BackLink = (props: BackLinkProps) => (
-  <Link href={props.href} class="my-8 inline-flex flex-row items-center gap-4">
+  <Link href={props.href} class="my-8 inline-flex flex-row items-center gap-2">
     <Icon path={arrowLeft} class="h-em" />
-    <span class="font-medium text-dim">Retour</span>
+    <span class="font-medium text-dim">
+      <Translate id="common.back" />
+    </span>
   </Link>
 );

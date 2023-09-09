@@ -31,6 +31,7 @@
   },
   "dependencies": {
     "@fontsource-variable/inter": "^5.0.8",
+    "@formatjs/intl": "^2.9.1",
     "@reduxjs/toolkit": "^1.9.5",
     "@solidjs/router": "^0.8.3",
     "clsx": "^2.0.0",

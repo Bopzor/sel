@@ -1,45 +1,63 @@
+import clsx from 'clsx';
+import { Component, JSX } from 'solid-js';
+
 import { Link } from '../components/link';
+import { Translate } from '../intl/translate';
+
+const T = Translate.prefix('home');
 
 export const HomePage = () => {
   return (
     <div class="pt-8">
       <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3">
-        <Link
-          unstyled
+        <LinkCard
           href="#"
-          class="rounded-lg border border-requests bg-gradient-to-tl from-requests/5 to-requests/20 p-8 transition-shadow hover:shadow-lg"
-        >
-          <div class="text-xl font-semibold">Demandes</div>
-          <div>Voir la liste des demandes en cours</div>
-        </Link>
+          label={<T id="requests.label" />}
+          description={<T id="requests.description" />}
+          class="border-requests from-requests/10 to-requests/20"
+        />
 
-        <Link
-          unstyled
+        <LinkCard
           href="#"
-          class="rounded-lg border border-events bg-gradient-to-tl from-events/5 to-events/20 p-8 transition-shadow hover:shadow-lg"
-        >
-          <div class="text-xl font-semibold">Événements</div>
-          <div>Les ateliers, sorties, conseils d'animation...</div>
-        </Link>
+          label={<T id="events.label" />}
+          description={<T id="events.description" />}
+          class="border-events from-events/10 to-events/20"
+        />
 
-        <Link
-          unstyled
+        <LinkCard
           href="/membres"
-          class="rounded-lg border border-members bg-gradient-to-tl from-members/5 to-members/20 p-8 transition-shadow hover:shadow-lg"
-        >
-          <div class="text-xl font-semibold">Membres</div>
-          <div>Retrouver les membres de votre SEL</div>
-        </Link>
+          label={<T id="members.label" />}
+          description={<T id="members.description" />}
+          class="border-members from-members/10 to-members/20"
+        />
 
-        <Link
-          unstyled
+        <LinkCard
           href="#"
-          class="rounded-lg border border-tools bg-gradient-to-tl from-tools/5 to-tools/20 p-8 transition-shadow hover:shadow-lg"
-        >
-          <div class="text-xl font-semibold">Matériel</div>
-          <div>Dons d'objets et prêts de matériel</div>
-        </Link>
+          label={<T id="tools.label" />}
+          description={<T id="tools.description" />}
+          class="border-tools from-tools/10 to-tools/20"
+        />
       </div>
     </div>
+  );
+};
+
+type LinkCardProps = {
+  href: string;
+  label: JSX.Element;
+  description: JSX.Element;
+  class: string;
+};
+
+const LinkCard: Component<LinkCardProps> = (props) => {
+  return (
+    <Link
+      unstyled
+      href={props.href}
+      class={clsx('rounded-lg border  bg-gradient-to-tl p-8 transition-shadow hover:shadow-lg', props.class)}
+    >
+      <div class="text-xl font-semibold">{props.label}</div>
+      <div>{props.description}</div>
+    </Link>
   );
 };

@@ -8,6 +8,7 @@ import { Link } from '../components/link';
 import { Map, MapMarker } from '../components/map';
 import { MemberAddress } from '../components/member-address';
 import { MemberAvatarName } from '../components/member-avatar-name';
+import { useTranslation } from '../intl/translate';
 import { selector } from '../store/selector';
 import { store } from '../store/store';
 
@@ -100,6 +101,8 @@ type SearchMemberInputProps = {
 };
 
 const SearchMemberInput: Component<SearchMemberInputProps> = (props) => {
+  const t = useTranslation();
+
   return (
     <div class="row mx-4 my-2 gap-1 border-b-2 py-1 transition-colors focus-within:border-b-primary">
       <div>
@@ -108,7 +111,7 @@ const SearchMemberInput: Component<SearchMemberInputProps> = (props) => {
 
       <input
         type="search"
-        placeholder="Rechercher"
+        placeholder={t('common.search')}
         class="flex-1 outline-none"
         value={props.search}
         onInput={(event) => props.onSearch(event.target.value)}
