@@ -14,7 +14,7 @@ export class ApiMembersGateway implements MembersGateway {
 
   async getMember(memberId: string): Promise<Member | undefined> {
     try {
-      const { body } = await this.fetcher.get<Member>(`/api/member/${memberId}`);
+      const { body } = await this.fetcher.get<Member>(`/api/members/${memberId}`);
       return body;
     } catch (error) {
       if (FetchResult.is(error) && error.status === 404) {

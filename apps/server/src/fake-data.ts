@@ -11,6 +11,7 @@ assert(repo instanceof InMemoryMembersRepository);
 
 const members = [
   createMember({
+    id: 'member-01',
     firstName: 'Anna',
     lastName: 'Nasse',
     email: 'anna@nas.se',
@@ -24,6 +25,7 @@ const members = [
     }),
   }),
   createMember({
+    id: 'member-02',
     firstName: 'Nils',
     lastName: 'Cox',
     email: 'nils@cox',
@@ -37,6 +39,7 @@ const members = [
     }),
   }),
   createMember({
+    id: 'member-03',
     firstName: 'Vio',
     lastName: 'Bopzor',
     email: 'vio@bopzor',

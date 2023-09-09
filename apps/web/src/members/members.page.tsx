@@ -1,4 +1,5 @@
 import { Member } from '@sel/shared';
+import { A } from '@solidjs/router';
 import { Icon } from 'solid-heroicons';
 import { magnifyingGlass } from 'solid-heroicons/solid';
 import { Component, createEffect, createMemo, createSignal, For, Setter } from 'solid-js';
@@ -78,9 +79,9 @@ type MembersListItemProps = {
 
 const MembersListItem: Component<MembersListItemProps> = (props) => (
   <li onMouseEnter={() => props.onHighlight()}>
-    <a href={`/membre/${props.member.id}`} class="block px-4 py-2 hover:bg-inverted/5">
+    <A href={`/membre/${props.member.id}`} class="block px-4 py-2 hover:bg-inverted/5">
       <MemberAvatarName member={props.member} />
-    </a>
+    </A>
   </li>
 );
 
