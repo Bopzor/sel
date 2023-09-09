@@ -78,7 +78,7 @@ type MembersListItemProps = {
 
 const MembersListItem: Component<MembersListItemProps> = (props) => (
   <li onMouseEnter={() => props.onHighlight()}>
-    <a href="#" class="block px-4 py-2 hover:bg-inverted/5">
+    <a href={`/membre/${props.member.id}`} class="block px-4 py-2 hover:bg-inverted/5">
       <MemberAvatarName member={props.member} />
     </a>
   </li>

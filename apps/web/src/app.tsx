@@ -5,6 +5,7 @@ import { Header } from './layout/header/header';
 
 const HomePage = lazyImport('./home-page', 'HomePage');
 const MembersPage = lazyImport('./members/members.page', 'MembersPage');
+const MemberPage = lazyImport('./members/member.page', 'MemberPage');
 
 function lazyImport(path: string, name: string) {
   return lazy(() => import(path).then((module) => ({ default: module[name] })));
@@ -19,6 +20,7 @@ export const App: Component = () => {
         <Routes>
           <Route path="/" component={HomePage} />
           <Route path="/membres" component={MembersPage} />
+          <Route path="/membre/:memberId" component={MemberPage} />
         </Routes>
       </main>
     </>
