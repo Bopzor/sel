@@ -2,6 +2,7 @@ import type { Config } from 'tailwindcss';
 import colors from 'tailwindcss/colors';
 
 const commonColors = {
+  transparent: 'transparent',
   white: colors.white,
   black: colors.black,
   primary: '#005F7E',
@@ -18,7 +19,6 @@ export default {
       ...commonColors,
       neutral: colors.white,
       inverted: colors.black,
-      body: '#F0F0F0',
       green: colors.green[600],
       icon: colors.gray[600],
     },
@@ -29,7 +29,6 @@ export default {
     },
     borderColor: {
       ...commonColors,
-      primary: '#005F7E',
       DEFAULT: colors.gray[200],
     },
     fontFamily: {

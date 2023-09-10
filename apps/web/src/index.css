@@ -4,7 +4,7 @@
 
 @layer base {
   body {
-    background-color: #f9f9fb;
+    background-color: #f4f4f5;
     color: theme('textColor.neutral');
   }
 
@@ -29,6 +29,10 @@
     box-shadow: theme('boxShadow.DEFAULT');
     background-color: theme('colors.neutral');
     overflow: hidden;
+  }
+
+  .button {
+    @apply row items-center gap-2 whitespace-nowrap rounded-lg bg-green px-4 py-1 font-medium text-white hover:shadow-md;
   }
 }
 

@@ -33,5 +33,8 @@
     "emailAddress": "Address email",
     "mailingAddress": "Address postale",
     "bio": "À propos de moi"
+  },
+  "requests": {
+    "createRequest": "Créer une demande"
   }
 }
