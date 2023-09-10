@@ -1,8 +1,8 @@
 import * as shared from '@sel/shared';
+import { hasId } from '@sel/utils';
 import { injectableClass } from 'ditox';
 
 import { InMemoryRepository } from '../in-memory.repository';
-import { hasId } from '@sel/utils';
 
 import { Member } from './entities/member';
 import { MembersRepository } from './members-repository';

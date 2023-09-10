@@ -21,6 +21,12 @@ export class MembersController {
   };
 
   getMember: RequestHandler<{ memberId: string }, shared.Member> = async (req, res) => {
-    res.json(await this.membersRepository.getMember(req.params.memberId));
+    const member = await this.membersRepository.getMember(req.params.memberId);
+
+    if (!member) {
+      return res.status(404).end();
+    }
+
+    res.json(member);
   };
 }

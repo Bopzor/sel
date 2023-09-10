@@ -1,58 +1,28 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import url from 'node:url';
+
+import { createAddress } from '@sel/shared';
 import { assert } from '@sel/utils';
 
 import { container } from './container';
-import { createAddress } from './members/entities/address';
 import { createMember } from './members/entities/member';
 import { InMemoryMembersRepository } from './members/in-memory-members-repository';
 import { TOKENS } from './tokens';
 
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
+
+const membersData = fs
+  .readFileSync(path.resolve(__dirname, '..', '..', '..', 'data', 'members.json'))
+  .toString();
+
 const repo = container.get(TOKENS.membersRepository);
 assert(repo instanceof InMemoryMembersRepository);
 
-const members = [
-  createMember({
-    id: 'member-01',
-    firstName: 'Anna',
-    lastName: 'Nasse',
-    email: 'anna@nas.se',
-    phoneNumber: '0628822806',
-    address: createAddress({
-      line1: '28 Chem. du Grand Grès',
-      city: 'Cavaillon',
-      postalCode: '84300',
-      country: 'France',
-      position: [43.85484887560791, 5.025985312340134],
-    }),
-  }),
-  createMember({
-    id: 'member-02',
-    firstName: 'Nils',
-    lastName: 'Cox',
-    email: 'nils@cox',
-    phoneNumber: '0721436587',
-    address: createAddress({
-      line1: '62 Cours Gambetta',
-      city: 'Cavaillon',
-      postalCode: '84300',
-      country: 'France',
-      position: [43.83737771901375, 5.040110010587979],
-    }),
-  }),
-  createMember({
-    id: 'member-03',
-    firstName: 'Vio',
-    lastName: 'Bopzor',
-    email: 'vio@bopzor',
-    phoneNumber: '0789674523',
-    address: createAddress({
-      line1: '73 Avenue Gabriel Peri',
-      city: 'Cavaillon',
-      postalCode: '84300',
-      country: 'France',
-      position: [43.83475320008764, 5.040883248476549],
-    }),
-  }),
-];
+const members = JSON.parse(membersData).map((data: any) => ({
+  ...createMember(data),
+  address: createAddress(data.address),
+}));
 
 for (const member of members) {
   repo.add(member);

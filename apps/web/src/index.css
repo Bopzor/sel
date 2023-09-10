@@ -28,9 +28,14 @@
     border-radius: theme('borderRadius.lg');
     box-shadow: theme('boxShadow.DEFAULT');
     background-color: theme('colors.neutral');
+    overflow: hidden;
   }
 }
 
 .leaflet-container {
   font-family: inherit !important;
+}
+
+.leaflet-container a {
+  color: inherit !important;
 }

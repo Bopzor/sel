@@ -5,6 +5,7 @@ export class StubConfigAdapter implements ConfigPort {
 
   constructor(config: Partial<ConfigPort>) {
     this.server = {
+      host: '',
       port: 0,
       ...config.server,
     };

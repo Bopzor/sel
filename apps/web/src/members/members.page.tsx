@@ -35,22 +35,23 @@ export const MembersPage: Component = () => {
     <>
       <BackLink href="/" />
 
-      <div class="col md:row gap-6">
+      <div class="col md:row h-[600px] gap-6">
         <MembersList members={members()} search={search()} onSearch={setSearch} onHighlight={setOpenPopup} />
+
         <Map
           center={[43.836, 5.042]}
           markers={markers()}
           openPopup={openPopup()}
           getPopup={(member) => (
-            <div class="col min-w-[12rem] gap-2">
-              <div class="text-base font-medium">
+            <Link unstyled href={`/membre/${member.id}`} class="col min-w-[12rem] gap-2">
+              <div class="row items-center gap-2 text-base font-medium">
                 <MemberAvatarName member={member} />
               </div>
               <hr />
               <MemberAddress address={member.address} />
-            </div>
+            </Link>
           )}
-          class="min-h-[600px] flex-1 rounded-lg shadow"
+          class="h-full flex-1 rounded-lg shadow"
         />
       </div>
     </>
@@ -66,14 +67,18 @@ type MembersListProps = {
 
 const MembersList: Component<MembersListProps> = (props) => {
   return (
-    <div class="card w-full self-start overflow-hidden md:w-[22rem]">
-      <SearchMemberInput search={props.search} onSearch={props.onSearch} />
+    <div class="card col max-h-full w-full self-start md:w-[22rem]">
+      <div class="shadow">
+        <SearchMemberInput search={props.search} onSearch={props.onSearch} />
+      </div>
 
-      <ul onMouseLeave={() => props.onHighlight(undefined)}>
-        <For each={props.members}>
-          {(member) => <MembersListItem member={member} onHighlight={() => props.onHighlight(member)} />}
-        </For>
-      </ul>
+      <div class="flex-1 overflow-auto">
+        <ul onMouseLeave={() => props.onHighlight(undefined)}>
+          <For each={props.members}>
+            {(member) => <MembersListItem member={member} onHighlight={() => props.onHighlight(member)} />}
+          </For>
+        </ul>
+      </div>
     </div>
   );
 };

@@ -1,8 +1,9 @@
 import { Member } from '@sel/shared';
+import { assert } from '@sel/utils';
 import { useParams } from '@solidjs/router';
 import { Icon } from 'solid-heroicons';
 import { envelope, home, phone, user } from 'solid-heroicons/solid';
-import { Component, ComponentProps, JSX, ParentProps, Show, createEffect } from 'solid-js';
+import { Component, ComponentProps, For, JSX, ParentProps, Show, createEffect } from 'solid-js';
 
 import { BackLink } from '../components/back-link';
 import { Map } from '../components/map';
@@ -40,7 +41,7 @@ export const MemberPage: Component = () => {
 
             <hr class="my-6" />
 
-            <div class="grid grid-cols-1 md:grid-cols-2">
+            <div class="grid grid-cols-1 gap-8 md:grid-cols-2">
               <MemberInfo member={member()} />
 
               <Map
@@ -64,7 +65,15 @@ const MemberInfo: Component<MemberInfoProps> = (props) => {
   return (
     <div class="col gap-4">
       <MemberProfileData label={<T id="phoneNumber" />} icon={phone}>
-        <a href={`tel:${props.member.phoneNumber}`}>{props.member.phoneNumber}</a>
+        <ul>
+          <For each={props.member.phoneNumbers}>
+            {(phoneNumber) => (
+              <li>
+                <a href={`tel:${phoneNumber}`}>{formatPhoneNumber(phoneNumber)}</a>
+              </li>
+            )}
+          </For>
+        </ul>
       </MemberProfileData>
 
       <MemberProfileData label={<T id="emailAddress" />} icon={envelope}>
@@ -80,6 +89,15 @@ const MemberInfo: Component<MemberInfoProps> = (props) => {
       </MemberProfileData>
     </div>
   );
+};
+
+const formatPhoneNumber = (phoneNumber: string) => {
+  assert(phoneNumber.length === 10);
+
+  return Array(5)
+    .fill(null)
+    .map((_, i) => phoneNumber[2 * i] + phoneNumber[2 * i + 1])
+    .join(' ');
 };
 
 type MemberProfileDataProps = ParentProps<{

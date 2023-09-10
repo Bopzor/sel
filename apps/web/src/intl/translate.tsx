@@ -34,6 +34,7 @@ export const useTranslation = () => {
   const intl = useIntl();
 
   const translate = (id: Leaves<Translations>, values?: Record<string, JSX.Element>) => {
+    // @ts-expect-error JSX.Element works
     return intl.formatMessage({ id }, values);
   };
 
@@ -48,7 +49,7 @@ type TranslateProps<Keys extends string> = {
 export const Translate = (props: TranslateProps<Leaves<Translations>>) => {
   const translate = useTranslation();
 
-  return <>{translate(props.id, props.values)}</>;
+  return <>{translate(props.id, props.values ?? {})}</>;
 };
 
 Translate.prefix = <Prefix extends Paths<Translations>>(prefix?: Prefix) => {
