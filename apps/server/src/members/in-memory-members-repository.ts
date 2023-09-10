@@ -1,5 +1,4 @@
 import * as shared from '@sel/shared';
-import { hasId } from '@sel/utils';
 import { injectableClass } from 'ditox';
 
 import { InMemoryRepository } from '../in-memory.repository';
@@ -15,6 +14,6 @@ export class InMemoryMembersRepository extends InMemoryRepository<Member> implem
   }
 
   async getMember(memberId: string): Promise<shared.Member | undefined> {
-    return this.find(hasId(memberId));
+    return this.get(memberId);
   }
 }

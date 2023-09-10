@@ -36,3 +36,21 @@ export const createAddress = createFactory<Address>(() => ({
   country: '',
   position: [0, 0],
 }));
+
+export type Request = {
+  id: string;
+  requester: Member;
+  title: string;
+  description: string;
+  creationDate: string;
+  lastUpdateDate: string;
+};
+
+export const createRequest = createFactory<Request>(() => ({
+  id: createId(),
+  requester: createMember(),
+  title: '',
+  description: '',
+  creationDate: '',
+  lastUpdateDate: '',
+}));
