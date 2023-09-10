@@ -4,6 +4,7 @@ import { lazy, type Component } from 'solid-js';
 import { Header } from './layout/header/header';
 
 const HomePage = lazyImport(() => import('./home/home.page'), 'HomePage');
+const RequestsPage = lazyImport(() => import('./requests/requests.page'), 'RequestsPage');
 const MembersPage = lazyImport(() => import('./members/members.page'), 'MembersPage');
 const MemberPage = lazyImport(() => import('./members/member.page'), 'MemberPage');
 
@@ -20,6 +21,7 @@ export const App: Component = () => {
       <main class="mx-auto max-w-[1300px] px-4">
         <Routes>
           <Route path="/" component={HomePage} />
+          <Route path="/demandes" component={RequestsPage} />
           <Route path="/membres" component={MembersPage} />
           <Route path="/membre/:memberId" component={MemberPage} />
         </Routes>

@@ -11,7 +11,7 @@ export const HomePage = () => {
     <div class="pt-8">
       <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3">
         <LinkCard
-          href="#"
+          href="/demandes"
           label={<T id="requests.label" />}
           description={<T id="requests.description" />}
           class="border-requests from-requests/10 to-requests/20"
