@@ -1,66 +1,73 @@
+import { createId } from '@sel/utils';
 import clsx from 'clsx';
-import * as leaflet from 'leaflet';
-import { JSX, createEffect, onMount } from 'solid-js';
+import * as maplibre from 'maplibre-gl';
+import { Component, For, JSX, createEffect, createSignal } from 'solid-js';
+import MapGL, { Layer, Marker, Source, Viewport } from 'solid-map-gl';
 
-import 'leaflet/dist/leaflet.css';
+import 'maplibre-gl/dist/maplibre-gl.css';
 
-export type MapMarker<T> = {
-  position: [lat: number, lng: number];
-  payload: T;
+export type MapMarker = {
+  position: [lng: number, lat: number];
+  isPopupOpen: boolean;
+  render?: () => JSX.Element;
 };
 
-type MapProps<T> = {
-  center: [lat: number, lng: number];
-  markers?: Array<MapMarker<T>>;
-  openPopup?: T;
-  getPopup?: (payload: T) => JSX.Element;
+type MapProps = {
+  center: [lng: number, lat: number];
+  zoom: number;
+  markers?: Array<MapMarker>;
   class?: string;
 };
 
-export const Map = <T,>(props: MapProps<T>) => {
-  let elem: HTMLElement;
-  let map: leaflet.Map;
+export const Map: Component<MapProps> = (props) => {
+  const id = createId();
 
-  onMount(() => {
-    map = leaflet.map(elem).setView(props.center, 13);
-
-    leaflet
-      .tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution:
-          '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-      })
-      .addTo(map);
-  });
-
-  const markers = new globalThis.Map<T, leaflet.Marker>();
-
-  createEffect(() => {
-    markers.forEach((marker) => marker.remove());
-    markers.clear();
-
-    for (const { position, payload } of props.markers ?? []) {
-      const marker = leaflet.marker(position).addTo(map);
-
-      if (props.getPopup) {
-        marker.bindPopup(props.getPopup(payload) as HTMLElement);
-      }
-
-      markers.set(payload, marker);
-    }
+  const [viewport, setViewport] = createSignal<Viewport>({
+    id,
+    center: props.center,
+    zoom: props.zoom,
   });
 
   createEffect(() => {
-    if (props.openPopup) {
-      const marker = markers.get(props.openPopup);
-
-      if (marker) {
-        marker.openPopup();
-        map.setView(props.center, 13);
-      }
-    } else {
-      map.closePopup();
-    }
+    setViewport({
+      id,
+      center: props.center,
+      zoom: props.zoom,
+    });
   });
 
-  return <div class={clsx('outline-none', props.class)} ref={(ref) => (elem = ref)} />;
+  return (
+    <MapGL
+      debug
+      id={id}
+      mapLib={maplibre}
+      viewport={viewport()}
+      onViewportChange={(evt) => setViewport(evt)}
+      class={clsx(props.class, '[&_.maplibregl-canvas]:outline-none')}
+    >
+      <Source
+        source={{
+          type: 'raster',
+          tileSize: 256,
+          tiles: ['https://a.tile.openstreetmap.org/{z}/{x}/{y}.png'],
+          attribution: '© OpenStreetMap',
+        }}
+      >
+        {/* eslint-disable-next-line solid/style-prop */}
+        <Layer style={{ type: 'raster' }} />
+      </Source>
+
+      <For each={props.markers}>
+        {(marker) => (
+          <Marker
+            lngLat={marker.position}
+            openPopup={marker.isPopupOpen}
+            options={{ popup: { closeButton: false, className: '[&>.maplibregl-popup-content]:rounded-lg' } }}
+          >
+            {marker.render && <div>{marker.render()}</div>}
+          </Marker>
+        )}
+      </For>
+    </MapGL>
+  );
 };

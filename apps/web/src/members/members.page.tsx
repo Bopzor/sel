@@ -1,11 +1,12 @@
 import { Member } from '@sel/shared';
+import { defined } from '@sel/utils';
 import { Icon } from 'solid-heroicons';
 import { magnifyingGlass } from 'solid-heroicons/solid';
-import { Component, createEffect, createMemo, createSignal, For, Setter } from 'solid-js';
+import { Component, For, Setter, createEffect, createSignal } from 'solid-js';
 
 import { BackLink } from '../components/back-link';
 import { Link } from '../components/link';
-import { Map, MapMarker } from '../components/map';
+import { Map } from '../components/map';
 import { MemberAddress } from '../components/member-address';
 import { MemberAvatarName } from '../components/member-avatar-name';
 import { useTranslation } from '../intl/translate';
@@ -25,36 +26,52 @@ export const MembersPage: Component = () => {
     void store.dispatch(fetchMembers());
   });
 
-  const [openPopup, setOpenPopup] = createSignal<Member>();
-
-  const markers = createMemo(() =>
-    members().map((member): MapMarker<Member> => ({ position: member.address.position, payload: member }))
-  );
+  const [openPopupMember, setOpenPopupMember] = createSignal<Member>();
 
   return (
     <>
       <BackLink href="/" />
 
       <div class="col md:row h-[600px] gap-6">
-        <MembersList members={members()} search={search()} onSearch={setSearch} onHighlight={setOpenPopup} />
+        <MembersList
+          members={members()}
+          search={search()}
+          onSearch={setSearch}
+          onHighlight={setOpenPopupMember}
+        />
 
         <Map
-          center={[43.836, 5.042]}
-          markers={markers()}
-          openPopup={openPopup()}
-          getPopup={(member) => (
-            <Link unstyled href={`/membre/${member.id}`} class="col min-w-[12rem] gap-2">
-              <div class="row items-center gap-2 text-base font-medium">
-                <MemberAvatarName member={member} />
-              </div>
-              <hr />
-              <MemberAddress address={member.address} />
-            </Link>
-          )}
-          class="h-full flex-1 rounded-lg shadow"
+          center={openPopupMember()?.address.position ?? [5.042, 43.836]}
+          zoom={13}
+          markers={members()
+            .filter((member) => member.address.position)
+            .map((member) => ({
+              position: defined(member.address.position),
+              isPopupOpen: member === openPopupMember(),
+              render: () => <Popup member={member} />,
+            }))}
+          class="h-full min-h-[24rem] flex-1 overflow-hidden rounded-lg shadow"
         />
       </div>
     </>
+  );
+};
+
+type PopupProps = {
+  member: Member;
+};
+
+const Popup: Component<PopupProps> = (props) => {
+  return (
+    <Link unstyled href={`/membre/${props.member.id}`} class="col min-w-[12rem] gap-2 outline-none">
+      <div class="row items-center gap-2 text-base font-medium">
+        <MemberAvatarName member={props.member} />
+      </div>
+
+      <hr />
+
+      <MemberAddress address={props.member.address} />
+    </Link>
   );
 };
 

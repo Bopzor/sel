@@ -16,11 +16,12 @@
     "@sel/shared": "workspace:*",
     "@sel/utils": "workspace:*",
     "@types/crypto-js": "^4.1.2",
-    "@types/leaflet": "^1.9.4",
+    "@types/mapbox-gl": "^2.7.14",
     "autoprefixer": "^10.4.15",
     "eslint-plugin-solid": "^0.13.0",
     "eslint-plugin-tailwindcss": "^3.13.0",
     "happy-dom": "^10.11.2",
+    "mapbox-gl": "^2.15.0",
     "postcss": "^8.4.29",
     "solid-devtools": "^0.27.7",
     "tailwindcss": "^3.3.3",
@@ -36,8 +37,9 @@
     "@solidjs/router": "^0.8.3",
     "clsx": "^2.0.0",
     "crypto-js": "^4.1.1",
-    "leaflet": "^1.9.4",
+    "maplibre-gl": "^3.3.1",
     "solid-heroicons": "^3.2.4",
-    "solid-js": "^1.7.11"
+    "solid-js": "^1.7.11",
+    "solid-map-gl": "^1.9.4"
   }
 }

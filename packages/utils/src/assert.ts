@@ -4,6 +4,10 @@ export function assert<T>(value: T, message?: string): asserts value {
   }
 }
 
+export function isDefined<T>(value: T | undefined): value is T {
+  return value !== undefined;
+}
+
 export function defined<T>(value: T | undefined, message?: string): T {
   assert(value, message);
   return value;

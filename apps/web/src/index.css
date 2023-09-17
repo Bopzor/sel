@@ -35,11 +35,3 @@
     @apply row items-center gap-2 whitespace-nowrap rounded-lg bg-green px-4 py-1 font-medium text-white hover:shadow-md;
   }
 }
-
-.leaflet-container {
-  font-family: inherit !important;
-}
-
-.leaflet-container a {
-  color: inherit !important;
-}

@@ -11,6 +11,7 @@
     "esModuleInterop": true,
     "resolveJsonModule": true,
     "jsx": "preserve",
+    "skipLibCheck": true,
     "jsxImportSource": "solid-js",
     "types": ["vite/client"],
     "noEmit": true,

@@ -43,12 +43,7 @@ export const MemberPage: Component = () => {
 
             <div class="grid grid-cols-1 gap-8 md:grid-cols-2">
               <MemberInfo member={member()} />
-
-              <Map
-                center={member().address.position}
-                class="h-[400px] flex-1 rounded-lg shadow"
-                markers={[{ position: member().address.position, payload: null }]}
-              />
+              <MemberMap member={member()} />
             </div>
           </div>
         )}
@@ -115,5 +110,24 @@ const MemberProfileData: Component<MemberProfileDataProps> = (props) => {
 
       {props.children}
     </div>
+  );
+};
+
+type MemberMapProps = {
+  member: Member;
+};
+
+const MemberMap: Component<MemberMapProps> = (props) => {
+  return (
+    <Show when={props.member.address.position}>
+      {(position) => (
+        <Map
+          center={position()}
+          zoom={13}
+          class="h-[400px] flex-1 rounded-lg shadow"
+          markers={[{ position: position(), isPopupOpen: true }]}
+        />
+      )}
+    </Show>
   );
 };
