@@ -18,7 +18,7 @@ export const App: Component = () => {
     <>
       <Header />
 
-      <main class="mx-auto max-w-[1300px] px-4">
+      <main class="mx-auto max-w-[1300px] px-4 pb-4">
         <Routes>
           <Route path="/" component={HomePage} />
           <Route path="/demandes" component={RequestsPage} />

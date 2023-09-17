@@ -32,7 +32,7 @@ export const MembersPage: Component = () => {
     <>
       <BackLink href="/" />
 
-      <div class="col md:row h-[600px] gap-6">
+      <div class="col md:row gap-6 md:h-[32rem]">
         <MembersList
           members={members()}
           search={search()}
@@ -40,38 +40,9 @@ export const MembersPage: Component = () => {
           onHighlight={setOpenPopupMember}
         />
 
-        <Map
-          center={openPopupMember()?.address.position ?? [5.042, 43.836]}
-          zoom={13}
-          markers={members()
-            .filter((member) => member.address.position)
-            .map((member) => ({
-              position: defined(member.address.position),
-              isPopupOpen: member === openPopupMember(),
-              render: () => <Popup member={member} />,
-            }))}
-          class="h-full min-h-[24rem] flex-1 overflow-hidden rounded-lg shadow"
-        />
+        <MemberMap members={members()} openPopupMember={openPopupMember()} />
       </div>
     </>
-  );
-};
-
-type PopupProps = {
-  member: Member;
-};
-
-const Popup: Component<PopupProps> = (props) => {
-  return (
-    <Link unstyled href={`/membre/${props.member.id}`} class="col min-w-[12rem] gap-2 outline-none">
-      <div class="row items-center gap-2 text-base font-medium">
-        <MemberAvatarName member={props.member} />
-      </div>
-
-      <hr />
-
-      <MemberAddress address={props.member.address} />
-    </Link>
   );
 };
 
@@ -84,7 +55,7 @@ type MembersListProps = {
 
 const MembersList: Component<MembersListProps> = (props) => {
   return (
-    <div class="card col max-h-full w-full self-start md:w-[22rem]">
+    <div class="card col max-h-[24rem] w-full self-start md:max-h-full md:w-[22rem]">
       <div class="shadow">
         <SearchMemberInput search={props.search} onSearch={props.onSearch} />
       </div>
@@ -139,5 +110,45 @@ const SearchMemberInput: Component<SearchMemberInputProps> = (props) => {
         onInput={(event) => props.onSearch(event.target.value)}
       />
     </div>
+  );
+};
+
+type MemberMapProps = {
+  members: Member[];
+  openPopupMember?: Member;
+};
+
+const MemberMap: Component<MemberMapProps> = (props) => {
+  return (
+    <Map
+      center={props.openPopupMember?.address.position ?? [5.042, 43.836]}
+      zoom={13}
+      markers={props.members
+        .filter((member) => member.address.position)
+        .map((member) => ({
+          position: defined(member.address.position),
+          isPopupOpen: member === props.openPopupMember,
+          render: () => <Popup member={member} />,
+        }))}
+      class="h-full min-h-[24rem] flex-1 overflow-hidden rounded-lg shadow"
+    />
+  );
+};
+
+type PopupProps = {
+  member: Member;
+};
+
+const Popup: Component<PopupProps> = (props) => {
+  return (
+    <Link unstyled href={`/membre/${props.member.id}`} class="col min-w-[12rem] gap-2 outline-none">
+      <div class="row items-center gap-2 text-base font-medium">
+        <MemberAvatarName member={props.member} />
+      </div>
+
+      <hr />
+
+      <MemberAddress address={props.member.address} />
+    </Link>
   );
 };
