@@ -1,15 +1,9 @@
 {
+  "extends": "@sel/typescript-config/tsconfig.base.json",
   "include": ["src/**/*"],
-  "files": ["tailwind.config.ts", "src/test-store.ts"],
+  "files": ["tailwind.config.ts"],
   "references": [{ "path": "../../packages/shared" }, { "path": "../../packages/utils" }],
   "compilerOptions": {
-    "strict": true,
-    "target": "ESNext",
-    "module": "ESNext",
-    "moduleResolution": "node",
-    "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true,
-    "resolveJsonModule": true,
     "jsx": "preserve",
     "skipLibCheck": true,
     "jsxImportSource": "solid-js",

@@ -1,15 +1,9 @@
 {
+  "extends": "@sel/typescript-config/tsconfig.base.json",
   "include": ["src/**/*"],
   "references": [{ "path": "../../packages/shared" }, { "path": "../../packages/utils" }],
   "compilerOptions": {
-    "module": "ESNext",
-    "target": "ESNext",
-    "moduleResolution": "Node",
-    "noEmit": true,
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "strict": true,
-    "forceConsistentCasingInFileNames": true
+    "noEmit": true
   },
   "ts-node": {
     "transpileOnly": true,

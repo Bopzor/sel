@@ -1,16 +1,10 @@
 {
+  "extends": "@sel/typescript-config/tsconfig.base.json",
   "include": ["src/**/*"],
   "compilerOptions": {
-    "module": "ESNext",
-    "target": "ESNext",
-    "moduleResolution": "Node",
     "outDir": "dist",
     "rootDir": "src",
     "composite": true,
-    "declaration": true,
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "strict": true,
-    "forceConsistentCasingInFileNames": true
+    "declaration": true
   }
 }

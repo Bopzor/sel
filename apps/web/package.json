@@ -13,6 +13,7 @@
   },
   "devDependencies": {
     "@sel/eslint-config": "workspace:*",
+    "@sel/typescript-config": "workspace:*",
     "@sel/shared": "workspace:*",
     "@sel/utils": "workspace:*",
     "@types/crypto-js": "^4.1.2",

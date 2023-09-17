@@ -11,6 +11,7 @@
   },
   "devDependencies": {
     "@sel/eslint-config": "workspace:*",
+    "@sel/typescript-config": "workspace:*",
     "@sel/utils": "workspace:*",
     "typescript": "^5.2.2"
   }
