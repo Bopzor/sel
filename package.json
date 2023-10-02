@@ -1,6 +1,7 @@
 {
   "name": "sel",
   "version": "1.0.0",
+  "packageManager": "pnpm@8.8.0",
   "private": true,
   "scripts": {
     "clean": "rm -rf {packages,apps}/*/{dist,tsconfig.tsbuildinfo}"
