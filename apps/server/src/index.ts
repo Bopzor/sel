@@ -1,19 +1,17 @@
-import express from 'express';
-
 import { container } from './container.js';
 import { TOKENS } from './tokens.js';
 
 import './fake-data';
 
-const config = container.resolve(TOKENS.config);
-const app = express();
+main();
 
-app.use('/requests', container.resolve(TOKENS.requestsController).router);
-app.use('/members', container.resolve(TOKENS.membersController).router);
+process.on('SIGINT', teardown);
+process.on('SIGTERM', teardown);
 
-const host = config.server.host;
-const port = config.server.port;
+function main() {
+  container.resolve(TOKENS.server).start().catch(console.error);
+}
 
-app.listen(port, () => {
-  console.log(`server listening on ${host}:${port}`);
-});
+function teardown() {
+  container.resolve(TOKENS.server).close().catch(console.error);
+}
