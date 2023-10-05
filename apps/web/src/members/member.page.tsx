@@ -1,5 +1,5 @@
 import { Member } from '@sel/shared';
-import { assert } from '@sel/utils';
+import { assert, defined } from '@sel/utils';
 import { useParams } from '@solidjs/router';
 import { Icon } from 'solid-heroicons';
 import { envelope, home, phone, user } from 'solid-heroicons/solid';
@@ -35,8 +35,11 @@ export const MemberPage: Component = () => {
       <Show when={member()} fallback={<Translate id="common.loading" />}>
         {(member) => (
           <div class="card gap-4 p-8">
-            <div class="row items-center gap-2">
-              <MemberAvatarName size="large" member={member()} />
+            <div class="row items-center gap-6">
+              <MemberAvatarName
+                member={member()}
+                classes={{ avatar: '!h-16 !w-16', name: 'text-xl font-semibold' }}
+              />
             </div>
 
             <hr class="my-6" />
@@ -79,8 +82,8 @@ const MemberInfo: Component<MemberInfoProps> = (props) => {
         <a href={`mailto:${props.member.email}`}>{props.member.email}</a>
       </MemberProfileData>
 
-      <MemberProfileData when={props.member.address.line1} label={<T id="mailingAddress" />} icon={home}>
-        <MemberAddress address={props.member.address} />
+      <MemberProfileData when={props.member.address} label={<T id="mailingAddress" />} icon={home}>
+        <MemberAddress address={defined(props.member.address)} />
       </MemberProfileData>
 
       <MemberProfileData when={props.member.bio} label={<T id="bio" />} icon={user}>
@@ -126,7 +129,7 @@ type MemberMapProps = {
 
 const MemberMap: Component<MemberMapProps> = (props) => {
   return (
-    <Show when={props.member.address.position}>
+    <Show when={props.member.address?.position}>
       {(position) => (
         <Map
           center={position()}

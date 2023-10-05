@@ -6,8 +6,10 @@ import { MemberAvatar } from './member-avatar';
 
 type MemberAvatarNameProps = {
   member: Member;
-  size?: 'large';
-  class?: string;
+  classes?: Partial<{
+    avatar: string;
+    name: string;
+  }>;
 };
 
 export const MemberAvatarName: Component<MemberAvatarNameProps> = (props) => {
@@ -15,9 +17,10 @@ export const MemberAvatarName: Component<MemberAvatarNameProps> = (props) => {
     <>
       <MemberAvatar
         member={props.member}
-        class={clsx('h-8 w-8 rounded-full border', props.size === 'large' && 'h-16 w-16')}
+        class={clsx(props.classes?.avatar, 'h-8 w-8 rounded-full border')}
       />
-      <span class="font-medium">
+
+      <span class={clsx(props.classes?.name, 'font-medium')}>
         {props.member.firstName} {props.member.lastName}
       </span>
     </>

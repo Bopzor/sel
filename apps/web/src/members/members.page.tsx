@@ -122,12 +122,12 @@ type MemberMapProps = {
 const MemberMap: Component<MemberMapProps> = (props) => {
   return (
     <Map
-      center={props.openPopupMember?.address.position ?? [5.042, 43.836]}
+      center={props.openPopupMember?.address?.position ?? [5.042, 43.836]}
       zoom={13}
       markers={props.members
-        .filter((member) => member.address.position)
+        .filter((member) => member.address?.position)
         .map((member) => ({
-          position: defined(member.address.position),
+          position: defined(member.address?.position),
           isPopupOpen: member === props.openPopupMember,
           render: () => <Popup member={member} />,
         }))}
@@ -149,7 +149,7 @@ const Popup: Component<PopupProps> = (props) => {
 
       <hr />
 
-      <MemberAddress address={props.member.address} />
+      <MemberAddress address={defined(props.member.address)} />
     </Link>
   );
 };

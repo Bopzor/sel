@@ -1,7 +1,7 @@
 {
   "extends": "@sel/typescript-config/tsconfig.base.json",
   "include": ["src/**/*"],
-  "files": ["vitest.config.ts"],
+  "files": ["vitest.config.ts", "drizzle.config.ts"],
   "references": [{ "path": "../../packages/shared" }, { "path": "../../packages/utils" }],
   "compilerOptions": {
     "noEmit": true

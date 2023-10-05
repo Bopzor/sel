@@ -1,8 +1,6 @@
 import { container } from './container.js';
 import { TOKENS } from './tokens.js';
 
-import './fake-data';
-
 main();
 
 process.on('SIGINT', teardown);
