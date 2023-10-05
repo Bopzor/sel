@@ -7,15 +7,15 @@ const params = new URLSearchParams({
   size: '64',
 });
 
-export const gravatarUrl = (email: string) => {
+export const gravatarUrl = (email = '') => {
   return `https://www.gravatar.com/avatar/${md5(email.trim().toLowerCase())}?${params}`;
 };
 
 type MemberAvatarProps = {
-  member: Member;
+  member?: Member;
   class?: string;
 };
 
 export const MemberAvatar: Component<MemberAvatarProps> = (props) => {
-  return <img src={gravatarUrl(props.member.email)} class={props.class} />;
+  return <img src={gravatarUrl(props.member?.email)} class={props.class} />;
 };

@@ -20,6 +20,14 @@ type MapProps = {
 };
 
 export const Map: Component<MapProps> = (props) => {
+  return (
+    <div class={clsx(props.class, 'col items-center justify-center bg-black/5 text-lg text-neutral/50')}>
+      Carte
+    </div>
+  );
+};
+
+export const Map_: Component<MapProps> = (props) => {
   const id = createId();
 
   const [viewport, setViewport] = createSignal<Viewport>({

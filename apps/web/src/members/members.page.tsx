@@ -81,7 +81,8 @@ const MembersListItem: Component<MembersListItemProps> = (props) => (
     <Link
       unstyled
       href={`/membre/${props.member.id}`}
-      class="row items-center gap-2 px-4 py-2 hover:bg-inverted/5"
+      tabIndex={0}
+      class="row items-center gap-2 px-4 py-2 hover:bg-inverted/5 focus:bg-inverted/5 focus:outline-none"
     >
       <MemberAvatarName member={props.member} />
     </Link>

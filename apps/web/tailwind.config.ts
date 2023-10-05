@@ -36,6 +36,7 @@ export default {
     },
     lineHeight: {
       0: '0',
+      1: '1em',
     },
     extend: {
       spacing: {

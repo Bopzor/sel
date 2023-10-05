@@ -11,20 +11,6 @@ export const HomePage = () => {
     <div class="pt-8">
       <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3">
         <LinkCard
-          href="/demandes"
-          label={<T id="requests.label" />}
-          description={<T id="requests.description" />}
-          class="border-requests from-requests/10 to-requests/20"
-        />
-
-        <LinkCard
-          href="#"
-          label={<T id="events.label" />}
-          description={<T id="events.description" />}
-          class="border-events from-events/10 to-events/20"
-        />
-
-        <LinkCard
           href="/membres"
           label={<T id="members.label" />}
           description={<T id="members.description" />}
@@ -33,9 +19,30 @@ export const HomePage = () => {
 
         <LinkCard
           href="#"
-          label={<T id="tools.label" />}
-          description={<T id="tools.description" />}
+          label="Brique A"
+          description="..."
+          class="border-events from-events/10 to-events/20"
+        />
+
+        <LinkCard
+          href="#"
+          label="Brique B"
+          description="..."
           class="border-tools from-tools/10 to-tools/20"
+        />
+
+        <LinkCard
+          href="#"
+          label="Brique C"
+          description="..."
+          class="border-[#9955DD] from-[#9955DD]/10 to-[#9955DD]/20"
+        />
+
+        <LinkCard
+          href="#"
+          label="Brique D"
+          description="..."
+          class="border-requests from-requests/10 to-requests/20"
         />
       </div>
     </div>

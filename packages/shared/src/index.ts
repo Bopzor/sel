@@ -26,7 +26,7 @@ export type Address = {
   postalCode: string;
   city: string;
   country: string;
-  position?: [lat: number, lng: number];
+  position?: [lng: number, lat: number];
 };
 
 export const createAddress = createFactory<Address>(() => ({

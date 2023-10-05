@@ -59,7 +59,11 @@ type MemberInfoProps = {
 const MemberInfo: Component<MemberInfoProps> = (props) => {
   return (
     <div class="col gap-4">
-      <MemberProfileData label={<T id="phoneNumber" />} icon={phone}>
+      <MemberProfileData
+        when={props.member.phoneNumbers.length > 0}
+        label={<T id="phoneNumber" />}
+        icon={phone}
+      >
         <ul>
           <For each={props.member.phoneNumbers}>
             {(phoneNumber) => (
@@ -71,15 +75,15 @@ const MemberInfo: Component<MemberInfoProps> = (props) => {
         </ul>
       </MemberProfileData>
 
-      <MemberProfileData label={<T id="emailAddress" />} icon={envelope}>
+      <MemberProfileData when={props.member.email} label={<T id="emailAddress" />} icon={envelope}>
         <a href={`mailto:${props.member.email}`}>{props.member.email}</a>
       </MemberProfileData>
 
-      <MemberProfileData label={<T id="mailingAddress" />} icon={home}>
+      <MemberProfileData when={props.member.address.line1} label={<T id="mailingAddress" />} icon={home}>
         <MemberAddress address={props.member.address} />
       </MemberProfileData>
 
-      <MemberProfileData label={<T id="bio" />} icon={user}>
+      <MemberProfileData when={props.member.bio} label={<T id="bio" />} icon={user}>
         <p>{props.member.bio}</p>
       </MemberProfileData>
     </div>
@@ -96,20 +100,23 @@ const formatPhoneNumber = (phoneNumber: string) => {
 };
 
 type MemberProfileDataProps = ParentProps<{
+  when?: unknown;
   icon: ComponentProps<typeof Icon>['path'];
   label: JSX.Element;
 }>;
 
 const MemberProfileData: Component<MemberProfileDataProps> = (props) => {
   return (
-    <div>
-      <div class="mb-2">
-        <Icon path={props.icon} class="inline-block h-em" />
-        <span class="ml-2 align-middle font-semibold">{props.label}</span>
-      </div>
+    <Show when={props.when}>
+      <div>
+        <div class="mb-2 text-primary">
+          <Icon path={props.icon} class="inline-block h-em" />
+          <span class="ml-2 align-middle font-semibold">{props.label}</span>
+        </div>
 
-      {props.children}
-    </div>
+        {props.children}
+      </div>
+    </Show>
   );
 };
 
