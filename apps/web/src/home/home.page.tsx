@@ -19,30 +19,30 @@ export const HomePage = () => {
 
         <LinkCard
           href="#"
-          label="Brique A"
+          label="Brique 2"
           description="..."
           class="border-events from-events/10 to-events/20"
         />
 
         <LinkCard
           href="#"
-          label="Brique B"
-          description="..."
-          class="border-tools from-tools/10 to-tools/20"
-        />
-
-        <LinkCard
-          href="#"
-          label="Brique C"
+          label="Brique 4"
           description="..."
           class="border-[#9955DD] from-[#9955DD]/10 to-[#9955DD]/20"
         />
 
         <LinkCard
           href="#"
-          label="Brique D"
+          label="Brique 4"
           description="..."
           class="border-requests from-requests/10 to-requests/20"
+        />
+
+        <LinkCard
+          href="#"
+          label="Brique 3"
+          description="..."
+          class="border-tools from-tools/10 to-tools/20"
         />
       </div>
     </div>

@@ -29,7 +29,8 @@ export const { selectAll: selectMembers, selectById: selectMemberUnsafe } = memb
 
 export const selectFilteredMembers = createSelector(
   [selectMembers, (state, search: string) => search],
-  (members, search) => members.filter((member) => Object.values(member).join(' ').includes(search))
+  (members, search) =>
+    members.filter((member) => Object.values(member).join(' ').match(new RegExp(search, 'gi')))
 );
 
 export const selectMember = createSelector(selectMemberUnsafe, (member) => {

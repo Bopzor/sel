@@ -30,5 +30,13 @@ describe('membersSlice', () => {
 
       expect(store.select(selectFilteredMembers, 'ox')).toEqual([cox]);
     });
+
+    test('case insensitive', () => {
+      const cox = createMember({ firstName: 'Cox' });
+
+      store.dispatch(addMember(cox));
+
+      expect(store.select(selectFilteredMembers, 'cox')).toEqual([cox]);
+    });
   });
 });

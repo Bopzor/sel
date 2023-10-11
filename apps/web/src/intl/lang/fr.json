@@ -12,21 +12,9 @@
     }
   },
   "home": {
-    "requests": {
-      "label": "Demandes",
-      "description": "Voir la liste des demandes en cours"
-    },
-    "events": {
-      "label": "Événements",
-      "description": "Les ateliers, sorties, conseils d'animation..."
-    },
     "members": {
       "label": "Membres",
-      "description": "Retrouver les membres de votre SEL"
-    },
-    "tools": {
-      "label": "Matériel",
-      "description": "Dons d'objets et prêts de matériel"
+      "description": "Voir la liste des membres du SEL"
     }
   },
   "members": {

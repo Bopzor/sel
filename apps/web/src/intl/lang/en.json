@@ -12,21 +12,9 @@
     }
   },
   "home": {
-    "requests": {
-      "label": "Requests",
-      "description": "View the list of pending requests"
-    },
-    "events": {
-      "label": "Événements",
-      "description": "Workshops..."
-    },
     "members": {
       "label": "Members",
-      "description": "Your LES's members"
-    },
-    "tools": {
-      "label": "Matériel",
-      "description": "Giving a lending tools"
+      "description": "View your LETS's members"
     }
   },
   "members": {
