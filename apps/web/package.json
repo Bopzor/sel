@@ -13,8 +13,8 @@
   },
   "devDependencies": {
     "@sel/eslint-config": "workspace:*",
-    "@sel/typescript-config": "workspace:*",
     "@sel/shared": "workspace:*",
+    "@sel/typescript-config": "workspace:*",
     "@sel/utils": "workspace:*",
     "@types/crypto-js": "^4.1.2",
     "@types/mapbox-gl": "^2.7.14",
@@ -38,6 +38,7 @@
     "@solidjs/router": "^0.8.3",
     "clsx": "^2.0.0",
     "crypto-js": "^4.1.1",
+    "ditox": "^2.3.1",
     "maplibre-gl": "^3.3.1",
     "solid-heroicons": "^3.2.4",
     "solid-js": "^1.7.11",
