@@ -1,12 +1,12 @@
 import * as shared from '@sel/shared';
 import { injectableClass } from 'ditox';
-import { InferSelectModel, eq } from 'drizzle-orm';
+import { InferSelectModel, asc, desc, eq } from 'drizzle-orm';
 
 import { Database } from '../infrastructure/persistence/database';
 import { members } from '../infrastructure/persistence/schema';
 import { TOKENS } from '../tokens';
 
-import { MembersRepository } from './members-repository';
+import { MembersRepository, MembersSort } from './members-repository';
 
 export class SqlMembersRepository implements MembersRepository {
   static inject = injectableClass(this, TOKENS.database);
@@ -17,8 +17,14 @@ export class SqlMembersRepository implements MembersRepository {
     return this.database.db;
   }
 
-  async listMembers(): Promise<shared.Member[]> {
-    const results = await this.db.select().from(members);
+  async listMembers(sort: MembersSort): Promise<shared.Member[]> {
+    const orderBy = {
+      [MembersSort.firstName]: asc(members.firstName),
+      [MembersSort.lastName]: asc(members.lastName),
+      [MembersSort.subscriptionDate]: desc(members.createdAt),
+    };
+
+    const results = await this.db.select().from(members).orderBy(orderBy[sort]);
 
     return results.map(this.sqlToMember);
   }

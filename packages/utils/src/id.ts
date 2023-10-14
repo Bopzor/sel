@@ -5,3 +5,7 @@ export function createId() {
 export function hasId<T extends { id: string }>(value: T['id']) {
   return (obj: T) => obj.id === value;
 }
+
+export function getId<T extends { id: string }>(value: T) {
+  return value.id;
+}

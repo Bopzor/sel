@@ -1,11 +1,21 @@
 import * as shared from '@sel/shared';
+import { createFactory, getId } from '@sel/utils';
+import { InferInsertModel } from 'drizzle-orm';
 import { beforeEach, describe, expect, it } from 'vitest';
 
 import { StubConfigAdapter } from '../infrastructure/config/stub-config.adapter';
 import { Database } from '../infrastructure/persistence/database';
 import { members } from '../infrastructure/persistence/schema';
 
+import { MembersSort } from './members-repository';
 import { SqlMembersRepository } from './sql-members-repository';
+
+const createSqlMember = createFactory<InferInsertModel<typeof members>>(() => ({
+  id: '',
+  firstName: '',
+  lastName: '',
+  email: '',
+}));
 
 describe('SqlMembersRepository', () => {
   let database: Database;
@@ -27,26 +37,28 @@ describe('SqlMembersRepository', () => {
 
     await database.db.delete(members);
 
-    await database.db.insert(members).values({
-      id: 'id',
-      firstName: 'firstName',
-      lastName: 'lastName',
-      email: 'email',
-      phoneNumbers: ['phoneNumbers'],
-      bio: 'bio',
-      address: {
-        line1: 'line1',
-        line2: 'line2',
-        postalCode: 'postalCode',
-        city: 'city',
-        country: 'country',
-        position: [0, 1],
-      },
-    });
+    await database.db.insert(members).values(
+      createSqlMember({
+        id: 'id',
+        firstName: 'firstName',
+        lastName: 'lastName',
+        email: 'email',
+        phoneNumbers: ['phoneNumbers'],
+        bio: 'bio',
+        address: {
+          line1: 'line1',
+          line2: 'line2',
+          postalCode: 'postalCode',
+          city: 'city',
+          country: 'country',
+          position: [0, 1],
+        },
+      })
+    );
   });
 
   it('queries the list of all members', async () => {
-    const results = await repository.listMembers();
+    const results = await repository.listMembers(MembersSort.firstName);
 
     expect(results).toEqual<shared.Member[]>([
       {
@@ -66,6 +78,14 @@ describe('SqlMembersRepository', () => {
         },
       },
     ]);
+  });
+
+  it('queries the list of all members sorted by last name', async () => {
+    await database.db.insert(members).values(createSqlMember({ id: 'id2', lastName: 'aaa' }));
+
+    const results = await repository.listMembers(MembersSort.lastName);
+
+    expect(results.map(getId)).toEqual(['id2', 'id']);
   });
 
   it('queries a member from its id', async () => {

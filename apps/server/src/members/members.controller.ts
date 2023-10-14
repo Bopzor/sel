@@ -4,7 +4,7 @@ import { RequestHandler, Router } from 'express';
 
 import { TOKENS } from '../tokens';
 
-import { MembersRepository } from './members-repository';
+import { MembersRepository, MembersSort } from './members-repository';
 
 export class MembersController {
   readonly router = Router();
@@ -17,7 +17,11 @@ export class MembersController {
   }
 
   listMembers: RequestHandler<never, shared.Member[]> = async (req, res) => {
-    res.json(await this.membersRepository.listMembers());
+    res.json(
+      await this.membersRepository.listMembers(
+        (req.query.sort as MembersSort | undefined) ?? MembersSort.firstName
+      )
+    );
   };
 
   getMember: RequestHandler<{ memberId: string }, shared.Member> = async (req, res) => {
