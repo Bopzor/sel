@@ -1,6 +1,7 @@
 import * as shared from '@sel/shared';
 import { injectableClass } from 'ditox';
 import { RequestHandler, Router } from 'express';
+import { z } from 'zod';
 
 import { TOKENS } from '../tokens';
 
@@ -17,11 +18,13 @@ export class MembersController {
   }
 
   listMembers: RequestHandler<never, shared.Member[]> = async (req, res) => {
-    res.json(
-      await this.membersRepository.listMembers(
-        (req.query.sort as MembersSort | undefined) ?? MembersSort.firstName
-      )
-    );
+    const schema = z.object({
+      sort: z.nativeEnum(MembersSort).optional(),
+    });
+
+    const { sort } = schema.parse(req.query);
+
+    res.json(await this.membersRepository.listMembers(sort ?? MembersSort.firstName));
   };
 
   getMember: RequestHandler<{ memberId: string }, shared.Member> = async (req, res) => {

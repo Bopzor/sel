@@ -35,6 +35,9 @@ importers:
       postgres:
         specifier: ^3.3.5
         version: 3.3.5
+      zod:
+        specifier: ^3.22.4
+        version: 3.22.4
     devDependencies:
       '@sel/eslint-config':
         specifier: workspace:*
@@ -160,15 +163,6 @@ importers:
       vitest:
         specifier: ^0.34.3
         version: 0.34.3(happy-dom@10.11.2)
-
-  data:
-    dependencies:
-      drizzle-orm:
-        specifier: ^0.28.6
-        version: 0.28.6(postgres@3.3.5)
-      postgres:
-        specifier: ^3.3.5
-        version: 3.3.5
 
   packages/eslint-config:
     devDependencies:
@@ -5073,4 +5067,3 @@ packages:
 
   /zod@3.22.4:
     resolution: {integrity: sha512-iC+8Io04lddc+mVqQ9AZ7OQ2MrUKGN+oIQyq1vemgt46jwCwLfhq7/pwnBnNXXXZb8VTVLKwp9EDkx+ryxIWmg==}
-    dev: true
