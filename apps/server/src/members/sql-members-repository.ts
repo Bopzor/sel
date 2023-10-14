@@ -6,7 +6,7 @@ import { Database } from '../infrastructure/persistence/database';
 import { members } from '../infrastructure/persistence/schema';
 import { TOKENS } from '../tokens';
 
-import { MembersRepository, MembersSort } from './members-repository';
+import { MembersRepository } from './members-repository';
 
 export class SqlMembersRepository implements MembersRepository {
   static inject = injectableClass(this, TOKENS.database);
@@ -17,11 +17,11 @@ export class SqlMembersRepository implements MembersRepository {
     return this.database.db;
   }
 
-  async listMembers(sort: MembersSort): Promise<shared.Member[]> {
+  async listMembers(sort: shared.MembersSort): Promise<shared.Member[]> {
     const orderBy = {
-      [MembersSort.firstName]: asc(members.firstName),
-      [MembersSort.lastName]: asc(members.lastName),
-      [MembersSort.subscriptionDate]: desc(members.createdAt),
+      [shared.MembersSort.firstName]: asc(members.firstName),
+      [shared.MembersSort.lastName]: asc(members.lastName),
+      [shared.MembersSort.subscriptionDate]: desc(members.createdAt),
     };
 
     const results = await this.db.select().from(members).orderBy(orderBy[sort]);

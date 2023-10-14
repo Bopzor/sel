@@ -1,6 +1,6 @@
-import { Member } from '@sel/shared';
+import { Member, MembersSort } from '@sel/shared';
 
 export interface MembersGateway {
-  listMembers(): Promise<Member[]>;
+  listMembers(sort?: MembersSort): Promise<Member[]>;
   getMember(memberId: string): Promise<Member | undefined>;
 }

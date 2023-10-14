@@ -21,7 +21,12 @@
     "phoneNumber": "Numéro de téléphone",
     "emailAddress": "Address email",
     "mailingAddress": "Address postale",
-    "bio": "À propos de moi"
+    "bio": "À propos de moi",
+    "membersSortEnum": {
+      "firstName": "Prénom",
+      "lastName": "Nom",
+      "subscriptionDate": "Date d'adhésion"
+    }
   },
   "requests": {
     "createRequest": "Créer une demande"

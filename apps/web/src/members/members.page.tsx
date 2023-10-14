@@ -1,15 +1,16 @@
-import { Member } from '@sel/shared';
+import { Member, MembersSort } from '@sel/shared';
 import { defined } from '@sel/utils';
+import clsx from 'clsx';
 import { Icon } from 'solid-heroicons';
 import { magnifyingGlass } from 'solid-heroicons/solid';
-import { Component, For, Setter, createEffect, createSignal } from 'solid-js';
+import { Component, For, createEffect, createSignal } from 'solid-js';
 
 import { BackLink } from '../components/back-link';
 import { Link } from '../components/link';
 import { Map } from '../components/map';
 import { MemberAddress } from '../components/member-address';
 import { MemberAvatarName } from '../components/member-avatar-name';
-import { useTranslation } from '../intl/translate';
+import { Translate, useTranslation } from '../intl/translate';
 import { selector } from '../store/selector';
 import { store } from '../store/store';
 
@@ -18,12 +19,13 @@ import { fetchMembers } from './use-cases/fetch-members/fetch-members';
 
 export const MembersPage: Component = () => {
   const [search, setSearch] = createSignal('');
+  const [sort, setSort] = createSignal<MembersSort>();
 
   // eslint-disable-next-line solid/reactivity
   const members = selector((state) => selectFilteredMembers(state, search()));
 
   createEffect(() => {
-    void store.dispatch(fetchMembers());
+    void store.dispatch(fetchMembers(sort()));
   });
 
   const [openPopupMember, setOpenPopupMember] = createSignal<Member>();
@@ -37,6 +39,8 @@ export const MembersPage: Component = () => {
           members={members()}
           search={search()}
           onSearch={setSearch}
+          sort={sort() ?? MembersSort.firstName}
+          onSort={setSort}
           onHighlight={setOpenPopupMember}
         />
 
@@ -49,15 +53,18 @@ export const MembersPage: Component = () => {
 type MembersListProps = {
   members: Member[];
   search: string;
-  onSearch: Setter<string>;
+  onSearch: (search: string) => void;
+  sort?: MembersSort;
+  onSort: (sort: MembersSort | undefined) => void;
   onHighlight: (member: Member | undefined) => void;
 };
 
 const MembersList: Component<MembersListProps> = (props) => {
   return (
     <div class="card col max-h-[24rem] w-full self-start md:max-h-full md:w-[22rem]">
-      <div class="shadow">
+      <div class="col gap-2 px-4 py-2 shadow">
         <SearchMemberInput search={props.search} onSearch={props.onSearch} />
+        <SortMembers sort={props.sort} onSort={props.onSort} />
       </div>
 
       <div class="flex-1 overflow-auto">
@@ -91,14 +98,14 @@ const MembersListItem: Component<MembersListItemProps> = (props) => (
 
 type SearchMemberInputProps = {
   search: string;
-  onSearch: Setter<string>;
+  onSearch: (search: string) => void;
 };
 
 const SearchMemberInput: Component<SearchMemberInputProps> = (props) => {
   const t = useTranslation();
 
   return (
-    <div class="row mx-4 my-2 gap-1 border-b-2 py-1 transition-colors focus-within:border-b-primary">
+    <div class="row gap-1 border-b-2 py-1 transition-colors focus-within:border-b-primary">
       <div>
         <Icon path={magnifyingGlass} class="h-5 w-5 fill-icon" />
       </div>
@@ -113,6 +120,27 @@ const SearchMemberInput: Component<SearchMemberInputProps> = (props) => {
     </div>
   );
 };
+
+const TranslateMembersSort = Translate.enum<MembersSort>('members.membersSortEnum');
+
+type SortMembersProps = {
+  sort?: MembersSort;
+  onSort: (sort: MembersSort | undefined) => void;
+};
+
+const SortMembers: Component<SortMembersProps> = (props) => (
+  <div class="row gap-4 text-sm">
+    <span class="text-dim">Trier par:</span>
+
+    <For each={Object.values(MembersSort)}>
+      {(sort) => (
+        <button class={clsx({ 'font-semibold': props.sort === sort })} onClick={() => props.onSort(sort)}>
+          <TranslateMembersSort value={sort} />
+        </button>
+      )}
+    </For>
+  </div>
+);
 
 type MemberMapProps = {
   members: Member[];

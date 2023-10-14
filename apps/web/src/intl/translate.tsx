@@ -75,3 +75,15 @@ Translate.prefix = <Prefix extends Paths<Translations>>(prefix?: Prefix) => {
 
   return T;
 };
+
+Translate.enum = <Values extends string>(id: Paths<Translations>) => {
+  type Props = {
+    value: Values;
+  };
+
+  const T = (props: Props) => {
+    return <Translate id={`${id}.${props.value}` as Leaves<Translations>} />;
+  };
+
+  return T;
+};

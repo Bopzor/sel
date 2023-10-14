@@ -21,7 +21,12 @@
     "phoneNumber": "Phone number",
     "emailAddress": "Email address",
     "mailingAddress": "Mailing address",
-    "bio": "Bio"
+    "bio": "Bio",
+    "membersSortEnum": {
+      "firstName": "First name",
+      "lastName": "Last name",
+      "subscriptionDate": "Subscription date"
+    }
   },
   "requests": {
     "createRequest": "Create a new request"

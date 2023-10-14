@@ -16,7 +16,7 @@ export const membersSlice = createSlice({
     addMember: membersAdapter.addOne.bind(membersAdapter),
   },
   extraReducers(builder) {
-    builder.addCase(membersFetched, membersAdapter.addMany.bind(membersAdapter));
+    builder.addCase(membersFetched, membersAdapter.setAll.bind(membersAdapter));
     builder.addCase(memberFetched, membersAdapter.addOne.bind(membersAdapter));
   },
 });

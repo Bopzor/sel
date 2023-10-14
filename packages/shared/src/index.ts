@@ -34,6 +34,12 @@ export const createAddress = createFactory<Address>(() => ({
   country: '',
 }));
 
+export enum MembersSort {
+  firstName = 'firstName',
+  lastName = 'lastName',
+  subscriptionDate = 'subscriptionDate',
+}
+
 export type Request = {
   id: string;
   requester: Member;

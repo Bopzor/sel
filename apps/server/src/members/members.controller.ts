@@ -5,7 +5,7 @@ import { z } from 'zod';
 
 import { TOKENS } from '../tokens';
 
-import { MembersRepository, MembersSort } from './members-repository';
+import { MembersRepository } from './members-repository';
 
 export class MembersController {
   readonly router = Router();
@@ -19,12 +19,12 @@ export class MembersController {
 
   listMembers: RequestHandler<never, shared.Member[]> = async (req, res) => {
     const schema = z.object({
-      sort: z.nativeEnum(MembersSort).optional(),
+      sort: z.nativeEnum(shared.MembersSort).optional(),
     });
 
     const { sort } = schema.parse(req.query);
 
-    res.json(await this.membersRepository.listMembers(sort ?? MembersSort.firstName));
+    res.json(await this.membersRepository.listMembers(sort ?? shared.MembersSort.firstName));
   };
 
   getMember: RequestHandler<{ memberId: string }, shared.Member> = async (req, res) => {
