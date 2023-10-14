@@ -2,7 +2,8 @@ import http from 'node:http';
 import util from 'node:util';
 
 import { Container, injectableClass } from 'ditox';
-import express from 'express';
+import express, { ErrorRequestHandler } from 'express';
+import { z } from 'zod';
 
 import { ConfigPort } from './infrastructure/config/config.port';
 import { TOKENS } from './tokens';
@@ -16,6 +17,7 @@ export class Server {
   constructor(container: Container, private config: ConfigPort) {
     this.app.use('/requests', container.resolve(TOKENS.requestsController).router);
     this.app.use('/members', container.resolve(TOKENS.membersController).router);
+    this.app.use(this.handleZodError);
   }
 
   async start() {
@@ -40,4 +42,12 @@ export class Server {
 
     console.log('server closed');
   }
+
+  private handleZodError: ErrorRequestHandler = (err, req, res, next) => {
+    if (err instanceof z.ZodError) {
+      res.status(400).json(err.format());
+    } else {
+      next(err);
+    }
+  };
 }

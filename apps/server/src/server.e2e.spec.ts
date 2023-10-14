@@ -16,4 +16,24 @@ describe('Server E2E', () => {
 
     await server.close();
   });
+
+  it('handles zod errors', async () => {
+    const config = new StubConfigAdapter({ server: { host: 'localhost', port: 3030 } });
+    const server = new Server(container, config);
+
+    await server.start();
+
+    const response = await fetch('http://localhost:3030/members?sort=invalid');
+
+    expect(response.status).toEqual(400);
+
+    expect(await response.json()).toEqual({
+      _errors: [],
+      sort: {
+        _errors: [expect.any(String)],
+      },
+    });
+
+    await server.close();
+  });
 });
