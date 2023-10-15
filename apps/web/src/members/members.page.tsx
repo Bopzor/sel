@@ -1,5 +1,5 @@
 import { Member, MembersSort } from '@sel/shared';
-import { defined } from '@sel/utils';
+import { defined, parseEnumValue } from '@sel/utils';
 import clsx from 'clsx';
 import { Icon } from 'solid-heroicons';
 import { magnifyingGlass } from 'solid-heroicons/solid';
@@ -10,6 +10,7 @@ import { Link } from '../components/link';
 import { Map } from '../components/map';
 import { MemberAddress } from '../components/member-address';
 import { MemberAvatarName } from '../components/member-avatar-name';
+import { useSearchParam } from '../infrastructure/router/use-search-param';
 import { Translate, useTranslation } from '../intl/translate';
 import { selector } from '../store/selector';
 import { store } from '../store/store';
@@ -18,8 +19,8 @@ import { selectFilteredMembers } from './members.slice';
 import { fetchMembers } from './use-cases/fetch-members/fetch-members';
 
 export const MembersPage: Component = () => {
-  const [search, setSearch] = createSignal('');
-  const [sort, setSort] = createSignal<MembersSort>();
+  const [search, setSearch] = useSearchParam('search', (value) => value ?? '');
+  const [sort, setSort] = useSearchParam('sort', parseEnumValue(MembersSort));
 
   // eslint-disable-next-line solid/reactivity
   const members = selector((state) => selectFilteredMembers(state, search()));
