@@ -37,7 +37,7 @@ export const MembersPage: Component = () => {
     <>
       <BackLink href="/" />
 
-      <div class="col md:row gap-6 md:h-[32rem]">
+      <div class="row flex-1 gap-6">
         <MembersList
           members={members()}
           search={search()}
@@ -64,19 +64,17 @@ type MembersListProps = {
 
 const MembersList: Component<MembersListProps> = (props) => {
   return (
-    <div class="card col max-h-[24rem] w-full self-start md:max-h-full md:w-[22rem]">
+    <div class="card col flex-1 md:max-w-[22rem]">
       <div class="col gap-2 px-4 py-2 shadow">
         <SearchMemberInput search={props.search} onSearch={props.onSearch} />
         <SortMembers sort={props.sort} onSort={props.onSort} />
       </div>
 
-      <div class="flex-1 overflow-auto">
-        <ul onMouseLeave={() => props.onHighlight(undefined)}>
-          <For each={props.members}>
-            {(member) => <MembersListItem member={member} onHighlight={() => props.onHighlight(member)} />}
-          </For>
-        </ul>
-      </div>
+      <ul class="h-0 flex-auto overflow-y-auto" onMouseLeave={() => props.onHighlight(undefined)}>
+        <For each={props.members}>
+          {(member) => <MembersListItem member={member} onHighlight={() => props.onHighlight(member)} />}
+        </For>
+      </ul>
     </div>
   );
 };
@@ -166,18 +164,20 @@ type MemberMapProps = {
 
 const MemberMap: Component<MemberMapProps> = (props) => {
   return (
-    <Map
-      center={props.openPopupMember?.address?.position ?? [5.042, 43.836]}
-      zoom={13}
-      markers={props.members
-        .filter((member) => member.address?.position)
-        .map((member) => ({
-          position: defined(member.address?.position),
-          isPopupOpen: member === props.openPopupMember,
-          render: () => <Popup member={member} />,
-        }))}
-      class="h-full min-h-[24rem] flex-1 overflow-hidden rounded-lg shadow"
-    />
+    <div class="hidden flex-1 md:block">
+      <Map
+        center={props.openPopupMember?.address?.position ?? [5.042, 43.836]}
+        zoom={13}
+        markers={props.members
+          .filter((member) => member.address?.position)
+          .map((member) => ({
+            position: defined(member.address?.position),
+            isPopupOpen: member === props.openPopupMember,
+            render: () => <Popup member={member} />,
+          }))}
+        class="aspect-[4/3] rounded-lg shadow"
+      />
+    </div>
   );
 };
 

@@ -11,9 +11,9 @@ const T = Translate.prefix('layout.header');
 export const Header: Component = () => {
   return (
     <header class="border-b-2 border-b-[#004359] bg-primary text-white">
-      <div class="row mx-auto max-w-[1300px] items-center justify-between p-4">
-        <Link unstyled href="/" class="inline-flex flex-row items-center">
-          <img src={logo} alt="SEL'ons-nous logo" width={64} height={64} class="mr-6 rounded" />
+      <div class="row mx-auto max-w-[1300px] items-center justify-between p-2 md:p-4">
+        <Link unstyled href="/" class="inline-flex flex-row items-center gap-2 md:gap-4">
+          <img src={logo} alt="SEL'ons-nous logo" width={64} height={64} class="rounded" />
           <div>
             <div class="text-lg font-semibold md:text-2xl">
               <T id="title" />

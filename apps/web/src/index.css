@@ -3,9 +3,26 @@
 @tailwind utilities;
 
 @layer base {
+  @media screen and (max-width: 640px) {
+    html {
+      font-size: 14px;
+    }
+  }
+
   body {
     background-color: #f4f4f5;
     color: theme('textColor.neutral');
+  }
+
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+
+  #root {
+    display: flex;
+    flex-direction: column;
   }
 
   a:hover {
