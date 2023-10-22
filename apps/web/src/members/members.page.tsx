@@ -2,7 +2,7 @@ import { Member, MembersSort } from '@sel/shared';
 import { defined, parseEnumValue } from '@sel/utils';
 import clsx from 'clsx';
 import { Icon } from 'solid-heroicons';
-import { magnifyingGlass } from 'solid-heroicons/solid';
+import { magnifyingGlass, mapPin } from 'solid-heroicons/solid';
 import { Component, For, createEffect, createSignal } from 'solid-js';
 
 import { BackLink } from '../components/back-link';
@@ -17,6 +17,8 @@ import { store } from '../store/store';
 
 import { selectFilteredMembers } from './members.slice';
 import { fetchMembers } from './use-cases/fetch-members/fetch-members';
+
+const T = Translate.prefix('members');
 
 export const MembersPage: Component = () => {
   const [search, setSearch] = useSearchParam('search', (value) => value ?? '');
@@ -84,18 +86,32 @@ type MembersListItemProps = {
   onHighlight: () => void;
 };
 
-const MembersListItem: Component<MembersListItemProps> = (props) => (
-  <li onMouseEnter={() => props.onHighlight()}>
-    <Link
-      unstyled
-      href={`/membre/${props.member.id}`}
-      tabIndex={0}
-      class="row items-center gap-2 px-4 py-2 hover:bg-inverted/5 focus:bg-inverted/5 focus:outline-none"
-    >
-      <MemberAvatarName member={props.member} />
-    </Link>
-  </li>
-);
+const MembersListItem: Component<MembersListItemProps> = (props) => {
+  const t = T.useTranslation();
+
+  return (
+    <li class="row group items-center gap-1 px-4 py-2 hover:bg-inverted/5 focus:bg-inverted/5">
+      <Link
+        unstyled
+        href={`/membre/${props.member.id}`}
+        tabIndex={0}
+        class="row flex-1 items-center gap-2 focus:outline-none"
+      >
+        <MemberAvatarName member={props.member} />
+      </Link>
+
+      {props.member.address && (
+        <button
+          class="group/button invisible group-hover:visible"
+          title={t('showOnMap')}
+          onClick={() => props.onHighlight()}
+        >
+          <Icon path={mapPin} class="h-5 w-5 fill-icon group-hover/button:fill-primary" />
+        </button>
+      )}
+    </li>
+  );
+};
 
 type SearchMemberInputProps = {
   search: string;

@@ -18,6 +18,7 @@
     }
   },
   "members": {
+    "showOnMap": "Voir sur la carte",
     "phoneNumber": "Numéro de téléphone",
     "emailAddress": "Address email",
     "mailingAddress": "Address postale",
