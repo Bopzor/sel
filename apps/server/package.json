@@ -16,6 +16,7 @@
     "express": "5.0.0-beta.1",
     "lodash.clonedeep": "^4.5.0",
     "nanoid": "^5.0.1",
+    "nodemailer": "^6.9.7",
     "postgres": "^3.3.5",
     "zod": "^3.22.4"
   },
@@ -26,6 +27,7 @@
     "@sel/utils": "workspace:*",
     "@types/express": "^4.17.17",
     "@types/lodash.clonedeep": "^4.5.7",
+    "@types/nodemailer": "^6.4.13",
     "drizzle-kit": "^0.19.13",
     "nodemon": "^3.0.1",
     "ts-node": "^10.9.1",
