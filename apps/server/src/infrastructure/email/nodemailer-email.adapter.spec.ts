@@ -14,6 +14,7 @@ describe('NodemailerEmailAdapter', () => {
       email: {
         host: 'host',
         port: 25,
+        secure: true,
         sender: 'sender',
         password: 'password',
       },
@@ -75,7 +76,7 @@ describe('NodemailerEmailAdapter', () => {
         text: 'text',
         html: 'html',
       },
-      expect.any(Function),
+      expect.any(Function)
     );
   });
 });

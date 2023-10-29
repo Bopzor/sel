@@ -74,7 +74,7 @@ describe('AuthenticationService', () => {
 
       expect(emailAdapter.emails).toContainEqual({
         to: 'email',
-        subject: "SELon's nous - Lien de connexion",
+        subject: "SEL'ons-nous - Lien de connexion",
         body: {
           text: 'Authentication link: https://app.url/?auth-token=authToken',
           html: '',

@@ -14,6 +14,7 @@ export type DatabaseConfig = {
 export type EmailConfig = {
   host: string;
   port: number;
+  secure: boolean;
   sender: string;
   password: string;
 };

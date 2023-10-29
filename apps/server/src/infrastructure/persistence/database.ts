@@ -1,7 +1,7 @@
 import path from 'node:path';
 import url from 'node:url';
 
-import { injectableClass } from 'ditox';
+import { injectableClass, token } from 'ditox';
 import { sql } from 'drizzle-orm';
 import { drizzle, PostgresJsDatabase } from 'drizzle-orm/postgres-js';
 import { migrate } from 'drizzle-orm/postgres-js/migrator';
@@ -9,6 +9,8 @@ import postgres from 'postgres';
 
 import { TOKENS } from '../../tokens';
 import { ConfigPort } from '../config/config.port';
+
+import { members, tokens } from './schema';
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
@@ -33,6 +35,11 @@ export class Database {
     await migrate(this.db, {
       migrationsFolder: Database.migrationsFolder,
     });
+  }
+
+  async reset() {
+    await this.db.delete(members);
+    await this.db.delete(tokens);
   }
 
   static async ensureTestDatabase() {

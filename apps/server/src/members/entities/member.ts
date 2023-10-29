@@ -1,6 +1,6 @@
 import { createFactory, createId } from '@sel/utils';
 
-import { Address, createAddress } from './address';
+import { Address } from './address';
 
 export type Member = {
   id: string;
@@ -8,8 +8,8 @@ export type Member = {
   lastName: string;
   email: string;
   phoneNumbers: string[];
-  bio: string;
-  address: Address;
+  bio?: string;
+  address?: Address;
 };
 
 export const createMember = createFactory<Member>(() => ({
@@ -18,6 +18,4 @@ export const createMember = createFactory<Member>(() => ({
   lastName: '',
   email: '',
   phoneNumbers: [],
-  bio: '',
-  address: createAddress(),
 }));

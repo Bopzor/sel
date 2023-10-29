@@ -17,6 +17,7 @@ export class Server {
   constructor(container: Container, private config: ConfigPort) {
     this.app.use('/requests', container.resolve(TOKENS.requestsController).router);
     this.app.use('/members', container.resolve(TOKENS.membersController).router);
+    this.app.use('/authentication', container.resolve(TOKENS.authenticationController).router);
     this.app.use(this.handleZodError);
   }
 

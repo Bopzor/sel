@@ -1,38 +1,27 @@
-import { beforeEach, describe, expect, it } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 
-import { container } from './container';
-import { StubConfigAdapter } from './infrastructure/config/stub-config.adapter';
-import { Server } from './server';
-import { TOKENS } from './tokens';
+import { E2ETest } from './e2e-test';
 
 describe('Server E2E', () => {
-  let config: StubConfigAdapter;
+  let test: E2ETest;
 
-  beforeEach(() => {
-    config = new StubConfigAdapter({
-      server: { host: 'localhost', port: 3030 },
-      database: { url: 'postgres://postgres@localhost:5432/test' },
-    });
+  beforeEach(async () => {
+    test = new E2ETest();
 
-    container.bindValue(TOKENS.config, config);
+    await test.setup();
+    await test.startServer();
+  });
+
+  afterEach(async () => {
+    await test.teardown();
   });
 
   it('starts a HTTP server', async () => {
-    const server = new Server(container, config);
-
-    await server.start();
-
     const response = await fetch('http://localhost:3030/members');
     expect(response.status).toEqual(200);
-
-    await server.close();
   });
 
   it('handles zod errors', async () => {
-    const server = new Server(container, config);
-
-    await server.start();
-
     const response = await fetch('http://localhost:3030/members?sort=invalid');
 
     expect(response.status).toEqual(400);
@@ -43,7 +32,5 @@ describe('Server E2E', () => {
         _errors: [expect.any(String)],
       },
     });
-
-    await server.close();
   });
 });

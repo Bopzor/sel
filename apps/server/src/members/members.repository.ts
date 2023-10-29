@@ -6,4 +6,5 @@ export interface MembersRepository {
   listMembers(sort: shared.MembersSort): Promise<shared.Member[]>;
   getMember(memberId: string): Promise<shared.Member | undefined>;
   getMemberFromEmail(email: string): Promise<Member | undefined>;
+  insert(member: Member): Promise<void>;
 }

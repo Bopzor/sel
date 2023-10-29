@@ -8,7 +8,7 @@ import { Email, EmailPort } from './email.port';
 export type TransportOptions = {
   port: number;
   host: string;
-  secure: true;
+  secure: boolean;
   auth: {
     type: 'login';
     user: string;
@@ -44,7 +44,7 @@ export class NodemailerEmailAdapter implements EmailPort {
     this.transporter = nodemailer.createTransport({
       port: config.email.port,
       host: config.email.host,
-      secure: true,
+      secure: config.email.secure,
       auth: {
         type: 'login',
         user: config.email.sender,

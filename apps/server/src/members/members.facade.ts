@@ -1,3 +1,7 @@
+import { injectableClass } from 'ditox';
+
+import { TOKENS } from '../tokens';
+
 import { MembersRepository } from './members.repository';
 
 export interface MembersFacade {
@@ -5,6 +9,8 @@ export interface MembersFacade {
 }
 
 export class MembersFacadeImpl implements MembersFacade {
+  static inject = injectableClass(this, TOKENS.membersRepository);
+
   constructor(private readonly membersRepository: MembersRepository) {}
 
   async getMemberIdFromEmail(email: string): Promise<string | undefined> {

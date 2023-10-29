@@ -106,4 +106,16 @@ describe('SqlMembersRepository', () => {
 
     expect(results).toBeUndefined();
   });
+
+  it('retrieves a member from its email', async () => {
+    const member = await repository.getMemberFromEmail('email');
+
+    expect(member).toHaveProperty('id', 'id');
+  });
+
+  it('resolves with undefined when the email does not exist', async () => {
+    const member = await repository.getMemberFromEmail('does-not-exist');
+
+    expect(member).toBeUndefined();
+  });
 });

@@ -1,13 +1,17 @@
+import { injectableClass } from 'ditox';
 import { eq } from 'drizzle-orm';
 
 import { DatePort } from '../infrastructure/date/date.port';
 import { Database } from '../infrastructure/persistence/database';
 import { tokens } from '../infrastructure/persistence/schema';
+import { TOKENS } from '../tokens';
 
 import { Token } from './token.entity';
 import { TokenRepository } from './token.repository';
 
 export class SqlTokenRepository implements TokenRepository {
+  static inject = injectableClass(this, TOKENS.database, TOKENS.date);
+
   constructor(private readonly database: Database, private readonly dateAdapter: DatePort) {}
 
   async findByValue(value: string): Promise<Token | undefined> {

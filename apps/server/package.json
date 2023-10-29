@@ -29,6 +29,7 @@
     "@types/lodash.clonedeep": "^4.5.7",
     "@types/nodemailer": "^6.4.13",
     "drizzle-kit": "^0.19.13",
+    "maildev": "^2.1.0",
     "nodemon": "^3.0.1",
     "ts-node": "^10.9.1",
     "typescript": "^5.2.2",

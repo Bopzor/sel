@@ -1,15 +1,27 @@
 import { Duration, addDuration, isAfter } from '@sel/utils';
+import { injectableClass } from 'ditox';
 
 import { ConfigPort } from '../infrastructure/config/config.port';
 import { DatePort } from '../infrastructure/date/date.port';
 import { EmailPort } from '../infrastructure/email/email.port';
 import { GeneratorPort } from '../infrastructure/generator/generator.port';
 import { MembersFacade } from '../members/members.facade';
+import { TOKENS } from '../tokens';
 
-import { TokenType, Token } from './token.entity';
+import { Token, TokenType } from './token.entity';
 import { TokenRepository } from './token.repository';
 
 export class AuthenticationService {
+  static inject = injectableClass(
+    this,
+    TOKENS.config,
+    TOKENS.generator,
+    TOKENS.date,
+    TOKENS.email,
+    TOKENS.tokenRepository,
+    TOKENS.membersFacade
+  );
+
   constructor(
     private readonly config: ConfigPort,
     private readonly generator: GeneratorPort,
@@ -58,7 +70,7 @@ export class AuthenticationService {
 
     await this.emailAdapter.send({
       to: email,
-      subject: "SELon's nous - Lien de connexion",
+      subject: "SEL'ons-nous - Lien de connexion",
       body: {
         text: `Authentication link: ${authenticationUrl}`,
         html: '',
