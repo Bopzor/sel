@@ -1,5 +1,5 @@
 import { relations } from 'drizzle-orm';
-import { json, pgEnum, pgTable, text, timestamp, varchar } from 'drizzle-orm/pg-core';
+import { boolean, json, pgEnum, pgTable, text, timestamp, varchar } from 'drizzle-orm/pg-core';
 
 import { TokenType } from '../../authentication/token.entity';
 
@@ -28,6 +28,7 @@ export const tokens = pgTable('tokens', {
   expirationDate: timestamp('expiration_date', { mode: 'string', precision: 3 }).notNull(),
   type: tokenType('type').notNull(),
   memberId: varchar('member_id', { length: 16 }).notNull(),
+  revoked: boolean('revoked').notNull().default(false),
   createdAt: createdAt(),
   updatedAt: updatedAt(),
 });
