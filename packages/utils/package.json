@@ -13,5 +13,8 @@
     "@sel/eslint-config": "workspace:*",
     "@sel/typescript-config": "workspace:*",
     "typescript": "^5.2.2"
+  },
+  "dependencies": {
+    "date-fns": "^2.30.0"
   }
 }
