@@ -10,5 +10,6 @@ export default defineConfig({
       '@sel/shared': path.resolve('../../packages/shared/src'),
       '@sel/utils': path.resolve('../../packages/utils/src'),
     },
+    singleThread: true,
   },
 });

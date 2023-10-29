@@ -1,12 +1,23 @@
-import { describe, expect, it } from 'vitest';
+import { beforeEach, describe, expect, it } from 'vitest';
 
 import { container } from './container';
 import { StubConfigAdapter } from './infrastructure/config/stub-config.adapter';
 import { Server } from './server';
+import { TOKENS } from './tokens';
 
 describe('Server E2E', () => {
+  let config: StubConfigAdapter;
+
+  beforeEach(() => {
+    config = new StubConfigAdapter({
+      server: { host: 'localhost', port: 3030 },
+      database: { url: 'postgres://postgres@localhost:5432/test' },
+    });
+
+    container.bindValue(TOKENS.config, config);
+  });
+
   it('starts a HTTP server', async () => {
-    const config = new StubConfigAdapter({ server: { host: 'localhost', port: 3030 } });
     const server = new Server(container, config);
 
     await server.start();
@@ -18,7 +29,6 @@ describe('Server E2E', () => {
   });
 
   it('handles zod errors', async () => {
-    const config = new StubConfigAdapter({ server: { host: 'localhost', port: 3030 } });
     const server = new Server(container, config);
 
     await server.start();
