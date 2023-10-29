@@ -91,6 +91,6 @@ export class AuthenticationService {
 
     await this.tokenRepository.revoke(token.id);
 
-    return this.generateToken(TokenType.session, 'memberId');
+    return this.generateToken(TokenType.session, token.memberId);
   }
 }

@@ -37,18 +37,31 @@ describe('SqlTokenRepository', () => {
   });
 
   describe('findByValue', () => {
-    it('returns undefined when no token with the given value exists', async () => {
-      const token = await repository.findByValue('value');
-
-      expect(token).toBeUndefined();
-    });
-
     it('retrieves a token from its value', async () => {
       await database.db.insert(tokens).values(createSqlToken({ id: 'tokenId', value: 'value' }));
 
       const token = await repository.findByValue('value');
 
       expect(token).toHaveProperty('id', 'tokenId');
+    });
+
+    it('returns undefined when no token with the given value exists', async () => {
+      const token = await repository.findByValue('value');
+
+      expect(token).toBeUndefined();
+    });
+
+    it('returns undefined when a revoked token with the given value exists', async () => {
+      await database.db.insert(tokens).values(
+        createSqlToken({
+          value: 'value',
+          revoked: true,
+        })
+      );
+
+      const token = await repository.findByValue('value');
+
+      expect(token).toBeUndefined();
     });
   });
 

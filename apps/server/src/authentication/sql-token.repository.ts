@@ -1,5 +1,5 @@
 import { injectableClass } from 'ditox';
-import { eq } from 'drizzle-orm';
+import { and, eq } from 'drizzle-orm';
 
 import { DatePort } from '../infrastructure/date/date.port';
 import { Database } from '../infrastructure/persistence/database';
@@ -15,7 +15,10 @@ export class SqlTokenRepository implements TokenRepository {
   constructor(private readonly database: Database, private readonly dateAdapter: DatePort) {}
 
   async findByValue(value: string): Promise<Token | undefined> {
-    const [sqlToken] = await this.database.db.select().from(tokens).where(eq(tokens.value, value));
+    const [sqlToken] = await this.database.db
+      .select()
+      .from(tokens)
+      .where(and(eq(tokens.value, value), eq(tokens.revoked, false)));
 
     if (!sqlToken) {
       return undefined;

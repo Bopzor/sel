@@ -24,7 +24,7 @@ export const tokenType = pgEnum('tokenType', [TokenType.authentication, TokenTyp
 
 export const tokens = pgTable('tokens', {
   id: id(),
-  value: varchar('value', { length: 256 }).notNull(),
+  value: varchar('value', { length: 256 }).notNull().unique(),
   expirationDate: timestamp('expiration_date', { mode: 'string', precision: 3 }).notNull(),
   type: tokenType('type').notNull(),
   memberId: varchar('member_id', { length: 16 }).notNull(),
