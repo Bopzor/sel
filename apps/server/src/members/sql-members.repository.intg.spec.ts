@@ -7,7 +7,7 @@ import { StubConfigAdapter } from '../infrastructure/config/stub-config.adapter'
 import { Database } from '../infrastructure/persistence/database';
 import { members } from '../infrastructure/persistence/schema';
 
-import { SqlMembersRepository } from './sql-members-repository';
+import { SqlMembersRepository } from './sql-members.repository';
 
 const createSqlMember = createFactory<InferInsertModel<typeof members>>(() => ({
   id: '',

@@ -3,7 +3,7 @@ import { defined } from '@sel/utils';
 import { injectableClass } from 'ditox';
 
 import { InMemoryRepository } from '../in-memory.repository';
-import { MembersRepository } from '../members/members-repository';
+import { MembersRepository } from '../members/members.repository';
 import { TOKENS } from '../tokens';
 
 import { Request } from './entities/request';

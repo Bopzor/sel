@@ -5,7 +5,7 @@ import { z } from 'zod';
 
 import { TOKENS } from '../tokens';
 
-import { MembersRepository } from './members-repository';
+import { MembersRepository } from './members.repository';
 
 export class MembersController {
   readonly router = Router();

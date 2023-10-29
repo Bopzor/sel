@@ -6,7 +6,7 @@ import { Database } from '../infrastructure/persistence/database';
 import { members } from '../infrastructure/persistence/schema';
 import { TOKENS } from '../tokens';
 
-import { MembersRepository } from './members-repository';
+import { MembersRepository } from './members.repository';
 
 export class SqlMembersRepository implements MembersRepository {
   static inject = injectableClass(this, TOKENS.database);

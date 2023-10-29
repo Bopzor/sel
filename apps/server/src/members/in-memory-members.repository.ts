@@ -4,7 +4,7 @@ import { injectableClass } from 'ditox';
 import { InMemoryRepository } from '../in-memory.repository';
 
 import { Member } from './entities/member';
-import { MembersRepository } from './members-repository';
+import { MembersRepository } from './members.repository';
 
 export class InMemoryMembersRepository extends InMemoryRepository<Member> implements MembersRepository {
   static inject = injectableClass(this);

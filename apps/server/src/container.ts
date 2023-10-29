@@ -5,7 +5,7 @@ import { EnvConfigAdapter } from './infrastructure/config/env-config.adapter';
 import { NodemailerEmailAdapter } from './infrastructure/email/nodemailer-email.adapter';
 import { Database } from './infrastructure/persistence/database';
 import { MembersController } from './members/members.controller';
-import { SqlMembersRepository } from './members/sql-members-repository';
+import { SqlMembersRepository } from './members/sql-members.repository';
 import { InMemoryRequestsRepository } from './requests/in-memory-requests.repository';
 import { RequestsController } from './requests/requests.controller';
 import { Server } from './server';
