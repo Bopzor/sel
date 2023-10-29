@@ -1,5 +1,5 @@
 import * as shared from '@sel/shared';
-import { createFactory, getId } from '@sel/utils';
+import { createDate, createFactory, getId } from '@sel/utils';
 import { InferInsertModel } from 'drizzle-orm';
 import { beforeEach, describe, expect, it } from 'vitest';
 
@@ -14,6 +14,8 @@ const createSqlMember = createFactory<InferInsertModel<typeof members>>(() => ({
   firstName: '',
   lastName: '',
   email: '',
+  createdAt: createDate().toISOString(),
+  updatedAt: createDate().toISOString(),
 }));
 
 describe('SqlMembersRepository', () => {
@@ -52,7 +54,7 @@ describe('SqlMembersRepository', () => {
           country: 'country',
           position: [0, 1],
         },
-      })
+      }),
     );
   });
 

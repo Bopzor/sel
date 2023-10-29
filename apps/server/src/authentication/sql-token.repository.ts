@@ -6,10 +6,7 @@ import { Token } from './token.entity';
 import { TokenRepository } from './token.repository';
 
 export class SqlTokenRepository implements TokenRepository {
-  constructor(
-    private readonly database: Database,
-    private readonly dateAdapter: DatePort,
-  ) {}
+  constructor(private readonly database: Database, private readonly dateAdapter: DatePort) {}
 
   async create(token: Token): Promise<void> {
     const now = this.dateAdapter.now();
@@ -17,8 +14,8 @@ export class SqlTokenRepository implements TokenRepository {
     await this.database.db.insert(tokens).values({
       ...token,
       expirationDate: token.expirationDate.toISOString(),
-      createdAt: now,
-      updatedAt: now,
+      createdAt: now.toISOString(),
+      updatedAt: now.toISOString(),
     });
   }
 }
