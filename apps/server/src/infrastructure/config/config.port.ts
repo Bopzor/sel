@@ -3,6 +3,10 @@ export type ServerConfig = {
   port: number;
 };
 
+export type AppConfig = {
+  baseUrl: string;
+};
+
 export type DatabaseConfig = {
   url: string;
 };
@@ -16,6 +20,7 @@ export type EmailConfig = {
 
 export interface ConfigPort {
   server: ServerConfig;
+  app: AppConfig;
   database: DatabaseConfig;
   email: EmailConfig;
 }

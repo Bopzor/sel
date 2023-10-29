@@ -1,24 +1,43 @@
 import { createDate } from '@sel/utils';
 import { beforeEach, describe, expect, it } from 'vitest';
 
+import { StubConfigAdapter } from '../infrastructure/config/stub-config.adapter';
 import { StubDate } from '../infrastructure/date/stub-date.adapter';
+import { Email } from '../infrastructure/email/email.port';
+import { StubEmailAdapter } from '../infrastructure/email/stub-email.adapter';
 import { StubGenerator } from '../infrastructure/generator/stub-generator.adapter';
+import { StubMembersFacade } from '../members/members.facade';
 
 import { AuthenticationService } from './authentication.service';
 import { InMemoryTokenRepository } from './in-memory-token.repository';
 import { TokenType, createToken } from './token.entity';
 
 describe('AuthenticationService', () => {
+  let config: StubConfigAdapter;
   let generator: StubGenerator;
   let dateAdapter: StubDate;
-  let authenticationService: AuthenticationService;
+  let emailAdapter: StubEmailAdapter;
   let tokenRepository: InMemoryTokenRepository;
+  let memberFacade: StubMembersFacade;
+
+  let authenticationService: AuthenticationService;
 
   beforeEach(() => {
+    config = new StubConfigAdapter({ app: { baseUrl: 'https://app.url' } });
     generator = new StubGenerator();
     dateAdapter = new StubDate();
+    emailAdapter = new StubEmailAdapter();
     tokenRepository = new InMemoryTokenRepository();
-    authenticationService = new AuthenticationService(generator, dateAdapter, tokenRepository);
+    memberFacade = new StubMembersFacade();
+
+    authenticationService = new AuthenticationService(
+      config,
+      generator,
+      dateAdapter,
+      emailAdapter,
+      tokenRepository,
+      memberFacade
+    );
   });
 
   describe('generateToken', () => {
@@ -43,6 +62,30 @@ describe('AuthenticationService', () => {
       await authenticationService.generateToken(TokenType.authentication, 'memberId');
 
       expect(tokenRepository.get('generatedId')).toBeDefined();
+    });
+  });
+
+  describe('requestAuthenticationLink', () => {
+    it('sends an authentication link by email', async () => {
+      generator.tokenValue = 'authToken';
+      memberFacade.membersEmail.set('email', 'memberId');
+
+      await authenticationService.requestAuthenticationLink('email');
+
+      expect(emailAdapter.emails).toContainEqual({
+        to: 'email',
+        subject: "SELon's nous - Lien de connexion",
+        body: {
+          text: 'Authentication link: https://app.url/?auth-token=authToken',
+          html: '',
+        },
+      } satisfies Email);
+    });
+
+    it('does not send an authentication email when the member does not exist', async () => {
+      await authenticationService.requestAuthenticationLink('does-not-exist');
+
+      expect(emailAdapter.emails).toHaveLength(0);
     });
   });
 

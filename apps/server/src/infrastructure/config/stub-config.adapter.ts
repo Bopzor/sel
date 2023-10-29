@@ -1,7 +1,8 @@
-import { ConfigPort, DatabaseConfig, EmailConfig, ServerConfig } from './config.port';
+import { AppConfig, ConfigPort, DatabaseConfig, EmailConfig, ServerConfig } from './config.port';
 
 export class StubConfigAdapter implements ConfigPort {
   server: ServerConfig;
+  app: AppConfig;
   database: DatabaseConfig;
   email: EmailConfig;
 
@@ -10,6 +11,11 @@ export class StubConfigAdapter implements ConfigPort {
       host: '',
       port: 0,
       ...config.server,
+    };
+
+    this.app = {
+      baseUrl: '',
+      ...config.app,
     };
 
     this.database = {

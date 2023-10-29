@@ -2,12 +2,13 @@ import { assert } from '@sel/utils';
 import { injectableClass } from 'ditox';
 import dotenv from 'dotenv';
 
-import { ConfigPort, DatabaseConfig, EmailConfig, ServerConfig } from './config.port';
+import { AppConfig, ConfigPort, DatabaseConfig, EmailConfig, ServerConfig } from './config.port';
 
 export class EnvConfigAdapter implements ConfigPort {
   static inject = injectableClass(this);
 
   server: ServerConfig;
+  app: AppConfig;
   database: DatabaseConfig;
   email: EmailConfig;
 
@@ -17,6 +18,10 @@ export class EnvConfigAdapter implements ConfigPort {
     this.server = {
       host: this.get('HOST', String),
       port: this.get('PORT', parseInt),
+    };
+
+    this.app = {
+      baseUrl: this.get('APP_BASE_URL', String),
     };
 
     this.database = {

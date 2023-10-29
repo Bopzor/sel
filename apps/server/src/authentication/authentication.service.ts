@@ -1,16 +1,22 @@
 import { Duration, addDuration, isAfter } from '@sel/utils';
 
+import { ConfigPort } from '../infrastructure/config/config.port';
 import { DatePort } from '../infrastructure/date/date.port';
+import { EmailPort } from '../infrastructure/email/email.port';
 import { GeneratorPort } from '../infrastructure/generator/generator.port';
+import { MembersFacade } from '../members/members.facade';
 
 import { TokenType, Token } from './token.entity';
 import { TokenRepository } from './token.repository';
 
 export class AuthenticationService {
   constructor(
+    private readonly config: ConfigPort,
     private readonly generator: GeneratorPort,
     private readonly dateAdapter: DatePort,
-    private readonly tokenRepository: TokenRepository
+    private readonly emailAdapter: EmailPort,
+    private readonly tokenRepository: TokenRepository,
+    private readonly memberFacade: MembersFacade
   ) {}
 
   private static expirationDurations: Record<TokenType, Duration> = {
@@ -36,6 +42,28 @@ export class AuthenticationService {
     await this.tokenRepository.insert(token);
 
     return token;
+  }
+
+  async requestAuthenticationLink(email: string): Promise<void> {
+    const memberId = await this.memberFacade.getMemberIdFromEmail(email);
+
+    if (!memberId) {
+      return;
+    }
+
+    const token = await this.generateToken(TokenType.authentication, memberId);
+
+    const authenticationUrl = new URL(this.config.app.baseUrl);
+    authenticationUrl.searchParams.set('auth-token', token.value);
+
+    await this.emailAdapter.send({
+      to: email,
+      subject: "SELon's nous - Lien de connexion",
+      body: {
+        text: `Authentication link: ${authenticationUrl}`,
+        html: '',
+      },
+    });
   }
 
   async verifyAuthenticationToken(tokenValue: string): Promise<Token> {
