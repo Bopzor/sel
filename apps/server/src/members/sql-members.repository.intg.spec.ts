@@ -1,22 +1,13 @@
 import * as shared from '@sel/shared';
-import { createDate, createFactory, getId } from '@sel/utils';
-import { InferInsertModel } from 'drizzle-orm';
+import { getId } from '@sel/utils';
 import { beforeEach, describe, expect, it } from 'vitest';
 
 import { StubConfigAdapter } from '../infrastructure/config/stub-config.adapter';
 import { Database } from '../infrastructure/persistence/database';
 import { members } from '../infrastructure/persistence/schema';
+import { createSqlMember } from '../infrastructure/persistence/sql-factories';
 
 import { SqlMembersRepository } from './sql-members.repository';
-
-const createSqlMember = createFactory<InferInsertModel<typeof members>>(() => ({
-  id: '',
-  firstName: '',
-  lastName: '',
-  email: '',
-  createdAt: createDate().toISOString(),
-  updatedAt: createDate().toISOString(),
-}));
 
 describe('SqlMembersRepository', () => {
   let database: Database;
@@ -54,7 +45,7 @@ describe('SqlMembersRepository', () => {
           country: 'country',
           position: [0, 1],
         },
-      }),
+      })
     );
   });
 

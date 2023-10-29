@@ -1,5 +1,5 @@
 import { Token } from './token.entity';
 
 export interface TokenRepository {
-  create(token: Token): Promise<void>;
+  create(token: Token, memberId: string): Promise<void>;
 }

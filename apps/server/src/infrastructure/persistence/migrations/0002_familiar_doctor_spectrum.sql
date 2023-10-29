@@ -1,0 +1,1 @@
+ALTER TABLE "tokens" ADD COLUMN "member_id" varchar(16) NOT NULL;

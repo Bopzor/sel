@@ -15,6 +15,13 @@
       "when": 1698587573629,
       "tag": "0001_tan_grim_reaper",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1698593941685,
+      "tag": "0002_familiar_doctor_spectrum",
+      "breakpoints": true
     }
   ]
 }

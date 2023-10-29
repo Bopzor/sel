@@ -8,12 +8,13 @@ import { TokenRepository } from './token.repository';
 export class SqlTokenRepository implements TokenRepository {
   constructor(private readonly database: Database, private readonly dateAdapter: DatePort) {}
 
-  async create(token: Token): Promise<void> {
+  async create(token: Token, memberId: string): Promise<void> {
     const now = this.dateAdapter.now();
 
     await this.database.db.insert(tokens).values({
       ...token,
       expirationDate: token.expirationDate.toISOString(),
+      memberId,
       createdAt: now.toISOString(),
       updatedAt: now.toISOString(),
     });
