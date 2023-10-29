@@ -8,12 +8,13 @@ export class E2ETest {
     server: {
       host: 'localhost',
       port: 3030,
+      sessionSecure: false,
     },
     database: {
       url: 'postgres://postgres@localhost:5432/test',
     },
     app: {
-      baseUrl: 'https://app.url',
+      baseUrl: 'http://app.url',
     },
     email: {
       host: 'localhost',

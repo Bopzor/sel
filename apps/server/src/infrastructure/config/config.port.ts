@@ -1,6 +1,7 @@
 export type ServerConfig = {
   host: string;
   port: number;
+  sessionSecure: boolean;
 };
 
 export type AppConfig = {

@@ -1,4 +1,4 @@
-import { waitFor } from '@sel/utils';
+import { assert, waitFor } from '@sel/utils';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 
 import { container } from '../container';
@@ -31,9 +31,22 @@ describe('authentication e2e', () => {
     expect(response.status).toEqual(200);
 
     await waitFor(() => {
-      expect(test.mailServer.emails).toContainEqual(
-        expect.objectContaining({ subject: "SEL'ons-nous - Lien de connexion" })
-      );
+      expect(test.mailServer.emails).toHaveLength(1);
     });
+
+    const email = test.mailServer.emails[0];
+    const match = /(http:\/\/.*)\n/.exec(email.text as string);
+
+    assert(match);
+
+    const link = new URL(match[1]);
+    const token = link.searchParams.get('auth-token');
+
+    const response2 = await fetch(
+      `http://localhost:3030/authentication/verify-authentication-token?token=${token}`
+    );
+
+    expect(response2.status).toEqual(200);
+    expect(response2.headers.get('set-cookie')).toEqual(expect.stringMatching(/^token=/));
   });
 });

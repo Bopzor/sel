@@ -18,6 +18,7 @@ export class EnvConfigAdapter implements ConfigPort {
     this.server = {
       host: this.get('HOST', String),
       port: this.get('PORT', parseInt),
+      sessionSecure: this.get('SESSION_SECURE', this.parseBoolean),
     };
 
     this.app = {
@@ -31,6 +32,7 @@ export class EnvConfigAdapter implements ConfigPort {
     this.email = {
       host: this.get('EMAIL_HOST', String),
       port: this.get('EMAIL_PORT', parseInt),
+      secure: this.get('EMAIL_SECURE', this.parseBoolean),
       sender: this.get('EMAIL_FROM', String),
       password: this.get('EMAIL_PASSWORD', String),
     };
@@ -42,5 +44,11 @@ export class EnvConfigAdapter implements ConfigPort {
     assert(input, `Missing environment variable "${name}"`);
 
     return parse(input);
+  }
+
+  private parseBoolean(this: void, value: string) {
+    assert(['true', 'false'].includes(value), 'Invalid boolean environment variable value');
+
+    return value === 'true';
   }
 }
