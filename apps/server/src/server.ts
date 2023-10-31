@@ -1,6 +1,7 @@
 import http from 'node:http';
 import util from 'node:util';
 
+import cookieParser from 'cookie-parser';
 import { Container, injectableClass } from 'ditox';
 import express, { ErrorRequestHandler } from 'express';
 import { z } from 'zod';
@@ -15,9 +16,13 @@ export class Server {
   private server = http.createServer(this.app);
 
   constructor(container: Container, private config: ConfigPort) {
+    // todo: secret
+    this.app.use(cookieParser());
+
     this.app.use('/requests', container.resolve(TOKENS.requestsController).router);
     this.app.use('/members', container.resolve(TOKENS.membersController).router);
     this.app.use('/authentication', container.resolve(TOKENS.authenticationController).router);
+    this.app.use('/session', container.resolve(TOKENS.sessionController).router);
     this.app.use(this.handleZodError);
   }
 

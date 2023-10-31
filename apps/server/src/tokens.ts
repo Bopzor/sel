@@ -15,6 +15,7 @@ import { MembersRepository } from './members/members.repository.js';
 import { RequestsController } from './requests/requests.controller.js';
 import { RequestsRepository } from './requests/requests.repository.js';
 import { Server } from './server.js';
+import { SessionController } from './session/session.controller.js';
 
 export const TOKENS = {
   container: token<Container>('container'),
@@ -33,4 +34,5 @@ export const TOKENS = {
   authenticationController: token<AuthenticationController>('authenticationController'),
   authenticationService: token<AuthenticationService>('authenticationService'),
   tokenRepository: token<TokenRepository>('tokenRepository'),
+  sessionController: token<SessionController>('sessionController'),
 };

@@ -1,4 +1,3 @@
-import { createMember } from '@sel/shared';
 import { beforeEach, describe, expect, it } from 'vitest';
 
 import { TestStore } from '../../../test-store';
@@ -14,11 +13,7 @@ describe('requestAuthenticationLink', () => {
   });
 
   it('requests an authentication link', async () => {
-    const member = createMember();
-
-    store.membersGateway.members = [member];
-
-    await store.dispatch(requestAuthenticationLink(member.id));
+    await store.dispatch(requestAuthenticationLink('email'));
 
     expect(store.select(selectAuthenticationLinkRequested)).toBe(true);
   });

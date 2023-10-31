@@ -15,6 +15,7 @@ import { SqlMembersRepository } from './members/sql-members.repository';
 import { InMemoryRequestsRepository } from './requests/in-memory-requests.repository';
 import { RequestsController } from './requests/requests.controller';
 import { Server } from './server';
+import { SessionController } from './session/session.controller';
 import { TOKENS } from './tokens';
 
 export const container = createContainer();
@@ -40,3 +41,5 @@ container.bindFactory(TOKENS.membersController, MembersController.inject);
 container.bindFactory(TOKENS.authenticationController, AuthenticationController.inject);
 container.bindFactory(TOKENS.authenticationService, AuthenticationService.inject);
 container.bindFactory(TOKENS.tokenRepository, SqlTokenRepository.inject);
+
+container.bindFactory(TOKENS.sessionController, SessionController.inject);

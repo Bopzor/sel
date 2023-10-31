@@ -27,7 +27,7 @@ export function useSearchParam<Value>(
   });
 
   const setParam = (value: Value) => {
-    setParams({ [name]: String(value) });
+    setParams({ [name]: value ? String(value) : undefined });
   };
 
   return [param, setParam];

@@ -26,7 +26,7 @@ export const HomePage = () => {
 
         <LinkCard
           href="#"
-          label="Brique 4"
+          label="Brique 3"
           description="..."
           class="border-[#9955DD] from-[#9955DD]/10 to-[#9955DD]/20"
         />
@@ -40,7 +40,7 @@ export const HomePage = () => {
 
         <LinkCard
           href="#"
-          label="Brique 3"
+          label="Brique 5"
           description="..."
           class="border-tools from-tools/10 to-tools/20"
         />
