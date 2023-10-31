@@ -10,7 +10,7 @@ type ButtonProps = ComponentProps<'button'> & {
 
 export const Button: Component<ButtonProps> = (props) => {
   return (
-    <button class={clsx('button', props.class)} {...props}>
+    <button {...props} class={clsx('button', props.class)}>
       {props.children}
       {props.loading && <Spinner class="h-1 w-1" />}
     </button>
@@ -23,7 +23,7 @@ type LinkButtonProps = ComponentProps<typeof Link> & {
 
 export const LinkButton: Component<LinkButtonProps> = (props) => {
   return (
-    <Link class={clsx('button', props.class)} {...props}>
+    <Link {...props} class={clsx('button', props.class)}>
       {props.children}
       {props.loading && <Spinner class="h-1 w-1" />}
     </Link>

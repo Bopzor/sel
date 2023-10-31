@@ -24,7 +24,7 @@ export const Header: Component = () => {
           </div>
         </Link>
 
-        <div class="col items-center gap-1 font-semibold">
+        <div class="col !hidden items-center gap-1 font-semibold">
           <MemberAvatar class="h-10 w-10 rounded-full" />
           <div class="leading-1">
             <T id="sign-in" />

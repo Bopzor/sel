@@ -11,6 +11,12 @@
       "sign-in": "Sign in"
     }
   },
+  "authentication": {
+    "description": "Sign-in to access the app. If you don't have an account yet, it will be created when you first sign-in.",
+    "emailAddress": "Email address",
+    "send": "Send",
+    "authenticationLinkRequested": "If your email address is authorized, an email containing an authentication link was sent to you at {email}. If you didn't receive anything within a few minutes, check your spams or contact us."
+  },
   "home": {
     "members": {
       "label": "Members",

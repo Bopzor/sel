@@ -25,15 +25,17 @@ type Leaves<T, Prefix extends string = ''> = T extends string
 
 type RemovePrefix<T extends string, P extends string> = T extends `${P}${infer R}` ? R : never;
 
+type Values = Record<string, JSX.Element | ((children: JSX.Element) => JSX.Element)>;
+
 interface TranslateFunction<Keys> {
   (id: Keys): string;
-  (id: Keys, values: Record<string, JSX.Element>): JSX.Element;
+  (id: Keys, values: Values): JSX.Element;
 }
 
 export const useTranslation = () => {
   const intl = useIntl();
 
-  const translate = (id: Leaves<Translations>, values?: Record<string, JSX.Element>) => {
+  const translate = (id: Leaves<Translations>, values?: Values) => {
     // @ts-expect-error JSX.Element works
     return intl.formatMessage({ id }, values);
   };
@@ -43,7 +45,7 @@ export const useTranslation = () => {
 
 type TranslateProps<Keys extends string> = {
   id: Keys;
-  values?: Record<string, JSX.Element>;
+  values?: Values;
 };
 
 export const Translate = (props: TranslateProps<Leaves<Translations>>) => {

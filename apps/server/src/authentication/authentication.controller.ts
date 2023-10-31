@@ -16,7 +16,7 @@ export class AuthenticationController {
     private readonly config: ConfigPort,
     private readonly authenticationService: AuthenticationService
   ) {
-    this.router.get('/request-authentication-link', this.requestAuthenticationLink);
+    this.router.post('/request-authentication-link', this.requestAuthenticationLink);
     this.router.get('/verify-authentication-token', this.verifyAuthenticationToken);
   }
 

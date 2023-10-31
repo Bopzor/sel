@@ -11,6 +11,12 @@
       "sign-in": "Connexion"
     }
   },
+  "authentication": {
+    "description": "Connectez-vous pour accéder à l'app. Si vous n'avez pas de compte, il sera créé lors de votre première connexion.",
+    "emailAddress": "Adresse email",
+    "send": "Envoyer",
+    "authenticationLinkRequested": "Si votre adresse email est autorisée, un email contenant un lien de connexion vous a été envoyé à l'adresse <strong>{email}</strong>. Si vous n'avez rien reçu dans les prochaines minutes, vérifiez dans vos spams ou contactez-nous."
+  },
   "home": {
     "members": {
       "label": "Membres",

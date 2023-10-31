@@ -1,7 +1,7 @@
 import { Route, Routes } from '@solidjs/router';
 import { lazy, type Component } from 'solid-js';
 
-import { Header } from './layout/header/header';
+import { Layout } from './layout/layout';
 
 const HomePage = lazyImport(() => import('./home/home.page'), 'HomePage');
 const RequestsPage = lazyImport(() => import('./requests/requests.page'), 'RequestsPage');
@@ -15,17 +15,13 @@ function lazyImport(module: () => Promise<any>, name: string) {
 
 export const App: Component = () => {
   return (
-    <>
-      <Header />
-
-      <main class="col mx-auto w-full max-w-[1300px] flex-1 px-4 pb-4">
-        <Routes>
-          <Route path="/" component={HomePage} />
-          <Route path="/demandes" component={RequestsPage} />
-          <Route path="/membres" component={MembersPage} />
-          <Route path="/membre/:memberId" component={MemberPage} />
-        </Routes>
-      </main>
-    </>
+    <Layout>
+      <Routes>
+        <Route path="/" component={HomePage} />
+        <Route path="/demandes" component={RequestsPage} />
+        <Route path="/membres" component={MembersPage} />
+        <Route path="/membre/:memberId" component={MemberPage} />
+      </Routes>
+    </Layout>
   );
 };
