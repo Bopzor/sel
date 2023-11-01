@@ -3,6 +3,7 @@ import { getId } from '@sel/utils';
 import { beforeEach, describe, expect, it } from 'vitest';
 
 import { StubConfigAdapter } from '../infrastructure/config/stub-config.adapter';
+import { StubDate } from '../infrastructure/date/stub-date.adapter';
 import { Database } from '../infrastructure/persistence/database';
 import { members } from '../infrastructure/persistence/schema';
 import { createSqlMember } from '../infrastructure/persistence/sql-factories';
@@ -23,7 +24,7 @@ describe('SqlMembersRepository', () => {
     });
 
     database = new Database(config);
-    repository = new SqlMembersRepository(database);
+    repository = new SqlMembersRepository(database, new StubDate());
 
     await database.migrate();
 

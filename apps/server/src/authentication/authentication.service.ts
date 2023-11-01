@@ -93,4 +93,16 @@ export class AuthenticationService {
 
     return this.generateToken(TokenType.session, token.memberId);
   }
+
+  async getMemberIdFromToken(tokenValue: string, type?: TokenType): Promise<string | undefined> {
+    const token = await this.tokenRepository.findByValue(tokenValue);
+
+    if (!token) {
+      return undefined;
+    }
+
+    if (type === undefined || token.type === type) {
+      return token.memberId;
+    }
+  }
 }

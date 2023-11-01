@@ -1,3 +1,4 @@
+import { createMember } from '@sel/shared';
 import { createDate } from '@sel/utils';
 import { beforeEach, describe, expect, it } from 'vitest';
 
@@ -7,6 +8,7 @@ import { Email } from '../infrastructure/email/email.port';
 import { StubEmailAdapter } from '../infrastructure/email/stub-email.adapter';
 import { StubGenerator } from '../infrastructure/generator/stub-generator.adapter';
 import { StubMembersFacade } from '../members/members.facade';
+import { UnitTest } from '../unit-test';
 
 import { AuthenticationService } from './authentication.service';
 import { InMemoryTokenRepository } from './in-memory-token.repository';
@@ -68,7 +70,7 @@ describe('AuthenticationService', () => {
   describe('requestAuthenticationLink', () => {
     it('sends an authentication link by email', async () => {
       generator.tokenValue = 'authToken';
-      memberFacade.membersEmail.set('email', 'memberId');
+      memberFacade.members.push(createMember({ id: 'memberId', email: 'email' }));
 
       await authenticationService.requestAuthenticationLink('email');
 
@@ -139,6 +141,62 @@ describe('AuthenticationService', () => {
       await expect(authenticationService.verifyAuthenticationToken('authToken')).rejects.toThrow(
         'token has expired'
       );
+    });
+  });
+
+  describe('getMemberIdFromToken', () => {
+    class Test extends UnitTest {
+      config = new StubConfigAdapter({ app: { baseUrl: 'https://app.url' } });
+      generator = new StubGenerator();
+      dateAdapter = new StubDate();
+      emailAdapter = new StubEmailAdapter();
+      tokenRepository = new InMemoryTokenRepository();
+      memberFacade = new StubMembersFacade();
+
+      service = new AuthenticationService(
+        this.config,
+        this.generator,
+        this.dateAdapter,
+        this.emailAdapter,
+        this.tokenRepository,
+        this.memberFacade
+      );
+
+      sessionToken = createToken({ value: 'session-token', memberId: 'memberId', type: TokenType.session });
+
+      setup() {
+        this.tokenRepository.add(this.sessionToken);
+      }
+    }
+
+    let test: Test;
+
+    beforeEach(() => {
+      test = Test.create(Test);
+    });
+
+    it("retrieves a member's id from a token", async () => {
+      const result = test.service.getMemberIdFromToken('session-token');
+
+      await expect(result).resolves.toEqual('memberId');
+    });
+
+    it("retrieves a member's id from a token of an expected type", async () => {
+      const result = test.service.getMemberIdFromToken('session-token', TokenType.session);
+
+      await expect(result).resolves.toEqual('memberId');
+    });
+
+    it('resolves with undefined when the token is not of the expected type', async () => {
+      const result = test.service.getMemberIdFromToken('session-token', TokenType.authentication);
+
+      await expect(result).resolves.toBeUndefined();
+    });
+
+    it('resolves with undefined when the token does not exist', async () => {
+      const result = test.service.getMemberIdFromToken('unknown-token');
+
+      await expect(result).resolves.toBeUndefined();
     });
   });
 });

@@ -7,13 +7,11 @@ describe('Server E2E', () => {
 
   beforeEach(async () => {
     test = new E2ETest();
-
     await test.setup();
-    await test.startServer();
   });
 
   afterEach(async () => {
-    await test.teardown();
+    await test?.teardown();
   });
 
   it('starts a HTTP server', async () => {

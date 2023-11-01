@@ -1,3 +1,5 @@
+import { expect } from 'vitest';
+
 import { container } from './container';
 import { StubConfigAdapter } from './infrastructure/config/stub-config.adapter';
 import { TestMailSever } from './infrastructure/email/test-mail-server';
@@ -36,6 +38,7 @@ export class E2ETest {
 
     await container.resolve(TOKENS.database).reset();
     await this.mailServer.listen();
+    await this.server.start();
   }
 
   async teardown() {
@@ -43,7 +46,39 @@ export class E2ETest {
     await this.mailServer.close();
   }
 
-  async startServer() {
-    await this.server.start();
+  async fetch(path: string, options: { method?: string; token?: string; assertStatus?: boolean } = {}) {
+    const { method = 'GET', token, assertStatus = true } = options;
+
+    let response: Response | undefined = undefined;
+    let body: unknown = undefined;
+
+    try {
+      const headers = new Headers();
+      const init: RequestInit = { method, headers };
+
+      if (token) {
+        headers.set('Cookie', `token=${token}`);
+      }
+
+      response = await fetch(`http://localhost:3030${path}`, init);
+
+      if (response.headers.get('Content-Type')?.startsWith('application/json')) {
+        body = await response.clone().json();
+      } else {
+        body = await response.clone().text();
+      }
+
+      if (assertStatus) {
+        expect(response.ok).toBe(true);
+      }
+
+      return [response, body] as const;
+    } catch (error) {
+      if (body) {
+        console.log(body);
+      }
+
+      throw error;
+    }
   }
 }

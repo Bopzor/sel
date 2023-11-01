@@ -2,6 +2,7 @@ import { createContainer } from 'ditox';
 import nodemailer from 'nodemailer';
 
 import { AuthenticationController } from './authentication/authentication.controller';
+import { AuthenticationFacadeImpl } from './authentication/authentication.facade';
 import { AuthenticationService } from './authentication/authentication.service';
 import { SqlTokenRepository } from './authentication/sql-token.repository';
 import { EnvConfigAdapter } from './infrastructure/config/env-config.adapter';
@@ -16,6 +17,8 @@ import { InMemoryRequestsRepository } from './requests/in-memory-requests.reposi
 import { RequestsController } from './requests/requests.controller';
 import { Server } from './server';
 import { SessionController } from './session/session.controller';
+import { SessionProvider } from './session/session.provider';
+import { SessionService } from './session/session.service';
 import { TOKENS } from './tokens';
 
 export const container = createContainer();
@@ -38,8 +41,11 @@ container.bindFactory(TOKENS.membersFacade, MembersFacadeImpl.inject);
 container.bindFactory(TOKENS.membersRepository, SqlMembersRepository.inject);
 container.bindFactory(TOKENS.membersController, MembersController.inject);
 
+container.bindFactory(TOKENS.authenticationFacade, AuthenticationFacadeImpl.inject);
 container.bindFactory(TOKENS.authenticationController, AuthenticationController.inject);
 container.bindFactory(TOKENS.authenticationService, AuthenticationService.inject);
 container.bindFactory(TOKENS.tokenRepository, SqlTokenRepository.inject);
 
+container.bindFactory(TOKENS.sessionProvider, SessionProvider.inject);
 container.bindFactory(TOKENS.sessionController, SessionController.inject);
+container.bindFactory(TOKENS.sessionService, SessionService.inject);

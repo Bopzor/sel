@@ -10,6 +10,7 @@ export class StubConfigAdapter implements ConfigPort {
     this.server = {
       host: '',
       port: 0,
+      sessionSecure: false,
       ...config.server,
     };
 
@@ -28,6 +29,7 @@ export class StubConfigAdapter implements ConfigPort {
       port: 0,
       sender: '',
       password: '',
+      secure: false,
       ...config.email,
     };
   }

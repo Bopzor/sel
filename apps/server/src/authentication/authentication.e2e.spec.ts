@@ -11,24 +11,20 @@ describe('authentication e2e', () => {
 
   beforeEach(async () => {
     test = new E2ETest();
-
     await test.setup();
-    await test.startServer();
   });
 
   afterEach(async () => {
-    await test.teardown();
+    await test?.teardown();
   });
 
   it('requests an authentication link by email', async () => {
     const memberRepository = container.resolve(TOKENS.membersRepository);
     await memberRepository.insert(createMember({ email: 'member@domain.tld' }));
 
-    const response = await fetch(
-      'http://localhost:3030/authentication/request-authentication-link?email=member@domain.tld'
-    );
-
-    expect(response.status).toEqual(200);
+    await test.fetch('/authentication/request-authentication-link?email=member@domain.tld', {
+      method: 'POST',
+    });
 
     await waitFor(() => {
       expect(test.mailServer.emails).toHaveLength(1);
@@ -42,11 +38,8 @@ describe('authentication e2e', () => {
     const link = new URL(match[1]);
     const token = link.searchParams.get('auth-token');
 
-    const response2 = await fetch(
-      `http://localhost:3030/authentication/verify-authentication-token?token=${token}`
-    );
+    const [response] = await test.fetch(`/authentication/verify-authentication-token?token=${token}`);
 
-    expect(response2.status).toEqual(200);
-    expect(response2.headers.get('set-cookie')).toEqual(expect.stringMatching(/^token=/));
+    expect(response.headers.get('set-cookie')).toEqual(expect.stringMatching(/^token=/));
   });
 });

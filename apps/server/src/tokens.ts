@@ -1,6 +1,7 @@
 import { Container, token } from 'ditox';
 
 import { AuthenticationController } from './authentication/authentication.controller.js';
+import { AuthenticationFacade } from './authentication/authentication.facade.js';
 import { AuthenticationService } from './authentication/authentication.service.js';
 import { TokenRepository } from './authentication/token.repository.js';
 import { ConfigPort } from './infrastructure/config/config.port.js';
@@ -16,6 +17,8 @@ import { RequestsController } from './requests/requests.controller.js';
 import { RequestsRepository } from './requests/requests.repository.js';
 import { Server } from './server.js';
 import { SessionController } from './session/session.controller.js';
+import { SessionProvider } from './session/session.provider.js';
+import { SessionService } from './session/session.service.js';
 
 export const TOKENS = {
   container: token<Container>('container'),
@@ -31,8 +34,11 @@ export const TOKENS = {
   membersRepository: token<MembersRepository>('membersRepository'),
   requestsController: token<RequestsController>('requestsController'),
   requestsRepository: token<RequestsRepository>('requestsRepository'),
+  sessionProvider: token<SessionProvider>('authenticatedMemberProvider'),
+  authenticationFacade: token<AuthenticationFacade>('authenticationFacade'),
   authenticationController: token<AuthenticationController>('authenticationController'),
   authenticationService: token<AuthenticationService>('authenticationService'),
   tokenRepository: token<TokenRepository>('tokenRepository'),
   sessionController: token<SessionController>('sessionController'),
+  sessionService: token<SessionService>('sessionService'),
 };
