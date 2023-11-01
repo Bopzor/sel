@@ -7,17 +7,22 @@ import express, { ErrorRequestHandler, RequestHandler } from 'express';
 import { z } from 'zod';
 
 import { ConfigPort } from './infrastructure/config/config.port';
+import { LoggerPort } from './infrastructure/logger/logger.port';
 import { AuthenticationError } from './session/session.provider';
 import { InvalidSessionTokenError } from './session/session.service';
 import { TOKENS } from './tokens';
 
 export class Server {
-  static inject = injectableClass(this, TOKENS.container, TOKENS.config);
+  static inject = injectableClass(this, TOKENS.container, TOKENS.config, TOKENS.logger);
 
   private app = express();
   private server = http.createServer(this.app);
 
-  constructor(private container: Container, private config: ConfigPort) {
+  constructor(
+    private readonly container: Container,
+    private readonly config: ConfigPort,
+    private readonly logger: LoggerPort
+  ) {
     // todo: secret
     this.app.use(cookieParser());
 
@@ -46,14 +51,14 @@ export class Server {
       });
     });
 
-    console.log(`server listening on ${host}:${port}`);
+    this.logger.info(`server listening on ${host}:${port}`);
   }
 
   async close() {
     this.server.closeAllConnections();
     await util.promisify<void>((cb) => this.server.close(cb))();
 
-    console.log('server closed');
+    this.logger.info('server closed');
   }
 
   private authenticationMiddleware: RequestHandler = async (req, res, next) => {

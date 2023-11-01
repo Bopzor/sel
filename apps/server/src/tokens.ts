@@ -9,6 +9,7 @@ import { DatePort } from './infrastructure/date/date.port.js';
 import { EmailPort } from './infrastructure/email/email.port.js';
 import { Nodemailer } from './infrastructure/email/nodemailer-email.adapter.js';
 import { GeneratorPort } from './infrastructure/generator/generator.port.js';
+import { LoggerPort } from './infrastructure/logger/logger.port.js';
 import { Database } from './infrastructure/persistence/database.js';
 import { MembersController } from './members/members.controller.js';
 import { MembersFacade } from './members/members.facade.js';
@@ -25,6 +26,7 @@ export const TOKENS = {
   config: token<ConfigPort>('config'),
   date: token<DatePort>('date'),
   generator: token<GeneratorPort>('generator'),
+  logger: token<LoggerPort>('logger'),
   server: token<Server>('server'),
   database: token<Database>('database'),
   nodemailer: token<Nodemailer>('nodemailer'),

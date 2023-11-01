@@ -3,6 +3,7 @@ import { expect } from 'vitest';
 import { container } from './container';
 import { StubConfigAdapter } from './infrastructure/config/stub-config.adapter';
 import { TestMailSever } from './infrastructure/email/test-mail-server';
+import { StubLogger } from './infrastructure/logger/stub-logger.adapter';
 import { TOKENS } from './tokens';
 
 export class E2ETest {
@@ -27,6 +28,8 @@ export class E2ETest {
     },
   });
 
+  logger = new StubLogger();
+
   mailServer = new TestMailSever(this.config);
 
   private get server() {
@@ -35,6 +38,7 @@ export class E2ETest {
 
   async setup() {
     container.bindValue(TOKENS.config, this.config);
+    container.bindValue(TOKENS.logger, this.logger);
 
     await container.resolve(TOKENS.database).reset();
     await this.mailServer.listen();

@@ -9,6 +9,7 @@ import { EnvConfigAdapter } from './infrastructure/config/env-config.adapter';
 import { NativeDateAdapter } from './infrastructure/date/native-date.adapter';
 import { NodemailerEmailAdapter } from './infrastructure/email/nodemailer-email.adapter';
 import { NanoIdGenerator } from './infrastructure/generator/nanoid-generator.adapter';
+import { ConsoleLogger } from './infrastructure/logger/console-logger.adapter';
 import { Database } from './infrastructure/persistence/database';
 import { MembersController } from './members/members.controller';
 import { MembersFacadeImpl } from './members/members.facade';
@@ -28,6 +29,7 @@ container.bindValue(TOKENS.container, container);
 container.bindFactory(TOKENS.config, EnvConfigAdapter.inject);
 container.bindFactory(TOKENS.date, NativeDateAdapter.inject);
 container.bindFactory(TOKENS.generator, NanoIdGenerator.inject);
+container.bindFactory(TOKENS.logger, ConsoleLogger.inject);
 
 container.bindFactory(TOKENS.server, Server.inject);
 container.bindFactory(TOKENS.database, Database.inject);
