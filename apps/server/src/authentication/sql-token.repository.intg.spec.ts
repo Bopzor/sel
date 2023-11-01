@@ -11,7 +11,7 @@ import { createSqlMember, createSqlToken } from '../infrastructure/persistence/s
 import { SqlTokenRepository } from './sql-token.repository';
 import { Token, TokenType } from './token.entity';
 
-describe('SqlTokenRepository', () => {
+describe('[Intg] SqlTokenRepository', () => {
   let database: Database;
   let dateAdapter: StubDate;
   let repository: SqlTokenRepository;

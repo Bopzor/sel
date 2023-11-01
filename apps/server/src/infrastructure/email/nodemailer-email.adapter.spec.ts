@@ -6,7 +6,7 @@ import { StubConfigAdapter } from '../config/stub-config.adapter';
 import { Email } from './email.port';
 import { Nodemailer, NodemailerEmailAdapter, Transporter } from './nodemailer-email.adapter';
 
-describe('NodemailerEmailAdapter', () => {
+describe('[Unit] NodemailerEmailAdapter', () => {
   let config: ConfigPort;
 
   beforeEach(() => {

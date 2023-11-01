@@ -4,6 +4,8 @@ import MailDev, { Email } from 'maildev';
 
 import { ConfigPort } from '../config/config.port';
 
+// cspell:word maildev
+
 export class TestMailSever {
   emails = new Array<Email>();
 
@@ -11,8 +13,9 @@ export class TestMailSever {
 
   constructor(config: ConfigPort) {
     this.maildev = new MailDev({
-      web: 1080,
       smtp: config.email.port,
+      web: 1080,
+      silent: true,
     });
 
     this.maildev.on('new', (email) => {
@@ -21,10 +24,10 @@ export class TestMailSever {
   }
 
   async listen() {
-    await promisify(this.maildev.listen)();
+    await promisify(this.maildev.listen.bind(this.maildev))();
   }
 
   async close() {
-    await promisify(this.maildev.close)();
+    await promisify(this.maildev.close.bind(this.maildev))();
   }
 }

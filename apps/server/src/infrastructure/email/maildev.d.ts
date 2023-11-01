@@ -2,6 +2,7 @@ declare module 'maildev' {
   type MailDevOptions = {
     web: number;
     smtp: number;
+    silent: boolean;
   };
 
   export type Email = {

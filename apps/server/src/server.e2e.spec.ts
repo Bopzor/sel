@@ -2,7 +2,7 @@ import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 
 import { E2ETest } from './e2e-test';
 
-describe('Server E2E', () => {
+describe('[E2E] Server', () => {
   let test: E2ETest;
 
   beforeEach(async () => {

@@ -3,7 +3,7 @@ import { beforeEach, describe, expect, it } from 'vitest';
 
 import { AuthenticationError, SessionProvider } from './session.provider';
 
-describe('SessionProvider', () => {
+describe('[Unit] SessionProvider', () => {
   let provider: SessionProvider;
 
   beforeEach(() => {

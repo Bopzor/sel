@@ -10,7 +10,7 @@ import { createSqlMember } from '../infrastructure/persistence/sql-factories';
 
 import { SqlMembersRepository } from './sql-members.repository';
 
-describe('SqlMembersRepository', () => {
+describe('[Intg] SqlMembersRepository', () => {
   let database: Database;
   let repository: SqlMembersRepository;
 

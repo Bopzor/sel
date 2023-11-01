@@ -6,7 +6,7 @@ import { E2ETest } from '../e2e-test';
 import { createMember } from '../members/entities/member';
 import { TOKENS } from '../tokens';
 
-describe('authentication e2e', () => {
+describe('[E2E] Authentication', () => {
   let test: E2ETest;
 
   beforeEach(async () => {

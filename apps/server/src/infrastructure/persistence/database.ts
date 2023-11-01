@@ -1,9 +1,10 @@
 import path from 'node:path';
 import url from 'node:url';
 
-import { injectableClass, token } from 'ditox';
+import { noop } from '@sel/utils';
+import { injectableClass } from 'ditox';
 import { sql } from 'drizzle-orm';
-import { drizzle, PostgresJsDatabase } from 'drizzle-orm/postgres-js';
+import { PostgresJsDatabase, drizzle } from 'drizzle-orm/postgres-js';
 import { migrate } from 'drizzle-orm/postgres-js/migrator';
 import postgres from 'postgres';
 
@@ -14,6 +15,8 @@ import { members, tokens } from './schema';
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
+// cspell:word postgres
+
 export class Database {
   static inject = injectableClass(this, TOKENS.config);
 
@@ -23,7 +26,7 @@ export class Database {
   public readonly db: PostgresJsDatabase;
 
   constructor(config: ConfigPort) {
-    this.pgQueryClient = postgres(config.database.url);
+    this.pgQueryClient = postgres(config.database.url, { onnotice: noop });
     this.db = drizzle(this.pgQueryClient);
   }
 
@@ -46,6 +49,7 @@ export class Database {
     const client = postgres('postgres://postgres@localhost/postgres');
     const db = drizzle(client);
 
+    // cspell:word datname
     const result = await db.execute(sql`select count(datname) from pg_database where datname = 'test'`);
 
     if (result[0].count === '0') {

@@ -20,7 +20,7 @@ class Test extends UnitTest {
   }
 }
 
-describe('SessionService', () => {
+describe('[Unit] SessionService', () => {
   let test: Test;
 
   beforeEach(() => {

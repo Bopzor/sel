@@ -14,7 +14,7 @@ import { AuthenticationService } from './authentication.service';
 import { InMemoryTokenRepository } from './in-memory-token.repository';
 import { TokenType, createToken } from './token.entity';
 
-describe('AuthenticationService', () => {
+describe('[Unit] AuthenticationService', () => {
   let config: StubConfigAdapter;
   let generator: StubGenerator;
   let dateAdapter: StubDate;

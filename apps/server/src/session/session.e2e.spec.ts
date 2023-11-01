@@ -6,7 +6,7 @@ import { container } from '../container';
 import { E2ETest } from '../e2e-test';
 import { TOKENS } from '../tokens';
 
-describe('session e2e', () => {
+describe('[E2E] Session', () => {
   let test: E2ETest;
 
   beforeEach(async () => {
