@@ -1,1 +1,0 @@
-ALTER TABLE "tokens" ADD COLUMN "revoked" boolean DEFAULT false NOT NULL;

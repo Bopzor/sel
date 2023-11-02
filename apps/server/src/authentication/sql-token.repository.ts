@@ -6,7 +6,7 @@ import { Database } from '../infrastructure/persistence/database';
 import { tokens } from '../infrastructure/persistence/schema';
 import { TOKENS } from '../tokens';
 
-import { Token } from './token.entity';
+import { Token, TokenType } from './token.entity';
 import { TokenRepository } from './token.repository';
 
 export class SqlTokenRepository implements TokenRepository {
@@ -24,6 +24,23 @@ export class SqlTokenRepository implements TokenRepository {
       return undefined;
     }
 
+    return this.toEntity(sqlToken);
+  }
+
+  async findByMemberId(memberId: string, type: TokenType): Promise<Token | undefined> {
+    const [sqlToken] = await this.database.db
+      .select()
+      .from(tokens)
+      .where(and(eq(tokens.memberId, memberId), eq(tokens.type, type), eq(tokens.revoked, false)));
+
+    if (!sqlToken) {
+      return undefined;
+    }
+
+    return this.toEntity(sqlToken);
+  }
+
+  private toEntity(sqlToken: typeof tokens.$inferSelect): Token {
     return {
       id: sqlToken.id,
       value: sqlToken.value,

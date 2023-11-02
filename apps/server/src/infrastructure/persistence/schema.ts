@@ -27,7 +27,9 @@ export const tokens = pgTable('tokens', {
   value: varchar('value', { length: 256 }).notNull().unique(),
   expirationDate: timestamp('expiration_date', { mode: 'string', precision: 3 }).notNull(),
   type: tokenType('type').notNull(),
-  memberId: varchar('member_id', { length: 16 }).notNull(),
+  memberId: varchar('member_id', { length: 16 })
+    .notNull()
+    .references(() => members.id),
   revoked: boolean('revoked').notNull().default(false),
   createdAt: createdAt(),
   updatedAt: updatedAt(),

@@ -1,1 +1,0 @@
-ALTER TABLE "tokens" ADD CONSTRAINT "tokens_value_unique" UNIQUE("value");

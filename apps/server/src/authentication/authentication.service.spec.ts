@@ -84,6 +84,18 @@ describe('[Unit] AuthenticationService', () => {
       } satisfies Email);
     });
 
+    it('revokes the previous authentication token', async () => {
+      memberFacade.members.push(createMember({ id: 'memberId', email: 'email' }));
+
+      tokenRepository.add(
+        createToken({ id: 'tokenId', memberId: 'memberId', type: TokenType.authentication, revoked: false })
+      );
+
+      await authenticationService.requestAuthenticationLink('email');
+
+      expect(tokenRepository.get('tokenId')).toHaveProperty('revoked', true);
+    });
+
     it('does not send an authentication email when the member does not exist', async () => {
       await authenticationService.requestAuthenticationLink('does-not-exist');
 

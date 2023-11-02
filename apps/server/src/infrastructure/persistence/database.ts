@@ -41,8 +41,8 @@ export class Database {
   }
 
   async reset() {
-    await this.db.delete(members);
     await this.db.delete(tokens);
+    await this.db.delete(members);
   }
 
   static async ensureTestDatabase() {

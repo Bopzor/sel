@@ -63,6 +63,12 @@ export class AuthenticationService {
       return;
     }
 
+    const previousToken = await this.tokenRepository.findByMemberId(memberId, TokenType.authentication);
+
+    if (previousToken) {
+      await this.tokenRepository.revoke(previousToken.id);
+    }
+
     const token = await this.generateToken(TokenType.authentication, memberId);
 
     const authenticationUrl = new URL(this.config.app.baseUrl);

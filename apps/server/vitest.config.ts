@@ -5,7 +5,7 @@ import { defineConfig } from 'vitest/config';
 export default defineConfig({
   test: {
     watch: false,
-    singleThread: true,
+    threads: false,
     globalSetup: './src/vitest.setup.ts',
     reporters: ['verbose'],
     alias: {

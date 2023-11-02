@@ -27,8 +27,7 @@ describe('[Intg] SqlMembersRepository', () => {
     repository = new SqlMembersRepository(database, new StubDate());
 
     await database.migrate();
-
-    await database.db.delete(members);
+    await database.reset();
 
     await database.db.insert(members).values(
       createSqlMember({

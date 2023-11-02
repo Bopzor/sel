@@ -1,7 +1,7 @@
 {
   "version": "5",
   "dialect": "pg",
-  "id": "1e541417-81a6-47b8-9ea0-c5953aac2696",
+  "id": "a7fccc2b-43fc-4dd8-aab8-2c879fecc996",
   "prevId": "ff4ddb88-e744-4447-b2da-c71244787d8f",
   "tables": {
     "members": {
@@ -105,6 +105,19 @@
           "primaryKey": false,
           "notNull": true
         },
+        "member_id": {
+          "name": "member_id",
+          "type": "varchar(16)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "revoked": {
+          "name": "revoked",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
+        },
         "created_at": {
           "name": "created_at",
           "type": "timestamp(3)",
@@ -119,9 +132,31 @@
         }
       },
       "indexes": {},
-      "foreignKeys": {},
+      "foreignKeys": {
+        "tokens_member_id_members_id_fk": {
+          "name": "tokens_member_id_members_id_fk",
+          "tableFrom": "tokens",
+          "tableTo": "members",
+          "columnsFrom": [
+            "member_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
       "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
+      "uniqueConstraints": {
+        "tokens_value_unique": {
+          "name": "tokens_value_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "value"
+          ]
+        }
+      }
     }
   },
   "enums": {

@@ -10,11 +10,11 @@ export class SessionController {
 
   readonly router = Router();
 
-  constructor(private readonly authenticatedMemberProvider: SessionProvider) {
+  constructor(private readonly sessionProvider: SessionProvider) {
     this.router.get('/member', this.getCurrentMember);
   }
 
   getCurrentMember: RequestHandler = (req, res) => {
-    res.json(this.authenticatedMemberProvider.getMember());
+    res.json(this.sessionProvider.getMember());
   };
 }

@@ -37,8 +37,14 @@ describe('[Intg] SqlTokenRepository', () => {
   });
 
   describe('findByValue', () => {
+    beforeEach(async () => {
+      await database.db.insert(members).values(createSqlMember({ id: 'memberId' }));
+    });
+
     it('retrieves a token from its value', async () => {
-      await database.db.insert(tokens).values(createSqlToken({ id: 'tokenId', value: 'value' }));
+      await database.db
+        .insert(tokens)
+        .values(createSqlToken({ id: 'tokenId', memberId: 'memberId', value: 'value' }));
 
       const token = await repository.findByValue('value');
 
@@ -55,6 +61,7 @@ describe('[Intg] SqlTokenRepository', () => {
       await database.db.insert(tokens).values(
         createSqlToken({
           value: 'value',
+          memberId: 'memberId',
           revoked: true,
         })
       );
@@ -62,6 +69,24 @@ describe('[Intg] SqlTokenRepository', () => {
       const token = await repository.findByValue('value');
 
       expect(token).toBeUndefined();
+    });
+  });
+
+  describe('findByMemberId', () => {
+    it('retrieves a token from a memberId and type', async () => {
+      await database.db.insert(members).values(createSqlMember({ id: 'memberId' }));
+
+      await database.db
+        .insert(tokens)
+        .values(createSqlToken({ id: 'tokenId', memberId: 'memberId', type: TokenType.session }));
+
+      const token = await repository.findByMemberId('memberId', TokenType.session);
+
+      expect(token).toHaveProperty('id', 'tokenId');
+    });
+
+    it('resolves with undefined when there is no token associated with the memberId', async () => {
+      await expect(repository.findByMemberId('memberId', TokenType.session)).resolves.toBeUndefined();
     });
   });
 
@@ -94,7 +119,11 @@ describe('[Intg] SqlTokenRepository', () => {
   });
 
   it('revokes a token', async () => {
-    await database.db.insert(tokens).values(createSqlToken({ id: 'tokenId', revoked: false }));
+    await database.db.insert(members).values(createSqlMember({ id: 'memberId' }));
+
+    await database.db
+      .insert(tokens)
+      .values(createSqlToken({ id: 'tokenId', memberId: 'memberId', revoked: false }));
 
     await expect(repository.revoke('tokenId')).resolves.toBeUndefined();
 
