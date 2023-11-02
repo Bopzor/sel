@@ -3,6 +3,12 @@ import { Member } from '@sel/shared';
 import { AuthenticationGateway } from './authentication.gateway';
 
 export class StubAuthenticationGateway implements AuthenticationGateway {
+  authenticatedMember?: Member;
+
+  async getAuthenticatedMember(): Promise<Member | undefined> {
+    return this.authenticatedMember;
+  }
+
   requestedAuthenticationLinks = new Array<string>();
 
   async requestAuthenticationLink(email: string): Promise<void> {

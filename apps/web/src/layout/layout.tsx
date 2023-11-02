@@ -1,8 +1,13 @@
 import { defined } from '@sel/utils';
-import { Component, JSX, Show } from 'solid-js';
+import { Component, JSX, Show, onMount } from 'solid-js';
 
+import { Authentication } from '../authentication/authentication';
+import { selectAuthenticatedMemberUnsafe } from '../authentication/authentication.slice';
+import { fetchAuthenticatedMember } from '../authentication/use-cases/fetch-authenticated-member/fetch-authenticated-member';
 import { VerifyAuthenticationToken } from '../authentication/verify-authentication-token';
 import { useSearchParam } from '../infrastructure/router/use-search-param';
+import { selector } from '../store/selector';
+import { store } from '../store/store';
 
 import { Header } from './header/header';
 
@@ -11,7 +16,12 @@ type LayoutProps = {
 };
 
 export const Layout: Component<LayoutProps> = (props) => {
+  const member = selector(selectAuthenticatedMemberUnsafe);
   const [authToken, setAuthToken] = useSearchParam('auth-token');
+
+  onMount(() => {
+    void store.dispatch(fetchAuthenticatedMember());
+  });
 
   return (
     <Show
@@ -20,8 +30,10 @@ export const Layout: Component<LayoutProps> = (props) => {
         <VerifyAuthenticationToken token={defined(authToken())} onVerified={() => setAuthToken(undefined)} />
       }
     >
-      <Header />
-      <main class="col mx-auto w-full max-w-[1300px] flex-1 px-4 pb-4">{props.children}</main>
+      <Show when={member()} fallback={<Authentication />}>
+        <Header />
+        <main class="col mx-auto w-full max-w-[1300px] flex-1 px-4 pb-4">{props.children}</main>
+      </Show>
     </Show>
   );
 };

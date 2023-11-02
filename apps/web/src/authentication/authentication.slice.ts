@@ -1,5 +1,6 @@
 import { PayloadAction, createSelector, createSlice } from '@reduxjs/toolkit';
 import { Member } from '@sel/shared';
+import { assert } from '@sel/utils';
 
 import { AppState } from '../store/types';
 
@@ -27,6 +28,11 @@ export const selectAuthenticationLinkRequested = createSelector(selectAuthentica
   return slice.authenticationLinkRequested;
 });
 
-export const selectAuthenticatedMember = createSelector(selectAuthenticationSlice, (slice) => {
+export const selectAuthenticatedMemberUnsafe = createSelector(selectAuthenticationSlice, (slice) => {
   return slice.member;
+});
+
+export const selectAuthenticatedMember = createSelector(selectAuthenticatedMemberUnsafe, (member) => {
+  assert(member, 'authenticated member is not defined');
+  return member;
 });

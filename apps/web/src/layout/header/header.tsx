@@ -1,14 +1,18 @@
-import { Component } from 'solid-js';
+import { Component, Show } from 'solid-js';
 
+import { selectAuthenticatedMemberUnsafe } from '../../authentication/authentication.slice';
 import { Link } from '../../components/link';
 import { MemberAvatar } from '../../components/member-avatar';
 import { Translate } from '../../intl/translate';
+import { selector } from '../../store/selector';
 
 import logo from './logo.png';
 
 const T = Translate.prefix('layout.header');
 
 export const Header: Component = () => {
+  const member = selector(selectAuthenticatedMemberUnsafe);
+
   return (
     <header class="border-b-2 border-b-[#004359] bg-primary text-white">
       <div class="row mx-auto max-w-[1300px] items-center justify-between p-2 md:p-4">
@@ -24,12 +28,14 @@ export const Header: Component = () => {
           </div>
         </Link>
 
-        <div class="col !hidden items-center gap-1 font-semibold">
-          <MemberAvatar class="h-10 w-10 rounded-full" />
-          <div class="leading-1">
-            <T id="sign-in" />
-          </div>
-        </div>
+        <Show when={member()}>
+          {(member) => (
+            <div class="col items-center gap-1 font-semibold">
+              <MemberAvatar member={member()} class="h-10 w-10 rounded-full" />
+              <div class="leading-1">{member().firstName}</div>
+            </div>
+          )}
+        </Show>
       </div>
     </header>
   );
