@@ -1,9 +1,8 @@
 import fs from 'fs';
 
-import { customAlphabet } from 'nanoid';
-
 import { container } from '../../container';
 import { TOKENS } from '../../tokens';
+import { NanoIdGenerator } from '../generator/nanoid-generator.adapter';
 
 import { members } from './schema';
 
@@ -16,10 +15,10 @@ const filename = process.argv[3];
 
 const database = container.resolve(TOKENS.database);
 const entries = JSON.parse(String(fs.readFileSync(filename)));
-const nanoid = customAlphabet('0123456789abcdefghijklmnopqrstuvwxyz', 16);
+const generator = new NanoIdGenerator();
 
 for (const entry of entries) {
-  await database.db.insert(table).values({ id: nanoid(), ...entry });
+  await database.db.insert(table).values({ id: generator.id(), ...entry });
 }
 
 await database.close();

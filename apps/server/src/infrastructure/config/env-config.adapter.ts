@@ -41,7 +41,7 @@ export class EnvConfigAdapter implements ConfigPort {
   private get<T>(name: string, parse: (input: string) => T): T {
     const input = process.env[name];
 
-    assert(input, `Missing environment variable "${name}"`);
+    assert(input !== undefined, `Missing environment variable "${name}"`);
 
     return parse(input);
   }

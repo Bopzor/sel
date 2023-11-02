@@ -57,6 +57,7 @@ export class Server {
   async close() {
     this.server.closeAllConnections();
     await util.promisify<void>((cb) => this.server.close(cb))();
+    await this.container.resolve(TOKENS.database).close();
 
     this.logger.info('server closed');
   }
