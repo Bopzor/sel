@@ -1,8 +1,11 @@
-import { PayloadAction, createSelector, createSlice } from '@reduxjs/toolkit';
+import { createSelector, createSlice } from '@reduxjs/toolkit';
 import { Member } from '@sel/shared';
 import { assert } from '@sel/utils';
 
 import { AppState } from '../store/types';
+
+import { fetchAuthenticatedMember } from './use-cases/fetch-authenticated-member/fetch-authenticated-member';
+import { requestAuthenticationLink } from './use-cases/request-authentication-link/request-authentication-link';
 
 export const authenticationSlice = createSlice({
   name: 'authentication',
@@ -10,17 +13,19 @@ export const authenticationSlice = createSlice({
     authenticationLinkRequested: false,
     member: null as Member | null,
   },
-  reducers: {
-    authenticationLinkRequested(state) {
+  reducers: {},
+  extraReducers(builder) {
+    builder.addCase(fetchAuthenticatedMember.fulfilled, (state, { payload }) => {
+      if (payload) {
+        state.member = payload;
+      }
+    });
+
+    builder.addCase(requestAuthenticationLink.fulfilled, (state) => {
       state.authenticationLinkRequested = true;
-    },
-    authenticatedMemberFetched(state, { payload: member }: PayloadAction<Member>) {
-      state.member = member;
-    },
+    });
   },
 });
-
-export const { authenticationLinkRequested, authenticatedMemberFetched } = authenticationSlice.actions;
 
 const selectAuthenticationSlice = (state: AppState) => state.authentication;
 

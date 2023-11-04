@@ -16,6 +16,8 @@ type LayoutProps = {
 };
 
 export const Layout: Component<LayoutProps> = (props) => {
+  const isFetchingAuthenticatedMember = selector(fetchAuthenticatedMember.selectIsPending);
+
   const member = selector(selectAuthenticatedMemberUnsafe);
   const [authToken, setAuthToken] = useSearchParam('auth-token');
 
@@ -30,9 +32,11 @@ export const Layout: Component<LayoutProps> = (props) => {
         <VerifyAuthenticationToken token={defined(authToken())} onVerified={() => setAuthToken(undefined)} />
       }
     >
-      <Show when={member()} fallback={<Authentication />}>
-        <Header />
-        <main class="col mx-auto w-full max-w-[1300px] flex-1 px-4 pb-4">{props.children}</main>
+      <Show when={!isFetchingAuthenticatedMember()}>
+        <Show when={member()} fallback={<Authentication />}>
+          <Header />
+          <main class="col mx-auto w-full max-w-[1300px] flex-1 px-4 pb-4">{props.children}</main>
+        </Show>
       </Show>
     </Show>
   );

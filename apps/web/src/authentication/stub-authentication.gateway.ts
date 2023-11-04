@@ -15,15 +15,11 @@ export class StubAuthenticationGateway implements AuthenticationGateway {
     this.requestedAuthenticationLinks.push(email);
   }
 
-  tokenMembersMap = new Map<string, Member>();
+  authenticationTokens = new Set<string>();
 
-  async verifyAuthenticationToken(token: string): Promise<Member> {
-    const member = this.tokenMembersMap.get(token);
-
-    if (!member) {
+  async verifyAuthenticationToken(token: string): Promise<void> {
+    if (!this.authenticationTokens.has(token)) {
       throw new Error('invalid authentication token');
     }
-
-    return member;
   }
 }

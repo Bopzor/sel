@@ -31,6 +31,7 @@ export default defineConfig({
     target: 'esnext',
   },
   test: {
+    reporters: ['verbose'],
     environment: 'happy-dom',
     deps: {
       optimizer: {

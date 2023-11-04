@@ -4,8 +4,8 @@ import { assert } from '@sel/utils';
 
 import { AppState } from '../store/types';
 
-import { memberFetched } from './use-cases/fetch-member/fetch-member';
-import { membersFetched } from './use-cases/fetch-members/fetch-members';
+import { fetchMember } from './use-cases/fetch-member/fetch-member';
+import { fetchMembers } from './use-cases/fetch-members/fetch-members';
 
 const membersAdapter = createEntityAdapter<Member>();
 
@@ -16,8 +16,13 @@ export const membersSlice = createSlice({
     addMember: membersAdapter.addOne.bind(membersAdapter),
   },
   extraReducers(builder) {
-    builder.addCase(membersFetched, membersAdapter.setAll.bind(membersAdapter));
-    builder.addCase(memberFetched, membersAdapter.addOne.bind(membersAdapter));
+    builder.addCase(fetchMembers.fulfilled, membersAdapter.setAll.bind(membersAdapter));
+
+    builder.addCase(fetchMember.fulfilled, (state, { payload }) => {
+      if (payload) {
+        membersAdapter.addOne(state, payload);
+      }
+    });
   },
 });
 

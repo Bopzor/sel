@@ -1,10 +1,8 @@
-import { createThunk } from '../../../store/create-thunk';
-import { authenticationLinkRequested } from '../../authentication.slice';
+import { createAsyncThunk } from '../../../store/create-thunk';
 
-export const requestAuthenticationLink = createThunk(
-  async ({ dispatch, authenticationGateway }, email: string) => {
-    await authenticationGateway.requestAuthenticationLink(email);
-
-    dispatch(authenticationLinkRequested());
+export const requestAuthenticationLink = createAsyncThunk(
+  'requestAuthenticationLink',
+  async ({ authenticationGateway }, email: string) => {
+    return authenticationGateway.requestAuthenticationLink(email);
   }
 );

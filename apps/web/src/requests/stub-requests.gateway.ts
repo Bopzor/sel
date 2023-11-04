@@ -7,7 +7,6 @@ export class StubRequestsGateway implements RequestsGateway {
   requests = new Array<Request>();
 
   async listRequests(): Promise<Request[]> {
-    await new Promise((r) => setTimeout(r, 1000));
     return this.requests;
   }
 

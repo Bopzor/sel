@@ -1,10 +1,10 @@
-import { createThunk } from '../../../store/create-thunk';
-import { authenticatedMemberFetched } from '../../authentication.slice';
+import { createAsyncThunk } from '../../../store/create-thunk';
+import { fetchAuthenticatedMember } from '../fetch-authenticated-member/fetch-authenticated-member';
 
-export const verifyAuthenticationToken = createThunk(
+export const verifyAuthenticationToken = createAsyncThunk(
+  'verifyAuthenticationToken',
   async ({ dispatch, authenticationGateway }, token: string) => {
-    const member = await authenticationGateway.verifyAuthenticationToken(token);
-
-    dispatch(authenticatedMemberFetched(member));
+    await authenticationGateway.verifyAuthenticationToken(token);
+    await dispatch(fetchAuthenticatedMember());
   }
 );

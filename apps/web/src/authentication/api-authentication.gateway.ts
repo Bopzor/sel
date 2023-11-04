@@ -27,13 +27,9 @@ export class ApiAuthenticationGateway implements AuthenticationGateway {
     );
   }
 
-  async verifyAuthenticationToken(token: string): Promise<Member> {
+  async verifyAuthenticationToken(token: string): Promise<void> {
     await this.fetcher.get(
       `/api/authentication/verify-authentication-token?${new URLSearchParams({ token })}`
     );
-
-    const { body } = await this.fetcher.get<Member>('/api/session/member');
-
-    return body;
   }
 }

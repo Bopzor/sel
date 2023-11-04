@@ -1,16 +1,5 @@
-import { createAction } from '@reduxjs/toolkit';
-import { Member } from '@sel/shared';
+import { createAsyncThunk } from '../../../store/create-thunk';
 
-import { createThunk } from '../../../store/create-thunk';
-
-export const fetchMember = createThunk(async ({ dispatch, membersGateway }, memberId: string) => {
-  const member = await membersGateway.getMember(memberId);
-
-  if (member) {
-    dispatch(memberFetched(member));
-  }
+export const fetchMember = createAsyncThunk('fetchMember', async ({ membersGateway }, memberId: string) => {
+  return membersGateway.getMember(memberId);
 });
-
-export const memberFetched = createAction('member/fetched', (member: Member) => ({
-  payload: member,
-}));

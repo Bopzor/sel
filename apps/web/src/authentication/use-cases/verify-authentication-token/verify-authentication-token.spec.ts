@@ -16,7 +16,7 @@ describe('verifyAuthenticationToken', () => {
   it('authenticates a member using an authentication token', async () => {
     const member = createMember();
 
-    store.authenticationGateway.tokenMembersMap.set('token', member);
+    store.authenticationGateway.authenticationTokens.add('token');
 
     await store.dispatch(verifyAuthenticationToken('token'));
 
