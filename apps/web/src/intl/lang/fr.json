@@ -17,6 +17,54 @@
     "send": "Envoyer",
     "authenticationLinkRequested": "Si votre adresse email est autorisée, un email contenant un lien de connexion vous a été envoyé à l'adresse <strong>{email}</strong>. Si vous n'avez rien reçu dans les prochaines minutes, vérifiez dans vos spams ou contactez-nous."
   },
+  "onboarding": {
+    "title": "Bienvenue sur l'app du SEL !",
+    "visible": "Visible",
+    "notVisible": "Non visible",
+    "navigation": {
+      "start": "Commencer",
+      "next": "Suivant",
+      "end": "Terminer"
+    },
+    "steps": {
+      "welcome": {
+        "sentence1": "Votre compte utilisateur a bien été activé ! 😊",
+        "sentence2": "Il ne vous reste plus qu'à vérifier et mettre à jour les informations de votre profil."
+      },
+      "name": {
+        "sentence1": "Votre nom et prénom seront visibles par tous les membres. En revanche, ils ne seront pas rendus publics à l'extérieur de l'app.",
+        "title": "Nom",
+        "firstName": "Prénom",
+        "lastName": "Nom de famille"
+      },
+      "contact": {
+        "sentence1": "Vérifiez vos informations de contact. Vous pouvez également indiquer si vous souhaitez rendre ces informations publiques pour les autres membres du SEL. Lorsqu'un champ est rendu visible, il sera affiché sur votre page de membre.",
+        "sentence2": "Dans tous les cas, aucune information ne sera visible à l'extérieur de l'app.",
+        "title": "Contact",
+        "emailAddress": "Adresse email",
+        "emailReadOnly": "Vous ne pouvez pas modifier votre adresse email",
+        "phoneNumber": "Numéro de téléphone"
+      },
+      "bio": {
+        "sentence1": "Rédigez quelques mots à propos de vous pour vous présenter. Quels sont vos centres d'intérêts ? Quel genre de coups de mains pouvez-vous donner ? Quel types d'activités vous intéressent ?",
+        "sentence2": "Vous pourrez changer votre présentation à tout moment depuis votre page de profil.",
+        "title": "À propos",
+        "bio": "A propos de vous"
+      },
+      "address": {
+        "title": "Adresse",
+        "address": "Adresse"
+      },
+      "end": {
+        "sentence1": "Vos informations on bien été enregistrées ! 😁",
+        "sentence2": "L'app étant en cours de développement, il est attendu que vous tombiez sur des bugs, ou que certaines fonctionnalités ne soient pas optimales. N'hésitez pas à partager vos retours d'expérience, pour que nous puissions, ensemble, construire une app qui convient à tous.",
+        "contact": {
+          "slack": "Sur slack",
+          "email": "Par email : <link>{email}</link>"
+        }
+      }
+    }
+  },
   "home": {
     "members": {
       "label": "Membres",

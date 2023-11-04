@@ -1,5 +1,5 @@
 import { Member } from '@sel/shared';
-import { assert, defined } from '@sel/utils';
+import { defined } from '@sel/utils';
 import { useParams } from '@solidjs/router';
 import { Icon } from 'solid-heroicons';
 import { envelope, home, phone, user } from 'solid-heroicons/solid';
@@ -13,6 +13,7 @@ import { Translate } from '../intl/translate';
 import { selector } from '../store/selector';
 import { store } from '../store/store';
 
+import { formatPhoneNumber } from './format-phone-number';
 import { selectMemberUnsafe } from './members.slice';
 import { fetchMember } from './use-cases/fetch-member/fetch-member';
 
@@ -91,15 +92,6 @@ const MemberInfo: Component<MemberInfoProps> = (props) => {
       </MemberProfileData>
     </div>
   );
-};
-
-const formatPhoneNumber = (phoneNumber: string) => {
-  assert(phoneNumber.length === 10);
-
-  return Array(5)
-    .fill(null)
-    .map((_, i) => phoneNumber[2 * i] + phoneNumber[2 * i + 1])
-    .join(' ');
 };
 
 type MemberProfileDataProps = ParentProps<{

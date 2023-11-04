@@ -17,6 +17,54 @@
     "send": "Send",
     "authenticationLinkRequested": "If your email address is authorized, an email containing an authentication link was sent to you at {email}. If you didn't receive anything within a few minutes, check your spams or contact us."
   },
+  "onboarding": {
+    "title": "Welcome on the LETS's app!",
+    "visible": "Visible",
+    "notVisible": "Not visible",
+    "navigation": {
+      "start": "Start",
+      "next": "Next",
+      "end": "End"
+    },
+    "steps": {
+      "welcome": {
+        "sentence1": "Your user account was activated! 😊",
+        "sentence2": "Please take a moment to check and update your profile information."
+      },
+      "name": {
+        "sentence1": "Your first and last name will be visible to all members. However, they will not be made public outside the app.",
+        "title": "Name",
+        "firstName": "First name",
+        "lastName": "Last name"
+      },
+      "contact": {
+        "sentence1": "Check your contact information. You can also indicate whether you want to make these information public to other LETS members. When a field is made visible, it will be displayed on your member page.",
+        "sentence2": "In any case, no information will be visible outside the app.",
+        "title": "Contact",
+        "emailAddress": "Email address",
+        "emailReadOnly": "You can't edit your email address",
+        "phoneNumber": "Phone number"
+      },
+      "bio": {
+        "sentence1": "Write a few words introduce yourself. What are your interests? What kind of help can you provide? What type of activities are you interested in?",
+        "sentence2": "You can change your presentation at any time from your profile page.",
+        "title": "About",
+        "bio": "About you"
+      },
+      "address": {
+        "title": "Address",
+        "address": "Address"
+      },
+      "end": {
+        "sentence1": "Your information has been saved! 😁",
+        "sentence2": "As this app is under development, you are expected to encounter bugs, or to find certain features no be suboptimal. Don't hesitate to share your feedback, so that together we can build an app that suits everyone.",
+        "contact": {
+          "slack": "On slack",
+          "email": "By email : <link>{email}</link>"
+        }
+      }
+    }
+  },
   "home": {
     "members": {
       "label": "Members",

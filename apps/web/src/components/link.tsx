@@ -7,5 +7,5 @@ type LinkProps = ComponentProps<typeof A> & {
 };
 
 export const Link: Component<LinkProps> = (props) => {
-  return <A {...props} class={clsx(props.class, props.unstyled && 'hover:no-underline')} />;
+  return <A {...props} class={clsx(props.class, props.unstyled && 'unstyled')} />;
 };
