@@ -1,12 +1,10 @@
-import { IntlShape } from '@formatjs/intl';
+import { IntlShape, createIntl, createIntlCache } from '@formatjs/intl';
 import { assert } from '@sel/utils';
-import { createContext, useContext, Show, ParentProps, createSignal, onMount } from 'solid-js';
+import { JSX, createContext, createMemo, useContext } from 'solid-js';
 
-import { createIntlInstance } from './intl';
+import { Language } from './types';
 
 const intlContext = createContext<IntlShape>();
-
-export const IntlProvider = intlContext.Provider;
 
 export const useIntl = () => {
   const intl = useContext(intlContext);
@@ -16,14 +14,24 @@ export const useIntl = () => {
   return intl;
 };
 
-type TranslationsProviderProps = ParentProps;
+type IntlProviderProps = {
+  locale: Language;
+  messages: Record<string, string>;
+  children: JSX.Element;
+};
 
-export const TranslationsProvider = (props: TranslationsProviderProps) => {
-  const [intl, setIntl] = createSignal<IntlShape>();
+export const IntlProvider = (props: IntlProviderProps) => {
+  const intl = createMemo<IntlShape>(() => {
+    const cache = createIntlCache();
 
-  onMount(() => {
-    void createIntlInstance('fr').then(setIntl);
+    return createIntl(
+      {
+        locale: props.locale,
+        messages: props.messages,
+      },
+      cache
+    );
   });
 
-  return <Show when={intl()}>{(intl) => <IntlProvider value={intl()}>{props.children}</IntlProvider>}</Show>;
+  return <intlContext.Provider value={intl()}>{props.children}</intlContext.Provider>;
 };

@@ -1,7 +1,7 @@
 import { JSX } from 'solid-js';
 
-import { Translations } from './intl';
 import { useIntl } from './intl-provider';
+import { Translations } from './types';
 
 type Paths<T, Prefix extends string = ''> = T extends string
   ? Prefix

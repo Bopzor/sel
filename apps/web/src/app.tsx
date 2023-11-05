@@ -1,6 +1,11 @@
-import { Route, Routes } from '@solidjs/router';
-import { lazy, type Component } from 'solid-js';
+import { Route, Router, Routes } from '@solidjs/router';
+import { JSX, Show, createResource, createSignal, lazy, type Component } from 'solid-js';
 
+import { MatomoScript } from './infrastructure/analytics/matomo-script';
+import { TrackPageView } from './infrastructure/analytics/track-page-view';
+import { IntlProvider } from './intl';
+import { getTranslations } from './intl/get-translations';
+import { Language } from './intl/types';
 import { Layout } from './layout/layout';
 
 const HomePage = lazyImport(() => import('./home/home.page'), 'HomePage');
@@ -16,14 +21,39 @@ function lazyImport(module: () => Promise<any>, name: string) {
 
 export const App: Component = () => {
   return (
-    <Layout>
-      <Routes>
-        <Route path="/" component={HomePage} />
-        <Route path="/onboarding" component={OnboardingPage} />
-        <Route path="/demandes" component={RequestsPage} />
-        <Route path="/membres" component={MembersPage} />
-        <Route path="/membre/:memberId" component={MemberPage} />
-      </Routes>
-    </Layout>
+    <Providers>
+      <Layout>
+        <Routes>
+          <Route path="/" component={HomePage} />
+          <Route path="/onboarding" component={OnboardingPage} />
+          <Route path="/demandes" component={RequestsPage} />
+          <Route path="/membres" component={MembersPage} />
+          <Route path="/membre/:memberId" component={MemberPage} />
+        </Routes>
+      </Layout>
+    </Providers>
+  );
+};
+
+type ProvidersProps = {
+  children: JSX.Element;
+};
+
+const Providers: Component<ProvidersProps> = (props) => {
+  const [language] = createSignal<Language>('fr');
+  const [translations] = createResource(language, getTranslations);
+
+  return (
+    <Show when={translations()}>
+      {(translations) => (
+        <IntlProvider locale={language()} messages={translations()}>
+          <Router>
+            {props.children}
+            <MatomoScript />
+            <TrackPageView />
+          </Router>
+        </IntlProvider>
+      )}
+    </Show>
   );
 };
