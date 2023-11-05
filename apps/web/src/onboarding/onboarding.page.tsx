@@ -7,7 +7,7 @@ import { store } from '../store/store';
 import { formatPhoneNumber } from '../utils/format-phone-number';
 
 import { OnFieldChange, OnboardingForm } from './onboarding-form';
-import { Stepper } from './stepper';
+import { Stepper } from './components/stepper';
 import { WelcomeStep } from './steps/00-welcome-step';
 import { NameStep } from './steps/01-name-step';
 import { ContactStep } from './steps/02-contact-step';

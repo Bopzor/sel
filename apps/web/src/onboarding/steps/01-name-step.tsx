@@ -3,7 +3,7 @@ import { Component } from 'solid-js';
 import { Translate } from '../../intl/translate';
 import { OnboardingField } from '../components/onboarding-field';
 import { OnboardingInput } from '../components/onboarding-input';
-import { NextButton } from '../next-button';
+import { NextButton } from '../components/next-button';
 import { OnFieldChange, OnboardingForm } from '../onboarding-form';
 
 const T = Translate.prefix('onboarding.steps.name');

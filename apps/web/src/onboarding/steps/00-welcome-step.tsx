@@ -1,7 +1,7 @@
 import { Component } from 'solid-js';
 
 import { Translate } from '../../intl/translate';
-import { NextButton } from '../next-button';
+import { NextButton } from '../components/next-button';
 
 const T = Translate.prefix('onboarding.steps.welcome');
 

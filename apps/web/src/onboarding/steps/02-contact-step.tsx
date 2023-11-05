@@ -7,7 +7,7 @@ import { selector } from '../../store/selector';
 import { OnboardingField } from '../components/onboarding-field';
 import { OnboardingFieldVisibility } from '../components/onboarding-field-visibility';
 import { OnboardingInput } from '../components/onboarding-input';
-import { NextButton } from '../next-button';
+import { NextButton } from '../components/next-button';
 import { OnFieldChange, OnboardingForm } from '../onboarding-form';
 
 const T = Translate.prefix('onboarding.steps.contact');

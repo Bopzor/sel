@@ -3,7 +3,7 @@ import { Icon } from 'solid-heroicons';
 import { check } from 'solid-heroicons/outline';
 import { Component, JSX, Show } from 'solid-js';
 
-import { Translate } from '../intl/translate';
+import { Translate } from '../../intl/translate';
 
 const T = Translate.prefix('onboarding.steps');
 

@@ -3,7 +3,7 @@ import { Icon } from 'solid-heroicons';
 import { arrowRight } from 'solid-heroicons/outline';
 import { Component, ComponentProps } from 'solid-js';
 
-import { Button } from '../components/button';
+import { Button } from '../../components/button';
 
 type NextButtonProps = ComponentProps<typeof Button>;
 
