@@ -12,8 +12,8 @@ import { MemberAvatarName } from '../components/member-avatar-name';
 import { Translate } from '../intl/translate';
 import { selector } from '../store/selector';
 import { store } from '../store/store';
+import { formatPhoneNumber } from '../utils/format-phone-number';
 
-import { formatPhoneNumber } from './format-phone-number';
 import { selectMemberUnsafe } from './members.slice';
 import { fetchMember } from './use-cases/fetch-member/fetch-member';
 

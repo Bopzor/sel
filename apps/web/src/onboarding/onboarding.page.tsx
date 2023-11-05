@@ -4,6 +4,7 @@ import { createStore } from 'solid-js/store';
 import { selectAuthenticatedMember } from '../authentication/authentication.slice';
 import { Translate } from '../intl/translate';
 import { store } from '../store/store';
+import { formatPhoneNumber } from '../utils/format-phone-number';
 
 import { OnFieldChange, OnboardingForm } from './onboarding-form';
 import { Stepper } from './stepper';
@@ -26,7 +27,7 @@ export const OnboardingPage = () => {
     firstName: member.firstName,
     lastName: member.lastName,
     emailVisible: true,
-    phoneNumber: member.phoneNumbers[0],
+    phoneNumber: formatPhoneNumber(member.phoneNumbers[0]),
     phoneNumberVisible: true,
     bio: member.bio ?? '',
     bioVisible: true,
