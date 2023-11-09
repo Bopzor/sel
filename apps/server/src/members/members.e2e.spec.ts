@@ -1,4 +1,4 @@
-import { afterEach, beforeEach, describe, expect, it } from 'vitest';
+import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
 import { E2ETest } from '../e2e-test';
 
@@ -7,12 +7,12 @@ class Test extends E2ETest {}
 describe('[E2E] Members', () => {
   let test: Test;
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     test = new Test();
     await test.setup();
   });
 
-  afterEach(async () => {
+  afterAll(async () => {
     await test?.teardown();
   });
 

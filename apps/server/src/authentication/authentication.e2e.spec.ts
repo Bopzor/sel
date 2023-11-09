@@ -1,5 +1,5 @@
 import { assert, waitFor } from '@sel/utils';
-import { afterEach, beforeEach, describe, expect, it } from 'vitest';
+import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
 import { container } from '../container';
 import { E2ETest } from '../e2e-test';
@@ -9,12 +9,12 @@ import { TOKENS } from '../tokens';
 describe('[E2E] Authentication', () => {
   let test: E2ETest;
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     test = new E2ETest();
     await test.setup();
   });
 
-  afterEach(async () => {
+  afterAll(async () => {
     await test?.teardown();
   });
 

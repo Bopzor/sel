@@ -1,5 +1,5 @@
 import { createMember } from '@sel/shared';
-import { afterEach, beforeEach, describe, expect, it } from 'vitest';
+import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
 import { TokenType, createToken } from '../authentication/token.entity';
 import { container } from '../container';
@@ -9,12 +9,12 @@ import { TOKENS } from '../tokens';
 describe('[E2E] Session', () => {
   let test: E2ETest;
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     test = new E2ETest();
     await test.setup();
   });
 
-  afterEach(async () => {
+  afterAll(async () => {
     await test?.teardown();
   });
 

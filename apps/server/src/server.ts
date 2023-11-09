@@ -28,6 +28,7 @@ export class Server {
 
     this.app.use(this.authenticationMiddleware);
 
+    this.app.use('/health', this.healthCheck);
     this.app.use('/requests', container.resolve(TOKENS.requestsController).router);
     this.app.use('/members', container.resolve(TOKENS.membersController).router);
     this.app.use('/authentication', container.resolve(TOKENS.authenticationController).router);
@@ -61,6 +62,10 @@ export class Server {
 
     this.logger.info('server closed');
   }
+
+  private healthCheck: RequestHandler = (req, res) => {
+    res.end();
+  };
 
   private authenticationMiddleware: RequestHandler = async (req, res, next) => {
     const sessionService = this.container.resolve(TOKENS.sessionService);

@@ -6,15 +6,26 @@ import { Member } from './entities/member';
 import { MembersRepository } from './members.repository';
 
 export class InMemoryMembersRepository extends InMemoryRepository<Member> implements MembersRepository {
+  private toMember(this: void, member: Member): shared.Member {
+    return {
+      ...member,
+      onboardingCompleted: Boolean(member.onboardingCompletedDate),
+    };
+  }
+
   async listMembers(): Promise<shared.Member[]> {
-    return this.all();
+    return this.all().map(this.toMember);
   }
 
   async getMember(memberId: string): Promise<shared.Member | undefined> {
-    return this.get(memberId);
+    const member = this.get(memberId);
+
+    if (member) {
+      return this.toMember(member);
+    }
   }
 
-  async getMemberFromEmail(email: string): Promise<shared.Member | undefined> {
+  async getMemberFromEmail(email: string): Promise<Member | undefined> {
     return this.find((member) => member.email === email);
   }
 
