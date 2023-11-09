@@ -6,6 +6,7 @@ import { selectAuthenticatedMemberUnsafe } from '../authentication/authenticatio
 import { fetchAuthenticatedMember } from '../authentication/use-cases/fetch-authenticated-member/fetch-authenticated-member';
 import { VerifyAuthenticationToken } from '../authentication/verify-authentication-token';
 import { useSearchParam } from '../infrastructure/router/use-search-param';
+import { redirectToOnboardingWhenNotCompleted } from '../onboarding/redirect-to-onboarding';
 import { selector } from '../store/selector';
 import { store } from '../store/store';
 
@@ -24,6 +25,8 @@ export const Layout: Component<LayoutProps> = (props) => {
   onMount(() => {
     void store.dispatch(fetchAuthenticatedMember());
   });
+
+  redirectToOnboardingWhenNotCompleted();
 
   return (
     <Show
