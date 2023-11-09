@@ -94,7 +94,8 @@ export class Server {
     if (err instanceof AuthenticationError) {
       res.status(401).json({ message: err.message });
     } else if (err instanceof InvalidSessionTokenError) {
-      res.status(401).json({ message: err.message });
+      const setCookie = [`token=`, `Max-Age=0`, 'HttpOnly', 'Path=/', 'SameSite=Lax'];
+      res.status(401).header('Set-Cookie', setCookie.join(';')).json({ message: err.message });
     } else {
       next(err);
     }
