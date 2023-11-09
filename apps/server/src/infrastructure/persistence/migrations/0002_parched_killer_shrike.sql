@@ -1,0 +1,1 @@
+ALTER TABLE "members" ADD COLUMN "onboarding_completed_date" timestamp(3);

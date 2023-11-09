@@ -10,6 +10,7 @@ export type Member = {
   phoneNumbers: string[];
   bio?: string;
   address?: Address;
+  onboardingCompletedDate?: Date;
 };
 
 export const createMember = createFactory<Member>(() => ({

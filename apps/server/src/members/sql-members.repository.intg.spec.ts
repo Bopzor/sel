@@ -68,6 +68,7 @@ describe('[Intg] SqlMembersRepository', () => {
           country: 'country',
           position: [0, 1],
         },
+        onboardingCompleted: false,
       },
     ]);
   });
@@ -98,6 +99,7 @@ describe('[Intg] SqlMembersRepository', () => {
         country: 'country',
         position: [0, 1],
       },
+      onboardingCompleted: false,
     });
   });
 

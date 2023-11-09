@@ -8,6 +8,7 @@ export type Member = {
   phoneNumbers: string[];
   bio?: string;
   address?: Address;
+  onboardingCompleted: boolean;
 };
 
 export const createMember = createFactory<Member>(() => ({
@@ -16,6 +17,7 @@ export const createMember = createFactory<Member>(() => ({
   lastName: '',
   email: '',
   phoneNumbers: [],
+  onboardingCompleted: false,
 }));
 
 export type Address = {

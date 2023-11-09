@@ -3,19 +3,22 @@ import { boolean, json, pgEnum, pgTable, text, timestamp, varchar } from 'drizzl
 
 import { TokenType } from '../../authentication/token.entity';
 
-const id = () => varchar('id', { length: 16 }).primaryKey();
+const id = (name = 'id') => varchar(name, { length: 16 });
+const primaryKey = () => id().primaryKey();
+const date = (name: string) => timestamp(name, { mode: 'string', precision: 3 });
 
-const createdAt = () => timestamp('created_at', { mode: 'string', precision: 3 }).notNull();
-const updatedAt = () => timestamp('updated_at', { mode: 'string', precision: 3 }).notNull();
+const createdAt = () => date('created_at').notNull();
+const updatedAt = () => date('updated_at').notNull();
 
 export const members = pgTable('members', {
-  id: id(),
+  id: primaryKey(),
   firstName: varchar('first_name', { length: 256 }).notNull(),
   lastName: varchar('last_name', { length: 256 }).notNull(),
   email: varchar('email', { length: 256 }).notNull().unique(),
   phoneNumbers: json('phone_numbers').notNull().default('[]'),
   bio: text('bio'),
   address: json('address'),
+  onboardingCompletedDate: date('onboarding_completed_date'),
   createdAt: createdAt(),
   updatedAt: updatedAt(),
 });
@@ -23,11 +26,11 @@ export const members = pgTable('members', {
 export const tokenType = pgEnum('tokenType', [TokenType.authentication, TokenType.session]);
 
 export const tokens = pgTable('tokens', {
-  id: id(),
+  id: primaryKey(),
   value: varchar('value', { length: 256 }).notNull().unique(),
-  expirationDate: timestamp('expiration_date', { mode: 'string', precision: 3 }).notNull(),
+  expirationDate: date('expiration_date').notNull(),
   type: tokenType('type').notNull(),
-  memberId: varchar('member_id', { length: 16 })
+  memberId: id('member_id')
     .notNull()
     .references(() => members.id),
   revoked: boolean('revoked').notNull().default(false),

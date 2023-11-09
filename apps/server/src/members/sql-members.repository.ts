@@ -1,6 +1,6 @@
 import * as shared from '@sel/shared';
 import { injectableClass } from 'ditox';
-import { InferSelectModel, asc, desc, eq } from 'drizzle-orm';
+import { asc, desc, eq } from 'drizzle-orm';
 
 import { DatePort } from '../infrastructure/date/date.port';
 import { Database } from '../infrastructure/persistence/database';
@@ -40,7 +40,7 @@ export class SqlMembersRepository implements MembersRepository {
     }
   }
 
-  private sqlToMember(this: void, result: InferSelectModel<typeof members>): shared.Member {
+  private sqlToMember(this: void, result: typeof members.$inferSelect): shared.Member {
     return {
       id: result.id,
       firstName: result.firstName,
@@ -49,6 +49,7 @@ export class SqlMembersRepository implements MembersRepository {
       phoneNumbers: result.phoneNumbers as string[],
       bio: result.bio ?? undefined,
       address: (result.address as shared.Address | null) ?? undefined,
+      onboardingCompleted: Boolean(result.onboardingCompletedDate),
     };
   }
 
@@ -60,7 +61,7 @@ export class SqlMembersRepository implements MembersRepository {
     }
   }
 
-  private sqlToEntity(this: void, result: InferSelectModel<typeof members>): Member {
+  private sqlToEntity(this: void, result: typeof members.$inferSelect): Member {
     return {
       id: result.id,
       firstName: result.firstName,

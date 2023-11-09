@@ -15,6 +15,13 @@
       "when": 1698947340402,
       "tag": "0001_hot_thunderbolt_ross",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1699562131393,
+      "tag": "0002_parched_killer_shrike",
+      "breakpoints": true
     }
   ]
 }
