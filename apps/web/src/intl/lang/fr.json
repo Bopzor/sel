@@ -43,10 +43,12 @@
         "title": "Contact",
         "emailAddress": "Adresse email",
         "emailReadOnly": "Vous ne pouvez pas modifier votre adresse email",
-        "phoneNumber": "Numéro de téléphone"
+        "phoneNumber": "Numéro de téléphone",
+        "phoneNumberPlaceholder": "06...",
+        "phoneNumberInvalid": "Numéro de téléphone non valide"
       },
       "bio": {
-        "sentence1": "Rédigez quelques mots à propos de vous pour vous présenter. Quels sont vos centres d'intérêts ? Quel genre de coups de mains pouvez-vous donner ? Quel types d'activités vous intéressent ?",
+        "sentence1": "Rédigez quelques mots à propos de vous pour vous présenter. Quels sont vos centres d'intérêts ? Quel genre de coups de mains pouvez-vous donner ? Quels types d'activités vous intéressent ?",
         "sentence2": "Vous pourrez changer votre présentation à tout moment depuis votre page de profil.",
         "title": "À propos",
         "bio": "A propos de vous"

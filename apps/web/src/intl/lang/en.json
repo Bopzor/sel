@@ -43,7 +43,9 @@
         "title": "Contact",
         "emailAddress": "Email address",
         "emailReadOnly": "You can't edit your email address",
-        "phoneNumber": "Phone number"
+        "phoneNumber": "Phone number",
+        "phoneNumberPlaceholder": "06...",
+        "phoneNumberInvalid": "Invalid phone number"
       },
       "bio": {
         "sentence1": "Write a few words introduce yourself. What are your interests? What kind of help can you provide? What type of activities are you interested in?",

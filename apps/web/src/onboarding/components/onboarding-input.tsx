@@ -10,14 +10,14 @@ type OnboardingInputProps = Omit<ComponentProps<typeof Input>, 'name' | 'form'> 
 };
 
 export const OnboardingInput: Component<OnboardingInputProps> = (_props) => {
-  const [local, props] = splitProps(_props, ['form', 'onFieldChange']);
+  const [own, props] = splitProps(_props, ['form', 'onFieldChange']);
 
   return (
     <Input
       width="medium"
       class="border"
-      value={local.form[props.name] as string}
-      onBlur={local.onFieldChange(props.name)}
+      value={own.form[props.name] as string}
+      onBlur={own.onFieldChange(props.name)}
       {...props}
     />
   );
