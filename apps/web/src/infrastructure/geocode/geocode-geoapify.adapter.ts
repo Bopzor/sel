@@ -1,4 +1,5 @@
 import { Address } from '@sel/shared';
+import { isDefined } from '@sel/utils';
 import { injectable } from 'ditox';
 
 import { Fetcher, FetcherPort } from '../../fetcher';
@@ -35,16 +36,26 @@ export class GeoapifyGeocodeAdapter implements GeocodePort {
       return [];
     }
 
-    return body.features.map(({ properties }) => [
-      properties.formatted,
-      {
-        line1: properties.address_line1,
-        city: properties.city,
-        postalCode: properties.postcode,
-        country: properties.country,
-        position: [properties.lon, properties.lat],
-      },
-    ]);
+    const getAddress = ({ properties }: Feature) => {
+      const { formatted, address_line1, city, postcode, country, lon, lat } = properties;
+
+      if (!formatted || !address_line1 || !city || !postcode || !country || !lon || !lat) {
+        return;
+      }
+
+      return [
+        formatted,
+        {
+          line1: address_line1,
+          city: city,
+          postalCode: postcode,
+          country: country,
+          position: [lon, lat],
+        },
+      ] satisfies [string, Address];
+    };
+
+    return body.features.map(getAddress).filter(isDefined);
   }
 
   private url(query: string) {
