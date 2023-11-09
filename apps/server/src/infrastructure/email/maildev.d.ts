@@ -1,9 +1,9 @@
 declare module 'maildev' {
-  type MailDevOptions = {
+  type MailDevOptions = Partial<{
     web: number;
     smtp: number;
     silent: boolean;
-  };
+  }>;
 
   export type Email = {
     from: Array<{ address: string; name: string }>;

@@ -14,7 +14,7 @@ export class TestMailSever {
   constructor(config: ConfigPort) {
     this.maildev = new MailDev({
       smtp: config.email.port,
-      web: 1080,
+      web: 1180,
       silent: true,
     });
 

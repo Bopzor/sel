@@ -23,7 +23,7 @@ export class E2ETest {
       host: 'localhost',
       password: '',
       secure: false,
-      port: 1025,
+      port: 1125,
       sender: 'sel@localhost',
     },
   });
