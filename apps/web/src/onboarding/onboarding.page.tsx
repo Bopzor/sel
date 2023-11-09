@@ -6,8 +6,8 @@ import { Translate } from '../intl/translate';
 import { store } from '../store/store';
 import { formatPhoneNumber } from '../utils/format-phone-number';
 
-import { OnFieldChange, OnboardingForm } from './onboarding-form';
 import { Stepper } from './components/stepper';
+import { OnFieldChange, OnboardingForm } from './onboarding-form';
 import { WelcomeStep } from './steps/00-welcome-step';
 import { NameStep } from './steps/01-name-step';
 import { ContactStep } from './steps/02-contact-step';
@@ -31,7 +31,6 @@ export const OnboardingPage = () => {
     phoneNumberVisible: true,
     bio: member.bio ?? '',
     bioVisible: true,
-    address: '',
     addressVisible: true,
   });
 
@@ -43,6 +42,10 @@ export const OnboardingPage = () => {
         setForm(field, currentTarget.value);
       }
     };
+  };
+
+  const handleEnd = () => {
+    console.log(form);
   };
 
   return (
@@ -72,11 +75,11 @@ export const OnboardingPage = () => {
       </Show>
 
       <Show when={step() === 4}>
-        <AddressStep onNext={handleNext} />
+        <AddressStep onNext={handleNext} form={form} setValue={setForm} />
       </Show>
 
       <Show when={step() === 5}>
-        <EndStep onNext={handleNext} />
+        <EndStep onNext={handleEnd} />
       </Show>
     </div>
   );

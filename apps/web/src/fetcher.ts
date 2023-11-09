@@ -1,3 +1,5 @@
+import { assert } from '@sel/utils';
+
 export class FetchResult<Body> {
   constructor(public readonly response: Response, public readonly body: Body) {}
 
@@ -10,7 +12,31 @@ export class FetchResult<Body> {
   }
 }
 
-export class Fetcher {
+export interface FetcherPort {
+  get<ResponseBody>(path: string): Promise<FetchResult<ResponseBody>>;
+  post<RequestBody, ResponseBody>(path: string, body?: RequestBody): Promise<FetchResult<ResponseBody>>;
+  put<RequestBody, ResponseBody>(path: string, body?: RequestBody): Promise<FetchResult<ResponseBody>>;
+  patch<RequestBody, ResponseBody>(path: string, body?: RequestBody): Promise<FetchResult<ResponseBody>>;
+  delete<RequestBody, ResponseBody>(path: string, body?: RequestBody): Promise<FetchResult<ResponseBody>>;
+}
+
+export class StubFetcher implements FetcherPort {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  requests = new Map<string, any>();
+
+  private execute = async (path: string) => {
+    assert(this.requests.has(path), `StubFetcher: no request for path "${path}"`);
+    return this.requests.get(path);
+  };
+
+  get = this.execute;
+  post = this.execute;
+  put = this.execute;
+  patch = this.execute;
+  delete = this.execute;
+}
+
+export class Fetcher implements FetcherPort {
   async get<ResponseBody>(path: string) {
     return this.fetch<ResponseBody>(path, { method: 'GET' });
   }

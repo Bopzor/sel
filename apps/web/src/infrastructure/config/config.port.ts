@@ -3,4 +3,8 @@ export interface ConfigPort {
     url?: string;
     siteId?: number;
   };
+
+  geoapify: {
+    apiKey: string;
+  };
 }

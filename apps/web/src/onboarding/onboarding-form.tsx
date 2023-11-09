@@ -1,3 +1,5 @@
+import { Address } from '@sel/shared';
+
 export type OnboardingForm = {
   firstName: string;
   lastName: string;
@@ -6,7 +8,7 @@ export type OnboardingForm = {
   phoneNumberVisible: boolean;
   bio: string;
   bioVisible: boolean;
-  address: string;
+  address?: Address;
   addressVisible: boolean;
 };
 

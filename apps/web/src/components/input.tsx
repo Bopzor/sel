@@ -4,25 +4,32 @@ import { Component, JSX, Show, splitProps } from 'solid-js';
 type InputProps = JSX.InputHTMLAttributes<HTMLInputElement> & {
   width?: 'medium' | 'full';
   start?: JSX.Element;
+  end?: JSX.Element;
 };
 
 export const Input: Component<InputProps> = (_props) => {
-  const [{ class: className }, props] = splitProps(_props, ['class']);
+  const [own, props] = splitProps(_props, ['width', 'class', 'start', 'end']);
 
   return (
     <div
       class={clsx(
         'row items-center gap-4 overflow-hidden rounded-lg bg-neutral transition-shadow focus-within:shadow',
-        props.width === 'medium' && 'w-96',
-        props.width === 'full' && 'w-full',
-        className
+        {
+          'w-96': own.width === 'medium',
+          'w-full': own.width === 'full',
+        },
+        own.class
       )}
     >
-      <Show when={props.start}>
-        <div>{props.start}</div>
+      <Show when={own.start}>
+        <div class="mx-4">{own.start}</div>
       </Show>
 
       <input ref={props.ref ?? undefined} class="w-full self-stretch px-4 py-3 outline-none" {...props} />
+
+      <Show when={own.end}>
+        <div class="mx-4">{own.end}</div>
+      </Show>
     </div>
   );
 };
@@ -32,7 +39,7 @@ type TextAreaProps = JSX.TextareaHTMLAttributes<HTMLTextAreaElement> & {
 };
 
 export const TextArea: Component<TextAreaProps> = (_props) => {
-  const [{ class: className }, props] = splitProps(_props, ['class']);
+  const [own, props] = splitProps(_props, ['class']);
 
   return (
     <div
@@ -40,7 +47,7 @@ export const TextArea: Component<TextAreaProps> = (_props) => {
         'row items-center gap-4 overflow-hidden rounded-lg bg-neutral transition-shadow focus-within:shadow',
         props.width === 'medium' && 'w-96',
         props.width === 'full' && 'w-full',
-        className
+        own.class
       )}
     >
       <textarea ref={props.ref ?? undefined} class="w-full self-stretch px-4 py-3 outline-none" {...props} />
