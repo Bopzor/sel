@@ -1,9 +1,11 @@
+import { createId } from '@sel/utils';
 import { expect } from 'vitest';
 
 import { container } from './container';
 import { StubConfigAdapter } from './infrastructure/config/stub-config.adapter';
 import { TestMailSever } from './infrastructure/email/test-mail-server';
 import { StubLogger } from './infrastructure/logger/stub-logger.adapter';
+import { InsertMemberModel } from './members/members.repository';
 import { TOKENS } from './tokens';
 
 export class E2ETest {
@@ -48,6 +50,16 @@ export class E2ETest {
   async teardown() {
     await this.server.close();
     await this.mailServer.close();
+  }
+
+  async insertMember(member: Partial<InsertMemberModel>): Promise<void> {
+    await container.resolve(TOKENS.membersRepository).insert({
+      id: createId(),
+      firstName: '',
+      lastName: '',
+      email: '',
+      ...member,
+    });
   }
 
   async fetch(path: string, options: { method?: string; token?: string; assertStatus?: boolean } = {}) {

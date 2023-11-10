@@ -1,5 +1,5 @@
 import { createSelector, createSlice } from '@reduxjs/toolkit';
-import { Member } from '@sel/shared';
+import { AuthenticatedMember } from '@sel/shared';
 import { assert } from '@sel/utils';
 
 import { AppState } from '../store/types';
@@ -11,7 +11,7 @@ export const authenticationSlice = createSlice({
   name: 'authentication',
   initialState: {
     authenticationLinkRequested: false,
-    member: null as Member | null,
+    member: null as AuthenticatedMember | null,
   },
   reducers: {},
   extraReducers(builder) {

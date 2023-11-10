@@ -27,11 +27,9 @@ export const OnboardingPage = () => {
     firstName: member.firstName,
     lastName: member.lastName,
     emailVisible: true,
-    phoneNumber: formatPhoneNumber(member.phoneNumbers[0]),
+    phoneNumber: member.phoneNumbers.length > 0 ? formatPhoneNumber(member.phoneNumbers[0].number) : '',
     phoneNumberVisible: true,
     bio: member.bio ?? '',
-    bioVisible: true,
-    addressVisible: true,
   });
 
   const onFieldChange: OnFieldChange = (field) => {

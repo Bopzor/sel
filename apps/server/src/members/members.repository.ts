@@ -1,10 +1,15 @@
-import * as shared from '@sel/shared';
+import { Member, MembersSort } from '@sel/shared';
 
-import { Member } from './entities/member';
+export type InsertMemberModel = {
+  id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+};
 
 export interface MembersRepository {
-  listMembers(sort: shared.MembersSort): Promise<shared.Member[]>;
-  getMember(memberId: string): Promise<shared.Member | undefined>;
+  listMembers(sort: MembersSort): Promise<Member[]>;
+  getMember(memberId: string): Promise<Member | undefined>;
   getMemberFromEmail(email: string): Promise<Member | undefined>;
-  insert(member: Member): Promise<void>;
+  insert(member: InsertMemberModel): Promise<void>;
 }

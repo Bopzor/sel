@@ -15,6 +15,7 @@ export const members = pgTable('members', {
   firstName: varchar('first_name', { length: 256 }).notNull(),
   lastName: varchar('last_name', { length: 256 }).notNull(),
   email: varchar('email', { length: 256 }).notNull().unique(),
+  emailVisible: boolean('email_visible').notNull(),
   phoneNumbers: json('phone_numbers').notNull().default('[]'),
   bio: text('bio'),
   address: json('address'),

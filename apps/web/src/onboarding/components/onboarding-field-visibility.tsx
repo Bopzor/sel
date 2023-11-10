@@ -7,7 +7,7 @@ import { OnFieldChange, OnboardingForm } from '../onboarding-form';
 const T = Translate.prefix('onboarding');
 
 type OnboardingFieldVisibilityProps = {
-  field: 'email' | 'phoneNumber' | 'bio' | 'address';
+  field: 'email' | 'phoneNumber';
   form: OnboardingForm;
   onFieldChange: OnFieldChange;
 };

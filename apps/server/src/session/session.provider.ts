@@ -1,8 +1,7 @@
 import { AsyncLocalStorage } from 'node:async_hooks';
 
+import { Member } from '@sel/shared';
 import { injectableClass } from 'ditox';
-
-import { Member } from '../members/entities/member';
 
 export class AuthenticationError extends Error {
   constructor() {

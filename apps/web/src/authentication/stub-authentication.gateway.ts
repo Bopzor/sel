@@ -1,11 +1,11 @@
-import { Member } from '@sel/shared';
+import { AuthenticatedMember } from '@sel/shared';
 
 import { AuthenticationGateway } from './authentication.gateway';
 
 export class StubAuthenticationGateway implements AuthenticationGateway {
-  authenticatedMember?: Member;
+  authenticatedMember?: AuthenticatedMember;
 
-  async getAuthenticatedMember(): Promise<Member | undefined> {
+  async getAuthenticatedMember(): Promise<AuthenticatedMember | undefined> {
     return this.authenticatedMember;
   }
 

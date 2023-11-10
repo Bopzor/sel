@@ -70,9 +70,9 @@ const MemberInfo: Component<MemberInfoProps> = (props) => {
       >
         <ul>
           <For each={props.member.phoneNumbers}>
-            {(phoneNumber) => (
+            {({ number }) => (
               <li>
-                <a href={`tel:${phoneNumber}`}>{formatPhoneNumber(phoneNumber)}</a>
+                <a href={`tel:${number}`}>{formatPhoneNumber(number)}</a>
               </li>
             )}
           </For>

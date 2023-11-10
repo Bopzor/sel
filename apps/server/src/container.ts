@@ -14,8 +14,6 @@ import { Database } from './infrastructure/persistence/database';
 import { MembersController } from './members/members.controller';
 import { MembersFacadeImpl } from './members/members.facade';
 import { SqlMembersRepository } from './members/sql-members.repository';
-import { InMemoryRequestsRepository } from './requests/in-memory-requests.repository';
-import { RequestsController } from './requests/requests.controller';
 import { Server } from './server';
 import { SessionController } from './session/session.controller';
 import { SessionProvider } from './session/session.provider';
@@ -35,9 +33,6 @@ container.bindFactory(TOKENS.server, Server.inject);
 container.bindFactory(TOKENS.database, Database.inject);
 container.bindValue(TOKENS.nodemailer, nodemailer);
 container.bindFactory(TOKENS.email, NodemailerEmailAdapter.inject);
-
-container.bindFactory(TOKENS.requestsRepository, InMemoryRequestsRepository.inject);
-container.bindFactory(TOKENS.requestsController, RequestsController.inject);
 
 container.bindFactory(TOKENS.membersFacade, MembersFacadeImpl.inject);
 container.bindFactory(TOKENS.membersRepository, SqlMembersRepository.inject);

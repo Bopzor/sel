@@ -29,7 +29,6 @@ export class Server {
     this.app.use(this.authenticationMiddleware);
 
     this.app.use('/health', this.healthCheck);
-    this.app.use('/requests', container.resolve(TOKENS.requestsController).router);
     this.app.use('/members', container.resolve(TOKENS.membersController).router);
     this.app.use('/authentication', container.resolve(TOKENS.authenticationController).router);
     this.app.use('/session', container.resolve(TOKENS.sessionController).router);

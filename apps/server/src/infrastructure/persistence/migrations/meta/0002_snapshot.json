@@ -1,7 +1,7 @@
 {
   "version": "5",
   "dialect": "pg",
-  "id": "a459e339-ff04-487b-a8fc-fabafc932185",
+  "id": "4696fec7-8979-4180-a9a8-e89953190c6d",
   "prevId": "a7fccc2b-43fc-4dd8-aab8-2c879fecc996",
   "tables": {
     "members": {
@@ -29,6 +29,12 @@
         "email": {
           "name": "email",
           "type": "varchar(256)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "email_visible": {
+          "name": "email_visible",
+          "type": "boolean",
           "primaryKey": false,
           "notNull": true
         },

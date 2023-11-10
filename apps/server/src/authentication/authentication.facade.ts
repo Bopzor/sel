@@ -1,6 +1,6 @@
+import { Member } from '@sel/shared';
 import { injectableClass } from 'ditox';
 
-import { Member } from '../members/entities/member';
 import { TOKENS } from '../tokens';
 
 import { AuthenticationService } from './authentication.service';

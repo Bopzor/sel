@@ -1,4 +1,4 @@
-import { createMember } from '@sel/shared';
+import { createAuthenticatedMember } from '@sel/shared';
 import { beforeEach, describe, expect, it } from 'vitest';
 
 import { TestStore } from '../../../test-store';
@@ -14,9 +14,10 @@ describe('verifyAuthenticationToken', () => {
   });
 
   it('authenticates a member using an authentication token', async () => {
-    const member = createMember();
+    const member = createAuthenticatedMember();
 
     store.authenticationGateway.authenticationTokens.add('token');
+    store.authenticationGateway.authenticatedMember = member;
 
     await store.dispatch(verifyAuthenticationToken('token'));
 

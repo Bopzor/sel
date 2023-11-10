@@ -1,4 +1,4 @@
-import { Member } from '@sel/shared';
+import { AuthenticatedMember } from '@sel/shared';
 
 import { FetchResult, Fetcher } from '../fetcher';
 
@@ -7,9 +7,9 @@ import { AuthenticationGateway } from './authentication.gateway';
 export class ApiAuthenticationGateway implements AuthenticationGateway {
   constructor(private readonly fetcher: Fetcher) {}
 
-  async getAuthenticatedMember(): Promise<Member | undefined> {
+  async getAuthenticatedMember(): Promise<AuthenticatedMember | undefined> {
     try {
-      const { body } = await this.fetcher.get<Member>(`/api/session/member`);
+      const { body } = await this.fetcher.get<AuthenticatedMember>(`/api/session/member`);
 
       return body;
     } catch (error) {

@@ -7,9 +7,7 @@ export type OnboardingForm = {
   phoneNumber: string;
   phoneNumberVisible: boolean;
   bio: string;
-  bioVisible: boolean;
   address?: Address;
-  addressVisible: boolean;
 };
 
 export type OnFieldChange = (

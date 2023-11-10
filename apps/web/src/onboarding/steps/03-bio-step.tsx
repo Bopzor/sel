@@ -1,9 +1,9 @@
 import { Component } from 'solid-js';
 
 import { Translate } from '../../intl/translate';
+import { NextButton } from '../components/next-button';
 import { OnboardingField } from '../components/onboarding-field';
 import { OnboardingTextArea } from '../components/onboarding-input';
-import { NextButton } from '../components/next-button';
 import { OnboardingForm, OnFieldChange } from '../onboarding-form';
 
 const T = Translate.prefix('onboarding.steps.bio');

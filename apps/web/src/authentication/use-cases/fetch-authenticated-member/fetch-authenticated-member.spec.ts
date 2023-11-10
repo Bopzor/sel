@@ -1,4 +1,4 @@
-import { createMember } from '@sel/shared';
+import { createAuthenticatedMember } from '@sel/shared';
 import { beforeEach, describe, expect, it } from 'vitest';
 
 import { TestStore } from '../../../test-store';
@@ -14,7 +14,7 @@ describe('fetchAuthenticatedMember', () => {
   });
 
   it('fetches the member related to the current session', async () => {
-    const member = createMember();
+    const member = createAuthenticatedMember();
 
     store.authenticationGateway.authenticatedMember = member;
 

@@ -1,4 +1,4 @@
-import * as shared from '@sel/shared';
+import { Member, MembersSort } from '@sel/shared';
 import { injectableClass } from 'ditox';
 import { RequestHandler, Router } from 'express';
 import { z } from 'zod';
@@ -27,17 +27,17 @@ export class MembersController {
     next();
   };
 
-  listMembers: RequestHandler<never, shared.Member[]> = async (req, res) => {
+  listMembers: RequestHandler<never, Member[]> = async (req, res) => {
     const schema = z.object({
-      sort: z.nativeEnum(shared.MembersSort).optional(),
+      sort: z.nativeEnum(MembersSort).optional(),
     });
 
     const { sort } = schema.parse(req.query);
 
-    res.json(await this.membersRepository.listMembers(sort ?? shared.MembersSort.firstName));
+    res.json(await this.membersRepository.listMembers(sort ?? MembersSort.firstName));
   };
 
-  getMember: RequestHandler<{ memberId: string }, shared.Member> = async (req, res) => {
+  getMember: RequestHandler<{ memberId: string }, Member> = async (req, res) => {
     const member = await this.membersRepository.getMember(req.params.memberId);
 
     if (!member) {

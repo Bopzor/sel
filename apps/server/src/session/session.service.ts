@@ -1,8 +1,8 @@
+import { Member } from '@sel/shared';
 import { assert } from '@sel/utils';
 import { injectableClass } from 'ditox';
 
 import { AuthenticationFacade } from '../authentication/authentication.facade';
-import { Member } from '../members/entities/member';
 import { MembersFacade } from '../members/members.facade';
 import { TOKENS } from '../tokens';
 

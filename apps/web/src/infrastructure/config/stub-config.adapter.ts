@@ -7,14 +7,14 @@ export class StubConfigAdapter implements ConfigPort {
     return {
       url: '',
       siteId: 0,
-      ...this.overrides,
+      ...this.overrides.analytics,
     };
   }
 
   get geoapify() {
     return {
       apiKey: '',
-      ...this.overrides,
+      ...this.overrides.geoapify,
     };
   }
 }

@@ -22,7 +22,7 @@ describe('[E2E] Session', () => {
     const member = createMember();
     const token = createToken({ memberId: member.id, value: 'session-token', type: TokenType.session });
 
-    await container.resolve(TOKENS.membersRepository).insert(member);
+    await test.insertMember(member);
     await container.resolve(TOKENS.tokenRepository).insert(token);
 
     const [, body] = await test.fetch('/session/member', { token: token.value });

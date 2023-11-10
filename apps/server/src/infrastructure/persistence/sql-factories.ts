@@ -12,6 +12,7 @@ export const createSqlMember = createFactory<InferInsertModel<typeof members>>((
   firstName: '',
   lastName: '',
   email: '',
+  emailVisible: false,
   createdAt: createISOStringDate(),
   updatedAt: createISOStringDate(),
 }));

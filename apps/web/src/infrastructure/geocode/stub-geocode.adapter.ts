@@ -5,7 +5,7 @@ import { GeocodePort } from './geocode.port';
 export class StubGeocodeAdapter implements GeocodePort {
   addresses = new Map<string, Address>();
 
-  async search(query: string): Promise<Array<[formatted: string, address: Address]>> {
+  async search(): Promise<Array<[formatted: string, address: Address]>> {
     return Array.from(this.addresses.entries());
   }
 }

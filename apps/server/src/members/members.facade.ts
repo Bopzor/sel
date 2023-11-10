@@ -1,8 +1,8 @@
+import { Member } from '@sel/shared';
 import { injectableClass } from 'ditox';
 
 import { TOKENS } from '../tokens';
 
-import { Member } from './entities/member';
 import { MembersRepository } from './members.repository';
 
 export interface MembersFacade {
