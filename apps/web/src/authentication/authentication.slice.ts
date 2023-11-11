@@ -16,9 +16,7 @@ export const authenticationSlice = createSlice({
   reducers: {},
   extraReducers(builder) {
     builder.addCase(fetchAuthenticatedMember.fulfilled, (state, { payload }) => {
-      if (payload) {
-        state.member = payload;
-      }
+      state.member = payload ?? null;
     });
 
     builder.addCase(requestAuthenticationLink.fulfilled, (state) => {

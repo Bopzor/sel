@@ -40,5 +40,6 @@ describe('[E2E] Session', () => {
     const [response] = await test.fetch('/session/member', { token: 'invalid', assertStatus: false });
 
     expect(response.status).toEqual(401);
+    expect(response.headers.get('Set-Cookie')).toEqual('token=;Max-Age=0;HttpOnly;Path=/;SameSite=Lax');
   });
 });

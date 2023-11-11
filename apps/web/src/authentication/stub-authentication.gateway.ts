@@ -22,4 +22,8 @@ export class StubAuthenticationGateway implements AuthenticationGateway {
       throw new Error('invalid authentication token');
     }
   }
+
+  async signOut(): Promise<void> {
+    delete this.authenticatedMember;
+  }
 }

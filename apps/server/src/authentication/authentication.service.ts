@@ -113,4 +113,14 @@ export class AuthenticationService {
       return token.memberId;
     }
   }
+
+  async revokeToken(tokenValue: string, type?: TokenType): Promise<void> {
+    const token = await this.tokenRepository.findByValue(tokenValue);
+
+    if (!token || (type && token.type !== type)) {
+      return;
+    }
+
+    await this.tokenRepository.revoke(token.id);
+  }
 }

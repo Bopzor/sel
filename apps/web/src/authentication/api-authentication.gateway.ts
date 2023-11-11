@@ -1,10 +1,14 @@
 import { AuthenticatedMember } from '@sel/shared';
+import { injectableClass } from 'ditox';
 
 import { FetchResult, Fetcher } from '../fetcher';
+import { TOKENS } from '../tokens';
 
 import { AuthenticationGateway } from './authentication.gateway';
 
 export class ApiAuthenticationGateway implements AuthenticationGateway {
+  static inject = injectableClass(this, TOKENS.fetcher);
+
   constructor(private readonly fetcher: Fetcher) {}
 
   async getAuthenticatedMember(): Promise<AuthenticatedMember | undefined> {
@@ -31,5 +35,9 @@ export class ApiAuthenticationGateway implements AuthenticationGateway {
     await this.fetcher.get(
       `/api/authentication/verify-authentication-token?${new URLSearchParams({ token })}`
     );
+  }
+
+  async signOut(): Promise<void> {
+    await this.fetcher.delete(`/api/session`);
   }
 }
