@@ -1,4 +1,3 @@
-import { createId } from '@sel/utils';
 import { expect } from 'vitest';
 
 import { container } from './container';

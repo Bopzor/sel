@@ -4,7 +4,7 @@ import { and, asc, desc, eq } from 'drizzle-orm';
 
 import { DatePort } from '../infrastructure/date/date.port';
 import { Database } from '../infrastructure/persistence/database';
-import { memberStatusEnum, members } from '../infrastructure/persistence/schema';
+import { members } from '../infrastructure/persistence/schema';
 import { TOKENS } from '../tokens';
 
 import { Address, Member, MemberStatus, PhoneNumber } from './entities';
@@ -124,6 +124,7 @@ export class SqlMembersRepository implements MembersRepository {
     await this.db
       .update(members)
       .set({
+        status: model.status,
         firstName: model.firstName,
         lastName: model.lastName,
         emailVisible: model.emailVisible,

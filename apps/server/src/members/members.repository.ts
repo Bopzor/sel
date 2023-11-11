@@ -1,6 +1,6 @@
 import * as shared from '@sel/shared';
 
-import { Address, Member } from './entities';
+import { Address, Member, MemberStatus } from './entities';
 
 export type InsertMemberModel = {
   id: string;
@@ -10,6 +10,7 @@ export type InsertMemberModel = {
 };
 
 export type UpdateMemberModel = {
+  status?: MemberStatus;
   firstName: string;
   lastName: string;
   emailVisible: boolean;
