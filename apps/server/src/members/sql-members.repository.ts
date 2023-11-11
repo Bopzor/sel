@@ -1,10 +1,10 @@
 import * as shared from '@sel/shared';
 import { injectableClass } from 'ditox';
-import { asc, desc, eq } from 'drizzle-orm';
+import { and, asc, desc, eq } from 'drizzle-orm';
 
 import { DatePort } from '../infrastructure/date/date.port';
 import { Database } from '../infrastructure/persistence/database';
-import { members } from '../infrastructure/persistence/schema';
+import { memberStatusEnum, members } from '../infrastructure/persistence/schema';
 import { TOKENS } from '../tokens';
 
 import { Address, Member, MemberStatus, PhoneNumber } from './entities';
@@ -26,13 +26,20 @@ export class SqlMembersRepository implements MembersRepository {
       [shared.MembersSort.subscriptionDate]: desc(members.createdAt),
     };
 
-    const results = await this.db.select().from(members).orderBy(orderBy[sort]);
+    const results = await this.db
+      .select()
+      .from(members)
+      .where(eq(members.status, MemberStatus.active))
+      .orderBy(orderBy[sort]);
 
     return results.map(this.toMemberQuery);
   }
 
   async query_getMember(memberId: string): Promise<shared.Member | undefined> {
-    const [result] = await this.db.select().from(members).where(eq(members.id, memberId));
+    const [result] = await this.db
+      .select()
+      .from(members)
+      .where(and(eq(members.id, memberId), eq(members.status, MemberStatus.active)));
 
     if (result) {
       return this.toMemberQuery(result);

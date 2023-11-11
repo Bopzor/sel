@@ -9,6 +9,7 @@ import { Database } from '../infrastructure/persistence/database';
 import { members } from '../infrastructure/persistence/schema';
 import { createSqlMember } from '../infrastructure/persistence/sql-factories';
 
+import { MemberStatus } from './entities';
 import { SqlMembersRepository } from './sql-members.repository';
 
 describe('[Intg] SqlMembersRepository', () => {
@@ -33,6 +34,7 @@ describe('[Intg] SqlMembersRepository', () => {
     await database.db.insert(members).values(
       createSqlMember({
         id: 'id',
+        status: MemberStatus.active,
         firstName: 'firstName',
         lastName: 'lastName',
         email: 'email',
@@ -76,11 +78,21 @@ describe('[Intg] SqlMembersRepository', () => {
     });
 
     it('queries the list of all members sorted by last name', async () => {
-      await database.db.insert(members).values(createSqlMember({ id: 'id2', lastName: 'aaa' }));
+      await database.db
+        .insert(members)
+        .values(createSqlMember({ id: 'id2', status: MemberStatus.active, lastName: 'aaa' }));
 
       const results = await repository.query_listMembers(shared.MembersSort.lastName);
 
       expect(results.map(getId)).toEqual(['id2', 'id']);
+    });
+
+    it('excludes inactive members', async () => {
+      await database.db.update(members).set({ status: MemberStatus.inactive }).where(eq(members.id, 'id'));
+
+      const results = await repository.query_listMembers(shared.MembersSort.firstName);
+
+      expect(results).toHaveLength(0);
     });
   });
 
@@ -104,6 +116,12 @@ describe('[Intg] SqlMembersRepository', () => {
           position: [0, 1],
         },
       });
+    });
+
+    it('returns undefined when the member is inactive', async () => {
+      await database.db.update(members).set({ status: MemberStatus.inactive }).where(eq(members.id, 'id'));
+
+      await expect(repository.query_getMember('id')).resolves.toBeUndefined();
     });
 
     it('hides the email when not visible', async () => {
