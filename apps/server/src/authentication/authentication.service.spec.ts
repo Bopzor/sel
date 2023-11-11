@@ -3,8 +3,8 @@ import { beforeEach, describe, expect, it } from 'vitest';
 
 import { StubConfigAdapter } from '../infrastructure/config/stub-config.adapter';
 import { StubDate } from '../infrastructure/date/stub-date.adapter';
-import { Email } from '../infrastructure/email/email.port';
-import { StubEmailAdapter } from '../infrastructure/email/stub-email.adapter';
+import { Email, EmailKind } from '../infrastructure/email/email.types';
+import { StubEmailSenderAdapter } from '../infrastructure/email/stub-email-sender.adapter';
 import { StubGenerator } from '../infrastructure/generator/stub-generator.adapter';
 import { createMember } from '../members/entities';
 import { StubMembersFacade } from '../members/members.facade';
@@ -18,7 +18,7 @@ describe('[Unit] AuthenticationService', () => {
   let config: StubConfigAdapter;
   let generator: StubGenerator;
   let dateAdapter: StubDate;
-  let emailAdapter: StubEmailAdapter;
+  let emailAdapter: StubEmailSenderAdapter;
   let tokenRepository: InMemoryTokenRepository;
   let memberFacade: StubMembersFacade;
 
@@ -28,7 +28,7 @@ describe('[Unit] AuthenticationService', () => {
     config = new StubConfigAdapter({ app: { baseUrl: 'https://app.url' } });
     generator = new StubGenerator();
     dateAdapter = new StubDate();
-    emailAdapter = new StubEmailAdapter();
+    emailAdapter = new StubEmailSenderAdapter();
     tokenRepository = new InMemoryTokenRepository();
     memberFacade = new StubMembersFacade();
 
@@ -70,16 +70,17 @@ describe('[Unit] AuthenticationService', () => {
   describe('requestAuthenticationLink', () => {
     it('sends an authentication link by email', async () => {
       generator.tokenValue = 'authToken';
-      memberFacade.members.push(createMember({ id: 'memberId', email: 'email' }));
+      memberFacade.members.push(createMember({ id: 'memberId', firstName: 'firstName', email: 'email' }));
 
       await authenticationService.requestAuthenticationLink('email');
 
       expect(emailAdapter.emails).toContainEqual({
         to: 'email',
         subject: "SEL'ons-nous - Lien de connexion",
-        body: {
-          text: 'Authentication link: https://app.url/?auth-token=authToken',
-          html: '',
+        kind: EmailKind.authentication,
+        variables: {
+          firstName: 'firstName',
+          authenticationUrl: 'https://app.url/?auth-token=authToken',
         },
       } satisfies Email);
     });
@@ -161,7 +162,7 @@ describe('[Unit] AuthenticationService', () => {
       config = new StubConfigAdapter({ app: { baseUrl: 'https://app.url' } });
       generator = new StubGenerator();
       dateAdapter = new StubDate();
-      emailAdapter = new StubEmailAdapter();
+      emailAdapter = new StubEmailSenderAdapter();
       tokenRepository = new InMemoryTokenRepository();
       memberFacade = new StubMembersFacade();
 

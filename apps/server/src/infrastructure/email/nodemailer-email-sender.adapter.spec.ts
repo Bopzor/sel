@@ -3,10 +3,11 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { ConfigPort } from '../config/config.port';
 import { StubConfigAdapter } from '../config/stub-config.adapter';
 
-import { Email } from './email.port';
-import { Nodemailer, NodemailerEmailAdapter, Transporter } from './nodemailer-email.adapter';
+import { Email, EmailKind } from './email.types';
+import { Nodemailer, NodemailerEmailSenderAdapter, Transporter } from './nodemailer-email-sender.adapter';
+import { StubEmailRendererAdapter } from './stub-email-renderer.adapter';
 
-describe('[Unit] NodemailerEmailAdapter', () => {
+describe('[Unit] NodemailerEmailSenderAdapter', () => {
   let config: ConfigPort;
 
   beforeEach(() => {
@@ -17,11 +18,12 @@ describe('[Unit] NodemailerEmailAdapter', () => {
         secure: true,
         sender: 'sender',
         password: 'password',
+        templatesPath: '',
       },
     });
   });
 
-  it('instanciates a nodemailer transport with the configuration values', () => {
+  it('instantiates a nodemailer transport with the configuration values', () => {
     const createTransport = vi.fn(() => ({
       sendMail: vi.fn(),
     }));
@@ -30,7 +32,9 @@ describe('[Unit] NodemailerEmailAdapter', () => {
       createTransport,
     };
 
-    new NodemailerEmailAdapter(config, nodemailer);
+    const renderer = new StubEmailRendererAdapter();
+
+    new NodemailerEmailSenderAdapter(config, nodemailer, renderer);
 
     expect(createTransport).toHaveBeenCalledWith({
       port: 25,
@@ -55,15 +59,15 @@ describe('[Unit] NodemailerEmailAdapter', () => {
       })),
     };
 
-    const adapter = new NodemailerEmailAdapter(config, nodemailer);
+    const renderer = new StubEmailRendererAdapter();
 
-    const email: Email = {
+    const adapter = new NodemailerEmailSenderAdapter(config, nodemailer, renderer);
+
+    const email: Email<EmailKind.test> = {
       to: 'to',
       subject: 'subject',
-      body: {
-        text: 'text',
-        html: 'html',
-      },
+      kind: EmailKind.test,
+      variables: { variable: 'value' },
     };
 
     await expect(adapter.send(email)).resolves.toBeUndefined();
@@ -73,8 +77,8 @@ describe('[Unit] NodemailerEmailAdapter', () => {
         from: 'sender',
         to: 'to',
         subject: 'subject',
-        text: 'text',
-        html: 'html',
+        text: expect.stringContaining('value'),
+        html: expect.stringContaining('value'),
       },
       expect.any(Function)
     );

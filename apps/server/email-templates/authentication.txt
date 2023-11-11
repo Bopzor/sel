@@ -1,0 +1,6 @@
+Bonjour {{firstName}},
+
+Pour vous connecter à l'app du SEL, veuillez ouvrir le lien suivant : {{{authenticationUrl}}}
+
+Si vous n'êtes pas à l'origine de cette demande, vous pouvez ignorer cet email.
+

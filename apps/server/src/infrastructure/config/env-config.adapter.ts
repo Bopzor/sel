@@ -35,6 +35,7 @@ export class EnvConfigAdapter implements ConfigPort {
       secure: this.get('EMAIL_SECURE', this.parseBoolean),
       sender: this.get('EMAIL_FROM', String),
       password: this.get('EMAIL_PASSWORD', String),
+      templatesPath: this.get('EMAIL_TEMPLATES', String),
     };
   }
 

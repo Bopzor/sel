@@ -3,14 +3,18 @@ import { TOKENS } from './tokens.js';
 
 Error.stackTraceLimit = 1000;
 
-main();
+main().catch(console.error);
+
+async function main() {
+  const server = container.resolve(TOKENS.server);
+  const emailRenderer = container.resolve(TOKENS.emailRenderer);
+
+  await emailRenderer.init?.();
+  await server.start();
+}
 
 process.on('SIGINT', teardown);
 process.on('SIGTERM', teardown);
-
-function main() {
-  container.resolve(TOKENS.server).start().catch(console.error);
-}
 
 function teardown() {
   container.resolve(TOKENS.server).close().catch(console.error);

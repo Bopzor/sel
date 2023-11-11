@@ -1,22 +1,29 @@
 import { assert } from '@sel/utils';
 
 import { container } from '../container';
+import { EmailKind } from '../infrastructure/email/email.types';
 import { TOKENS } from '../tokens';
 
-main().catch(console.error);
+main(process.argv).catch(console.error);
 
-async function main() {
-  const emailAdapter = container.resolve(TOKENS.email);
-  const to = process.env.TO;
+async function main(argv: string[]) {
+  const emailAdapter = container.resolve(TOKENS.emailSender);
 
-  assert(typeof to === 'string', 'missing environment variable TO');
+  const [to, kind, variables] = argv;
+
+  try {
+    assert(typeof to === 'string', 'missing <to>');
+    assert(Object.values<string>(EmailKind).includes(kind), 'invalid email kind');
+  } catch (error) {
+    console.log(`usage: ${argv[0]} <to> <kind> <variables>`);
+    process.exitCode = 1;
+    return;
+  }
 
   await emailAdapter.send({
     to,
     subject: '[SEL] Test email',
-    body: {
-      text: 'This is a test email.',
-      html: '<p>This is a test email</p>',
-    },
+    kind: kind as EmailKind,
+    variables: JSON.parse(variables),
   });
 }

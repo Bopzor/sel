@@ -3,7 +3,8 @@ import { injectableClass } from 'ditox';
 
 import { ConfigPort } from '../infrastructure/config/config.port';
 import { DatePort } from '../infrastructure/date/date.port';
-import { EmailPort } from '../infrastructure/email/email.port';
+import { EmailSenderPort } from '../infrastructure/email/email-sender.port';
+import { EmailKind } from '../infrastructure/email/email.types';
 import { GeneratorPort } from '../infrastructure/generator/generator.port';
 import { MembersFacade } from '../members/members.facade';
 import { TOKENS } from '../tokens';
@@ -17,7 +18,7 @@ export class AuthenticationService {
     TOKENS.config,
     TOKENS.generator,
     TOKENS.date,
-    TOKENS.email,
+    TOKENS.emailSender,
     TOKENS.tokenRepository,
     TOKENS.membersFacade
   );
@@ -26,7 +27,7 @@ export class AuthenticationService {
     private readonly config: ConfigPort,
     private readonly generator: GeneratorPort,
     private readonly dateAdapter: DatePort,
-    private readonly emailAdapter: EmailPort,
+    private readonly emailAdapter: EmailSenderPort,
     private readonly tokenRepository: TokenRepository,
     private readonly memberFacade: MembersFacade
   ) {}
@@ -57,19 +58,19 @@ export class AuthenticationService {
   }
 
   async requestAuthenticationLink(email: string): Promise<void> {
-    const memberId = await this.memberFacade.getMemberIdFromEmail(email);
+    const member = await this.memberFacade.getMemberFromEmail(email);
 
-    if (!memberId) {
+    if (!member) {
       return;
     }
 
-    const previousToken = await this.tokenRepository.findByMemberId(memberId, TokenType.authentication);
+    const previousToken = await this.tokenRepository.findByMemberId(member.id, TokenType.authentication);
 
     if (previousToken) {
       await this.tokenRepository.revoke(previousToken.id);
     }
 
-    const token = await this.generateToken(TokenType.authentication, memberId);
+    const token = await this.generateToken(TokenType.authentication, member.id);
 
     const authenticationUrl = new URL(this.config.app.baseUrl);
     authenticationUrl.searchParams.set('auth-token', token.value);
@@ -77,9 +78,10 @@ export class AuthenticationService {
     await this.emailAdapter.send({
       to: email,
       subject: "SEL'ons-nous - Lien de connexion",
-      body: {
-        text: `Authentication link: ${authenticationUrl}`,
-        html: '',
+      kind: EmailKind.authentication,
+      variables: {
+        firstName: member.firstName,
+        authenticationUrl: authenticationUrl.toString(),
       },
     });
   }

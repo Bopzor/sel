@@ -7,7 +7,8 @@ import { AuthenticationService } from './authentication/authentication.service';
 import { SqlTokenRepository } from './authentication/sql-token.repository';
 import { EnvConfigAdapter } from './infrastructure/config/env-config.adapter';
 import { NativeDateAdapter } from './infrastructure/date/native-date.adapter';
-import { NodemailerEmailAdapter } from './infrastructure/email/nodemailer-email.adapter';
+import { MjmlEmailRendererAdapter } from './infrastructure/email/mjml-email-renderer.adapter';
+import { NodemailerEmailSenderAdapter } from './infrastructure/email/nodemailer-email-sender.adapter';
 import { NanoIdGenerator } from './infrastructure/generator/nanoid-generator.adapter';
 import { ConsoleLogger } from './infrastructure/logger/console-logger.adapter';
 import { Database } from './infrastructure/persistence/database';
@@ -32,8 +33,9 @@ container.bindFactory(TOKENS.logger, ConsoleLogger.inject);
 
 container.bindFactory(TOKENS.server, Server.inject);
 container.bindFactory(TOKENS.database, Database.inject);
+container.bindFactory(TOKENS.emailRenderer, MjmlEmailRendererAdapter.inject);
 container.bindValue(TOKENS.nodemailer, nodemailer);
-container.bindFactory(TOKENS.email, NodemailerEmailAdapter.inject);
+container.bindFactory(TOKENS.emailSender, NodemailerEmailSenderAdapter.inject);
 
 container.bindFactory(TOKENS.membersFacade, MembersFacadeImpl.inject);
 container.bindFactory(TOKENS.membersController, MembersController.inject);

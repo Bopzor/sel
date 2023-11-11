@@ -25,6 +25,7 @@ export class E2ETest {
       secure: false,
       port: 1125,
       sender: 'sel@localhost',
+      templatesPath: 'email-templates',
     },
   });
 
@@ -41,6 +42,8 @@ export class E2ETest {
     container.bindValue(TOKENS.logger, this.logger);
 
     await container.resolve(TOKENS.database).reset();
+    await container.resolve(TOKENS.emailRenderer).init?.();
+
     await this.mailServer.listen();
     await this.server.start();
   }

@@ -10,7 +10,7 @@ export interface MembersFacade {
   query_getAuthenticatedMember(memberId: string): Promise<shared.AuthenticatedMember | undefined>;
 
   getMember(memberId: string): Promise<Member | undefined>;
-  getMemberIdFromEmail(email: string): Promise<string | undefined>;
+  getMemberFromEmail(email: string): Promise<Member | undefined>;
 }
 
 export class MembersFacadeImpl implements MembersFacade {
@@ -26,12 +26,8 @@ export class MembersFacadeImpl implements MembersFacade {
     return await this.membersRepository.getMember(memberId);
   }
 
-  async getMemberIdFromEmail(email: string): Promise<string | undefined> {
-    const member = await this.membersRepository.getMemberFromEmail(email);
-
-    if (member) {
-      return member.id;
-    }
+  async getMemberFromEmail(email: string): Promise<Member | undefined> {
+    return this.membersRepository.getMemberFromEmail(email);
   }
 }
 
@@ -48,7 +44,7 @@ export class StubMembersFacade implements MembersFacade {
     return this.members.find((member) => member.id === memberId);
   }
 
-  async getMemberIdFromEmail(email: string): Promise<string | undefined> {
-    return this.members.find((member) => member.email === email)?.id;
+  async getMemberFromEmail(email: string): Promise<Member | undefined> {
+    return this.members.find((member) => member.email === email);
   }
 }
