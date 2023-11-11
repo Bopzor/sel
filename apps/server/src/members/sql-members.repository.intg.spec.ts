@@ -1,4 +1,4 @@
-import { MembersSort, Member, PhoneNumber } from '@sel/shared';
+import * as shared from '@sel/shared';
 import { getId } from '@sel/utils';
 import { eq } from 'drizzle-orm';
 import { beforeEach, describe, expect, it } from 'vitest';
@@ -51,11 +51,44 @@ describe('[Intg] SqlMembersRepository', () => {
     );
   });
 
-  it('retrieves the list of all members', async () => {
-    const results = await repository.listMembers(MembersSort.firstName);
+  describe('query_listMembers', () => {
+    it('queries the list of all members', async () => {
+      const results = await repository.query_listMembers(shared.MembersSort.firstName);
 
-    expect(results).toEqual<Member[]>([
-      {
+      expect(results).toEqual<shared.Member[]>([
+        {
+          id: 'id',
+          firstName: 'firstName',
+          lastName: 'lastName',
+          email: 'email',
+          phoneNumbers: [],
+          bio: 'bio',
+          address: {
+            line1: 'line1',
+            line2: 'line2',
+            postalCode: 'postalCode',
+            city: 'city',
+            country: 'country',
+            position: [0, 1],
+          },
+        },
+      ]);
+    });
+
+    it('queries the list of all members sorted by last name', async () => {
+      await database.db.insert(members).values(createSqlMember({ id: 'id2', lastName: 'aaa' }));
+
+      const results = await repository.query_listMembers(shared.MembersSort.lastName);
+
+      expect(results.map(getId)).toEqual(['id2', 'id']);
+    });
+  });
+
+  describe('query_getMember', () => {
+    it('queries a member from its id', async () => {
+      const result = await repository.query_getMember('id');
+
+      expect(result).toEqual<shared.Member>({
         id: 'id',
         firstName: 'firstName',
         lastName: 'lastName',
@@ -70,83 +103,58 @@ describe('[Intg] SqlMembersRepository', () => {
           country: 'country',
           position: [0, 1],
         },
-      },
-    ]);
-  });
+      });
+    });
 
-  it('retrieves the list of all members sorted by last name', async () => {
-    await database.db.insert(members).values(createSqlMember({ id: 'id2', lastName: 'aaa' }));
+    it('hides the email when not visible', async () => {
+      await database.db
+        .update(members)
+        .set({
+          emailVisible: false,
+        })
+        .where(eq(members.id, 'id'));
 
-    const results = await repository.listMembers(MembersSort.lastName);
+      const result = await repository.query_getMember('id');
 
-    expect(results.map(getId)).toEqual(['id2', 'id']);
-  });
+      expect(result).toHaveProperty('email', undefined);
+    });
 
-  it('retrieves a member from its id', async () => {
-    const result = await repository.getMember('id');
+    it('hides phones numbers that are not visible', async () => {
+      await database.db
+        .update(members)
+        .set({
+          phoneNumbers: [
+            { number: 'visible', visible: true },
+            { number: 'private', visible: false },
+          ] satisfies shared.PhoneNumber[],
+        })
+        .where(eq(members.id, 'id'));
 
-    expect(result).toEqual<Member>({
-      id: 'id',
-      firstName: 'firstName',
-      lastName: 'lastName',
-      email: 'email',
-      phoneNumbers: [],
-      bio: 'bio',
-      address: {
-        line1: 'line1',
-        line2: 'line2',
-        postalCode: 'postalCode',
-        city: 'city',
-        country: 'country',
-        position: [0, 1],
-      },
+      const result = await repository.query_getMember('id');
+
+      expect(result).toHaveProperty('phoneNumbers', [{ number: 'visible', visible: true }]);
     });
   });
 
-  it('hides the email when not visible', async () => {
-    await database.db
-      .update(members)
-      .set({
-        emailVisible: false,
-      })
-      .where(eq(members.id, 'id'));
+  describe('getMember', () => {
+    it('does not find a member from its id', async () => {
+      const results = await repository.getMember('not-id');
 
-    const result = await repository.getMember('id');
-
-    expect(result).toHaveProperty('email', undefined);
+      expect(results).toBeUndefined();
+    });
   });
 
-  it('hides phones numbers that are not visible', async () => {
-    await database.db
-      .update(members)
-      .set({
-        phoneNumbers: [
-          { number: 'visible', visible: true },
-          { number: 'private', visible: false },
-        ] satisfies PhoneNumber[],
-      })
-      .where(eq(members.id, 'id'));
+  describe('getMemberFromEmail', () => {
+    it('retrieves a member from its email', async () => {
+      const member = await repository.getMemberFromEmail('email');
 
-    const result = await repository.getMember('id');
+      expect(member).toHaveProperty('id', 'id');
+    });
 
-    expect(result).toHaveProperty('phoneNumbers', [{ number: 'visible', visible: true }]);
-  });
+    it('resolves with undefined when the email does not exist', async () => {
+      const member = await repository.getMemberFromEmail('does-not-exist');
 
-  it('does not find a member from its id', async () => {
-    const results = await repository.getMember('not-id');
-
-    expect(results).toBeUndefined();
-  });
-
-  it('retrieves a member from its email', async () => {
-    const member = await repository.getMemberFromEmail('email');
-
-    expect(member).toHaveProperty('id', 'id');
-  });
-
-  it('resolves with undefined when the email does not exist', async () => {
-    const member = await repository.getMemberFromEmail('does-not-exist');
-
-    expect(member).toBeUndefined();
+      expect(member).toBeUndefined();
+    });
   });
 });

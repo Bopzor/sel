@@ -103,6 +103,8 @@ export class Server {
   };
 
   private handleError: ErrorRequestHandler = (err, req, res, _next) => {
+    this.logger.error(err);
+
     res.status(500).json({
       error: err.message,
       stack: err.stack,

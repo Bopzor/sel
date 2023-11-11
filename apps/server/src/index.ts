@@ -1,6 +1,8 @@
 import { container } from './container.js';
 import { TOKENS } from './tokens.js';
 
+Error.stackTraceLimit = 1000;
+
 main();
 
 process.on('SIGINT', teardown);

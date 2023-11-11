@@ -1,8 +1,10 @@
-import { createMember } from '@sel/shared';
 import { assert, waitFor } from '@sel/utils';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
+import { container } from '../container';
 import { E2ETest } from '../e2e-test';
+import { createMember } from '../members/entities';
+import { TOKENS } from '../tokens';
 
 describe('[E2E] Authentication', () => {
   let test: E2ETest;
@@ -17,7 +19,9 @@ describe('[E2E] Authentication', () => {
   });
 
   it('requests an authentication link by email', async () => {
-    await test.insertMember(createMember({ email: 'member@domain.tld' }));
+    const memberRepository = container.resolve(TOKENS.membersRepository);
+
+    await memberRepository.insert(createMember({ email: 'member@domain.tld' }));
 
     await test.fetch('/authentication/request-authentication-link?email=member@domain.tld', {
       method: 'POST',

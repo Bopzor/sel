@@ -1,7 +1,8 @@
 import { AsyncLocalStorage } from 'node:async_hooks';
 
-import { AuthenticatedMember } from '@sel/shared';
 import { injectableClass } from 'ditox';
+
+import { Member } from '../members/entities';
 
 export class AuthenticationError extends Error {
   constructor() {
@@ -12,13 +13,13 @@ export class AuthenticationError extends Error {
 export class SessionProvider {
   static inject = injectableClass(this);
 
-  private storage = new AsyncLocalStorage<AuthenticatedMember>();
+  private storage = new AsyncLocalStorage<Member>();
 
-  provide(member: AuthenticatedMember, callback: () => void) {
+  provide(member: Member, callback: () => void) {
     this.storage.run(member, callback);
   }
 
-  getMember(): AuthenticatedMember {
+  getMember(): Member {
     const member = this.storage.getStore();
 
     if (!member) {

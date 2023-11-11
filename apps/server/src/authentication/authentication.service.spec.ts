@@ -1,4 +1,3 @@
-import { createMember } from '@sel/shared';
 import { createDate } from '@sel/utils';
 import { beforeEach, describe, expect, it } from 'vitest';
 
@@ -7,6 +6,7 @@ import { StubDate } from '../infrastructure/date/stub-date.adapter';
 import { Email } from '../infrastructure/email/email.port';
 import { StubEmailAdapter } from '../infrastructure/email/stub-email.adapter';
 import { StubGenerator } from '../infrastructure/generator/stub-generator.adapter';
+import { createMember } from '../members/entities';
 import { StubMembersFacade } from '../members/members.facade';
 import { UnitTest } from '../unit-test';
 

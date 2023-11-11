@@ -1,4 +1,4 @@
-import { UpdateMemberProfileData } from '@sel/shared';
+import * as shared from '@sel/shared';
 import { injectableClass } from 'ditox';
 
 import { TOKENS } from '../tokens';
@@ -10,11 +10,7 @@ export class MembersService {
 
   constructor(private readonly membersRepository: MembersRepository) {}
 
-  async updateMemberProfile(memberId: string, data: UpdateMemberProfileData): Promise<void> {
+  async updateMemberProfile(memberId: string, data: shared.UpdateMemberProfileData): Promise<void> {
     await this.membersRepository.update(memberId, data);
-
-    if (data.onboardingCompleted !== undefined) {
-      await this.membersRepository.setOnboardingCompleted(memberId, data.onboardingCompleted);
-    }
   }
 }

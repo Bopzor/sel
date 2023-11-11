@@ -1,9 +1,9 @@
-import { createMember } from '@sel/shared';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
 import { TokenType, createToken } from '../authentication/token.entity';
 import { container } from '../container';
 import { E2ETest } from '../e2e-test';
+import { createMember } from '../members/entities';
 import { TOKENS } from '../tokens';
 
 describe('[E2E] Session', () => {
@@ -22,7 +22,7 @@ describe('[E2E] Session', () => {
     const member = createMember();
     const token = createToken({ memberId: member.id, value: 'session-token', type: TokenType.session });
 
-    await test.insertMember(member);
+    await container.resolve(TOKENS.membersRepository).insert(member);
     await container.resolve(TOKENS.tokenRepository).insert(token);
 
     const [, body] = await test.fetch('/session/member', { token: token.value });
