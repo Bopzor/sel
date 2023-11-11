@@ -1,4 +1,4 @@
-import { Member } from '@sel/shared';
+import { AuthenticatedMember } from '@sel/shared';
 import { assert } from '@sel/utils';
 import { injectableClass } from 'ditox';
 
@@ -17,14 +17,14 @@ export class SessionService {
 
   constructor(private authenticationFacade: AuthenticationFacade, private memberFacade: MembersFacade) {}
 
-  async getSessionMember(token: string): Promise<Member> {
+  async getSessionMember(token: string): Promise<AuthenticatedMember> {
     const memberId = await this.authenticationFacade.getMemberIdFromSessionToken(token);
 
     if (!memberId) {
       throw new InvalidSessionTokenError();
     }
 
-    const member = await this.memberFacade.getMemberFromId(memberId);
+    const member = await this.memberFacade.getAuthenticatedMemberFromId(memberId);
 
     assert(member, `cannot find memberId from token "${token}"`);
 

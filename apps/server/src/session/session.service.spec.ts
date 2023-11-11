@@ -1,4 +1,4 @@
-import { createMember } from '@sel/shared';
+import { createAuthenticatedMember } from '@sel/shared';
 import { beforeEach, describe, expect, it } from 'vitest';
 
 import { StubAuthenticationFacade } from '../authentication/authentication.facade';
@@ -12,11 +12,11 @@ class Test extends UnitTest {
   memberFacade = new StubMembersFacade();
   service = new SessionService(this.authenticationFacade, this.memberFacade);
 
-  member = createMember({ id: 'memberId' });
+  member = createAuthenticatedMember({ id: 'memberId' });
 
   setup() {
     this.authenticationFacade.sessionTokenMembers.set('token', this.member);
-    this.memberFacade.members.push(this.member);
+    this.memberFacade.authenticatedMembers.push(this.member);
   }
 }
 

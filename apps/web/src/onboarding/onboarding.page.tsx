@@ -2,8 +2,10 @@ import { Show, createSignal } from 'solid-js';
 import { createStore } from 'solid-js/store';
 
 import { selectAuthenticatedMember } from '../authentication/authentication.slice';
+import { container } from '../infrastructure/container';
 import { Translate } from '../intl/translate';
 import { store } from '../store/store';
+import { TOKENS } from '../tokens';
 import { formatPhoneNumber } from '../utils/format-phone-number';
 
 import { Stepper } from './components/stepper';
@@ -43,7 +45,15 @@ export const OnboardingPage = () => {
   };
 
   const handleEnd = () => {
-    console.log(form);
+    void container.get(TOKENS.memberProfileGateway)?.updateMemberProfile(member.id, {
+      firstName: form.firstName,
+      lastName: form.lastName,
+      emailVisible: form.emailVisible,
+      phoneNumbers: [{ number: form.phoneNumber.replaceAll(' ', ''), visible: form.phoneNumberVisible }],
+      bio: form.bio || undefined,
+      address: form.address || undefined,
+      onboardingCompleted: true,
+    });
   };
 
   return (

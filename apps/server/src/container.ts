@@ -13,6 +13,7 @@ import { ConsoleLogger } from './infrastructure/logger/console-logger.adapter';
 import { Database } from './infrastructure/persistence/database';
 import { MembersController } from './members/members.controller';
 import { MembersFacadeImpl } from './members/members.facade';
+import { MembersService } from './members/members.service';
 import { SqlMembersRepository } from './members/sql-members.repository';
 import { Server } from './server';
 import { SessionController } from './session/session.controller';
@@ -35,8 +36,9 @@ container.bindValue(TOKENS.nodemailer, nodemailer);
 container.bindFactory(TOKENS.email, NodemailerEmailAdapter.inject);
 
 container.bindFactory(TOKENS.membersFacade, MembersFacadeImpl.inject);
-container.bindFactory(TOKENS.membersRepository, SqlMembersRepository.inject);
 container.bindFactory(TOKENS.membersController, MembersController.inject);
+container.bindFactory(TOKENS.membersService, MembersService.inject);
+container.bindFactory(TOKENS.membersRepository, SqlMembersRepository.inject);
 
 container.bindFactory(TOKENS.authenticationFacade, AuthenticationFacadeImpl.inject);
 container.bindFactory(TOKENS.authenticationController, AuthenticationController.inject);

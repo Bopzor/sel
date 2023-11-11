@@ -14,6 +14,7 @@ import { Database } from './infrastructure/persistence/database.js';
 import { MembersController } from './members/members.controller.js';
 import { MembersFacade } from './members/members.facade.js';
 import { MembersRepository } from './members/members.repository.js';
+import { MembersService } from './members/members.service.js';
 import { Server } from './server.js';
 import { SessionController } from './session/session.controller.js';
 import { SessionProvider } from './session/session.provider.js';
@@ -31,6 +32,7 @@ export const TOKENS = {
   email: token<EmailPort>('email'),
   membersFacade: token<MembersFacade>('membersFacade'),
   membersController: token<MembersController>('membersController'),
+  membersService: token<MembersService>('membersService'),
   membersRepository: token<MembersRepository>('membersRepository'),
   sessionProvider: token<SessionProvider>('authenticatedMemberProvider'),
   authenticationFacade: token<AuthenticationFacade>('authenticationFacade'),

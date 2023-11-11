@@ -1,4 +1,4 @@
-import { Member } from '@sel/shared';
+import { AuthenticatedMember, Member } from '@sel/shared';
 import { injectableClass } from 'ditox';
 
 import { TOKENS } from '../tokens';
@@ -6,7 +6,7 @@ import { TOKENS } from '../tokens';
 import { MembersRepository } from './members.repository';
 
 export interface MembersFacade {
-  getMemberFromId(id: string): Promise<Member | undefined>;
+  getAuthenticatedMemberFromId(id: string): Promise<AuthenticatedMember | undefined>;
   getMemberIdFromEmail(email: string): Promise<string | undefined>;
 }
 
@@ -15,8 +15,8 @@ export class MembersFacadeImpl implements MembersFacade {
 
   constructor(private readonly membersRepository: MembersRepository) {}
 
-  async getMemberFromId(id: string): Promise<Member | undefined> {
-    return this.membersRepository.getMember(id);
+  async getAuthenticatedMemberFromId(id: string): Promise<AuthenticatedMember | undefined> {
+    return this.membersRepository.getAuthenticatedMember(id);
   }
 
   async getMemberIdFromEmail(email: string): Promise<string | undefined> {
@@ -30,9 +30,10 @@ export class MembersFacadeImpl implements MembersFacade {
 
 export class StubMembersFacade implements MembersFacade {
   members = new Array<Member>();
+  authenticatedMembers = new Array<AuthenticatedMember>();
 
-  async getMemberFromId(id: string): Promise<Member | undefined> {
-    return this.members.find((member) => member.id === id);
+  async getAuthenticatedMemberFromId(id: string): Promise<AuthenticatedMember | undefined> {
+    return this.authenticatedMembers.find((member) => member.id === id);
   }
 
   async getMemberIdFromEmail(email: string): Promise<string | undefined> {

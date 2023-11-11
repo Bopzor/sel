@@ -1,4 +1,4 @@
-import { Address, Member, MembersSort, PhoneNumber } from '@sel/shared';
+import { Address, AuthenticatedMember, Member, MembersSort, PhoneNumber } from '@sel/shared';
 import { injectableClass } from 'ditox';
 import { asc, desc, eq } from 'drizzle-orm';
 
@@ -7,7 +7,7 @@ import { Database } from '../infrastructure/persistence/database';
 import { members } from '../infrastructure/persistence/schema';
 import { TOKENS } from '../tokens';
 
-import { InsertMemberModel, MembersRepository } from './members.repository';
+import { InsertMemberModel, MembersRepository, UpdateMemberModel } from './members.repository';
 
 export class SqlMembersRepository implements MembersRepository {
   static inject = injectableClass(this, TOKENS.database, TOKENS.date);
@@ -27,14 +27,22 @@ export class SqlMembersRepository implements MembersRepository {
 
     const results = await this.db.select().from(members).orderBy(orderBy[sort]);
 
-    return results.map(this.toEntity);
+    return results.map(this.toMember);
   }
 
   async getMember(memberId: string): Promise<Member | undefined> {
     const [result] = await this.db.select().from(members).where(eq(members.id, memberId));
 
     if (result) {
-      return this.toEntity(result);
+      return this.toMember(result);
+    }
+  }
+
+  async getAuthenticatedMember(memberId: string): Promise<AuthenticatedMember | undefined> {
+    const [result] = await this.db.select().from(members).where(eq(members.id, memberId));
+
+    if (result) {
+      return this.toAuthenticatedMember(result);
     }
   }
 
@@ -42,15 +50,15 @@ export class SqlMembersRepository implements MembersRepository {
     const [sqlMember] = await this.db.select().from(members).where(eq(members.email, email));
 
     if (sqlMember) {
-      return this.toEntity(sqlMember);
+      return this.toMember(sqlMember);
     }
   }
 
-  async insert(member: InsertMemberModel): Promise<void> {
+  async insert(model: InsertMemberModel): Promise<void> {
     const now = this.dateAdapter.now();
 
     await this.db.insert(members).values({
-      ...member,
+      ...model,
       emailVisible: true,
       bio: null,
       address: null,
@@ -59,7 +67,36 @@ export class SqlMembersRepository implements MembersRepository {
     });
   }
 
-  private toEntity(this: void, result: typeof members.$inferSelect): Member {
+  async update(memberId: string, model: UpdateMemberModel): Promise<void> {
+    const now = this.dateAdapter.now();
+
+    await this.db
+      .update(members)
+      .set({
+        firstName: model.firstName,
+        lastName: model.lastName,
+        emailVisible: model.emailVisible,
+        phoneNumbers: model.phoneNumbers,
+        bio: model.bio ?? null,
+        address: model.address ?? null,
+        updatedAt: now.toISOString(),
+      })
+      .where(eq(members.id, memberId));
+  }
+
+  async setOnboardingCompleted(memberId: string, completed: boolean): Promise<void> {
+    const now = this.dateAdapter.now();
+
+    await this.db
+      .update(members)
+      .set({
+        onboardingCompletedDate: completed ? now.toISOString() : null,
+        updatedAt: now.toISOString(),
+      })
+      .where(eq(members.id, memberId));
+  }
+
+  private toMember(this: void, result: typeof members.$inferSelect): Member {
     return {
       id: result.id,
       firstName: result.firstName,
@@ -68,6 +105,20 @@ export class SqlMembersRepository implements MembersRepository {
       phoneNumbers: (result.phoneNumbers as PhoneNumber[]).filter(({ visible }) => visible),
       bio: result.bio ?? undefined,
       address: (result.address as Address | null) ?? undefined,
+    };
+  }
+
+  private toAuthenticatedMember(this: void, result: typeof members.$inferSelect): AuthenticatedMember {
+    return {
+      id: result.id,
+      firstName: result.firstName,
+      lastName: result.lastName,
+      email: result.email,
+      emailVisible: result.emailVisible,
+      phoneNumbers: result.phoneNumbers as PhoneNumber[],
+      bio: result.bio ?? undefined,
+      address: (result.address as Address | null) ?? undefined,
+      onboardingCompleted: result.onboardingCompletedDate !== null,
     };
   }
 }

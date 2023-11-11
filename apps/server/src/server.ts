@@ -1,6 +1,7 @@
 import http from 'node:http';
 import util from 'node:util';
 
+import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import { Container, injectableClass } from 'ditox';
 import express, { ErrorRequestHandler, RequestHandler } from 'express';
@@ -25,6 +26,7 @@ export class Server {
   ) {
     // todo: secret
     this.app.use(cookieParser());
+    this.app.use(bodyParser.json());
 
     this.app.use(this.authenticationMiddleware);
 

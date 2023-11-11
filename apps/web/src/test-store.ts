@@ -2,6 +2,7 @@ import { Middleware } from '@reduxjs/toolkit';
 
 import { StubAuthenticationGateway } from './authentication/stub-authentication.gateway';
 import { Dependencies } from './dependencies';
+import { StubMemberProfileGateway } from './members/stub-member-profile.gateway';
 import { StubMembersGateway } from './members/stub-members.gateway';
 import { createStore } from './store/create-store';
 import { AppSelector } from './store/types';
@@ -21,6 +22,7 @@ export class TestStore implements Dependencies {
 
   public authenticationGateway = new StubAuthenticationGateway();
   public membersGateway = new StubMembersGateway();
+  public memberProfileGateway = new StubMemberProfileGateway();
 
   private store = createStore(this, [this.logActionMiddleware]);
 

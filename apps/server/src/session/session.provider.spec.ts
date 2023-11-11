@@ -1,4 +1,4 @@
-import { createMember } from '@sel/shared';
+import { createAuthenticatedMember } from '@sel/shared';
 import { beforeEach, describe, expect, it } from 'vitest';
 
 import { AuthenticationError, SessionProvider } from './session.provider';
@@ -11,7 +11,7 @@ describe('[Unit] SessionProvider', () => {
   });
 
   it('retrieves a provided member', () => {
-    const member = createMember();
+    const member = createAuthenticatedMember();
 
     expect.assertions(1);
 
