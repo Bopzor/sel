@@ -31,11 +31,23 @@ export const NameStep: Component<NameStepProps> = (props) => {
         class="col gap-4"
       >
         <OnboardingField label={<T id="firstName" />}>
-          <OnboardingInput required name="firstName" form={props.form} onFieldChange={props.onFieldChange} />
+          <OnboardingInput
+            required
+            name="firstName"
+            maxlength={256}
+            form={props.form}
+            onFieldChange={props.onFieldChange}
+          />
         </OnboardingField>
 
         <OnboardingField label={<T id="lastName" />}>
-          <OnboardingInput required name="lastName" form={props.form} onFieldChange={props.onFieldChange} />
+          <OnboardingInput
+            required
+            name="lastName"
+            maxLength={256}
+            form={props.form}
+            onFieldChange={props.onFieldChange}
+          />
         </OnboardingField>
 
         <NextButton type="submit">

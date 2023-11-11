@@ -69,18 +69,18 @@ export class MembersController {
 
   updateMemberProfile: RequestHandler<{ memberId: string }> = async (req, res) => {
     const schema = z.object({
-      firstName: z.string(),
-      lastName: z.string(),
+      firstName: z.string().trim().max(256),
+      lastName: z.string().trim().max(256),
       emailVisible: z.boolean(),
       phoneNumbers: z.array(z.object({ number: z.string().regex(/^0\d{9}$/), visible: z.boolean() })),
-      bio: z.string().optional(),
+      bio: z.string().trim().max(4096).optional(),
       address: z
         .object({
-          line1: z.string(),
-          line2: z.string().optional(),
-          postalCode: z.string(),
-          city: z.string(),
-          country: z.string(),
+          line1: z.string().trim().max(256),
+          line2: z.string().trim().max(256).optional(),
+          postalCode: z.string().trim().max(16),
+          city: z.string().trim().max(256),
+          country: z.string().trim().max(256),
           position: z.tuple([z.number(), z.number()]).optional(),
         })
         .optional(),

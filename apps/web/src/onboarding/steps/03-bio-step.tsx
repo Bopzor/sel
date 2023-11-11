@@ -37,6 +37,7 @@ export const BioStep: Component<BioProp> = (props) => {
           <OnboardingTextArea
             name="bio"
             rows={6}
+            maxLength={4096}
             width="full"
             form={props.form}
             onFieldChange={props.onFieldChange}
