@@ -27,12 +27,16 @@ export const ContactStep: Component<ContactStepProps> = (props) => {
 
   const validatePhoneNumber = () => {
     const phoneNumber = props.form.phoneNumber.replaceAll(' ', '');
+    console.log(phoneNumber);
 
-    if (!phoneNumber.match(/\d{10}/) || phoneNumber[0] !== '0') {
+    if (!phoneNumber.match(/^0\d{9}$/)) {
       phoneNumberRef?.setCustomValidity(t('phoneNumberInvalid'));
+      phoneNumberRef?.reportValidity();
 
       return false;
     }
+
+    phoneNumberRef?.setCustomValidity('');
 
     return true;
   };
