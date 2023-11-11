@@ -12,15 +12,8 @@
     {
       "idx": 1,
       "version": "5",
-      "when": 1698947340402,
-      "tag": "0001_hot_thunderbolt_ross",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "5",
-      "when": 1699566645152,
-      "tag": "0002_redundant_blacklash",
+      "when": 1699713246719,
+      "tag": "0001_fantastic_stellaris",
       "breakpoints": true
     }
   ]

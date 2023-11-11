@@ -3,7 +3,7 @@ import { assert, defined } from '@sel/utils';
 
 import { InMemoryRepository } from '../in-memory.repository';
 
-import { Member } from './entities';
+import { Member, MemberStatus } from './entities';
 import { InsertMemberModel, MembersRepository, UpdateMemberModel } from './members.repository';
 
 export class InMemoryMembersRepository extends InMemoryRepository<Member> implements MembersRepository {
@@ -64,6 +64,7 @@ export class InMemoryMembersRepository extends InMemoryRepository<Member> implem
   async insert(model: InsertMemberModel): Promise<void> {
     this.add({
       ...model,
+      status: MemberStatus.inactive,
       emailVisible: true,
       phoneNumbers: [],
       onboardingCompleted: false,

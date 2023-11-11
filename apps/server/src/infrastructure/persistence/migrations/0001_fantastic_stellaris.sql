@@ -1,4 +1,10 @@
 DO $$ BEGIN
+ CREATE TYPE "member_status" AS ENUM('inactive', 'active');
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
  CREATE TYPE "tokenType" AS ENUM('authentication', 'session');
 EXCEPTION
  WHEN duplicate_object THEN null;
@@ -20,6 +26,9 @@ ALTER TABLE "members" ALTER COLUMN "created_at" SET DATA TYPE timestamp(3);--> s
 ALTER TABLE "members" ALTER COLUMN "created_at" SET NOT NULL;--> statement-breakpoint
 ALTER TABLE "members" ALTER COLUMN "updated_at" SET DATA TYPE timestamp(3);--> statement-breakpoint
 ALTER TABLE "members" ALTER COLUMN "updated_at" SET NOT NULL;--> statement-breakpoint
+ALTER TABLE "members" ADD COLUMN "status" "member_status" NOT NULL;--> statement-breakpoint
+ALTER TABLE "members" ADD COLUMN "email_visible" boolean NOT NULL;--> statement-breakpoint
+ALTER TABLE "members" ADD COLUMN "onboarding_completed_date" timestamp(3);--> statement-breakpoint
 DO $$ BEGIN
  ALTER TABLE "tokens" ADD CONSTRAINT "tokens_member_id_members_id_fk" FOREIGN KEY ("member_id") REFERENCES "members"("id") ON DELETE no action ON UPDATE no action;
 EXCEPTION

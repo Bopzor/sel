@@ -2,6 +2,7 @@ import { relations } from 'drizzle-orm';
 import { boolean, json, pgEnum, pgTable, text, timestamp, varchar } from 'drizzle-orm/pg-core';
 
 import { TokenType } from '../../authentication/token.entity';
+import { MemberStatus } from '../../members/entities';
 
 const id = (name = 'id') => varchar(name, { length: 16 });
 const primaryKey = () => id().primaryKey();
@@ -10,8 +11,15 @@ const date = (name: string) => timestamp(name, { mode: 'string', precision: 3 })
 const createdAt = () => date('created_at').notNull();
 const updatedAt = () => date('updated_at').notNull();
 
+const enumValues = <Values extends string>(enumType: Record<string, Values>) => {
+  return Object.values(enumType) as [Values, ...Values[]];
+};
+
+export const memberStatusEnum = pgEnum('member_status', enumValues(MemberStatus));
+
 export const members = pgTable('members', {
   id: primaryKey(),
+  status: memberStatusEnum('status').notNull(),
   firstName: varchar('first_name', { length: 256 }).notNull(),
   lastName: varchar('last_name', { length: 256 }).notNull(),
   email: varchar('email', { length: 256 }).notNull().unique(),

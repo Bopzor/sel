@@ -2,6 +2,7 @@ import { createFactory, createDate } from '@sel/utils';
 import { InferInsertModel } from 'drizzle-orm';
 
 import { TokenType } from '../../authentication/token.entity';
+import { MemberStatus } from '../../members/entities';
 
 import { members, tokens } from './schema';
 
@@ -9,6 +10,7 @@ const createISOStringDate = () => createDate().toISOString();
 
 export const createSqlMember = createFactory<InferInsertModel<typeof members>>(() => ({
   id: '',
+  status: MemberStatus.inactive,
   firstName: '',
   lastName: '',
   email: '',

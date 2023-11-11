@@ -1,7 +1,13 @@
 import { createFactory, createId } from '@sel/utils';
 
+export enum MemberStatus {
+  inactive = 'inactive',
+  active = 'active',
+}
+
 export type Member = {
   id: string;
+  status: MemberStatus;
   firstName: string;
   lastName: string;
   email: string;
@@ -14,6 +20,7 @@ export type Member = {
 
 export const createMember = createFactory<Member>(() => ({
   id: createId(),
+  status: MemberStatus.active,
   firstName: '',
   lastName: '',
   email: '',

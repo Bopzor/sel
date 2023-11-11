@@ -1,7 +1,7 @@
 {
   "version": "5",
   "dialect": "pg",
-  "id": "a7fccc2b-43fc-4dd8-aab8-2c879fecc996",
+  "id": "b66519e8-1a53-4aaf-8ea2-a4b8c63cd814",
   "prevId": "ff4ddb88-e744-4447-b2da-c71244787d8f",
   "tables": {
     "members": {
@@ -12,6 +12,12 @@
           "name": "id",
           "type": "varchar(16)",
           "primaryKey": true,
+          "notNull": true
+        },
+        "status": {
+          "name": "status",
+          "type": "member_status",
+          "primaryKey": false,
           "notNull": true
         },
         "first_name": {
@@ -32,6 +38,12 @@
           "primaryKey": false,
           "notNull": true
         },
+        "email_visible": {
+          "name": "email_visible",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true
+        },
         "phone_numbers": {
           "name": "phone_numbers",
           "type": "json",
@@ -48,6 +60,12 @@
         "address": {
           "name": "address",
           "type": "json",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "onboarding_completed_date": {
+          "name": "onboarding_completed_date",
+          "type": "timestamp(3)",
           "primaryKey": false,
           "notNull": false
         },
@@ -160,6 +178,13 @@
     }
   },
   "enums": {
+    "member_status": {
+      "name": "member_status",
+      "values": {
+        "inactive": "inactive",
+        "active": "active"
+      }
+    },
     "tokenType": {
       "name": "tokenType",
       "values": {

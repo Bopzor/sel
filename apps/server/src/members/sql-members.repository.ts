@@ -7,7 +7,7 @@ import { Database } from '../infrastructure/persistence/database';
 import { members } from '../infrastructure/persistence/schema';
 import { TOKENS } from '../tokens';
 
-import { Address, Member, PhoneNumber } from './entities';
+import { Address, Member, MemberStatus, PhoneNumber } from './entities';
 import { InsertMemberModel, MembersRepository, UpdateMemberModel } from './members.repository';
 
 export class SqlMembersRepository implements MembersRepository {
@@ -97,6 +97,7 @@ export class SqlMembersRepository implements MembersRepository {
 
     await this.db.insert(members).values({
       id: model.id,
+      status: MemberStatus.inactive,
       firstName: model.firstName,
       lastName: model.lastName,
       email: model.email,
@@ -142,6 +143,7 @@ export class SqlMembersRepository implements MembersRepository {
   private toMember(this: void, result: typeof members.$inferSelect): Member {
     return {
       id: result.id,
+      status: result.status,
       firstName: result.firstName,
       lastName: result.lastName,
       email: result.email,
