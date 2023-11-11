@@ -2,6 +2,7 @@ import { Show, createSignal } from 'solid-js';
 import { createStore } from 'solid-js/store';
 
 import { selectAuthenticatedMember } from '../authentication/authentication.slice';
+import { fetchAuthenticatedMember } from '../authentication/use-cases/fetch-authenticated-member/fetch-authenticated-member';
 import { container } from '../infrastructure/container';
 import { Translate } from '../intl/translate';
 import { store } from '../store/store';
@@ -44,8 +45,10 @@ export const OnboardingPage = () => {
     };
   };
 
-  const handleEnd = () => {
-    void container.get(TOKENS.memberProfileGateway)?.updateMemberProfile(member.id, {
+  const handleEnd = async () => {
+    const memberProfileGateway = container.resolve(TOKENS.memberProfileGateway);
+
+    await memberProfileGateway.updateMemberProfile(member.id, {
       firstName: form.firstName,
       lastName: form.lastName,
       emailVisible: form.emailVisible,
@@ -54,6 +57,8 @@ export const OnboardingPage = () => {
       address: form.address || undefined,
       onboardingCompleted: true,
     });
+
+    await store.dispatch(fetchAuthenticatedMember());
   };
 
   return (
@@ -87,7 +92,7 @@ export const OnboardingPage = () => {
       </Show>
 
       <Show when={step() === 5}>
-        <EndStep onNext={handleEnd} />
+        <EndStep onNext={() => void handleEnd()} />
       </Show>
     </div>
   );

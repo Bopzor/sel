@@ -12,5 +12,9 @@ export class MembersService {
 
   async updateMemberProfile(memberId: string, data: shared.UpdateMemberProfileData): Promise<void> {
     await this.membersRepository.update(memberId, data);
+
+    if (data.onboardingCompleted !== undefined) {
+      await this.membersRepository.setOnboardingCompleted(memberId, data.onboardingCompleted);
+    }
   }
 }
