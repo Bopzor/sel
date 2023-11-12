@@ -6,7 +6,6 @@
 
     <mj-attributes>
       <mj-all padding="0" font-family="Inter, sans-serif" font-size="16px" line-height="21px" />
-      <mj-body width="680px" background-color="#f4f4f5" />
     </mj-attributes>
   </mj-head>
 
@@ -29,7 +28,7 @@
       </mj-column>
     </mj-section>
 
-    <mj-section>
+    <mj-section padding="0 16px">
       <mj-column>
         <mj-text padding="8px 0">Bonjour {{firstName}},</mj-text>
         <mj-text padding="8px 0">Pour vous connecter à l'app du SEL, veuillez ouvrir le lien suivant : <a href="{{{authenticationUrl}}}">{{{authenticationUrl}}}</a></mj-text>
