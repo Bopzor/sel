@@ -18,6 +18,12 @@ type AddressProps = {
 export const AddressStep: Component<AddressProps> = (props) => {
   return (
     <>
+      <div>
+        <p>
+          <T id="sentence" />
+        </p>
+      </div>
+
       <form
         onSubmit={(event) => {
           event.preventDefault();

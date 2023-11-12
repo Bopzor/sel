@@ -12,7 +12,7 @@
     }
   },
   "authentication": {
-    "description": "Sign-in to access the app. If you don't have an account yet, it will be created when you first sign-in.",
+    "description": "Enter the email address of your LETS account to access the app.",
     "emailAddress": "Email address",
     "send": "Send",
     "authenticationLinkRequested": "If your email address is authorized, an email containing an authentication link was sent to you at {email}. If you didn't receive anything within a few minutes, check your spams or contact us."
@@ -54,6 +54,7 @@
         "bio": "About you"
       },
       "address": {
+        "sentence": "Enter your address to add it to your profile page and locate you on the map showing all members.",
         "title": "Address",
         "address": "Address"
       },

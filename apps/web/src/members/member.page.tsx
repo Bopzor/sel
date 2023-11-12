@@ -72,7 +72,9 @@ const MemberInfo: Component<MemberInfoProps> = (props) => {
           <For each={props.member.phoneNumbers}>
             {({ number }) => (
               <li>
-                <a href={`tel:${number}`}>{formatPhoneNumber(number)}</a>
+                <a class="unstyled" href={`tel:${number}`}>
+                  {formatPhoneNumber(number)}
+                </a>
               </li>
             )}
           </For>
@@ -80,7 +82,9 @@ const MemberInfo: Component<MemberInfoProps> = (props) => {
       </MemberProfileData>
 
       <MemberProfileData when={props.member.email} label={<T id="emailAddress" />} icon={envelope}>
-        <a href={`mailto:${props.member.email}`}>{props.member.email}</a>
+        <a class="unstyled" href={`mailto:${props.member.email}`}>
+          {props.member.email}
+        </a>
       </MemberProfileData>
 
       <MemberProfileData when={props.member.address} label={<T id="mailingAddress" />} icon={home}>
