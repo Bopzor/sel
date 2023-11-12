@@ -2,7 +2,7 @@ import { ClassType } from '@sel/utils';
 
 import { DomainEvent } from '../../domain-event';
 
-export interface EventListener<Event extends DomainEvent> {
+export interface EventListener<Event extends DomainEvent = DomainEvent> {
   (event: Event): void | Promise<void>;
 }
 

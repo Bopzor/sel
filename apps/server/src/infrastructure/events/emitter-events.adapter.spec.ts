@@ -29,7 +29,7 @@ describe('EmitterEventsAdapter', () => {
     entityId = '';
   }
 
-  it('registers a listener and triggers an event', () => {
+  it('registers listeners and triggers events', () => {
     const listener1 = vi.fn();
     const listener2 = vi.fn();
     const listener3 = vi.fn();
@@ -45,6 +45,16 @@ describe('EmitterEventsAdapter', () => {
     expect(listener1).toHaveBeenCalledWith(event);
     expect(listener2).toHaveBeenCalledWith(event);
     expect(listener3).not.toHaveBeenCalled();
+  });
+
+  it('registers listeners on any event', () => {
+    const listener = vi.fn();
+    const event = new TestEvent1();
+
+    test.adapter.addEventListener(listener);
+    test.adapter.emit(event);
+
+    expect(listener).toHaveBeenCalledWith(event);
   });
 
   it('logs errors thrown by a listener', () => {

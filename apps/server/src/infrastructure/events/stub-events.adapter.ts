@@ -5,7 +5,7 @@ import { DomainEvent } from '../../domain-event';
 import { EventListener, EventsPort } from './events.port';
 
 export class StubEventsAdapter implements EventsPort {
-  public readonly listeners = new Map<ClassType<DomainEvent>, Array<EventListener<DomainEvent>>>();
+  public readonly listeners = new Map<ClassType<DomainEvent>, Array<EventListener>>();
   public readonly events = new Array<DomainEvent>();
 
   addEventListener<Event extends DomainEvent>(event: ClassType<Event>, listener: EventListener<Event>): void {
@@ -13,7 +13,7 @@ export class StubEventsAdapter implements EventsPort {
       this.listeners.set(event, []);
     }
 
-    this.listeners.get(event)?.push(listener as EventListener<DomainEvent>);
+    this.listeners.get(event)?.push(listener as EventListener);
   }
 
   async trigger(event: DomainEvent) {
