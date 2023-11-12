@@ -7,7 +7,6 @@ import { TOKENS } from '../tokens';
 
 import { MatomoAnalyticsAdapter } from './analytics/matomo-analytics.adapter';
 import { EnvConfigAdapter } from './config/env-config.adapter';
-import { configureDevEnv } from './container.dev';
 import { GeoapifyGeocodeAdapter } from './geocode/geocode-geoapify.adapter';
 
 export const container = createContainer();
@@ -18,5 +17,3 @@ container.bindFactory(TOKENS.geocode, GeoapifyGeocodeAdapter.inject);
 container.bindValue(TOKENS.fetcher, new Fetcher());
 container.bindFactory(TOKENS.authenticationGateway, ApiAuthenticationGateway.inject);
 container.bindFactory(TOKENS.memberProfileGateway, ApiMemberProfileGateway.inject);
-
-configureDevEnv(container);
