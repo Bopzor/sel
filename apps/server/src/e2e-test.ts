@@ -12,7 +12,10 @@ export class E2ETest {
     server: {
       host: 'localhost',
       port: 3030,
-      sessionSecure: false,
+    },
+    session: {
+      secret: '',
+      secure: false,
     },
     database: {
       url: 'postgres://postgres@localhost:5432/test',

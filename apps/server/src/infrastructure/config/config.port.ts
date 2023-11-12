@@ -1,7 +1,11 @@
 export type ServerConfig = {
   host: string;
   port: number;
-  sessionSecure: boolean;
+};
+
+export type SessionConfig = {
+  secure: boolean;
+  secret: string;
 };
 
 export type AppConfig = {
@@ -23,6 +27,7 @@ export type EmailConfig = {
 
 export interface ConfigPort {
   server: ServerConfig;
+  session: SessionConfig;
   app: AppConfig;
   database: DatabaseConfig;
   email: EmailConfig;

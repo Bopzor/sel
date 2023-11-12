@@ -24,8 +24,7 @@ export class Server {
     private readonly config: ConfigPort,
     private readonly logger: LoggerPort
   ) {
-    // todo: secret
-    this.app.use(cookieParser());
+    this.app.use(cookieParser(config.session.secret));
     this.app.use(bodyParser.json());
 
     this.app.use(this.authenticationMiddleware);

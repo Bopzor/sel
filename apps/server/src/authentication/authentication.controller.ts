@@ -49,7 +49,7 @@ export class AuthenticationController {
       'SameSite=Lax',
     ];
 
-    if (this.config.server.sessionSecure) {
+    if (this.config.session.secure) {
       setCookie.push('Secure');
     }
 

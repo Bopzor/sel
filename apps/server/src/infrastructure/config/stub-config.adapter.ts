@@ -1,7 +1,15 @@
-import { AppConfig, ConfigPort, DatabaseConfig, EmailConfig, ServerConfig } from './config.port';
+import {
+  AppConfig,
+  ConfigPort,
+  DatabaseConfig,
+  EmailConfig,
+  ServerConfig,
+  SessionConfig,
+} from './config.port';
 
 export class StubConfigAdapter implements ConfigPort {
   server: ServerConfig;
+  session: SessionConfig;
   app: AppConfig;
   database: DatabaseConfig;
   email: EmailConfig;
@@ -10,8 +18,13 @@ export class StubConfigAdapter implements ConfigPort {
     this.server = {
       host: '',
       port: 0,
-      sessionSecure: false,
       ...config.server,
+    };
+
+    this.session = {
+      secret: '',
+      secure: false,
+      ...config.session,
     };
 
     this.app = {
