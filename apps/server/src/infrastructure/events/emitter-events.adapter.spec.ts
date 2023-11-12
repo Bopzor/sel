@@ -19,14 +19,12 @@ describe('EmitterEventsAdapter', () => {
     test = Test.create(Test);
   });
 
-  class TestEvent1 implements DomainEvent {
-    entity = 'member';
-    entityId = '';
+  class TestEvent1 extends DomainEvent {
+    entity = 'test';
   }
 
-  class TestEvent2 implements DomainEvent {
-    entity = 'member';
-    entityId = '';
+  class TestEvent2 extends DomainEvent {
+    entity = 'test';
   }
 
   it('registers listeners and triggers events', () => {
@@ -38,7 +36,7 @@ describe('EmitterEventsAdapter', () => {
     test.adapter.addEventListener(TestEvent1, listener2);
     test.adapter.addEventListener(TestEvent2, listener3);
 
-    const event = new TestEvent1();
+    const event = new TestEvent1('');
 
     test.adapter.emit(event);
 
@@ -49,7 +47,7 @@ describe('EmitterEventsAdapter', () => {
 
   it('registers listeners on any event', () => {
     const listener = vi.fn();
-    const event = new TestEvent1();
+    const event = new TestEvent1('');
 
     test.adapter.addAnyEventListener(listener);
     test.adapter.emit(event);
@@ -64,7 +62,7 @@ describe('EmitterEventsAdapter', () => {
       throw error;
     });
 
-    test.adapter.emit(new TestEvent1());
+    test.adapter.emit(new TestEvent1(''));
 
     expect(test.logger.lines.error).toContainEqual(error);
   });
@@ -76,7 +74,7 @@ describe('EmitterEventsAdapter', () => {
       throw error;
     });
 
-    test.adapter.emit(new TestEvent1());
+    test.adapter.emit(new TestEvent1(''));
 
     await waitFor(() => {
       expect(test.logger.lines.error).toContainEqual(error);

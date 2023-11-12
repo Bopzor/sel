@@ -1,25 +1,17 @@
 import { DomainEvent } from '../domain-event';
 
-export class AuthenticationLinkRequested implements DomainEvent {
-  public readonly entity = 'member';
-
-  constructor(public readonly entityId: string, public readonly link: string) {}
+class MemberEvent extends DomainEvent {
+  entity = 'member';
 }
 
-export class MemberAuthenticated implements DomainEvent {
-  public readonly entity = 'member';
-
-  constructor(public readonly entityId: string) {}
+export class AuthenticationLinkRequested extends MemberEvent {
+  constructor(entityId: string, public readonly link: string) {
+    super(entityId);
+  }
 }
 
-export class MemberUnauthenticated implements DomainEvent {
-  public readonly entity = 'member';
+export class MemberAuthenticated extends MemberEvent {}
 
-  constructor(public readonly entityId: string) {}
-}
+export class MemberUnauthenticated extends MemberEvent {}
 
-export class OnboardingCompleted implements DomainEvent {
-  public readonly entity = 'member';
-
-  constructor(public readonly entityId: string) {}
-}
+export class OnboardingCompleted extends MemberEvent {}

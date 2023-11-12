@@ -26,13 +26,13 @@ export class EventsPersistor {
   async persistEvent(event: DomainEvent) {
     const now = this.dateAdapter.now();
 
-    const { entity, entityId, ...payload } = event;
+    const { entity, entityId, type, ...payload } = event;
 
     await this.database.db.insert(events).values({
       id: this.generator.id(),
       entity,
       entityId,
-      type: event.constructor.name,
+      type,
       payload,
       createdAt: now.toISOString(),
     });

@@ -75,7 +75,7 @@ describe('[Unit] AuthenticationService', () => {
 
       await test.service.requestAuthenticationLink('email');
 
-      expect(test.events.events).toContainEqual(
+      expect(test.events).toHaveEmitted(
         new AuthenticationLinkRequested('memberId', 'https://app.url/?auth-token=authToken')
       );
     });
@@ -138,7 +138,7 @@ describe('[Unit] AuthenticationService', () => {
     it('triggers a AuthenticationLinkRequested domain event', async () => {
       await test.service.verifyAuthenticationToken('authToken');
 
-      expect(test.events.events).toContainEqual(new MemberAuthenticated('memberId'));
+      expect(test.events).toHaveEmitted(new MemberAuthenticated('memberId'));
     });
 
     it('throws when the authentication token does not exist', async () => {

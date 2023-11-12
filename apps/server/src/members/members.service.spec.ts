@@ -61,7 +61,7 @@ describe('MembersService', () => {
       createUpdateMemberProfileData({ onboardingCompleted: true })
     );
 
-    expect(test.events.events).toContainEqual(new OnboardingCompleted('memberId'));
+    expect(test.events).toHaveEmitted(new OnboardingCompleted('memberId'));
   });
 
   it("set a member's onboarding as not completed", async () => {

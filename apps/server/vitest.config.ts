@@ -6,7 +6,8 @@ export default defineConfig({
   test: {
     watch: false,
     threads: false,
-    globalSetup: './src/vitest.setup.ts',
+    setupFiles: './src/vitest.setup.ts',
+    globalSetup: './src/vitest.global-setup.ts',
     reporters: ['verbose'],
     alias: {
       '@sel/shared': path.resolve('../../packages/shared/src'),

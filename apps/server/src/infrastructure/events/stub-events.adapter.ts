@@ -6,7 +6,6 @@ import { EventListener, EventsPort } from './events.port';
 
 export class StubEventsAdapter implements EventsPort {
   public readonly listeners = new Map<ClassType<DomainEvent>, Array<EventListener>>();
-  public readonly events = new Array<DomainEvent>();
 
   addAnyEventListener(): void {}
 
@@ -27,6 +26,8 @@ export class StubEventsAdapter implements EventsPort {
 
     await Promise.all(listeners.map((listener) => listener(event)));
   }
+
+  public readonly events = new Array<DomainEvent>();
 
   emit(event: DomainEvent): void {
     this.events.push(event);
