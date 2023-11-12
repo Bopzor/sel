@@ -11,6 +11,8 @@ import { NativeDateAdapter } from './infrastructure/date/native-date.adapter';
 import { MjmlEmailRendererAdapter } from './infrastructure/email/mjml-email-renderer.adapter';
 import { NodemailerEmailSenderAdapter } from './infrastructure/email/nodemailer-email-sender.adapter';
 import { EmitterEventsAdapter } from './infrastructure/events/emitter-events.adapter';
+import { EventsLogger } from './infrastructure/events/events-logger';
+import { EventsPersistor } from './infrastructure/events/events-persistor';
 import { NanoIdGenerator } from './infrastructure/generator/nanoid-generator.adapter';
 import { ConsoleLogger } from './infrastructure/logger/console-logger.adapter';
 import { Database } from './infrastructure/persistence/database';
@@ -32,7 +34,10 @@ container.bindFactory(TOKENS.config, EnvConfigAdapter.inject);
 container.bindFactory(TOKENS.date, NativeDateAdapter.inject);
 container.bindFactory(TOKENS.generator, NanoIdGenerator.inject);
 container.bindFactory(TOKENS.logger, ConsoleLogger.inject);
+
 container.bindFactory(TOKENS.events, EmitterEventsAdapter.inject);
+container.bindFactory(TOKENS.eventsLogger, EventsLogger.inject);
+container.bindFactory(TOKENS.eventsPersistor, EventsPersistor.inject);
 
 container.bindFactory(TOKENS.server, Server.inject);
 container.bindFactory(TOKENS.database, Database.inject);

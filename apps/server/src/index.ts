@@ -1,5 +1,4 @@
 import { container } from './container.js';
-import { EmitterEventsAdapter } from './infrastructure/events/emitter-events.adapter.js';
 import { TOKENS } from './tokens.js';
 
 Error.stackTraceLimit = 1000;
@@ -7,20 +6,11 @@ Error.stackTraceLimit = 1000;
 main().catch(console.error);
 
 async function main() {
-  const events = container.resolve(TOKENS.events);
-  const logger = container.resolve(TOKENS.logger);
-  const emailRenderer = container.resolve(TOKENS.emailRenderer);
-  const authenticationModule = container.resolve(TOKENS.authenticationModule);
-  const server = container.resolve(TOKENS.server);
+  container.resolve(TOKENS.eventsLogger).init();
+  container.resolve(TOKENS.eventsPersistor).init();
+  await container.resolve(TOKENS.emailRenderer).init?.();
 
-  if (events instanceof EmitterEventsAdapter) {
-    events.addEventListener((event) => logger.info(event));
-  }
-
-  await emailRenderer.init?.();
-  authenticationModule.init();
-
-  await server.start();
+  await container.resolve(TOKENS.server).start();
 }
 
 process.on('SIGINT', teardown);

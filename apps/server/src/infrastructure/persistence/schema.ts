@@ -32,7 +32,7 @@ export const members = pgTable('members', {
   updatedAt: updatedAt(),
 });
 
-export const tokenType = pgEnum('tokenType', [TokenType.authentication, TokenType.session]);
+export const tokenType = pgEnum('token_type', enumValues(TokenType));
 
 export const tokens = pgTable('tokens', {
   id: primaryKey(),
@@ -53,3 +53,12 @@ export const tokensRelation = relations(tokens, ({ one }) => ({
     references: [members.id],
   }),
 }));
+
+export const events = pgTable('events', {
+  id: primaryKey(),
+  entity: varchar('entity', { length: 256 }).notNull(),
+  entityId: id('entity_id').notNull(),
+  type: varchar('type', { length: 256 }).notNull(),
+  payload: json('payload'),
+  createdAt: createdAt(),
+});

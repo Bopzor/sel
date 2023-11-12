@@ -51,7 +51,7 @@ describe('EmitterEventsAdapter', () => {
     const listener = vi.fn();
     const event = new TestEvent1();
 
-    test.adapter.addEventListener(listener);
+    test.adapter.addAnyEventListener(listener);
     test.adapter.emit(event);
 
     expect(listener).toHaveBeenCalledWith(event);

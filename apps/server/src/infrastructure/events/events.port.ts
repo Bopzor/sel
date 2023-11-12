@@ -7,6 +7,8 @@ export interface EventListener<Event extends DomainEvent = DomainEvent> {
 }
 
 export interface EventsPort {
+  addAnyEventListener(listener: EventListener): void;
+
   addEventListener<Event extends DomainEvent>(
     EventClass: ClassType<Event>,
     listener: EventListener<Event>

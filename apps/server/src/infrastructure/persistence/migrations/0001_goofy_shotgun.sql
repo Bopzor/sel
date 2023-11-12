@@ -5,16 +5,25 @@ EXCEPTION
 END $$;
 --> statement-breakpoint
 DO $$ BEGIN
- CREATE TYPE "tokenType" AS ENUM('authentication', 'session');
+ CREATE TYPE "token_type" AS ENUM('authentication', 'session');
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;
+--> statement-breakpoint
+CREATE TABLE IF NOT EXISTS "events" (
+	"id" varchar(16) PRIMARY KEY NOT NULL,
+	"entity" varchar(256) NOT NULL,
+	"entity_id" varchar(16) NOT NULL,
+	"type" varchar(256) NOT NULL,
+	"payload" json,
+	"created_at" timestamp(3) NOT NULL
+);
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "tokens" (
 	"id" varchar(16) PRIMARY KEY NOT NULL,
 	"value" varchar(256) NOT NULL,
 	"expiration_date" timestamp(3) NOT NULL,
-	"type" "tokenType" NOT NULL,
+	"type" "token_type" NOT NULL,
 	"member_id" varchar(16) NOT NULL,
 	"revoked" boolean DEFAULT false NOT NULL,
 	"created_at" timestamp(3) NOT NULL,

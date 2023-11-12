@@ -10,6 +10,8 @@ import { DatePort } from './infrastructure/date/date.port';
 import { EmailRendererPort } from './infrastructure/email/email-renderer.port';
 import { EmailSenderPort } from './infrastructure/email/email-sender.port';
 import { Nodemailer } from './infrastructure/email/nodemailer-email-sender.adapter';
+import { EventsLogger } from './infrastructure/events/events-logger';
+import { EventsPersistor } from './infrastructure/events/events-persistor';
 import { EventsPort } from './infrastructure/events/events.port';
 import { GeneratorPort } from './infrastructure/generator/generator.port';
 import { LoggerPort } from './infrastructure/logger/logger.port';
@@ -30,6 +32,8 @@ export const TOKENS = {
   generator: token<GeneratorPort>('generator'),
   logger: token<LoggerPort>('logger'),
   events: token<EventsPort>('events'),
+  eventsLogger: token<EventsLogger>('eventsLogger'),
+  eventsPersistor: token<EventsPersistor>('eventsPersistor'),
   server: token<Server>('server'),
   database: token<Database>('database'),
   nodemailer: token<Nodemailer>('nodemailer'),

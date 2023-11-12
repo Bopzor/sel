@@ -8,6 +8,8 @@ export class StubEventsAdapter implements EventsPort {
   public readonly listeners = new Map<ClassType<DomainEvent>, Array<EventListener>>();
   public readonly events = new Array<DomainEvent>();
 
+  addAnyEventListener(): void {}
+
   addEventListener<Event extends DomainEvent>(event: ClassType<Event>, listener: EventListener<Event>): void {
     if (!this.listeners.has(event)) {
       this.listeners.set(event, []);

@@ -1,9 +1,55 @@
 {
   "version": "5",
   "dialect": "pg",
-  "id": "b66519e8-1a53-4aaf-8ea2-a4b8c63cd814",
+  "id": "e98ee499-bf39-48e7-8804-1aeef61e4dbe",
   "prevId": "ff4ddb88-e744-4447-b2da-c71244787d8f",
   "tables": {
+    "events": {
+      "name": "events",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "varchar(16)",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "entity": {
+          "name": "entity",
+          "type": "varchar(256)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "entity_id": {
+          "name": "entity_id",
+          "type": "varchar(16)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "type": {
+          "name": "type",
+          "type": "varchar(256)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "payload": {
+          "name": "payload",
+          "type": "json",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp(3)",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
     "members": {
       "name": "members",
       "schema": "",
@@ -119,7 +165,7 @@
         },
         "type": {
           "name": "type",
-          "type": "tokenType",
+          "type": "token_type",
           "primaryKey": false,
           "notNull": true
         },
@@ -185,8 +231,8 @@
         "active": "active"
       }
     },
-    "tokenType": {
-      "name": "tokenType",
+    "token_type": {
+      "name": "token_type",
       "values": {
         "authentication": "authentication",
         "session": "session"

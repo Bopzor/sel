@@ -18,33 +18,19 @@ export class EmitterEventsAdapter implements EventsPort {
   private emitter = new EventEmitter();
   private anyEventListeners = new Set<EventListener>();
 
-  addEventListener(listener: EventListener): void;
+  addAnyEventListener(listener: EventListener): void {
+    this.anyEventListeners.add((event: DomainEvent) => {
+      void this.handleEvent(event, listener);
+    });
+  }
 
   addEventListener<Event extends DomainEvent>(
     EventClass: ClassType<Event>,
     listener: EventListener<Event>
-  ): void;
-
-  addEventListener(...args: unknown[]): void {
-    // eslint-disable-next-line @typescript-eslint/no-redundant-type-constituents
-    let EventClass: undefined | ClassType<DomainEvent> = undefined;
-    let listener: EventListener;
-
-    if (args.length === 1) {
-      [listener] = args as [EventListener];
-    } else {
-      [EventClass, listener] = args as [ClassType<DomainEvent>, EventListener];
-    }
-
-    const handler = (event: DomainEvent) => {
-      void this.handleEvent(event, listener);
-    };
-
-    if (EventClass) {
-      this.emitter.addListener(EventClass.name, handler);
-    } else {
-      this.anyEventListeners.add(handler);
-    }
+  ): void {
+    this.emitter.addListener(EventClass.name, (event: DomainEvent) => {
+      void this.handleEvent(event, listener as EventListener);
+    });
   }
 
   private async handleEvent(event: DomainEvent, listener: EventListener) {
