@@ -13,44 +13,43 @@ import { UnitTest } from '../unit-test';
 import { AuthenticationService } from './authentication.service';
 import { InMemoryTokenRepository } from './in-memory-token.repository';
 import { TokenType, createToken } from './token.entity';
+class Test extends UnitTest {
+  config = new StubConfigAdapter({ app: { baseUrl: 'https://app.url' } });
+  generator = new StubGenerator();
+  dateAdapter = new StubDate();
+  emailAdapter = new StubEmailSenderAdapter();
+  tokenRepository = new InMemoryTokenRepository();
+  memberFacade = new StubMembersFacade();
+
+  service = new AuthenticationService(
+    this.config,
+    this.generator,
+    this.dateAdapter,
+    this.emailAdapter,
+    this.tokenRepository,
+    this.memberFacade
+  );
+
+  sessionToken = createToken({ value: 'session-token', memberId: 'memberId', type: TokenType.session });
+
+  setup() {
+    this.generator.idValue = 'generatedId';
+    this.generator.tokenValue = 'generatedAuthToken';
+    this.dateAdapter.date = new Date('2023-10-29T11:12:12.000Z');
+    this.tokenRepository.add(this.sessionToken);
+  }
+}
 
 describe('[Unit] AuthenticationService', () => {
-  let config: StubConfigAdapter;
-  let generator: StubGenerator;
-  let dateAdapter: StubDate;
-  let emailAdapter: StubEmailSenderAdapter;
-  let tokenRepository: InMemoryTokenRepository;
-  let memberFacade: StubMembersFacade;
-
-  let authenticationService: AuthenticationService;
+  let test: Test;
 
   beforeEach(() => {
-    config = new StubConfigAdapter({ app: { baseUrl: 'https://app.url' } });
-    generator = new StubGenerator();
-    dateAdapter = new StubDate();
-    emailAdapter = new StubEmailSenderAdapter();
-    tokenRepository = new InMemoryTokenRepository();
-    memberFacade = new StubMembersFacade();
-
-    authenticationService = new AuthenticationService(
-      config,
-      generator,
-      dateAdapter,
-      emailAdapter,
-      tokenRepository,
-      memberFacade
-    );
+    test = Test.create(Test);
   });
 
   describe('generateToken', () => {
-    beforeEach(() => {
-      generator.idValue = 'generatedId';
-      generator.tokenValue = 'generatedAuthToken';
-      dateAdapter.date = new Date('2023-10-29T11:12:12.000Z');
-    });
-
     it('generates an authentication token', async () => {
-      const token = await authenticationService.generateToken(TokenType.authentication, 'memberId');
+      const token = await test.service.generateToken(TokenType.authentication, 'memberId');
 
       expect(token).toHaveProperty('id', 'generatedId');
       expect(token).toHaveProperty('value', 'generatedAuthToken');
@@ -61,20 +60,22 @@ describe('[Unit] AuthenticationService', () => {
     });
 
     it('persists the generated token', async () => {
-      await authenticationService.generateToken(TokenType.authentication, 'memberId');
+      await test.service.generateToken(TokenType.authentication, 'memberId');
 
-      expect(tokenRepository.get('generatedId')).toBeDefined();
+      expect(test.tokenRepository.get('generatedId')).toBeDefined();
     });
   });
 
   describe('requestAuthenticationLink', () => {
-    it('sends an authentication link by email', async () => {
-      generator.tokenValue = 'authToken';
-      memberFacade.members.push(createMember({ id: 'memberId', firstName: 'firstName', email: 'email' }));
+    it('send an authentication link by email', async () => {
+      test.generator.tokenValue = 'authToken';
+      test.memberFacade.members.push(
+        createMember({ id: 'memberId', firstName: 'firstName', email: 'email' })
+      );
 
-      await authenticationService.requestAuthenticationLink('email');
+      await test.service.requestAuthenticationLink('email');
 
-      expect(emailAdapter.emails).toContainEqual({
+      expect(test.emailAdapter.emails).toContainEqual({
         to: 'email',
         subject: "SEL'ons-nous - Lien de connexion",
         kind: EmailKind.authentication,
@@ -86,27 +87,27 @@ describe('[Unit] AuthenticationService', () => {
     });
 
     it('revokes the previous authentication token', async () => {
-      memberFacade.members.push(createMember({ id: 'memberId', email: 'email' }));
+      test.memberFacade.members.push(createMember({ id: 'memberId', email: 'email' }));
 
-      tokenRepository.add(
+      test.tokenRepository.add(
         createToken({ id: 'tokenId', memberId: 'memberId', type: TokenType.authentication, revoked: false })
       );
 
-      await authenticationService.requestAuthenticationLink('email');
+      await test.service.requestAuthenticationLink('email');
 
-      expect(tokenRepository.get('tokenId')).toHaveProperty('revoked', true);
+      expect(test.tokenRepository.get('tokenId')).toHaveProperty('revoked', true);
     });
 
     it('does not send an authentication email when the member does not exist', async () => {
-      await authenticationService.requestAuthenticationLink('does-not-exist');
+      await test.service.requestAuthenticationLink('does-not-exist');
 
-      expect(emailAdapter.emails).toHaveLength(0);
+      expect(test.emailAdapter.emails).toHaveLength(0);
     });
   });
 
   describe('verifyAuthenticationToken', () => {
     beforeEach(() => {
-      tokenRepository.add(
+      test.tokenRepository.add(
         createToken({
           id: 'tokenId',
           value: 'authToken',
@@ -115,20 +116,18 @@ describe('[Unit] AuthenticationService', () => {
         })
       );
 
-      dateAdapter.date = createDate('2023-01-01');
+      test.dateAdapter.date = createDate('2023-01-01');
     });
 
     it('does not throw when the token is valid', async () => {
-      await expect(authenticationService.verifyAuthenticationToken('authToken')).resolves.toEqual(
-        expect.anything()
-      );
+      await expect(test.service.verifyAuthenticationToken('authToken')).resolves.toEqual(expect.anything());
     });
 
     it('returns a session token', async () => {
-      generator.tokenValue = 'sessionToken';
-      dateAdapter.date = createDate('2023-01-01');
+      test.generator.tokenValue = 'sessionToken';
+      test.dateAdapter.date = createDate('2023-01-01');
 
-      const sessionToken = await authenticationService.verifyAuthenticationToken('authToken');
+      const sessionToken = await test.service.verifyAuthenticationToken('authToken');
 
       expect(sessionToken).toHaveProperty('value', 'sessionToken');
       expect(sessionToken).toHaveProperty('expirationDate', createDate('2023-02-01'));
@@ -137,57 +136,25 @@ describe('[Unit] AuthenticationService', () => {
     });
 
     it('revokes the authentication token', async () => {
-      await authenticationService.verifyAuthenticationToken('authToken');
+      await test.service.verifyAuthenticationToken('authToken');
 
-      expect(tokenRepository.get('tokenId')).toHaveProperty('revoked', true);
+      expect(test.tokenRepository.get('tokenId')).toHaveProperty('revoked', true);
     });
 
     it('throws when the authentication token does not exist', async () => {
-      await expect(authenticationService.verifyAuthenticationToken('unknownToken')).rejects.toThrow(
+      await expect(test.service.verifyAuthenticationToken('unknownToken')).rejects.toThrow(
         'token does not exist'
       );
     });
 
     it('throws when the authentication token is expired', async () => {
-      dateAdapter.date = createDate('2023-01-03');
+      test.dateAdapter.date = createDate('2023-01-03');
 
-      await expect(authenticationService.verifyAuthenticationToken('authToken')).rejects.toThrow(
-        'token has expired'
-      );
+      await expect(test.service.verifyAuthenticationToken('authToken')).rejects.toThrow('token has expired');
     });
   });
 
   describe('getMemberIdFromToken', () => {
-    class Test extends UnitTest {
-      config = new StubConfigAdapter({ app: { baseUrl: 'https://app.url' } });
-      generator = new StubGenerator();
-      dateAdapter = new StubDate();
-      emailAdapter = new StubEmailSenderAdapter();
-      tokenRepository = new InMemoryTokenRepository();
-      memberFacade = new StubMembersFacade();
-
-      service = new AuthenticationService(
-        this.config,
-        this.generator,
-        this.dateAdapter,
-        this.emailAdapter,
-        this.tokenRepository,
-        this.memberFacade
-      );
-
-      sessionToken = createToken({ value: 'session-token', memberId: 'memberId', type: TokenType.session });
-
-      setup() {
-        this.tokenRepository.add(this.sessionToken);
-      }
-    }
-
-    let test: Test;
-
-    beforeEach(() => {
-      test = Test.create(Test);
-    });
-
     it("retrieves a member's id from a token", async () => {
       const result = test.service.getMemberIdFromToken('session-token');
 
