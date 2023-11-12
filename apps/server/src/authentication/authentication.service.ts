@@ -5,7 +5,7 @@ import { ConfigPort } from '../infrastructure/config/config.port';
 import { DatePort } from '../infrastructure/date/date.port';
 import { EventsPort } from '../infrastructure/events/events.port';
 import { GeneratorPort } from '../infrastructure/generator/generator.port';
-import { AuthenticationLinkRequested } from '../members/events';
+import { AuthenticationLinkRequested, MemberAuthenticated, MemberUnauthenticated } from '../members/events';
 import { MembersFacade } from '../members/members.facade';
 import { TOKENS } from '../tokens';
 
@@ -89,6 +89,8 @@ export class AuthenticationService {
       throw new Error('token has expired');
     }
 
+    this.events.emit(new MemberAuthenticated(token.memberId));
+
     await this.tokenRepository.revoke(token.id);
 
     return this.generateToken(TokenType.session, token.memberId);
@@ -114,5 +116,9 @@ export class AuthenticationService {
     }
 
     await this.tokenRepository.revoke(token.id);
+
+    if (type === TokenType.session) {
+      this.events.emit(new MemberUnauthenticated(token.memberId));
+    }
   }
 }

@@ -6,7 +6,7 @@ import { StubDate } from '../infrastructure/date/stub-date.adapter';
 import { StubEventsAdapter } from '../infrastructure/events/stub-events.adapter';
 import { StubGenerator } from '../infrastructure/generator/stub-generator.adapter';
 import { createMember } from '../members/entities';
-import { AuthenticationLinkRequested } from '../members/events';
+import { AuthenticationLinkRequested, MemberAuthenticated } from '../members/events';
 import { StubMembersFacade } from '../members/members.facade';
 import { UnitTest } from '../unit-test';
 
@@ -67,7 +67,7 @@ describe('[Unit] AuthenticationService', () => {
   });
 
   describe('requestAuthenticationLink', () => {
-    it('triggers a domain event to sends an authentication link by email', async () => {
+    it('triggers a AuthenticationLinkRequested domain event', async () => {
       test.generator.tokenValue = 'authToken';
       test.memberFacade.members.push(
         createMember({ id: 'memberId', firstName: 'firstName', email: 'email' })
@@ -133,6 +133,12 @@ describe('[Unit] AuthenticationService', () => {
       await test.service.verifyAuthenticationToken('authToken');
 
       expect(test.tokenRepository.get('tokenId')).toHaveProperty('revoked', true);
+    });
+
+    it('triggers a AuthenticationLinkRequested domain event', async () => {
+      await test.service.verifyAuthenticationToken('authToken');
+
+      expect(test.events.events).toContainEqual(new MemberAuthenticated('memberId'));
     });
 
     it('throws when the authentication token does not exist', async () => {
