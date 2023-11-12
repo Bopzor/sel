@@ -13,7 +13,7 @@
   <mj-body>
     <mj-section background-color="#005f7e" padding="16px">
       <mj-column width="15%" vertical-align="middle">
-        <mj-image src="{{appBaseUrl}}/static/logo.png" href="{{appBaseUrl}}" border-radius="8px" />
+        <mj-image src="{{appBaseUrl}}/logo.png" href="{{appBaseUrl}}" border-radius="8px" />
       </mj-column>
 
        <mj-column width="85%" padding-left="16px" vertical-align="middle">
