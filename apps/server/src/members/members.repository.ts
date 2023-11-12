@@ -10,7 +10,6 @@ export type InsertMemberModel = {
 };
 
 export type UpdateMemberModel = {
-  status?: MemberStatus;
   firstName: string;
   lastName: string;
   emailVisible: boolean;
@@ -28,5 +27,5 @@ export interface MembersRepository {
   getMemberFromEmail(email: string): Promise<Member | undefined>;
   insert(model: InsertMemberModel): Promise<void>;
   update(memberId: string, model: UpdateMemberModel): Promise<void>;
-  setOnboardingCompleted(memberId: string, completed: boolean): Promise<void>;
+  setStatus(memberId: string, status: MemberStatus): Promise<void>;
 }

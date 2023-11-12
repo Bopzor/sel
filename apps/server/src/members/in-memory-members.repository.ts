@@ -49,7 +49,7 @@ export class InMemoryMembersRepository extends InMemoryRepository<Member> implem
       phoneNumbers: member.phoneNumbers,
       bio: member.bio,
       address: member.address,
-      onboardingCompleted: member.onboardingCompleted,
+      onboardingCompleted: member.status !== MemberStatus.onboarding,
     };
   }
 
@@ -67,7 +67,6 @@ export class InMemoryMembersRepository extends InMemoryRepository<Member> implem
       status: MemberStatus.inactive,
       emailVisible: true,
       phoneNumbers: [],
-      onboardingCompleted: false,
     });
   }
 
@@ -90,10 +89,10 @@ export class InMemoryMembersRepository extends InMemoryRepository<Member> implem
     });
   }
 
-  async setOnboardingCompleted(memberId: string, completed: boolean): Promise<void> {
+  async setStatus(memberId: string, status: MemberStatus): Promise<void> {
     this.add({
       ...defined(this.get(memberId)),
-      onboardingCompleted: completed,
+      status,
     });
   }
 }

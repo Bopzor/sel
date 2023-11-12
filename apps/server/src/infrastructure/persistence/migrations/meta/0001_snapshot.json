@@ -1,7 +1,7 @@
 {
   "version": "5",
   "dialect": "pg",
-  "id": "e98ee499-bf39-48e7-8804-1aeef61e4dbe",
+  "id": "01bafdd7-2c52-497b-b0be-5e201554b960",
   "prevId": "ff4ddb88-e744-4447-b2da-c71244787d8f",
   "tables": {
     "events": {
@@ -106,12 +106,6 @@
         "address": {
           "name": "address",
           "type": "json",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "onboarding_completed_date": {
-          "name": "onboarding_completed_date",
-          "type": "timestamp(3)",
           "primaryKey": false,
           "notNull": false
         },
@@ -227,6 +221,7 @@
     "member_status": {
       "name": "member_status",
       "values": {
+        "onboarding": "onboarding",
         "inactive": "inactive",
         "active": "active"
       }

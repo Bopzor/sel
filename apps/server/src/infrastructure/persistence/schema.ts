@@ -27,7 +27,6 @@ export const members = pgTable('members', {
   phoneNumbers: json('phone_numbers').notNull().default('[]'),
   bio: text('bio'),
   address: json('address'),
-  onboardingCompletedDate: date('onboarding_completed_date'),
   createdAt: createdAt(),
   updatedAt: updatedAt(),
 });

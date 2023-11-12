@@ -79,7 +79,7 @@ export class SqlMembersRepository implements MembersRepository {
       phoneNumbers: result.phoneNumbers as shared.PhoneNumber[],
       bio: result.bio ?? undefined,
       address: (result.address as shared.Address | null) ?? undefined,
-      onboardingCompleted: result.onboardingCompletedDate !== null,
+      onboardingCompleted: result.status !== MemberStatus.onboarding,
     };
   }
 
@@ -104,7 +104,7 @@ export class SqlMembersRepository implements MembersRepository {
 
     await this.db.insert(members).values({
       id: model.id,
-      status: MemberStatus.inactive,
+      status: MemberStatus.onboarding,
       firstName: model.firstName,
       lastName: model.lastName,
       email: model.email,
@@ -112,7 +112,6 @@ export class SqlMembersRepository implements MembersRepository {
       phoneNumbers: [],
       bio: null,
       address: null,
-      onboardingCompletedDate: null,
       createdAt: now.toISOString(),
       updatedAt: now.toISOString(),
     });
@@ -124,7 +123,6 @@ export class SqlMembersRepository implements MembersRepository {
     await this.db
       .update(members)
       .set({
-        status: model.status,
         firstName: model.firstName,
         lastName: model.lastName,
         emailVisible: model.emailVisible,
@@ -136,13 +134,13 @@ export class SqlMembersRepository implements MembersRepository {
       .where(eq(members.id, memberId));
   }
 
-  async setOnboardingCompleted(memberId: string, completed: boolean): Promise<void> {
+  async setStatus(memberId: string, status: MemberStatus): Promise<void> {
     const now = this.dateAdapter.now();
 
     await this.db
       .update(members)
       .set({
-        onboardingCompletedDate: completed ? now.toISOString() : null,
+        status,
         updatedAt: now.toISOString(),
       })
       .where(eq(members.id, memberId));
@@ -159,7 +157,6 @@ export class SqlMembersRepository implements MembersRepository {
       phoneNumbers: result.phoneNumbers as PhoneNumber[],
       bio: result.bio ?? undefined,
       address: (result.address as Address | null) ?? undefined,
-      onboardingCompleted: result.onboardingCompletedDate !== null,
     };
   }
 }

@@ -87,7 +87,10 @@ export class MembersController {
       onboardingCompleted: z.boolean().optional(),
     });
 
-    await this.membersService.updateMemberProfile(req.params.memberId, schema.parse(req.body));
+    const { memberId } = req.params;
+    const data = schema.parse(req.body);
+
+    await this.membersService.updateMemberProfile(memberId, data);
 
     res.status(204).end();
   };

@@ -1,6 +1,7 @@
 import { createFactory, createId } from '@sel/utils';
 
 export enum MemberStatus {
+  onboarding = 'onboarding',
   inactive = 'inactive',
   active = 'active',
 }
@@ -15,7 +16,6 @@ export type Member = {
   phoneNumbers: PhoneNumber[];
   bio?: string;
   address?: Address;
-  onboardingCompleted: boolean;
 };
 
 export const createMember = createFactory<Member>(() => ({
