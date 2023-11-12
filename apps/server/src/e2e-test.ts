@@ -3,6 +3,7 @@ import { expect } from 'vitest';
 import { container } from './container';
 import { StubConfigAdapter } from './infrastructure/config/stub-config.adapter';
 import { TestMailSever } from './infrastructure/email/test-mail-server';
+import { EmitterEventsAdapter } from './infrastructure/events/emitter-events.adapter';
 import { StubLogger } from './infrastructure/logger/stub-logger.adapter';
 import { TOKENS } from './tokens';
 
@@ -41,8 +42,15 @@ export class E2ETest {
     container.bindValue(TOKENS.config, this.config);
     container.bindValue(TOKENS.logger, this.logger);
 
+    const events = container.resolve(TOKENS.events);
+
+    if (events instanceof EmitterEventsAdapter) {
+      events.throwErrors = true;
+    }
+
     await container.resolve(TOKENS.database).reset();
     await container.resolve(TOKENS.emailRenderer).init?.();
+    container.resolve(TOKENS.authenticationModule).init();
 
     await this.mailServer.listen();
     await this.server.start();

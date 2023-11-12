@@ -8,8 +8,11 @@ main().catch(console.error);
 async function main() {
   const server = container.resolve(TOKENS.server);
   const emailRenderer = container.resolve(TOKENS.emailRenderer);
+  const authenticationModule = container.resolve(TOKENS.authenticationModule);
 
   await emailRenderer.init?.();
+  authenticationModule.init();
+
   await server.start();
 }
 

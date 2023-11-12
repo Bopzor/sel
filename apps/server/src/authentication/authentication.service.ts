@@ -3,9 +3,9 @@ import { injectableClass } from 'ditox';
 
 import { ConfigPort } from '../infrastructure/config/config.port';
 import { DatePort } from '../infrastructure/date/date.port';
-import { EmailSenderPort } from '../infrastructure/email/email-sender.port';
-import { EmailKind } from '../infrastructure/email/email.types';
+import { EventsPort } from '../infrastructure/events/events.port';
 import { GeneratorPort } from '../infrastructure/generator/generator.port';
+import { AuthenticationLinkRequested } from '../members/events';
 import { MembersFacade } from '../members/members.facade';
 import { TOKENS } from '../tokens';
 
@@ -18,7 +18,7 @@ export class AuthenticationService {
     TOKENS.config,
     TOKENS.generator,
     TOKENS.date,
-    TOKENS.emailSender,
+    TOKENS.events,
     TOKENS.tokenRepository,
     TOKENS.membersFacade
   );
@@ -27,7 +27,7 @@ export class AuthenticationService {
     private readonly config: ConfigPort,
     private readonly generator: GeneratorPort,
     private readonly dateAdapter: DatePort,
-    private readonly emailAdapter: EmailSenderPort,
+    private readonly events: EventsPort,
     private readonly tokenRepository: TokenRepository,
     private readonly memberFacade: MembersFacade
   ) {}
@@ -75,15 +75,7 @@ export class AuthenticationService {
     const authenticationUrl = new URL(this.config.app.baseUrl);
     authenticationUrl.searchParams.set('auth-token', token.value);
 
-    await this.emailAdapter.send({
-      to: email,
-      subject: "SEL'ons-nous - Lien de connexion",
-      kind: EmailKind.authentication,
-      variables: {
-        firstName: member.firstName,
-        authenticationUrl: authenticationUrl.toString(),
-      },
-    });
+    this.events.emit(new AuthenticationLinkRequested(member.id, authenticationUrl.toString()));
   }
 
   async verifyAuthenticationToken(tokenValue: string): Promise<Token> {

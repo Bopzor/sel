@@ -2,6 +2,7 @@ import { Container, token } from 'ditox';
 
 import { AuthenticationController } from './authentication/authentication.controller';
 import { AuthenticationFacade } from './authentication/authentication.facade';
+import { AuthenticationModule } from './authentication/authentication.module';
 import { AuthenticationService } from './authentication/authentication.service';
 import { TokenRepository } from './authentication/token.repository';
 import { ConfigPort } from './infrastructure/config/config.port';
@@ -9,6 +10,7 @@ import { DatePort } from './infrastructure/date/date.port';
 import { EmailRendererPort } from './infrastructure/email/email-renderer.port';
 import { EmailSenderPort } from './infrastructure/email/email-sender.port';
 import { Nodemailer } from './infrastructure/email/nodemailer-email-sender.adapter';
+import { EventsPort } from './infrastructure/events/events.port';
 import { GeneratorPort } from './infrastructure/generator/generator.port';
 import { LoggerPort } from './infrastructure/logger/logger.port';
 import { Database } from './infrastructure/persistence/database';
@@ -27,6 +29,7 @@ export const TOKENS = {
   date: token<DatePort>('date'),
   generator: token<GeneratorPort>('generator'),
   logger: token<LoggerPort>('logger'),
+  events: token<EventsPort>('events'),
   server: token<Server>('server'),
   database: token<Database>('database'),
   nodemailer: token<Nodemailer>('nodemailer'),
@@ -37,6 +40,7 @@ export const TOKENS = {
   membersService: token<MembersService>('membersService'),
   membersRepository: token<MembersRepository>('membersRepository'),
   sessionProvider: token<SessionProvider>('authenticatedMemberProvider'),
+  authenticationModule: token<AuthenticationModule>('authenticationModule'),
   authenticationFacade: token<AuthenticationFacade>('authenticationFacade'),
   authenticationController: token<AuthenticationController>('authenticationController'),
   authenticationService: token<AuthenticationService>('authenticationService'),

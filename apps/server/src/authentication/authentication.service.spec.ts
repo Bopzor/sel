@@ -3,10 +3,10 @@ import { beforeEach, describe, expect, it } from 'vitest';
 
 import { StubConfigAdapter } from '../infrastructure/config/stub-config.adapter';
 import { StubDate } from '../infrastructure/date/stub-date.adapter';
-import { Email, EmailKind } from '../infrastructure/email/email.types';
-import { StubEmailSenderAdapter } from '../infrastructure/email/stub-email-sender.adapter';
+import { StubEventsAdapter } from '../infrastructure/events/stub-events.adapter';
 import { StubGenerator } from '../infrastructure/generator/stub-generator.adapter';
 import { createMember } from '../members/entities';
+import { AuthenticationLinkRequested } from '../members/events';
 import { StubMembersFacade } from '../members/members.facade';
 import { UnitTest } from '../unit-test';
 
@@ -17,7 +17,7 @@ class Test extends UnitTest {
   config = new StubConfigAdapter({ app: { baseUrl: 'https://app.url' } });
   generator = new StubGenerator();
   dateAdapter = new StubDate();
-  emailAdapter = new StubEmailSenderAdapter();
+  events = new StubEventsAdapter();
   tokenRepository = new InMemoryTokenRepository();
   memberFacade = new StubMembersFacade();
 
@@ -25,7 +25,7 @@ class Test extends UnitTest {
     this.config,
     this.generator,
     this.dateAdapter,
-    this.emailAdapter,
+    this.events,
     this.tokenRepository,
     this.memberFacade
   );
@@ -67,7 +67,7 @@ describe('[Unit] AuthenticationService', () => {
   });
 
   describe('requestAuthenticationLink', () => {
-    it('send an authentication link by email', async () => {
+    it('triggers a domain event to sends an authentication link by email', async () => {
       test.generator.tokenValue = 'authToken';
       test.memberFacade.members.push(
         createMember({ id: 'memberId', firstName: 'firstName', email: 'email' })
@@ -75,15 +75,15 @@ describe('[Unit] AuthenticationService', () => {
 
       await test.service.requestAuthenticationLink('email');
 
-      expect(test.emailAdapter.emails).toContainEqual({
-        to: 'email',
-        subject: "SEL'ons-nous - Lien de connexion",
-        kind: EmailKind.authentication,
-        variables: {
-          firstName: 'firstName',
-          authenticationUrl: 'https://app.url/?auth-token=authToken',
-        },
-      } satisfies Email);
+      expect(test.events.events).toContainEqual(
+        new AuthenticationLinkRequested('memberId', 'https://app.url/?auth-token=authToken')
+      );
+    });
+
+    it('does trigger the event when the member does not exist', async () => {
+      await test.service.requestAuthenticationLink('does-not-exist');
+
+      expect(test.events.events).toHaveLength(0);
     });
 
     it('revokes the previous authentication token', async () => {
@@ -96,12 +96,6 @@ describe('[Unit] AuthenticationService', () => {
       await test.service.requestAuthenticationLink('email');
 
       expect(test.tokenRepository.get('tokenId')).toHaveProperty('revoked', true);
-    });
-
-    it('does not send an authentication email when the member does not exist', async () => {
-      await test.service.requestAuthenticationLink('does-not-exist');
-
-      expect(test.emailAdapter.emails).toHaveLength(0);
     });
   });
 
