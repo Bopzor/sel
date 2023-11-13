@@ -1,3 +1,5 @@
+// cspell:words maildev
+
 declare module 'maildev' {
   type MailDevOptions = Partial<{
     web: number;

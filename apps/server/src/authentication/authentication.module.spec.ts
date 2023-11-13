@@ -37,6 +37,7 @@ describe('AuthenticationModule', () => {
 
     expect(test.emailSender.emails).toContainEqual<Email>({
       to: 'email',
+      // cspell:disable-next-line
       subject: "SEL'ons-nous - Lien de connexion",
       kind: EmailKind.authentication,
       variables: {

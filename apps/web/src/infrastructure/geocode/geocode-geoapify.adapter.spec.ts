@@ -16,6 +16,7 @@ describe('GeocodeGeoapifyAdapter', () => {
         },
         properties: {
           country_code: 'fr',
+          // cspell:disable-next-line
           housenumber: '123',
           street: 'rue de Paris',
           country: 'France',

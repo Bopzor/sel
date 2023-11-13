@@ -6,6 +6,8 @@ import MapGL, { Layer, Marker, Source, Viewport } from 'solid-map-gl';
 
 import 'maplibre-gl/dist/maplibre-gl.css';
 
+// cspell:words maplibre maplibregl
+
 export type MapMarker = {
   position: [lng: number, lat: number];
   isPopupOpen: boolean;

@@ -2,7 +2,7 @@ name: Preview Environment
 
 on:
   pull_request:
-    types: [opened, reopened, synchronize, closed]
+    types: [opened, reopened, closed]
   workflow_dispatch:
 
 jobs:

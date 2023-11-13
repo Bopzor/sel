@@ -24,6 +24,7 @@ export class Database {
   public readonly db: PostgresJsDatabase;
 
   constructor(private config: ConfigPort) {
+    // cspell:word onnotice
     this.pgQueryClient = postgres(this.databaseUrl, { onnotice: noop });
     this.db = drizzle(this.pgQueryClient);
   }

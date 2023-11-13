@@ -1,0 +1,24 @@
+{
+  "ignorePaths": ["**/*.svg"],
+  "language": "en, fr",
+  "words": [
+    "clonedeep",
+    "datefns",
+    "dequal",
+    "ditox",
+    "fontsource",
+    "geoapify",
+    "github",
+    "innerhtml",
+    "formatjs",
+    "intg",
+    "koyeb",
+    "matomo",
+    "mjml",
+    "persistor",
+    "postgres",
+    "reduxjs",
+    "SEL'ons",
+    "solidjs"
+  ]
+}
