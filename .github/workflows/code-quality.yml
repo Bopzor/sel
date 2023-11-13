@@ -1,0 +1,94 @@
+name: Code quality
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  spell-check:
+    name: Spell check
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./.github/actions/setup
+
+      - name: Spell check
+        run: |
+          pnpm add -g cspell @cspell/dict-fr-fr
+          pnpm exec cspell link add @cspell/dict-fr-fr
+          pnpm exec cspell 'packages/*/src/**/*.{ts,tsx}'
+
+  format:
+    name: Format
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./.github/actions/setup
+
+      - name: Check packages
+        run: |
+          pnpm -r --filter='!@sel/typescript-config' --filter='!@sel/eslint-config' exec prettier --check src
+
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./.github/actions/setup
+
+      - name: Build packages
+        run: pnpm exec tsc -b
+
+      - name: Lint packages
+        run: pnpm -r run lint
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./.github/actions/setup
+
+      - name: Build packages
+        run: pnpm exec tsc -b
+
+  test-server:
+    name: Tests server app
+    runs-on: ubuntu-latest
+    container: node:18
+
+    services:
+      postgres:
+        image: postgres:15-alpine
+        env:
+          POSTGRES_DB: test
+          POSTGRES_HOST_AUTH_METHOD: trust
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./.github/actions/setup
+
+      - name: Run tests
+        run: pnpm --filter @sel/server test
+        env:
+          DATABASE_URL: postgres://postgres@postgres/test
+
+  test-web:
+    name: Tests web app
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./.github/actions/setup
+
+      - name: Run tests
+        run: pnpm --filter @sel/web test
