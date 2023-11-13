@@ -5,16 +5,16 @@ import { injectableClass } from 'ditox';
 
 import { DomainEvent } from '../../domain-event';
 import { TOKENS } from '../../tokens';
+import { ErrorReporterPort } from '../error-reporter/error-reporter.port';
 import { LoggerPort } from '../logger/logger.port';
 
 import { EventListener, EventsPort } from './events.port';
 
 export class EmitterEventsAdapter implements EventsPort {
-  static inject = injectableClass(this, TOKENS.logger);
+  static inject = injectableClass(this, TOKENS.logger, TOKENS.errorReporter);
 
-  constructor(private readonly logger: LoggerPort) {}
+  constructor(private readonly logger: LoggerPort, private readonly errorReporter: ErrorReporterPort) {}
 
-  public throwErrors = false;
   private emitter = new EventEmitter();
   private anyEventListeners = new Set<EventListener>();
 
@@ -37,12 +37,8 @@ export class EmitterEventsAdapter implements EventsPort {
     try {
       await listener(event);
     } catch (error) {
-      // todo: report
       this.logger.error(error);
-
-      if (this.throwErrors) {
-        throw error;
-      }
+      await this.errorReporter.report('An error was caught while handling event', event, error);
     }
   }
 

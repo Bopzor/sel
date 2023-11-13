@@ -10,6 +10,7 @@ import { EnvConfigAdapter } from './infrastructure/config/env-config.adapter';
 import { NativeDateAdapter } from './infrastructure/date/native-date.adapter';
 import { MjmlEmailRendererAdapter } from './infrastructure/email/mjml-email-renderer.adapter';
 import { NodemailerEmailSenderAdapter } from './infrastructure/email/nodemailer-email-sender.adapter';
+import { SlackErrorReporterAdapter } from './infrastructure/error-reporter/slack-error-reporter.adapter';
 import { EmitterEventsAdapter } from './infrastructure/events/emitter-events.adapter';
 import { EventsLogger } from './infrastructure/events/events-logger';
 import { EventsPersistor } from './infrastructure/events/events-persistor';
@@ -37,6 +38,7 @@ container.bindFactory(TOKENS.date, NativeDateAdapter.inject);
 container.bindFactory(TOKENS.generator, NanoIdGenerator.inject);
 container.bindFactory(TOKENS.logger, ConsoleLogger.inject);
 container.bindFactory(TOKENS.slackClient, WebSlackClientAdapter.inject);
+container.bindFactory(TOKENS.errorReporter, SlackErrorReporterAdapter.inject);
 
 container.bindFactory(TOKENS.events, EmitterEventsAdapter.inject);
 container.bindFactory(TOKENS.eventsLogger, EventsLogger.inject);

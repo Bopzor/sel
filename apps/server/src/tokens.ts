@@ -10,6 +10,7 @@ import { DatePort } from './infrastructure/date/date.port';
 import { EmailRendererPort } from './infrastructure/email/email-renderer.port';
 import { EmailSenderPort } from './infrastructure/email/email-sender.port';
 import { Nodemailer } from './infrastructure/email/nodemailer-email-sender.adapter';
+import { ErrorReporterPort } from './infrastructure/error-reporter/error-reporter.port';
 import { EventsLogger } from './infrastructure/events/events-logger';
 import { EventsPersistor } from './infrastructure/events/events-persistor';
 import { EventsSlackPublisher } from './infrastructure/events/events-slack-publisher';
@@ -38,6 +39,7 @@ export const TOKENS = {
   eventsPersistor: token<EventsPersistor>('eventsPersistor'),
   eventsSlackPublisher: token<EventsSlackPublisher>('eventsSlackPublisher'),
   slackClient: token<SlackClientPort>('slackClientPort'),
+  errorReporter: token<ErrorReporterPort>('errorReporter'),
   server: token<Server>('server'),
   database: token<Database>('database'),
   nodemailer: token<Nodemailer>('nodemailer'),

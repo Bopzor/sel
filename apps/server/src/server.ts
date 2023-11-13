@@ -8,13 +8,14 @@ import express, { ErrorRequestHandler, RequestHandler } from 'express';
 import { z } from 'zod';
 
 import { ConfigPort } from './infrastructure/config/config.port';
+import { ErrorReporterPort } from './infrastructure/error-reporter/error-reporter.port';
 import { LoggerPort } from './infrastructure/logger/logger.port';
 import { AuthenticationError } from './session/session.provider';
 import { InvalidSessionTokenError } from './session/session.service';
 import { TOKENS } from './tokens';
 
 export class Server {
-  static inject = injectableClass(this, TOKENS.container, TOKENS.config, TOKENS.logger);
+  static inject = injectableClass(this, TOKENS.container, TOKENS.config, TOKENS.logger, TOKENS.errorReporter);
 
   private app = express();
   private server = http.createServer(this.app);
@@ -22,7 +23,8 @@ export class Server {
   constructor(
     private readonly container: Container,
     private readonly config: ConfigPort,
-    private readonly logger: LoggerPort
+    private readonly logger: LoggerPort,
+    private readonly errorReporter: ErrorReporterPort
   ) {
     this.app.use(cookieParser(config.session.secret));
     this.app.use(bodyParser.json());
@@ -103,6 +105,7 @@ export class Server {
 
   private handleError: ErrorRequestHandler = (err, req, res, _next) => {
     this.logger.error(err);
+    void this.errorReporter.report(err);
 
     res.status(500).json({
       error: err.message,

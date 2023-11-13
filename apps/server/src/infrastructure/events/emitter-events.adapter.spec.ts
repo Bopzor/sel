@@ -3,13 +3,15 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { DomainEvent } from '../../domain-event';
 import { UnitTest } from '../../unit-test';
+import { StubErrorReporterAdapter } from '../error-reporter/stub-error-reporter.adapter';
 import { StubLogger } from '../logger/stub-logger.adapter';
 
 import { EmitterEventsAdapter } from './emitter-events.adapter';
 
 class Test extends UnitTest {
   logger = new StubLogger();
-  adapter = new EmitterEventsAdapter(this.logger);
+  errorReporter = new StubErrorReporterAdapter();
+  adapter = new EmitterEventsAdapter(this.logger, this.errorReporter);
 }
 
 describe('EmitterEventsAdapter', () => {
