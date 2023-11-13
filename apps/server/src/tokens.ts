@@ -12,10 +12,12 @@ import { EmailSenderPort } from './infrastructure/email/email-sender.port';
 import { Nodemailer } from './infrastructure/email/nodemailer-email-sender.adapter';
 import { EventsLogger } from './infrastructure/events/events-logger';
 import { EventsPersistor } from './infrastructure/events/events-persistor';
+import { EventsSlackPublisher } from './infrastructure/events/events-slack-publisher';
 import { EventsPort } from './infrastructure/events/events.port';
 import { GeneratorPort } from './infrastructure/generator/generator.port';
 import { LoggerPort } from './infrastructure/logger/logger.port';
 import { Database } from './infrastructure/persistence/database';
+import { SlackClientPort } from './infrastructure/slack/slack-client.port';
 import { MembersController } from './members/members.controller';
 import { MembersFacade } from './members/members.facade';
 import { MembersRepository } from './members/members.repository';
@@ -34,6 +36,8 @@ export const TOKENS = {
   events: token<EventsPort>('events'),
   eventsLogger: token<EventsLogger>('eventsLogger'),
   eventsPersistor: token<EventsPersistor>('eventsPersistor'),
+  eventsSlackPublisher: token<EventsSlackPublisher>('eventsSlackPublisher'),
+  slackClient: token<SlackClientPort>('slackClientPort'),
   server: token<Server>('server'),
   database: token<Database>('database'),
   nodemailer: token<Nodemailer>('nodemailer'),

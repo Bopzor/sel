@@ -13,9 +13,11 @@ import { NodemailerEmailSenderAdapter } from './infrastructure/email/nodemailer-
 import { EmitterEventsAdapter } from './infrastructure/events/emitter-events.adapter';
 import { EventsLogger } from './infrastructure/events/events-logger';
 import { EventsPersistor } from './infrastructure/events/events-persistor';
+import { EventsSlackPublisher } from './infrastructure/events/events-slack-publisher';
 import { NanoIdGenerator } from './infrastructure/generator/nanoid-generator.adapter';
 import { ConsoleLogger } from './infrastructure/logger/console-logger.adapter';
 import { Database } from './infrastructure/persistence/database';
+import { WebSlackClientAdapter } from './infrastructure/slack/web-slack-client.adapter';
 import { MembersController } from './members/members.controller';
 import { MembersFacadeImpl } from './members/members.facade';
 import { MembersService } from './members/members.service';
@@ -34,10 +36,12 @@ container.bindFactory(TOKENS.config, EnvConfigAdapter.inject);
 container.bindFactory(TOKENS.date, NativeDateAdapter.inject);
 container.bindFactory(TOKENS.generator, NanoIdGenerator.inject);
 container.bindFactory(TOKENS.logger, ConsoleLogger.inject);
+container.bindFactory(TOKENS.slackClient, WebSlackClientAdapter.inject);
 
 container.bindFactory(TOKENS.events, EmitterEventsAdapter.inject);
 container.bindFactory(TOKENS.eventsLogger, EventsLogger.inject);
 container.bindFactory(TOKENS.eventsPersistor, EventsPersistor.inject);
+container.bindFactory(TOKENS.eventsSlackPublisher, EventsSlackPublisher.inject);
 
 container.bindFactory(TOKENS.server, Server.inject);
 container.bindFactory(TOKENS.database, Database.inject);

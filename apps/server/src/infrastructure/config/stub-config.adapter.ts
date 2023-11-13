@@ -5,6 +5,7 @@ import {
   EmailConfig,
   ServerConfig,
   SessionConfig,
+  SlackConfig,
 } from './config.port';
 
 export class StubConfigAdapter implements ConfigPort {
@@ -13,6 +14,7 @@ export class StubConfigAdapter implements ConfigPort {
   app: AppConfig;
   database: DatabaseConfig;
   email: EmailConfig;
+  slack: SlackConfig;
 
   constructor(config: Partial<ConfigPort>) {
     this.server = {
@@ -44,6 +46,11 @@ export class StubConfigAdapter implements ConfigPort {
       password: '',
       secure: false,
       templatesPath: '',
+      ...config.email,
+    };
+
+    this.slack = {
+      webhookUrl: '',
       ...config.email,
     };
   }

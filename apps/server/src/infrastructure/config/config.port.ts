@@ -25,10 +25,15 @@ export type EmailConfig = {
   templatesPath: string;
 };
 
+export type SlackConfig = {
+  webhookUrl: string;
+};
+
 export interface ConfigPort {
   server: ServerConfig;
   session: SessionConfig;
   app: AppConfig;
   database: DatabaseConfig;
   email: EmailConfig;
+  slack: SlackConfig;
 }

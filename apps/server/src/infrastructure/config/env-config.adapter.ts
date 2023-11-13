@@ -9,6 +9,7 @@ import {
   EmailConfig,
   ServerConfig,
   SessionConfig,
+  SlackConfig,
 } from './config.port';
 
 export class EnvConfigAdapter implements ConfigPort {
@@ -19,6 +20,7 @@ export class EnvConfigAdapter implements ConfigPort {
   app: AppConfig;
   database: DatabaseConfig;
   email: EmailConfig;
+  slack: SlackConfig;
 
   constructor() {
     dotenv.config();
@@ -48,6 +50,10 @@ export class EnvConfigAdapter implements ConfigPort {
       sender: this.get('EMAIL_FROM', String),
       password: this.get('EMAIL_PASSWORD', String),
       templatesPath: this.get('EMAIL_TEMPLATES', String),
+    };
+
+    this.slack = {
+      webhookUrl: this.get('SLACK_WEBHOOK_URL', String),
     };
   }
 
