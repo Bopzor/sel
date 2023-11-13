@@ -2,63 +2,57 @@ import { createDate } from '@sel/utils';
 import { eq } from 'drizzle-orm';
 import { beforeEach, describe, expect, it } from 'vitest';
 
-import { StubConfigAdapter } from '../infrastructure/config/stub-config.adapter';
 import { StubDate } from '../infrastructure/date/stub-date.adapter';
-import { Database } from '../infrastructure/persistence/database';
 import { members, tokens } from '../infrastructure/persistence/schema';
 import { createSqlMember, createSqlToken } from '../infrastructure/persistence/sql-factories';
+import { RepositoryTest } from '../repository-test';
 
 import { SqlTokenRepository } from './sql-token.repository';
 import { Token, TokenType } from './token.entity';
 
+class Test extends RepositoryTest {
+  dateAdapter = new StubDate();
+  repository = new SqlTokenRepository(this.database, this.dateAdapter);
+
+  async setup() {
+    this.dateAdapter.date = createDate('2023-01-01');
+
+    await this.database.migrate();
+    await this.database.db.delete(tokens);
+    await this.database.db.delete(members);
+  }
+}
+
 describe('[Intg] SqlTokenRepository', () => {
-  let database: Database;
-  let dateAdapter: StubDate;
-  let repository: SqlTokenRepository;
+  let test: Test;
 
   beforeEach(async () => {
-    await Database.ensureTestDatabase();
-
-    const config = new StubConfigAdapter({
-      database: {
-        url: 'postgres://postgres@localhost:5432/test',
-      },
-    });
-
-    database = new Database(config);
-    dateAdapter = new StubDate();
-    repository = new SqlTokenRepository(database, dateAdapter);
-
-    dateAdapter.date = createDate('2023-01-01');
-
-    await database.migrate();
-    await database.db.delete(tokens);
-    await database.db.delete(members);
+    test = await Test.create(Test);
   });
 
   describe('findByValue', () => {
     beforeEach(async () => {
-      await database.db.insert(members).values(createSqlMember({ id: 'memberId' }));
+      await test.database.db.insert(members).values(createSqlMember({ id: 'memberId' }));
     });
 
     it('retrieves a token from its value', async () => {
-      await database.db
+      await test.database.db
         .insert(tokens)
         .values(createSqlToken({ id: 'tokenId', memberId: 'memberId', value: 'value' }));
 
-      const token = await repository.findByValue('value');
+      const token = await test.repository.findByValue('value');
 
       expect(token).toHaveProperty('id', 'tokenId');
     });
 
     it('returns undefined when no token with the given value exists', async () => {
-      const token = await repository.findByValue('value');
+      const token = await test.repository.findByValue('value');
 
       expect(token).toBeUndefined();
     });
 
     it('returns undefined when a revoked token with the given value exists', async () => {
-      await database.db.insert(tokens).values(
+      await test.database.db.insert(tokens).values(
         createSqlToken({
           value: 'value',
           memberId: 'memberId',
@@ -66,7 +60,7 @@ describe('[Intg] SqlTokenRepository', () => {
         })
       );
 
-      const token = await repository.findByValue('value');
+      const token = await test.repository.findByValue('value');
 
       expect(token).toBeUndefined();
     });
@@ -74,19 +68,19 @@ describe('[Intg] SqlTokenRepository', () => {
 
   describe('findByMemberId', () => {
     it('retrieves a token from a memberId and type', async () => {
-      await database.db.insert(members).values(createSqlMember({ id: 'memberId' }));
+      await test.database.db.insert(members).values(createSqlMember({ id: 'memberId' }));
 
-      await database.db
+      await test.database.db
         .insert(tokens)
         .values(createSqlToken({ id: 'tokenId', memberId: 'memberId', type: TokenType.session }));
 
-      const token = await repository.findByMemberId('memberId', TokenType.session);
+      const token = await test.repository.findByMemberId('memberId', TokenType.session);
 
       expect(token).toHaveProperty('id', 'tokenId');
     });
 
     it('resolves with undefined when there is no token associated with the memberId', async () => {
-      await expect(repository.findByMemberId('memberId', TokenType.session)).resolves.toBeUndefined();
+      await expect(test.repository.findByMemberId('memberId', TokenType.session)).resolves.toBeUndefined();
     });
   });
 
@@ -100,34 +94,34 @@ describe('[Intg] SqlTokenRepository', () => {
       revoked: false,
     };
 
-    await database.db.insert(members).values(
+    await test.database.db.insert(members).values(
       createSqlMember({
         id: 'memberId',
       })
     );
 
-    await repository.insert(token);
+    await test.repository.insert(token);
 
-    await expect(database.db.select().from(tokens)).resolves.toEqual([
+    await expect(test.database.db.select().from(tokens)).resolves.toEqual([
       {
         ...token,
         memberId: 'memberId',
-        createdAt: dateAdapter.date,
-        updatedAt: dateAdapter.date,
+        createdAt: test.dateAdapter.date,
+        updatedAt: test.dateAdapter.date,
       },
     ]);
   });
 
   it('revokes a token', async () => {
-    await database.db.insert(members).values(createSqlMember({ id: 'memberId' }));
+    await test.database.db.insert(members).values(createSqlMember({ id: 'memberId' }));
 
-    await database.db
+    await test.database.db
       .insert(tokens)
       .values(createSqlToken({ id: 'tokenId', memberId: 'memberId', revoked: false }));
 
-    await expect(repository.revoke('tokenId')).resolves.toBeUndefined();
+    await expect(test.repository.revoke('tokenId')).resolves.toBeUndefined();
 
-    const [sqlToken] = await database.db.select().from(tokens).where(eq(tokens.id, 'tokenId'));
+    const [sqlToken] = await test.database.db.select().from(tokens).where(eq(tokens.id, 'tokenId'));
 
     expect(sqlToken).toHaveProperty('revoked', true);
   });

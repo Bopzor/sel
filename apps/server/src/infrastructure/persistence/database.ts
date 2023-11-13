@@ -1,7 +1,7 @@
 import path from 'node:path';
 import url from 'node:url';
 
-import { noop } from '@sel/utils';
+import { assert, noop } from '@sel/utils';
 import { injectableClass } from 'ditox';
 import { sql } from 'drizzle-orm';
 import { PostgresJsDatabase, drizzle } from 'drizzle-orm/postgres-js';
@@ -15,8 +15,6 @@ import { members, tokens } from './schema';
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
-// cspell:word postgres
-
 export class Database {
   static inject = injectableClass(this, TOKENS.config);
 
@@ -25,9 +23,13 @@ export class Database {
   public readonly pgQueryClient: postgres.Sql;
   public readonly db: PostgresJsDatabase;
 
-  constructor(config: ConfigPort) {
-    this.pgQueryClient = postgres(config.database.url, { onnotice: noop });
+  constructor(private config: ConfigPort) {
+    this.pgQueryClient = postgres(this.databaseUrl, { onnotice: noop });
     this.db = drizzle(this.pgQueryClient);
+  }
+
+  private get databaseUrl() {
+    return this.config.database.url;
   }
 
   async close() {
@@ -41,12 +43,14 @@ export class Database {
   }
 
   async reset() {
+    assert(this.databaseUrl.endsWith('/test'), 'Not using test database');
+
     await this.db.delete(tokens);
     await this.db.delete(members);
   }
 
-  static async ensureTestDatabase() {
-    const client = postgres('postgres://postgres@localhost/postgres');
+  async ensureTestDatabase() {
+    const client = postgres(this.databaseUrl.replace('/test', '/postgres'));
     const db = drizzle(client);
 
     // cspell:word datname

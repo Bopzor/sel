@@ -18,7 +18,7 @@ export class E2ETest {
       secure: false,
     },
     database: {
-      url: 'postgres://postgres@localhost:5432/test',
+      url: process.env.DATABASE_URL ?? 'postgres://postgres@localhost/test',
     },
     app: {
       baseUrl: 'http://app.url',

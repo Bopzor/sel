@@ -1,37 +1,36 @@
 import * as shared from '@sel/shared';
-import { getId } from '@sel/utils';
+import { createDate, getId } from '@sel/utils';
 import { eq } from 'drizzle-orm';
 import { beforeEach, describe, expect, it } from 'vitest';
 
-import { StubConfigAdapter } from '../infrastructure/config/stub-config.adapter';
 import { StubDate } from '../infrastructure/date/stub-date.adapter';
-import { Database } from '../infrastructure/persistence/database';
-import { members } from '../infrastructure/persistence/schema';
+import { members, tokens } from '../infrastructure/persistence/schema';
 import { createSqlMember } from '../infrastructure/persistence/sql-factories';
+import { RepositoryTest } from '../repository-test';
 
 import { MemberStatus } from './entities';
 import { SqlMembersRepository } from './sql-members.repository';
 
+class Test extends RepositoryTest {
+  dateAdapter = new StubDate();
+  repository = new SqlMembersRepository(this.database, this.dateAdapter);
+
+  async setup() {
+    this.dateAdapter.date = createDate('2023-01-01');
+
+    await this.database.migrate();
+    await this.database.db.delete(tokens);
+    await this.database.db.delete(members);
+  }
+}
+
 describe('[Intg] SqlMembersRepository', () => {
-  let database: Database;
-  let repository: SqlMembersRepository;
+  let test: Test;
 
   beforeEach(async () => {
-    await Database.ensureTestDatabase();
+    test = await Test.create(Test);
 
-    const config = new StubConfigAdapter({
-      database: {
-        url: 'postgres://postgres@localhost:5432/test',
-      },
-    });
-
-    database = new Database(config);
-    repository = new SqlMembersRepository(database, new StubDate());
-
-    await database.migrate();
-    await database.reset();
-
-    await database.db.insert(members).values(
+    await test.database.db.insert(members).values(
       createSqlMember({
         id: 'id',
         status: MemberStatus.active,
@@ -55,7 +54,7 @@ describe('[Intg] SqlMembersRepository', () => {
 
   describe('query_listMembers', () => {
     it('queries the list of all members', async () => {
-      const results = await repository.query_listMembers(shared.MembersSort.firstName);
+      const results = await test.repository.query_listMembers(shared.MembersSort.firstName);
 
       expect(results).toEqual<shared.Member[]>([
         {
@@ -78,19 +77,22 @@ describe('[Intg] SqlMembersRepository', () => {
     });
 
     it('queries the list of all members sorted by last name', async () => {
-      await database.db
+      await test.database.db
         .insert(members)
         .values(createSqlMember({ id: 'id2', status: MemberStatus.active, lastName: 'aaa' }));
 
-      const results = await repository.query_listMembers(shared.MembersSort.lastName);
+      const results = await test.repository.query_listMembers(shared.MembersSort.lastName);
 
       expect(results.map(getId)).toEqual(['id2', 'id']);
     });
 
     it('excludes inactive members', async () => {
-      await database.db.update(members).set({ status: MemberStatus.inactive }).where(eq(members.id, 'id'));
+      await test.database.db
+        .update(members)
+        .set({ status: MemberStatus.inactive })
+        .where(eq(members.id, 'id'));
 
-      const results = await repository.query_listMembers(shared.MembersSort.firstName);
+      const results = await test.repository.query_listMembers(shared.MembersSort.firstName);
 
       expect(results).toHaveLength(0);
     });
@@ -98,7 +100,7 @@ describe('[Intg] SqlMembersRepository', () => {
 
   describe('query_getMember', () => {
     it('queries a member from its id', async () => {
-      const result = await repository.query_getMember('id');
+      const result = await test.repository.query_getMember('id');
 
       expect(result).toEqual<shared.Member>({
         id: 'id',
@@ -119,26 +121,29 @@ describe('[Intg] SqlMembersRepository', () => {
     });
 
     it('returns undefined when the member is inactive', async () => {
-      await database.db.update(members).set({ status: MemberStatus.inactive }).where(eq(members.id, 'id'));
+      await test.database.db
+        .update(members)
+        .set({ status: MemberStatus.inactive })
+        .where(eq(members.id, 'id'));
 
-      await expect(repository.query_getMember('id')).resolves.toBeUndefined();
+      await expect(test.repository.query_getMember('id')).resolves.toBeUndefined();
     });
 
     it('hides the email when not visible', async () => {
-      await database.db
+      await test.database.db
         .update(members)
         .set({
           emailVisible: false,
         })
         .where(eq(members.id, 'id'));
 
-      const result = await repository.query_getMember('id');
+      const result = await test.repository.query_getMember('id');
 
       expect(result).toHaveProperty('email', undefined);
     });
 
     it('hides phones numbers that are not visible', async () => {
-      await database.db
+      await test.database.db
         .update(members)
         .set({
           phoneNumbers: [
@@ -148,7 +153,7 @@ describe('[Intg] SqlMembersRepository', () => {
         })
         .where(eq(members.id, 'id'));
 
-      const result = await repository.query_getMember('id');
+      const result = await test.repository.query_getMember('id');
 
       expect(result).toHaveProperty('phoneNumbers', [{ number: 'visible', visible: true }]);
     });
@@ -156,7 +161,7 @@ describe('[Intg] SqlMembersRepository', () => {
 
   describe('getMember', () => {
     it('does not find a member from its id', async () => {
-      const results = await repository.getMember('not-id');
+      const results = await test.repository.getMember('not-id');
 
       expect(results).toBeUndefined();
     });
@@ -164,13 +169,13 @@ describe('[Intg] SqlMembersRepository', () => {
 
   describe('getMemberFromEmail', () => {
     it('retrieves a member from its email', async () => {
-      const member = await repository.getMemberFromEmail('email');
+      const member = await test.repository.getMemberFromEmail('email');
 
       expect(member).toHaveProperty('id', 'id');
     });
 
     it('resolves with undefined when the email does not exist', async () => {
-      const member = await repository.getMemberFromEmail('does-not-exist');
+      const member = await test.repository.getMemberFromEmail('does-not-exist');
 
       expect(member).toBeUndefined();
     });
