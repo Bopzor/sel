@@ -6,12 +6,12 @@ on:
   workflow_dispatch:
 
 jobs:
-  preview-env:
-    name: Preview Environment
+  deploy-server:
+    name: Deploy server
     runs-on: ubuntu-latest
 
     concurrency:
-      group: ${{ github.head_ref }}
+      group: ${{ github.head_ref }}-server
       cancel-in-progress: true
 
     steps:
@@ -29,6 +29,7 @@ jobs:
           api_token: ${{ secrets.KOYEB_API_TOKEN }}
 
       - name: Deploy server
+        if: github.event.action == 'opened' || github.event.action == 'reopened'
         uses: koyeb/action-git-deploy@v1
         with:
           app-name: ${{ steps.environment.outputs.name }}
@@ -40,9 +41,38 @@ jobs:
           # service-regions: [fra]
           service-ports: 3000:http
           service-routes: /api:3000
-          service-env: HOST=0.0.0.0,PORT=3000,SESSION_SECRET=@sel-staging-session-secret,SESSION_SECURE=true,APP_BASE_URL=https://selonsnous.nilscox.dev,DB_URL=@sel-staging-db-url,EMAIL_HOST=@sel-staging-email-host,EMAIL_PORT=465,EMAIL_SECURE=true,EMAIL_FROM=@sel-staging-email-from,EMAIL_PASSWORD=@sel-staging-email-password,EMAIL_TEMPLATES=./email-templates
+          service-env: HOST=0.0.0.0,PORT=3000,SESSION_SECRET=@sel-staging-session-secret,SESSION_SECURE=true,APP_BASE_URL=https://selonsnous.nilscox.dev,DB_URL=@sel-staging-db-url,EMAIL_HOST=@sel-staging-email-host,EMAIL_PORT=465,EMAIL_SECURE=true,EMAIL_FROM=@sel-staging-email-from,EMAIL_PASSWORD=@sel-staging-email-password,EMAIL_TEMPLATES=./email-templates,SLACK_WEBHOOK_URL=@sel-staging-slack-webhook-url
+
+      - name: Cleanup Koyeb application
+        if: github.event.action == 'closed'
+        uses: koyeb/action-git-deploy/cleanup@v1
+        with:
+          app-name: ${{ steps.environment.outputs.name }}
+
+  deploy-web:
+    name: Deploy web
+    runs-on: ubuntu-latest
+
+    concurrency:
+      group: ${{ github.head_ref }}-web
+      cancel-in-progress: true
+
+    steps:
+      - id: environment
+        run: |
+          branch=${{ github.head_ref }}
+          environment=$(echo "${branch##*/}" | cut -c 1-15)
+          environment="${environment%-}"
+          environment="${environment#-}"
+          echo "::set-output name=name::sel-pe-$environment"
+
+      - name: Install Koyeb CLI
+        uses: koyeb-community/install-koyeb-cli@v2
+        with:
+          api_token: ${{ secrets.KOYEB_API_TOKEN }}
 
       - name: Deploy web
+        if: github.event.action == 'opened' || github.event.action == 'reopened'
         uses: koyeb/action-git-deploy@v1
         with:
           app-name: ${{ steps.environment.outputs.name }}
@@ -55,9 +85,3 @@ jobs:
           service-ports: 8080:http
           service-routes: /:8080
           service-env: VITE_ANALYTICS_URL=https://analytics.nilscox.dev,VITE_ANALYTICS_SITE_ID=12,VITE_GEOAPIFY_API_KEY=@sel-staging-geoapify-key
-
-      - name: Cleanup Koyeb application
-        if: github.event.action == 'closed'
-        uses: koyeb/action-git-deploy/cleanup@v1
-        with:
-          app-name: ${{ steps.environment.outputs.name }}
