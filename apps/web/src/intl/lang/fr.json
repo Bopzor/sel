@@ -88,5 +88,8 @@
   },
   "requests": {
     "createRequest": "Créer une demande"
+  },
+  "profile": {
+    "signOut": "Déconnexion"
   }
 }

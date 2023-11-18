@@ -86,7 +86,7 @@
       "subscriptionDate": "Subscription date"
     }
   },
-  "requests": {
-    "createRequest": "Create a new request"
+  "profile": {
+    "signOut": "Sign out"
   }
 }

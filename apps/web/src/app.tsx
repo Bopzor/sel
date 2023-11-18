@@ -7,6 +7,7 @@ import { IntlProvider } from './intl';
 import { getTranslations } from './intl/get-translations';
 import { Language } from './intl/types';
 import { Layout } from './layout/layout';
+import { ProfilePage } from './profile/profile.page';
 
 const HomePage = lazyImport(() => import('./home/home.page'), 'HomePage');
 const OnboardingPage = lazyImport(() => import('./onboarding/onboarding.page'), 'OnboardingPage');
@@ -27,6 +28,7 @@ export const App: Component = () => {
           <Route path="/onboarding" component={OnboardingPage} />
           <Route path="/membres" component={MembersPage} />
           <Route path="/membre/:memberId" component={MemberPage} />
+          <Route path="/profil" component={ProfilePage} />
         </Routes>
       </Layout>
     </Providers>
