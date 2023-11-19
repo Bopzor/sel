@@ -2,6 +2,7 @@ import { Component } from 'solid-js';
 
 import { selectAuthenticatedMember } from '../../authentication/authentication.slice';
 import { Input } from '../../components/input';
+import { Row } from '../../components/row';
 import { Translate } from '../../intl/translate';
 import { selector } from '../../store/selector';
 import { NextButton } from '../components/next-button';
@@ -62,7 +63,7 @@ export const ContactStep: Component<ContactStepProps> = (props) => {
         class="col gap-4"
       >
         <OnboardingField label={<T id="emailAddress" />}>
-          <div class="row items-center gap-4">
+          <Row gap={4}>
             <Input
               required
               readonly
@@ -72,11 +73,11 @@ export const ContactStep: Component<ContactStepProps> = (props) => {
               title={t('emailReadOnly')}
             />
             <OnboardingFieldVisibility field="email" form={props.form} onFieldChange={props.onFieldChange} />
-          </div>
+          </Row>
         </OnboardingField>
 
         <OnboardingField label={<T id="phoneNumber" />}>
-          <div class="row items-center gap-4">
+          <Row gap={4}>
             <OnboardingInput
               ref={phoneNumberRef}
               required
@@ -94,7 +95,7 @@ export const ContactStep: Component<ContactStepProps> = (props) => {
               form={props.form}
               onFieldChange={props.onFieldChange}
             />
-          </div>
+          </Row>
         </OnboardingField>
 
         <NextButton type="submit">

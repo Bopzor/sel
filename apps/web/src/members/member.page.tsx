@@ -9,6 +9,7 @@ import { BackLink } from '../components/back-link';
 import { Map } from '../components/map';
 import { MemberAddress } from '../components/member-address';
 import { MemberAvatarName } from '../components/member-avatar-name';
+import { Row } from '../components/row';
 import { Translate } from '../intl/translate';
 import { selector } from '../store/selector';
 import { store } from '../store/store';
@@ -36,12 +37,12 @@ export const MemberPage: Component = () => {
       <Show when={member()} fallback={<Translate id="common.loading" />}>
         {(member) => (
           <div class="card gap-4 p-8">
-            <div class="row items-center gap-6">
+            <Row class="gap-6">
               <MemberAvatarName
                 member={member()}
                 classes={{ avatar: '!h-16 !w-16', name: 'text-xl font-semibold' }}
               />
-            </div>
+            </Row>
 
             <hr class="my-6" />
 

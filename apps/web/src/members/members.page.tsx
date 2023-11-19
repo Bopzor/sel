@@ -10,6 +10,7 @@ import { Link } from '../components/link';
 import { Map } from '../components/map';
 import { MemberAddress } from '../components/member-address';
 import { MemberAvatarName } from '../components/member-avatar-name';
+import { Row } from '../components/row';
 import { useSearchParam } from '../infrastructure/router/use-search-param';
 import { Translate, useTranslation } from '../intl/translate';
 import { selector } from '../store/selector';
@@ -120,7 +121,7 @@ const SearchMemberInput: Component<SearchMemberInputProps> = (props) => {
   const t = useTranslation();
 
   return (
-    <div class="row gap-1 border-b-2 py-1 transition-colors focus-within:border-b-primary">
+    <Row gap={1} class="border-b-2 py-1 transition-colors focus-within:border-b-primary">
       <div>
         <Icon path={magnifyingGlass} class="h-5 w-5 fill-icon" />
       </div>
@@ -132,7 +133,7 @@ const SearchMemberInput: Component<SearchMemberInputProps> = (props) => {
         value={props.search}
         onInput={(event) => props.onSearch(event.target.value)}
       />
-    </div>
+    </Row>
   );
 };
 
@@ -144,7 +145,7 @@ type SortMembersProps = {
 };
 
 const SortMembers: Component<SortMembersProps> = (props) => (
-  <div class="row gap-4 text-sm">
+  <Row gap={4} class="text-sm">
     <span class="text-dim">Trier par:</span>
 
     <For each={Object.values(MembersSort)}>
@@ -154,7 +155,7 @@ const SortMembers: Component<SortMembersProps> = (props) => (
         </button>
       )}
     </For>
-  </div>
+  </Row>
 );
 
 type MemberMapProps = {
@@ -188,9 +189,9 @@ type PopupProps = {
 const Popup: Component<PopupProps> = (props) => {
   return (
     <Link unstyled href={`/membre/${props.member.id}`} class="col min-w-[12rem] gap-2 outline-none">
-      <div class="row items-center gap-2 text-base font-medium">
+      <Row gap={2} class="text-base font-medium">
         <MemberAvatarName member={props.member} />
-      </div>
+      </Row>
 
       <hr />
 

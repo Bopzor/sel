@@ -3,6 +3,7 @@ import { Component, Show } from 'solid-js';
 import { selectAuthenticatedMemberUnsafe } from '../../authentication/authentication.slice';
 import { Link } from '../../components/link';
 import { MemberAvatar } from '../../components/member-avatar';
+import { Row } from '../../components/row';
 import { Translate } from '../../intl/translate';
 import { selector } from '../../store/selector';
 
@@ -15,7 +16,7 @@ export const Header: Component = () => {
 
   return (
     <header class="border-b-2 border-b-[#004359] bg-primary text-white">
-      <div class="row mx-auto max-w-[1300px] items-center justify-between p-2 md:p-4">
+      <Row class="mx-auto max-w-[1300px] justify-between p-2 md:p-4">
         <Link unstyled href="/" class="inline-flex flex-row items-center gap-2 md:gap-4">
           <img src={logo} alt="SEL'ons-nous logo" width={64} height={64} class="rounded" />
           <div>
@@ -36,7 +37,7 @@ export const Header: Component = () => {
             </Link>
           )}
         </Show>
-      </div>
+      </Row>
     </header>
   );
 };

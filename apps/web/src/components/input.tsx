@@ -1,6 +1,8 @@
 import clsx from 'clsx';
 import { Component, JSX, Show, splitProps } from 'solid-js';
 
+import { Row } from './row';
+
 type InputProps = JSX.InputHTMLAttributes<HTMLInputElement> & {
   width?: 'medium' | 'full';
   start?: JSX.Element;
@@ -11,15 +13,14 @@ export const Input: Component<InputProps> = (_props) => {
   const [own, props] = splitProps(_props, ['width', 'class', 'start', 'end']);
 
   return (
-    <div
+    <Row
       class={clsx(
-        'row items-center gap-4 overflow-hidden rounded-lg bg-neutral transition-shadow focus-within:shadow',
-        {
-          'w-96': own.width === 'medium',
-          'w-full': own.width === 'full',
-        },
+        'w-full overflow-hidden rounded-lg bg-neutral transition-shadow focus-within:shadow',
         own.class
       )}
+      classList={{
+        'max-w-md': own.width === 'medium',
+      }}
     >
       <Show when={own.start}>
         <div class="mx-4">{own.start}</div>
@@ -30,7 +31,7 @@ export const Input: Component<InputProps> = (_props) => {
       <Show when={own.end}>
         <div class="mx-4">{own.end}</div>
       </Show>
-    </div>
+    </Row>
   );
 };
 
