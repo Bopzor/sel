@@ -2,7 +2,11 @@
   "common": {
     "back": "Retour",
     "search": "Rechercher",
-    "loading": "Chargement"
+    "loading": "Chargement",
+    "validation": {
+      "min": "Ce champ trop court (min : {min} caractères).",
+      "max": "Ce champ est trop long (max : {max} caractères)."
+    }
   },
   "layout": {
     "header": {
@@ -102,6 +106,7 @@
       "emailAddress": "Address email",
       "emailAddressReadOnly": "L'adresse email ne peut pas être modifiée, contactez-nous si vous avez besoin de la changer.",
       "phoneNumber": "Numéro de téléphone",
+      "phoneNumberInvalid": "Ce numéro de téléphone n'est pas valide.",
       "bio": "Présentation",
       "profilePicture": "Photo de profil",
       "profilePictureMessage": "La gestion des photos de profil n'est pas encore disponible directement via l'app. En attendant, il est possible de changer son image via <link>gravatar</link> (après inscription).",

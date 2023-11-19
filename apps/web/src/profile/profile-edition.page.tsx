@@ -1,4 +1,5 @@
 import { createForm } from '@felte/solid';
+import { validator } from '@felte/validator-zod';
 import { Component, Show, createSignal } from 'solid-js';
 
 import { selectAuthenticatedMember } from '../authentication/authentication.slice';
@@ -10,25 +11,53 @@ import { MemberAvatarName } from '../components/member-avatar-name';
 import { Row } from '../components/row';
 import { Translate } from '../intl/translate';
 import { selector } from '../store/selector';
+import { formatPhoneNumber } from '../utils/format-phone-number';
 
 import { ProfileFieldVisibility } from './components/profile-field-visibility';
 
 const T = Translate.prefix('profile.profile');
 
+const schema = () => {
+  const t = T.useTranslation();
+  const z = Translate.zod();
+
+  return z.object({
+    firstName: z.string().trim().min(1).max(256),
+    lastName: z.string().trim().min(1).max(256),
+    phoneNumber: z
+      .string()
+      .transform((value) => value.replace(/^\+33/, '0'))
+      .transform((value) => value.replaceAll(' ', ''))
+      .refine((value) => value.match(/^0\d{9}$/), t('phoneNumberInvalid')),
+    bio: z.string().trim().max(4096).optional(),
+    address: z
+      .object({
+        line1: z.string().trim().max(256),
+        line2: z.string().trim().max(256).optional(),
+        postalCode: z.string().trim().max(16),
+        city: z.string().trim().max(256),
+        country: z.string().trim().max(256),
+        position: z.tuple([z.number(), z.number()]).optional(),
+      })
+      .optional(),
+  });
+};
+
 export const ProfileEditionPage: Component = () => {
   const t = T.useTranslation();
   const member = selector(selectAuthenticatedMember);
 
-  const { form, data, isDirty } = createForm({
+  const { form, data, errors, isDirty } = createForm({
     initialValues: {
       firstName: member().firstName,
       lastName: member().lastName,
       email: member().email,
       emailVisible: member().emailVisible,
-      phoneNumber: member().phoneNumbers[0].number,
+      phoneNumber: formatPhoneNumber(member().phoneNumbers[0].number),
       phoneNumberVisible: member().phoneNumbers[0].visible,
       bio: member().bio,
     },
+    extend: validator({ schema: schema() }),
     async onSubmit(values) {
       console.log(values);
     },
@@ -58,17 +87,17 @@ export const ProfileEditionPage: Component = () => {
       <hr class="w-full" />
 
       <form id="profile-form" use:form class="col gap-6">
-        <Row gap={4}>
-          <FormField label={t('firstName')} class="flex-1">
+        <div class="row gap-4">
+          <FormField label={t('firstName')} error={errors('firstName')} class="flex-1">
             <Input name="firstName" />
           </FormField>
 
-          <FormField label={t('lastName')} class="flex-1">
+          <FormField label={t('lastName')} error={errors('lastName')} class="flex-1">
             <Input name="lastName" />
           </FormField>
-        </Row>
+        </div>
 
-        <FormField label={t('emailAddress')}>
+        <FormField label={t('emailAddress')} error={errors('email')}>
           <Row gap={4}>
             <Input
               name="email"
@@ -86,14 +115,14 @@ export const ProfileEditionPage: Component = () => {
           </Show>
         </FormField>
 
-        <FormField label={t('phoneNumber')}>
+        <FormField label={t('phoneNumber')} error={errors('phoneNumber')}>
           <Row gap={4}>
             <Input name="phoneNumber" width="medium" />
             <ProfileFieldVisibility name="phoneNumberVisible" data={data} />
           </Row>
         </FormField>
 
-        <FormField label={t('bio')}>
+        <FormField label={t('bio')} error={errors('bio')}>
           <TextArea name="bio" width="full" rows={6} />
         </FormField>
 

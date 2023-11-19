@@ -2,7 +2,11 @@
   "common": {
     "back": "Back",
     "search": "Search",
-    "loading": "Loading"
+    "loading": "Loading",
+    "validation": {
+      "min": "This field is too short (min: {min} characters).",
+      "max": "This field is too long (max: {max} characters)."
+    }
   },
   "layout": {
     "header": {
@@ -99,6 +103,7 @@
       "emailAddress": "Email address",
       "emailAddressReadOnly": "Email address cannot be edited, please contact us if you need to change it.",
       "phoneNumber": "Phone number",
+      "phoneNumberInvalid": "This phone number is invalid.",
       "bio": "Bio",
       "profilePicture": "Profile picture",
       "profilePictureMessage": "Profile photo management is not yet available directly via the app. In the meantime, it is possible to change your image via <link>gravatar</link> (after registration).",

@@ -16,7 +16,7 @@ export const FormField = (props: FormFieldProps) => (
     {props.children}
 
     <Show when={props.error !== undefined}>
-      <div class="">{props.error}</div>
+      <div class="ml-4 mt-1 text-sm text-red-700">{props.error}</div>
     </Show>
   </div>
 );

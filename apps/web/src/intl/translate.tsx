@@ -2,6 +2,7 @@ import { JSX } from 'solid-js';
 
 import { useIntl } from './intl-provider';
 import { Translations } from './types';
+import { zod } from './zod';
 
 type Paths<T, Prefix extends string = ''> = T extends string
   ? Prefix
@@ -89,3 +90,5 @@ Translate.enum = <Values extends string>(id: Paths<Translations>) => {
 
   return T;
 };
+
+Translate.zod = zod;
