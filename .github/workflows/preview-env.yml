@@ -28,6 +28,11 @@ jobs:
         with:
           api_token: ${{ secrets.KOYEB_API_TOKEN }}
 
+      - name: Set koyeb CLI debug
+        run: |
+          set -x
+          echo "debug: true" > ~/.koyeb.yaml
+
       - name: Deploy server
         if: github.event.action == 'opened' || github.event.action == 'reopened'
         uses: koyeb/action-git-deploy@v1
