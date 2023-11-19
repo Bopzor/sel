@@ -73,6 +73,7 @@
   .button {
     display: inline-flex;
     flex-direction: row;
+    justify-content: center;
     align-items: center;
     gap: theme('spacing.2');
 

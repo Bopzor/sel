@@ -10,7 +10,7 @@ type FormFieldProps = {
 export const FormField = (props: FormFieldProps) => (
   <div class={props.class}>
     <Show when={props.label !== undefined}>
-      <label class="mb-1 inline-block font-medium text-dim">{props.label}</label>
+      <label class="mb-1 inline-block select-none font-medium text-dim">{props.label}</label>
     </Show>
 
     {props.children}

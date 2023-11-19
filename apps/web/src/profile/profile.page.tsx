@@ -39,9 +39,8 @@ export const ProfilePage: Component = () => {
       <Row gap={4}>
         <MemberAvatarName member={member()} classes={{ avatar: '!w-20 !h-20', name: 'text-3xl' }} />
 
-        <Row
-          gap={2}
-          class="ml-auto transition-opacity"
+        <div
+          class="col sm:row ml-auto gap-2 transition-opacity"
           classList={{ 'opacity-0 pointer-events-none': !isDirty() }}
         >
           <Button variant="secondary" type="reset" form="profile-form">
@@ -51,7 +50,7 @@ export const ProfilePage: Component = () => {
           <Button type="submit" form="profile-form">
             <T id="save" />
           </Button>
-        </Row>
+        </div>
       </Row>
 
       <hr class="w-full" />

@@ -14,8 +14,8 @@ export const ProfileLayout: Component = () => {
     <div>
       <BackLink href="/" />
 
-      <div class="row gap-8">
-        <div class="w-full max-w-xs">
+      <div class="col md:row gap-4 lg:gap-8">
+        <div class="w-full sm:max-w-[14rem] lg:max-w-xs">
           <Navigation />
         </div>
 
@@ -58,7 +58,8 @@ const NavigationLink: Component<NavigationLinkProps> = (props) => (
     end
     href={props.href}
     unstyled
-    class="row items-center gap-2 rounded border-l-4 border-transparent p-2 font-medium"
+    class="row items-center gap-2 rounded border-l-4 border-transparent p-2 font-medium transition-colors"
+    inactiveClass="hover:bg-primary/5"
     activeClass="!border-primary bg-primary/10"
   >
     <Icon path={props.icon} class="h-5 w-5 fill-primary/75" />
