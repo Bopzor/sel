@@ -11,11 +11,17 @@ export class WebSlackClientAdapter implements SlackClientPort {
   constructor(private readonly config: ConfigPort) {}
 
   async send(message: string): Promise<void> {
+    const webhookUrl = this.config.slack.webhookUrl;
+
+    if (!webhookUrl) {
+      return;
+    }
+
     const headers = new Headers();
 
     headers.set('Content-type', 'application/json');
 
-    await fetch(this.config.slack.webhookUrl, {
+    await fetch(webhookUrl, {
       method: 'POST',
       headers,
       body: JSON.stringify({ text: message }),

@@ -25,7 +25,7 @@ export class MatomoAnalyticsAdapter implements AnalyticsPort {
 
 declare global {
   interface Window {
-    _paq: unknown[][];
+    _paq?: unknown[][];
   }
 }
 
@@ -37,12 +37,12 @@ class MatomoClient {
   }
 
   trackPageView(url: string) {
-    this._paq.push(['setCustomUrl', url]);
-    this._paq.push(['trackPageView']);
+    this._paq?.push(['setCustomUrl', url]);
+    this._paq?.push(['trackPageView']);
   }
 
   trackEvent(category: string, action: string, { name, value }: { name?: string; value?: number } = {}) {
-    this._paq.push(['trackEvent', category, action, name, value]);
+    this._paq?.push(['trackEvent', category, action, name, value]);
   }
 
   get snippet() {
