@@ -1,16 +1,21 @@
 import { createForm } from '@felte/solid';
 import { validator } from '@felte/validator-zod';
+import { AuthenticatedMember, UpdateMemberProfileData } from '@sel/shared';
 import { Component, Show, createSignal } from 'solid-js';
 
 import { selectAuthenticatedMember } from '../authentication/authentication.slice';
+import { fetchAuthenticatedMember } from '../authentication/use-cases/fetch-authenticated-member/fetch-authenticated-member';
 import { Button } from '../components/button';
 import { FormField } from '../components/form-field';
 import { Input, TextArea } from '../components/input';
 import { MemberAvatar } from '../components/member-avatar';
 import { MemberAvatarName } from '../components/member-avatar-name';
 import { Row } from '../components/row';
+import { container } from '../infrastructure/container';
 import { Translate } from '../intl/translate';
 import { selector } from '../store/selector';
+import { store } from '../store/store';
+import { TOKENS } from '../tokens';
 import { formatPhoneNumber } from '../utils/format-phone-number';
 
 import { ProfileFieldVisibility } from './components/profile-field-visibility';
@@ -43,23 +48,47 @@ const schema = () => {
   });
 };
 
+const getInitialValues = (member: AuthenticatedMember) => ({
+  firstName: member.firstName,
+  lastName: member.lastName,
+  email: member.email,
+  emailVisible: member.emailVisible,
+  phoneNumber: formatPhoneNumber(member.phoneNumbers[0].number),
+  phoneNumberVisible: member.phoneNumbers[0].visible,
+  bio: member.bio ?? '',
+});
+
 export const ProfileEditionPage: Component = () => {
   const t = T.useTranslation();
   const member = selector(selectAuthenticatedMember);
 
-  const { form, data, errors, isDirty } = createForm({
-    initialValues: {
-      firstName: member().firstName,
-      lastName: member().lastName,
-      email: member().email,
-      emailVisible: member().emailVisible,
-      phoneNumber: formatPhoneNumber(member().phoneNumbers[0].number),
-      phoneNumberVisible: member().phoneNumbers[0].visible,
-      bio: member().bio,
-    },
+  const { form, data, errors, isDirty, setInitialValues, reset } = createForm({
+    initialValues: getInitialValues(member()),
     extend: validator({ schema: schema() }),
     async onSubmit(values) {
-      console.log(values);
+      const memberProfileGateway = container.resolve(TOKENS.memberProfileGateway);
+
+      const profile: UpdateMemberProfileData = {
+        firstName: values.firstName,
+        lastName: values.lastName,
+        emailVisible: values.emailVisible,
+        phoneNumbers: [
+          {
+            number: values.phoneNumber.replace(/^\+33/, '0').replaceAll(' ', ''),
+            visible: values.phoneNumberVisible,
+          },
+        ],
+        bio: values.bio,
+      };
+
+      await memberProfileGateway.updateMemberProfile(member().id, profile);
+    },
+    async onSuccess() {
+      const { payload } = await store.dispatch(fetchAuthenticatedMember());
+      const member = payload as AuthenticatedMember;
+
+      setInitialValues(getInitialValues(member));
+      reset();
     },
   });
 
