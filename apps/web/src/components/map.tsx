@@ -45,6 +45,7 @@ export const Map: Component<MapProps> = (props) => {
       mapLib={maplibre}
       viewport={viewport()}
       onViewportChange={(evt) => setViewport(evt)}
+      // eslint-disable-next-line tailwindcss/no-arbitrary-value
       class={clsx(props.class, '[&_.maplibregl-canvas]:outline-none')}
     >
       <Source

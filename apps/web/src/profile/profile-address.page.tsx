@@ -15,7 +15,7 @@ export const ProfileAddressPage: Component = () => {
       <Map
         center={member().address?.position ?? [5.042, 43.836]}
         zoom={member().address?.position ? 14 : 11}
-        class="h-[400px] rounded-lg shadow"
+        class="h-map rounded-lg shadow"
         markers={
           member().address?.position
             ? [{ isPopupOpen: false, position: member().address!.position! }]

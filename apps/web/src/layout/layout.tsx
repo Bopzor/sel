@@ -38,7 +38,7 @@ export const Layout: Component<LayoutProps> = (props) => {
       <Show when={!isFetchingAuthenticatedMember()}>
         <Show when={member()} fallback={<Authentication />}>
           <Header />
-          <main class="col mx-auto w-full max-w-[1300px] flex-1 px-4 pb-4">{props.children}</main>
+          <main class="col mx-auto w-full max-w-7xl flex-1 px-4 pb-4">{props.children}</main>
         </Show>
       </Show>
     </Show>

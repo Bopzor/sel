@@ -38,7 +38,7 @@ export const AddressStep: Component<AddressProps> = (props) => {
         <Map
           center={props.form.address?.position ?? [5.042, 43.836]}
           zoom={props.form.address?.position ? 14 : 11}
-          class="h-[400px] rounded-lg shadow"
+          class="h-map rounded-lg shadow"
           markers={
             props.form.address?.position
               ? [{ isPopupOpen: false, position: props.form.address.position }]

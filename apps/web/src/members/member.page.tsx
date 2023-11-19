@@ -131,7 +131,7 @@ const MemberMap: Component<MemberMapProps> = (props) => {
         <Map
           center={position()}
           zoom={13}
-          class="h-[400px] flex-1 rounded-lg shadow"
+          class="h-map flex-1 rounded-lg shadow"
           markers={[{ position: position(), isPopupOpen: true }]}
         />
       )}

@@ -7,10 +7,10 @@
     "dequal",
     "ditox",
     "fontsource",
+    "formatjs",
     "geoapify",
     "github",
     "innerhtml",
-    "formatjs",
     "intg",
     "koyeb",
     "matomo",
@@ -19,6 +19,7 @@
     "postgres",
     "reduxjs",
     "SEL'ons",
-    "solidjs"
+    "solidjs",
+    "tailwindcss"
   ]
 }

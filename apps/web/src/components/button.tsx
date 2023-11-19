@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { Component, ComponentProps, mergeProps } from 'solid-js';
+import { Component, ComponentProps, mergeProps, splitProps } from 'solid-js';
 
 import { Link } from './link';
 import { Spinner } from './spinner';
@@ -10,21 +10,22 @@ type ButtonProps = ComponentProps<'button'> & {
 };
 
 export const Button: Component<ButtonProps> = (_props) => {
-  const props = mergeProps({ variant: 'primary' } satisfies ButtonProps, _props);
+  const props2 = mergeProps({ variant: 'primary' } satisfies ButtonProps, _props);
+  const [own, props] = splitProps(props2, ['variant', 'loading', 'classList']);
 
   return (
     <button
       type="button"
-      {...props}
       classList={{
         button: true,
-        'button-primary': props.variant === 'primary',
-        'button-secondary': props.variant === 'secondary',
-        ...props.classList,
+        'button-primary': own.variant === 'primary',
+        'button-secondary': own.variant === 'secondary',
+        ...own.classList,
       }}
+      {...props}
     >
       {props.children}
-      {props.loading && <Spinner class="h-1 w-1" />}
+      {own.loading && <Spinner class="h-1 w-1" />}
     </button>
   );
 };

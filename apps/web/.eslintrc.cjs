@@ -22,4 +22,8 @@ module.exports = {
       classRegex: '^class(List)?$',
     },
   },
+
+  rules: {
+    'tailwindcss/no-arbitrary-value': 'warn',
+  },
 };

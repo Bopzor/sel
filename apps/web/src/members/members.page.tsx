@@ -65,7 +65,7 @@ type MembersListProps = {
 
 const MembersList: Component<MembersListProps> = (props) => {
   return (
-    <div class="card col flex-1 md:max-w-[22rem]">
+    <div class="card col flex-1 md:max-w-sm">
       <div class="col gap-2 px-4 py-2 shadow">
         <SearchMemberInput search={props.search} onSearch={props.onSearch} />
         <SortMembers sort={props.sort} onSort={props.onSort} />
@@ -176,7 +176,7 @@ const MemberMap: Component<MemberMapProps> = (props) => {
             isPopupOpen: member === props.openPopupMember,
             render: () => <Popup member={member} />,
           }))}
-        class="aspect-[4/3] rounded-lg shadow"
+        class="aspect-4/3 rounded-lg shadow"
       />
     </div>
   );

@@ -53,7 +53,7 @@ const Step: Component<StepProps> = (props) => {
   return (
     <li
       class={clsx(
-        props.currentStep > props.stepNumber && 'text-green',
+        props.currentStep > props.stepNumber && 'text-green-700',
         props.currentStep === props.stepNumber && 'font-semibold',
         props.currentStep < props.stepNumber && 'text-dim'
       )}
@@ -62,7 +62,7 @@ const Step: Component<StepProps> = (props) => {
         {props.children}
 
         <Show when={props.currentStep > props.stepNumber}>
-          <Icon path={check} stroke-width={3} class="inline-block h-4 text-green" />
+          <Icon path={check} stroke-width={3} class="inline-block h-4" />
         </Show>
       </div>
     </li>
