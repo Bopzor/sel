@@ -90,6 +90,12 @@
     "createRequest": "Créer une demande"
   },
   "profile": {
+    "navigation": {
+      "profile": "Profil",
+      "address": "Adresse",
+      "notifications": "Notifications",
+      "signOut": "Déconnexion"
+    },
     "signOut": "Déconnexion"
   }
 }

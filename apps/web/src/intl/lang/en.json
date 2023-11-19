@@ -87,6 +87,12 @@
     }
   },
   "profile": {
+    "navigation": {
+      "profile": "Profile",
+      "address": "Address",
+      "notifications": "Notifications",
+      "signOut": "Sign out"
+    },
     "signOut": "Sign out"
   }
 }

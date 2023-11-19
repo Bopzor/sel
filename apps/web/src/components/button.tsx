@@ -10,7 +10,7 @@ type ButtonProps = ComponentProps<'button'> & {
 
 export const Button: Component<ButtonProps> = (props) => {
   return (
-    <button {...props} class={clsx('button', props.class)}>
+    <button type="button" {...props} class={clsx('button', props.class)}>
       {props.children}
       {props.loading && <Spinner class="h-1 w-1" />}
     </button>

@@ -1,29 +1,15 @@
-import { useNavigate } from '@solidjs/router';
 import { Component } from 'solid-js';
 
-import { fetchAuthenticatedMember } from '../authentication/use-cases/fetch-authenticated-member/fetch-authenticated-member';
-import { Button } from '../components/button';
-import { container } from '../infrastructure/container';
-import { Translate } from '../intl/translate';
-import { store } from '../store/store';
-import { TOKENS } from '../tokens';
-
-const T = Translate.prefix('profile');
+import { selectAuthenticatedMember } from '../authentication/authentication.slice';
+import { MemberAvatarName } from '../components/member-avatar-name';
+import { selector } from '../store/selector';
 
 export const ProfilePage: Component = () => {
-  const navigate = useNavigate();
-
-  const signOut = async () => {
-    await container.resolve(TOKENS.authenticationGateway).signOut();
-    await store.dispatch(fetchAuthenticatedMember());
-    navigate('/');
-  };
+  const member = selector(selectAuthenticatedMember);
 
   return (
-    <div class="py-4">
-      <Button onClick={() => void signOut()} class="self-start">
-        <T id="signOut" />
-      </Button>
+    <div class="row items-center gap-6">
+      <MemberAvatarName member={member()} classes={{ avatar: 'w-20 h-20', name: 'text-3xl' }} />
     </div>
   );
 };

@@ -7,6 +7,10 @@ import { IntlProvider } from './intl';
 import { getTranslations } from './intl/get-translations';
 import { Language } from './intl/types';
 import { Layout } from './layout/layout';
+import { ProfileAddressPage } from './profile/profile-address.page';
+import { ProfileNotificationsPage } from './profile/profile-notifications.page';
+import { ProfileSignOutPage } from './profile/profile-sign-out.page';
+import { ProfileLayout } from './profile/profile.layout';
 import { ProfilePage } from './profile/profile.page';
 
 const HomePage = lazyImport(() => import('./home/home.page'), 'HomePage');
@@ -28,7 +32,12 @@ export const App: Component = () => {
           <Route path="/onboarding" component={OnboardingPage} />
           <Route path="/membres" component={MembersPage} />
           <Route path="/membre/:memberId" component={MemberPage} />
-          <Route path="/profil" component={ProfilePage} />
+          <Route path="/profile" component={ProfileLayout}>
+            <Route path="/" component={ProfilePage} />
+            <Route path="/address" component={ProfileAddressPage} />
+            <Route path="/notifications" component={ProfileNotificationsPage} />
+            <Route path="/sign-out" component={ProfileSignOutPage} />
+          </Route>
         </Routes>
       </Layout>
     </Providers>

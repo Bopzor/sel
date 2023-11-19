@@ -30,7 +30,7 @@ export const Header: Component = () => {
 
         <Show when={member()}>
           {(member) => (
-            <Link unstyled href="/profil" class="col items-center gap-1 font-semibold">
+            <Link unstyled href="/profile" class="col items-center gap-1 font-semibold">
               <MemberAvatar member={member()} class="h-10 w-10 rounded-full" />
               <div class="leading-1">{member().firstName}</div>
             </Link>
