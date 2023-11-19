@@ -1,36 +1,24 @@
 import clsx from 'clsx';
-import { JSX } from 'solid-js';
+import { JSX, splitProps } from 'solid-js';
 
 type SwitchProps = JSX.InputHTMLAttributes<HTMLInputElement>;
 
-export const Switch = (props: SwitchProps) => (
-  <span class="relative inline-block h-4 w-8 leading-0">
-    <span
-      class={clsx(
-        'inline-block h-full w-full rounded-full transition-colors',
-        props.checked ? 'bg-primary' : 'bg-inverted/40'
-      )}
-    />
+export const Switch = (_props: SwitchProps) => {
+  const [own, props] = splitProps(_props, ['children']);
 
-    <span
-      class={clsx(
-        'absolute top-0 aspect-square h-[calc(100%-4px)] translate-y-[2px] rounded-full border bg-neutral',
-        props.checked ? 'right-0 translate-x-[-2px]' : 'left-0 translate-x-[2px]'
-      )}
-    />
+  return (
+    <label class="relative inline-flex cursor-pointer items-center">
+      <input type="checkbox" class="peer sr-only" {...props} />
 
-    <input type="checkbox" class="absolute inset-0 cursor-pointer opacity-0" {...props} />
-  </span>
-);
+      <div
+        class={clsx(
+          'h-5 w-9 rounded-full bg-gray-300',
+          "after:absolute after:start-[2px] after:top-[4px] after:h-4 after:w-4 after:rounded-full after:bg-white after:transition-all after:content-['']",
+          'peer-checked:bg-primary peer-checked:after:translate-x-full peer-focus-visible:ring'
+        )}
+      />
 
-type SwitchLabelProps = SwitchProps;
-
-export const SwitchLabel = (props: SwitchLabelProps) => (
-  <div class="row items-center">
-    <Switch {...props} />
-
-    <label for={props.id} class="cursor-pointer select-none pl-2">
-      {props.children}
+      <span class="ms-3 select-none font-medium text-dim">{own.children}</span>
     </label>
-  </div>
-);
+  );
+};
