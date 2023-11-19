@@ -42,6 +42,7 @@
     "vitest": "^0.34.3"
   },
   "dependencies": {
+    "@felte/solid": "^1.2.11",
     "@fontsource-variable/inter": "^5.0.8",
     "@formatjs/intl": "^2.9.1",
     "@reduxjs/toolkit": "^1.9.5",

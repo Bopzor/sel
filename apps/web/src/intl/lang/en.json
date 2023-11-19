@@ -93,6 +93,17 @@
       "notifications": "Notifications",
       "signOut": "Sign out"
     },
+    "profile": {
+      "firstName": "First name",
+      "lastName": "Last name",
+      "emailAddress": "Email address",
+      "phoneNumber": "Phone number",
+      "bio": "Bio",
+      "profilePicture": "Profile picture",
+      "profilePictureMessage": "Profile photo management is not yet available directly via the app. In the meantime, it is possible to change your image via <link>gravatar</link> (after registration).",
+      "reset": "Reset",
+      "save": "Save"
+    },
     "signOut": "Sign out"
   }
 }

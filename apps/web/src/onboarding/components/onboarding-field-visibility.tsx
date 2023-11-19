@@ -1,6 +1,6 @@
 import { Show, createMemo } from 'solid-js';
 
-import { SwitchLabel } from '../../components/switch';
+import { Switch } from '../../components/switch';
 import { Translate } from '../../intl/translate';
 import { OnFieldChange, OnboardingForm } from '../onboarding-form';
 
@@ -17,13 +17,13 @@ export const OnboardingFieldVisibility = (props: OnboardingFieldVisibilityProps)
   const visible = createMemo(() => props.form[field()]);
 
   return (
-    <SwitchLabel id={field()} checked={visible()} onChange={props.onFieldChange(field())}>
+    <Switch id={field()} checked={visible()} onChange={props.onFieldChange(field())}>
       <Show when={visible()}>
         <T id="visible" />
       </Show>
       <Show when={!visible()}>
         <T id="notVisible" />
       </Show>
-    </SwitchLabel>
+    </Switch>
   );
 };

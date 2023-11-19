@@ -19,7 +19,7 @@ export const ProfileLayout: Component = () => {
           <Navigation />
         </div>
 
-        <div class="col gap-4">
+        <div class="col flex-1 gap-4">
           <Outlet />
         </div>
       </div>
@@ -58,7 +58,7 @@ const NavigationLink: Component<NavigationLinkProps> = (props) => (
     end
     href={props.href}
     unstyled
-    class="row items-center gap-2 rounded border-l-4 border-transparent px-2 py-1 font-medium"
+    class="row items-center gap-2 rounded border-l-4 border-transparent p-2 font-medium"
     activeClass="!border-primary bg-primary/10"
   >
     <Icon path={props.icon} class="h-5 w-5 fill-primary/75" />

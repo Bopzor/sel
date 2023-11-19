@@ -96,6 +96,17 @@
       "notifications": "Notifications",
       "signOut": "Déconnexion"
     },
+    "profile": {
+      "firstName": "Prénom",
+      "lastName": "Nom",
+      "emailAddress": "Address email",
+      "phoneNumber": "Numéro de téléphone",
+      "bio": "Présentation",
+      "profilePicture": "Photo de profil",
+      "profilePictureMessage": "La gestion des photos de profil n'est pas encore disponible directement via l'app. En attendant, il est possible de changer son image via <link>gravatar</link> (après inscription).",
+      "reset": "Annuler",
+      "save": "Enregistrer"
+    },
     "signOut": "Déconnexion"
   }
 }
