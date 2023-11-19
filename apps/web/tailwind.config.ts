@@ -7,11 +7,8 @@ const commonColors = {
   black: colors.black,
   primary: '#005F7E',
   green: colors.emerald[800],
-  blue: colors.blue[800],
-  requests: colors.red[400],
-  events: colors.yellow[400],
-  members: colors.green[400],
-  tools: colors.blue[400],
+  blue: colors.blue,
+  gray: colors.gray,
 };
 
 export default {

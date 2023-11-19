@@ -30,7 +30,7 @@
   }
 
   a {
-    @apply text-blue;
+    @apply text-blue-800;
   }
 
   a:hover {
@@ -65,6 +65,14 @@
   }
 
   .button {
-    @apply row items-center gap-2 whitespace-nowrap rounded-lg bg-green px-4 py-1 font-medium text-white hover:shadow-md;
+    @apply row items-center gap-2 whitespace-nowrap rounded-lg px-4 py-1 font-medium hover:shadow-md border-2;
+
+    &.button-primary {
+      @apply bg-green text-white border-green;
+    }
+
+    &.button-secondary {
+      @apply border-gray-400;
+    }
   }
 }

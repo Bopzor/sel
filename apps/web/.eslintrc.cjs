@@ -1,5 +1,10 @@
 module.exports = {
-  extends: ['@sel/eslint-config/base-eslint.config.cjs', 'plugin:solid/typescript', 'plugin:tailwindcss/recommended', 'plugin:storybook/recommended'],
+  extends: [
+    '@sel/eslint-config/base-eslint.config.cjs',
+    'plugin:solid/typescript',
+    'plugin:tailwindcss/recommended',
+    'plugin:storybook/recommended',
+  ],
 
   plugins: ['solid'],
 
@@ -14,6 +19,7 @@ module.exports = {
   settings: {
     tailwindcss: {
       config: 'tailwind.config.ts',
+      classRegex: '^class(List)?$',
     },
   },
 };
