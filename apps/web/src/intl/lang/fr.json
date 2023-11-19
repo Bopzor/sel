@@ -100,6 +100,7 @@
       "firstName": "Prénom",
       "lastName": "Nom",
       "emailAddress": "Address email",
+      "emailAddressReadOnly": "L'adresse email ne peut pas être modifiée, contactez-nous si vous avez besoin de la changer.",
       "phoneNumber": "Numéro de téléphone",
       "bio": "Présentation",
       "profilePicture": "Photo de profil",

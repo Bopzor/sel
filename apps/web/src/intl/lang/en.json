@@ -97,6 +97,7 @@
       "firstName": "First name",
       "lastName": "Last name",
       "emailAddress": "Email address",
+      "emailAddressReadOnly": "Email address cannot be edited, please contact us if you need to change it.",
       "phoneNumber": "Phone number",
       "bio": "Bio",
       "profilePicture": "Profile picture",

@@ -1,5 +1,5 @@
 import { createForm } from '@felte/solid';
-import { Component } from 'solid-js';
+import { Component, Show, createSignal } from 'solid-js';
 
 import { selectAuthenticatedMember } from '../authentication/authentication.slice';
 import { Button } from '../components/button';
@@ -15,7 +15,7 @@ import { ProfileFieldVisibility } from './components/profile-field-visibility';
 
 const T = Translate.prefix('profile.profile');
 
-export const ProfilePage: Component = () => {
+export const ProfileEditionPage: Component = () => {
   const t = T.useTranslation();
   const member = selector(selectAuthenticatedMember);
 
@@ -33,6 +33,8 @@ export const ProfilePage: Component = () => {
       console.log(values);
     },
   });
+
+  const [emailReadOnlyMessageVisible, setEmailReadOnlyMessageVisible] = createSignal(false);
 
   return (
     <>
@@ -68,9 +70,20 @@ export const ProfilePage: Component = () => {
 
         <FormField label={t('emailAddress')}>
           <Row gap={4}>
-            <Input name="email" width="medium" readOnly />
+            <Input
+              name="email"
+              width="medium"
+              readOnly
+              onFocus={() => setEmailReadOnlyMessageVisible(true)}
+              onBlur={() => setEmailReadOnlyMessageVisible(false)}
+            />
             <ProfileFieldVisibility name="emailVisible" data={data} />
           </Row>
+          <Show when={emailReadOnlyMessageVisible()}>
+            <p class="text-sm text-dim">
+              <T id="emailAddressReadOnly" />
+            </p>
+          </Show>
         </FormField>
 
         <FormField label={t('phoneNumber')}>
