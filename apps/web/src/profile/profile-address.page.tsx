@@ -1,27 +1,32 @@
+import { Address } from '@sel/shared';
 import { Component } from 'solid-js';
 
 import { selectAuthenticatedMember } from '../authentication/authentication.slice';
+import { fetchAuthenticatedMember } from '../authentication/use-cases/fetch-authenticated-member/fetch-authenticated-member';
 import { AddressSearch } from '../components/address-search';
-import { Map } from '../components/map';
+import { container } from '../infrastructure/container';
 import { selector } from '../store/selector';
+import { store } from '../store/store';
+import { TOKENS } from '../tokens';
 
 export const ProfileAddressPage: Component = () => {
   const member = selector(selectAuthenticatedMember);
 
-  return (
-    <>
-      <AddressSearch onAddressSelected={() => {}} />
+  const handleSelected = async (address: Address) => {
+    const memberProfileGateway = container.resolve(TOKENS.memberProfileGateway);
 
-      <Map
-        center={member().address?.position ?? [5.042, 43.836]}
-        zoom={member().address?.position ? 14 : 11}
-        class="h-map rounded-lg shadow"
-        markers={
-          member().address?.position
-            ? [{ isPopupOpen: false, position: member().address!.position! }]
-            : undefined
-        }
-      />
-    </>
-  );
+    const data = member();
+
+    await memberProfileGateway.updateMemberProfile(data.id, {
+      firstName: data.firstName,
+      lastName: data.lastName,
+      emailVisible: data.emailVisible,
+      phoneNumbers: data.phoneNumbers,
+      address,
+    });
+
+    await store.dispatch(fetchAuthenticatedMember());
+  };
+
+  return <AddressSearch value={member().address} onSelected={(address) => void handleSelected(address)} />;
 };

@@ -88,7 +88,11 @@ export const OnboardingPage = () => {
       </Show>
 
       <Show when={step() === 4}>
-        <AddressStep onNext={handleNext} form={form} setValue={setForm} />
+        <AddressStep
+          onNext={handleNext}
+          form={form}
+          onAddressSelected={(address) => setForm('address', address)}
+        />
       </Show>
 
       <Show when={step() === 5}>

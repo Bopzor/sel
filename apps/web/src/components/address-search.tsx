@@ -1,39 +1,54 @@
 import { Address } from '@sel/shared';
 import { debounce } from '@solid-primitives/scheduled';
-import { Component, For, Show, createResource, createSignal } from 'solid-js';
+import { Component, For, Show, createEffect, createResource, createSignal } from 'solid-js';
 
 import { container } from '../infrastructure/container';
 import { TOKENS } from '../tokens';
+import { deepTrack } from '../utils/deep-track';
 
 import { Input } from './input';
+import { Map } from './map';
+import { formatAddressInline } from './member-address';
 import { Spinner } from './spinner';
 
 type AddressSearchProps = {
-  onAddressSelected: (address: Address) => void;
+  value?: Address;
+  onSelected: (address: Address) => void;
 };
 
 export const AddressSearch: Component<AddressSearchProps> = (props) => {
   const [query, setQuery] = createSignal('');
-  const setQueryDebounced = debounce(setQuery, 1000);
+  const setQueryDebounced = debounce(setQuery, 100);
 
-  const [results] = createResource(query, searchAddress);
+  const [results, { mutate }] = createResource(query, searchAddress);
 
-  const handleAddressSelected = (formatted: string, address: Address) => {
-    setQuery(formatted);
-    props.onAddressSelected(address);
-  };
+  createEffect(() => {
+    deepTrack(props.value);
+
+    if (props.value !== undefined) {
+      mutate(undefined);
+    }
+  });
 
   return (
     <div class="col gap-4">
       <Input
+        name="address"
         class="border"
         width="full"
-        value={query()}
+        value={props.value ? formatAddressInline(props.value) : undefined}
         onInput={(event) => setQueryDebounced(event.currentTarget.value)}
         end={results.loading && <Spinner class="h-4 w-4 text-dim" />}
       />
 
-      <AddressList addresses={results() ?? []} onAddressSelected={handleAddressSelected} />
+      <AddressList addresses={results() ?? []} onSelected={(address) => props.onSelected(address)} />
+
+      <Map
+        center={props.value?.position ?? [5.042, 43.836]}
+        zoom={props.value?.position ? 14 : 11}
+        class="h-map rounded-lg shadow"
+        markers={props.value?.position ? [{ isPopupOpen: false, position: props.value.position }] : undefined}
+      />
     </div>
   );
 };
@@ -48,7 +63,7 @@ async function searchAddress(query: string) {
 
 type AddressListProps = {
   addresses: Array<[formatted: string, address: Address]>;
-  onAddressSelected: (formatted: string, address: Address) => void;
+  onSelected: (address: Address) => void;
 };
 
 const AddressList = (props: AddressListProps) => {
@@ -61,7 +76,7 @@ const AddressList = (props: AddressListProps) => {
               <button
                 type="button"
                 class="w-full p-2 text-left hover:bg-primary/5"
-                onClick={() => props.onAddressSelected(formatted, address)}
+                onClick={() => props.onSelected(address)}
               >
                 {formatted}
               </button>

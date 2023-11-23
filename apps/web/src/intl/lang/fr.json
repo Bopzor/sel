@@ -81,8 +81,8 @@
   "members": {
     "showOnMap": "Voir sur la carte",
     "phoneNumber": "Numéro de téléphone",
-    "emailAddress": "Address email",
-    "mailingAddress": "Address postale",
+    "emailAddress": "Adresse email",
+    "mailingAddress": "Adresse postale",
     "bio": "À propos de moi",
     "membersSortEnum": {
       "firstName": "Prénom",
@@ -103,7 +103,7 @@
     "profile": {
       "firstName": "Prénom",
       "lastName": "Nom",
-      "emailAddress": "Address email",
+      "emailAddress": "Adresse email",
       "emailAddressReadOnly": "L'adresse email ne peut pas être modifiée, contactez-nous si vous avez besoin de la changer.",
       "phoneNumber": "Numéro de téléphone",
       "phoneNumberInvalid": "Ce numéro de téléphone n'est pas valide.",
