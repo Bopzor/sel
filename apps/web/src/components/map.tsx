@@ -40,7 +40,6 @@ export const Map: Component<MapProps> = (props) => {
 
   return (
     <MapGL
-      debug
       id={id}
       mapLib={maplibre}
       viewport={viewport()}
