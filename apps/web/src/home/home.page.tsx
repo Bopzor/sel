@@ -3,6 +3,7 @@ import { Component, JSX } from 'solid-js';
 
 import { Link } from '../components/link';
 import { Translate } from '../intl/translate';
+import { routes } from '../routes';
 
 const T = Translate.prefix('home');
 
@@ -11,7 +12,7 @@ export const HomePage = () => {
     <div class="pt-8">
       <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3">
         <LinkCard
-          href="/membres"
+          href={routes.members.list}
           label={<T id="members.label" />}
           description={<T id="members.description" />}
           class="border-blue-400 from-blue-400/5 to-blue-400/20"

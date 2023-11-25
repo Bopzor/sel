@@ -14,6 +14,7 @@ import { MemberAvatarName } from '../components/member-avatar-name';
 import { Row } from '../components/row';
 import { useSearchParam } from '../infrastructure/router/use-search-param';
 import { Translate, useTranslation } from '../intl/translate';
+import { routes } from '../routes';
 import { selector } from '../store/selector';
 import { store } from '../store/store';
 
@@ -37,7 +38,7 @@ export const MembersPage: Component = () => {
 
   return (
     <>
-      <BackLink href="/" />
+      <BackLink href={routes.home} />
 
       <div class="row flex-1 gap-6">
         <MembersList
@@ -96,7 +97,7 @@ const MembersListItem: Component<MembersListItemProps> = (props) => {
     <li class="row group items-center gap-1 px-4 py-2 hover:bg-inverted/5 focus:bg-inverted/5">
       <Link
         unstyled
-        href={`/membre/${props.member.id}`}
+        href={routes.members.member(props.member.id)}
         tabIndex={0}
         class="row flex-1 items-center gap-2 focus:outline-none"
       >

@@ -11,6 +11,7 @@ import { MemberAddress } from '../components/member-address';
 import { MemberAvatarName } from '../components/member-avatar-name';
 import { Row } from '../components/row';
 import { Translate } from '../intl/translate';
+import { routes } from '../routes';
 import { selector } from '../store/selector';
 import { store } from '../store/store';
 import { formatPhoneNumber } from '../utils/format-phone-number';
@@ -32,7 +33,7 @@ export const MemberPage: Component = () => {
 
   return (
     <>
-      <BackLink href="/membres" />
+      <BackLink href={routes.members.list} />
 
       <Show when={member()} fallback={<Translate id="common.loading" />}>
         {(member) => (

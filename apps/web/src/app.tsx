@@ -30,8 +30,8 @@ export const App: Component = () => {
         <Routes>
           <Route path="/" component={HomePage} />
           <Route path="/onboarding" component={OnboardingPage} />
-          <Route path="/membres" component={MembersPage} />
-          <Route path="/membre/:memberId" component={MemberPage} />
+          <Route path="/members" component={MembersPage} />
+          <Route path="/members/:memberId" component={MemberPage} />
           <Route path="/profile" component={ProfileLayout}>
             <Route path="/" component={ProfileEditionPage} />
             <Route path="/address" component={AddressPage} />

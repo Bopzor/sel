@@ -6,13 +6,14 @@ import { Component, ComponentProps, JSX } from 'solid-js';
 import { BackLink } from '../components/back-link';
 import { Link } from '../components/link';
 import { Translate } from '../intl/translate';
+import { routes } from '../routes';
 
 const T = Translate.prefix('profile.navigation');
 
 export const ProfileLayout: Component = () => {
   return (
     <div>
-      <BackLink href="/" />
+      <BackLink href={routes.home} />
 
       <div class="col md:row gap-4 lg:gap-8">
         <div class="w-full sm:max-w-[14rem] lg:max-w-xs">
@@ -29,19 +30,19 @@ export const ProfileLayout: Component = () => {
 
 const Navigation: Component = () => (
   <div role="navigation" class="col gap-2">
-    <NavigationLink href="/profile" icon={user}>
+    <NavigationLink href={routes.profile.profileEdition} icon={user}>
       <T id="profile" />
     </NavigationLink>
 
-    <NavigationLink href="/profile/address" icon={mapPin}>
+    <NavigationLink href={routes.profile.address} icon={mapPin}>
       <T id="address" />
     </NavigationLink>
 
-    <NavigationLink href="/profile/notifications" icon={bell}>
+    <NavigationLink href={routes.profile.notifications} icon={bell}>
       <T id="notifications" />
     </NavigationLink>
 
-    <NavigationLink href="/profile/sign-out" icon={arrowRightOnRectangle}>
+    <NavigationLink href={routes.profile.signOut} icon={arrowRightOnRectangle}>
       <T id="signOut" />
     </NavigationLink>
   </div>
