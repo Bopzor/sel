@@ -1,14 +1,9 @@
-import { defined } from '@sel/utils';
-import { Component, JSX, Show, onMount } from 'solid-js';
+import { Component, JSX, Show } from 'solid-js';
 
 import { Authentication } from '../authentication/authentication';
-import { selectAuthenticatedMemberUnsafe } from '../authentication/authentication.slice';
-import { fetchAuthenticatedMember } from '../authentication/use-cases/fetch-authenticated-member/fetch-authenticated-member';
-import { VerifyAuthenticationToken } from '../authentication/verify-authentication-token';
-import { useSearchParam } from '../infrastructure/router/use-search-param';
+import { verifyAuthenticationToken } from '../authentication/verify-authentication-token';
 import { redirectToOnboardingWhenNotCompleted } from '../onboarding/redirect-to-onboarding';
-import { selector } from '../store/selector';
-import { store } from '../store/store';
+import { getAuthenticatedMemberQuery, getAuthenticatedMemberUnsafe } from '../utils/authenticated-member';
 
 import { Header } from './header/header';
 
@@ -17,25 +12,15 @@ type LayoutProps = {
 };
 
 export const Layout: Component<LayoutProps> = (props) => {
-  const isFetchingAuthenticatedMember = selector(fetchAuthenticatedMember.selectIsPending);
-
-  const member = selector(selectAuthenticatedMemberUnsafe);
-  const [authToken, setAuthToken] = useSearchParam('auth-token');
-
-  onMount(() => {
-    void store.dispatch(fetchAuthenticatedMember());
-  });
+  const verifyingAuthenticationToken = verifyAuthenticationToken();
+  const memberQuery = getAuthenticatedMemberQuery();
+  const member = getAuthenticatedMemberUnsafe();
 
   redirectToOnboardingWhenNotCompleted();
 
   return (
-    <Show
-      when={!authToken()}
-      fallback={
-        <VerifyAuthenticationToken token={defined(authToken())} onVerified={() => setAuthToken(undefined)} />
-      }
-    >
-      <Show when={!isFetchingAuthenticatedMember()}>
+    <Show when={!verifyingAuthenticationToken()}>
+      <Show when={memberQuery.isFetched}>
         <Show when={member()} fallback={<Authentication />}>
           <Header />
           <main class="col mx-auto w-full max-w-7xl flex-1 px-4 pb-4">{props.children}</main>

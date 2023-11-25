@@ -1,12 +1,12 @@
+import { AuthenticatedMember, UpdateMemberProfileData } from '@sel/shared';
+import { createMutation, useQueryClient } from '@tanstack/solid-query';
 import { Show, createSignal } from 'solid-js';
 import { createStore } from 'solid-js/store';
 
-import { selectAuthenticatedMember } from '../authentication/authentication.slice';
-import { fetchAuthenticatedMember } from '../authentication/use-cases/fetch-authenticated-member/fetch-authenticated-member';
 import { container } from '../infrastructure/container';
 import { Translate } from '../intl/translate';
-import { store } from '../store/store';
 import { TOKENS } from '../tokens';
+import { getAuthenticatedMember } from '../utils/authenticated-member';
 import { formatPhoneNumber } from '../utils/format-phone-number';
 
 import { Stepper } from './components/stepper';
@@ -20,20 +20,22 @@ import { EndStep } from './steps/05-end-step';
 
 const T = Translate.prefix('onboarding');
 
+const getInitialValues = (member: AuthenticatedMember): OnboardingForm => ({
+  firstName: member.firstName,
+  lastName: member.lastName,
+  emailVisible: true,
+  phoneNumber: member.phoneNumbers.length > 0 ? formatPhoneNumber(member.phoneNumbers[0].number) : '',
+  phoneNumberVisible: true,
+  bio: member.bio ?? '',
+});
+
 export const OnboardingPage = () => {
   const [step, setStep] = createSignal(0);
   const handleNext = () => setStep((step) => step + 1);
 
-  const member = selectAuthenticatedMember(store.getState());
+  const member = getAuthenticatedMember();
 
-  const [form, setForm] = createStore<OnboardingForm>({
-    firstName: member.firstName,
-    lastName: member.lastName,
-    emailVisible: true,
-    phoneNumber: member.phoneNumbers.length > 0 ? formatPhoneNumber(member.phoneNumbers[0].number) : '',
-    phoneNumberVisible: true,
-    bio: member.bio ?? '',
-  });
+  const [form, setForm] = createStore<OnboardingForm>(getInitialValues(member()));
 
   const onFieldChange: OnFieldChange = (field) => {
     return ({ currentTarget }) => {
@@ -45,10 +47,16 @@ export const OnboardingPage = () => {
     };
   };
 
-  const handleEnd = async () => {
-    const memberProfileGateway = container.resolve(TOKENS.memberProfileGateway);
+  const fetcher = container.resolve(TOKENS.fetcher);
+  const queryClient = useQueryClient();
 
-    await memberProfileGateway.updateMemberProfile(member.id, {
+  const updateMemberProfile = createMutation(() => ({
+    mutationFn: (data: UpdateMemberProfileData) => fetcher.put(`/api/members/${member().id}/profile`, data),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['authenticatedMember'] }),
+  }));
+
+  const handleEnd = () => {
+    void updateMemberProfile.mutate({
       firstName: form.firstName,
       lastName: form.lastName,
       emailVisible: form.emailVisible,
@@ -57,8 +65,6 @@ export const OnboardingPage = () => {
       address: form.address || undefined,
       onboardingCompleted: true,
     });
-
-    await store.dispatch(fetchAuthenticatedMember());
   };
 
   return (
@@ -96,7 +102,7 @@ export const OnboardingPage = () => {
       </Show>
 
       <Show when={step() === 5}>
-        <EndStep onNext={() => void handleEnd()} />
+        <EndStep onNext={() => handleEnd()} />
       </Show>
     </div>
   );

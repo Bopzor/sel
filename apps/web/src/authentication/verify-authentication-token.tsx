@@ -1,26 +1,27 @@
-import { Component, onMount } from 'solid-js';
+import { createMutation } from '@tanstack/solid-query';
+import { onMount } from 'solid-js';
 
-import { store } from '../store/store';
+import { container } from '../infrastructure/container';
+import { useSearchParam } from '../infrastructure/router/use-search-param';
+import { TOKENS } from '../tokens';
 
-import { verifyAuthenticationToken } from './use-cases/verify-authentication-token/verify-authentication-token';
+export const verifyAuthenticationToken = () => {
+  const [getToken, setToken] = useSearchParam('auth-token');
 
-type VerifyAuthenticationTokenProps = {
-  token: string;
-  onVerified: () => void;
-};
+  const fetcher = container.resolve(TOKENS.fetcher);
+  const mutation = createMutation(() => ({
+    mutationFn: (token: string) =>
+      fetcher.get(`/api/authentication/verify-authentication-token?${new URLSearchParams({ token })}`),
+    onSuccess: () => setToken(undefined),
+  }));
 
-export const VerifyAuthenticationToken: Component<VerifyAuthenticationTokenProps> = (props) => {
   onMount(() => {
-    const verify = async () => {
-      try {
-        await store.dispatch(verifyAuthenticationToken(props.token));
-      } finally {
-        props.onVerified();
-      }
-    };
+    const token = getToken();
 
-    void verify();
+    if (token) {
+      void mutation.mutate(token);
+    }
   });
 
-  return <>loading...</>;
+  return () => mutation.isPending;
 };

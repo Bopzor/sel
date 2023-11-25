@@ -1,15 +1,13 @@
 import { assert } from '@sel/utils';
+import { createMutation } from '@tanstack/solid-query';
 import { Component, JSX, Show, createSignal } from 'solid-js';
 
 import { Button } from '../components/button';
 import { Input } from '../components/input';
+import { container } from '../infrastructure/container';
 import { Translate } from '../intl/translate';
 import { Header } from '../layout/header/header';
-import { selector } from '../store/selector';
-import { store } from '../store/store';
-
-import { selectAuthenticationLinkRequested } from './authentication.slice';
-import { requestAuthenticationLink } from './use-cases/request-authentication-link/request-authentication-link';
+import { TOKENS } from '../tokens';
 
 const T = Translate.prefix('authentication');
 
@@ -17,7 +15,11 @@ export const Authentication: Component = () => {
   const t = T.useTranslation();
   const [email, setEmail] = createSignal<string>();
 
-  const authenticationLinkRequested = selector(selectAuthenticationLinkRequested);
+  const fetcher = container.resolve(TOKENS.fetcher);
+  const requestAuthenticationLink = createMutation(() => ({
+    mutationFn: (email: string) =>
+      fetcher.post(`/api/authentication/request-authentication-link?${new URLSearchParams({ email })}`),
+  }));
 
   const handleSubmit: JSX.EventHandler<HTMLFormElement, Event> = (event) => {
     event.preventDefault();
@@ -28,7 +30,7 @@ export const Authentication: Component = () => {
     assert(typeof email === 'string');
 
     setEmail(email.trim());
-    void store.dispatch(requestAuthenticationLink(email));
+    void requestAuthenticationLink.mutate(email.trim());
   };
 
   return (
@@ -38,7 +40,7 @@ export const Authentication: Component = () => {
 
         <div class="col gap-4 p-4">
           <Show
-            when={!authenticationLinkRequested()}
+            when={!requestAuthenticationLink.isSuccess}
             fallback={
               <p class="my-4">
                 <T
@@ -51,25 +53,17 @@ export const Authentication: Component = () => {
               </p>
             }
           >
-            <>
-              <p class="my-4">
-                <T id="description" />
-              </p>
+            <p class="my-4">
+              <T id="description" />
+            </p>
 
-              <form onSubmit={handleSubmit} class="col gap-4">
-                <Input
-                  autofocus
-                  name="email"
-                  type="email"
-                  variant="outlined"
-                  placeholder={t('emailAddress')}
-                />
+            <form onSubmit={handleSubmit} class="col gap-4">
+              <Input autofocus name="email" type="email" variant="outlined" placeholder={t('emailAddress')} />
 
-                <Button type="submit" class="self-end">
-                  <T id="send" />
-                </Button>
-              </form>
-            </>
+              <Button type="submit" loading={requestAuthenticationLink.isPending} class="self-end">
+                <T id="send" />
+              </Button>
+            </form>
           </Show>
         </div>
       </div>

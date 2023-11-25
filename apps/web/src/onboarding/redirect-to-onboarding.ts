@@ -1,11 +1,10 @@
 import { useLocation, useNavigate } from '@solidjs/router';
 import { createEffect } from 'solid-js';
 
-import { selectAuthenticatedMemberUnsafe } from '../authentication/authentication.slice';
-import { selector } from '../store/selector';
+import { getAuthenticatedMemberUnsafe } from '../utils/authenticated-member';
 
 export function redirectToOnboardingWhenNotCompleted() {
-  const member = selector(selectAuthenticatedMemberUnsafe);
+  const member = getAuthenticatedMemberUnsafe();
 
   const location = useLocation();
   const navigate = useNavigate();
