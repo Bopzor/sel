@@ -33,7 +33,7 @@ export const Authentication: Component = () => {
 
   return (
     <div class="col flex-1 items-center justify-center">
-      <div class="w-full max-w-2xl overflow-hidden rounded border bg-white">
+      <div class="w-full max-w-2xl overflow-hidden rounded-lg bg-neutral">
         <Header />
 
         <div class="col gap-4 p-4">
@@ -57,7 +57,12 @@ export const Authentication: Component = () => {
               </p>
 
               <form onSubmit={handleSubmit} class="col gap-4">
-                <Input name="email" autofocus placeholder={t('emailAddress')} class="border" />
+                <Input
+                  name="email"
+                  autofocus
+                  placeholder={t('emailAddress')}
+                  class="border-inverted/20 shadow-none"
+                />
 
                 <Button type="submit" class="self-end">
                   <T id="send" />
