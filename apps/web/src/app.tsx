@@ -7,11 +7,11 @@ import { IntlProvider } from './intl';
 import { getTranslations } from './intl/get-translations';
 import { Language } from './intl/types';
 import { Layout } from './layout/layout';
-import { ProfileAddressPage } from './profile/profile-address.page';
+import { AddressPage } from './profile/address.page';
+import { NotificationsPage } from './profile/notifications.page';
 import { ProfileEditionPage } from './profile/profile-edition.page';
-import { ProfileNotificationsPage } from './profile/profile-notifications.page';
-import { ProfileSignOutPage } from './profile/profile-sign-out.page';
 import { ProfileLayout } from './profile/profile.layout';
+import { SignOutPage } from './profile/sign-out.page';
 
 const HomePage = lazyImport(() => import('./home/home.page'), 'HomePage');
 const OnboardingPage = lazyImport(() => import('./onboarding/onboarding.page'), 'OnboardingPage');
@@ -34,9 +34,9 @@ export const App: Component = () => {
           <Route path="/membre/:memberId" component={MemberPage} />
           <Route path="/profile" component={ProfileLayout}>
             <Route path="/" component={ProfileEditionPage} />
-            <Route path="/address" component={ProfileAddressPage} />
-            <Route path="/notifications" component={ProfileNotificationsPage} />
-            <Route path="/sign-out" component={ProfileSignOutPage} />
+            <Route path="/address" component={AddressPage} />
+            <Route path="/notifications" component={NotificationsPage} />
+            <Route path="/sign-out" component={SignOutPage} />
           </Route>
         </Routes>
       </Layout>

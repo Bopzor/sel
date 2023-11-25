@@ -4,7 +4,7 @@ import { Translate } from '../intl/translate';
 
 const T = Translate.prefix('profile.notifications');
 
-export const ProfileNotificationsPage: Component = () => {
+export const NotificationsPage: Component = () => {
   return (
     <>
       <h1>

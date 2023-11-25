@@ -12,7 +12,7 @@ import { TOKENS } from '../tokens';
 
 const T = Translate.prefix('profile.address');
 
-export const ProfileAddressPage: Component = () => {
+export const AddressPage: Component = () => {
   const t = T.useTranslation();
   const member = selector(selectAuthenticatedMember);
 

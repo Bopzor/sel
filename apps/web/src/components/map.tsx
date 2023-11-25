@@ -63,8 +63,8 @@ export const Map: Component<MapProps> = (props) => {
         {(marker) => (
           <Marker
             lngLat={marker.position}
-            showPopup={marker.isPopupOpen}
-            popup={{ closeButton: false, className: '[&>.maplibregl-popup-content]:rounded-lg' }}
+            openPopup={marker.isPopupOpen}
+            options={{ popup: { closeButton: false, className: '[&>.maplibregl-popup-content]:rounded-lg' } }}
           >
             {marker.render && <div>{marker.render()}</div>}
           </Marker>

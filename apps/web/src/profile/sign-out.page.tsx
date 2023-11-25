@@ -10,7 +10,7 @@ import { TOKENS } from '../tokens';
 
 const T = Translate.prefix('profile.signOut');
 
-export const ProfileSignOutPage: Component = () => {
+export const SignOutPage: Component = () => {
   const navigate = useNavigate();
 
   const signOut = async () => {
