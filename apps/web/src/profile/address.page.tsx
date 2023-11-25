@@ -1,35 +1,37 @@
-import { Address } from '@sel/shared';
+import { Address, UpdateMemberProfileData } from '@sel/shared';
+import { useQueryClient, createMutation } from '@tanstack/solid-query';
 import { Component } from 'solid-js';
 
-import { selectAuthenticatedMember } from '../authentication/authentication.slice';
-import { fetchAuthenticatedMember } from '../authentication/use-cases/fetch-authenticated-member/fetch-authenticated-member';
 import { AddressSearch } from '../components/address-search';
 import { container } from '../infrastructure/container';
 import { Translate } from '../intl/translate';
-import { selector } from '../store/selector';
-import { store } from '../store/store';
 import { TOKENS } from '../tokens';
+import { getAuthenticatedMember } from '../utils/authenticated-member';
 
 const T = Translate.prefix('profile.address');
 
 export const AddressPage: Component = () => {
   const t = T.useTranslation();
-  const member = selector(selectAuthenticatedMember);
+  const member = getAuthenticatedMember();
 
-  const handleSelected = async (address: Address) => {
-    const memberProfileGateway = container.resolve(TOKENS.memberProfileGateway);
+  const fetcher = container.resolve(TOKENS.fetcher);
+  const queryClient = useQueryClient();
 
+  const updateMemberProfile = createMutation(() => ({
+    mutationFn: (data: UpdateMemberProfileData) => fetcher.put(`/api/members/${member().id}/profile`, data),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['authenticatedMember'] }),
+  }));
+
+  const handleSelected = (address: Address) => {
     const data = member();
 
-    await memberProfileGateway.updateMemberProfile(data.id, {
+    void updateMemberProfile.mutate({
       firstName: data.firstName,
       lastName: data.lastName,
       emailVisible: data.emailVisible,
       phoneNumbers: data.phoneNumbers,
       address,
     });
-
-    await store.dispatch(fetchAuthenticatedMember());
   };
 
   return (

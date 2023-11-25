@@ -1,10 +1,9 @@
 import { createForm } from '@felte/solid';
 import { validator } from '@felte/validator-zod';
 import { AuthenticatedMember, UpdateMemberProfileData } from '@sel/shared';
-import { Component, Show, createSignal } from 'solid-js';
+import { createMutation, useQueryClient } from '@tanstack/solid-query';
+import { Component, Show, createEffect, createSignal } from 'solid-js';
 
-import { selectAuthenticatedMember } from '../authentication/authentication.slice';
-import { fetchAuthenticatedMember } from '../authentication/use-cases/fetch-authenticated-member/fetch-authenticated-member';
 import { Button } from '../components/button';
 import { FormField } from '../components/form-field';
 import { Input, TextArea } from '../components/input';
@@ -13,9 +12,8 @@ import { MemberAvatarName } from '../components/member-avatar-name';
 import { Row } from '../components/row';
 import { container } from '../infrastructure/container';
 import { Translate } from '../intl/translate';
-import { selector } from '../store/selector';
-import { store } from '../store/store';
 import { TOKENS } from '../tokens';
+import { getAuthenticatedMember } from '../utils/authenticated-member';
 import { formatPhoneNumber } from '../utils/format-phone-number';
 
 import { ProfileFieldVisibility } from './components/profile-field-visibility';
@@ -60,15 +58,21 @@ const getInitialValues = (member: AuthenticatedMember) => ({
 
 export const ProfileEditionPage: Component = () => {
   const t = T.useTranslation();
-  const member = selector(selectAuthenticatedMember);
+  const member = getAuthenticatedMember();
+
+  const fetcher = container.resolve(TOKENS.fetcher);
+  const queryClient = useQueryClient();
+
+  const updateMemberProfile = createMutation(() => ({
+    mutationFn: (data: UpdateMemberProfileData) => fetcher.put(`/api/members/${member().id}/profile`, data),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['authenticatedMember'] }),
+  }));
 
   const { form, data, errors, isDirty, setInitialValues, reset } = createForm({
     initialValues: getInitialValues(member()),
     extend: validator({ schema: schema() }),
     async onSubmit(values) {
-      const memberProfileGateway = container.resolve(TOKENS.memberProfileGateway);
-
-      const profile: UpdateMemberProfileData = {
+      await updateMemberProfile.mutateAsync({
         firstName: values.firstName,
         lastName: values.lastName,
         emailVisible: values.emailVisible,
@@ -79,17 +83,13 @@ export const ProfileEditionPage: Component = () => {
           },
         ],
         bio: values.bio,
-      };
-
-      await memberProfileGateway.updateMemberProfile(member().id, profile);
+      });
     },
-    async onSuccess() {
-      const { payload } = await store.dispatch(fetchAuthenticatedMember());
-      const member = payload as AuthenticatedMember;
+  });
 
-      setInitialValues(getInitialValues(member));
-      reset();
-    },
+  createEffect(() => {
+    setInitialValues(getInitialValues(member()));
+    reset();
   });
 
   const [emailReadOnlyMessageVisible, setEmailReadOnlyMessageVisible] = createSignal(false);
