@@ -32,7 +32,11 @@ export const AddressStep: Component<AddressProps> = (props) => {
         class="col gap-4"
       >
         <OnboardingField label={<T id="address" />}>
-          <AddressSearch value={props.form.address} onSelected={props.onAddressSelected} />
+          <AddressSearch
+            value={props.form.address}
+            onSelected={props.onAddressSelected}
+            class="border-inverted/20 shadow-none"
+          />
         </OnboardingField>
 
         <NextButton type="submit">

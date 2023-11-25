@@ -15,6 +15,7 @@ type AddressSearchProps = {
   placeholder?: string;
   value?: Address;
   onSelected: (address: Address) => void;
+  class?: string;
 };
 
 export const AddressSearch: Component<AddressSearchProps> = (props) => {
@@ -40,6 +41,7 @@ export const AddressSearch: Component<AddressSearchProps> = (props) => {
         value={props.value ? formatAddressInline(props.value) : undefined}
         onInput={(event) => setQueryDebounced(event.currentTarget.value)}
         end={results.loading && <Spinner class="h-4 w-4 text-dim" />}
+        class={props.class}
       />
 
       <AddressList addresses={results() ?? []} onSelected={(address) => props.onSelected(address)} />

@@ -6,6 +6,7 @@ import { magnifyingGlass, mapPin } from 'solid-heroicons/solid';
 import { Component, For, createEffect, createSignal } from 'solid-js';
 
 import { BackLink } from '../components/back-link';
+import { Input } from '../components/input';
 import { Link } from '../components/link';
 import { Map } from '../components/map';
 import { MemberAddress } from '../components/member-address';
@@ -65,17 +66,20 @@ type MembersListProps = {
 
 const MembersList: Component<MembersListProps> = (props) => {
   return (
-    <div class="card col flex-1 md:max-w-sm">
-      <div class="col gap-2 px-4 py-2 shadow">
-        <SearchMemberInput search={props.search} onSearch={props.onSearch} />
-        <SortMembers sort={props.sort} onSort={props.onSort} />
-      </div>
+    <div class="col flex-1 gap-4 md:max-w-sm">
+      <SearchMemberInput search={props.search} onSearch={props.onSearch} />
 
-      <ul class="h-0 flex-auto overflow-y-auto" onMouseLeave={() => props.onHighlight(undefined)}>
-        <For each={props.members}>
-          {(member) => <MembersListItem member={member} onHighlight={() => props.onHighlight(member)} />}
-        </For>
-      </ul>
+      <div class="card col flex-1">
+        <div class="px-4 py-3 shadow">
+          <SortMembers sort={props.sort} onSort={props.onSort} />
+        </div>
+
+        <ul class="h-0 flex-auto overflow-y-auto" onMouseLeave={() => props.onHighlight(undefined)}>
+          <For each={props.members}>
+            {(member) => <MembersListItem member={member} onHighlight={() => props.onHighlight(member)} />}
+          </For>
+        </ul>
+      </div>
     </div>
   );
 };
@@ -121,19 +125,13 @@ const SearchMemberInput: Component<SearchMemberInputProps> = (props) => {
   const t = useTranslation();
 
   return (
-    <Row gap={1} class="border-b-2 py-1 transition-colors focus-within:border-b-primary">
-      <div>
-        <Icon path={magnifyingGlass} class="h-5 w-5 fill-icon" />
-      </div>
-
-      <input
-        type="search"
-        placeholder={t('common.search')}
-        class="flex-1 outline-none"
-        value={props.search}
-        onInput={(event) => props.onSearch(event.target.value)}
-      />
-    </Row>
+    <Input
+      type="search"
+      placeholder={t('common.search')}
+      value={props.search}
+      onInput={(event) => props.onSearch(event.target.value)}
+      start={<Icon path={magnifyingGlass} class="h-5 w-5 fill-icon" />}
+    />
   );
 };
 

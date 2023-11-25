@@ -62,7 +62,7 @@ export const OnboardingPage = () => {
   };
 
   return (
-    <div class="col mx-auto mt-8 w-full max-w-4xl gap-4 rounded-xl border bg-white p-8">
+    <div class="col mx-auto mt-8 w-full max-w-4xl gap-4 rounded-xl bg-neutral p-8">
       <h1 class="text-3xl font-semibold">
         <T id="title" />
       </h1>

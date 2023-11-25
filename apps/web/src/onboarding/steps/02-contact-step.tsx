@@ -1,4 +1,4 @@
-import { Component } from 'solid-js';
+import { Component, Show, createEffect, createSignal } from 'solid-js';
 
 import { selectAuthenticatedMember } from '../../authentication/authentication.slice';
 import { Input } from '../../components/input';
@@ -41,6 +41,8 @@ export const ContactStep: Component<ContactStepProps> = (props) => {
     return true;
   };
 
+  const [showEmailReadonlyMessage, setShowEmailReadonlyMessage] = createSignal(false);
+
   return (
     <>
       <div>
@@ -68,12 +70,16 @@ export const ContactStep: Component<ContactStepProps> = (props) => {
               required
               readonly
               width="medium"
-              class="border"
+              class="border-inverted/20 shadow-none"
               value={member().email}
-              title={t('emailReadOnly')}
+              onFocus={() => setShowEmailReadonlyMessage(true)}
+              onBlur={() => setShowEmailReadonlyMessage(false)}
             />
             <OnboardingFieldVisibility field="email" form={props.form} onFieldChange={props.onFieldChange} />
           </Row>
+          <Show when={showEmailReadonlyMessage()}>
+            <p class="text-sm">{t('emailReadOnly')}</p>
+          </Show>
         </OnboardingField>
 
         <OnboardingField label={<T id="phoneNumber" />}>

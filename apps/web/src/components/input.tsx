@@ -15,7 +15,8 @@ export const Input: Component<InputProps> = (_props) => {
   return (
     <Row
       class={clsx(
-        'w-full overflow-hidden rounded-lg border bg-neutral transition-shadow focus-within:shadow',
+        'w-full overflow-hidden rounded-lg border-2',
+        'border-transparent bg-neutral shadow transition-colors focus-within:border-primary/50',
         own.class
       )}
       classList={{
@@ -26,7 +27,11 @@ export const Input: Component<InputProps> = (_props) => {
         <div class="mx-4">{own.start}</div>
       </Show>
 
-      <input ref={props.ref ?? undefined} class="w-full self-stretch px-4 py-3 outline-none" {...props} />
+      <input
+        ref={props.ref ?? undefined}
+        class={clsx('w-full self-stretch px-4 py-3 outline-none', own.start && 'pl-0')}
+        {...props}
+      />
 
       <Show when={own.end}>
         <div class="mx-4">{own.end}</div>
@@ -45,7 +50,7 @@ export const TextArea: Component<TextAreaProps> = (_props) => {
   return (
     <div
       class={clsx(
-        'row items-center gap-4 overflow-hidden rounded-lg bg-neutral transition-shadow focus-within:shadow',
+        'row items-center gap-4 overflow-hidden rounded-lg border-2 border-transparent bg-neutral shadow transition-colors focus-within:border-primary/50',
         props.width === 'medium' && 'w-96',
         props.width === 'full' && 'w-full',
         own.class
