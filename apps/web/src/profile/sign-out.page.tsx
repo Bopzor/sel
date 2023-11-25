@@ -1,26 +1,21 @@
 import { useNavigate } from '@solidjs/router';
-import { createMutation, useQueryClient } from '@tanstack/solid-query';
 import { Component } from 'solid-js';
 
 import { Button } from '../components/button';
-import { container } from '../infrastructure/container';
 import { Translate } from '../intl/translate';
-import { TOKENS } from '../tokens';
+import { mutation } from '../utils/mutation';
 
 const T = Translate.prefix('profile.signOut');
 
 export const SignOutPage: Component = () => {
   const navigate = useNavigate();
 
-  const fetcher = container.resolve(TOKENS.fetcher);
-  const queryClient = useQueryClient();
-
-  const signOut = createMutation(() => ({
-    mutationFn: () => fetcher.delete('/api/session'),
-    async onSuccess() {
-      await queryClient.invalidateQueries({ queryKey: ['authenticatedMember'] });
-      navigate('/');
+  const [signOut] = mutation((fetcher) => ({
+    async mutate() {
+      await fetcher.delete('/api/session');
     },
+    invalidate: [['authenticatedMember']],
+    onSuccess: () => navigate('/'),
   }));
 
   return (
@@ -29,7 +24,7 @@ export const SignOutPage: Component = () => {
         <T id="description" />
       </p>
 
-      <Button onClick={() => signOut.mutate()} class="self-center">
+      <Button onClick={() => signOut()} class="self-center">
         <T id="button" />
       </Button>
     </div>

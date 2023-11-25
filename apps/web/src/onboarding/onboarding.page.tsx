@@ -1,13 +1,11 @@
 import { AuthenticatedMember, UpdateMemberProfileData } from '@sel/shared';
-import { createMutation, useQueryClient } from '@tanstack/solid-query';
 import { Show, createSignal } from 'solid-js';
 import { createStore } from 'solid-js/store';
 
-import { container } from '../infrastructure/container';
 import { Translate } from '../intl/translate';
-import { TOKENS } from '../tokens';
 import { getAuthenticatedMember } from '../utils/authenticated-member';
 import { formatPhoneNumber } from '../utils/format-phone-number';
+import { mutation } from '../utils/mutation';
 
 import { Stepper } from './components/stepper';
 import { OnFieldChange, OnboardingForm } from './onboarding-form';
@@ -47,16 +45,13 @@ export const OnboardingPage = () => {
     };
   };
 
-  const fetcher = container.resolve(TOKENS.fetcher);
-  const queryClient = useQueryClient();
-
-  const updateMemberProfile = createMutation(() => ({
-    mutationFn: (data: UpdateMemberProfileData) => fetcher.put(`/api/members/${member().id}/profile`, data),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['authenticatedMember'] }),
+  const [updateMemberProfile] = mutation((fetcher) => ({
+    mutate: (data: UpdateMemberProfileData) => fetcher.put(`/api/members/${member().id}/profile`, data),
+    invalidate: [['authenticatedMember']],
   }));
 
   const handleEnd = () => {
-    void updateMemberProfile.mutate({
+    updateMemberProfile({
       firstName: form.firstName,
       lastName: form.lastName,
       emailVisible: form.emailVisible,

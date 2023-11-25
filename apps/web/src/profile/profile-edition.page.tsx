@@ -1,7 +1,6 @@
 import { createForm } from '@felte/solid';
 import { validator } from '@felte/validator-zod';
 import { AuthenticatedMember, UpdateMemberProfileData } from '@sel/shared';
-import { createMutation, useQueryClient } from '@tanstack/solid-query';
 import { Component, Show, createEffect, createSignal } from 'solid-js';
 
 import { Button } from '../components/button';
@@ -10,11 +9,10 @@ import { Input, TextArea } from '../components/input';
 import { MemberAvatar } from '../components/member-avatar';
 import { MemberAvatarName } from '../components/member-avatar-name';
 import { Row } from '../components/row';
-import { container } from '../infrastructure/container';
 import { Translate } from '../intl/translate';
-import { TOKENS } from '../tokens';
 import { getAuthenticatedMember } from '../utils/authenticated-member';
 import { formatPhoneNumber } from '../utils/format-phone-number';
+import { mutation } from '../utils/mutation';
 
 import { ProfileFieldVisibility } from './components/profile-field-visibility';
 
@@ -60,19 +58,18 @@ export const ProfileEditionPage: Component = () => {
   const t = T.useTranslation();
   const member = getAuthenticatedMember();
 
-  const fetcher = container.resolve(TOKENS.fetcher);
-  const queryClient = useQueryClient();
-
-  const updateMemberProfile = createMutation(() => ({
-    mutationFn: (data: UpdateMemberProfileData) => fetcher.put(`/api/members/${member().id}/profile`, data),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['authenticatedMember'] }),
+  const [updateMemberProfile] = mutation((fetcher) => ({
+    async mutate(data: UpdateMemberProfileData) {
+      await fetcher.put(`/api/members/${member().id}/profile`, data);
+    },
+    invalidate: [['authenticatedMember']],
   }));
 
   const { form, data, errors, isDirty, setInitialValues, reset } = createForm({
     initialValues: getInitialValues(member()),
     extend: validator({ schema: schema() }),
-    async onSubmit(values) {
-      await updateMemberProfile.mutateAsync({
+    onSubmit(values) {
+      updateMemberProfile({
         firstName: values.firstName,
         lastName: values.lastName,
         emailVisible: values.emailVisible,

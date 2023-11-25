@@ -1,13 +1,11 @@
 import { assert } from '@sel/utils';
-import { createMutation } from '@tanstack/solid-query';
 import { Component, JSX, Show, createSignal } from 'solid-js';
 
 import { Button } from '../components/button';
 import { Input } from '../components/input';
-import { container } from '../infrastructure/container';
 import { Translate } from '../intl/translate';
 import { Header } from '../layout/header/header';
-import { TOKENS } from '../tokens';
+import { mutation } from '../utils/mutation';
 
 const T = Translate.prefix('authentication');
 
@@ -15,10 +13,10 @@ export const Authentication: Component = () => {
   const t = T.useTranslation();
   const [email, setEmail] = createSignal<string>();
 
-  const fetcher = container.resolve(TOKENS.fetcher);
-  const requestAuthenticationLink = createMutation(() => ({
-    mutationFn: (email: string) =>
-      fetcher.post(`/api/authentication/request-authentication-link?${new URLSearchParams({ email })}`),
+  const [requestAuthenticationLink, meta] = mutation((fetcher) => ({
+    async mutate(email: string) {
+      await fetcher.post(`/api/authentication/request-authentication-link?${new URLSearchParams({ email })}`);
+    },
   }));
 
   const handleSubmit: JSX.EventHandler<HTMLFormElement, Event> = (event) => {
@@ -30,7 +28,7 @@ export const Authentication: Component = () => {
     assert(typeof email === 'string');
 
     setEmail(email.trim());
-    void requestAuthenticationLink.mutate(email.trim());
+    requestAuthenticationLink(email.trim());
   };
 
   return (
@@ -40,7 +38,7 @@ export const Authentication: Component = () => {
 
         <div class="col gap-4 p-4">
           <Show
-            when={!requestAuthenticationLink.isSuccess}
+            when={!meta.isSuccess}
             fallback={
               <p class="my-4">
                 <T
@@ -60,7 +58,7 @@ export const Authentication: Component = () => {
             <form onSubmit={handleSubmit} class="col gap-4">
               <Input autofocus name="email" type="email" variant="outlined" placeholder={t('emailAddress')} />
 
-              <Button type="submit" loading={requestAuthenticationLink.isPending} class="self-end">
+              <Button type="submit" loading={meta.isPending} class="self-end">
                 <T id="send" />
               </Button>
             </form>
