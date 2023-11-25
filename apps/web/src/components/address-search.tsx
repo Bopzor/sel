@@ -1,9 +1,9 @@
 import { Address } from '@sel/shared';
-import { debounce } from '@solid-primitives/scheduled';
-import { Component, ComponentProps, For, Show, createEffect, createResource, createSignal } from 'solid-js';
+import { Component, ComponentProps, For, Show, createEffect, createResource } from 'solid-js';
 
 import { container } from '../infrastructure/container';
 import { TOKENS } from '../tokens';
+import { createDebouncedSignal } from '../utils/create-debounced-signal';
 import { deepTrack } from '../utils/deep-track';
 
 import { Input } from './input';
@@ -18,8 +18,7 @@ type AddressSearchProps = Pick<ComponentProps<typeof Input>, 'variant' | 'width'
 };
 
 export const AddressSearch: Component<AddressSearchProps> = (props) => {
-  const [query, setQuery] = createSignal('');
-  const setQueryDebounced = debounce(setQuery, 100);
+  const [query, setQuery] = createDebouncedSignal('', 100);
 
   const [results, { mutate }] = createResource(query, searchAddress);
 
@@ -39,7 +38,7 @@ export const AddressSearch: Component<AddressSearchProps> = (props) => {
         width={props.width}
         placeholder={props.placeholder}
         value={props.value ? formatAddressInline(props.value) : undefined}
-        onInput={(event) => setQueryDebounced(event.currentTarget.value)}
+        onInput={(event) => setQuery(event.currentTarget.value)}
         end={results.loading && <Spinner class="h-4 w-4 text-dim" />}
       />
 
