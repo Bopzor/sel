@@ -126,6 +126,9 @@ importers:
       '@tanstack/solid-query':
         specifier: ^5.8.7
         version: 5.8.7(solid-js@1.8.6)
+      '@tanstack/solid-query-devtools':
+        specifier: ^5.8.7
+        version: 5.8.7(@tanstack/solid-query@5.8.7)(solid-js@1.8.6)
       clsx:
         specifier: ^2.0.0
         version: 2.0.0
@@ -4488,6 +4491,21 @@ packages:
 
   /@tanstack/query-core@5.8.7:
     resolution: {integrity: sha512-58xOSkxxZK4SGQ/uzX8MDZHLGZCkxlgkPxnfhxUOL2uchnNHyay2UVcR3mQNMgaMwH1e2l+0n+zfS7+UJ/MAJw==}
+    dev: false
+
+  /@tanstack/query-devtools@5.8.4:
+    resolution: {integrity: sha512-F1dRbITNt9tMUoM9WCH8WQ2c54116hv52m/PKK8ZiN/pO2wGVzTZtKuLanF8pFpwmNchjIixcMw/a57HY5ivcw==}
+    dev: false
+
+  /@tanstack/solid-query-devtools@5.8.7(@tanstack/solid-query@5.8.7)(solid-js@1.8.6):
+    resolution: {integrity: sha512-QrmXHdmP09yGmtcvToajlXC2kzyjUoanIce3y25/gYglla+HCEz76/d0X9x7P2VM2b6yfVfWp29WsNFW0UHiiA==}
+    peerDependencies:
+      '@tanstack/solid-query': ^5.8.7
+      solid-js: ^1.8.1
+    dependencies:
+      '@tanstack/query-devtools': 5.8.4
+      '@tanstack/solid-query': 5.8.7(solid-js@1.8.6)
+      solid-js: 1.8.6
     dev: false
 
   /@tanstack/solid-query@5.8.7(solid-js@1.8.6):
