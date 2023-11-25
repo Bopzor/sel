@@ -1,6 +1,5 @@
 import { Member, MembersSort } from '@sel/shared';
 import { defined, parseEnumValue } from '@sel/utils';
-import { createQuery } from '@tanstack/solid-query';
 import clsx from 'clsx';
 import { Icon } from 'solid-heroicons';
 import { magnifyingGlass, mapPin } from 'solid-heroicons/solid';
@@ -14,11 +13,10 @@ import { MemberAddress } from '../components/member-address';
 import { MemberAvatarName } from '../components/member-avatar-name';
 import { Row } from '../components/row';
 import { body } from '../fetcher';
-import { container } from '../infrastructure/container';
 import { useSearchParam } from '../infrastructure/router/use-search-param';
 import { Translate, useTranslation } from '../intl/translate';
 import { routes } from '../routes';
-import { TOKENS } from '../tokens';
+import { query } from '../utils/query';
 
 const T = Translate.prefix('members');
 
@@ -26,11 +24,9 @@ export const MembersPage: Component = () => {
   const [getSearch, setSearch] = useSearchParam('search', (value) => value ?? '');
   const [getSort, setSort] = useSearchParam('sort', parseEnumValue(MembersSort));
 
-  const fetcher = container.resolve(TOKENS.fetcher);
-
-  const members = createQuery(() => ({
-    queryKey: ['members', getSort()],
-    queryFn: () => {
+  const [members] = query((fetcher) => ({
+    key: ['members', getSort()],
+    query: () => {
       let endpoint = '/api/members';
       const search = new URLSearchParams();
       const sort = getSort();
@@ -55,7 +51,7 @@ export const MembersPage: Component = () => {
 
       <div class="row flex-1 gap-6">
         <MembersList
-          members={members.data ?? []}
+          members={members() ?? []}
           search={getSearch()}
           onSearch={setSearch}
           sort={getSort() ?? MembersSort.firstName}
@@ -63,7 +59,7 @@ export const MembersPage: Component = () => {
           onHighlight={setOpenPopupMember}
         />
 
-        <MemberMap members={members.data ?? []} openPopupMember={openPopupMember()} />
+        <MemberMap members={members() ?? []} openPopupMember={openPopupMember()} />
       </div>
     </>
   );

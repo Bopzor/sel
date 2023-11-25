@@ -12,7 +12,7 @@ import logo from './logo.png';
 const T = Translate.prefix('layout.header');
 
 export const Header: Component = () => {
-  const member = getAuthenticatedMemberUnsafe();
+  const [member] = getAuthenticatedMemberUnsafe();
 
   return (
     <header class="bg-primary text-white">

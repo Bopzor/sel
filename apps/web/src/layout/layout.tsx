@@ -3,7 +3,7 @@ import { Component, JSX, Show } from 'solid-js';
 import { Authentication } from '../authentication/authentication';
 import { verifyAuthenticationToken } from '../authentication/verify-authentication-token';
 import { redirectToOnboardingWhenNotCompleted } from '../onboarding/redirect-to-onboarding';
-import { getAuthenticatedMemberQuery, getAuthenticatedMemberUnsafe } from '../utils/authenticated-member';
+import { getAuthenticatedMemberUnsafe } from '../utils/authenticated-member';
 
 import { Header } from './header/header';
 
@@ -13,8 +13,7 @@ type LayoutProps = {
 
 export const Layout: Component<LayoutProps> = (props) => {
   const verifyingAuthenticationToken = verifyAuthenticationToken();
-  const memberQuery = getAuthenticatedMemberQuery();
-  const member = getAuthenticatedMemberUnsafe();
+  const [member, memberQuery] = getAuthenticatedMemberUnsafe();
 
   redirectToOnboardingWhenNotCompleted();
 

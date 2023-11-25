@@ -4,7 +4,7 @@ import { createEffect } from 'solid-js';
 import { getAuthenticatedMemberUnsafe } from '../utils/authenticated-member';
 
 export function redirectToOnboardingWhenNotCompleted() {
-  const member = getAuthenticatedMemberUnsafe();
+  const [member] = getAuthenticatedMemberUnsafe();
 
   const location = useLocation();
   const navigate = useNavigate();
