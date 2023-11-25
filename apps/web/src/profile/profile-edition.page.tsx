@@ -97,7 +97,7 @@ export const ProfileEditionPage: Component = () => {
   return (
     <>
       <Row gap={4}>
-        <MemberAvatarName member={member()} classes={{ avatar: '!w-20 !h-20', name: 'text-3xl' }} />
+        <MemberAvatarName member={member()} classes={{ avatar: '!w-20 !h-20', name: 'typo-h1' }} />
 
         <div
           class="col sm:row ml-auto gap-2 transition-opacity"

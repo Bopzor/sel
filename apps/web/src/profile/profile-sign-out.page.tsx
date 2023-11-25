@@ -8,7 +8,7 @@ import { Translate } from '../intl/translate';
 import { store } from '../store/store';
 import { TOKENS } from '../tokens';
 
-const T = Translate.prefix('profile');
+const T = Translate.prefix('profile.signOut');
 
 export const ProfileSignOutPage: Component = () => {
   const navigate = useNavigate();
@@ -20,10 +20,14 @@ export const ProfileSignOutPage: Component = () => {
   };
 
   return (
-    <>
-      <Button onClick={() => void signOut()} class="self-start">
-        <T id="signOut" />
+    <div class="col mx-auto my-6 w-full max-w-2xl items-center gap-6 rounded-lg bg-neutral px-6 py-12">
+      <p>
+        <T id="description" />
+      </p>
+
+      <Button onClick={() => void signOut()} class="self-center">
+        <T id="button" />
       </Button>
-    </>
+    </div>
   );
 };

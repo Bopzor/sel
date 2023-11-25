@@ -110,6 +110,18 @@
       "reset": "Reset",
       "save": "Save"
     },
-    "signOut": "Sign out"
+    "address": {
+      "title": "Address",
+      "description": "Search for your address and select a result to update it on your profile. If you can't find it, contact us so we can update it manually.",
+      "placeholder": "Search for an address..."
+    },
+    "notifications": {
+      "title": "Notifications",
+      "description": "Later, this page will allow you to manage you notification settings."
+    },
+    "signOut": {
+      "description": "To sign out of the app, click the button below.",
+      "button": "Sign out"
+    }
   }
 }

@@ -12,6 +12,7 @@ import { formatAddressInline } from './member-address';
 import { Spinner } from './spinner';
 
 type AddressSearchProps = {
+  placeholder?: string;
   value?: Address;
   onSelected: (address: Address) => void;
 };
@@ -34,8 +35,8 @@ export const AddressSearch: Component<AddressSearchProps> = (props) => {
     <div class="col gap-4">
       <Input
         name="address"
-        class="border"
         width="full"
+        placeholder={props.placeholder}
         value={props.value ? formatAddressInline(props.value) : undefined}
         onInput={(event) => setQueryDebounced(event.currentTarget.value)}
         end={results.loading && <Spinner class="h-4 w-4 text-dim" />}

@@ -15,7 +15,7 @@ export const Input: Component<InputProps> = (_props) => {
   return (
     <Row
       class={clsx(
-        'w-full overflow-hidden rounded-lg bg-neutral transition-shadow focus-within:shadow',
+        'w-full overflow-hidden rounded-lg border bg-neutral transition-shadow focus-within:shadow',
         own.class
       )}
       classList={{

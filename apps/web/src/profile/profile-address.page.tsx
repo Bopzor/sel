@@ -5,11 +5,15 @@ import { selectAuthenticatedMember } from '../authentication/authentication.slic
 import { fetchAuthenticatedMember } from '../authentication/use-cases/fetch-authenticated-member/fetch-authenticated-member';
 import { AddressSearch } from '../components/address-search';
 import { container } from '../infrastructure/container';
+import { Translate } from '../intl/translate';
 import { selector } from '../store/selector';
 import { store } from '../store/store';
 import { TOKENS } from '../tokens';
 
+const T = Translate.prefix('profile.address');
+
 export const ProfileAddressPage: Component = () => {
+  const t = T.useTranslation();
   const member = selector(selectAuthenticatedMember);
 
   const handleSelected = async (address: Address) => {
@@ -28,5 +32,21 @@ export const ProfileAddressPage: Component = () => {
     await store.dispatch(fetchAuthenticatedMember());
   };
 
-  return <AddressSearch value={member().address} onSelected={(address) => void handleSelected(address)} />;
+  return (
+    <>
+      <h1>
+        <T id="title" />
+      </h1>
+
+      <p>
+        <T id="description" />
+      </p>
+
+      <AddressSearch
+        placeholder={t('placeholder')}
+        value={member().address}
+        onSelected={(address) => void handleSelected(address)}
+      />
+    </>
+  );
 };
