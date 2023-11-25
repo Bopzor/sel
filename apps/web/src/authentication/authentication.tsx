@@ -27,12 +27,12 @@ export const Authentication: Component = () => {
 
     assert(typeof email === 'string');
 
-    setEmail(email);
+    setEmail(email.trim());
     void store.dispatch(requestAuthenticationLink(email));
   };
 
   return (
-    <div class="col flex-1 items-center justify-center">
+    <div class="col flex-1 items-center justify-center px-4">
       <div class="w-full max-w-2xl overflow-hidden rounded-lg bg-neutral">
         <Header />
 
@@ -58,8 +58,9 @@ export const Authentication: Component = () => {
 
               <form onSubmit={handleSubmit} class="col gap-4">
                 <Input
-                  name="email"
                   autofocus
+                  name="email"
+                  type="email"
                   placeholder={t('emailAddress')}
                   class="border-inverted/20 shadow-none"
                 />

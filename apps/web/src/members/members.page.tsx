@@ -67,7 +67,7 @@ type MembersListProps = {
 
 const MembersList: Component<MembersListProps> = (props) => {
   return (
-    <div class="col flex-1 gap-4 md:max-w-sm">
+    <div class="col min-h-[24rem] flex-1 gap-4 md:max-w-sm">
       <SearchMemberInput search={props.search} onSearch={props.onSearch} />
 
       <div class="card col flex-1">

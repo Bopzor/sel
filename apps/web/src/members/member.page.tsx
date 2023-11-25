@@ -37,7 +37,7 @@ export const MemberPage: Component = () => {
 
       <Show when={member()} fallback={<Translate id="common.loading" />}>
         {(member) => (
-          <div class="card gap-4 p-8">
+          <div class="card gap-4 p-4 md:p-8">
             <Row class="gap-6">
               <MemberAvatarName
                 member={member()}
@@ -45,7 +45,7 @@ export const MemberPage: Component = () => {
               />
             </Row>
 
-            <hr class="my-6" />
+            <hr class="my-4 md:my-6" />
 
             <div class="grid grid-cols-1 gap-8 md:grid-cols-2">
               <MemberInfo member={member()} />

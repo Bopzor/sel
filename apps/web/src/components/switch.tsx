@@ -19,8 +19,9 @@ export const Switch = (_props: SwitchProps) => {
 
       <div
         class={clsx(
-          'h-5 w-9 rounded-full bg-gray-300',
-          'after:absolute after:start-0.5 after:top-1 after:h-4 after:w-4 after:rounded-full after:bg-white',
+          'h-5 w-8 rounded-full bg-gray-300 sm:w-9',
+          'after:absolute after:start-1 after:top-1.5 after:h-3 after:w-3 after:rounded-full after:bg-white',
+          'sm:after:start-0.5 sm:after:top-1 sm:after:h-4 sm:after:w-4',
           'peer-checked:bg-primary peer-checked:after:translate-x-full peer-focus-visible:ring'
         )}
         classList={{
@@ -29,7 +30,7 @@ export const Switch = (_props: SwitchProps) => {
         }}
       />
 
-      <span class="ms-3 select-none font-medium text-dim">{own.children}</span>
+      <span class="ms-3 select-none whitespace-nowrap font-medium text-dim">{own.children}</span>
     </label>
   );
 };

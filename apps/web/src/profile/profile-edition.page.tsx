@@ -130,6 +130,7 @@ export const ProfileEditionPage: Component = () => {
           <Row gap={4}>
             <Input
               name="email"
+              type="email"
               width="medium"
               readOnly
               onFocus={() => setEmailReadOnlyMessageVisible(true)}
@@ -146,7 +147,7 @@ export const ProfileEditionPage: Component = () => {
 
         <FormField label={t('phoneNumber')} error={errors('phoneNumber')}>
           <Row gap={4}>
-            <Input name="phoneNumber" width="medium" />
+            <Input name="phoneNumber" type="tel" width="medium" />
             <ProfileFieldVisibility name="phoneNumberVisible" data={data} />
           </Row>
         </FormField>

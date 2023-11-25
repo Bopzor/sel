@@ -69,6 +69,7 @@ export const ContactStep: Component<ContactStepProps> = (props) => {
             <Input
               required
               readonly
+              type="email"
               width="medium"
               class="border-inverted/20 shadow-none"
               value={member().email}
@@ -87,6 +88,7 @@ export const ContactStep: Component<ContactStepProps> = (props) => {
             <OnboardingInput
               ref={phoneNumberRef}
               required
+              type="tel"
               name="phoneNumber"
               placeholder={t('phoneNumberPlaceholder')}
               form={props.form}
