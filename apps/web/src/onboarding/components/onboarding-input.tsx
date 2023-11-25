@@ -14,7 +14,7 @@ export const OnboardingInput: Component<OnboardingInputProps> = (_props) => {
 
   return (
     <Input
-      class="border-inverted/20 shadow-none"
+      variant="outlined"
       width="medium"
       value={own.form[props.name] as string}
       onBlur={own.onFieldChange(props.name)}
@@ -34,7 +34,7 @@ export const OnboardingTextArea: Component<OnboardingTextAreaProps> = (_props) =
 
   return (
     <TextArea
-      class="border-inverted/20 shadow-none"
+      variant="outlined"
       value={local.form[props.name] as string}
       onBlur={local.onFieldChange(props.name)}
       {...props}

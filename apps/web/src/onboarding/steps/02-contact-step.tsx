@@ -70,8 +70,8 @@ export const ContactStep: Component<ContactStepProps> = (props) => {
               required
               readonly
               type="email"
+              variant="outlined"
               width="medium"
-              class="border-inverted/20 shadow-none"
               value={member().email}
               onFocus={() => setShowEmailReadonlyMessage(true)}
               onBlur={() => setShowEmailReadonlyMessage(false)}

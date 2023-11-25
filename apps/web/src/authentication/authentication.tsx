@@ -61,8 +61,8 @@ export const Authentication: Component = () => {
                   autofocus
                   name="email"
                   type="email"
+                  variant="outlined"
                   placeholder={t('emailAddress')}
-                  class="border-inverted/20 shadow-none"
                 />
 
                 <Button type="submit" class="self-end">

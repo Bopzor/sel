@@ -1,6 +1,6 @@
 import { Address } from '@sel/shared';
 import { debounce } from '@solid-primitives/scheduled';
-import { Component, For, Show, createEffect, createResource, createSignal } from 'solid-js';
+import { Component, ComponentProps, For, Show, createEffect, createResource, createSignal } from 'solid-js';
 
 import { container } from '../infrastructure/container';
 import { TOKENS } from '../tokens';
@@ -11,11 +11,10 @@ import { Map } from './map';
 import { formatAddressInline } from './member-address';
 import { Spinner } from './spinner';
 
-type AddressSearchProps = {
+type AddressSearchProps = Pick<ComponentProps<typeof Input>, 'variant' | 'width'> & {
   placeholder?: string;
   value?: Address;
   onSelected: (address: Address) => void;
-  class?: string;
 };
 
 export const AddressSearch: Component<AddressSearchProps> = (props) => {
@@ -36,12 +35,12 @@ export const AddressSearch: Component<AddressSearchProps> = (props) => {
     <div class="col gap-4">
       <Input
         name="address"
-        width="full"
+        variant={props.variant}
+        width={props.width}
         placeholder={props.placeholder}
         value={props.value ? formatAddressInline(props.value) : undefined}
         onInput={(event) => setQueryDebounced(event.currentTarget.value)}
         end={results.loading && <Spinner class="h-4 w-4 text-dim" />}
-        class={props.class}
       />
 
       <AddressList addresses={results() ?? []} onSelected={(address) => props.onSelected(address)} />
