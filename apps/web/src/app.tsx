@@ -1,4 +1,5 @@
 import { Route, Router, Routes } from '@solidjs/router';
+import { QueryClient, QueryClientProvider } from '@tanstack/solid-query';
 import { JSX, Show, createResource, createSignal, lazy, type Component } from 'solid-js';
 
 import { MatomoScript } from './infrastructure/analytics/matomo-script';
@@ -44,6 +45,8 @@ export const App: Component = () => {
   );
 };
 
+const queryClient = new QueryClient();
+
 type ProvidersProps = {
   children: JSX.Element;
 };
@@ -56,11 +59,13 @@ const Providers: Component<ProvidersProps> = (props) => {
     <Show when={translations()}>
       {(translations) => (
         <IntlProvider locale={language()} messages={translations()}>
-          <Router>
-            {props.children}
-            <MatomoScript />
-            <TrackPageView />
-          </Router>
+          <QueryClientProvider client={queryClient}>
+            <Router>
+              {props.children}
+              <MatomoScript />
+              <TrackPageView />
+            </Router>
+          </QueryClientProvider>
         </IntlProvider>
       )}
     </Show>
