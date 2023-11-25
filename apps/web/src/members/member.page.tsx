@@ -1,41 +1,50 @@
 import { Member } from '@sel/shared';
 import { defined } from '@sel/utils';
 import { useParams } from '@solidjs/router';
+import { createQuery } from '@tanstack/solid-query';
 import { Icon } from 'solid-heroicons';
 import { envelope, home, phone, user } from 'solid-heroicons/solid';
-import { Component, ComponentProps, For, JSX, ParentProps, Show, createEffect } from 'solid-js';
+import { Component, ComponentProps, For, JSX, ParentProps, Show } from 'solid-js';
 
 import { BackLink } from '../components/back-link';
 import { Map } from '../components/map';
 import { MemberAddress } from '../components/member-address';
 import { MemberAvatarName } from '../components/member-avatar-name';
 import { Row } from '../components/row';
+import { FetchResult, body } from '../fetcher';
+import { container } from '../infrastructure/container';
 import { Translate } from '../intl/translate';
 import { routes } from '../routes';
-import { selector } from '../store/selector';
-import { store } from '../store/store';
+import { TOKENS } from '../tokens';
 import { formatPhoneNumber } from '../utils/format-phone-number';
-
-import { selectMemberUnsafe } from './members.slice';
-import { fetchMember } from './use-cases/fetch-member/fetch-member';
 
 const T = Translate.prefix('members');
 
 export const MemberPage: Component = () => {
   const { memberId } = useParams<{ memberId: string }>();
-  const member = selector((state) => selectMemberUnsafe(state, memberId));
 
-  createEffect(() => {
-    if (!member()) {
-      void store.dispatch(fetchMember(memberId));
-    }
-  });
+  const fetcher = container.resolve(TOKENS.fetcher);
+
+  const member = createQuery(() => ({
+    queryKey: ['member', memberId],
+    async queryFn() {
+      try {
+        return await body(fetcher.get<Member>(`/api/members/${memberId}`));
+      } catch (error) {
+        if (FetchResult.is(error) && error.status === 404) {
+          return undefined;
+        }
+
+        throw error;
+      }
+    },
+  }));
 
   return (
     <>
       <BackLink href={routes.members.list} />
 
-      <Show when={member()} fallback={<Translate id="common.loading" />}>
+      <Show when={member.data} fallback={<Translate id="common.loading" />}>
         {(member) => (
           <div class="card gap-4 p-4 md:p-8">
             <Row class="gap-6">

@@ -1,9 +1,10 @@
 import { Member, MembersSort } from '@sel/shared';
 import { defined, parseEnumValue } from '@sel/utils';
+import { createQuery } from '@tanstack/solid-query';
 import clsx from 'clsx';
 import { Icon } from 'solid-heroicons';
 import { magnifyingGlass, mapPin } from 'solid-heroicons/solid';
-import { Component, For, createEffect, createSignal } from 'solid-js';
+import { Component, For, createSignal } from 'solid-js';
 
 import { BackLink } from '../components/back-link';
 import { Input } from '../components/input';
@@ -12,27 +13,39 @@ import { Map } from '../components/map';
 import { MemberAddress } from '../components/member-address';
 import { MemberAvatarName } from '../components/member-avatar-name';
 import { Row } from '../components/row';
+import { body } from '../fetcher';
+import { container } from '../infrastructure/container';
 import { useSearchParam } from '../infrastructure/router/use-search-param';
 import { Translate, useTranslation } from '../intl/translate';
 import { routes } from '../routes';
-import { selector } from '../store/selector';
-import { store } from '../store/store';
-
-import { selectFilteredMembers } from './members.slice';
-import { fetchMembers } from './use-cases/fetch-members/fetch-members';
+import { TOKENS } from '../tokens';
 
 const T = Translate.prefix('members');
 
 export const MembersPage: Component = () => {
-  const [search, setSearch] = useSearchParam('search', (value) => value ?? '');
-  const [sort, setSort] = useSearchParam('sort', parseEnumValue(MembersSort));
+  const [getSearch, setSearch] = useSearchParam('search', (value) => value ?? '');
+  const [getSort, setSort] = useSearchParam('sort', parseEnumValue(MembersSort));
 
-  // eslint-disable-next-line solid/reactivity
-  const members = selector((state) => selectFilteredMembers(state, search()));
+  const fetcher = container.resolve(TOKENS.fetcher);
 
-  createEffect(() => {
-    void store.dispatch(fetchMembers(sort()));
-  });
+  const members = createQuery(() => ({
+    queryKey: ['members', getSort()],
+    queryFn: () => {
+      let endpoint = '/api/members';
+      const search = new URLSearchParams();
+      const sort = getSort();
+
+      if (sort) {
+        search.set('sort', sort);
+      }
+
+      if (search.size > 0) {
+        endpoint += `?${search}`;
+      }
+
+      return body(fetcher.get<Member[]>(endpoint));
+    },
+  }));
 
   const [openPopupMember, setOpenPopupMember] = createSignal<Member>();
 
@@ -42,15 +55,15 @@ export const MembersPage: Component = () => {
 
       <div class="row flex-1 gap-6">
         <MembersList
-          members={members()}
-          search={search()}
+          members={members.data ?? []}
+          search={getSearch()}
           onSearch={setSearch}
-          sort={sort() ?? MembersSort.firstName}
+          sort={getSort() ?? MembersSort.firstName}
           onSort={setSort}
           onHighlight={setOpenPopupMember}
         />
 
-        <MemberMap members={members()} openPopupMember={openPopupMember()} />
+        <MemberMap members={members.data ?? []} openPopupMember={openPopupMember()} />
       </div>
     </>
   );
