@@ -1,11 +1,14 @@
 import { Route, Router, Routes } from '@solidjs/router';
 import { QueryClient, QueryClientProvider } from '@tanstack/solid-query';
-import { JSX, Show, createResource, createSignal, lazy, type Component } from 'solid-js';
+import { SolidQueryDevtools } from '@tanstack/solid-query-devtools';
+import { JSX, Show, Suspense, createResource, createSignal, lazy, onMount, type Component } from 'solid-js';
 
+import { Spinner } from './components/spinner';
 import { MatomoScript } from './infrastructure/analytics/matomo-script';
 import { TrackPageView } from './infrastructure/analytics/track-page-view';
 import { IntlProvider } from './intl';
 import { getTranslations } from './intl/get-translations';
+import { Translate } from './intl/translate';
 import { Language } from './intl/types';
 import { Layout } from './layout/layout';
 import { AddressPage } from './profile/address.page';
@@ -13,6 +16,7 @@ import { NotificationsPage } from './profile/notifications.page';
 import { ProfileEditionPage } from './profile/profile-edition.page';
 import { ProfileLayout } from './profile/profile.layout';
 import { SignOutPage } from './profile/sign-out.page';
+import { createDebouncedSignal } from './utils/create-debounced-signal';
 
 const HomePage = lazyImport(() => import('./home/home.page'), 'HomePage');
 const OnboardingPage = lazyImport(() => import('./onboarding/onboarding.page'), 'OnboardingPage');
@@ -28,18 +32,20 @@ export const App: Component = () => {
   return (
     <Providers>
       <Layout>
-        <Routes>
-          <Route path="/" component={HomePage} />
-          <Route path="/onboarding" component={OnboardingPage} />
-          <Route path="/members" component={MembersPage} />
-          <Route path="/members/:memberId" component={MemberPage} />
-          <Route path="/profile" component={ProfileLayout}>
-            <Route path="/" component={ProfileEditionPage} />
-            <Route path="/address" component={AddressPage} />
-            <Route path="/notifications" component={NotificationsPage} />
-            <Route path="/sign-out" component={SignOutPage} />
-          </Route>
-        </Routes>
+        <Suspense fallback={<Loader />}>
+          <Routes>
+            <Route path="/" component={HomePage} />
+            <Route path="/onboarding" component={OnboardingPage} />
+            <Route path="/members" component={MembersPage} />
+            <Route path="/members/:memberId" component={MemberPage} />
+            <Route path="/profile" component={ProfileLayout}>
+              <Route path="/" component={ProfileEditionPage} />
+              <Route path="/address" component={AddressPage} />
+              <Route path="/notifications" component={NotificationsPage} />
+              <Route path="/sign-out" component={SignOutPage} />
+            </Route>
+          </Routes>
+        </Suspense>
       </Layout>
     </Providers>
   );
@@ -60,14 +66,34 @@ const Providers: Component<ProvidersProps> = (props) => {
       {(translations) => (
         <IntlProvider locale={language()} messages={translations()}>
           <QueryClientProvider client={queryClient}>
+            <SolidQueryDevtools />
             <Router>
-              {props.children}
+              <Suspense fallback={<Loader />}>{props.children}</Suspense>
               <MatomoScript />
               <TrackPageView />
             </Router>
           </QueryClientProvider>
         </IntlProvider>
       )}
+    </Show>
+  );
+};
+
+const Loader: Component = () => {
+  const [showLoader, setShowLoader] = createDebouncedSignal(false, 500);
+
+  onMount(() => {
+    setShowLoader(true);
+  });
+
+  return (
+    <Show when={showLoader()}>
+      <div class="row mx-auto flex-1 items-center gap-4">
+        <Spinner class="h-12 w-12" />
+        <p class="typo-h1">
+          <Translate id="common.loading" />
+        </p>
+      </div>
     </Show>
   );
 };

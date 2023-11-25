@@ -2,7 +2,7 @@
   "common": {
     "back": "Back",
     "search": "Search",
-    "loading": "Loading",
+    "loading": "Loading...",
     "validation": {
       "min": "This field is too short (min: {min} characters).",
       "max": "This field is too long (max: {max} characters)."

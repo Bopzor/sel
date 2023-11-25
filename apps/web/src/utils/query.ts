@@ -16,7 +16,7 @@ type QueryMeta = {
   isFetched: boolean;
 };
 
-type QueryResult<T> = [data: Accessor<T | undefined>, QueryMeta];
+type QueryResult<T> = [data: Accessor<T>, QueryMeta];
 
 export function query<T>(options: (fetcher: FetcherPort) => QueryOptions<T>): QueryResult<T> {
   const fetcher = container.resolve(TOKENS.fetcher);
@@ -25,6 +25,7 @@ export function query<T>(options: (fetcher: FetcherPort) => QueryOptions<T>): Qu
     const { key, query, onFetchError } = options(fetcher);
 
     return {
+      suspense: true,
       queryKey: key,
       async queryFn() {
         try {
@@ -40,5 +41,5 @@ export function query<T>(options: (fetcher: FetcherPort) => QueryOptions<T>): Qu
     };
   });
 
-  return [() => query.data, query];
+  return [() => query.data as T, query];
 }

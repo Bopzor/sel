@@ -5,7 +5,7 @@ import { verifyAuthenticationToken } from '../authentication/verify-authenticati
 import { redirectToOnboardingWhenNotCompleted } from '../onboarding/redirect-to-onboarding';
 import { getAuthenticatedMemberUnsafe } from '../utils/authenticated-member';
 
-import { Header } from './header/header';
+import { Header, HeaderMember } from './header/header';
 
 type LayoutProps = {
   children: JSX.Element;
@@ -13,17 +13,17 @@ type LayoutProps = {
 
 export const Layout: Component<LayoutProps> = (props) => {
   const verifyingAuthenticationToken = verifyAuthenticationToken();
-  const [member, memberQuery] = getAuthenticatedMemberUnsafe();
+  const [member] = getAuthenticatedMemberUnsafe();
 
   redirectToOnboardingWhenNotCompleted();
 
   return (
     <Show when={!verifyingAuthenticationToken()}>
-      <Show when={memberQuery.isFetched}>
-        <Show when={member()} fallback={<Authentication />}>
-          <Header />
-          <main class="col mx-auto w-full max-w-7xl flex-1 px-4 pb-4">{props.children}</main>
-        </Show>
+      <Show when={member()} fallback={<Authentication />}>
+        <Header>
+          <HeaderMember />
+        </Header>
+        <main class="col mx-auto w-full max-w-7xl flex-1 px-4 pb-4">{props.children}</main>
       </Show>
     </Show>
   );

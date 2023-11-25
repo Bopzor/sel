@@ -1,4 +1,4 @@
-import { Component, Show } from 'solid-js';
+import { Component, JSX, Show } from 'solid-js';
 
 import { Link } from '../../components/link';
 import { MemberAvatar } from '../../components/member-avatar';
@@ -11,9 +11,11 @@ import logo from './logo.png';
 
 const T = Translate.prefix('layout.header');
 
-export const Header: Component = () => {
-  const [member] = getAuthenticatedMemberUnsafe();
+type HeaderProps = {
+  children?: JSX.Element;
+};
 
+export const Header: Component<HeaderProps> = (props) => {
   return (
     <header class="bg-primary text-white">
       <Row class="mx-auto max-w-7xl justify-between p-2 md:p-4">
@@ -29,15 +31,23 @@ export const Header: Component = () => {
           </div>
         </Link>
 
-        <Show when={member()}>
-          {(member) => (
-            <Link unstyled href={routes.profile.profileEdition} class="col items-center gap-1 font-semibold">
-              <MemberAvatar member={member()} class="h-10 w-10 rounded-full" />
-              <div class="leading-1">{member().firstName}</div>
-            </Link>
-          )}
-        </Show>
+        {props.children}
       </Row>
     </header>
+  );
+};
+
+export const HeaderMember = () => {
+  const [member] = getAuthenticatedMemberUnsafe();
+
+  return (
+    <Show when={member()}>
+      {(member) => (
+        <Link unstyled href={routes.profile.profileEdition} class="col items-center gap-1 font-semibold">
+          <MemberAvatar member={member()} class="h-10 w-10 rounded-full" />
+          <div class="leading-1">{member().firstName}</div>
+        </Link>
+      )}
+    </Show>
   );
 };

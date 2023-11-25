@@ -2,7 +2,7 @@
   "common": {
     "back": "Retour",
     "search": "Rechercher",
-    "loading": "Chargement",
+    "loading": "Chargement...",
     "validation": {
       "min": "Ce champ trop court (min : {min} caractères).",
       "max": "Ce champ est trop long (max : {max} caractères)."

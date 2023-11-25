@@ -3,7 +3,7 @@ import { defined, parseEnumValue } from '@sel/utils';
 import clsx from 'clsx';
 import { Icon } from 'solid-heroicons';
 import { magnifyingGlass, mapPin } from 'solid-heroicons/solid';
-import { Component, For, createSignal } from 'solid-js';
+import { Component, For, createEffect, createSignal } from 'solid-js';
 
 import { BackLink } from '../components/back-link';
 import { Input } from '../components/input';
@@ -25,7 +25,7 @@ export const MembersPage: Component = () => {
   const [getSort, setSort] = useSearchParam('sort', parseEnumValue(MembersSort));
 
   const [members] = query((fetcher) => ({
-    key: ['members', getSort()],
+    key: ['members', { sort: getSort() }],
     query: () => {
       let endpoint = '/api/members';
       const search = new URLSearchParams();
@@ -51,7 +51,7 @@ export const MembersPage: Component = () => {
 
       <div class="row flex-1 gap-6">
         <MembersList
-          members={members() ?? []}
+          members={members()}
           search={getSearch()}
           onSearch={setSearch}
           sort={getSort() ?? MembersSort.firstName}
@@ -59,7 +59,7 @@ export const MembersPage: Component = () => {
           onHighlight={setOpenPopupMember}
         />
 
-        <MemberMap members={members() ?? []} openPopupMember={openPopupMember()} />
+        <MemberMap members={members()} openPopupMember={openPopupMember()} />
       </div>
     </>
   );
