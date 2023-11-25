@@ -1,19 +1,18 @@
 import { Component, Show } from 'solid-js';
 
-import { selectAuthenticatedMemberUnsafe } from '../../authentication/authentication.slice';
 import { Link } from '../../components/link';
 import { MemberAvatar } from '../../components/member-avatar';
 import { Row } from '../../components/row';
 import { Translate } from '../../intl/translate';
 import { routes } from '../../routes';
-import { selector } from '../../store/selector';
+import { getAuthenticatedMemberUnsafe } from '../../utils/authenticated-member';
 
 import logo from './logo.png';
 
 const T = Translate.prefix('layout.header');
 
 export const Header: Component = () => {
-  const member = selector(selectAuthenticatedMemberUnsafe);
+  const member = getAuthenticatedMemberUnsafe();
 
   return (
     <header class="bg-primary text-white">

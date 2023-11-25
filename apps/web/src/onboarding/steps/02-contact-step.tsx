@@ -1,10 +1,9 @@
-import { Component, Show, createEffect, createSignal } from 'solid-js';
+import { Component, Show, createSignal } from 'solid-js';
 
-import { selectAuthenticatedMember } from '../../authentication/authentication.slice';
 import { Input } from '../../components/input';
 import { Row } from '../../components/row';
 import { Translate } from '../../intl/translate';
-import { selector } from '../../store/selector';
+import { getAuthenticatedMember } from '../../utils/authenticated-member';
 import { NextButton } from '../components/next-button';
 import { OnboardingField } from '../components/onboarding-field';
 import { OnboardingFieldVisibility } from '../components/onboarding-field-visibility';
@@ -20,7 +19,7 @@ type ContactStepProps = {
 };
 
 export const ContactStep: Component<ContactStepProps> = (props) => {
-  const member = selector(selectAuthenticatedMember);
+  const member = getAuthenticatedMember();
   const t = T.useTranslation();
 
   // eslint-disable-next-line prefer-const

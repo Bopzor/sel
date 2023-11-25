@@ -1,5 +1,9 @@
 import { assert } from '@sel/utils';
 
+export async function body<T>(response: Promise<FetchResult<T>>) {
+  return (await response).body;
+}
+
 export class FetchResult<Body> {
   constructor(public readonly response: Response, public readonly body: Body) {}
 
