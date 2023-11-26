@@ -17,7 +17,7 @@ export const AddressPage: Component = () => {
     async mutate(data: UpdateMemberProfileData) {
       await fetcher.put(`/api/members/${member().id}/profile`, data);
     },
-    invalidate: [['authenticatedMember']],
+    invalidate: ['authenticatedMember'],
   }));
 
   const handleSelected = (address: Address) => {

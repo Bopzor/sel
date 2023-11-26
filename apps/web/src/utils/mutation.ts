@@ -8,7 +8,7 @@ type MutationOptions<Params extends unknown[], Result> = {
   key: MutationKey;
   mutate: (...params: Params) => Promise<Result>;
   onSuccess?: () => void;
-  invalidate?: QueryKey[];
+  invalidate?: QueryKey;
 };
 
 type MutationMeta = {

@@ -63,7 +63,7 @@ export const ProfileEditionPage: Component = () => {
     async mutate(data: UpdateMemberProfileData) {
       await fetcher.put(`/api/members/${member().id}/profile`, data);
     },
-    invalidate: [['authenticatedMember']],
+    invalidate: ['authenticatedMember'],
   }));
 
   const { form, data, errors, isDirty, setInitialValues, reset } = createForm({

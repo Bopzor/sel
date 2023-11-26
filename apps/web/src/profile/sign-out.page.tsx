@@ -15,7 +15,7 @@ export const SignOutPage: Component = () => {
     async mutate() {
       await fetcher.delete('/api/session');
     },
-    invalidate: [['authenticatedMember']],
+    invalidate: ['authenticatedMember'],
     onSuccess: () => navigate('/'),
   }));
 
