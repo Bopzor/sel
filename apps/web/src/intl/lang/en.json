@@ -6,6 +6,12 @@
     "validation": {
       "min": "This field is too short (min: {min} characters).",
       "max": "This field is too long (max: {max} characters)."
+    },
+    "error": {
+      "unknownErrorMessage": "Something unexpected just happened...",
+      "unknownErrorDescription": "It's probably a bug, the person responsible won't get any dessert.",
+      "errorMessage": "Error message: {message}",
+      "reset": "Reset"
     }
   },
   "layout": {

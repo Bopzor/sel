@@ -1,7 +1,17 @@
 import { Route, Router, Routes } from '@solidjs/router';
 import { QueryClient, QueryClientProvider } from '@tanstack/solid-query';
 import { SolidQueryDevtools } from '@tanstack/solid-query-devtools';
-import { JSX, Show, Suspense, createResource, createSignal, lazy, onMount, type Component } from 'solid-js';
+import {
+  JSX,
+  Show,
+  Suspense,
+  createResource,
+  createSignal,
+  lazy,
+  onMount,
+  type Component,
+  ErrorBoundary as SolidErrorBoundary,
+} from 'solid-js';
 
 import { Spinner } from './components/spinner';
 import { MatomoScript } from './infrastructure/analytics/matomo-script';
@@ -10,6 +20,7 @@ import { IntlProvider } from './intl';
 import { getTranslations } from './intl/get-translations';
 import { Translate } from './intl/translate';
 import { Language } from './intl/types';
+import { ErrorBoundary } from './layout/error-boundary';
 import { Layout } from './layout/layout';
 import { AddressPage } from './profile/address.page';
 import { NotificationsPage } from './profile/notifications.page';
@@ -30,24 +41,15 @@ function lazyImport(module: () => Promise<any>, name: string) {
 
 export const App: Component = () => {
   return (
-    <Providers>
-      <Layout>
-        <Suspense fallback={<Loader />}>
-          <Routes>
-            <Route path="/" component={HomePage} />
-            <Route path="/onboarding" component={OnboardingPage} />
-            <Route path="/members" component={MembersPage} />
-            <Route path="/members/:memberId" component={MemberPage} />
-            <Route path="/profile" component={ProfileLayout}>
-              <Route path="/" component={ProfileEditionPage} />
-              <Route path="/address" component={AddressPage} />
-              <Route path="/notifications" component={NotificationsPage} />
-              <Route path="/sign-out" component={SignOutPage} />
-            </Route>
-          </Routes>
-        </Suspense>
-      </Layout>
-    </Providers>
+    <SolidErrorBoundary fallback={<Translate id="common.error.unknownErrorMessage" />}>
+      <Providers>
+        <Layout>
+          <Suspense fallback={<Loader />}>
+            <Routing />
+          </Suspense>
+        </Layout>
+      </Providers>
+    </SolidErrorBoundary>
   );
 };
 
@@ -67,11 +69,13 @@ const Providers: Component<ProvidersProps> = (props) => {
         <IntlProvider locale={language()} messages={translations()}>
           <QueryClientProvider client={queryClient}>
             <SolidQueryDevtools />
-            <Router>
-              <Suspense fallback={<Loader />}>{props.children}</Suspense>
-              <MatomoScript />
-              <TrackPageView />
-            </Router>
+            <ErrorBoundary>
+              <Router>
+                <Suspense fallback={<Loader />}>{props.children}</Suspense>
+                <MatomoScript />
+                <TrackPageView />
+              </Router>
+            </ErrorBoundary>
           </QueryClientProvider>
         </IntlProvider>
       )}
@@ -95,5 +99,22 @@ const Loader: Component = () => {
         </p>
       </div>
     </Show>
+  );
+};
+
+const Routing: Component = () => {
+  return (
+    <Routes>
+      <Route path="/" component={HomePage} />
+      <Route path="/onboarding" component={OnboardingPage} />
+      <Route path="/members" component={MembersPage} />
+      <Route path="/members/:memberId" component={MemberPage} />
+      <Route path="/profile" component={ProfileLayout}>
+        <Route path="/" component={ProfileEditionPage} />
+        <Route path="/address" component={AddressPage} />
+        <Route path="/notifications" component={NotificationsPage} />
+        <Route path="/sign-out" component={SignOutPage} />
+      </Route>
+    </Routes>
   );
 };

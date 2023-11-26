@@ -6,6 +6,12 @@
     "validation": {
       "min": "Ce champ trop court (min : {min} caractères).",
       "max": "Ce champ est trop long (max : {max} caractères)."
+    },
+    "error": {
+      "unknownErrorMessage": "Il s'est passé quelque chose qui n'était pas prévu...",
+      "unknownErrorDescription": "C'est probablement un bug, la personne responsable sera privée de dessert.",
+      "errorMessage": "Message d'erreur : {message}",
+      "reset": "Réinitialiser"
     }
   },
   "layout": {
