@@ -58,6 +58,7 @@ const CallbackError: Component = () => {
 const QueryError: Component = () => {
   const [error, setError] = createSignal(false);
 
+  // eslint-disable-next-line solid/reactivity
   const [result] = query(() => ({
     key: ['test-error', error()],
     async query() {

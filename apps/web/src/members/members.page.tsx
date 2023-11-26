@@ -3,7 +3,7 @@ import { defined, parseEnumValue } from '@sel/utils';
 import clsx from 'clsx';
 import { Icon } from 'solid-heroicons';
 import { magnifyingGlass, mapPin } from 'solid-heroicons/solid';
-import { Component, For, createEffect, createSignal } from 'solid-js';
+import { Component, For, createSignal } from 'solid-js';
 
 import { BackLink } from '../components/back-link';
 import { Input } from '../components/input';
