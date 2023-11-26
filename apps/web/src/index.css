@@ -98,6 +98,10 @@
       box-shadow: theme('boxShadow.md');
     }
 
+    &:disabled {
+      opacity: 0.6;
+    }
+
     &.button-primary {
       background-color: theme('colors.green.600');
       border-color: theme('colors.green.600');
