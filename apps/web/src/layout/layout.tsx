@@ -12,17 +12,20 @@ type LayoutProps = {
 };
 
 export const Layout: Component<LayoutProps> = (props) => {
+  const verify = verifyAuthenticationToken();
   const [member] = getAuthenticatedMemberUnsafe();
 
-  verifyAuthenticationToken();
   redirectToOnboardingWhenNotCompleted();
 
   return (
-    <Show when={member()} fallback={<Authentication />}>
-      <Header>
-        <HeaderMember />
-      </Header>
-      <main class="col mx-auto w-full max-w-7xl flex-1 px-4 pb-4">{props.children}</main>
-    </Show>
+    <>
+      {verify()}
+      <Show when={member()} fallback={<Authentication />}>
+        <Header>
+          <HeaderMember />
+        </Header>
+        <main class="col mx-auto w-full max-w-7xl flex-1 px-4 pb-4">{props.children}</main>
+      </Show>
+    </>
   );
 };
