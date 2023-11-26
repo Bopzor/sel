@@ -36,7 +36,7 @@ type LinkButtonProps = ComponentProps<typeof Link> & {
 
 export const LinkButton: Component<LinkButtonProps> = (props) => {
   return (
-    <Link {...props} class={clsx('button', props.class)}>
+    <Link {...props} unstyled class={clsx('button button-primary', props.class)}>
       {props.children}
       {props.loading && <Spinner class="h-4 w-4" />}
     </Link>

@@ -28,6 +28,7 @@ import { ProfileEditionPage } from './profile/profile-edition.page';
 import { ProfileLayout } from './profile/profile.layout';
 import { SignOutPage } from './profile/sign-out.page';
 import { createDebouncedSignal } from './utils/create-debounced-signal';
+import { ErrorTestPage } from './utils/error-test.page';
 
 const HomePage = lazyImport(() => import('./home/home.page'), 'HomePage');
 const OnboardingPage = lazyImport(() => import('./onboarding/onboarding.page'), 'OnboardingPage');
@@ -115,6 +116,7 @@ const Routing: Component = () => {
         <Route path="/notifications" component={NotificationsPage} />
         <Route path="/sign-out" component={SignOutPage} />
       </Route>
+      <Route path="/__error" component={ErrorTestPage} />
     </Routes>
   );
 };
