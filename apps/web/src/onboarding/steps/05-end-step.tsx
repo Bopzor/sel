@@ -6,6 +6,7 @@ import { NextButton } from '../components/next-button';
 const T = Translate.prefix('onboarding.steps.end');
 
 type EndStepProps = {
+  loading: boolean;
   onNext: () => void;
 };
 
@@ -40,7 +41,7 @@ export const EndStep: Component<EndStepProps> = (props) => {
         </ul>
       </div>
 
-      <NextButton class="self-center" onClick={props.onNext}>
+      <NextButton class="self-center" loading={props.loading} onClick={props.onNext}>
         <Translate id="onboarding.navigation.end" />
       </NextButton>
     </>

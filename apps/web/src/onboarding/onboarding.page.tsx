@@ -45,7 +45,7 @@ export const OnboardingPage = () => {
     };
   };
 
-  const [updateMemberProfile] = mutation((fetcher) => ({
+  const [updateMemberProfile, meta] = mutation((fetcher) => ({
     key: ['updateMemberProfile'],
     mutate: (data: UpdateMemberProfileData) => fetcher.put(`/api/members/${member().id}/profile`, data),
     invalidate: ['authenticatedMember'],
@@ -98,7 +98,7 @@ export const OnboardingPage = () => {
       </Show>
 
       <Show when={step() === 5}>
-        <EndStep onNext={() => handleEnd()} />
+        <EndStep loading={meta.isPending} onNext={() => handleEnd()} />
       </Show>
     </div>
   );

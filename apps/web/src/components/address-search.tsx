@@ -1,5 +1,5 @@
 import { Address } from '@sel/shared';
-import { Component, ComponentProps, For, Show, createEffect, createResource } from 'solid-js';
+import { Component, ComponentProps, For, Show, Suspense, createEffect, createResource } from 'solid-js';
 
 import { container } from '../infrastructure/container';
 import { TOKENS } from '../tokens';
@@ -18,7 +18,7 @@ type AddressSearchProps = Pick<ComponentProps<typeof Input>, 'variant' | 'width'
 };
 
 export const AddressSearch: Component<AddressSearchProps> = (props) => {
-  const [query, setQuery] = createDebouncedSignal('', 100);
+  const [query, setQuery] = createDebouncedSignal('', 1000);
 
   const [results, { mutate }] = createResource(query, searchAddress);
 
@@ -42,7 +42,9 @@ export const AddressSearch: Component<AddressSearchProps> = (props) => {
         end={results.loading && <Spinner class="h-4 w-4 text-dim" />}
       />
 
-      <AddressList addresses={results() ?? []} onSelected={(address) => props.onSelected(address)} />
+      <Suspense>
+        <AddressList addresses={results() ?? []} onSelected={(address) => props.onSelected(address)} />
+      </Suspense>
 
       <Map
         center={props.value?.position ?? [5.042, 43.836]}

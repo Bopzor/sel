@@ -58,7 +58,7 @@ export const ProfileEditionPage: Component = () => {
   const t = T.useTranslation();
   const member = getAuthenticatedMember();
 
-  const [updateMemberProfile] = mutation((fetcher) => ({
+  const [updateMemberProfile, meta] = mutation((fetcher) => ({
     key: ['updateMemberProfile'],
     async mutate(data: UpdateMemberProfileData) {
       await fetcher.put(`/api/members/${member().id}/profile`, data);
@@ -105,7 +105,7 @@ export const ProfileEditionPage: Component = () => {
             <T id="reset" />
           </Button>
 
-          <Button type="submit" form="profile-form">
+          <Button type="submit" form="profile-form" loading={meta.isPending}>
             <T id="save" />
           </Button>
         </div>

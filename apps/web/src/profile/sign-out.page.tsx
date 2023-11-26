@@ -10,7 +10,7 @@ const T = Translate.prefix('profile.signOut');
 export const SignOutPage: Component = () => {
   const navigate = useNavigate();
 
-  const [signOut] = mutation((fetcher) => ({
+  const [signOut, meta] = mutation((fetcher) => ({
     key: ['signOut'],
     async mutate() {
       await fetcher.delete('/api/session');
@@ -25,7 +25,7 @@ export const SignOutPage: Component = () => {
         <T id="description" />
       </p>
 
-      <Button onClick={() => signOut()} class="self-center">
+      <Button onClick={() => signOut()} loading={meta.isPending} class="self-center">
         <T id="button" />
       </Button>
     </div>
