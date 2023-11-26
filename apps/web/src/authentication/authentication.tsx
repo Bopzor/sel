@@ -14,6 +14,7 @@ export const Authentication: Component = () => {
   const [email, setEmail] = createSignal<string>();
 
   const [requestAuthenticationLink, meta] = mutation((fetcher) => ({
+    key: ['requestAuthenticationLink'],
     async mutate(email: string) {
       await fetcher.post(`/api/authentication/request-authentication-link?${new URLSearchParams({ email })}`);
     },

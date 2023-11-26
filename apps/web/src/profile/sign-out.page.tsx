@@ -11,6 +11,7 @@ export const SignOutPage: Component = () => {
   const navigate = useNavigate();
 
   const [signOut] = mutation((fetcher) => ({
+    key: ['signOut'],
     async mutate() {
       await fetcher.delete('/api/session');
     },

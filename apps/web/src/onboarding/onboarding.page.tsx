@@ -46,6 +46,7 @@ export const OnboardingPage = () => {
   };
 
   const [updateMemberProfile] = mutation((fetcher) => ({
+    key: ['updateMemberProfile'],
     mutate: (data: UpdateMemberProfileData) => fetcher.put(`/api/members/${member().id}/profile`, data),
     invalidate: [['authenticatedMember']],
   }));

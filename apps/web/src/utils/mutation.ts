@@ -1,10 +1,11 @@
-import { QueryKey, createMutation, useQueryClient } from '@tanstack/solid-query';
+import { MutationKey, QueryKey, createMutation, useQueryClient } from '@tanstack/solid-query';
 
 import { FetcherPort } from '../fetcher';
 import { container } from '../infrastructure/container';
 import { TOKENS } from '../tokens';
 
 type MutationOptions<Params extends unknown[], Result> = {
+  key: MutationKey;
   mutate: (...params: Params) => Promise<Result>;
   onSuccess?: () => void;
   invalidate?: QueryKey[];
@@ -29,12 +30,13 @@ export function mutation<Params extends unknown[], Result>(
   const client = useQueryClient();
 
   const mutation = createMutation(() => {
-    const { mutate, onSuccess, invalidate } = options(fetcher);
+    const { key, mutate, onSuccess, invalidate } = options(fetcher);
 
     return {
+      mutationKey: key,
       mutationFn: (params: Params) => mutate(...params),
       async onSuccess() {
-        if (invalidate) {
+        if (invalidate !== undefined) {
           await client.invalidateQueries({ queryKey: invalidate });
         }
 

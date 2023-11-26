@@ -13,6 +13,7 @@ export const AddressPage: Component = () => {
   const member = getAuthenticatedMember();
 
   const [updateMemberProfile] = mutation((fetcher) => ({
+    key: ['updateMemberProfile'],
     async mutate(data: UpdateMemberProfileData) {
       await fetcher.put(`/api/members/${member().id}/profile`, data);
     },
