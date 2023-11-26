@@ -15,42 +15,39 @@ jobs:
       cancel-in-progress: true
 
     steps:
-      - id: environment
+      - name: Environment name
+        id: environment
         run: |
           branch=${{ github.head_ref }}
           environment=$(echo "${branch##*/}" | cut -c 1-15)
           environment="${environment%-}"
           environment="${environment#-}"
-          echo "::set-output name=name::sel-pe-$environment"
+          echo "name=sel-pe-$environment" >> $GITHUB_OUTPUT
+          echo "app_url=https://sel-pe-$environment-bopzor.koyeb.app" >> $GITHUB_OUTPUT
 
       - name: Install Koyeb CLI
         uses: koyeb-community/install-koyeb-cli@v2
         with:
           api_token: ${{ secrets.KOYEB_API_TOKEN }}
 
-      - name: Set koyeb CLI debug
-        run: |
-          set -x
-          echo "debug: true" > ~/.koyeb.yaml
-
       - name: Deploy server
         if: github.event.action == 'opened' || github.event.action == 'reopened'
-        uses: koyeb/action-git-deploy@v1
+        uses: koyeb/action-git-deploy@f0dec155624c143d4172fad7da60fab7a94c9ec9
         with:
           app-name: ${{ steps.environment.outputs.name }}
           service-name: server
           git-branch: ${{ github.head_ref }}
           git-build-command: pnpm exec tsc -b && pnpm run --filter @sel/server build
           git-run-command: pnpm run --filter @sel/server start
-          # service-instance-type: micro
-          # service-regions: [fra]
+          service-instance-type: micro
+          service-regions: fra
           service-ports: 3000:http
           service-routes: /api:3000
-          service-env: HOST=0.0.0.0,PORT=3000,SESSION_SECRET=@sel-staging-session-secret,SESSION_SECURE=true,APP_BASE_URL=https://selonsnous.nilscox.dev,DB_URL=@sel-staging-db-url,EMAIL_HOST=@sel-staging-email-host,EMAIL_PORT=465,EMAIL_SECURE=true,EMAIL_FROM=@sel-staging-email-from,EMAIL_PASSWORD=@sel-staging-email-password,EMAIL_TEMPLATES=./email-templates,SLACK_WEBHOOK_URL=@sel-staging-slack-webhook-url
+          service-env: HOST=0.0.0.0,PORT=3000,SESSION_SECRET=@sel-staging-session-secret,SESSION_SECURE=true,APP_BASE_URL=${{ steps.environment.outputs.app_url }},DB_URL=@sel-staging-db-url,EMAIL_HOST=@sel-staging-email-host,EMAIL_PORT=465,EMAIL_SECURE=true,EMAIL_FROM=@sel-staging-email-from,EMAIL_PASSWORD=@sel-staging-email-password,EMAIL_TEMPLATES=./email-templates,SLACK_WEBHOOK_URL=@sel-staging-slack-webhook-url
 
       - name: Cleanup Koyeb application
         if: github.event.action == 'closed'
-        uses: koyeb/action-git-deploy/cleanup@v1
+        uses: koyeb/action-git-deploy/cleanup@f0dec155624c143d4172fad7da60fab7a94c9ec9
         with:
           app-name: ${{ steps.environment.outputs.name }}
 
@@ -63,13 +60,14 @@ jobs:
       cancel-in-progress: true
 
     steps:
-      - id: environment
+      - name: Environment name
+        id: environment
         run: |
           branch=${{ github.head_ref }}
           environment=$(echo "${branch##*/}" | cut -c 1-15)
           environment="${environment%-}"
           environment="${environment#-}"
-          echo "::set-output name=name::sel-pe-$environment"
+          echo "name=sel-pe-$environment" >> $GITHUB_OUTPUT
 
       - name: Install Koyeb CLI
         uses: koyeb-community/install-koyeb-cli@v2
@@ -78,15 +76,15 @@ jobs:
 
       - name: Deploy web
         if: github.event.action == 'opened' || github.event.action == 'reopened'
-        uses: koyeb/action-git-deploy@v1
+        uses: koyeb/action-git-deploy@f0dec155624c143d4172fad7da60fab7a94c9ec9
         with:
           app-name: ${{ steps.environment.outputs.name }}
           service-name: web
           git-branch: ${{ github.head_ref }}
           git-build-command: pnpm exec tsc -b && pnpm run --filter @sel/web build
           git-run-command: pnpx serve -p 8080 --single apps/web/dist
-          # service-instance-type: nano
-          # service-regions: [fra]
+          service-instance-type: nano
+          service-regions: fra
           service-ports: 8080:http
           service-routes: /:8080
-          service-env: VITE_ANALYTICS_URL=https://analytics.nilscox.dev,VITE_ANALYTICS_SITE_ID=12,VITE_GEOAPIFY_API_KEY=@sel-staging-geoapify-key
+          service-env: VITE_GEOAPIFY_API_KEY=@sel-staging-geoapify-key
