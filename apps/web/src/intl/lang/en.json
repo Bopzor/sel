@@ -11,6 +11,7 @@
       "unknownErrorMessage": "🫨 Something unexpected just happened... 🥲",
       "unknownErrorDescription": "It's probably a bug, the person responsible won't get any dessert.",
       "errorMessage": "Error message: {message}",
+      "resetToHome": "Back",
       "reset": "Reset"
     }
   },

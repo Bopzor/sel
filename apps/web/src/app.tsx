@@ -70,13 +70,13 @@ const Providers: Component<ProvidersProps> = (props) => {
         <IntlProvider locale={language()} messages={translations()}>
           <QueryClientProvider client={queryClient}>
             <SolidQueryDevtools />
-            <ErrorBoundary>
-              <Router>
+            <Router>
+              <ErrorBoundary>
                 <Suspense fallback={<Loader />}>{props.children}</Suspense>
                 <MatomoScript />
                 <TrackPageView />
-              </Router>
-            </ErrorBoundary>
+              </ErrorBoundary>
+            </Router>
           </QueryClientProvider>
         </IntlProvider>
       )}

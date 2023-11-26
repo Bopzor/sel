@@ -1,8 +1,11 @@
+import { useNavigate } from '@solidjs/router';
 import { useQueryClient } from '@tanstack/solid-query';
 import { Component, JSX, ErrorBoundary as SolidErrorBoundary } from 'solid-js';
 
 import { Button } from '../components/button';
+import { Row } from '../components/row';
 import { Translate } from '../intl/translate';
+import { routes } from '../routes';
 
 const T = Translate.prefix('common.error');
 
@@ -11,6 +14,7 @@ type ErrorBoundaryProps = {
 };
 
 export const ErrorBoundary = (props: ErrorBoundaryProps) => {
+  const navigate = useNavigate();
   const queryClient = useQueryClient();
 
   return (
@@ -18,9 +22,13 @@ export const ErrorBoundary = (props: ErrorBoundaryProps) => {
       fallback={(error, reset) => (
         <ErrorFallback
           error={error}
-          reset={() => {
+          reset={(redirect) => {
             void queryClient.invalidateQueries();
             reset();
+
+            if (redirect !== undefined) {
+              navigate(redirect);
+            }
           }}
         />
       )}
@@ -31,7 +39,7 @@ export const ErrorBoundary = (props: ErrorBoundaryProps) => {
 
 type ErrorFallbackProps = {
   error: unknown;
-  reset: () => void;
+  reset: (navigate?: string) => void;
 };
 
 const ErrorFallback: Component<ErrorFallbackProps> = (props) => (
@@ -49,8 +57,13 @@ const ErrorFallback: Component<ErrorFallbackProps> = (props) => (
       </p>
     </div>
 
-    <Button onClick={() => props.reset()}>
-      <T id="reset" />
-    </Button>
+    <Row gap={4}>
+      <Button variant="secondary" onClick={() => props.reset(routes.home)}>
+        <T id="resetToHome" />
+      </Button>
+      <Button onClick={() => props.reset()}>
+        <T id="reset" />
+      </Button>
+    </Row>
   </div>
 );

@@ -11,7 +11,8 @@
       "unknownErrorMessage": "🫨 Il s'est passé quelque chose qui n'était pas prévu... 🥲",
       "unknownErrorDescription": "C'est probablement un bug, la personne responsable sera privée de dessert.",
       "errorMessage": "Message d'erreur : {message}",
-      "reset": "Réinitialiser"
+      "resetToHome": "Retour",
+      "reset": "Réessayer"
     }
   },
   "layout": {
