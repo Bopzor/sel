@@ -1,5 +1,5 @@
 import { assert } from '@sel/utils';
-import { Component, JSX, Show, createSignal } from 'solid-js';
+import { Component, JSX, Match, Switch, createSignal } from 'solid-js';
 
 import { Button } from '../components/button';
 import { Input } from '../components/input';
@@ -38,9 +38,28 @@ export const Authentication: Component = () => {
         <Header />
 
         <div class="col gap-4 p-4">
-          <Show
-            when={!meta.isSuccess}
-            fallback={
+          <Switch>
+            <Match when={!meta.isSuccess}>
+              <p class="my-4">
+                <T id="description" />
+              </p>
+
+              <form onSubmit={handleSubmit} class="col gap-4">
+                <Input
+                  autofocus
+                  name="email"
+                  type="email"
+                  variant="outlined"
+                  placeholder={t('emailAddress')}
+                />
+
+                <Button type="submit" loading={meta.isPending} class="self-end">
+                  <T id="send" />
+                </Button>
+              </form>
+            </Match>
+
+            <Match when={meta.isSuccess}>
               <p class="my-4">
                 <T
                   id="authenticationLinkRequested"
@@ -50,20 +69,8 @@ export const Authentication: Component = () => {
                   }}
                 />
               </p>
-            }
-          >
-            <p class="my-4">
-              <T id="description" />
-            </p>
-
-            <form onSubmit={handleSubmit} class="col gap-4">
-              <Input autofocus name="email" type="email" variant="outlined" placeholder={t('emailAddress')} />
-
-              <Button type="submit" loading={meta.isPending} class="self-end">
-                <T id="send" />
-              </Button>
-            </form>
-          </Show>
+            </Match>
+          </Switch>
         </div>
       </div>
     </div>
