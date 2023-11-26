@@ -1,11 +1,11 @@
-import { Component, JSX, Show } from 'solid-js';
+import { Component, JSX } from 'solid-js';
 
 import { Link } from '../../components/link';
 import { MemberAvatar } from '../../components/member-avatar';
 import { Row } from '../../components/row';
 import { Translate } from '../../intl/translate';
 import { routes } from '../../routes';
-import { getAuthenticatedMemberUnsafe } from '../../utils/authenticated-member';
+import { getAuthenticatedMember } from '../../utils/authenticated-member';
 
 import logo from './logo.png';
 
@@ -38,16 +38,12 @@ export const Header: Component<HeaderProps> = (props) => {
 };
 
 export const HeaderMember = () => {
-  const [member] = getAuthenticatedMemberUnsafe();
+  const member = getAuthenticatedMember();
 
   return (
-    <Show when={member()}>
-      {(member) => (
-        <Link unstyled href={routes.profile.profileEdition} class="col items-center gap-1 font-semibold">
-          <MemberAvatar member={member()} class="h-10 w-10 rounded-full" />
-          <div class="leading-1">{member().firstName}</div>
-        </Link>
-      )}
-    </Show>
+    <Link unstyled href={routes.profile.profileEdition} class="col items-center gap-1 font-semibold">
+      <MemberAvatar member={member()} class="h-10 w-10 rounded-full" />
+      <div class="leading-1">{member().firstName}</div>
+    </Link>
   );
 };

@@ -9,6 +9,7 @@ import { query } from './query';
 export function getAuthenticatedMemberUnsafe() {
   return query((fetcher) => ({
     key: ['authenticatedMember'],
+    refetchOnMount: false,
     async query() {
       const result = await body(fetcher.get<AuthenticatedMember>('/api/session/member'));
       return result ?? null;

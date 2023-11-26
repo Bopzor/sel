@@ -9,6 +9,7 @@ type QueryOptions<T> = {
   key: QueryKey;
   query: () => Promise<T>;
   skip?: boolean;
+  refetchOnMount?: boolean;
   onFetchError?: (error: FetchResult<unknown>) => T;
 };
 
@@ -23,12 +24,13 @@ export function query<T>(options: (fetcher: FetcherPort) => QueryOptions<T>): Qu
   const fetcher = container.resolve(TOKENS.fetcher);
 
   const query = createQuery(() => {
-    const { key, skip, query, onFetchError } = options(fetcher);
+    const { key, skip, refetchOnMount, query, onFetchError } = options(fetcher);
 
     return {
       suspense: true,
       queryKey: key,
       enabled: !skip,
+      refetchOnMount,
       async queryFn() {
         try {
           return await query();
