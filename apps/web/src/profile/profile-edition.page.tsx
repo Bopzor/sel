@@ -13,6 +13,7 @@ import { Translate } from '../intl/translate';
 import { getAuthenticatedMember } from '../utils/authenticated-member';
 import { formatPhoneNumber } from '../utils/format-phone-number';
 import { mutation } from '../utils/mutation';
+import { notify } from '../utils/notify';
 
 import { ProfileFieldVisibility } from './components/profile-field-visibility';
 
@@ -64,6 +65,7 @@ export const ProfileEditionPage: Component = () => {
       await fetcher.put(`/api/members/${member().id}/profile`, data);
     },
     invalidate: ['authenticatedMember'],
+    onSuccess: () => notify.success(t('saved')),
   }));
 
   const { form, data, errors, isDirty, setInitialValues, reset } = createForm({

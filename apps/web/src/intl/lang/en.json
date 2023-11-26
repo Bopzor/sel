@@ -115,12 +115,14 @@
       "profilePicture": "Profile picture",
       "profilePictureMessage": "Profile photo management is not yet available directly via the app. In the meantime, it is possible to change your image via <link>gravatar</link> (after registration).",
       "reset": "Reset",
-      "save": "Save"
+      "save": "Save",
+      "saved": "Your profile information have been updated."
     },
     "address": {
       "title": "Address",
       "description": "Search for your address and select a result to update it on your profile. If you can't find it, contact us so we can update it manually.",
-      "placeholder": "Search for an address..."
+      "placeholder": "Search for an address...",
+      "saved": "Your address has been saved."
     },
     "notifications": {
       "title": "Notifications",

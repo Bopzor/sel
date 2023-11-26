@@ -156,6 +156,9 @@ importers:
       solid-map-gl:
         specifier: ^1.9.4
         version: 1.9.4(empty-npm-package@1.0.0)
+      solid-toast:
+        specifier: ^0.5.0
+        version: 0.5.0(solid-js@1.8.6)
       zod:
         specifier: ^3.22.4
         version: 3.22.4
@@ -11085,6 +11088,14 @@ packages:
       '@babel/types': 7.23.4
       solid-js: 1.8.6
     dev: true
+
+  /solid-toast@0.5.0(solid-js@1.8.6):
+    resolution: {integrity: sha512-t770JakjyS2P9b8Qa1zMLOD51KYKWXbTAyJePVUoYex5c5FH5S/HtUBUbZAWFcqRCKmAE8KhyIiCvDZA8bOnxQ==}
+    peerDependencies:
+      solid-js: ^1.5.4
+    dependencies:
+      solid-js: 1.8.6
+    dev: false
 
   /sort-asc@0.2.0:
     resolution: {integrity: sha512-umMGhjPeHAI6YjABoSTrFp2zaBtXBej1a0yKkuMUyjjqu6FJsTF+JYwCswWDg+zJfk/5npWUUbd33HH/WLzpaA==}

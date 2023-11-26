@@ -12,6 +12,7 @@ import {
   type Component,
   ErrorBoundary as SolidErrorBoundary,
 } from 'solid-js';
+import { Toaster } from 'solid-toast';
 
 import { Spinner } from './components/spinner';
 import { MatomoScript } from './infrastructure/analytics/matomo-script';
@@ -73,6 +74,7 @@ const Providers: Component<ProvidersProps> = (props) => {
             <Router>
               <ErrorBoundary>
                 <Suspense fallback={<Loader />}>{props.children}</Suspense>
+                <Toaster toastOptions={{ duration: 5 * 1000 }} />
                 <MatomoScript />
                 <TrackPageView />
               </ErrorBoundary>

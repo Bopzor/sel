@@ -5,6 +5,7 @@ import { AddressSearch } from '../components/address-search';
 import { Translate } from '../intl/translate';
 import { getAuthenticatedMember } from '../utils/authenticated-member';
 import { mutation } from '../utils/mutation';
+import { notify } from '../utils/notify';
 
 const T = Translate.prefix('profile.address');
 
@@ -18,6 +19,7 @@ export const AddressPage: Component = () => {
       await fetcher.put(`/api/members/${member().id}/profile`, data);
     },
     invalidate: ['authenticatedMember'],
+    onSuccess: () => notify.success(t('saved')),
   }));
 
   const handleSelected = (address: Address) => {
