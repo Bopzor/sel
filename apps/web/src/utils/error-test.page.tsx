@@ -3,6 +3,7 @@ import { Component, createEffect, createSignal } from 'solid-js';
 import { Button } from '../components/button';
 import { useSearchParam } from '../infrastructure/router/use-search-param';
 
+import { mutation } from './mutation';
 import { query } from './query';
 
 export const ErrorTestPage: Component = () => {
@@ -13,6 +14,7 @@ export const ErrorTestPage: Component = () => {
       <EffectError />
       <CallbackError />
       <QueryError />
+      <MutationError />
     </div>
   );
 };
@@ -60,7 +62,7 @@ const QueryError: Component = () => {
 
   // eslint-disable-next-line solid/reactivity
   const [result] = query(() => ({
-    key: ['test-error', error()],
+    key: ['test-error', 'query', error()],
     async query() {
       if (error()) {
         throw new Error('Test error: query');
@@ -76,4 +78,15 @@ const QueryError: Component = () => {
       {result()}
     </Button>
   );
+};
+
+const MutationError: Component = () => {
+  const [trigger] = mutation(() => ({
+    key: ['test-error', 'mutation'],
+    async mutate() {
+      throw new Error('Test error: mutation');
+    },
+  }));
+
+  return <Button onClick={() => trigger()}>Mutation</Button>;
 };

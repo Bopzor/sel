@@ -74,7 +74,7 @@ const Providers: Component<ProvidersProps> = (props) => {
             <Router>
               <ErrorBoundary>
                 <Suspense fallback={<Loader />}>{props.children}</Suspense>
-                <Toaster toastOptions={{ duration: 5 * 1000 }} />
+                <Toaster toastOptions={{ duration: 5 * 1000, className: '!max-w-xl' }} />
                 <MatomoScript />
                 <TrackPageView />
               </ErrorBoundary>

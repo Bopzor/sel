@@ -4,6 +4,8 @@ import { FetcherPort } from '../fetcher';
 import { container } from '../infrastructure/container';
 import { TOKENS } from '../tokens';
 
+import { notify } from './notify';
+
 type MutationOptions<Params extends unknown[], Result> = {
   key: MutationKey;
   mutate: (...params: Params) => Promise<Result>;
@@ -41,6 +43,9 @@ export function mutation<Params extends unknown[], Result>(
         }
 
         onSuccess?.();
+      },
+      onError(error) {
+        notify.unexpectedError(error);
       },
     };
   });
