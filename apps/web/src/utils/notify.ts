@@ -1,12 +1,18 @@
-import { JSX, createComponent } from 'solid-js';
-import { toast } from 'solid-toast';
+import { JSX } from 'solid-js';
 
-import { UnexpectedErrorNotification } from './unexpected-error-notification';
+import { container } from '../infrastructure/container';
+import { NotificationType } from '../infrastructure/notifications/notifications.port';
+import { TOKENS } from '../tokens';
 
-export const notify = {
-  success: (message: JSX.Element) => toast.success(message),
-  error: (message: JSX.Element) => toast.error(message),
-  unexpectedError: (error: Error) => {
-    toast.error(() => createComponent(UnexpectedErrorNotification, { error }));
-  },
+export const notify = (type: NotificationType, message: JSX.Element) => {
+  const notifications = container.resolve(TOKENS.notifications);
+  notifications.notify(type, message);
+};
+
+notify.success = (message: JSX.Element) => {
+  notify(NotificationType.success, message);
+};
+
+notify.error = (message: JSX.Element) => {
+  notify(NotificationType.error, message);
 };
