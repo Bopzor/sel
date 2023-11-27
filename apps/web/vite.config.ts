@@ -1,7 +1,9 @@
 import path from 'node:path';
+
 import { defineConfig } from 'vitest/config';
-import solidPlugin from 'vite-plugin-solid';
+import { VitePWA } from 'vite-plugin-pwa';
 import devtools from 'solid-devtools/vite';
+import solidPlugin from 'vite-plugin-solid';
 import solidSvg from 'vite-plugin-solid-svg';
 
 export default defineConfig({
@@ -12,6 +14,11 @@ export default defineConfig({
     }),
     solidPlugin(),
     solidSvg(),
+    VitePWA({
+      registerType: 'autoUpdate',
+      injectRegister: 'script-defer',
+      manifest: require('./manifest.json'),
+    }),
   ],
   server: {
     port: 8000,
