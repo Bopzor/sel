@@ -1,0 +1,28 @@
+<svg viewBox="0 0 24 24" style="filter: saturate(150%) contrast(180%) brightness(110%)">
+  <rect x="0" y="0" width="100%" height="100" fill="#FFFFFF" />
+
+  <defs>
+    <g id="shape" opacity="0.65">
+      <circle stroke-width="0" cx="0" cy="0" r="2" />
+      <path fill="none" stroke-width="2.5" d="M -3.2 2.2 Q -2.2 3.7 0 3.7 Q 2.2 3.7 3.2 2.2" stroke-linecap="round" />
+      <!-- <circle stroke-width="0" cx="-3.2" cy="2.2" r="0.1" /> -->
+      <!-- <circle stroke-width="0" cx="3.2" cy="2.2" r="0.1" /> -->
+    </g>
+  </defs>
+
+  <g transform="translate(1 1) scale(0.917)">
+    <use href="#shape" stroke="#6B6A62" fill="#6B6A62" transform="translate(12 2) rotate(0deg)" />
+    <use href="#shape" stroke="#6E4E24" fill="#6E4E24" transform="translate(5 5) rotate(-45deg)" />
+    <use href="#shape" stroke="#3E4A23" fill="#3E4A23" transform="translate(19 5) rotate(45deg)" />
+    <use href="#shape" stroke="#2A2928" fill="#2A2928" transform="translate(2 12) rotate(-90deg)" />
+    <use href="#shape" stroke="#355255" fill="#355255" transform="translate(22 12) rotate(90deg)" />
+    <use href="#shape" stroke="#621B1E" fill="#621B1E" transform="translate(5 19) rotate(-135deg)" />
+    <use href="#shape" stroke="#59544E" fill="#59544E" transform="translate(19 19) rotate(135deg)" />
+    <use href="#shape" stroke="#431E1A" fill="#431E1A" transform="translate(12 22) rotate(180deg)" />
+  </g>
+</svg>
+
+<!--
+original colors
+["#D5D3C3", "#DB9B48", "#7C9445", "#535250", "#6AA3AA", "#C4353B", "#B1A79B", "#863C33"]
+-->

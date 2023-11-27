@@ -7,7 +7,7 @@ import { Translate } from '../../intl/translate';
 import { routes } from '../../routes';
 import { getAuthenticatedMember } from '../../utils/authenticated-member';
 
-import logo from './logo.png';
+import Logo from './logo.svg';
 
 const T = Translate.prefix('layout.header');
 
@@ -20,7 +20,7 @@ export const Header: Component<HeaderProps> = (props) => {
     <header class="bg-primary text-white">
       <Row class="mx-auto max-w-7xl justify-between p-2 md:p-4">
         <Link unstyled href={routes.home} class="inline-flex flex-row items-center gap-2 md:gap-4">
-          <img src={logo} alt="SEL'ons-nous logo" width={64} height={64} class="rounded" />
+          <Logo width={64} height={64} class="rounded" />
           <div>
             <div class="text-lg font-semibold md:text-2xl">
               <T id="title" />

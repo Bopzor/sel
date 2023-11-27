@@ -2,6 +2,7 @@ import path from 'node:path';
 import { defineConfig } from 'vitest/config';
 import solidPlugin from 'vite-plugin-solid';
 import devtools from 'solid-devtools/vite';
+import solidSvg from 'vite-plugin-solid-svg';
 
 export default defineConfig({
   plugins: [
@@ -10,6 +11,7 @@ export default defineConfig({
       locator: true,
     }),
     solidPlugin(),
+    solidSvg(),
   ],
   server: {
     port: 8000,
