@@ -2,39 +2,71 @@ name: Preview Environment
 
 on:
   pull_request:
-    types: [opened, reopened, closed]
   workflow_dispatch:
 
 jobs:
+  environment:
+    name: Environment name
+    runs-on: ubuntu-latest
+
+    outputs:
+      name: ${{ steps.environment.outputs.name }}
+      app-url: ${{ steps.app-url.outputs.url }}
+
+    steps:
+      - name: Compute environment name
+        id: environment
+        run: |
+          branch=${{ github.head_ref }}
+          environment=$(echo "$branch" | md5sum | cut -c 1-8)
+          echo "name=sel-pe-$environment" >> $GITHUB_OUTPUT
+
+      - name: App URL
+        id: app-url
+        run: |
+          echo "url=https://${{ steps.environment.outputs.name }}-bopzor.koyeb.app" >> $GITHUB_OUTPUT
+
   deploy-server:
     name: Deploy server
     runs-on: ubuntu-latest
+    needs: environment
+    if: github.event.action != 'closed'
 
     concurrency:
       group: ${{ github.head_ref }}-server
       cancel-in-progress: true
 
     steps:
-      - name: Environment name
-        id: environment
-        run: |
-          branch=${{ github.head_ref }}
-          environment=$(echo "${branch##*/}" | cut -c 1-15)
-          environment="${environment%-}"
-          environment="${environment#-}"
-          echo "name=sel-pe-$environment" >> $GITHUB_OUTPUT
-          echo "app_url=https://sel-pe-$environment-bopzor.koyeb.app" >> $GITHUB_OUTPUT
-
       - name: Install Koyeb CLI
         uses: koyeb-community/install-koyeb-cli@v2
         with:
           api_token: ${{ secrets.KOYEB_API_TOKEN }}
 
+      - name: Environment variables
+        id: environment-variables
+        shell: bash
+        run: |
+          variables=(
+            HOST=0.0.0.0
+            PORT=3000
+            SESSION_SECRET=@sel-staging-session-secret
+            SESSION_SECURE=true
+            APP_BASE_URL=${{ needs.environment.outputs.app-url }}
+            DB_URL=@sel-staging-db-url
+            EMAIL_HOST=@sel-staging-email-host
+            EMAIL_PORT=465
+            EMAIL_SECURE=true
+            EMAIL_FROM=@sel-staging-email-from
+            EMAIL_PASSWORD=@sel-staging-email-password
+            EMAIL_TEMPLATES=./email-templates
+            SLACK_WEBHOOK_URL=@sel-staging-slack-webhook-url
+          )
+          IFS=, ; echo "env=${variables[*]}" >> $GITHUB_OUTPUT
+
       - name: Deploy server
-        if: github.event.action == 'opened' || github.event.action == 'reopened'
-        uses: koyeb/action-git-deploy@f0dec155624c143d4172fad7da60fab7a94c9ec9
+        uses: koyeb/action-git-deploy@v1
         with:
-          app-name: ${{ steps.environment.outputs.name }}
+          app-name: ${{ needs.environment.outputs.name }}
           service-name: server
           git-branch: ${{ github.head_ref }}
           git-build-command: pnpm exec tsc -b && pnpm run --filter @sel/server build
@@ -43,42 +75,28 @@ jobs:
           service-regions: fra
           service-ports: 3000:http
           service-routes: /api:3000
-          service-env: HOST=0.0.0.0,PORT=3000,SESSION_SECRET=@sel-staging-session-secret,SESSION_SECURE=true,APP_BASE_URL=${{ steps.environment.outputs.app_url }},DB_URL=@sel-staging-db-url,EMAIL_HOST=@sel-staging-email-host,EMAIL_PORT=465,EMAIL_SECURE=true,EMAIL_FROM=@sel-staging-email-from,EMAIL_PASSWORD=@sel-staging-email-password,EMAIL_TEMPLATES=./email-templates,SLACK_WEBHOOK_URL=@sel-staging-slack-webhook-url
-
-      - name: Cleanup Koyeb application
-        if: github.event.action == 'closed'
-        uses: koyeb/action-git-deploy/cleanup@f0dec155624c143d4172fad7da60fab7a94c9ec9
-        with:
-          app-name: ${{ steps.environment.outputs.name }}
+          service-env: ${{ steps.environment-variables.outputs.env }}
 
   deploy-web:
     name: Deploy web
     runs-on: ubuntu-latest
+    needs: environment
+    if: github.event.action != 'closed'
 
     concurrency:
       group: ${{ github.head_ref }}-web
       cancel-in-progress: true
 
     steps:
-      - name: Environment name
-        id: environment
-        run: |
-          branch=${{ github.head_ref }}
-          environment=$(echo "${branch##*/}" | cut -c 1-15)
-          environment="${environment%-}"
-          environment="${environment#-}"
-          echo "name=sel-pe-$environment" >> $GITHUB_OUTPUT
-
       - name: Install Koyeb CLI
         uses: koyeb-community/install-koyeb-cli@v2
         with:
           api_token: ${{ secrets.KOYEB_API_TOKEN }}
 
       - name: Deploy web
-        if: github.event.action == 'opened' || github.event.action == 'reopened'
-        uses: koyeb/action-git-deploy@f0dec155624c143d4172fad7da60fab7a94c9ec9
+        uses: koyeb/action-git-deploy@v1
         with:
-          app-name: ${{ steps.environment.outputs.name }}
+          app-name: ${{ needs.environment.outputs.name }}
           service-name: web
           git-branch: ${{ github.head_ref }}
           git-build-command: pnpm exec tsc -b && pnpm run --filter @sel/web build
@@ -88,3 +106,20 @@ jobs:
           service-ports: 8080:http
           service-routes: /:8080
           service-env: VITE_GEOAPIFY_API_KEY=@sel-staging-geoapify-key
+
+  cleanup:
+    name: Delete Koyeb application
+    runs-on: ubuntu-latest
+    needs: environment
+    if: github.event.action == 'closed'
+
+    steps:
+      - name: Install Koyeb CLI
+        uses: koyeb-community/install-koyeb-cli@v2
+        with:
+          api_token: ${{ secrets.KOYEB_API_TOKEN }}
+
+      - name: Delete Koyeb application
+        uses: koyeb/action-git-deploy/cleanup@v1
+        with:
+          app-name: ${{ needs.environment.outputs.name }}
