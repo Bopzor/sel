@@ -1,5 +1,7 @@
 import path from 'node:path';
+import fs from 'node:fs/promises';
 
+import { Plugin } from 'vite';
 import { defineConfig } from 'vitest/config';
 import { VitePWA } from 'vite-plugin-pwa';
 import devtools from 'solid-devtools/vite';
@@ -19,6 +21,7 @@ export default defineConfig({
       injectRegister: 'script-defer',
       manifest: require('./manifest.json'),
     }),
+    version(require('../../package.json').version),
   ],
   server: {
     port: 8000,
@@ -51,3 +54,17 @@ export default defineConfig({
     },
   },
 });
+
+function version(version: string): Plugin {
+  let dist = '';
+
+  return {
+    name: 'version',
+    configResolved(config) {
+      dist = path.resolve(config.root, config.build.outDir);
+    },
+    async closeBundle() {
+      await fs.writeFile(path.join(dist, 'version.txt'), version);
+    },
+  };
+}

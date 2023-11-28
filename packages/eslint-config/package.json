@@ -1,6 +1,6 @@
 {
   "name": "@sel/eslint-config",
-  "version": "1.0.0",
+  "version": "0.0.0",
   "type": "module",
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^6.12.0",
