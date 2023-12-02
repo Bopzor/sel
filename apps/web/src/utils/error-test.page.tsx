@@ -61,7 +61,7 @@ const QueryError: Component = () => {
   const [error, setError] = createSignal(false);
 
   // eslint-disable-next-line solid/reactivity
-  const [result] = query(() => ({
+  query(() => ({
     key: ['test-error', 'query', error()],
     async query() {
       if (error()) {
@@ -72,12 +72,7 @@ const QueryError: Component = () => {
     },
   }));
 
-  return (
-    <Button onClick={() => setError(true)}>
-      Query
-      {result()}
-    </Button>
-  );
+  return <Button onClick={() => setError(true)}>Query</Button>;
 };
 
 const MutationError: Component = () => {

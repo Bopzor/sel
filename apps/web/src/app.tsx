@@ -4,13 +4,12 @@ import { SolidQueryDevtools } from '@tanstack/solid-query-devtools';
 import {
   JSX,
   Show,
-  Suspense,
+  ErrorBoundary as SolidErrorBoundary,
   createResource,
   createSignal,
   lazy,
   onMount,
   type Component,
-  ErrorBoundary as SolidErrorBoundary,
 } from 'solid-js';
 import { Toaster } from 'solid-toast';
 
@@ -28,7 +27,7 @@ import { NotificationsPage } from './profile/notifications.page';
 import { ProfileEditionPage } from './profile/profile-edition.page';
 import { ProfileLayout } from './profile/profile.layout';
 import { SignOutPage } from './profile/sign-out.page';
-import { createDebouncedSignal } from './utils/create-debounced-signal';
+import { createDebouncedSignal } from './utils/debounce';
 import { ErrorTestPage } from './utils/error-test.page';
 
 const HomePage = lazyImport(() => import('./home/home.page'), 'HomePage');
@@ -46,9 +45,7 @@ export const App: Component = () => {
     <SolidErrorBoundary fallback={<Translate id="common.error.unknownErrorMessage" />}>
       <Providers>
         <Layout>
-          <Suspense fallback={<Loader />}>
-            <Routing />
-          </Suspense>
+          <Routing />
         </Layout>
       </Providers>
     </SolidErrorBoundary>
@@ -73,7 +70,7 @@ const Providers: Component<ProvidersProps> = (props) => {
             <SolidQueryDevtools />
             <Router>
               <ErrorBoundary>
-                <Suspense fallback={<Loader />}>{props.children}</Suspense>
+                {props.children}
                 <Toaster toastOptions={{ duration: 5 * 1000, className: '!max-w-xl' }} />
                 <MatomoScript />
                 <TrackPageView />
@@ -82,25 +79,6 @@ const Providers: Component<ProvidersProps> = (props) => {
           </QueryClientProvider>
         </IntlProvider>
       )}
-    </Show>
-  );
-};
-
-const Loader: Component = () => {
-  const [showLoader, setShowLoader] = createDebouncedSignal(false, 500);
-
-  onMount(() => {
-    setShowLoader(true);
-  });
-
-  return (
-    <Show when={showLoader()}>
-      <div class="row mx-auto flex-1 items-center gap-4">
-        <Spinner class="h-12 w-12" />
-        <p class="typo-h1">
-          <Translate id="common.loading" />
-        </p>
-      </div>
     </Show>
   );
 };

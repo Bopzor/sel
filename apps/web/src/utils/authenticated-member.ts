@@ -1,12 +1,11 @@
 import { AuthenticatedMember } from '@sel/shared';
 import { assert } from '@sel/utils';
-import { Accessor } from 'solid-js';
 
 import { body } from '../fetcher';
 
 import { query } from './query';
 
-export function getAuthenticatedMemberUnsafe() {
+export function getAuthenticatedMemberQuery() {
   return query((fetcher) => ({
     key: ['authenticatedMember'],
     refetchOnMount: false,
@@ -24,14 +23,15 @@ export function getAuthenticatedMemberUnsafe() {
   }));
 }
 
-export function getAuthenticatedMember(): Accessor<AuthenticatedMember> {
-  const [getMember] = getAuthenticatedMemberUnsafe();
+export function getAuthenticatedMemberUnsafe(): AuthenticatedMember | null | undefined {
+  return getAuthenticatedMemberQuery().data;
+}
 
-  return () => {
-    const member = getMember();
+export function getAuthenticatedMember(): AuthenticatedMember {
+  const member = getAuthenticatedMemberUnsafe();
 
-    assert(member !== null, 'getAuthenticatedMember: member is null');
+  assert(member !== null, 'getAuthenticatedMember: member is null');
+  assert(member !== undefined, 'getAuthenticatedMember: member is undefined');
 
-    return member;
-  };
+  return member;
 }

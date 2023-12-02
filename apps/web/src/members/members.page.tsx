@@ -1,10 +1,12 @@
 import { Member, MembersSort } from '@sel/shared';
 import { defined, parseEnumValue } from '@sel/utils';
+import { debounce } from '@solid-primitives/scheduled';
 import clsx from 'clsx';
 import { Icon } from 'solid-heroicons';
 import { magnifyingGlass, mapPin } from 'solid-heroicons/solid';
-import { Component, For, createSignal } from 'solid-js';
+import { Component, For, createEffect, createSignal } from 'solid-js';
 
+import { Async } from '../components/async';
 import { BackLink } from '../components/back-link';
 import { Input } from '../components/input';
 import { Link } from '../components/link';
@@ -16,6 +18,7 @@ import { body } from '../fetcher';
 import { useSearchParam } from '../infrastructure/router/use-search-param';
 import { Translate, useTranslation } from '../intl/translate';
 import { routes } from '../routes';
+import { createDebouncedValue } from '../utils/debounce';
 import { query } from '../utils/query';
 
 const T = Translate.prefix('members');
@@ -24,8 +27,8 @@ export const MembersPage: Component = () => {
   const [getSearch, setSearch] = useSearchParam('search', (value) => value ?? '');
   const [getSort, setSort] = useSearchParam('sort', parseEnumValue(MembersSort));
 
-  const [members] = query((fetcher) => ({
-    key: ['members', { sort: getSort() }],
+  const membersQuery = query((fetcher) => ({
+    key: ['members', { sort: getSort(), a: Math.random() }],
     query: () => {
       let endpoint = '/api/members';
       const search = new URLSearchParams();
@@ -49,24 +52,30 @@ export const MembersPage: Component = () => {
     <>
       <BackLink href={routes.home} />
 
-      <div class="row flex-1 gap-6">
-        <MembersList
-          members={members()}
-          search={getSearch()}
-          onSearch={setSearch}
-          sort={getSort() ?? MembersSort.firstName}
-          onSort={setSort}
-          onHighlight={setOpenPopupMember}
-        />
+      <Async query={membersQuery}>
+        {(members) => (
+          <div class="row flex-1 gap-6">
+            <MembersList
+              members={members}
+              loading={membersQuery.isFetching}
+              search={getSearch()}
+              onSearch={setSearch}
+              sort={getSort() ?? MembersSort.firstName}
+              onSort={setSort}
+              onHighlight={setOpenPopupMember}
+            />
 
-        <MemberMap members={members()} openPopupMember={openPopupMember()} />
-      </div>
+            <MemberMap members={members} openPopupMember={openPopupMember()} />
+          </div>
+        )}
+      </Async>
     </>
   );
 };
 
 type MembersListProps = {
   members: Member[];
+  loading: boolean;
   search: string;
   onSearch: (search: string) => void;
   sort?: MembersSort;
@@ -75,11 +84,13 @@ type MembersListProps = {
 };
 
 const MembersList: Component<MembersListProps> = (props) => {
+  const debouncedLoading = createDebouncedValue(() => props.loading, 200);
+
   return (
-    <div class="col min-h-[24rem] flex-1 gap-4 md:max-w-sm">
+    <div class=" col min-h-[24rem] flex-1 gap-4 md:max-w-sm">
       <SearchMemberInput search={props.search} onSearch={props.onSearch} />
 
-      <div class="card col flex-1">
+      <div class="card col relative flex-1">
         <div class="px-4 py-3 shadow">
           <SortMembers sort={props.sort} onSort={props.onSort} />
         </div>
@@ -89,6 +100,8 @@ const MembersList: Component<MembersListProps> = (props) => {
             {(member) => <MembersListItem member={member} onHighlight={() => props.onHighlight(member)} />}
           </For>
         </ul>
+
+        <div class="absolute inset-0 bg-neutral/50" classList={{ invisible: !debouncedLoading() }} />
       </div>
     </div>
   );

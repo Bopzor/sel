@@ -42,8 +42,8 @@ export const HeaderMember = () => {
 
   return (
     <Link unstyled href={routes.profile.profileEdition} class="col items-center gap-1 font-semibold">
-      <MemberAvatar member={member()} class="h-10 w-10 rounded-full" />
-      <div class="leading-1">{member().firstName}</div>
+      <MemberAvatar member={member} class="h-10 w-10 rounded-full" />
+      <div class="leading-1">{member.firstName}</div>
     </Link>
   );
 };

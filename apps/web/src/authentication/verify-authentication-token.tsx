@@ -1,29 +1,40 @@
 import { defined } from '@sel/utils';
 import { useQueryClient } from '@tanstack/solid-query';
-import { createEffect } from 'solid-js';
+import { JSX, Show, createEffect } from 'solid-js';
 
 import { useSearchParam } from '../infrastructure/router/use-search-param';
-import { getAuthenticatedMemberUnsafe } from '../utils/authenticated-member';
+import { getAuthenticatedMemberQuery } from '../utils/authenticated-member';
 import { query } from '../utils/query';
 
-export const verifyAuthenticationToken = () => {
-  const [member, memberQuery] = getAuthenticatedMemberUnsafe();
+type VerifyAuthenticationTokenProps = {
+  children: JSX.Element;
+};
+
+export function VerifyAuthenticationToken(props: VerifyAuthenticationTokenProps) {
+  const memberQuery = getAuthenticatedMemberQuery();
   const [getToken, setToken] = useSearchParam('auth-token');
-  const queryClient = useQueryClient();
+
+  createEffect(() => {
+    if (memberQuery.data) {
+      setToken(undefined);
+    }
+  });
 
   const skip = () => {
     if (getToken() === undefined) {
       return true;
     }
 
-    if (memberQuery.isPending || member()) {
+    if (memberQuery.isPending || memberQuery.data) {
       return true;
     }
 
     return false;
   };
 
-  const [result] = query((fetcher) => ({
+  const queryClient = useQueryClient();
+
+  const verifyQuery = query((fetcher) => ({
     key: ['verifyAuthenticationToken'],
     skip: skip(),
     async query() {
@@ -37,11 +48,5 @@ export const verifyAuthenticationToken = () => {
     },
   }));
 
-  createEffect(() => {
-    if (member()) {
-      setToken(undefined);
-    }
-  });
-
-  return result;
-};
+  return <Show when={skip() || !verifyQuery.isPending}>{props.children}</Show>;
+}

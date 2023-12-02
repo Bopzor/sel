@@ -5,12 +5,13 @@ import { Icon } from 'solid-heroicons';
 import { envelope, home, phone, user } from 'solid-heroicons/solid';
 import { Component, ComponentProps, For, JSX, ParentProps, Show } from 'solid-js';
 
+import { Async } from '../components/async';
 import { BackLink } from '../components/back-link';
 import { Map } from '../components/map';
 import { MemberAddress } from '../components/member-address';
 import { MemberAvatarName } from '../components/member-avatar-name';
 import { Row } from '../components/row';
-import { FetchResult, body } from '../fetcher';
+import { body } from '../fetcher';
 import { Translate } from '../intl/translate';
 import { routes } from '../routes';
 import { formatPhoneNumber } from '../utils/format-phone-number';
@@ -21,31 +22,21 @@ const T = Translate.prefix('members');
 export const MemberPage: Component = () => {
   const { memberId } = useParams<{ memberId: string }>();
 
-  const [member] = query((fetcher) => ({
+  const memberQuery = query((fetcher) => ({
     key: ['member', memberId],
-    async query() {
-      try {
-        return await body(fetcher.get<Member>(`/api/members/${memberId}`));
-      } catch (error) {
-        if (FetchResult.is(error) && error.status === 404) {
-          return undefined;
-        }
-
-        throw error;
-      }
-    },
+    query: () => body(fetcher.get<Member>(`/api/members/${memberId}`)),
   }));
 
   return (
     <>
       <BackLink href={routes.members.list} />
 
-      <Show when={member()} fallback={<Translate id="common.loading" />}>
+      <Async query={memberQuery}>
         {(member) => (
           <div class="card gap-4 p-4 md:p-8">
             <Row class="gap-6">
               <MemberAvatarName
-                member={member()}
+                member={member}
                 classes={{ avatar: '!h-16 !w-16', name: 'text-xl font-semibold' }}
               />
             </Row>
@@ -53,12 +44,12 @@ export const MemberPage: Component = () => {
             <hr class="my-4 md:my-6" />
 
             <div class="grid grid-cols-1 gap-8 md:grid-cols-2">
-              <MemberInfo member={member()} />
-              <MemberMap member={member()} />
+              <MemberInfo member={member} />
+              <MemberMap member={member} />
             </div>
           </div>
         )}
-      </Show>
+      </Async>
     </>
   );
 };

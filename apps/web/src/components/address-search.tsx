@@ -3,7 +3,7 @@ import { Component, ComponentProps, For, Show, Suspense, createEffect, createRes
 
 import { container } from '../infrastructure/container';
 import { TOKENS } from '../tokens';
-import { createDebouncedSignal } from '../utils/create-debounced-signal';
+import { createDebouncedSignal } from '../utils/debounce';
 import { deepTrack } from '../utils/deep-track';
 
 import { Input } from './input';

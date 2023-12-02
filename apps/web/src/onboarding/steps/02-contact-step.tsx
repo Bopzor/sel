@@ -71,7 +71,7 @@ export const ContactStep: Component<ContactStepProps> = (props) => {
               type="email"
               variant="outlined"
               width="medium"
-              value={member().email}
+              value={member.email}
               onFocus={() => setShowEmailReadonlyMessage(true)}
               onBlur={() => setShowEmailReadonlyMessage(false)}
             />
