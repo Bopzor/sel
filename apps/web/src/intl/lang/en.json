@@ -8,7 +8,7 @@
       "max": "This field is too long (max: {max} characters)."
     },
     "error": {
-      "unknownErrorMessage": "🫨 Something unexpected just happened... 🥲",
+      "unknownErrorMessage": "🫨<nbsp></nbsp>Something unexpected just happened...<nbsp></nbsp>🥲",
       "unknownErrorDescription": "It's probably a bug, the person responsible won't get any dessert.",
       "errorMessage": "Error message: {message}",
       "unexpectedError": "An error happened.",
