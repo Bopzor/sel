@@ -1,6 +1,4 @@
 import { Route, Router, Routes } from '@solidjs/router';
-import { QueryClient, QueryClientProvider } from '@tanstack/solid-query';
-import { SolidQueryDevtools } from '@tanstack/solid-query-devtools';
 import {
   JSX,
   Show,
@@ -50,8 +48,6 @@ export const App: Component = () => {
   );
 };
 
-const queryClient = new QueryClient();
-
 type ProvidersProps = {
   children: JSX.Element;
 };
@@ -64,17 +60,14 @@ const Providers: Component<ProvidersProps> = (props) => {
     <Show when={translations()}>
       {(translations) => (
         <IntlProvider locale={language()} messages={translations()}>
-          <QueryClientProvider client={queryClient}>
-            <SolidQueryDevtools />
-            <Router>
-              <ErrorBoundary>
-                <AppStoreProvider>{props.children}</AppStoreProvider>
-                <Toaster toastOptions={{ duration: 5 * 1000, className: '!max-w-xl' }} />
-                <MatomoScript />
-                <TrackPageView />
-              </ErrorBoundary>
-            </Router>
-          </QueryClientProvider>
+          <Router>
+            <ErrorBoundary>
+              <AppStoreProvider>{props.children}</AppStoreProvider>
+              <Toaster toastOptions={{ duration: 5 * 1000, className: '!max-w-xl' }} />
+              <MatomoScript />
+              <TrackPageView />
+            </ErrorBoundary>
+          </Router>
         </IntlProvider>
       )}
     </Show>

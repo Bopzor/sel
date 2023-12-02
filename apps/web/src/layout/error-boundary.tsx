@@ -1,5 +1,4 @@
 import { useNavigate } from '@solidjs/router';
-import { useQueryClient } from '@tanstack/solid-query';
 import { Component, JSX, ErrorBoundary as SolidErrorBoundary, createEffect } from 'solid-js';
 
 import { Button } from '../components/button';
@@ -15,7 +14,6 @@ type ErrorBoundaryProps = {
 
 export const ErrorBoundary = (props: ErrorBoundaryProps) => {
   const navigate = useNavigate();
-  const queryClient = useQueryClient();
 
   return (
     <SolidErrorBoundary
@@ -23,12 +21,11 @@ export const ErrorBoundary = (props: ErrorBoundaryProps) => {
         <ErrorFallback
           error={error}
           reset={(redirect) => {
-            void queryClient.invalidateQueries();
-            reset();
-
             if (redirect !== undefined) {
               navigate(redirect);
             }
+
+            reset();
           }}
         />
       )}
