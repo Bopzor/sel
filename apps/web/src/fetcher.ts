@@ -7,12 +7,34 @@ export async function body<T>(response: Promise<FetchResult<T>>) {
 export class FetchResult<Body> {
   constructor(public readonly response: Response, public readonly body: Body) {}
 
-  static is(value: unknown): value is FetchResult<unknown> {
-    return value instanceof FetchResult;
+  get status() {
+    return this.response.status;
+  }
+}
+
+export class FetchError extends Error {
+  constructor(
+    public readonly path: string,
+    public readonly request: RequestInit,
+    public readonly result: FetchResult<unknown>
+  ) {
+    super(`${request.method} ${path}: ${result.status} ${result.response.statusText}`);
+  }
+
+  static is(value: unknown, status?: number): value is FetchError {
+    if (!(value instanceof this)) {
+      return false;
+    }
+
+    if (status !== undefined && status !== value.result.status) {
+      return false;
+    }
+
+    return true;
   }
 
   get status() {
-    return this.response.status;
+    return this.result.status;
   }
 }
 
@@ -73,7 +95,7 @@ export class Fetcher implements FetcherPort {
     const result = new FetchResult(response, body);
 
     if (!response.ok) {
-      throw result;
+      throw new FetchError(path, init, result);
     }
 
     return result;

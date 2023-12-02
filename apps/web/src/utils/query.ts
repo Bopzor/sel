@@ -1,6 +1,6 @@
 import { QueryKey, createQuery } from '@tanstack/solid-query';
 
-import { FetchResult, FetcherPort } from '../fetcher';
+import { FetchError, FetcherPort } from '../fetcher';
 import { container } from '../infrastructure/container';
 import { TOKENS } from '../tokens';
 
@@ -8,8 +8,9 @@ type QueryOptions<T> = {
   key: QueryKey;
   query: () => Promise<T>;
   skip?: boolean;
+  retry?: boolean;
   refetchOnMount?: boolean;
-  onFetchError?: (error: FetchResult<unknown>) => T;
+  onFetchError?: (error: FetchError) => T;
 };
 
 export type QueryResult<T> = {
@@ -25,18 +26,20 @@ export function query<T>(options: (fetcher: FetcherPort) => QueryOptions<T>): Qu
   const fetcher = container.resolve(TOKENS.fetcher);
 
   return createQuery(() => {
-    const { key, skip, refetchOnMount, query, onFetchError } = options(fetcher);
+    const { key, skip, retry, refetchOnMount, query, onFetchError } = options(fetcher);
 
     return {
       suspense: true,
       queryKey: key,
       enabled: !skip,
+      retry,
       refetchOnMount,
+      placeholderData: <T>(prev: T) => prev,
       async queryFn() {
         try {
           return await query();
         } catch (error) {
-          if (onFetchError && FetchResult.is(error)) {
+          if (onFetchError && FetchError.is(error)) {
             return onFetchError(error);
           }
 

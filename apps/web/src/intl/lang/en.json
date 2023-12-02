@@ -87,6 +87,10 @@
     }
   },
   "members": {
+    "notFound": {
+      "title": "Member not found",
+      "description": "This page refers to a member who does not exist."
+    },
     "showOnMap": "Show on map",
     "phoneNumber": "Phone number",
     "emailAddress": "Email address",

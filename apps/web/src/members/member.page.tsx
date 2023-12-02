@@ -3,7 +3,7 @@ import { defined } from '@sel/utils';
 import { useParams } from '@solidjs/router';
 import { Icon } from 'solid-heroicons';
 import { envelope, home, phone, user } from 'solid-heroicons/solid';
-import { Component, ComponentProps, For, JSX, ParentProps, Show } from 'solid-js';
+import { Component, ComponentProps, ErrorBoundary, For, JSX, ParentProps, Show } from 'solid-js';
 
 import { Async } from '../components/async';
 import { BackLink } from '../components/back-link';
@@ -11,7 +11,7 @@ import { Map } from '../components/map';
 import { MemberAddress } from '../components/member-address';
 import { MemberAvatarName } from '../components/member-avatar-name';
 import { Row } from '../components/row';
-import { body } from '../fetcher';
+import { FetchError, body } from '../fetcher';
 import { Translate } from '../intl/translate';
 import { routes } from '../routes';
 import { formatPhoneNumber } from '../utils/format-phone-number';
@@ -22,37 +22,68 @@ const T = Translate.prefix('members');
 export const MemberPage: Component = () => {
   const { memberId } = useParams<{ memberId: string }>();
 
-  const memberQuery = query((fetcher) => ({
-    key: ['member', memberId],
-    query: () => body(fetcher.get<Member>(`/api/members/${memberId}`)),
-  }));
-
   return (
     <>
       <BackLink href={routes.members.list} />
 
-      <Async query={memberQuery}>
-        {(member) => (
-          <div class="card gap-4 p-4 md:p-8">
-            <Row class="gap-6">
-              <MemberAvatarName
-                member={member}
-                classes={{ avatar: '!h-16 !w-16', name: 'text-xl font-semibold' }}
-              />
-            </Row>
+      <ErrorBoundary
+        fallback={(error) => {
+          if (FetchError.is(error, 404)) {
+            return <MemberNotFound message={error.message} />;
+          }
 
-            <hr class="my-4 md:my-6" />
-
-            <div class="grid grid-cols-1 gap-8 md:grid-cols-2">
-              <MemberInfo member={member} />
-              <MemberMap member={member} />
-            </div>
-          </div>
-        )}
-      </Async>
+          throw error;
+        }}
+      >
+        <PageContent memberId={memberId} />
+      </ErrorBoundary>
     </>
   );
 };
+
+function MemberNotFound(props: { message: string }) {
+  return (
+    <div class="col my-6 items-center">
+      <h1>
+        <T id="notFound.title" />
+      </h1>
+      <p>
+        <T id="notFound.description" />
+      </p>
+      <p class="text-xs text-dim">{props.message}</p>
+    </div>
+  );
+}
+
+function PageContent(props: { memberId: string }) {
+  // eslint-disable-next-line solid/reactivity
+  const memberQuery = query((fetcher) => ({
+    key: ['member', props.memberId],
+    query: () => body(fetcher.get<Member>(`/api/members/${props.memberId}`)),
+  }));
+
+  return (
+    <Async query={memberQuery}>
+      {(member) => (
+        <div class="card gap-4 p-4 md:p-8">
+          <Row class="gap-6">
+            <MemberAvatarName
+              member={member}
+              classes={{ avatar: '!h-16 !w-16', name: 'text-xl font-semibold' }}
+            />
+          </Row>
+
+          <hr class="my-4 md:my-6" />
+
+          <div class="grid grid-cols-1 gap-8 md:grid-cols-2">
+            <MemberInfo member={member} />
+            <MemberMap member={member} />
+          </div>
+        </div>
+      )}
+    </Async>
+  );
+}
 
 type MemberInfoProps = {
   member: Member;
