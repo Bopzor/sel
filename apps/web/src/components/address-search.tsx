@@ -49,7 +49,7 @@ export const AddressSearch: Component<AddressSearchProps> = (props) => {
       <Map
         center={props.value?.position ?? [5.042, 43.836]}
         zoom={props.value?.position ? 14 : 11}
-        class="h-map rounded-lg shadow"
+        class="h-[24rem] rounded-lg shadow"
         markers={props.value?.position ? [{ isPopupOpen: false, position: props.value.position }] : undefined}
       />
     </div>

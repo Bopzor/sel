@@ -31,9 +31,6 @@ export default {
       spacing: {
         em: '1em',
       },
-      height: {
-        map: '25rem',
-      },
       aspectRatio: {
         '4/3': '4/3',
       },

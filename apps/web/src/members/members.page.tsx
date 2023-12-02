@@ -1,10 +1,9 @@
 import { Member, MembersSort } from '@sel/shared';
 import { defined, parseEnumValue } from '@sel/utils';
-import { debounce } from '@solid-primitives/scheduled';
 import clsx from 'clsx';
 import { Icon } from 'solid-heroicons';
 import { magnifyingGlass, mapPin } from 'solid-heroicons/solid';
-import { Component, For, createEffect, createSignal } from 'solid-js';
+import { Component, For, createSignal } from 'solid-js';
 
 import { Async } from '../components/async';
 import { BackLink } from '../components/back-link';
@@ -197,7 +196,7 @@ const MemberMap: Component<MemberMapProps> = (props) => {
             isPopupOpen: member === props.openPopupMember,
             render: () => <Popup member={member} />,
           }))}
-        class="aspect-4/3 rounded-lg shadow"
+        class="aspect-4/3 max-h-[32rem]"
       />
     </div>
   );

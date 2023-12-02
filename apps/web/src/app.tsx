@@ -8,12 +8,10 @@ import {
   createResource,
   createSignal,
   lazy,
-  onMount,
   type Component,
 } from 'solid-js';
 import { Toaster } from 'solid-toast';
 
-import { Spinner } from './components/spinner';
 import { MatomoScript } from './infrastructure/analytics/matomo-script';
 import { TrackPageView } from './infrastructure/analytics/track-page-view';
 import { IntlProvider } from './intl';
@@ -27,7 +25,6 @@ import { NotificationsPage } from './profile/notifications.page';
 import { ProfileEditionPage } from './profile/profile-edition.page';
 import { ProfileLayout } from './profile/profile.layout';
 import { SignOutPage } from './profile/sign-out.page';
-import { createDebouncedSignal } from './utils/debounce';
 import { ErrorTestPage } from './utils/error-test.page';
 
 const HomePage = lazyImport(() => import('./home/home.page'), 'HomePage');

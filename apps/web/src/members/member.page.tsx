@@ -128,8 +128,8 @@ const MemberMap: Component<MemberMapProps> = (props) => {
         <Map
           center={position()}
           zoom={13}
-          class="h-map flex-1 rounded-lg shadow"
-          markers={[{ position: position(), isPopupOpen: true }]}
+          class="h-[24rem] flex-1"
+          markers={[{ position: position(), isPopupOpen: false }]}
         />
       )}
     </Show>
