@@ -171,7 +171,7 @@ type MemberMapProps = {
 
 const MemberMap: Component<MemberMapProps> = (props) => {
   return (
-    <div class="hidden flex-1 md:block">
+    <div class="hidden max-h-[32rem] flex-1 md:block">
       <Suspense>
         <Map
           center={props.openPopupMember?.address?.position ?? [5.042, 43.836]}
@@ -183,7 +183,6 @@ const MemberMap: Component<MemberMapProps> = (props) => {
               isPopupOpen: member === props.openPopupMember,
               render: () => <Popup member={member} />,
             }))}
-          class="h-[32rem]"
         />
       </Suspense>
     </div>
