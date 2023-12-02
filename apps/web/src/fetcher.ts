@@ -1,9 +1,5 @@
 import { assert } from '@sel/utils';
 
-export async function body<T>(response: Promise<FetchResult<T>>) {
-  return (await response).body;
-}
-
 export class FetchResult<Body> {
   constructor(public readonly response: Response, public readonly body: Body) {}
 
@@ -38,21 +34,31 @@ export class FetchError extends Error {
   }
 }
 
+type FetchPromise<T> = Promise<FetchResult<T>> & {
+  body: () => Promise<T>;
+};
+
 export interface FetcherPort {
-  get<ResponseBody>(path: string): Promise<FetchResult<ResponseBody>>;
-  post<RequestBody, ResponseBody>(path: string, body?: RequestBody): Promise<FetchResult<ResponseBody>>;
-  put<RequestBody, ResponseBody>(path: string, body?: RequestBody): Promise<FetchResult<ResponseBody>>;
-  patch<RequestBody, ResponseBody>(path: string, body?: RequestBody): Promise<FetchResult<ResponseBody>>;
-  delete<RequestBody, ResponseBody>(path: string, body?: RequestBody): Promise<FetchResult<ResponseBody>>;
+  get<ResponseBody>(path: string): FetchPromise<ResponseBody>;
+  post<RequestBody, ResponseBody>(path: string, body?: RequestBody): FetchPromise<ResponseBody>;
+  put<RequestBody, ResponseBody>(path: string, body?: RequestBody): FetchPromise<ResponseBody>;
+  patch<RequestBody, ResponseBody>(path: string, body?: RequestBody): FetchPromise<ResponseBody>;
+  delete<RequestBody, ResponseBody>(path: string, body?: RequestBody): FetchPromise<ResponseBody>;
 }
 
 export class StubFetcher implements FetcherPort {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   requests = new Map<string, any>();
 
-  private execute = async (path: string) => {
+  private execute = <T>(path: string): FetchPromise<T> => {
     assert(this.requests.has(path), `StubFetcher: no request for path "${path}"`);
-    return this.requests.get(path);
+
+    const result = this.requests.get(path);
+    const promise = Promise.resolve(result) as FetchPromise<T>;
+
+    promise.body = () => Promise.resolve(result.body);
+
+    return promise;
   };
 
   get = this.execute;
@@ -63,7 +69,7 @@ export class StubFetcher implements FetcherPort {
 }
 
 export class Fetcher implements FetcherPort {
-  async get<ResponseBody>(path: string) {
+  get<ResponseBody>(path: string) {
     return this.fetch<ResponseBody>(path, { method: 'GET' });
   }
 
@@ -88,7 +94,19 @@ export class Fetcher implements FetcherPort {
     };
   }
 
-  private async fetch<Body>(path: string, init: RequestInit): Promise<FetchResult<Body>> {
+  private fetch<Body>(path: string, init: RequestInit): FetchPromise<Body> {
+    const promise = new Promise((resolve, reject) => {
+      this.execute<Body>(path, init).then(resolve, reject);
+    }) as FetchPromise<Body>;
+
+    promise.body = async () => {
+      return (await promise).body;
+    };
+
+    return promise;
+  }
+
+  private async execute<Body>(path: string, init: RequestInit): Promise<FetchResult<Body>> {
     const response = await fetch(path, init);
     const body: Body = await this.getBody(response);
 

@@ -11,7 +11,7 @@ import { Map } from '../components/map';
 import { MemberAddress } from '../components/member-address';
 import { MemberAvatarName } from '../components/member-avatar-name';
 import { Row } from '../components/row';
-import { FetchError, body } from '../fetcher';
+import { FetchError } from '../fetcher';
 import { Translate } from '../intl/translate';
 import { routes } from '../routes';
 import { formatPhoneNumber } from '../utils/format-phone-number';
@@ -59,7 +59,7 @@ function PageContent(props: { memberId: string }) {
   // eslint-disable-next-line solid/reactivity
   const memberQuery = query((fetcher) => ({
     key: ['member', props.memberId],
-    query: () => body(fetcher.get<Member>(`/api/members/${props.memberId}`)),
+    query: () => fetcher.get<Member>(`/api/members/${props.memberId}`).body(),
   }));
 
   return (

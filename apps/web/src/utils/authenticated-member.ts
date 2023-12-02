@@ -1,8 +1,6 @@
 import { AuthenticatedMember } from '@sel/shared';
 import { assert } from '@sel/utils';
 
-import { body } from '../fetcher';
-
 import { query } from './query';
 
 export function getAuthenticatedMemberQuery() {
@@ -10,7 +8,7 @@ export function getAuthenticatedMemberQuery() {
     key: ['authenticatedMember'],
     refetchOnMount: false,
     async query() {
-      const result = await body(fetcher.get<AuthenticatedMember>('/api/session/member'));
+      const result = await fetcher.get<AuthenticatedMember>('/api/session/member').body();
       return result ?? null;
     },
     onFetchError(error) {

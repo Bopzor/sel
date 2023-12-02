@@ -13,7 +13,6 @@ import { Map } from '../components/map';
 import { MemberAddress } from '../components/member-address';
 import { MemberAvatarName } from '../components/member-avatar-name';
 import { Row } from '../components/row';
-import { body } from '../fetcher';
 import { useSearchParam } from '../infrastructure/router/use-search-param';
 import { Translate, useTranslation } from '../intl/translate';
 import { routes } from '../routes';
@@ -41,7 +40,7 @@ export const MembersPage: Component = () => {
         endpoint += `?${search}`;
       }
 
-      return body(fetcher.get<Member[]>(endpoint));
+      return fetcher.get<Member[]>(endpoint).body();
     },
   }));
 
