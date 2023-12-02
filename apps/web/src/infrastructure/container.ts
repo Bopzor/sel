@@ -7,11 +7,13 @@ import { MatomoAnalyticsAdapter } from './analytics/matomo-analytics.adapter';
 import { EnvConfigAdapter } from './config/env-config.adapter';
 import { GeoapifyGeocodeAdapter } from './geocode/geocode-geoapify.adapter';
 import { ToastNotificationsAdapter } from './notifications/toast-notifications.adapter';
+import { SolidRouterAdapter } from './router/solid-router.adapter';
 
 export const container = createContainer();
 
 container.bindFactory(TOKENS.config, EnvConfigAdapter.inject);
 container.bindFactory(TOKENS.analytics, MatomoAnalyticsAdapter.inject);
 container.bindFactory(TOKENS.geocode, GeoapifyGeocodeAdapter.inject);
+container.bindFactory(TOKENS.router, SolidRouterAdapter.inject);
 container.bindValue(TOKENS.fetcher, new Fetcher());
 container.bindFactory(TOKENS.notifications, ToastNotificationsAdapter.inject);

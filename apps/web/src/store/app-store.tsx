@@ -6,6 +6,7 @@ import { SetStoreFunction, createStore } from 'solid-js/store';
 import { FetchError } from '../fetcher';
 import { container } from '../infrastructure/container';
 import { useSearchParam } from '../infrastructure/router/use-search-param';
+import { routes } from '../routes';
 import { TOKENS } from '../tokens';
 
 const none = Symbol('none');
@@ -76,6 +77,7 @@ export function getMutations() {
 
 function authenticatedMemberState(state: AppState, setState: SetAppState) {
   const fetcher = container.resolve(TOKENS.fetcher);
+  const router = container.resolve(TOKENS.router);
 
   const [getToken, setToken] = useSearchParam('auth-token');
 
@@ -125,7 +127,7 @@ function authenticatedMemberState(state: AppState, setState: SetAppState) {
     signOut: async () => {
       await fetcher.delete('/api/session');
       await refetch();
-      // navigate('/')
+      router.navigate(routes.home);
     },
 
     updateMemberProfile: async (data: UpdateMemberProfileData) => {

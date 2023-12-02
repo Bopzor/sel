@@ -3,8 +3,10 @@ import { Component, JSX, ErrorBoundary as SolidErrorBoundary, createEffect } fro
 
 import { Button } from '../components/button';
 import { Row } from '../components/row';
+import { container } from '../infrastructure/container';
 import { Translate } from '../intl/translate';
 import { routes } from '../routes';
+import { TOKENS } from '../tokens';
 
 const T = Translate.prefix('common.error');
 
@@ -13,7 +15,7 @@ type ErrorBoundaryProps = {
 };
 
 export const ErrorBoundary = (props: ErrorBoundaryProps) => {
-  const navigate = useNavigate();
+  const router = container.resolve(TOKENS.router);
 
   return (
     <SolidErrorBoundary
@@ -22,7 +24,7 @@ export const ErrorBoundary = (props: ErrorBoundaryProps) => {
           error={error}
           reset={(redirect) => {
             if (redirect !== undefined) {
-              navigate(redirect);
+              router.navigate(redirect);
             }
 
             reset();
@@ -36,7 +38,7 @@ export const ErrorBoundary = (props: ErrorBoundaryProps) => {
 
 type ErrorFallbackProps = {
   error: unknown;
-  reset: (navigate?: string) => void;
+  reset: (redirect?: string) => void;
 };
 
 const ErrorFallback: Component<ErrorFallbackProps> = (props) => {

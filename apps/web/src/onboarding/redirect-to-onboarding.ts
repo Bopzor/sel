@@ -1,21 +1,25 @@
-import { useLocation, useNavigate } from '@solidjs/router';
 import { createEffect } from 'solid-js';
 
+import { container } from '../infrastructure/container';
+import { routes } from '../routes';
 import { getAppState } from '../store/app-store';
+import { TOKENS } from '../tokens';
 
 export function redirectToOnboardingWhenNotCompleted() {
   const state = getAppState();
 
-  const location = useLocation();
-  const navigate = useNavigate();
+  const router = container.resolve(TOKENS.router);
 
   createEffect(() => {
-    if (state.authenticatedMember?.onboardingCompleted === false && location.pathname !== '/onboarding') {
-      navigate('/onboarding');
+    const { pathname } = router.location;
+    const { authenticatedMember } = state;
+
+    if (authenticatedMember?.onboardingCompleted === false && pathname !== '/onboarding') {
+      router.navigate(routes.onboarding);
     }
 
-    if (state.authenticatedMember?.onboardingCompleted === true && location.pathname === '/onboarding') {
-      navigate('/');
+    if (authenticatedMember?.onboardingCompleted === true && pathname === '/onboarding') {
+      router.navigate(routes.home);
     }
   });
 }
