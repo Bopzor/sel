@@ -14,12 +14,12 @@
     "cookie-parser": "^1.4.6",
     "ditox": "^2.4.1",
     "dotenv": "^16.3.1",
-    "drizzle-orm": "^0.29.0",
+    "drizzle-orm": "^0.29.1",
     "express": "5.0.0-beta.1",
     "handlebars": "^4.7.8",
     "lodash.clonedeep": "^4.5.0",
     "mjml": "^4.14.1",
-    "nanoid": "^5.0.3",
+    "nanoid": "^5.0.4",
     "nodemailer": "^6.9.7",
     "postgres": "^3.4.3",
     "zod": "^3.22.4"
@@ -35,11 +35,11 @@
     "@types/lodash.clonedeep": "^4.5.9",
     "@types/mjml": "^4.7.4",
     "@types/nodemailer": "^6.4.14",
-    "drizzle-kit": "^0.20.4",
+    "drizzle-kit": "^0.20.6",
     "maildev": "^2.1.0",
-    "nodemon": "^3.0.1",
+    "nodemon": "^3.0.2",
     "ts-node": "^10.9.1",
-    "typescript": "^5.2.2",
+    "typescript": "^5.3.2",
     "vitest": "^0.34.6"
   }
 }
