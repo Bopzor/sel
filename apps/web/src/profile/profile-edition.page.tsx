@@ -1,6 +1,6 @@
 import { createForm } from '@felte/solid';
 import { validator } from '@felte/validator-zod';
-import { AuthenticatedMember, UpdateMemberProfileData } from '@sel/shared';
+import { AuthenticatedMember } from '@sel/shared';
 import { Component, Show, createEffect, createSignal } from 'solid-js';
 
 import { Button } from '../components/button';
@@ -10,10 +10,9 @@ import { MemberAvatar } from '../components/member-avatar';
 import { MemberAvatarName } from '../components/member-avatar-name';
 import { Row } from '../components/row';
 import { Translate } from '../intl/translate';
-import { getAuthenticatedMember } from '../utils/authenticated-member';
+import { getMutations, getAppState } from '../store/app-store';
+import { createAsyncCall } from '../utils/async-call';
 import { formatPhoneNumber } from '../utils/format-phone-number';
-import { mutation } from '../utils/mutation';
-import { notify } from '../utils/notify';
 
 import { ProfileFieldVisibility } from './components/profile-field-visibility';
 
@@ -45,31 +44,26 @@ const schema = () => {
   });
 };
 
-const getInitialValues = (member: AuthenticatedMember) => ({
-  firstName: member.firstName,
-  lastName: member.lastName,
-  email: member.email,
-  emailVisible: member.emailVisible,
-  phoneNumber: formatPhoneNumber(member.phoneNumbers[0].number),
-  phoneNumberVisible: member.phoneNumbers[0].visible,
-  bio: member.bio ?? '',
+const getInitialValues = (member: AuthenticatedMember | undefined) => ({
+  firstName: member?.firstName ?? '',
+  lastName: member?.lastName ?? '',
+  email: member?.email ?? '',
+  emailVisible: member?.emailVisible ?? true,
+  phoneNumber: member ? formatPhoneNumber(member.phoneNumbers[0].number) : undefined ?? '',
+  phoneNumberVisible: member?.phoneNumbers[0].visible ?? true,
+  bio: member?.bio ?? '',
 });
+
+type FormType = ReturnType<typeof getInitialValues>;
 
 export const ProfileEditionPage: Component = () => {
   const t = T.useTranslation();
-  const member = getAuthenticatedMember();
+  const state = getAppState();
 
-  const [updateMemberProfile, meta] = mutation((fetcher) => ({
-    key: ['updateMemberProfile'],
-    async mutate(data: UpdateMemberProfileData) {
-      await fetcher.put(`/api/members/${member().id}/profile`, data);
-    },
-    invalidate: ['authenticatedMember'],
-    onSuccess: () => notify.success(t('saved')),
-  }));
+  const mutations = getMutations();
+  const [updateMemberProfile, pending] = createAsyncCall(mutations.updateMemberProfile);
 
-  const { form, data, errors, isDirty, setInitialValues, reset } = createForm({
-    initialValues: getInitialValues(member()),
+  const { form, data, errors, isDirty, setInitialValues, reset } = createForm<FormType>({
     extend: validator({ schema: schema() }),
     onSubmit(values) {
       updateMemberProfile({
@@ -88,7 +82,7 @@ export const ProfileEditionPage: Component = () => {
   });
 
   createEffect(() => {
-    setInitialValues(getInitialValues(member()));
+    setInitialValues(getInitialValues(state.authenticatedMember));
     reset();
   });
 
@@ -97,7 +91,10 @@ export const ProfileEditionPage: Component = () => {
   return (
     <>
       <Row gap={4}>
-        <MemberAvatarName member={member()} classes={{ avatar: '!w-20 !h-20', name: 'typo-h1' }} />
+        <MemberAvatarName
+          member={state.authenticatedMember}
+          classes={{ avatar: '!w-20 !h-20', name: 'typo-h1' }}
+        />
 
         <div
           class="col sm:row ml-auto gap-2 transition-opacity"
@@ -107,7 +104,7 @@ export const ProfileEditionPage: Component = () => {
             <T id="reset" />
           </Button>
 
-          <Button type="submit" form="profile-form" loading={meta.isPending}>
+          <Button type="submit" form="profile-form" loading={pending()}>
             <T id="save" />
           </Button>
         </div>
@@ -158,7 +155,7 @@ export const ProfileEditionPage: Component = () => {
 
         <FormField label={t('profilePicture')}>
           <Row gap={2}>
-            <MemberAvatar member={member()} class="h-12 w-12 rounded-full" />
+            <MemberAvatar member={state.authenticatedMember} class="h-12 w-12 rounded-full" />
             <p>
               <T
                 id="profilePictureMessage"

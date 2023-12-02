@@ -1,23 +1,15 @@
-import { useNavigate } from '@solidjs/router';
 import { Component } from 'solid-js';
 
 import { Button } from '../components/button';
 import { Translate } from '../intl/translate';
-import { mutation } from '../utils/mutation';
+import { getMutations } from '../store/app-store';
+import { createAsyncCall } from '../utils/async-call';
 
 const T = Translate.prefix('profile.signOut');
 
 export const SignOutPage: Component = () => {
-  const navigate = useNavigate();
-
-  const [signOut, meta] = mutation((fetcher) => ({
-    key: ['signOut'],
-    async mutate() {
-      await fetcher.delete('/api/session');
-    },
-    invalidate: ['authenticatedMember'],
-    onSuccess: () => navigate('/'),
-  }));
+  const mutations = getMutations();
+  const [signOut, pending] = createAsyncCall(mutations.signOut);
 
   return (
     <div class="col mx-auto my-6 w-full max-w-2xl items-center gap-6 rounded-lg bg-neutral px-6 py-12">
@@ -25,7 +17,7 @@ export const SignOutPage: Component = () => {
         <T id="description" />
       </p>
 
-      <Button onClick={() => signOut()} loading={meta.isPending} class="self-center">
+      <Button onClick={() => signOut()} loading={pending()} class="self-center">
         <T id="button" />
       </Button>
     </div>

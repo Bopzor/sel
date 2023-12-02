@@ -1,33 +1,29 @@
-import { Address, UpdateMemberProfileData } from '@sel/shared';
+import { Address } from '@sel/shared';
+import { defined } from '@sel/utils';
 import { Component } from 'solid-js';
 
 import { AddressSearch } from '../components/address-search';
 import { Translate } from '../intl/translate';
-import { getAuthenticatedMember } from '../utils/authenticated-member';
-import { mutation } from '../utils/mutation';
-import { notify } from '../utils/notify';
+import { getAppState, getMutations } from '../store/app-store';
+import { createAsyncCall } from '../utils/async-call';
 
 const T = Translate.prefix('profile.address');
 
 export const AddressPage: Component = () => {
   const t = T.useTranslation();
-  const member = getAuthenticatedMember();
+  const state = getAppState();
 
-  const [updateMemberProfile] = mutation((fetcher) => ({
-    key: ['updateMemberProfile'],
-    async mutate(data: UpdateMemberProfileData) {
-      await fetcher.put(`/api/members/${member().id}/profile`, data);
-    },
-    invalidate: ['authenticatedMember'],
-    onSuccess: () => notify.success(t('saved')),
-  }));
+  const mutations = getMutations();
+  const [updateMemberProfile] = createAsyncCall(mutations.updateMemberProfile);
 
   const handleSelected = (address: Address) => {
+    const member = defined(state.authenticatedMember);
+
     updateMemberProfile({
-      firstName: member().firstName,
-      lastName: member().lastName,
-      emailVisible: member().emailVisible,
-      phoneNumbers: member().phoneNumbers,
+      firstName: member.firstName,
+      lastName: member.lastName,
+      emailVisible: member.emailVisible,
+      phoneNumbers: member.phoneNumbers,
       address,
     });
   };
@@ -44,7 +40,7 @@ export const AddressPage: Component = () => {
 
       <AddressSearch
         placeholder={t('placeholder')}
-        value={member().address}
+        value={state.authenticatedMember?.address}
         onSelected={(address) => handleSelected(address)}
       />
     </>

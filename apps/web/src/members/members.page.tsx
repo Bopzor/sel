@@ -3,9 +3,8 @@ import { defined, parseEnumValue } from '@sel/utils';
 import clsx from 'clsx';
 import { Icon } from 'solid-heroicons';
 import { magnifyingGlass, mapPin } from 'solid-heroicons/solid';
-import { Component, For, createSignal } from 'solid-js';
+import { Component, For, createEffect, createSignal } from 'solid-js';
 
-import { Async } from '../components/async';
 import { BackLink } from '../components/back-link';
 import { Input } from '../components/input';
 import { Link } from '../components/link';
@@ -16,8 +15,8 @@ import { Row } from '../components/row';
 import { useSearchParam } from '../infrastructure/router/use-search-param';
 import { Translate, useTranslation } from '../intl/translate';
 import { routes } from '../routes';
+import { getMutations, getAppState } from '../store/app-store';
 import { createDebouncedValue } from '../utils/debounce';
-import { query } from '../utils/query';
 
 const T = Translate.prefix('members');
 
@@ -25,24 +24,13 @@ export const MembersPage: Component = () => {
   const [getSearch, setSearch] = useSearchParam('search', (value) => value ?? '');
   const [getSort, setSort] = useSearchParam('sort', parseEnumValue(MembersSort));
 
-  const membersQuery = query((fetcher) => ({
-    key: ['members', { sort: getSort(), a: Math.random() }],
-    query: () => {
-      let endpoint = '/api/members';
-      const search = new URLSearchParams();
-      const sort = getSort();
+  const actions = getMutations();
 
-      if (sort) {
-        search.set('sort', sort);
-      }
+  createEffect(() => {
+    actions.loadMembers(getSort());
+  });
 
-      if (search.size > 0) {
-        endpoint += `?${search}`;
-      }
-
-      return fetcher.get<Member[]>(endpoint).body();
-    },
-  }));
+  const state = getAppState();
 
   const [openPopupMember, setOpenPopupMember] = createSignal<Member>();
 
@@ -50,30 +38,24 @@ export const MembersPage: Component = () => {
     <>
       <BackLink href={routes.home} />
 
-      <Async query={membersQuery}>
-        {(members) => (
-          <div class="row flex-1 gap-6">
-            <MembersList
-              members={members}
-              loading={membersQuery.isFetching}
-              search={getSearch()}
-              onSearch={setSearch}
-              sort={getSort() ?? MembersSort.firstName}
-              onSort={setSort}
-              onHighlight={setOpenPopupMember}
-            />
+      <div class="row flex-1 gap-6">
+        <MembersList
+          members={state.members}
+          search={getSearch()}
+          onSearch={setSearch}
+          sort={getSort() ?? MembersSort.firstName}
+          onSort={setSort}
+          onHighlight={setOpenPopupMember}
+        />
 
-            <MemberMap members={members} openPopupMember={openPopupMember()} />
-          </div>
-        )}
-      </Async>
+        <MemberMap members={state.members} openPopupMember={openPopupMember()} />
+      </div>
     </>
   );
 };
 
 type MembersListProps = {
-  members: Member[];
-  loading: boolean;
+  members?: Member[];
   search: string;
   onSearch: (search: string) => void;
   sort?: MembersSort;
@@ -82,7 +64,8 @@ type MembersListProps = {
 };
 
 const MembersList: Component<MembersListProps> = (props) => {
-  const debouncedLoading = createDebouncedValue(() => props.loading, 200);
+  // todo
+  const debouncedLoading = createDebouncedValue(() => false, 200);
 
   return (
     <div class=" col min-h-[24rem] flex-1 gap-4 md:max-w-sm">
@@ -178,7 +161,7 @@ const SortMembers: Component<SortMembersProps> = (props) => (
 );
 
 type MemberMapProps = {
-  members: Member[];
+  members?: Member[];
   openPopupMember?: Member;
 };
 
@@ -189,7 +172,7 @@ const MemberMap: Component<MemberMapProps> = (props) => {
         center={props.openPopupMember?.address?.position ?? [5.042, 43.836]}
         zoom={13}
         markers={props.members
-          .filter((member) => member.address?.position)
+          ?.filter((member) => member.address?.position)
           .map((member) => ({
             position: defined(member.address?.position),
             isPopupOpen: member === props.openPopupMember,

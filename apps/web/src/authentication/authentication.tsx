@@ -5,7 +5,8 @@ import { Button } from '../components/button';
 import { Input } from '../components/input';
 import { Translate } from '../intl/translate';
 import { Header } from '../layout/header/header';
-import { mutation } from '../utils/mutation';
+import { getMutations, getAppState } from '../store/app-store';
+import { createAsyncCall } from '../utils/async-call';
 
 const T = Translate.prefix('authentication');
 
@@ -13,12 +14,10 @@ export const Authentication: Component = () => {
   const t = T.useTranslation();
   const [email, setEmail] = createSignal<string>();
 
-  const [requestAuthenticationLink, meta] = mutation((fetcher) => ({
-    key: ['requestAuthenticationLink'],
-    async mutate(email: string) {
-      await fetcher.post(`/api/authentication/request-authentication-link?${new URLSearchParams({ email })}`);
-    },
-  }));
+  const state = getAppState();
+
+  const mutations = getMutations();
+  const [requestAuthenticationLink, pending] = createAsyncCall(mutations.requestAuthenticationLink);
 
   const handleSubmit: JSX.EventHandler<HTMLFormElement, Event> = (event) => {
     event.preventDefault();
@@ -39,7 +38,7 @@ export const Authentication: Component = () => {
 
         <div class="col gap-4 p-4">
           <Switch>
-            <Match when={!meta.isSuccess}>
+            <Match when={!state.authenticationLinkRequested}>
               <p class="my-4">
                 <T id="description" />
               </p>
@@ -53,13 +52,13 @@ export const Authentication: Component = () => {
                   placeholder={t('emailAddress')}
                 />
 
-                <Button type="submit" loading={meta.isPending} class="self-end">
+                <Button type="submit" loading={pending()} class="self-end">
                   <T id="send" />
                 </Button>
               </form>
             </Match>
 
-            <Match when={meta.isSuccess}>
+            <Match when={state.authenticationLinkRequested}>
               <p class="my-4">
                 <T
                   id="authenticationLinkRequested"

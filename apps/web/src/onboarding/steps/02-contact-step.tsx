@@ -3,7 +3,7 @@ import { Component, Show, createSignal } from 'solid-js';
 import { Input } from '../../components/input';
 import { Row } from '../../components/row';
 import { Translate } from '../../intl/translate';
-import { getAuthenticatedMember } from '../../utils/authenticated-member';
+import { getAppState } from '../../store/app-store';
 import { NextButton } from '../components/next-button';
 import { OnboardingField } from '../components/onboarding-field';
 import { OnboardingFieldVisibility } from '../components/onboarding-field-visibility';
@@ -19,7 +19,7 @@ type ContactStepProps = {
 };
 
 export const ContactStep: Component<ContactStepProps> = (props) => {
-  const member = getAuthenticatedMember();
+  const state = getAppState();
   const t = T.useTranslation();
 
   // eslint-disable-next-line prefer-const
@@ -71,7 +71,7 @@ export const ContactStep: Component<ContactStepProps> = (props) => {
               type="email"
               variant="outlined"
               width="medium"
-              value={member().email}
+              value={state.authenticatedMember?.email}
               onFocus={() => setShowEmailReadonlyMessage(true)}
               onBlur={() => setShowEmailReadonlyMessage(false)}
             />

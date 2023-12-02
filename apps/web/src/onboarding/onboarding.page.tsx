@@ -1,11 +1,11 @@
-import { AuthenticatedMember, UpdateMemberProfileData } from '@sel/shared';
+import { AuthenticatedMember } from '@sel/shared';
 import { Show, createSignal } from 'solid-js';
 import { createStore } from 'solid-js/store';
 
 import { Translate } from '../intl/translate';
-import { getAuthenticatedMember } from '../utils/authenticated-member';
+import { getMutations, getAppState } from '../store/app-store';
+import { createAsyncCall } from '../utils/async-call';
 import { formatPhoneNumber } from '../utils/format-phone-number';
-import { mutation } from '../utils/mutation';
 
 import { Stepper } from './components/stepper';
 import { OnFieldChange, OnboardingForm } from './onboarding-form';
@@ -18,22 +18,23 @@ import { EndStep } from './steps/05-end-step';
 
 const T = Translate.prefix('onboarding');
 
-const getInitialValues = (member: AuthenticatedMember): OnboardingForm => ({
-  firstName: member.firstName,
-  lastName: member.lastName,
+const getInitialValues = (member: AuthenticatedMember | undefined): OnboardingForm => ({
+  firstName: member?.firstName ?? '',
+  lastName: member?.lastName ?? '',
   emailVisible: true,
-  phoneNumber: member.phoneNumbers.length > 0 ? formatPhoneNumber(member.phoneNumbers[0].number) : '',
+  phoneNumber:
+    member && member.phoneNumbers.length > 0 ? formatPhoneNumber(member.phoneNumbers[0].number) : '',
   phoneNumberVisible: true,
-  bio: member.bio ?? '',
+  bio: member?.bio ?? '',
 });
 
 export const OnboardingPage = () => {
   const [step, setStep] = createSignal(0);
   const handleNext = () => setStep((step) => step + 1);
 
-  const member = getAuthenticatedMember();
+  const state = getAppState();
 
-  const [form, setForm] = createStore<OnboardingForm>(getInitialValues(member()));
+  const [form, setForm] = createStore<OnboardingForm>(getInitialValues(state.authenticatedMember));
 
   const onFieldChange: OnFieldChange = (field) => {
     return ({ currentTarget }) => {
@@ -45,11 +46,8 @@ export const OnboardingPage = () => {
     };
   };
 
-  const [updateMemberProfile, meta] = mutation((fetcher) => ({
-    key: ['updateMemberProfile'],
-    mutate: (data: UpdateMemberProfileData) => fetcher.put(`/api/members/${member().id}/profile`, data),
-    invalidate: ['authenticatedMember'],
-  }));
+  const mutations = getMutations();
+  const [updateMemberProfile, pending] = createAsyncCall(mutations.updateMemberProfile);
 
   const handleEnd = () => {
     updateMemberProfile({
@@ -98,7 +96,7 @@ export const OnboardingPage = () => {
       </Show>
 
       <Show when={step() === 5}>
-        <EndStep loading={meta.isPending} onNext={() => handleEnd()} />
+        <EndStep loading={pending()} onNext={() => handleEnd()} />
       </Show>
     </div>
   );

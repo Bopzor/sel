@@ -1,7 +1,7 @@
 export function isEnumValue<Values extends string>(enumType: Record<string, Values>) {
   const values = Object.values(enumType);
 
-  return (value: string | undefined): value is Values => {
+  return (value: unknown): value is Values => {
     return Object.values<unknown>(values).includes(value);
   };
 }

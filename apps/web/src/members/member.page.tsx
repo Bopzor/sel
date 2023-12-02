@@ -3,9 +3,18 @@ import { defined } from '@sel/utils';
 import { useParams } from '@solidjs/router';
 import { Icon } from 'solid-heroicons';
 import { envelope, home, phone, user } from 'solid-heroicons/solid';
-import { Component, ComponentProps, ErrorBoundary, For, JSX, ParentProps, Show } from 'solid-js';
+import {
+  Component,
+  ComponentProps,
+  ErrorBoundary,
+  For,
+  JSX,
+  ParentProps,
+  Show,
+  createEffect,
+  onCleanup,
+} from 'solid-js';
 
-import { Async } from '../components/async';
 import { BackLink } from '../components/back-link';
 import { Map } from '../components/map';
 import { MemberAddress } from '../components/member-address';
@@ -14,14 +23,12 @@ import { Row } from '../components/row';
 import { FetchError } from '../fetcher';
 import { Translate } from '../intl/translate';
 import { routes } from '../routes';
+import { getMutations, getAppState } from '../store/app-store';
 import { formatPhoneNumber } from '../utils/format-phone-number';
-import { query } from '../utils/query';
 
 const T = Translate.prefix('members');
 
 export const MemberPage: Component = () => {
-  const { memberId } = useParams<{ memberId: string }>();
-
   return (
     <>
       <BackLink href={routes.members.list} />
@@ -35,7 +42,7 @@ export const MemberPage: Component = () => {
           throw error;
         }}
       >
-        <PageContent memberId={memberId} />
+        <PageContent />
       </ErrorBoundary>
     </>
   );
@@ -55,50 +62,48 @@ function MemberNotFound(props: { message: string }) {
   );
 }
 
-function PageContent(props: { memberId: string }) {
-  // eslint-disable-next-line solid/reactivity
-  const memberQuery = query((fetcher) => ({
-    key: ['member', props.memberId],
-    query: () => fetcher.get<Member>(`/api/members/${props.memberId}`).body(),
-  }));
+function PageContent() {
+  const { memberId } = useParams<{ memberId: string }>();
+
+  const state = getAppState();
+  const { loadMember } = getMutations();
+
+  createEffect(() => loadMember(memberId));
+  onCleanup(() => loadMember(undefined));
 
   return (
-    <Async query={memberQuery}>
-      {(member) => (
-        <div class="card gap-4 p-4 md:p-8">
-          <Row class="gap-6">
-            <MemberAvatarName
-              member={member}
-              classes={{ avatar: '!h-16 !w-16', name: 'text-xl font-semibold' }}
-            />
-          </Row>
+    <div class="card gap-4 p-4 md:p-8">
+      <Row class="gap-6">
+        <MemberAvatarName
+          member={state.member}
+          classes={{ avatar: '!h-16 !w-16', name: 'text-xl font-semibold' }}
+        />
+      </Row>
 
-          <hr class="my-4 md:my-6" />
+      <hr class="my-4 md:my-6" />
 
-          <div class="grid grid-cols-1 gap-8 md:grid-cols-2">
-            <MemberInfo member={member} />
-            <MemberMap member={member} />
-          </div>
-        </div>
-      )}
-    </Async>
+      <div class="grid grid-cols-1 gap-8 md:grid-cols-2">
+        <MemberInfo member={state.member} />
+        <MemberMap member={state.member} />
+      </div>
+    </div>
   );
 }
 
 type MemberInfoProps = {
-  member: Member;
+  member?: Member;
 };
 
 const MemberInfo: Component<MemberInfoProps> = (props) => {
   return (
     <div class="col gap-4">
       <MemberProfileData
-        when={props.member.phoneNumbers.length > 0}
+        when={props.member && props.member.phoneNumbers.length > 0}
         label={<T id="phoneNumber" />}
         icon={phone}
       >
         <ul>
-          <For each={props.member.phoneNumbers}>
+          <For each={props.member?.phoneNumbers}>
             {({ number }) => (
               <li>
                 <a class="unstyled" href={`tel:${number}`}>
@@ -110,18 +115,18 @@ const MemberInfo: Component<MemberInfoProps> = (props) => {
         </ul>
       </MemberProfileData>
 
-      <MemberProfileData when={props.member.email} label={<T id="emailAddress" />} icon={envelope}>
-        <a class="unstyled" href={`mailto:${props.member.email}`}>
-          {props.member.email}
+      <MemberProfileData when={props.member?.email} label={<T id="emailAddress" />} icon={envelope}>
+        <a class="unstyled" href={`mailto:${props.member?.email}`}>
+          {props.member?.email}
         </a>
       </MemberProfileData>
 
-      <MemberProfileData when={props.member.address} label={<T id="mailingAddress" />} icon={home}>
-        <MemberAddress address={defined(props.member.address)} />
+      <MemberProfileData when={props.member?.address} label={<T id="mailingAddress" />} icon={home}>
+        <MemberAddress address={defined(props.member?.address)} />
       </MemberProfileData>
 
-      <MemberProfileData when={props.member.bio} label={<T id="bio" />} icon={user}>
-        <p>{props.member.bio}</p>
+      <MemberProfileData when={props.member?.bio} label={<T id="bio" />} icon={user}>
+        <p>{props.member?.bio}</p>
       </MemberProfileData>
     </div>
   );
@@ -149,12 +154,12 @@ const MemberProfileData: Component<MemberProfileDataProps> = (props) => {
 };
 
 type MemberMapProps = {
-  member: Member;
+  member?: Member;
 };
 
 const MemberMap: Component<MemberMapProps> = (props) => {
   return (
-    <Show when={props.member.address?.position}>
+    <Show when={props.member?.address?.position}>
       {(position) => (
         <Map
           center={position()}

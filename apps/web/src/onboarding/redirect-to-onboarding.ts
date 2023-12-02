@@ -1,20 +1,20 @@
 import { useLocation, useNavigate } from '@solidjs/router';
 import { createEffect } from 'solid-js';
 
-import { getAuthenticatedMemberUnsafe } from '../utils/authenticated-member';
+import { getAppState } from '../store/app-store';
 
 export function redirectToOnboardingWhenNotCompleted() {
-  const member = getAuthenticatedMemberUnsafe();
+  const state = getAppState();
 
   const location = useLocation();
   const navigate = useNavigate();
 
   createEffect(() => {
-    if (member()?.onboardingCompleted === false && location.pathname !== '/onboarding') {
+    if (state.authenticatedMember?.onboardingCompleted === false && location.pathname !== '/onboarding') {
       navigate('/onboarding');
     }
 
-    if (member()?.onboardingCompleted === true && location.pathname === '/onboarding') {
+    if (state.authenticatedMember?.onboardingCompleted === true && location.pathname === '/onboarding') {
       navigate('/');
     }
   });

@@ -25,6 +25,7 @@ import { NotificationsPage } from './profile/notifications.page';
 import { ProfileEditionPage } from './profile/profile-edition.page';
 import { ProfileLayout } from './profile/profile.layout';
 import { SignOutPage } from './profile/sign-out.page';
+import { AppStoreProvider } from './store/app-store';
 import { ErrorTestPage } from './utils/error-test.page';
 
 const HomePage = lazyImport(() => import('./home/home.page'), 'HomePage');
@@ -67,7 +68,7 @@ const Providers: Component<ProvidersProps> = (props) => {
             <SolidQueryDevtools />
             <Router>
               <ErrorBoundary>
-                {props.children}
+                <AppStoreProvider>{props.children}</AppStoreProvider>
                 <Toaster toastOptions={{ duration: 5 * 1000, className: '!max-w-xl' }} />
                 <MatomoScript />
                 <TrackPageView />

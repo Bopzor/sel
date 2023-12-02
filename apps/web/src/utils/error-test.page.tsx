@@ -1,10 +1,7 @@
-import { Component, createEffect, createSignal } from 'solid-js';
+import { Component, createEffect, createResource, createSignal } from 'solid-js';
 
 import { Button } from '../components/button';
 import { useSearchParam } from '../infrastructure/router/use-search-param';
-
-import { mutation } from './mutation';
-import { query } from './query';
 
 export const ErrorTestPage: Component = () => {
   return (
@@ -13,8 +10,7 @@ export const ErrorTestPage: Component = () => {
       <RenderError />
       <EffectError />
       <CallbackError />
-      <QueryError />
-      <MutationError />
+      <CreateResourceError />
     </div>
   );
 };
@@ -57,31 +53,12 @@ const CallbackError: Component = () => {
   );
 };
 
-const QueryError: Component = () => {
+const CreateResourceError: Component = () => {
   const [error, setError] = createSignal(false);
 
-  // eslint-disable-next-line solid/reactivity
-  query(() => ({
-    key: ['test-error', 'query', error()],
-    async query() {
-      if (error()) {
-        throw new Error('Test error: query');
-      }
+  const [result] = createResource(error, async () => {
+    throw new Error('Test error: createResource');
+  });
 
-      return null;
-    },
-  }));
-
-  return <Button onClick={() => setError(true)}>Query</Button>;
-};
-
-const MutationError: Component = () => {
-  const [trigger] = mutation(() => ({
-    key: ['test-error', 'mutation'],
-    async mutate() {
-      throw new Error('Test error: mutation');
-    },
-  }));
-
-  return <Button onClick={() => trigger()}>Mutation</Button>;
+  return <Button onClick={() => setError(true)}>createResource {result()}</Button>;
 };
