@@ -16,6 +16,7 @@ import {
 } from 'solid-js';
 
 import { BackLink } from '../components/back-link';
+import { SuspenseLoader } from '../components/loader';
 import { Map } from '../components/map';
 import { MemberAddress } from '../components/member-address';
 import { MemberAvatarName } from '../components/member-avatar-name';
@@ -23,9 +24,8 @@ import { Row } from '../components/row';
 import { FetchError } from '../fetcher';
 import { Translate } from '../intl/translate';
 import { routes } from '../routes';
-import { getMutations, getAppState } from '../store/app-store';
+import { getAppState, getMutations } from '../store/app-store';
 import { formatPhoneNumber } from '../utils/format-phone-number';
-
 const T = Translate.prefix('members');
 
 export const MemberPage: Component = () => {
@@ -42,7 +42,9 @@ export const MemberPage: Component = () => {
           throw error;
         }}
       >
-        <PageContent />
+        <SuspenseLoader>
+          <PageContent />
+        </SuspenseLoader>
       </ErrorBoundary>
     </>
   );
@@ -164,7 +166,7 @@ const MemberMap: Component<MemberMapProps> = (props) => {
         <Map
           center={position()}
           zoom={13}
-          class="h-[24rem] flex-1"
+          class="!h-[24rem] flex-1"
           markers={[{ position: position(), isPopupOpen: false }]}
         />
       )}

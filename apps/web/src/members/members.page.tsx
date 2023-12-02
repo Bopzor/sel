@@ -3,7 +3,7 @@ import { defined, parseEnumValue } from '@sel/utils';
 import clsx from 'clsx';
 import { Icon } from 'solid-heroicons';
 import { magnifyingGlass, mapPin } from 'solid-heroicons/solid';
-import { Component, For, createEffect, createSignal } from 'solid-js';
+import { Component, For, Suspense, createEffect, createSignal } from 'solid-js';
 
 import { BackLink } from '../components/back-link';
 import { Input } from '../components/input';
@@ -15,7 +15,7 @@ import { Row } from '../components/row';
 import { useSearchParam } from '../infrastructure/router/use-search-param';
 import { Translate, useTranslation } from '../intl/translate';
 import { routes } from '../routes';
-import { getMutations, getAppState } from '../store/app-store';
+import { getAppState, getMutations } from '../store/app-store';
 import { createDebouncedValue } from '../utils/debounce';
 
 const T = Translate.prefix('members');
@@ -64,8 +64,10 @@ type MembersListProps = {
 };
 
 const MembersList: Component<MembersListProps> = (props) => {
-  // todo
-  const debouncedLoading = createDebouncedValue(() => false, 200);
+  const state = getAppState();
+
+  const debouncedLoading = createDebouncedValue(() => state.loadingMembers, 300);
+  const loading = () => state.loadingMembers && debouncedLoading();
 
   return (
     <div class=" col min-h-[24rem] flex-1 gap-4 md:max-w-sm">
@@ -77,12 +79,14 @@ const MembersList: Component<MembersListProps> = (props) => {
         </div>
 
         <ul class="h-0 flex-auto overflow-y-auto" onMouseLeave={() => props.onHighlight(undefined)}>
-          <For each={props.members}>
-            {(member) => <MembersListItem member={member} onHighlight={() => props.onHighlight(member)} />}
-          </For>
+          <Suspense>
+            <For each={props.members}>
+              {(member) => <MembersListItem member={member} onHighlight={() => props.onHighlight(member)} />}
+            </For>
+          </Suspense>
         </ul>
 
-        <div class="absolute inset-0 bg-neutral/50" classList={{ invisible: !debouncedLoading() }} />
+        <div class="absolute inset-0 bg-neutral/50" classList={{ invisible: !loading() }} />
       </div>
     </div>
   );
@@ -168,18 +172,20 @@ type MemberMapProps = {
 const MemberMap: Component<MemberMapProps> = (props) => {
   return (
     <div class="hidden flex-1 md:block">
-      <Map
-        center={props.openPopupMember?.address?.position ?? [5.042, 43.836]}
-        zoom={13}
-        markers={props.members
-          ?.filter((member) => member.address?.position)
-          .map((member) => ({
-            position: defined(member.address?.position),
-            isPopupOpen: member === props.openPopupMember,
-            render: () => <Popup member={member} />,
-          }))}
-        class="aspect-4/3 max-h-[32rem]"
-      />
+      <Suspense>
+        <Map
+          center={props.openPopupMember?.address?.position ?? [5.042, 43.836]}
+          zoom={13}
+          markers={props.members
+            ?.filter((member) => member.address?.position)
+            .map((member) => ({
+              position: defined(member.address?.position),
+              isPopupOpen: member === props.openPopupMember,
+              render: () => <Popup member={member} />,
+            }))}
+          class="h-[32rem]"
+        />
+      </Suspense>
     </div>
   );
 };

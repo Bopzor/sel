@@ -1,6 +1,6 @@
 import { AuthenticatedMember, Member, MembersSort, UpdateMemberProfileData } from '@sel/shared';
 import { defined, isEnumValue } from '@sel/utils';
-import { JSX, createContext, createResource, createSignal, useContext } from 'solid-js';
+import { JSX, createContext, createEffect, createResource, createSignal, useContext } from 'solid-js';
 import { SetStoreFunction, createStore } from 'solid-js/store';
 
 import { FetchError } from '../fetcher';
@@ -14,6 +14,8 @@ type None = typeof none;
 type AppState = {
   authenticatedMember: AuthenticatedMember | undefined;
   authenticationLinkRequested: boolean;
+  verifyAuthenticationTokenResult: undefined;
+  loadingMembers: boolean;
   members: Member[] | undefined;
   member: Member | undefined;
 };
@@ -26,6 +28,12 @@ function createAppStore() {
       return authenticatedMember();
     },
     authenticationLinkRequested: false,
+    get verifyAuthenticationTokenResult() {
+      return verifyAuthenticationTokenResult();
+    },
+    get loadingMembers() {
+      return loadingMembers();
+    },
     get members() {
       return members();
     },
@@ -34,8 +42,10 @@ function createAppStore() {
     },
   });
 
-  const { authenticatedMember, ...authenticatedMemberActions } = authenticatedMemberState(state, setState);
-  const { members, member, ...membersActions } = membersState(state, setState);
+  const { authenticatedMember, verifyAuthenticationTokenResult, ...authenticatedMemberActions } =
+    authenticatedMemberState(state, setState);
+
+  const { members, loadingMembers, member, ...membersActions } = membersState(state, setState);
 
   return [
     state,
@@ -67,33 +77,38 @@ export function getMutations() {
 function authenticatedMemberState(state: AppState, setState: SetAppState) {
   const fetcher = container.resolve(TOKENS.fetcher);
 
-  const [authenticatedMember, { refetch }] = createResource(async () => {
-    try {
-      return await fetcher.get<AuthenticatedMember | undefined>('/api/session/member').body();
-    } catch (error) {
-      if (FetchError.is(error, 401)) {
-        return undefined;
-      } else {
-        throw error;
-      }
-    }
-  });
-
   const [getToken, setToken] = useSearchParam('auth-token');
 
-  createResource(getToken, async (token) => {
+  const [authenticatedMember, { refetch }] = createResource(
+    () => !getToken(),
+    async () => {
+      try {
+        return await fetcher.get<AuthenticatedMember | undefined>('/api/session/member').body();
+      } catch (error) {
+        if (FetchError.is(error, 401)) {
+          return undefined;
+        } else {
+          throw error;
+        }
+      }
+    }
+  );
+
+  const [verifyAuthenticationTokenResult] = createResource(getToken, async (token) => {
     const params = new URLSearchParams({ token });
 
     try {
       await fetcher.get(`/api/authentication/verify-authentication-token?${params}`);
       await refetch();
+      return undefined;
     } finally {
       setToken(undefined);
     }
   });
 
   return {
-    authenticatedMember,
+    authenticatedMember: () => authenticatedMember.latest,
+    verifyAuthenticationTokenResult,
 
     requestAuthenticationLink: async (email: string) => {
       setState('authenticationLinkRequested', true);
@@ -124,7 +139,7 @@ function authenticatedMemberState(state: AppState, setState: SetAppState) {
 function membersState(state: AppState, setState: SetAppState) {
   const fetcher = container.resolve(TOKENS.fetcher);
 
-  const [membersSort, setMembersSort] = createSignal<MembersSort | None>(none);
+  const [membersSort, setMembersSort] = createSignal<MembersSort | None>();
 
   const [members] = createResource(membersSort, async (sort) => {
     let endpoint = '/api/members';
@@ -148,7 +163,8 @@ function membersState(state: AppState, setState: SetAppState) {
   });
 
   return {
-    members,
+    loadingMembers: () => members.loading,
+    members: () => members.latest,
     member,
 
     loadMembers: (sort: MembersSort | undefined) => {

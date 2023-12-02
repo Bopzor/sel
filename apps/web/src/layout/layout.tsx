@@ -16,11 +16,16 @@ export const Layout: Component<LayoutProps> = (props) => {
   redirectToOnboardingWhenNotCompleted();
 
   return (
-    <Show when={state.authenticatedMember} fallback={<Authentication />}>
-      <Header>
-        <HeaderMember />
-      </Header>
-      <main class="col mx-auto w-full max-w-7xl flex-1 px-4 pb-4">{props.children}</main>
-    </Show>
+    <>
+      {/* trigger suspend */}
+      {state.verifyAuthenticationTokenResult}
+
+      <Show when={state.authenticatedMember} fallback={<Authentication />}>
+        <Header>
+          <HeaderMember />
+        </Header>
+        <main class="col mx-auto w-full max-w-7xl flex-1 px-4 pb-4">{props.children}</main>
+      </Show>
+    </>
   );
 };

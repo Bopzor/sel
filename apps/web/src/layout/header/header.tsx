@@ -1,4 +1,4 @@
-import { Component, JSX } from 'solid-js';
+import { Component, JSX, Suspense } from 'solid-js';
 
 import { Link } from '../../components/link';
 import { MemberAvatar } from '../../components/member-avatar';
@@ -41,9 +41,11 @@ export const HeaderMember = () => {
   const state = getAppState();
 
   return (
-    <Link unstyled href={routes.profile.profileEdition} class="col items-center gap-1 font-semibold">
-      <MemberAvatar member={state.authenticatedMember} class="h-10 w-10 rounded-full" />
-      <div class="leading-1">{state.authenticatedMember?.firstName}</div>
-    </Link>
+    <Suspense>
+      <Link unstyled href={routes.profile.profileEdition} class="col items-center gap-1 font-semibold">
+        <MemberAvatar member={state.authenticatedMember} class="h-10 w-10 rounded-full" />
+        <div class="leading-1">{state.authenticatedMember?.firstName}</div>
+      </Link>
+    </Suspense>
   );
 };

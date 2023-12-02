@@ -1,4 +1,4 @@
-import { onMount, Show } from 'solid-js';
+import { JSX, onMount, Show, Suspense } from 'solid-js';
 
 import { Translate } from '../intl/translate';
 import { createDebouncedSignal } from '../utils/debounce';
@@ -22,4 +22,8 @@ export function Loader() {
       </div>
     </Show>
   );
+}
+
+export function SuspenseLoader(props: { children: JSX.Element }) {
+  return <Suspense fallback={<Loader />}>{props.children}</Suspense>;
 }

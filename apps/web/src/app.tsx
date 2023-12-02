@@ -10,6 +10,7 @@ import {
 } from 'solid-js';
 import { Toaster } from 'solid-toast';
 
+import { SuspenseLoader } from './components/loader';
 import { MatomoScript } from './infrastructure/analytics/matomo-script';
 import { TrackPageView } from './infrastructure/analytics/track-page-view';
 import { IntlProvider } from './intl';
@@ -40,9 +41,14 @@ export const App: Component = () => {
   return (
     <SolidErrorBoundary fallback={<Translate id="common.error.unknownErrorMessage" />}>
       <Providers>
-        <Layout>
-          <Routing />
-        </Layout>
+        <SuspenseLoader>
+          <Layout>
+            <Routing />
+          </Layout>
+          <Toaster toastOptions={{ duration: 5 * 1000, className: '!max-w-xl' }} />
+          <MatomoScript />
+          <TrackPageView />
+        </SuspenseLoader>
       </Providers>
     </SolidErrorBoundary>
   );
@@ -63,9 +69,6 @@ const Providers: Component<ProvidersProps> = (props) => {
           <Router>
             <ErrorBoundary>
               <AppStoreProvider>{props.children}</AppStoreProvider>
-              <Toaster toastOptions={{ duration: 5 * 1000, className: '!max-w-xl' }} />
-              <MatomoScript />
-              <TrackPageView />
             </ErrorBoundary>
           </Router>
         </IntlProvider>

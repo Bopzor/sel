@@ -42,7 +42,9 @@ export const AddressSearch: Component<AddressSearchProps> = (props) => {
         end={results.loading && <Spinner class="h-4 w-4 text-dim" />}
       />
 
-      <AddressList addresses={results() ?? []} onSelected={(address) => props.onSelected(address)} />
+      <Suspense>
+        <AddressList addresses={results() ?? []} onSelected={(address) => props.onSelected(address)} />
+      </Suspense>
 
       <div class="h-[24rem]">
         <Map
