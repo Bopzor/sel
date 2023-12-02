@@ -48,7 +48,7 @@ function createAppStore() {
   const { authenticatedMember, verifyAuthenticationTokenResult, ...authenticatedMemberActions } =
     authenticatedMemberState(state, setState);
 
-  const { members, loadingMembers, member, ...membersActions } = membersState(state, setState);
+  const { members, loadingMembers, member, ...membersActions } = membersState();
 
   return [
     state,
@@ -141,7 +141,7 @@ function authenticatedMemberState(state: AppState, setState: SetAppState) {
   };
 }
 
-function membersState(state: AppState, setState: SetAppState) {
+function membersState() {
   const fetcher = container.resolve(TOKENS.fetcher);
 
   const [membersSort, setMembersSort] = createSignal<MembersSort | None>();

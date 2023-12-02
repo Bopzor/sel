@@ -1,4 +1,3 @@
-import { useNavigate } from '@solidjs/router';
 import { Component, JSX, ErrorBoundary as SolidErrorBoundary, createEffect } from 'solid-js';
 
 import { Button } from '../components/button';
