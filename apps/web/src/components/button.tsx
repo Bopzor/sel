@@ -1,5 +1,7 @@
 import clsx from 'clsx';
-import { Component, ComponentProps, mergeProps, splitProps } from 'solid-js';
+import { Component, ComponentProps, Show, mergeProps, splitProps } from 'solid-js';
+
+import { createDebouncedValue } from '../utils/debounce';
 
 import { Link } from './link';
 import { Spinner } from './spinner';
@@ -13,9 +15,11 @@ export const Button: Component<ButtonProps> = (props1) => {
   const props2 = mergeProps({ type: 'button', variant: 'primary' } satisfies ButtonProps, props1);
   const [props, buttonProps] = splitProps(props2, ['variant', 'loading', 'disabled', 'classList']);
 
+  const loading = createDebouncedValue(() => props.loading, 200);
+
   return (
     <button
-      disabled={props.disabled ?? props.loading}
+      disabled={props.disabled ?? loading()}
       classList={{
         button: true,
         'button-primary': props.variant === 'primary',
@@ -25,7 +29,9 @@ export const Button: Component<ButtonProps> = (props1) => {
       {...buttonProps}
     >
       {buttonProps.children}
-      {props.loading && <Spinner class="h-4 w-4" />}
+      <Show when={loading()}>
+        <Spinner class="h-4 w-4" />
+      </Show>
     </button>
   );
 };
