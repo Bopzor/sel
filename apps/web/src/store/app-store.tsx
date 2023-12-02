@@ -1,13 +1,15 @@
 import { AuthenticatedMember, Member, MembersSort, UpdateMemberProfileData } from '@sel/shared';
 import { defined, isEnumValue } from '@sel/utils';
-import { JSX, createContext, createEffect, createResource, createSignal, useContext } from 'solid-js';
+import { JSX, createContext, createResource, createSignal, useContext } from 'solid-js';
 import { SetStoreFunction, createStore } from 'solid-js/store';
 
 import { FetchError } from '../fetcher';
 import { container } from '../infrastructure/container';
 import { useSearchParam } from '../infrastructure/router/use-search-param';
+import { useTranslation } from '../intl/translate';
 import { routes } from '../routes';
 import { TOKENS } from '../tokens';
+import { notify } from '../utils/notify';
 
 const none = Symbol('none');
 type None = typeof none;
@@ -78,6 +80,7 @@ export function getMutations() {
 function authenticatedMemberState(state: AppState, setState: SetAppState) {
   const fetcher = container.resolve(TOKENS.fetcher);
   const router = container.resolve(TOKENS.router);
+  const translate = useTranslation();
 
   const [getToken, setToken] = useSearchParam('auth-token');
 
@@ -133,7 +136,7 @@ function authenticatedMemberState(state: AppState, setState: SetAppState) {
     updateMemberProfile: async (data: UpdateMemberProfileData) => {
       await fetcher.put(`/api/members/${state.authenticatedMember?.id}/profile`, data);
       await refetch();
-      // notify.success(t('saved'))
+      notify.success(translate('profile.profile.saved'));
     },
   };
 }
