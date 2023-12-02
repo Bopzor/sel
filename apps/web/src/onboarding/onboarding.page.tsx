@@ -33,7 +33,7 @@ export const OnboardingPage = () => {
 
   const member = getAuthenticatedMember();
 
-  const [form, setForm] = createStore<OnboardingForm>(getInitialValues(member));
+  const [form, setForm] = createStore<OnboardingForm>(getInitialValues(member()));
 
   const onFieldChange: OnFieldChange = (field) => {
     return ({ currentTarget }) => {
@@ -47,7 +47,7 @@ export const OnboardingPage = () => {
 
   const [updateMemberProfile, meta] = mutation((fetcher) => ({
     key: ['updateMemberProfile'],
-    mutate: (data: UpdateMemberProfileData) => fetcher.put(`/api/members/${member.id}/profile`, data),
+    mutate: (data: UpdateMemberProfileData) => fetcher.put(`/api/members/${member().id}/profile`, data),
     invalidate: ['authenticatedMember'],
   }));
 

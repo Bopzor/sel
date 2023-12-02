@@ -62,14 +62,14 @@ export const ProfileEditionPage: Component = () => {
   const [updateMemberProfile, meta] = mutation((fetcher) => ({
     key: ['updateMemberProfile'],
     async mutate(data: UpdateMemberProfileData) {
-      await fetcher.put(`/api/members/${member.id}/profile`, data);
+      await fetcher.put(`/api/members/${member().id}/profile`, data);
     },
     invalidate: ['authenticatedMember'],
     onSuccess: () => notify.success(t('saved')),
   }));
 
   const { form, data, errors, isDirty, setInitialValues, reset } = createForm({
-    initialValues: getInitialValues(member),
+    initialValues: getInitialValues(member()),
     extend: validator({ schema: schema() }),
     onSubmit(values) {
       updateMemberProfile({
@@ -88,7 +88,7 @@ export const ProfileEditionPage: Component = () => {
   });
 
   createEffect(() => {
-    setInitialValues(getInitialValues(member));
+    setInitialValues(getInitialValues(member()));
     reset();
   });
 
@@ -97,7 +97,7 @@ export const ProfileEditionPage: Component = () => {
   return (
     <>
       <Row gap={4}>
-        <MemberAvatarName member={member} classes={{ avatar: '!w-20 !h-20', name: 'typo-h1' }} />
+        <MemberAvatarName member={member()} classes={{ avatar: '!w-20 !h-20', name: 'typo-h1' }} />
 
         <div
           class="col sm:row ml-auto gap-2 transition-opacity"
@@ -158,7 +158,7 @@ export const ProfileEditionPage: Component = () => {
 
         <FormField label={t('profilePicture')}>
           <Row gap={2}>
-            <MemberAvatar member={member} class="h-12 w-12 rounded-full" />
+            <MemberAvatar member={member()} class="h-12 w-12 rounded-full" />
             <p>
               <T
                 id="profilePictureMessage"

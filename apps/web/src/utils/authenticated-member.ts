@@ -1,5 +1,7 @@
 import { AuthenticatedMember } from '@sel/shared';
 import { assert } from '@sel/utils';
+import { Accessor, createEffect, createSignal } from 'solid-js';
+import { unwrap } from 'solid-js/store';
 
 import { query } from './query';
 
@@ -21,15 +23,26 @@ export function getAuthenticatedMemberQuery() {
   }));
 }
 
-export function getAuthenticatedMemberUnsafe(): AuthenticatedMember | null | undefined {
-  return getAuthenticatedMemberQuery().data;
+export function getAuthenticatedMemberUnsafe(): Accessor<AuthenticatedMember | null | undefined> {
+  const query = getAuthenticatedMemberQuery();
+  const [data, setData] = createSignal(query.data);
+
+  createEffect(() => {
+    setData(unwrap(query.data));
+  });
+
+  return data;
 }
 
-export function getAuthenticatedMember(): AuthenticatedMember {
-  const member = getAuthenticatedMemberUnsafe();
+export function getAuthenticatedMember(): Accessor<AuthenticatedMember> {
+  const getter = getAuthenticatedMemberUnsafe();
 
-  assert(member !== null, 'getAuthenticatedMember: member is null');
-  assert(member !== undefined, 'getAuthenticatedMember: member is undefined');
+  return () => {
+    const member = getter();
 
-  return member;
+    assert(member !== null, 'getAuthenticatedMember: member is null');
+    assert(member !== undefined, 'getAuthenticatedMember: member is undefined');
+
+    return member;
+  };
 }

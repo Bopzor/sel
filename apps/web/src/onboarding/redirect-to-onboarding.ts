@@ -10,11 +10,11 @@ export function redirectToOnboardingWhenNotCompleted() {
   const navigate = useNavigate();
 
   createEffect(() => {
-    if (member?.onboardingCompleted === false && location.pathname !== '/onboarding') {
+    if (member()?.onboardingCompleted === false && location.pathname !== '/onboarding') {
       navigate('/onboarding');
     }
 
-    if (member?.onboardingCompleted === true && location.pathname === '/onboarding') {
+    if (member()?.onboardingCompleted === true && location.pathname === '/onboarding') {
       navigate('/');
     }
   });

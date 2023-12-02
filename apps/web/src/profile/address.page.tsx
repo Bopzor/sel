@@ -16,7 +16,7 @@ export const AddressPage: Component = () => {
   const [updateMemberProfile] = mutation((fetcher) => ({
     key: ['updateMemberProfile'],
     async mutate(data: UpdateMemberProfileData) {
-      await fetcher.put(`/api/members/${member.id}/profile`, data);
+      await fetcher.put(`/api/members/${member().id}/profile`, data);
     },
     invalidate: ['authenticatedMember'],
     onSuccess: () => notify.success(t('saved')),
@@ -24,10 +24,10 @@ export const AddressPage: Component = () => {
 
   const handleSelected = (address: Address) => {
     updateMemberProfile({
-      firstName: member.firstName,
-      lastName: member.lastName,
-      emailVisible: member.emailVisible,
-      phoneNumbers: member.phoneNumbers,
+      firstName: member().firstName,
+      lastName: member().lastName,
+      emailVisible: member().emailVisible,
+      phoneNumbers: member().phoneNumbers,
       address,
     });
   };
@@ -44,7 +44,7 @@ export const AddressPage: Component = () => {
 
       <AddressSearch
         placeholder={t('placeholder')}
-        value={member.address}
+        value={member().address}
         onSelected={(address) => handleSelected(address)}
       />
     </>
