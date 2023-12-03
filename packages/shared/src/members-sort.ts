@@ -1,5 +1,5 @@
 export enum MembersSort {
   firstName = 'firstName',
   lastName = 'lastName',
-  membershipDate = 'subscriptionDate',
+  membershipDate = 'membershipDate',
 }
