@@ -101,12 +101,12 @@ const MembersListItem: Component<MembersListItemProps> = (props) => {
   const t = T.useTranslation();
 
   return (
-    <li class="row group items-center gap-1 px-4 py-2 hover:bg-inverted/5 focus:bg-inverted/5">
+    <li class="row group items-center hover:bg-inverted/5 focus:bg-inverted/5">
       <Link
         unstyled
         href={routes.members.member(props.member.id)}
         tabIndex={0}
-        class="row flex-1 items-center gap-2 focus:outline-none"
+        class="row flex-1 items-center gap-2 px-4 py-2 focus:outline-none"
       >
         <MemberAvatarName member={props.member} />
       </Link>
@@ -117,7 +117,7 @@ const MembersListItem: Component<MembersListItemProps> = (props) => {
           title={t('showOnMap')}
           onClick={() => props.onHighlight()}
         >
-          <Icon path={mapPin} class="h-5 w-5 fill-icon group-hover/button:fill-primary" />
+          <Icon path={mapPin} class="mx-4 h-5 w-5 fill-icon group-hover/button:fill-primary" />
         </button>
       )}
     </li>
@@ -195,7 +195,7 @@ type PopupProps = {
 
 const Popup: Component<PopupProps> = (props) => {
   return (
-    <Link unstyled href={`/membre/${props.member.id}`} class="col min-w-[12rem] gap-2 outline-none">
+    <Link unstyled href={routes.members.member(props.member.id)} class="col min-w-[12rem] gap-2 outline-none">
       <Row gap={2} class="text-base font-medium">
         <MemberAvatarName member={props.member} />
       </Row>
