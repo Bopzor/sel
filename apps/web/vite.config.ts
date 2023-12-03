@@ -18,7 +18,7 @@ export default defineConfig({
     solidSvg(),
     VitePWA({
       registerType: 'autoUpdate',
-      injectRegister: 'script-defer',
+      workbox: { skipWaiting: true },
       manifest: require('./manifest.json'),
     }),
     version(require('../../package.json').version),
