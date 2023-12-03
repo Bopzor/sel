@@ -44,13 +44,7 @@ export class FetchError extends Error {
   });
 
   get body() {
-    const result = FetchError.bodySchema.safeParse(this.result.body);
-
-    if (result.success) {
-      return result.data;
-    } else {
-      throw result.error;
-    }
+    return FetchError.bodySchema.parse(this.result.body);
   }
 }
 
