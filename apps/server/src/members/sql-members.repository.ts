@@ -23,7 +23,7 @@ export class SqlMembersRepository implements MembersRepository {
     const orderBy = {
       [shared.MembersSort.firstName]: asc(members.firstName),
       [shared.MembersSort.lastName]: asc(members.lastName),
-      [shared.MembersSort.subscriptionDate]: desc(members.createdAt),
+      [shared.MembersSort.membershipDate]: desc(members.membershipStartDate),
     };
 
     const results = await this.db
