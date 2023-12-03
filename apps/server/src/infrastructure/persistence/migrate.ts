@@ -1,7 +1,14 @@
 import { container } from '../../container';
 import { TOKENS } from '../../tokens';
 
-const database = container.resolve(TOKENS.database);
+main().catch(console.error);
 
-await database.migrate();
-await database.close();
+async function main() {
+  const database = container.resolve(TOKENS.database);
+
+  try {
+    await database.migrate();
+  } finally {
+    await database.close();
+  }
+}
