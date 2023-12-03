@@ -9,6 +9,7 @@ import { AuthenticationLinkRequested, MemberAuthenticated, MemberUnauthenticated
 import { MembersFacade } from '../members/members.facade';
 import { TOKENS } from '../tokens';
 
+import { TokenExpired, TokenNotFound } from './authentication.errors';
 import { Token, TokenType } from './token.entity';
 import { TokenRepository } from './token.repository';
 
@@ -82,11 +83,11 @@ export class AuthenticationService {
     const token = await this.tokenRepository.findByValue(tokenValue);
 
     if (token === undefined) {
-      throw new Error('token does not exist');
+      throw new TokenNotFound(tokenValue);
     }
 
     if (isAfter(this.dateAdapter.now(), token.expirationDate)) {
-      throw new Error('token has expired');
+      throw new TokenExpired(tokenValue);
     }
 
     this.events.emit(new MemberAuthenticated(token.memberId));

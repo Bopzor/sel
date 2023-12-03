@@ -8,14 +8,13 @@ import {
   lazy,
   type Component,
 } from 'solid-js';
-import { Toaster } from 'solid-toast';
 
 import { SuspenseLoader } from './components/loader';
 import { MatomoScript } from './infrastructure/analytics/matomo-script';
 import { TrackPageView } from './infrastructure/analytics/track-page-view';
+import { NotificationsContainer } from './infrastructure/notifications/toast-notifications.adapter';
 import { IntlProvider } from './intl';
 import { getTranslations } from './intl/get-translations';
-import { Translate } from './intl/translate';
 import { Language } from './intl/types';
 import { ErrorBoundary } from './layout/error-boundary';
 import { Layout } from './layout/layout';
@@ -39,16 +38,18 @@ function lazyImport(module: () => Promise<any>, name: string) {
 
 export const App: Component = () => {
   return (
-    <SolidErrorBoundary fallback={<Translate id="common.error.unknownErrorMessage" />}>
+    <SolidErrorBoundary fallback="Error">
       <Providers>
         <SuspenseLoader>
           <Layout>
-            <Routing />
+            <ErrorBoundary>
+              <Routing />
+            </ErrorBoundary>
           </Layout>
-          <Toaster toastOptions={{ duration: 5 * 1000, className: '!max-w-xl' }} />
-          <MatomoScript />
-          <TrackPageView />
         </SuspenseLoader>
+        <MatomoScript />
+        <TrackPageView />
+        <NotificationsContainer />
       </Providers>
     </SolidErrorBoundary>
   );
@@ -67,9 +68,7 @@ const Providers: Component<ProvidersProps> = (props) => {
       {(translations) => (
         <IntlProvider locale={language()} messages={translations()}>
           <Router>
-            <ErrorBoundary>
-              <AppStoreProvider>{props.children}</AppStoreProvider>
-            </ErrorBoundary>
+            <AppStoreProvider>{props.children}</AppStoreProvider>
           </Router>
         </IntlProvider>
       )}

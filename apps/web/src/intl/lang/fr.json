@@ -27,7 +27,9 @@
     "description": "Entrez l'adresse email de votre compte du SEL pour accéder à l'app.",
     "emailAddress": "Adresse email",
     "send": "Envoyer",
-    "authenticationLinkRequested": "Si votre adresse email est autorisée, un email contenant un lien de connexion vous a été envoyé à l'adresse <strong>{email}</strong>. Si vous n'avez rien reçu dans les prochaines minutes, vérifiez dans vos spams ou contactez-nous."
+    "authenticationLinkRequested": "Si votre adresse email est autorisée, un email contenant un lien de connexion vous a été envoyé à l'adresse <strong>{email}</strong>. Si vous n'avez rien reçu dans les prochaines minutes, vérifiez dans vos spams ou contactez-nous.",
+    "invalidAuthenticationLink": "Le lien de connexion que vous avez utilisé n'est pas valide, veuillez en demander un nouveau.",
+    "authenticationLinkExpired": "Le lien de connexion que vous avez utilisé a expiré, veuillez en demander un nouveau."
   },
   "onboarding": {
     "title": "Bienvenue sur l'app du SEL !",

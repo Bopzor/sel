@@ -1,4 +1,5 @@
 import { assert } from '@sel/utils';
+import { z } from 'zod';
 
 export class FetchResult<Body> {
   constructor(public readonly response: Response, public readonly body: Body) {}
@@ -29,8 +30,27 @@ export class FetchError extends Error {
     return true;
   }
 
+  get response() {
+    return this.result.response;
+  }
+
   get status() {
     return this.result.status;
+  }
+
+  private static bodySchema = z.object({
+    code: z.string(),
+    message: z.string(),
+  });
+
+  get body() {
+    const result = FetchError.bodySchema.safeParse(this.result.body);
+
+    if (result.success) {
+      return result.data;
+    } else {
+      throw result.error;
+    }
   }
 }
 

@@ -27,7 +27,9 @@
     "description": "Enter the email address of your LETS account to access the app.",
     "emailAddress": "Email address",
     "send": "Send",
-    "authenticationLinkRequested": "If your email address is authorized, an email containing an authentication link was sent to you at {email}. If you didn't receive anything within a few minutes, check your spams or contact us."
+    "authenticationLinkRequested": "If your email address is authorized, an email containing an authentication link was sent to you at {email}. If you didn't receive anything within a few minutes, check your spams or contact us.",
+    "invalidAuthenticationLink": "The link you used to sign in is invalid, try requesting a new one.",
+    "authenticationLinkExpired": "The link you used to sign in has expired, try requesting a new one."
   },
   "onboarding": {
     "title": "Welcome on the LETS's app!",

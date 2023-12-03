@@ -142,15 +142,13 @@ describe('[Unit] AuthenticationService', () => {
     });
 
     it('throws when the authentication token does not exist', async () => {
-      await expect(test.service.verifyAuthenticationToken('unknownToken')).rejects.toThrow(
-        'token does not exist'
-      );
+      await expect(test.service.verifyAuthenticationToken('unknownToken')).rejects.toThrow('Token not found');
     });
 
     it('throws when the authentication token is expired', async () => {
       test.dateAdapter.date = createDate('2023-01-03');
 
-      await expect(test.service.verifyAuthenticationToken('authToken')).rejects.toThrow('token has expired');
+      await expect(test.service.verifyAuthenticationToken('authToken')).rejects.toThrow('Token has expired');
     });
   });
 

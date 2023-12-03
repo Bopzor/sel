@@ -1,6 +1,6 @@
 import { injectableClass } from 'ditox';
 import { JSX } from 'solid-js';
-import { toast } from 'solid-toast';
+import { toast, Toaster } from 'solid-toast';
 
 import { FetchResult } from '../../fetcher';
 import { Translate } from '../../intl/translate';
@@ -38,3 +38,7 @@ export class ToastNotificationsAdapter implements NotificationsPort {
     );
   }
 }
+
+export const NotificationsContainer = () => (
+  <Toaster toastOptions={{ duration: 5 * 1000, className: '!max-w-xl' }} />
+);

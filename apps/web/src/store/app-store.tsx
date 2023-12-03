@@ -1,6 +1,6 @@
 import { AuthenticatedMember, Member, MembersSort, UpdateMemberProfileData } from '@sel/shared';
 import { defined, isEnumValue } from '@sel/utils';
-import { JSX, createContext, createResource, createSignal, useContext } from 'solid-js';
+import { JSX, createContext, createEffect, createResource, createSignal, useContext } from 'solid-js';
 import { SetStoreFunction, createStore } from 'solid-js/store';
 
 import { FetchError } from '../fetcher';
@@ -105,7 +105,21 @@ function authenticatedMemberState(state: AppState, setState: SetAppState) {
     try {
       await fetcher.get(`/api/authentication/verify-authentication-token?${params}`);
       await refetch();
+
+      // required to trigger suspense
       return undefined;
+    } catch (error) {
+      if (!FetchError.is(error)) {
+        throw error;
+      }
+
+      if (error.body.code === 'TokenNotFound') {
+        notify.error(translate('authentication.invalidAuthenticationLink'));
+      } else if (error.body.code === 'TokenExpired') {
+        notify.error(translate('authentication.authenticationLinkExpired'));
+      } else {
+        throw error;
+      }
     } finally {
       setToken(undefined);
     }

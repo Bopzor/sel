@@ -1,10 +1,11 @@
 import { injectableClass } from 'ditox';
-import { RequestHandler, Router } from 'express';
+import { ErrorRequestHandler, RequestHandler, Router } from 'express';
 import { z } from 'zod';
 
 import { ConfigPort } from '../infrastructure/config/config.port';
 import { TOKENS } from '../tokens';
 
+import { TokenExpired, TokenNotFound } from './authentication.errors';
 import { AuthenticationService } from './authentication.service';
 
 export class AuthenticationController {
@@ -17,7 +18,12 @@ export class AuthenticationController {
     private readonly authenticationService: AuthenticationService
   ) {
     this.router.post('/request-authentication-link', this.requestAuthenticationLink);
-    this.router.get('/verify-authentication-token', this.verifyAuthenticationToken);
+
+    this.router.get(
+      '/verify-authentication-token',
+      this.verifyAuthenticationToken,
+      this.verifyAuthenticationTokenErrorHandler
+    );
   }
 
   requestAuthenticationLink: RequestHandler<{ email: string }> = async (req, res) => {
@@ -55,5 +61,17 @@ export class AuthenticationController {
 
     res.header('set-cookie', setCookie.join('; '));
     res.end();
+  };
+
+  verifyAuthenticationTokenErrorHandler: ErrorRequestHandler = async (err, req, res, next) => {
+    if (err instanceof TokenNotFound || err instanceof TokenExpired) {
+      res.status(401).json({
+        code: err.constructor.name,
+        message: err.message,
+        token: err.payload.tokenValue,
+      });
+    } else {
+      next(err);
+    }
   };
 }
