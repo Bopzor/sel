@@ -1,12 +1,12 @@
-import path from 'node:path';
 import fs from 'node:fs/promises';
+import path from 'node:path';
 
-import { Plugin } from 'vite';
-import { defineConfig } from 'vitest/config';
-import { VitePWA } from 'vite-plugin-pwa';
 import devtools from 'solid-devtools/vite';
+import { Plugin } from 'vite';
+import { VitePWA } from 'vite-plugin-pwa';
 import solidPlugin from 'vite-plugin-solid';
 import solidSvg from 'vite-plugin-solid-svg';
+import { defineConfig } from 'vitest/config';
 
 export default defineConfig({
   plugins: [

@@ -26,4 +26,17 @@ module.exports = {
   rules: {
     'tailwindcss/no-arbitrary-value': 'warn',
   },
+
+  overrides: [
+    {
+      files: ['vite.config.ts'],
+      parserOptions: {
+        project: ['./tsconfig.node.json'],
+        tsconfigRootDir: __dirname,
+      },
+      rules: {
+        '@typescript-eslint/no-var-requires': 'off',
+      },
+    },
+  ],
 };
