@@ -15,6 +15,13 @@
       "when": 1699795892650,
       "tag": "0001_black_gwen_stacy",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1701600410472,
+      "tag": "0002_gray_lord_hawal",
+      "breakpoints": true
     }
   ]
 }

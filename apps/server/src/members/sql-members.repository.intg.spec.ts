@@ -15,8 +15,10 @@ class Test extends RepositoryTest {
   dateAdapter = new StubDate();
   repository = new SqlMembersRepository(this.database, this.dateAdapter);
 
+  now = createDate('2023-01-01');
+
   async setup() {
-    this.dateAdapter.date = createDate('2023-01-01');
+    this.dateAdapter.date = this.now;
 
     await this.database.migrate();
     await this.database.db.delete(tokens);
@@ -48,6 +50,7 @@ describe('[Intg] SqlMembersRepository', () => {
           country: 'country',
           position: [0, 1],
         },
+        membershipStartDate: test.now.toISOString(),
       })
     );
   });
@@ -72,6 +75,7 @@ describe('[Intg] SqlMembersRepository', () => {
             country: 'country',
             position: [0, 1],
           },
+          membershipStartDate: test.now.toISOString(),
         },
       ]);
     });
@@ -117,6 +121,7 @@ describe('[Intg] SqlMembersRepository', () => {
           country: 'country',
           position: [0, 1],
         },
+        membershipStartDate: test.now.toISOString(),
       });
     });
 

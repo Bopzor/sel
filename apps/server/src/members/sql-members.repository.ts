@@ -63,6 +63,8 @@ export class SqlMembersRepository implements MembersRepository {
       phoneNumbers: (result.phoneNumbers as shared.PhoneNumber[]).filter(({ visible }) => visible),
       bio: result.bio ?? undefined,
       address: (result.address as shared.Address | null) ?? undefined,
+      // https://github.com/drizzle-team/drizzle-orm/issues/1407
+      membershipStartDate: (result.membershipStartDate as unknown as Date).toISOString(),
     };
   }
 
@@ -80,6 +82,7 @@ export class SqlMembersRepository implements MembersRepository {
       bio: result.bio ?? undefined,
       address: (result.address as shared.Address | null) ?? undefined,
       onboardingCompleted: result.status !== MemberStatus.onboarding,
+      membershipStartDate: result.membershipStartDate,
     };
   }
 
@@ -112,6 +115,7 @@ export class SqlMembersRepository implements MembersRepository {
       phoneNumbers: [],
       bio: null,
       address: null,
+      membershipStartDate: now.toISOString(),
       createdAt: now.toISOString(),
       updatedAt: now.toISOString(),
     });
@@ -157,6 +161,7 @@ export class SqlMembersRepository implements MembersRepository {
       phoneNumbers: result.phoneNumbers as PhoneNumber[],
       bio: result.bio ?? undefined,
       address: (result.address as Address | null) ?? undefined,
+      membershipStartDate: new Date(result.membershipStartDate),
     };
   }
 }

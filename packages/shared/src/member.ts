@@ -1,4 +1,4 @@
-import { createFactory, createId } from '@sel/utils';
+import { createDate, createFactory, createId } from '@sel/utils';
 
 import { Address } from './address';
 import { PhoneNumber } from './phone-number';
@@ -11,6 +11,7 @@ export type Member = {
   phoneNumbers: PhoneNumber[];
   bio?: string;
   address?: Address;
+  membershipStartDate: string;
 };
 
 export const createMember = createFactory<Member>(() => ({
@@ -18,4 +19,5 @@ export const createMember = createFactory<Member>(() => ({
   firstName: '',
   lastName: '',
   phoneNumbers: [],
+  membershipStartDate: createDate().toISOString(),
 }));

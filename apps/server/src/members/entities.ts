@@ -1,4 +1,4 @@
-import { createFactory, createId } from '@sel/utils';
+import { createDate, createFactory, createId } from '@sel/utils';
 
 export enum MemberStatus {
   onboarding = 'onboarding',
@@ -16,6 +16,7 @@ export type Member = {
   phoneNumbers: PhoneNumber[];
   bio?: string;
   address?: Address;
+  membershipStartDate: Date;
 };
 
 export const createMember = createFactory<Member>(() => ({
@@ -27,6 +28,7 @@ export const createMember = createFactory<Member>(() => ({
   emailVisible: false,
   phoneNumbers: [],
   onboardingCompleted: false,
+  membershipStartDate: createDate(),
 }));
 
 export type PhoneNumber = {

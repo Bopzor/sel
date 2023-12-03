@@ -1,5 +1,5 @@
 import * as shared from '@sel/shared';
-import { assert, defined } from '@sel/utils';
+import { assert, createDate, defined } from '@sel/utils';
 
 import { InMemoryRepository } from '../in-memory.repository';
 
@@ -36,6 +36,7 @@ export class InMemoryMembersRepository extends InMemoryRepository<Member> implem
       phoneNumbers: member.phoneNumbers.filter(({ visible }) => visible),
       bio: member.bio,
       address: member.address,
+      membershipStartDate: member.membershipStartDate.toISOString(),
     };
   }
 
@@ -50,6 +51,7 @@ export class InMemoryMembersRepository extends InMemoryRepository<Member> implem
       bio: member.bio,
       address: member.address,
       onboardingCompleted: member.status !== MemberStatus.onboarding,
+      membershipStartDate: member.membershipStartDate.toISOString(),
     };
   }
 
@@ -67,6 +69,7 @@ export class InMemoryMembersRepository extends InMemoryRepository<Member> implem
       status: MemberStatus.inactive,
       emailVisible: true,
       phoneNumbers: [],
+      membershipStartDate: createDate(),
     });
   }
 

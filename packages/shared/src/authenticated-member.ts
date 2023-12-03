@@ -1,4 +1,4 @@
-import { createFactory, createId } from '@sel/utils';
+import { createDate, createFactory, createId } from '@sel/utils';
 
 import { Member } from './member';
 
@@ -16,4 +16,5 @@ export const createAuthenticatedMember = createFactory<AuthenticatedMember>(() =
   emailVisible: false,
   phoneNumbers: [],
   onboardingCompleted: false,
+  membershipStartDate: createDate().toISOString(),
 }));

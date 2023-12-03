@@ -1,4 +1,4 @@
-import { relations } from 'drizzle-orm';
+import { relations, sql } from 'drizzle-orm';
 import { boolean, json, pgEnum, pgTable, text, timestamp, varchar } from 'drizzle-orm/pg-core';
 
 import { TokenType } from '../../authentication/token.entity';
@@ -27,6 +27,9 @@ export const members = pgTable('members', {
   phoneNumbers: json('phone_numbers').notNull().default('[]'),
   bio: text('bio'),
   address: json('address'),
+  membershipStartDate: date('membership_start_date')
+    .notNull()
+    .default(sql`CURRENT_DATE`),
   createdAt: createdAt(),
   updatedAt: updatedAt(),
 });
