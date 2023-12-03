@@ -46,16 +46,12 @@ export const AddressSearch: Component<AddressSearchProps> = (props) => {
         <AddressList addresses={results() ?? []} onSelected={(address) => props.onSelected(address)} />
       </Suspense>
 
-      <div class="h-[24rem]">
-        <Map
-          center={props.value?.position ?? [5.042, 43.836]}
-          zoom={props.value?.position ? 14 : 11}
-          class="rounded-lg shadow"
-          markers={
-            props.value?.position ? [{ isPopupOpen: false, position: props.value.position }] : undefined
-          }
-        />
-      </div>
+      <Map
+        center={props.value?.position ?? [5.042, 43.836]}
+        zoom={props.value?.position ? 14 : 11}
+        class="!h-[24rem] rounded-lg shadow"
+        markers={props.value?.position ? [{ isPopupOpen: false, position: props.value.position }] : undefined}
+      />
     </div>
   );
 };

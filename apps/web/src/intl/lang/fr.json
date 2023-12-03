@@ -103,7 +103,7 @@
     "membersSortEnum": {
       "firstName": "Prénom",
       "lastName": "Nom",
-      "subscriptionDate": "Date d'adhésion"
+      "membershipDate": "Date d'adhésion"
     }
   },
   "requests": {

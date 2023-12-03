@@ -1,6 +1,6 @@
 import { AuthenticatedMember, Member, MembersSort, UpdateMemberProfileData } from '@sel/shared';
 import { defined, isEnumValue } from '@sel/utils';
-import { JSX, createContext, createEffect, createResource, createSignal, useContext } from 'solid-js';
+import { JSX, createContext, createResource, createSignal, useContext } from 'solid-js';
 import { SetStoreFunction, createStore } from 'solid-js/store';
 
 import { FetchError } from '../fetcher';

@@ -4,8 +4,8 @@ import { Authentication } from '../authentication/authentication';
 import { redirectToOnboardingWhenNotCompleted } from '../onboarding/redirect-to-onboarding';
 import { getAppState } from '../store/app-store';
 
-import { Header, HeaderMember } from './header/header';
 import { ErrorBoundary } from './error-boundary';
+import { Header, HeaderMember } from './header/header';
 
 type LayoutProps = {
   children: JSX.Element;

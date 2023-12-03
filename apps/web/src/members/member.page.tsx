@@ -1,9 +1,8 @@
-import { formatRelativeTime, formatDate } from '@formatjs/intl';
 import { Member } from '@sel/shared';
 import { defined, formatDateRelative } from '@sel/utils';
 import { useParams } from '@solidjs/router';
 import { Icon } from 'solid-heroicons';
-import { envelope, home, phone, user, clock } from 'solid-heroicons/solid';
+import { clock, envelope, home, phone, user } from 'solid-heroicons/solid';
 import {
   Component,
   ComponentProps,
@@ -15,7 +14,6 @@ import {
   createEffect,
   onCleanup,
 } from 'solid-js';
-import { unwrap } from 'solid-js/store';
 
 import { BackLink } from '../components/back-link';
 import { SuspenseLoader } from '../components/loader';
@@ -28,6 +26,7 @@ import { Translate } from '../intl/translate';
 import { routes } from '../routes';
 import { getAppState, getMutations } from '../store/app-store';
 import { formatPhoneNumber } from '../utils/format-phone-number';
+
 const T = Translate.prefix('members');
 
 export const MemberPage: Component = () => {
