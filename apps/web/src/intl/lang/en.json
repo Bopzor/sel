@@ -95,6 +95,8 @@
     "phoneNumber": "Phone number",
     "emailAddress": "Email address",
     "mailingAddress": "Mailing address",
+    "membershipDate": "Membership date",
+    "membershipDateFormatted": "{date, date, long} <dim>({relative} ago)</dim>",
     "bio": "Bio",
     "membersSortEnum": {
       "firstName": "First name",

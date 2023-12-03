@@ -26,7 +26,7 @@ type Leaves<T, Prefix extends string = ''> = T extends string
 
 type RemovePrefix<T extends string, P extends string> = T extends `${P}${infer R}` ? R : never;
 
-type Values = Record<string, JSX.Element | ((children: JSX.Element) => JSX.Element)>;
+type Values = Record<string, JSX.Element | Date | ((children: JSX.Element) => JSX.Element)>;
 
 interface TranslateFunction<Keys> {
   (id: Keys): string;

@@ -1,8 +1,9 @@
+import { formatRelativeTime, formatDate } from '@formatjs/intl';
 import { Member } from '@sel/shared';
-import { defined } from '@sel/utils';
+import { defined, formatDateRelative } from '@sel/utils';
 import { useParams } from '@solidjs/router';
 import { Icon } from 'solid-heroicons';
-import { envelope, home, phone, user } from 'solid-heroicons/solid';
+import { envelope, home, phone, user, clock } from 'solid-heroicons/solid';
 import {
   Component,
   ComponentProps,
@@ -14,6 +15,7 @@ import {
   createEffect,
   onCleanup,
 } from 'solid-js';
+import { unwrap } from 'solid-js/store';
 
 import { BackLink } from '../components/back-link';
 import { SuspenseLoader } from '../components/loader';
@@ -125,6 +127,23 @@ const MemberInfo: Component<MemberInfoProps> = (props) => {
 
       <MemberProfileData when={props.member?.address} label={<T id="mailingAddress" />} icon={home}>
         <MemberAddress address={defined(props.member?.address)} />
+      </MemberProfileData>
+
+      <MemberProfileData
+        when={props.member?.membershipStartDate}
+        label={<T id="membershipDate" />}
+        icon={clock}
+      >
+        <p>
+          <T
+            id="membershipDateFormatted"
+            values={{
+              date: new Date(props.member?.membershipStartDate ?? ''),
+              relative: formatDateRelative(props.member?.membershipStartDate ?? ''),
+              dim: (children) => <span class="text-sm text-dim">{children}</span>,
+            }}
+          />
+        </p>
       </MemberProfileData>
 
       <MemberProfileData when={props.member?.bio} label={<T id="bio" />} icon={user}>

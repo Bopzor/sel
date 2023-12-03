@@ -95,6 +95,8 @@
     "phoneNumber": "Numéro de téléphone",
     "emailAddress": "Adresse email",
     "mailingAddress": "Adresse postale",
+    "membershipDate": "Date d'adhésion",
+    "membershipDateFormatted": "{date, date, long} <dim>(il y a {relative})</dim>",
     "bio": "À propos de moi",
     "membersSortEnum": {
       "firstName": "Prénom",
