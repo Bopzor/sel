@@ -5,6 +5,7 @@ import { redirectToOnboardingWhenNotCompleted } from '../onboarding/redirect-to-
 import { getAppState } from '../store/app-store';
 
 import { Header, HeaderMember } from './header/header';
+import { ErrorBoundary } from './error-boundary';
 
 type LayoutProps = {
   children: JSX.Element;
@@ -24,7 +25,10 @@ export const Layout: Component<LayoutProps> = (props) => {
         <Header>
           <HeaderMember />
         </Header>
-        <main class="col mx-auto w-full max-w-7xl flex-1 px-4 pb-4">{props.children}</main>
+
+        <ErrorBoundary>
+          <main class="col mx-auto w-full max-w-7xl flex-1 px-4 pb-4">{props.children}</main>
+        </ErrorBoundary>
       </Show>
     </>
   );

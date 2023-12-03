@@ -1,22 +1,11 @@
 import { Route, Router, Routes } from '@solidjs/router';
-import {
-  JSX,
-  Show,
-  ErrorBoundary as SolidErrorBoundary,
-  createResource,
-  createSignal,
-  lazy,
-  type Component,
-} from 'solid-js';
+import { JSX, ErrorBoundary as SolidErrorBoundary, lazy, type Component } from 'solid-js';
 
 import { SuspenseLoader } from './components/loader';
 import { MatomoScript } from './infrastructure/analytics/matomo-script';
 import { TrackPageView } from './infrastructure/analytics/track-page-view';
 import { NotificationsContainer } from './infrastructure/notifications/toast-notifications.adapter';
 import { IntlProvider } from './intl';
-import { getTranslations } from './intl/get-translations';
-import { Language } from './intl/types';
-import { ErrorBoundary } from './layout/error-boundary';
 import { Layout } from './layout/layout';
 import { AddressPage } from './profile/address.page';
 import { NotificationsPage } from './profile/notifications.page';
@@ -38,18 +27,16 @@ function lazyImport(module: () => Promise<any>, name: string) {
 
 export const App: Component = () => {
   return (
-    <SolidErrorBoundary fallback="Error">
+    <SolidErrorBoundary
+      fallback={(error) => {
+        console.error(error);
+        return <>{error?.message ?? 'Unknown error'}</>;
+      }}
+    >
       <Providers>
-        <SuspenseLoader>
-          <Layout>
-            <ErrorBoundary>
-              <Routing />
-            </ErrorBoundary>
-          </Layout>
-        </SuspenseLoader>
-        <MatomoScript />
-        <TrackPageView />
-        <NotificationsContainer />
+        <Layout>
+          <Routing />
+        </Layout>
       </Providers>
     </SolidErrorBoundary>
   );
@@ -60,19 +47,17 @@ type ProvidersProps = {
 };
 
 const Providers: Component<ProvidersProps> = (props) => {
-  const [language] = createSignal<Language>('fr');
-  const [translations] = createResource(language, getTranslations);
-
   return (
-    <Show when={translations()}>
-      {(translations) => (
-        <IntlProvider locale={language()} messages={translations()}>
-          <Router>
-            <AppStoreProvider>{props.children}</AppStoreProvider>
-          </Router>
-        </IntlProvider>
-      )}
-    </Show>
+    <IntlProvider>
+      <Router>
+        <AppStoreProvider>
+          <MatomoScript />
+          <TrackPageView />
+          <NotificationsContainer />
+          <SuspenseLoader>{props.children}</SuspenseLoader>
+        </AppStoreProvider>
+      </Router>
+    </IntlProvider>
   );
 };
 

@@ -108,6 +108,9 @@ importers:
 
   apps/web:
     dependencies:
+      '@cookbook/solid-intl':
+        specifier: ^0.1.2
+        version: 0.1.2(solid-js@1.8.7)(typescript@5.3.2)
       '@felte/solid':
         specifier: ^1.2.11
         version: 1.2.11(solid-js@1.8.7)
@@ -226,6 +229,9 @@ importers:
       tailwindcss:
         specifier: ^3.3.5
         version: 3.3.5
+      type-fest:
+        specifier: ^4.8.3
+        version: 4.8.3
       typescript:
         specifier: ^5.3.2
         version: 5.3.2
@@ -1882,6 +1888,17 @@ packages:
     requiresBuild: true
     dev: true
     optional: true
+
+  /@cookbook/solid-intl@0.1.2(solid-js@1.8.7)(typescript@5.3.2):
+    resolution: {integrity: sha512-mrnm8MJ+rskAF0txqs0mxBU4tra3HAnoxjqlcGMH3Bnfkgj90HycpNND7bLYeCMsTQm93Kz5C1AidbHwoSYppA==}
+    peerDependencies:
+      solid-js: '>=1.0.0'
+    dependencies:
+      '@formatjs/intl': 2.9.9(typescript@5.3.2)
+      solid-js: 1.8.7
+    transitivePeerDependencies:
+      - typescript
+    dev: false
 
   /@cspotcode/source-map-support@0.8.1:
     resolution: {integrity: sha512-IchNf6dN4tHoMFIn/7OE8LWZ19Y6q/67Bmf6vnGREv8RSbBVb9LPJxEcnwrcwX6ixSvaiGoomAUvu4YSxXrVgw==}
@@ -12003,6 +12020,11 @@ packages:
   /type-fest@2.19.0:
     resolution: {integrity: sha512-RAH822pAdBgcNMAfWnCBU3CFZcfZ/i1eZjwFU/dsLKumyuuP3niueg2UAukXYF0E2AAoc82ZSSf9J0WQBinzHA==}
     engines: {node: '>=12.20'}
+    dev: true
+
+  /type-fest@4.8.3:
+    resolution: {integrity: sha512-//BaTm14Q/gHBn09xlnKNqfI8t6bmdzx2DXYfPBNofN0WUybCEUDcbCWcTa0oF09lzLjZgPphXAsvRiMK0V6Bw==}
+    engines: {node: '>=16'}
     dev: true
 
   /type-is@1.6.18:
