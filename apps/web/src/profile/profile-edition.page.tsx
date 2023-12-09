@@ -77,6 +77,7 @@ export const ProfileEditionPage: Component = () => {
           },
         ],
         bio: values.bio,
+        address: state.authenticatedMember?.address,
       });
     },
   });
