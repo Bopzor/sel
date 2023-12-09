@@ -107,6 +107,9 @@
       "label": "Misc",
       "description": "..."
     },
+    "changelog": {
+      "title": "Changelog"
+    },
     "news": {
       "title": "News",
       "placeholder": "..."

@@ -110,6 +110,9 @@
     "news": {
       "title": "Actualités",
       "placeholder": "Plus tard, cette section vous permettra de voir les dernières informations importantes du SEL."
+    },
+    "changelog": {
+      "title": "Nouveautés"
     }
   },
   "members": {

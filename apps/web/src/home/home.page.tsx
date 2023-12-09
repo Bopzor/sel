@@ -1,3 +1,4 @@
+import { useIntl } from '@cookbook/solid-intl';
 import clsx from 'clsx';
 import { Component, Index, JSX } from 'solid-js';
 
@@ -56,21 +57,9 @@ export const HomePage = () => {
         />
       </div>
 
-      <div>
-        <h2 class="typo-h2">
-          <T id="news.title" />
-        </h2>
-
-        <p>
-          <T id="news.placeholder" />
-        </p>
-
-        <div class="col mt-6 gap-6">
-          <Index each={Array(3).fill(null)}>
-            {/* eslint-disable-next-line tailwindcss/no-arbitrary-value */}
-            {() => <div class="min-h-[12rem] w-full rounded-lg bg-dim/5" />}
-          </Index>
-        </div>
+      <div class="col gap-6 md:flex-row-reverse">
+        <Changelog />
+        <News />
       </div>
     </div>
   );
@@ -95,6 +84,105 @@ const LinkCard: Component<LinkCardProps> = (props) => {
     </Link>
   );
 };
+
+function News() {
+  return (
+    <div class="flex-2">
+      <h2 class="typo-h2">
+        <T id="news.title" />
+      </h2>
+
+      <p>
+        <T id="news.placeholder" />
+      </p>
+
+      <div class="col mt-6 gap-6">
+        <Index each={Array(3).fill(null)}>
+          {/* eslint-disable-next-line tailwindcss/no-arbitrary-value */}
+          {() => <div class="min-h-[12rem] w-full rounded-lg bg-dim/5" />}
+        </Index>
+      </div>
+    </div>
+  );
+}
+
+function Changelog() {
+  return (
+    <div class="flex-1">
+      <h2 class="mb-2">
+        <T id="changelog.title" />
+      </h2>
+
+      <ul class="col gap-2">
+        <Index each={changelog}>{(entry) => <ChangelogEntry {...entry()} />}</Index>
+      </ul>
+    </div>
+  );
+}
+
+const changelog: Array<ChangelogEntryProps> = [
+  {
+    date: '2023-12-09',
+    title: "Structure de l'app",
+    description:
+      'Ajout de pages pour les sections à venir de l\'app, mise en place de cette section "nouveautés".',
+  },
+  {
+    date: '2023-12-02',
+    title: 'Progressive web app',
+    description: "Mise en place de la version application mobile (installable) de l'app.",
+  },
+  {
+    date: '2023-11-25',
+    title: 'Édition du profil',
+    description: "Ajout de la page d'édition des informations de profil.",
+  },
+  {
+    date: '2023-11-13',
+    title: 'Onboarding',
+    description: "Ajout du funnel d'onboarding lors de la première connexion.",
+  },
+  {
+    date: '2023-11-02',
+    title: 'Authentification',
+    description: 'Ajout du formulaire de connexion par email.',
+  },
+  {
+    date: '2023-10-22',
+    title: 'Carte interactive',
+    description: 'Ajout de la care sur la page de la liste des membres.',
+  },
+  {
+    date: '2023-10-05',
+    title: 'Liste des membres',
+    description: 'Ajout de la page listant les membres et de la fonction de recherche',
+  },
+  {
+    date: '2023-09-04',
+    title: 'Initialisation du projet',
+    description: 'Création de la partie server (backend) et client (frontend).',
+  },
+];
+
+type ChangelogEntryProps = {
+  date: string;
+  title: JSX.Element;
+  description: JSX.Element;
+};
+
+function ChangelogEntry(props: ChangelogEntryProps) {
+  const intl = useIntl();
+
+  return (
+    <li class="my-2">
+      <div class="row items-center justify-between">
+        <strong>{props.title}</strong>
+        <span class="text-xs text-dim">{intl.formatDate(props.date)}</span>
+      </div>
+      <p class="m-0 text-sm">{props.description}</p>
+    </li>
+  );
+}
 
 export function RequestsPage() {
   return (
