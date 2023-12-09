@@ -121,6 +121,7 @@ export class Fetcher implements FetcherPort {
   }
 
   private async execute<Body>(path: string, init: RequestInit): Promise<FetchResult<Body>> {
+    // await new Promise((r) => setTimeout(r, 1000));
     const response = await fetch(path, init);
     const body: Body = await this.getBody(response);
 

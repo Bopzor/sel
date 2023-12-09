@@ -1,6 +1,7 @@
 import clsx from 'clsx';
-import { Component, JSX } from 'solid-js';
+import { Component, Index, JSX } from 'solid-js';
 
+import { BackLink } from '../components/back-link';
 import { Link } from '../components/link';
 import { Translate } from '../intl/translate';
 import { routes } from '../routes';
@@ -9,8 +10,8 @@ const T = Translate.prefix('home');
 
 export const HomePage = () => {
   return (
-    <div class="pt-8">
-      <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3">
+    <div>
+      <div class="grid grid-cols-1 gap-8 py-8 sm:grid-cols-2 md:grid-cols-3">
         <LinkCard
           href={routes.members.list}
           label={<T id="members.label" />}
@@ -19,33 +20,57 @@ export const HomePage = () => {
         />
 
         <LinkCard
-          href="#"
-          label="Brique 2"
-          description="..."
+          href={routes.requests.list}
+          label={<T id="requests.label" />}
+          description={<T id="requests.description" />}
           class="border-yellow-400 from-yellow-400/10 to-yellow-400/20"
         />
 
         <LinkCard
-          href="#"
-          label="Brique 3"
-          description="..."
+          href={routes.events.list}
+          label={<T id="events.label" />}
+          description={<T id="events.description" />}
           // eslint-disable-next-line tailwindcss/no-arbitrary-value
           class="border-[#9955DD] from-[#9955DD]/10 to-[#9955DD]/20"
         />
 
         <LinkCard
-          href="#"
-          label="Brique 4"
-          description="..."
+          href={routes.activities.home}
+          label={<T id="activities.label" />}
+          description={<T id="activities.description" />}
           class="border-red-400 from-red-400/10 to-red-400/20"
         />
 
         <LinkCard
-          href="#"
-          label="Brique 5"
-          description="..."
+          href={routes.assets.home}
+          label={<T id="assets.label" />}
+          description={<T id="assets.description" />}
+          class="border-green-400 from-green-400/10 to-green-400/20"
+        />
+
+        <LinkCard
+          href={routes.misc}
+          label={<T id="misc.label" />}
+          description={<T id="misc.description" />}
           class="border-gray-400 from-gray-400/10 to-gray-400/20"
         />
+      </div>
+
+      <div>
+        <h2 class="typo-h2">
+          <T id="news.title" />
+        </h2>
+
+        <p>
+          <T id="news.placeholder" />
+        </p>
+
+        <div class="col mt-6 gap-6">
+          <Index each={Array(3).fill(null)}>
+            {/* eslint-disable-next-line tailwindcss/no-arbitrary-value */}
+            {() => <div class="min-h-[12rem] w-full rounded-lg bg-dim/5" />}
+          </Index>
+        </div>
       </div>
     </div>
   );
@@ -66,7 +91,123 @@ const LinkCard: Component<LinkCardProps> = (props) => {
       class={clsx('rounded-lg border  bg-gradient-to-tl p-8 transition-shadow hover:shadow-lg', props.class)}
     >
       <div class="text-xl font-semibold">{props.label}</div>
-      <div>{props.description}</div>
+      <div class="mt-1">{props.description}</div>
     </Link>
   );
 };
+
+export function RequestsPage() {
+  return (
+    <div>
+      <BackLink href={routes.home} />
+
+      <h1>
+        <Translate id="requests.title" />
+      </h1>
+
+      <p class="font-semibold">
+        <Translate id="requests.sentence1" />
+      </p>
+
+      <p>
+        <Translate id="requests.sentence2" />
+      </p>
+    </div>
+  );
+}
+
+export function EventsPage() {
+  return (
+    <div>
+      <BackLink href={routes.home} />
+
+      <h1>
+        <Translate id="events.title" />
+      </h1>
+
+      <p class="font-semibold">
+        <Translate id="events.sentence1" />
+      </p>
+
+      <p>
+        <Translate id="events.sentence2" />
+      </p>
+    </div>
+  );
+}
+
+export function ActivitiesPage() {
+  return (
+    <div>
+      <BackLink href={routes.home} />
+
+      <h1>
+        <Translate id="activities.title" />
+      </h1>
+
+      <p class="font-semibold">
+        <Translate id="activities.sentence1" />
+      </p>
+
+      <p>
+        <Translate id="activities.sentence2" />
+      </p>
+    </div>
+  );
+}
+
+export function AssetsPage() {
+  return (
+    <div>
+      <BackLink href={routes.home} />
+
+      <h1>
+        <Translate id="assets.title" />
+      </h1>
+
+      <p class="font-semibold">
+        <Translate id="assets.sentence1" />
+      </p>
+
+      <p>
+        <Translate id="assets.sentence2" />
+      </p>
+    </div>
+  );
+}
+
+export function MiscPage() {
+  return (
+    <div>
+      <BackLink href={routes.home} />
+
+      <h1>Divers</h1>
+
+      <ul class="my-6 list-inside list-disc">
+        <li>
+          <a href="https://selonnous.notion.site/Le-projet-ab16bb70e9774a94a19c80a9b20089ce?pvs=4">
+            Contexte
+          </a>
+        </li>
+
+        <li>
+          <a href="https://selonnous.notion.site/Slack-ac8f592a7d514fd987a882d957a60704?pvs=4">Slack</a>
+        </li>
+
+        <li>
+          <a href="https://selonnous.notion.site/P-rim-tre-initial-0297522aefe744a18ff99218fe03240b?pvs=4">
+            Périmètre initial du projet
+          </a>
+        </li>
+
+        <li>
+          <a href="https://selonnous.notion.site/Jalons-441e6d71bff242bbb3b65e57d1d8b134?pvs=4">Jalons</a>
+        </li>
+
+        <li>
+          <a href="https://trello.com/b/5acsJhvj/sel-id%C3%A9es">Idées</a>
+        </li>
+      </ul>
+    </div>
+  );
+}

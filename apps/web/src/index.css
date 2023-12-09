@@ -48,6 +48,10 @@
   h1 {
     @apply typo-h1;
   }
+
+  h2 {
+    @apply typo-h2;
+  }
 }
 
 @layer utilities {
@@ -67,6 +71,10 @@
 
   .typo-h1 {
     @apply text-3xl font-semibold;
+  }
+
+  .typo-h2 {
+    @apply text-2xl font-semibold;
   }
 }
 

@@ -86,6 +86,30 @@
     "members": {
       "label": "Membres",
       "description": "Voir la liste des membres du SEL"
+    },
+    "requests": {
+      "label": "Demandes",
+      "description": "Exprimer une demande."
+    },
+    "events": {
+      "label": "Événements",
+      "description": "Planifier un événement."
+    },
+    "activities": {
+      "label": "Centres d'intérêts",
+      "description": "Voir les centres d'intérêts des members."
+    },
+    "assets": {
+      "label": "Biens",
+      "description": "Prêter et donner des biens matériels."
+    },
+    "misc": {
+      "label": "Divers",
+      "description": "Informations et liens utiles."
+    },
+    "news": {
+      "title": "Actualités",
+      "placeholder": "Plus tard, cette section vous permettra de voir les dernières informations importantes du SEL."
     }
   },
   "members": {
@@ -107,7 +131,24 @@
     }
   },
   "requests": {
-    "createRequest": "Créer une demande"
+    "title": "Demandes",
+    "sentence1": "La partie demandes n'est pas encore disponible !",
+    "sentence2": "L'atelier de conception est prévu le mercredi 20 décembre 2023, à 18h30. Cette partie devrait être disponible courant février 2024."
+  },
+  "events": {
+    "title": "Événements",
+    "sentence1": "La partie événements n'est pas encore disponible !",
+    "sentence2": "L'atelier de conception est prévu début février 2024. Cette partie devrait être disponible courant avril 2024."
+  },
+  "activities": {
+    "title": "Centres d'intérêts",
+    "sentence1": "La partie centres d'intérêts n'est pas encore disponible !",
+    "sentence2": "Cette partie devrait être disponible courant juin 2024."
+  },
+  "assets": {
+    "title": "Biens",
+    "sentence1": "La partie échanges de biens n'est pas encore disponible !",
+    "sentence2": "Cette partie devrait être disponible courant avril 2024."
   },
   "profile": {
     "navigation": {

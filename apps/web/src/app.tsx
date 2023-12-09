@@ -2,6 +2,7 @@ import { Route, Router, Routes } from '@solidjs/router';
 import { JSX, ErrorBoundary as SolidErrorBoundary, lazy, type Component } from 'solid-js';
 
 import { SuspenseLoader } from './components/loader';
+import { ActivitiesPage, AssetsPage, EventsPage, MiscPage, RequestsPage } from './home/home.page';
 import { MatomoScript } from './infrastructure/analytics/matomo-script';
 import { TrackPageView } from './infrastructure/analytics/track-page-view';
 import { NotificationsContainer } from './infrastructure/notifications/toast-notifications.adapter';
@@ -68,6 +69,11 @@ const Routing: Component = () => {
       <Route path="/onboarding" component={OnboardingPage} />
       <Route path="/members" component={MembersPage} />
       <Route path="/members/:memberId" component={MemberPage} />
+      <Route path="/requests" component={RequestsPage} />
+      <Route path="/events" component={EventsPage} />
+      <Route path="/activities" component={ActivitiesPage} />
+      <Route path="/assets" component={AssetsPage} />
+      <Route path="/misc" component={MiscPage} />
       <Route path="/profile" component={ProfileLayout}>
         <Route path="/" component={ProfileEditionPage} />
         <Route path="/address" component={AddressPage} />

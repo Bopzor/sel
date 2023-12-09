@@ -5,6 +5,19 @@ export const routes = {
     list: '/members',
     member: (memberId: string) => `/members/${memberId}`,
   },
+  requests: {
+    list: '/requests',
+  },
+  events: {
+    list: '/events',
+  },
+  activities: {
+    home: '/activities',
+  },
+  assets: {
+    home: '/assets',
+  },
+  misc: '/misc',
   profile: {
     profileEdition: '/profile',
     address: '/profile/address',
