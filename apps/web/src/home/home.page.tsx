@@ -57,10 +57,7 @@ export const HomePage = () => {
         />
       </div>
 
-      <div class="col gap-6 md:flex-row-reverse">
-        <Changelog />
-        <News />
-      </div>
+      <News />
     </div>
   );
 };
@@ -87,7 +84,7 @@ const LinkCard: Component<LinkCardProps> = (props) => {
 
 function News() {
   return (
-    <div class="flex-2">
+    <>
       <h2 class="typo-h2">
         <T id="news.title" />
       </h2>
@@ -102,85 +99,7 @@ function News() {
           {() => <div class="min-h-[12rem] w-full rounded-lg bg-dim/5" />}
         </Index>
       </div>
-    </div>
-  );
-}
-
-function Changelog() {
-  return (
-    <div class="flex-1">
-      <h2 class="mb-2">
-        <T id="changelog.title" />
-      </h2>
-
-      <ul class="col gap-2">
-        <Index each={changelog}>{(entry) => <ChangelogEntry {...entry()} />}</Index>
-      </ul>
-    </div>
-  );
-}
-
-const changelog: Array<ChangelogEntryProps> = [
-  {
-    date: '2023-12-09',
-    title: "Structure de l'app",
-    description:
-      'Ajout de pages pour les sections à venir de l\'app, mise en place de cette section "nouveautés".',
-  },
-  {
-    date: '2023-12-02',
-    title: 'Progressive web app',
-    description: "Mise en place de la version application mobile (installable) de l'app.",
-  },
-  {
-    date: '2023-11-25',
-    title: 'Édition du profil',
-    description: "Ajout de la page d'édition des informations de profil.",
-  },
-  {
-    date: '2023-11-13',
-    title: 'Onboarding',
-    description: "Ajout du funnel d'onboarding lors de la première connexion.",
-  },
-  {
-    date: '2023-11-02',
-    title: 'Authentification',
-    description: 'Ajout du formulaire de connexion par email.',
-  },
-  {
-    date: '2023-10-22',
-    title: 'Carte interactive',
-    description: 'Ajout de la care sur la page de la liste des membres.',
-  },
-  {
-    date: '2023-10-05',
-    title: 'Liste des membres',
-    description: 'Ajout de la page listant les membres et de la fonction de recherche',
-  },
-  {
-    date: '2023-09-04',
-    title: 'Initialisation du projet',
-    description: 'Création de la partie server (backend) et client (frontend).',
-  },
-];
-
-type ChangelogEntryProps = {
-  date: string;
-  title: JSX.Element;
-  description: JSX.Element;
-};
-
-function ChangelogEntry(props: ChangelogEntryProps) {
-  const intl = useIntl();
-
-  return (
-    <li class="my-2">
-      <div class="row items-center justify-between">
-        <strong>{props.title}</strong>
-        <span class="text-xs text-dim">{intl.formatDate(props.date)}</span>
-      </div>
-      <p class="m-0 text-sm">{props.description}</p>
-    </li>
+    </>
   );
 }
 
@@ -269,33 +188,132 @@ export function MiscPage() {
     <div>
       <BackLink href={routes.home} />
 
-      <h1>Divers</h1>
+      <div class="row gap-6">
+        <div class="flex-1">
+          <h2>Contact</h2>
 
-      <ul class="my-6 list-inside list-disc">
-        <li>
-          <a href="https://selonnous.notion.site/Le-projet-ab16bb70e9774a94a19c80a9b20089ce?pvs=4">
-            Contexte
-          </a>
-        </li>
+          <p>
+            Nous communiquons régulièrement les informations importantes relative au développement du projet
+            via un groupe sur Slack, une plateforme de discussion en ligne. Pour vous connecter,{' '}
+            <a href="https://selonnous.notion.site/Slack-ac8f592a7d514fd987a882d957a60704?pvs=4">
+              suivez le guide
+            </a>
+            .
+          </p>
 
-        <li>
-          <a href="https://selonnous.notion.site/Slack-ac8f592a7d514fd987a882d957a60704?pvs=4">Slack</a>
-        </li>
+          <p>
+            Pour remonter un problème ou proposer des idées, vous pouvez aussi{' '}
+            <a href="https://selonnous.communityforge.net/users/152">nous envoyer un message</a>.
+          </p>
 
-        <li>
-          <a href="https://selonnous.notion.site/P-rim-tre-initial-0297522aefe744a18ff99218fe03240b?pvs=4">
-            Périmètre initial du projet
-          </a>
-        </li>
+          <h2>Contexte</h2>
 
-        <li>
-          <a href="https://selonnous.notion.site/Jalons-441e6d71bff242bbb3b65e57d1d8b134?pvs=4">Jalons</a>
-        </li>
+          <p>
+            Le développement de l'app est à l'initiative de Nils et Violaine, membres de SEL'ons-nous depuis
+            2022. Nous sommes tous les deux développeurs d'applications web, et travaillons sur ce projet sur
+            notre temps libre, pour le plaisir et parce que c'est une opportunité pour nous de mettre à profit
+            nos compétences via un projet concret.
+          </p>
 
-        <li>
-          <a href="https://trello.com/b/5acsJhvj/sel-id%C3%A9es">Idées</a>
-        </li>
-      </ul>
+          <p>
+            Plus d'informations par rapport au contexte du projet et notre manière de fonctionner sont
+            disponible{' '}
+            <a href="https://selonnous.notion.site/Le-projet-ab16bb70e9774a94a19c80a9b20089ce?pvs=4">
+              sur cette page
+            </a>
+            .
+          </p>
+
+          <h2>Liens</h2>
+
+          <ul class="list-inside list-disc">
+            <li>
+              <a href="https://selonnous.notion.site/P-rim-tre-initial-0297522aefe744a18ff99218fe03240b?pvs=4">
+                Périmètre initial
+              </a>{' '}
+              : la liste des fonctionnalités qui seront réalisées avant septembre 2024.
+            </li>
+
+            <li>
+              <a href="https://selonnous.notion.site/Jalons-441e6d71bff242bbb3b65e57d1d8b134?pvs=4">Jalons</a>{' '}
+              : les dates estimées pour la réalisation des différentes fonctionnalités.
+            </li>
+
+            <li>
+              <a href="https://trello.com/b/5acsJhvj/sel-id%C3%A9es">Roadmap</a> : idées et choses à faire,
+              plus ou moins en vrac.
+            </li>
+          </ul>
+        </div>
+
+        <div class="max-w-md flex-1">
+          <Changelog />
+        </div>
+      </div>
     </div>
+  );
+}
+
+function Changelog() {
+  return (
+    <>
+      <h2 class="mb-2">
+        <T id="changelog.title" />
+      </h2>
+
+      <ul class="divide-y">
+        <Index each={changelog}>{(entry) => <ChangelogEntry {...entry()} />}</Index>
+      </ul>
+    </>
+  );
+}
+
+const changelog: Array<ChangelogEntryProps> = [
+  {
+    date: '2023-12-09',
+    description: "Ajout des pages pour les sections à venir de l'app.",
+  },
+  {
+    date: '2023-12-02',
+    description: "Mise en place de la version application mobile (installable) de l'app.",
+  },
+  {
+    date: '2023-11-25',
+    description: "Ajout des pages d'édition des informations de profil.",
+  },
+  {
+    date: '2023-11-13',
+    description: 'Vérification des informations de profil lors de la première connexion.',
+  },
+  {
+    date: '2023-11-02',
+    description: "Ajout d'un formulaire de connexion par email.",
+  },
+  {
+    date: '2023-10-22',
+    description: "Ajout d'une la carte interactive sur la page de la liste des membres.",
+  },
+  {
+    date: '2023-10-05',
+    description: "Ajout d'une page listant les membres et d'une fonction de recherche.",
+  },
+  {
+    date: '2023-09-04',
+    description: 'Démarrage du projet',
+  },
+];
+
+type ChangelogEntryProps = {
+  date: string;
+  description: JSX.Element;
+};
+
+function ChangelogEntry(props: ChangelogEntryProps) {
+  const intl = useIntl();
+
+  return (
+    <li class="py-2">
+      <span class="text-dim">{intl.formatDate(props.date)}</span> &bullet; {props.description}
+    </li>
   );
 }
