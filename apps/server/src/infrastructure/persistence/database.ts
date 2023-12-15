@@ -11,7 +11,7 @@ import postgres from 'postgres';
 import { TOKENS } from '../../tokens';
 import { ConfigPort } from '../config/config.port';
 
-import { members, tokens } from './schema';
+import { comments, members, requests, tokens } from './schema';
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
@@ -48,6 +48,8 @@ export class Database {
 
     await this.db.delete(tokens);
     await this.db.delete(members);
+    await this.db.delete(requests);
+    await this.db.delete(comments);
   }
 
   async ensureTestDatabase() {

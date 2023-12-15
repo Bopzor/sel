@@ -1,14 +1,13 @@
-import { createFactory, createDate } from '@sel/utils';
-import { InferInsertModel } from 'drizzle-orm';
+import { createDate, createFactory } from '@sel/utils';
 
 import { TokenType } from '../../authentication/token.entity';
 import { MemberStatus } from '../../members/entities';
 
-import { members, tokens } from './schema';
+import { members, requests, tokens } from './schema';
 
 const createISOStringDate = () => createDate().toISOString();
 
-export const createSqlMember = createFactory<InferInsertModel<typeof members>>(() => ({
+export const createSqlMember = createFactory<typeof members.$inferInsert>(() => ({
   id: '',
   status: MemberStatus.inactive,
   firstName: '',
@@ -19,13 +18,19 @@ export const createSqlMember = createFactory<InferInsertModel<typeof members>>((
   updatedAt: createISOStringDate(),
 }));
 
-export const createSqlToken = createFactory<InferInsertModel<typeof tokens>>(() => ({
+export const createSqlToken = createFactory<typeof tokens.$inferInsert>(() => ({
   id: '',
   value: '',
   expirationDate: createISOStringDate(),
   type: TokenType.authentication,
   memberId: '',
   revoked: false,
+  createdAt: createISOStringDate(),
+  updatedAt: createISOStringDate(),
+}));
+
+export const createSqlRequest = createFactory<typeof requests.$inferInsert>(() => ({
+  id: '',
   createdAt: createISOStringDate(),
   updatedAt: createISOStringDate(),
 }));

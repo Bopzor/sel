@@ -64,3 +64,21 @@ export const events = pgTable('events', {
   payload: json('payload'),
   createdAt: createdAt(),
 });
+
+export const requests = pgTable('requests', {
+  id: primaryKey(),
+  createdAt: createdAt(),
+  updatedAt: updatedAt(),
+});
+
+export const comments = pgTable('comments', {
+  id: primaryKey(),
+  authorId: id('author_id')
+    .references(() => members.id)
+    .notNull(),
+  requestId: id('request_id').references(() => requests.id),
+  date: date('date'),
+  body: text('body'),
+  createdAt: createdAt(),
+  updatedAt: updatedAt(),
+});

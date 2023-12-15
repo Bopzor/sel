@@ -22,6 +22,13 @@
       "when": 1701600410472,
       "tag": "0002_gray_lord_hawal",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "5",
+      "when": 1702582305123,
+      "tag": "0003_tricky_hellfire_club",
+      "breakpoints": true
     }
   ]
 }
