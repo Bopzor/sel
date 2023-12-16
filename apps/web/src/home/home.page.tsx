@@ -103,26 +103,6 @@ function News() {
   );
 }
 
-export function RequestsPage() {
-  return (
-    <div>
-      <BackLink href={routes.home} />
-
-      <h1>
-        <Translate id="requests.title" />
-      </h1>
-
-      <p class="font-semibold">
-        <Translate id="requests.sentence1" />
-      </p>
-
-      <p>
-        <Translate id="requests.sentence2" />
-      </p>
-    </div>
-  );
-}
-
 export function EventsPage() {
   return (
     <div>

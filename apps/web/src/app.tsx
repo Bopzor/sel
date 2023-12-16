@@ -2,7 +2,7 @@ import { Route, Router, Routes } from '@solidjs/router';
 import { JSX, ErrorBoundary as SolidErrorBoundary, lazy, type Component } from 'solid-js';
 
 import { SuspenseLoader } from './components/loader';
-import { ActivitiesPage, AssetsPage, EventsPage, MiscPage, RequestsPage } from './home/home.page';
+import { ActivitiesPage, AssetsPage, EventsPage, MiscPage } from './home/home.page';
 import { MatomoScript } from './infrastructure/analytics/matomo-script';
 import { TrackPageView } from './infrastructure/analytics/track-page-view';
 import { NotificationsContainer } from './infrastructure/notifications/toast-notifications.adapter';
@@ -13,6 +13,7 @@ import { NotificationsPage } from './profile/notifications.page';
 import { ProfileEditionPage } from './profile/profile-edition.page';
 import { ProfileLayout } from './profile/profile.layout';
 import { SignOutPage } from './profile/sign-out.page';
+import { RequestsPage } from './requests/requests.page';
 import { AppStoreProvider } from './store/app-store';
 import { ErrorTestPage } from './utils/error-test.page';
 

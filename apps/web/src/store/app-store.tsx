@@ -1,4 +1,4 @@
-import { AuthenticatedMember, Member, MembersSort, UpdateMemberProfileData } from '@sel/shared';
+import { AuthenticatedMember, Member, MembersSort, Request, UpdateMemberProfileData } from '@sel/shared';
 import { defined, isEnumValue } from '@sel/utils';
 import { JSX, createContext, createResource, createSignal, useContext } from 'solid-js';
 import { SetStoreFunction, createStore } from 'solid-js/store';
@@ -21,6 +21,7 @@ type AppState = {
   loadingMembers: boolean;
   members: Member[] | undefined;
   member: Member | undefined;
+  requests: Request[] | undefined;
 };
 
 type SetAppState = SetStoreFunction<AppState>;
@@ -43,6 +44,9 @@ function createAppStore() {
     get member() {
       return member();
     },
+    get requests() {
+      return requests();
+    },
   });
 
   const { authenticatedMember, verifyAuthenticationTokenResult, ...authenticatedMemberActions } =
@@ -50,11 +54,14 @@ function createAppStore() {
 
   const { members, loadingMembers, member, ...membersActions } = membersState();
 
+  const { requests, ...requestsActions } = requestsState();
+
   return [
     state,
     {
       ...authenticatedMemberActions,
       ...membersActions,
+      ...requestsActions,
     },
   ] satisfies [unknown, unknown];
 }
@@ -196,6 +203,36 @@ function membersState() {
       if (!memberId) {
         setMember(undefined);
       }
+    },
+  };
+}
+
+function requestsState() {
+  const [loadRequests, setLoadRequests] = createSignal<boolean>();
+
+  const [requests] = createResource(loadRequests, async (): Promise<Request[]> => {
+    return [
+      {
+        id: 'requestId',
+        date: '2023-12-16',
+        author: {
+          id: 'authorId',
+          firstName: '',
+          lastName: '',
+          phoneNumbers: [],
+          membershipStartDate: '',
+        },
+        title: '',
+        message: '',
+      },
+    ];
+  });
+
+  return {
+    requests,
+
+    loadRequests: () => {
+      setLoadRequests(true);
     },
   };
 }
