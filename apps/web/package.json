@@ -51,6 +51,7 @@
     "@formatjs/intl": "^2.9.9",
     "@solid-primitives/scheduled": "^1.4.1",
     "@solidjs/router": "^0.9.1",
+    "@tailwindcss/typography": "^0.5.10",
     "@tiptap/core": "^2.1.13",
     "@tiptap/extension-link": "^2.1.13",
     "@tiptap/extension-placeholder": "^2.1.13",

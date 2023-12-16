@@ -39,7 +39,7 @@ export function RichEditor(props: RichEditorProps) {
     content: props.initialValue,
     editorProps: {
       attributes: {
-        class: 'outline-none grow',
+        class: 'outline-none grow prose',
       },
     },
     onUpdate() {
