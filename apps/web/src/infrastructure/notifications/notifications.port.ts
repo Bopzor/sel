@@ -2,6 +2,7 @@ import { JSX } from 'solid-js';
 
 export enum NotificationType {
   success = 'success',
+  info = 'info',
   error = 'error',
 }
 

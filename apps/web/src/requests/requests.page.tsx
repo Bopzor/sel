@@ -3,6 +3,7 @@ import { Request } from '@sel/shared';
 import { For, onMount } from 'solid-js';
 
 import { BackLink } from '../components/back-link';
+import { Link } from '../components/link';
 import { SuspenseLoader } from '../components/loader';
 import { MemberAvatarName } from '../components/member-avatar-name';
 import { Translate } from '../intl/translate';
@@ -43,23 +44,24 @@ function RequestListItem(props: RequestListItemProps) {
 
   return (
     <li class="max-w-4xl rounded-lg bg-neutral p-4 shadow">
-      <div class="row items-center justify-between">
-        <div class="row items-center gap-4">
-          <MemberAvatarName member={props.request.author} classes={{ name: 'text-lg' }} />
+      <Link unstyled href={routes.requests.request(props.request.id)}>
+        <div class="row items-center justify-between">
+          <div class="row items-center gap-4">
+            <MemberAvatarName member={props.request.author} classes={{ name: 'text-lg' }} />
+          </div>
+
+          <div class="text-dim">
+            {intl.formatDate(props.request.date, {
+              dateStyle: 'long',
+            })}
+          </div>
         </div>
 
-        <div class="text-dim">
-          {intl.formatDate(props.request.date, {
-            dateStyle: 'long',
-            timeStyle: 'short',
-          })}
-        </div>
-      </div>
+        <h2 class="mb-4 mt-6">{props.request.title}</h2>
 
-      <h2 class="mb-4 mt-6">{props.request.title}</h2>
-
-      {/* eslint-disable-next-line solid/no-innerhtml */}
-      <div class="prose line-clamp-3 max-w-none" innerHTML={props.request.message} />
+        {/* eslint-disable-next-line solid/no-innerhtml */}
+        <div class="prose line-clamp-3 max-w-none" innerHTML={props.request.message} />
+      </Link>
     </li>
   );
 }

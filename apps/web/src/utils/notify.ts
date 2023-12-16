@@ -13,6 +13,10 @@ notify.success = (message: JSX.Element) => {
   notify(NotificationType.success, message);
 };
 
+notify.info = (message: JSX.Element) => {
+  notify(NotificationType.info, message);
+};
+
 notify.error = (message: JSX.Element) => {
   notify(NotificationType.error, message);
 };

@@ -22,6 +22,7 @@ type AppState = {
   members: Member[] | undefined;
   member: Member | undefined;
   requests: Request[] | undefined;
+  request: Request | undefined;
 };
 
 type SetAppState = SetStoreFunction<AppState>;
@@ -47,6 +48,9 @@ function createAppStore() {
     get requests() {
       return requests();
     },
+    get request() {
+      return request();
+    },
   });
 
   const { authenticatedMember, verifyAuthenticationTokenResult, ...authenticatedMemberActions } =
@@ -54,7 +58,7 @@ function createAppStore() {
 
   const { members, loadingMembers, member, ...membersActions } = membersState();
 
-  const { requests, ...requestsActions } = requestsState();
+  const { requests, request, ...requestsActions } = requestsState();
 
   return [
     state,
@@ -207,32 +211,43 @@ function membersState() {
   };
 }
 
+const fakeRequest: Request = {
+  id: 'requestId',
+  date: '2023-12-16',
+  author: {
+    id: 'authorId',
+    firstName: '',
+    lastName: '',
+    phoneNumbers: [],
+    membershipStartDate: '',
+  },
+  title: '',
+  message: '',
+};
+
 function requestsState() {
   const [loadRequests, setLoadRequests] = createSignal<boolean>();
 
   const [requests] = createResource(loadRequests, async (): Promise<Request[]> => {
-    return [
-      {
-        id: 'requestId',
-        date: '2023-12-16',
-        author: {
-          id: 'authorId',
-          firstName: '',
-          lastName: '',
-          phoneNumbers: [],
-          membershipStartDate: '',
-        },
-        title: '',
-        message: '',
-      },
-    ];
+    return [fakeRequest];
+  });
+
+  const [requestId, setRequestId] = createSignal<string>();
+
+  const [request] = createResource(requestId, async (): Promise<Request> => {
+    return fakeRequest;
   });
 
   return {
     requests,
+    request,
 
     loadRequests: () => {
       setLoadRequests(true);
+    },
+
+    loadRequest: (requestId: string) => {
+      setRequestId(requestId);
     },
   };
 }

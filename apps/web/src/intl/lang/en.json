@@ -143,9 +143,12 @@
     }
   },
   "requests": {
-    "title": "Demandes",
-    "sentence1": "",
-    "sentence2": ""
+    "title": "Requests",
+    "date": "The {date}",
+    "contact": "Contact {author}",
+    "commentPlaceholder": "Write a comment...",
+    "createExchange": "Créer un échange",
+    "notAvailable": "Transactions are not available on the app yet."
   },
   "events": {
     "title": "Events",

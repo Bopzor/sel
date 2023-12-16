@@ -13,6 +13,7 @@ import { NotificationsPage } from './profile/notifications.page';
 import { ProfileEditionPage } from './profile/profile-edition.page';
 import { ProfileLayout } from './profile/profile.layout';
 import { SignOutPage } from './profile/sign-out.page';
+import { RequestPage } from './requests/request.page';
 import { RequestsPage } from './requests/requests.page';
 import { AppStoreProvider } from './store/app-store';
 import { ErrorTestPage } from './utils/error-test.page';
@@ -71,6 +72,7 @@ const Routing: Component = () => {
       <Route path="/members" component={MembersPage} />
       <Route path="/members/:memberId" component={MemberPage} />
       <Route path="/requests" component={RequestsPage} />
+      <Route path="/requests/:requestId" component={RequestPage} />
       <Route path="/events" component={EventsPage} />
       <Route path="/activities" component={ActivitiesPage} />
       <Route path="/assets" component={AssetsPage} />

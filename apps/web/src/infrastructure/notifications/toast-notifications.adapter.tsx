@@ -13,7 +13,11 @@ export class ToastNotificationsAdapter implements NotificationsPort {
   static inject = injectableClass(this);
 
   notify(type: NotificationType, message: JSX.Element): void {
-    toast[type](message);
+    if (type === NotificationType.info) {
+      toast(message);
+    } else {
+      toast[type](message);
+    }
   }
 
   error(error: Error): void {

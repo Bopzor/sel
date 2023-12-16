@@ -7,6 +7,7 @@ export const routes = {
   },
   requests: {
     list: '/requests',
+    request: (requestId: string) => `/requests/${requestId}`,
   },
   events: {
     list: '/events',
