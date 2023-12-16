@@ -53,7 +53,7 @@ export const MemberPage: Component = () => {
 
 function MemberNotFound(props: { message: string }) {
   return (
-    <div class="col my-6 items-center">
+    <div class="col my-6 items-center gap-2">
       <h1>
         <T id="notFound.title" />
       </h1>

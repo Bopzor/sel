@@ -12,7 +12,7 @@ type WelcomeStepProps = {
 export const WelcomeStep: Component<WelcomeStepProps> = (props) => {
   return (
     <>
-      <div>
+      <div class="col gap-1">
         <p>
           <T id="sentence1" />
         </p>

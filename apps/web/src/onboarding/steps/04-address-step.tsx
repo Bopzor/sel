@@ -18,7 +18,7 @@ type AddressProps = {
 export const AddressStep: Component<AddressProps> = (props) => {
   return (
     <>
-      <div>
+      <div class="col gap-1">
         <p>
           <T id="sentence" />
         </p>

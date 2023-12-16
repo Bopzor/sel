@@ -44,7 +44,7 @@ export const ContactStep: Component<ContactStepProps> = (props) => {
 
   return (
     <>
-      <div>
+      <div class="col gap-1">
         <p>
           <T id="sentence1" />
         </p>

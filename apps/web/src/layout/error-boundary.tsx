@@ -51,7 +51,7 @@ const ErrorFallback: Component<ErrorFallbackProps> = (props) => {
         <T id="unknownErrorMessage" values={{ nbsp: () => <>&nbsp;</> }} />
       </p>
 
-      <div class="max-w-2xl">
+      <div class="col max-w-2xl gap-1">
         <p class="text-dim">
           <T id="unknownErrorDescription" />
         </p>

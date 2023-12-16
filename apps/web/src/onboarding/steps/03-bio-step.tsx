@@ -17,7 +17,7 @@ type BioProp = {
 export const BioStep: Component<BioProp> = (props) => {
   return (
     <>
-      <div>
+      <div class="col gap-1">
         <p>
           <T id="sentence1" />
         </p>

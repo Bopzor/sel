@@ -13,7 +13,7 @@ type EndStepProps = {
 export const EndStep: Component<EndStepProps> = (props) => {
   return (
     <>
-      <div>
+      <div class="col gap-1">
         <p>
           <T id="sentence1" />
         </p>
