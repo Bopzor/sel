@@ -20,6 +20,7 @@
     "reduxjs",
     "SEL'ons",
     "solidjs",
-    "tailwindcss"
+    "tailwindcss",
+    "tiptap"
   ]
 }

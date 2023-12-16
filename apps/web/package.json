@@ -51,6 +51,12 @@
     "@formatjs/intl": "^2.9.9",
     "@solid-primitives/scheduled": "^1.4.1",
     "@solidjs/router": "^0.9.1",
+    "@tiptap/core": "^2.1.13",
+    "@tiptap/extension-link": "^2.1.13",
+    "@tiptap/extension-placeholder": "^2.1.13",
+    "@tiptap/extension-underline": "^2.1.13",
+    "@tiptap/pm": "^2.1.13",
+    "@tiptap/starter-kit": "^2.1.13",
     "clsx": "^2.0.0",
     "crypto-js": "^4.2.0",
     "dequal": "^2.0.3",
@@ -60,6 +66,7 @@
     "solid-heroicons": "^3.2.4",
     "solid-js": "^1.8.7",
     "solid-map-gl": "^1.10.2",
+    "solid-tiptap": "^0.6.0",
     "solid-toast": "^0.5.0",
     "zod": "^3.22.4"
   }

@@ -7,6 +7,15 @@
       "min": "This field is too short (min: {min} characters).",
       "max": "This field is too long (max: {max} characters)."
     },
+    "richEditor": {
+      "bold": "Bold",
+      "italic": "Italic",
+      "underline": "Underline",
+      "bulletList": "Bullet list",
+      "orderedList": "Number list",
+      "link": "Link",
+      "linkTarget": "Link target:"
+    },
     "error": {
       "unknownErrorMessage": "🫨<nbsp></nbsp>Something unexpected just happened...<nbsp></nbsp>🥲",
       "unknownErrorDescription": "It's probably a bug, the person responsible won't get any dessert.",

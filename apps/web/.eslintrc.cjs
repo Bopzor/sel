@@ -25,6 +25,7 @@ module.exports = {
 
   rules: {
     'tailwindcss/no-arbitrary-value': 'warn',
+    'storybook/prefer-pascal-case': 'off',
   },
 
   overrides: [

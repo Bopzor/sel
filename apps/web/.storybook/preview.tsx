@@ -1,4 +1,5 @@
 import { Preview } from 'storybook-solidjs';
+import { IntlProvider } from '../src/intl/intl-provider';
 
 import '../src/index.css';
 
@@ -12,4 +13,11 @@ export default {
       },
     },
   },
+  decorators: [
+    (Story) => (
+      <IntlProvider>
+        <Story />
+      </IntlProvider>
+    ),
+  ],
 } satisfies Preview;

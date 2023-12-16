@@ -1,7 +1,7 @@
 {
   "extends": "@sel/typescript-config/tsconfig.base.json",
   "include": ["src/**/*"],
-  "files": ["tailwind.config.ts"],
+  "files": ["tailwind.config.ts", ".storybook/preview.tsx"],
   "references": [{ "path": "../../packages/shared" }, { "path": "../../packages/utils" }],
   "compilerOptions": {
     "jsx": "preserve",
