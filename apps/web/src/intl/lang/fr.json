@@ -171,7 +171,7 @@
     "navigation": {
       "profile": "Profil",
       "address": "Adresse",
-      "notifications": "Notifications",
+      "settings": "Paramètres",
       "signOut": "Déconnexion"
     },
     "profile": {
@@ -194,9 +194,9 @@
       "placeholder": "Chercher une adresse...",
       "saved": "Votre adresse a été bien enregistrée."
     },
-    "notifications": {
-      "title": "Notifications",
-      "description": "Plus tard, cette page vous permettra de gérer vos paramètres de notifications."
+    "settings": {
+      "title": "Paramètres",
+      "darkMode": "Mode sombre"
     },
     "signOut": {
       "description": "Pour vous déconnecter de l'app, cliquez sur le bouton ci-dessous.",

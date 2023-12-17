@@ -1,6 +1,6 @@
 import { Outlet } from '@solidjs/router';
 import { Icon } from 'solid-heroicons';
-import { arrowRightOnRectangle, bell, mapPin, user } from 'solid-heroicons/solid';
+import { arrowRightOnRectangle, cog_6Tooth, mapPin, user } from 'solid-heroicons/solid';
 import { Component, ComponentProps, JSX } from 'solid-js';
 
 import { BackLink } from '../components/back-link';
@@ -38,8 +38,8 @@ const Navigation: Component = () => (
       <T id="address" />
     </NavigationLink>
 
-    <NavigationLink href={routes.profile.notifications} icon={bell}>
-      <T id="notifications" />
+    <NavigationLink href={routes.profile.settings} icon={cog_6Tooth}>
+      <T id="settings" />
     </NavigationLink>
 
     <NavigationLink href={routes.profile.signOut} icon={arrowRightOnRectangle}>

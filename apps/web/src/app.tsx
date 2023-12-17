@@ -1,5 +1,5 @@
 import { Route, Router, Routes } from '@solidjs/router';
-import { JSX, ErrorBoundary as SolidErrorBoundary, lazy, type Component } from 'solid-js';
+import { JSX, ErrorBoundary as SolidErrorBoundary, lazy, type Component, onMount } from 'solid-js';
 
 import { BackLink } from './components/back-link';
 import { SuspenseLoader } from './components/loader';
@@ -11,9 +11,9 @@ import { IntlProvider } from './intl';
 import { Translate } from './intl/translate';
 import { Layout } from './layout/layout';
 import { AddressPage } from './profile/address.page';
-import { NotificationsPage } from './profile/notifications.page';
 import { ProfileEditionPage } from './profile/profile-edition.page';
 import { ProfileLayout } from './profile/profile.layout';
+import { SettingsPage } from './profile/settings.page';
 import { SignOutPage } from './profile/sign-out.page';
 import { RequestPage } from './requests/request/request.page';
 import { routes } from './routes';
@@ -31,6 +31,16 @@ function lazyImport(module: () => Promise<any>, name: string) {
 }
 
 export const App: Component = () => {
+  onMount(() => {
+    if (localStorage.getItem('dark') === null) {
+      localStorage.setItem('dark', String(window.matchMedia('(prefers-color-scheme: dark)').matches));
+    }
+
+    if (localStorage.getItem('dark') === 'true') {
+      document.documentElement.classList.add('dark');
+    }
+  });
+
   return (
     <SolidErrorBoundary
       fallback={(error) => {
@@ -82,7 +92,7 @@ const Routing: Component = () => {
       <Route path="/profile" component={ProfileLayout}>
         <Route path="/" component={ProfileEditionPage} />
         <Route path="/address" component={AddressPage} />
-        <Route path="/notifications" component={NotificationsPage} />
+        <Route path="/settings" component={SettingsPage} />
         <Route path="/sign-out" component={SignOutPage} />
       </Route>
       <Route path="/__error" component={ErrorTestPage} />

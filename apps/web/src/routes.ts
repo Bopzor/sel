@@ -22,7 +22,7 @@ export const routes = {
   profile: {
     profileEdition: '/profile',
     address: '/profile/address',
-    notifications: '/profile/notifications',
+    settings: '/profile/settings',
     signOut: '/profile/sign-out',
   },
 };
