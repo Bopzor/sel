@@ -3,6 +3,7 @@ import Link from '@tiptap/extension-link';
 import Placeholder from '@tiptap/extension-placeholder';
 import Underline from '@tiptap/extension-underline';
 import StarterKit from '@tiptap/starter-kit';
+import clsx from 'clsx';
 import { Show, ValidComponent } from 'solid-js';
 import { Dynamic } from 'solid-js/web';
 import { createEditorTransaction, createTiptapEditor } from 'solid-tiptap';
@@ -21,6 +22,7 @@ type RichEditorProps = {
   placeholder?: string;
   initialValue?: string;
   onChange?: (html: string) => void;
+  class?: string;
 };
 
 export function RichEditor(props: RichEditorProps) {
@@ -52,8 +54,7 @@ export function RichEditor(props: RichEditorProps) {
   }));
 
   return (
-    // eslint-disable-next-line tailwindcss/no-arbitrary-value
-    <div class="col min-h-[8rem] resize-y overflow-auto rounded bg-white shadow">
+    <div class={clsx('col resize-y overflow-auto', props.class)}>
       <div ref={ref} class="col grow overflow-y-auto p-4" />
       <Show when={editor()}>{(editor) => <Toolbar editor={editor()} />}</Show>
     </div>

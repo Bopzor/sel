@@ -219,10 +219,12 @@ const fakeRequest: Request = {
     firstName: '',
     lastName: '',
     phoneNumbers: [],
+    email: '',
     membershipStartDate: '',
   },
   title: '',
   message: '',
+  comments: [],
 };
 
 function requestsState() {

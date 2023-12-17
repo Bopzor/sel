@@ -9,6 +9,7 @@ import { Button } from '../components/button';
 import { Link } from '../components/link';
 import { SuspenseLoader } from '../components/loader';
 import { MemberAvatarName } from '../components/member-avatar-name';
+import { RichEditor } from '../components/rich-editor';
 import { Translate } from '../intl/translate';
 import { routes } from '../routes';
 import { getAppState, getMutations } from '../store/app-store';
@@ -56,6 +57,37 @@ export function RequestPage() {
               // eslint-disable-next-line solid/no-innerhtml
               innerHTML={state.request?.message}
             />
+
+            <hr />
+
+            <div class="rounded-lg bg-white shadow">
+              <ul class="col gap-4 p-4">
+                <For each={state.request?.comments}>
+                  {(comment) => (
+                    <li>
+                      <div class="row items-center justify-between">
+                        <div class="row items-center gap-2">
+                          <MemberAvatarName member={comment.author} />
+                        </div>
+
+                        <div class="text-xs text-dim">
+                          {intl.formatDate(comment.date, { dateStyle: 'short', timeStyle: 'short' })}
+                        </div>
+                      </div>
+
+                      {/* eslint-disable-next-line solid/no-innerhtml */}
+                      <div class="prose ml-2 max-w-none pl-8" innerHTML={comment.body} />
+                    </li>
+                  )}
+                </For>
+              </ul>
+
+              <hr />
+
+              <div>
+                <RichEditor placeholder={t('commentPlaceholder')} class="min-h-[10rem]" />
+              </div>
+            </div>
           </div>
 
           <div class="col max-w-sm flex-1 gap-6">

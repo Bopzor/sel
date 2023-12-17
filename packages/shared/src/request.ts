@@ -1,3 +1,4 @@
+import { Comment } from './comment';
 import { Member } from './member';
 
 export type Request = {
@@ -6,4 +7,5 @@ export type Request = {
   author: Member;
   title: string;
   message: string;
+  comments: Comment[];
 };
