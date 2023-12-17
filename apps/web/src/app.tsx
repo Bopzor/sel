@@ -13,7 +13,7 @@ import { NotificationsPage } from './profile/notifications.page';
 import { ProfileEditionPage } from './profile/profile-edition.page';
 import { ProfileLayout } from './profile/profile.layout';
 import { SignOutPage } from './profile/sign-out.page';
-import { RequestPage } from './requests/request.page';
+import { RequestPage } from './requests/request/request.page';
 import { RequestsPage } from './requests/requests.page';
 import { AppStoreProvider } from './store/app-store';
 import { ErrorTestPage } from './utils/error-test.page';
