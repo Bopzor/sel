@@ -144,6 +144,8 @@
   },
   "requests": {
     "title": "Requests",
+    "sentence1": "",
+    "sentence2": "",
     "date": "The {date}",
     "contact": "Contact {author}",
     "commentPlaceholder": "Write a comment...",

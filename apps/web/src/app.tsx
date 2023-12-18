@@ -1,12 +1,14 @@
 import { Route, Router, Routes } from '@solidjs/router';
 import { JSX, ErrorBoundary as SolidErrorBoundary, lazy, type Component } from 'solid-js';
 
+import { BackLink } from './components/back-link';
 import { SuspenseLoader } from './components/loader';
 import { ActivitiesPage, AssetsPage, EventsPage, MiscPage } from './home/home.page';
 import { MatomoScript } from './infrastructure/analytics/matomo-script';
 import { TrackPageView } from './infrastructure/analytics/track-page-view';
 import { NotificationsContainer } from './infrastructure/notifications/toast-notifications.adapter';
 import { IntlProvider } from './intl';
+import { Translate } from './intl/translate';
 import { Layout } from './layout/layout';
 import { AddressPage } from './profile/address.page';
 import { NotificationsPage } from './profile/notifications.page';
@@ -14,7 +16,7 @@ import { ProfileEditionPage } from './profile/profile-edition.page';
 import { ProfileLayout } from './profile/profile.layout';
 import { SignOutPage } from './profile/sign-out.page';
 import { RequestPage } from './requests/request/request.page';
-import { RequestsPage } from './requests/requests.page';
+import { routes } from './routes';
 import { AppStoreProvider } from './store/app-store';
 import { ErrorTestPage } from './utils/error-test.page';
 
@@ -87,3 +89,23 @@ const Routing: Component = () => {
     </Routes>
   );
 };
+
+export function RequestsPage() {
+  return (
+    <div>
+      <BackLink href={routes.home} />
+
+      <h1>
+        <Translate id="requests.title" />
+      </h1>
+
+      <p class="font-semibold">
+        <Translate id="requests.sentence1" />
+      </p>
+
+      <p>
+        <Translate id="requests.sentence2" />
+      </p>
+    </div>
+  );
+}
