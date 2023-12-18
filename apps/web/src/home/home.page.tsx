@@ -250,6 +250,10 @@ function Changelog() {
 
 const changelog: Array<ChangelogEntryProps> = [
   {
+    date: '2023-12-18',
+    description: 'Ajout du mode sombre.',
+  },
+  {
     date: '2023-12-09',
     description: "Ajout des pages pour les sections à venir de l'app.",
   },
