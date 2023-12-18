@@ -162,7 +162,7 @@ const MemberProfileData: Component<MemberProfileDataProps> = (props) => {
   return (
     <Show when={props.when}>
       <div>
-        <div class="mb-2 text-primary">
+        <div class="mb-2 text-primary dark:text-blue-400">
           <Icon path={props.icon} class="inline-block h-em" />
           <span class="ml-2 align-middle font-semibold">{props.label}</span>
         </div>

@@ -2,23 +2,22 @@ import type { Config } from 'tailwindcss';
 import colors from 'tailwindcss/colors';
 
 export default {
-  content: ['src/**/*.tsx'],
+  content: ['index.html', 'src/**/*.tsx'],
+  darkMode: 'class',
   theme: {
     colors: {
-      transparent: colors.transparent,
-      white: colors.white,
-      black: colors.black,
       primary: '#005F7E',
+      transparent: colors.transparent,
       green: colors.emerald,
       blue: colors.blue,
       red: colors.red,
       yellow: colors.amber,
       gray: colors.gray,
-      neutral: colors.white,
-      inverted: colors.black,
-      icon: colors.gray[600],
-      text: colors.gray[800],
-      dim: colors.gray[800],
+      neutral: `rgb(var(--color-neutral) / <alpha-value>)`,
+      inverted: `rgb(var(--color-inverted) / <alpha-value>)`,
+      text: `rgb(var(--color-text) / <alpha-value>)`,
+      dim: `rgb(var(--color-dim) / <alpha-value>)`,
+      icon: `rgb(var(--color-icon) / <alpha-value>)`,
     },
     fontFamily: {
       sans: ['Inter variable', 'sans-serif'],

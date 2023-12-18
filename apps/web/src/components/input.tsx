@@ -33,7 +33,7 @@ export const Input: Component<InputProps> = (props1) => {
 
       <input
         ref={inputProps.ref ?? undefined}
-        class={clsx('w-full self-stretch px-4 py-3 outline-none', props.start && 'pl-0')}
+        class={clsx('w-full self-stretch bg-neutral px-4 py-3 outline-none', props.start && 'pl-0')}
         {...inputProps}
       />
 

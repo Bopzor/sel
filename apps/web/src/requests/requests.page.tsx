@@ -6,6 +6,7 @@ import { BackLink } from '../components/back-link';
 import { Link } from '../components/link';
 import { SuspenseLoader } from '../components/loader';
 import { MemberAvatarName } from '../components/member-avatar-name';
+import { RichText } from '../components/rich-text';
 import { Translate } from '../intl/translate';
 import { routes } from '../routes';
 import { getAppState, getMutations } from '../store/app-store';
@@ -59,8 +60,7 @@ function RequestListItem(props: RequestListItemProps) {
 
         <h2 class="mb-4 mt-6">{props.request.title}</h2>
 
-        {/* eslint-disable-next-line solid/no-innerhtml */}
-        <div class="prose line-clamp-3 max-w-none" innerHTML={props.request.message} />
+        <RichText class="line-clamp-3">{props.request.message}</RichText>
       </Link>
     </li>
   );

@@ -41,7 +41,7 @@ export function RichEditor(props: RichEditorProps) {
     content: props.initialValue,
     editorProps: {
       attributes: {
-        class: 'outline-none grow prose',
+        class: 'outline-none grow prose dark:prose-invert',
       },
     },
     onUpdate() {

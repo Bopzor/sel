@@ -17,7 +17,7 @@ type HeaderProps = {
 
 export const Header: Component<HeaderProps> = (props) => {
   return (
-    <header class="bg-primary text-white">
+    <header class="bg-primary text-[#fff]">
       <Row class="mx-auto max-w-7xl justify-between p-2 md:p-4">
         <Link unstyled href={routes.home} class="inline-flex flex-row items-center gap-2 md:gap-4">
           <Logo width={64} height={64} class="rounded" />
@@ -25,7 +25,7 @@ export const Header: Component<HeaderProps> = (props) => {
             <div class="text-lg font-semibold md:text-2xl">
               <T id="title" />
             </div>
-            <div class="text-sm text-white/80">
+            <div class="text-sm text-[#fff]/80">
               <T id="subtitle" />
             </div>
           </div>

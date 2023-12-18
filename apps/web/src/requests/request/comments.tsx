@@ -4,6 +4,7 @@ import { For } from 'solid-js';
 
 import { MemberAvatarName } from '../../components/member-avatar-name';
 import { RichEditor } from '../../components/rich-editor';
+import { RichText } from '../../components/rich-text';
 import { Translate } from '../../intl/translate';
 
 const T = Translate.prefix('requests');
@@ -17,7 +18,7 @@ export function Comments(props: CommentsProps) {
   const t = T.useTranslation();
 
   return (
-    <div class="rounded-lg bg-white shadow">
+    <div class="rounded-lg bg-neutral shadow">
       <ul class="col gap-4 p-4">
         <For each={props.request?.comments}>
           {(comment) => (
@@ -32,8 +33,7 @@ export function Comments(props: CommentsProps) {
                 </div>
               </div>
 
-              {/* eslint-disable-next-line solid/no-innerhtml */}
-              <div class="prose ml-2 max-w-none pl-8" innerHTML={comment.body} />
+              <RichText class="prose ml-2 pl-8">{comment.body}</RichText>
             </li>
           )}
         </For>
