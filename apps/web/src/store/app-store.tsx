@@ -1,4 +1,11 @@
-import { AuthenticatedMember, Member, MembersSort, Request, UpdateMemberProfileData } from '@sel/shared';
+import {
+  AuthenticatedMember,
+  Member,
+  MembersSort,
+  Request,
+  UpdateMemberProfileData,
+  createMember,
+} from '@sel/shared';
 import { defined, isEnumValue } from '@sel/utils';
 import { JSX, createContext, createResource, createSignal, useContext } from 'solid-js';
 import { SetStoreFunction, createStore } from 'solid-js/store';
@@ -216,15 +223,38 @@ const fakeRequest: Request = {
   date: '2023-12-16',
   author: {
     id: 'authorId',
-    firstName: '',
-    lastName: '',
-    phoneNumbers: [],
-    email: '',
+    firstName: 'Enora',
+    lastName: 'Au brie',
+    phoneNumbers: [{ number: '0701020304', visible: true }],
+    email: 'email@address',
     membershipStartDate: '',
   },
-  title: '',
-  message: '',
-  comments: [],
+  title: "Besoin d'une billig",
+  message: `<p>Bonjour !</p>
+
+<p>Quelqu'un est-il en possession d'une billig ? C'est pour ce dimanche. Si vous ne savez pas ce que c'est, c'est que vous n'en avez pas !</p>
+
+<p>Bien à vous,</p>
+
+<p>Enora</p>`,
+  comments: [
+    {
+      id: 'commentId',
+      date: '2023-12-17',
+      author: createMember({ firstName: 'First', lastName: 'Last' }),
+      body: `<p>Salut,</p>
+
+<p>je ne savais pas ce que c'était, mais on en a une !</p>
+
+<p>On peut te la prêter.</p>`,
+    },
+    {
+      id: 'commentId',
+      date: '2023-12-17',
+      author: createMember({ firstName: 'Toto', lastName: 'Tata' }),
+      body: "<p>Oui, c'est une grosse plaque ronde qui chauffe à 300 degrés, pour faire des crêpes et des galettes. On la prête à qui veut, suffit de demander ! Attention, il y a un petit coup de main à prendre...</p>",
+    },
+  ],
 };
 
 function requestsState() {

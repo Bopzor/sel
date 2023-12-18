@@ -144,6 +144,8 @@
   },
   "requests": {
     "title": "Demandes",
+    "sentence1": "La partie demandes n'est pas encore disponible !",
+    "sentence2": "L'atelier de conception est prévu le mercredi 20 décembre 2023, à 18h30. Cette partie devrait être disponible courant février 2024.",
     "date": "Le {date}",
     "contact": "Contacter {author}",
     "commentPlaceholder": "Écrire un commentaire...",
