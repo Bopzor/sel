@@ -9,4 +9,9 @@ export type Request = {
   status: RequestStatus;
   date: Date;
   requesterId: string;
+  title: string;
+  body: {
+    html: string;
+    text: string;
+  };
 };

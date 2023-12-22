@@ -16,6 +16,7 @@ import { EventsLogger } from './infrastructure/events/events-logger';
 import { EventsPersistor } from './infrastructure/events/events-persistor';
 import { EventsSlackPublisher } from './infrastructure/events/events-slack-publisher';
 import { NanoIdGenerator } from './infrastructure/generator/nanoid-generator.adapter';
+import { CheerioHtmlParserAdapter } from './infrastructure/html-parser/cheerio-html-parser.adapter';
 import { ConsoleLogger } from './infrastructure/logger/console-logger.adapter';
 import { Database } from './infrastructure/persistence/database';
 import { WebSlackClientAdapter } from './infrastructure/slack/web-slack-client.adapter';
@@ -24,6 +25,7 @@ import { MembersFacadeImpl } from './members/members.facade';
 import { MembersService } from './members/members.service';
 import { SqlMembersRepository } from './members/sql-members.repository';
 import { RequestController } from './requests/request.controller';
+import { RequestService } from './requests/request.service';
 import { SqlRequestRepository } from './requests/sql-request.repository';
 import { Server } from './server';
 import { SessionController } from './session/session.controller';
@@ -41,6 +43,7 @@ container.bindFactory(TOKENS.generator, NanoIdGenerator.inject);
 container.bindFactory(TOKENS.logger, ConsoleLogger.inject);
 container.bindFactory(TOKENS.slackClient, WebSlackClientAdapter.inject);
 container.bindFactory(TOKENS.errorReporter, SlackErrorReporterAdapter.inject);
+container.bindFactory(TOKENS.htmlParser, CheerioHtmlParserAdapter.inject);
 
 container.bindFactory(TOKENS.events, EmitterEventsAdapter.inject);
 container.bindFactory(TOKENS.eventsLogger, EventsLogger.inject);
@@ -59,6 +62,7 @@ container.bindFactory(TOKENS.membersService, MembersService.inject);
 container.bindFactory(TOKENS.membersRepository, SqlMembersRepository.inject);
 
 container.bindFactory(TOKENS.requestController, RequestController.inject);
+container.bindFactory(TOKENS.requestService, RequestService.inject);
 container.bindFactory(TOKENS.requestRepository, SqlRequestRepository.inject);
 
 container.bindFactory(TOKENS.authenticationModule, AuthenticationModule.inject);

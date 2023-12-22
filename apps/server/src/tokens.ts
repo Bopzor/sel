@@ -16,6 +16,7 @@ import { EventsPersistor } from './infrastructure/events/events-persistor';
 import { EventsSlackPublisher } from './infrastructure/events/events-slack-publisher';
 import { EventsPort } from './infrastructure/events/events.port';
 import { GeneratorPort } from './infrastructure/generator/generator.port';
+import { HtmlParserPort } from './infrastructure/html-parser/html-parser.port';
 import { LoggerPort } from './infrastructure/logger/logger.port';
 import { Database } from './infrastructure/persistence/database';
 import { SlackClientPort } from './infrastructure/slack/slack-client.port';
@@ -25,6 +26,7 @@ import { MembersRepository } from './members/members.repository';
 import { MembersService } from './members/members.service';
 import { RequestController } from './requests/request.controller';
 import { RequestRepository } from './requests/request.repository';
+import { RequestService } from './requests/request.service';
 import { Server } from './server';
 import { SessionController } from './session/session.controller';
 import { SessionProvider } from './session/session.provider';
@@ -42,6 +44,7 @@ export const TOKENS = {
   eventsSlackPublisher: token<EventsSlackPublisher>('eventsSlackPublisher'),
   slackClient: token<SlackClientPort>('slackClientPort'),
   errorReporter: token<ErrorReporterPort>('errorReporter'),
+  htmlParser: token<HtmlParserPort>('htmlParser'),
   server: token<Server>('server'),
   database: token<Database>('database'),
   nodemailer: token<Nodemailer>('nodemailer'),
@@ -60,5 +63,6 @@ export const TOKENS = {
   sessionController: token<SessionController>('sessionController'),
   sessionService: token<SessionService>('sessionService'),
   requestController: token<RequestController>('requestController'),
+  requestService: token<RequestService>('requestService'),
   requestRepository: token<RequestRepository>('requestRepository'),
 };
