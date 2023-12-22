@@ -221,15 +221,16 @@ function membersState() {
 const fakeRequest: Request = {
   id: 'requestId',
   date: '2023-12-16',
-  requester: {
+  author: {
     id: 'authorId',
     firstName: '',
     lastName: '',
     email: '',
     phoneNumbers: [],
+    membershipStartDate: '',
   },
   title: '',
-  body: '',
+  message: '',
   comments: [],
 };
 
