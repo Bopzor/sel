@@ -1,11 +1,4 @@
-import {
-  AuthenticatedMember,
-  Member,
-  MembersSort,
-  Request,
-  UpdateMemberProfileData,
-  createMember,
-} from '@sel/shared';
+import { AuthenticatedMember, Member, MembersSort, Request, UpdateMemberProfileData } from '@sel/shared';
 import { defined, isEnumValue } from '@sel/utils';
 import { JSX, createContext, createResource, createSignal, useContext } from 'solid-js';
 import { SetStoreFunction, createStore } from 'solid-js/store';
@@ -221,16 +214,15 @@ function membersState() {
 const fakeRequest: Request = {
   id: 'requestId',
   date: '2023-12-16',
-  author: {
+  requester: {
     id: 'authorId',
     firstName: '',
     lastName: '',
     email: '',
     phoneNumbers: [],
-    membershipStartDate: '',
   },
   title: '',
-  message: '',
+  body: '',
   comments: [],
 };
 

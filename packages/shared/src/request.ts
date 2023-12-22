@@ -1,11 +1,19 @@
 import { Comment } from './comment';
-import { Member } from './member';
+import { PhoneNumber } from './phone-number';
 
 export type Request = {
   id: string;
   date: string;
-  author: Member;
+  requester: Requester;
   title: string;
-  message: string;
+  body: string;
   comments: Comment[];
+};
+
+export type Requester = {
+  id: string;
+  firstName: string;
+  lastName: string;
+  email?: string;
+  phoneNumbers: PhoneNumber[];
 };

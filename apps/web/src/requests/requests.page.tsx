@@ -48,7 +48,7 @@ function RequestListItem(props: RequestListItemProps) {
       <Link unstyled href={routes.requests.request(props.request.id)}>
         <div class="row items-center justify-between">
           <div class="row items-center gap-4">
-            <MemberAvatarName member={props.request.author} classes={{ name: 'text-lg' }} />
+            <MemberAvatarName member={props.request.requester} classes={{ name: 'text-lg' }} />
           </div>
 
           <div class="text-dim">
@@ -60,7 +60,7 @@ function RequestListItem(props: RequestListItemProps) {
 
         <h2 class="mb-4 mt-6">{props.request.title}</h2>
 
-        <RichText class="line-clamp-3">{props.request.message}</RichText>
+        <RichText class="line-clamp-3">{props.request.body}</RichText>
       </Link>
     </li>
   );

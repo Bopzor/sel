@@ -32,12 +32,15 @@ describe('SQLCommentsRepository', () => {
   });
 
   it('creates a new comment linked to a request', async () => {
-    await test.database.db.insert(members).values(createSqlMember({ id: 'authorId' }));
-    await test.database.db.insert(requests).values(createSqlRequest({ id: 'requestId' }));
+    await test.database.db.insert(members).values(createSqlMember({ id: 'memberId' }));
+
+    await test.database.db
+      .insert(requests)
+      .values(createSqlRequest({ id: 'requestId', requesterId: 'memberId' }));
 
     await test.repository.insert('request', 'requestId', {
       id: 'commentId',
-      authorId: 'authorId',
+      authorId: 'memberId',
       body: 'body',
       date: createDate('2023-01-01'),
     });
@@ -45,7 +48,7 @@ describe('SQLCommentsRepository', () => {
     expect(await test.database.db.select().from(comments)).toEqual([
       {
         id: 'commentId',
-        authorId: 'authorId',
+        authorId: 'memberId',
         requestId: 'requestId',
         date: createDate('2023-01-01'),
         body: 'body',

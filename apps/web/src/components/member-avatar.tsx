@@ -13,7 +13,7 @@ export const gravatarUrl = (email = '') => {
 };
 
 type MemberAvatarProps = {
-  member?: Member;
+  member?: Pick<Member, 'email'>;
   class?: string;
 };
 

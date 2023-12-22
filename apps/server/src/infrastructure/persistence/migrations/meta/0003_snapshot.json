@@ -1,5 +1,5 @@
 {
-  "id": "2804b722-1f7a-4d55-a779-cc9e0cdc75d7",
+  "id": "0f565b63-6f77-48ba-85d7-574024cbf983",
   "prevId": "28934281-26fc-4a08-8d29-0a0d26af2e66",
   "version": "5",
   "dialect": "pg",
@@ -231,6 +231,43 @@
           "primaryKey": true,
           "notNull": true
         },
+        "status": {
+          "name": "status",
+          "type": "request_status",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "date": {
+          "name": "date",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "CURRENT_DATE"
+        },
+        "requester_id": {
+          "name": "requester_id",
+          "type": "varchar(16)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "title": {
+          "name": "title",
+          "type": "varchar(256)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "text": {
+          "name": "text",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "html": {
+          "name": "html",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
         "created_at": {
           "name": "created_at",
           "type": "timestamp(3)",
@@ -245,7 +282,21 @@
         }
       },
       "indexes": {},
-      "foreignKeys": {},
+      "foreignKeys": {
+        "requests_requester_id_members_id_fk": {
+          "name": "requests_requester_id_members_id_fk",
+          "tableFrom": "requests",
+          "tableTo": "members",
+          "columnsFrom": [
+            "requester_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
@@ -338,6 +389,14 @@
         "onboarding": "onboarding",
         "inactive": "inactive",
         "active": "active"
+      }
+    },
+    "request_status": {
+      "name": "request_status",
+      "values": {
+        "pending": "pending",
+        "fulfilled": "fulfilled",
+        "canceled": "canceled"
       }
     },
     "token_type": {

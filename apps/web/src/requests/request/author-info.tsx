@@ -21,17 +21,17 @@ export function AuthorInfo(props: AuthorInfoProps) {
     <div class="col gap-4 rounded-lg bg-neutral p-4 pt-8 shadow">
       <Link
         unstyled
-        href={routes.members.member(props.request?.author.id ?? '')}
+        href={routes.members.member(props.request?.requester.id ?? '')}
         class="col items-center gap-2"
       >
         <MemberAvatarName
-          member={props.request?.author}
+          member={props.request?.requester}
           classes={{ avatar: '!w-16 !h-16', name: 'text-lg' }}
         />
       </Link>
 
       <ul class="col gap-1">
-        <For each={props.request?.author.phoneNumbers}>
+        <For each={props.request?.requester.phoneNumbers}>
           {({ number }) => (
             <li class="row items-center gap-2">
               <Icon class="h-4 w-4 text-icon" path={phone} />
@@ -42,7 +42,7 @@ export function AuthorInfo(props: AuthorInfoProps) {
           )}
         </For>
 
-        <Show when={props.request?.author.email}>
+        <Show when={props.request?.requester.email}>
           {(email) => (
             <li class="row items-center gap-2">
               <Icon class="h-4 w-4 text-icon" path={envelope} />
@@ -55,7 +55,7 @@ export function AuthorInfo(props: AuthorInfoProps) {
       </ul>
 
       <Button variant="secondary" class="self-start">
-        <T id="contact" values={{ author: props.request?.author?.firstName }} />
+        <T id="contact" values={{ author: props.request?.requester?.firstName }} />
       </Button>
     </div>
   );

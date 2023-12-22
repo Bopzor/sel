@@ -7,5 +7,5 @@ type MessageProps = {
 };
 
 export function Message(props: MessageProps) {
-  return <RichText class="rounded-lg bg-neutral p-8 shadow">{props.request?.message}</RichText>;
+  return <RichText class="rounded-lg bg-neutral p-8 shadow">{props.request?.body}</RichText>;
 }

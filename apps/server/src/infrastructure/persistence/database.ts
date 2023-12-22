@@ -46,10 +46,10 @@ export class Database {
   async reset() {
     assert(this.databaseUrl.endsWith('/test'), 'Not using test database');
 
+    await this.db.delete(comments);
+    await this.db.delete(requests);
     await this.db.delete(tokens);
     await this.db.delete(members);
-    await this.db.delete(requests);
-    await this.db.delete(comments);
   }
 
   async ensureTestDatabase() {

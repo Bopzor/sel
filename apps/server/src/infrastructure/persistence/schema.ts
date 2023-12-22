@@ -3,6 +3,7 @@ import { boolean, json, pgEnum, pgTable, text, timestamp, varchar } from 'drizzl
 
 import { TokenType } from '../../authentication/token.entity';
 import { MemberStatus } from '../../members/entities';
+import { RequestStatus } from '../../requests/request.entity';
 
 const id = (name = 'id') => varchar(name, { length: 16 });
 const primaryKey = () => id().primaryKey();
@@ -65,8 +66,20 @@ export const events = pgTable('events', {
   createdAt: createdAt(),
 });
 
+export const requestStatusEnum = pgEnum('request_status', enumValues(RequestStatus));
+
 export const requests = pgTable('requests', {
   id: primaryKey(),
+  status: requestStatusEnum('status').notNull(),
+  date: timestamp('date')
+    .notNull()
+    .default(sql`CURRENT_DATE`),
+  requesterId: id('requester_id')
+    .notNull()
+    .references(() => members.id),
+  title: varchar('title', { length: 256 }).notNull(),
+  text: text('text').notNull(),
+  html: text('html').notNull(),
   createdAt: createdAt(),
   updatedAt: updatedAt(),
 });
