@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "nodemon -w src -e ts -x 'pnpm start'",
-    "start": "TZ=UTC ts-node src/index.ts",
+    "start": "TZ=UTC tsx src/index.ts",
     "lint": "eslint src",
     "test": "vitest"
   },
@@ -38,7 +38,7 @@
     "drizzle-kit": "^0.20.6",
     "maildev": "^2.1.0",
     "nodemon": "^3.0.2",
-    "ts-node": "^10.9.1",
+    "tsx": "^4.7.0",
     "typescript": "^5.3.2",
     "vitest": "^0.34.6"
   }
