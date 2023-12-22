@@ -211,32 +211,19 @@ function membersState() {
   };
 }
 
-const fakeRequest: Request = {
-  id: 'requestId',
-  date: '2023-12-16',
-  requester: {
-    id: 'authorId',
-    firstName: '',
-    lastName: '',
-    email: '',
-    phoneNumbers: [],
-  },
-  title: '',
-  body: '',
-  comments: [],
-};
-
 function requestsState() {
+  const fetcher = container.resolve(TOKENS.fetcher);
+
   const [loadRequests, setLoadRequests] = createSignal<boolean>();
 
   const [requests] = createResource(loadRequests, async (): Promise<Request[]> => {
-    return [fakeRequest];
+    return fetcher.get<Request[]>('/api/requests').body();
   });
 
   const [requestId, setRequestId] = createSignal<string>();
 
-  const [request] = createResource(requestId, async (): Promise<Request> => {
-    return fakeRequest;
+  const [request] = createResource(requestId, async (requestId): Promise<Request> => {
+    return fetcher.get<Request>(`/api/requests/${requestId}`).body();
   });
 
   return {

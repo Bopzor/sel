@@ -23,6 +23,8 @@ import { MembersController } from './members/members.controller';
 import { MembersFacadeImpl } from './members/members.facade';
 import { MembersService } from './members/members.service';
 import { SqlMembersRepository } from './members/sql-members.repository';
+import { RequestController } from './requests/request.controller';
+import { SqlRequestRepository } from './requests/sql-request.repository';
 import { Server } from './server';
 import { SessionController } from './session/session.controller';
 import { SessionProvider } from './session/session.provider';
@@ -55,6 +57,9 @@ container.bindFactory(TOKENS.membersFacade, MembersFacadeImpl.inject);
 container.bindFactory(TOKENS.membersController, MembersController.inject);
 container.bindFactory(TOKENS.membersService, MembersService.inject);
 container.bindFactory(TOKENS.membersRepository, SqlMembersRepository.inject);
+
+container.bindFactory(TOKENS.requestController, RequestController.inject);
+container.bindFactory(TOKENS.requestRepository, SqlRequestRepository.inject);
 
 container.bindFactory(TOKENS.authenticationModule, AuthenticationModule.inject);
 container.bindFactory(TOKENS.authenticationFacade, AuthenticationFacadeImpl.inject);

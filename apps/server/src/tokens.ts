@@ -23,6 +23,8 @@ import { MembersController } from './members/members.controller';
 import { MembersFacade } from './members/members.facade';
 import { MembersRepository } from './members/members.repository';
 import { MembersService } from './members/members.service';
+import { RequestController } from './requests/request.controller';
+import { RequestRepository } from './requests/request.repository';
 import { Server } from './server';
 import { SessionController } from './session/session.controller';
 import { SessionProvider } from './session/session.provider';
@@ -57,4 +59,6 @@ export const TOKENS = {
   tokenRepository: token<TokenRepository>('tokenRepository'),
   sessionController: token<SessionController>('sessionController'),
   sessionService: token<SessionService>('sessionService'),
+  requestController: token<RequestController>('requestController'),
+  requestRepository: token<RequestRepository>('requestRepository'),
 };
