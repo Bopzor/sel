@@ -2,6 +2,7 @@ import { Route, Router, Routes } from '@solidjs/router';
 import { JSX, ErrorBoundary as SolidErrorBoundary, lazy, type Component, onMount } from 'solid-js';
 
 import { BackLink } from './components/back-link';
+import { Feature, FeatureFlag } from './components/feature-flag';
 import { SuspenseLoader } from './components/loader';
 import { ActivitiesPage, AssetsPage, EventsPage, MiscPage } from './home/home.page';
 import { MatomoScript } from './infrastructure/analytics/matomo-script';
@@ -15,12 +16,15 @@ import { ProfileEditionPage } from './profile/profile-edition.page';
 import { ProfileLayout } from './profile/profile.layout';
 import { SettingsPage } from './profile/settings.page';
 import { SignOutPage } from './profile/sign-out.page';
-import { RequestPage } from './requests/request/request.page';
 import { routes } from './routes';
 import { AppStoreProvider } from './store/app-store';
 import { ErrorTestPage } from './utils/error-test.page';
 
 const HomePage = lazyImport(() => import('./home/home.page'), 'HomePage');
+const RequestsPage = lazyImport(() => import('./requests/requests.page'), 'RequestsPage');
+const RequestPage = lazyImport(() => import('./requests/request/request.page'), 'RequestPage');
+// prettier-ignore
+const CreateRequestPage = lazyImport(() => import('./requests/create-request/create-request.page'), 'CreateRequestPage');
 const OnboardingPage = lazyImport(() => import('./onboarding/onboarding.page'), 'OnboardingPage');
 const MembersPage = lazyImport(() => import('./members/members.page'), 'MembersPage');
 const MemberPage = lazyImport(() => import('./members/member.page'), 'MemberPage');
@@ -83,7 +87,15 @@ const Routing: Component = () => {
       <Route path="/onboarding" component={OnboardingPage} />
       <Route path="/members" component={MembersPage} />
       <Route path="/members/:memberId" component={MemberPage} />
-      <Route path="/requests" component={RequestsPage} />
+
+      <FeatureFlag
+        feature={Feature.requests}
+        fallback={<Route path="/requests" component={RequestsPlaceholderPage} />}
+      >
+        <Route path="/requests" component={RequestsPage} />
+      </FeatureFlag>
+
+      <Route path="/requests/create" component={CreateRequestPage} />
       <Route path="/requests/:requestId" component={RequestPage} />
       <Route path="/events" component={EventsPage} />
       <Route path="/activities" component={ActivitiesPage} />
@@ -100,7 +112,7 @@ const Routing: Component = () => {
   );
 };
 
-export function RequestsPage() {
+export function RequestsPlaceholderPage() {
   return (
     <div>
       <BackLink href={routes.home} />
