@@ -148,7 +148,10 @@
     "sentence2": "L'atelier de conception est prévu le mercredi 20 décembre 2023, à 18h30. Cette partie devrait être disponible courant février 2024.",
     "date": "Le {date}",
     "contact": "Contacter {author}",
-    "commentPlaceholder": "Écrire un commentaire...",
+    "comments": {
+      "placeholder": "Écrire un commentaire...",
+      "submit": "Envoyer"
+    },
     "createExchange": "Créer un échange",
     "notAvailable": "Les échanges ne sont pas encore disponibles sur l'app."
   },

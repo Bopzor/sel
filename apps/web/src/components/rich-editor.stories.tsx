@@ -1,6 +1,6 @@
-import type { Meta, StoryObj } from 'storybook-solidjs';
+import type { Meta, StoryFn } from 'storybook-solidjs';
 
-import { RichEditor } from './rich-editor';
+import { RichEditor, RichEditorToolbar, createRichEditor } from './rich-editor';
 
 const meta = {
   title: 'Components/RichEditor',
@@ -11,9 +11,19 @@ const meta = {
   argTypes: {
     onChange: { action: 'onChange' },
   },
-} satisfies Meta<typeof RichEditor>;
+} satisfies Meta;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
 
-export const richEditor: Story = {};
+export const richEditor: StoryFn = () => {
+  let ref!: HTMLDivElement;
+
+  const editor = createRichEditor(() => ref, {});
+
+  return (
+    <>
+      <RichEditor ref={ref} class="min-h-[8rem] border p-2" />
+      <RichEditorToolbar editor={editor()} />
+    </>
+  );
+};

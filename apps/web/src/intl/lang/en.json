@@ -148,7 +148,10 @@
     "sentence2": "",
     "date": "The {date}",
     "contact": "Contact {author}",
-    "commentPlaceholder": "Write a comment...",
+    "comments": {
+      "placeholder": "Write a comment...",
+      "submit": "Submit"
+    },
     "createExchange": "Créer un échange",
     "notAvailable": "Transactions are not available on the app yet."
   },
