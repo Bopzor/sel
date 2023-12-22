@@ -153,7 +153,8 @@
       "titlePlaceholder": "Assembling Ikea furniture",
       "bodyLabel": "Message",
       "bodyPlaceholder": "I need a hand with...",
-      "submit": "Create request"
+      "submit": "Create request",
+      "created": "Your request was sent successfully."
     },
     "date": "The {date}",
     "contact": "Contact {author}",

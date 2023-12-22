@@ -35,7 +35,7 @@ export function RequestsPage() {
       </div>
 
       <SuspenseLoader>
-        <ul class="mt-6">
+        <ul class="col mt-6 gap-6">
           <For each={state.requests}>{(request) => <RequestListItem request={request} />}</For>
         </ul>
       </SuspenseLoader>

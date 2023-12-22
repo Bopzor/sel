@@ -213,6 +213,8 @@ function membersState() {
 
 function requestsState() {
   const fetcher = container.resolve(TOKENS.fetcher);
+  const router = container.resolve(TOKENS.router);
+  const translate = useTranslation();
 
   const [loadRequests, setLoadRequests] = createSignal<boolean>();
 
@@ -236,6 +238,15 @@ function requestsState() {
 
     loadRequest: (requestId: string) => {
       setRequestId(requestId);
+    },
+
+    createRequest: async (title: string, body: string) => {
+      const requestId = await fetcher
+        .post<{ title: string; body: string }, string>('/api/requests', { title, body })
+        .body();
+
+      router.navigate(routes.requests.request(requestId));
+      notify.success(translate('requests.create.created'));
     },
   };
 }

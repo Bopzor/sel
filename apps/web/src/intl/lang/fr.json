@@ -153,7 +153,8 @@
       "titlePlaceholder": "Monter un meuble Ikea",
       "bodyLabel": "Message",
       "bodyPlaceholder": "J'ai besoin d'un coup de main pour...",
-      "submit": "Créer la demande"
+      "submit": "Créer la demande",
+      "created": "Votre demande a bien été envoyée."
     },
     "date": "Le {date}",
     "contact": "Contacter {author}",
