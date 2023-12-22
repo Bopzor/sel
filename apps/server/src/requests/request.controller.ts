@@ -27,6 +27,7 @@ export class RequestController {
     this.router.use(this.authenticated);
     this.router.get('/', this.listRequests);
     this.router.get('/:requestId', this.getRequest);
+    this.router.post('/', this.createRequest);
   }
 
   authenticated: RequestHandler = (req, res, next) => {
@@ -57,8 +58,8 @@ export class RequestController {
     const member = this.sessionProvider.getMember();
     const data = RequestController.createRequestSchema.parse(req.body);
 
-    await this.requestService.createRequest(member.id, data.title, data.body);
+    const requestId = await this.requestService.createRequest(member.id, data.title, data.body);
 
-    res.status(201).end();
+    res.status(201).send(requestId);
   };
 }

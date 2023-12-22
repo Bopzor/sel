@@ -146,6 +146,15 @@
     "title": "Requests",
     "sentence1": "",
     "sentence2": "",
+    "newRequest": "New request",
+    "create": {
+      "title": "Create a new request",
+      "titleLabel": "Request title",
+      "titlePlaceholder": "Assembling Ikea furniture",
+      "bodyLabel": "Message",
+      "bodyPlaceholder": "I need a hand with...",
+      "submit": "Create request"
+    },
     "date": "The {date}",
     "contact": "Contact {author}",
     "comments": {

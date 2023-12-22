@@ -32,7 +32,7 @@ describe('RequestService', () => {
   });
 
   it('creates a new request', async () => {
-    await test.service.createRequest('requesterId', 'title', 'body');
+    expect(await test.service.createRequest('requesterId', 'title', 'body')).toEqual('requestId');
 
     expect(test.requestRepository.get('requestId')).toEqual<Request>({
       id: 'requestId',

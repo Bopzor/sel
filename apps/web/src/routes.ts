@@ -7,6 +7,7 @@ export const routes = {
   },
   requests: {
     list: '/requests',
+    create: '/requests/create',
     request: (requestId: string) => `/requests/${requestId}`,
   },
   events: {

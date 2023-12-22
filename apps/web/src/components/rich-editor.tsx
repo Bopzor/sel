@@ -64,6 +64,7 @@ export function RichEditor(props: RichEditorProps) {
 
 type ToolbarProps = {
   editor?: Editor;
+  class?: string;
 };
 
 export function RichEditorToolbar(props: ToolbarProps) {
@@ -99,7 +100,7 @@ export function RichEditorToolbar(props: ToolbarProps) {
   };
 
   return (
-    <div class="row gap-1">
+    <div class={clsx('row gap-1', props.class)}>
       <ToolbarItem
         title={t('bold')}
         icon={IconBold}

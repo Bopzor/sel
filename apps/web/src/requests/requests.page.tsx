@@ -3,6 +3,7 @@ import { Request } from '@sel/shared';
 import { For, onMount } from 'solid-js';
 
 import { BackLink } from '../components/back-link';
+import { LinkButton } from '../components/button';
 import { Link } from '../components/link';
 import { SuspenseLoader } from '../components/loader';
 import { MemberAvatarName } from '../components/member-avatar-name';
@@ -23,9 +24,15 @@ export function RequestsPage() {
     <>
       <BackLink href={routes.home} />
 
-      <h1>
-        <T id="title" />
-      </h1>
+      <div class="row justify-between">
+        <h1>
+          <T id="title" />
+        </h1>
+
+        <LinkButton href={routes.requests.create}>
+          <T id="newRequest" />
+        </LinkButton>
+      </div>
 
       <SuspenseLoader>
         <ul class="mt-6">

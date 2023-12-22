@@ -23,9 +23,11 @@ export class RequestService {
     private readonly requestRepository: RequestRepository
   ) {}
 
-  async createRequest(requesterId: string, title: string, body: string): Promise<void> {
+  async createRequest(requesterId: string, title: string, body: string): Promise<string> {
+    const requestId = this.generator.id();
+
     await this.requestRepository.insert({
-      id: this.generator.id(),
+      id: requestId,
       requesterId,
       title,
       date: this.dateAdapter.now(),
@@ -34,5 +36,7 @@ export class RequestService {
         text: this.htmlParser.getTextContent(body),
       },
     });
+
+    return requestId;
   }
 }
