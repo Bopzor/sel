@@ -150,6 +150,7 @@ type ToolbarItemProps = {
 function ToolbarItem(props: ToolbarItemProps) {
   return (
     <button
+      type="button"
       title={props.title}
       onClick={() => props.onClick()}
       class="rounded p-0.5"
