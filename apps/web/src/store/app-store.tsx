@@ -218,7 +218,7 @@ function requestsState() {
 
   const [loadRequests, setLoadRequests] = createSignal<boolean>();
 
-  const [requests] = createResource(loadRequests, async (): Promise<Request[]> => {
+  const [requests, { refetch }] = createResource(loadRequests, async (): Promise<Request[]> => {
     return fetcher.get<Request[]>('/api/requests').body();
   });
 
@@ -245,6 +245,7 @@ function requestsState() {
         .post<{ title: string; body: string }, string>('/api/requests', { title, body })
         .body();
 
+      await refetch();
       router.navigate(routes.requests.request(requestId));
       notify.success(translate('requests.create.created'));
     },
