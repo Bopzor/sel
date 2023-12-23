@@ -68,6 +68,11 @@
   h2 {
     @apply typo-h2;
   }
+
+  input::placeholder,
+  textarea::placeholder {
+    @apply text-gray-400 dark:text-gray-500;
+  }
 }
 
 @layer utilities {
@@ -148,8 +153,7 @@
 
 /* https://tiptap.dev/api/extensions/placeholder */
 .tiptap p.is-editor-empty:first-child::before {
-  color: theme('colors.gray.900');
-  opacity: 0.4;
+  @apply text-gray-400 dark:text-gray-500;
   content: attr(data-placeholder);
   float: left;
   height: 0;
