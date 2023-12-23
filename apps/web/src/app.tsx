@@ -26,6 +26,7 @@ export function App(props: AppProps) {
   return (
     <SolidErrorBoundary
       fallback={(error) => {
+        // eslint-disable-next-line no-console
         console.error(error);
         return <>{error?.message ?? 'Unknown error'}</>;
       }}

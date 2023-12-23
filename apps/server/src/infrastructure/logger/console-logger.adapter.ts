@@ -18,6 +18,7 @@ export class ConsoleLogger implements LoggerPort {
   }
 
   private log(level: keyof LoggerPort, ...args: unknown[]) {
+    // eslint-disable-next-line no-console
     console[level](...args);
   }
 }

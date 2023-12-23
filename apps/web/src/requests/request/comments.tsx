@@ -68,9 +68,7 @@ function CreateCommentForm() {
     initialValues: {
       html: '',
     },
-    onSubmit(values) {
-      console.log(values);
-    },
+    onSubmit(values) {},
   });
 
   let ref!: HTMLDivElement;

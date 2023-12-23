@@ -28,6 +28,7 @@
     "eslint-plugin-solid": "^0.13.0",
     "eslint-plugin-storybook": "^0.6.15",
     "eslint-plugin-tailwindcss": "^3.13.0",
+    "globals": "^13.24.0",
     "happy-dom": "^12.10.3",
     "postcss": "^8.4.32",
     "solid-devtools": "^0.29.2",

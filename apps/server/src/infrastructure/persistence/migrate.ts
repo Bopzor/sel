@@ -1,6 +1,7 @@
 import { container } from '../../container';
 import { TOKENS } from '../../tokens';
 
+// eslint-disable-next-line no-console
 main().catch(console.error);
 
 async function main() {

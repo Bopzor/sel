@@ -89,6 +89,7 @@ export class E2ETest {
       return [response, body] as const;
     } catch (error) {
       if (body) {
+        // eslint-disable-next-line no-console
         console.log(body);
       }
 

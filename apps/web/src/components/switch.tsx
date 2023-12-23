@@ -19,7 +19,7 @@ export const Switch = (_props: SwitchProps) => {
 
       <div
         class={clsx(
-          'h-5 w-8 rounded-full bg-gray-300 dark:bg-gray-600 sm:w-9',
+          'h-5 w-8 rounded-full bg-gray-300 sm:w-9 dark:bg-gray-600',
           'after:absolute after:start-1 after:top-1.5 after:h-3 after:w-3 after:rounded-full after:bg-neutral',
           'sm:after:start-0.5 sm:after:top-1 sm:after:h-4 sm:after:w-4',
           'peer-checked:bg-primary peer-checked:after:translate-x-full peer-focus-visible:ring'

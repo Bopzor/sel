@@ -45,6 +45,7 @@ export default defineConfig({
   test: {
     reporters: ['verbose'],
     environment: 'happy-dom',
+    watch: false,
     deps: {
       optimizer: {
         web: {
