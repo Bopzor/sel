@@ -1,15 +1,9 @@
 {
-  // "extends": "@sel/typescript-config/tsconfig.base.json",
-  "extends": "./node_modules/@sel/typescript-config/tsconfig.base.json",
+  "extends": "@sel/typescript-config/tsconfig.base.json",
   "include": ["src/**/*"],
   "files": ["vitest.config.ts", "drizzle.config.ts"],
   "references": [{ "path": "../../packages/shared" }, { "path": "../../packages/utils" }],
   "compilerOptions": {
     "noEmit": true
-  },
-  "ts-node": {
-    "transpileOnly": true,
-    "esm": true,
-    "experimentalSpecifierResolution": "node"
   }
 }

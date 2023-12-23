@@ -1,5 +1,8 @@
-import * as datefns from 'date-fns';
-import fr from 'date-fns/locale/fr';
+import { add } from 'date-fns/add';
+import { formatDistanceToNowStrict } from 'date-fns/formatDistanceToNowStrict';
+import { fr } from 'date-fns/locale/fr';
+
+export { isAfter } from 'date-fns/isAfter';
 
 export function createDate(date?: string) {
   return new Date(date ?? Date.now());
@@ -8,7 +11,7 @@ export function createDate(date?: string) {
 // while Intl.DurationFormat isn't fully supported
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DurationFormat
 export function formatDateRelative(date: string) {
-  return datefns.formatDistanceToNowStrict(createDate(date), { locale: fr });
+  return formatDistanceToNowStrict(createDate(date), { locale: fr });
 }
 
 export type Duration = {
@@ -17,7 +20,5 @@ export type Duration = {
 };
 
 export function addDuration(date: Date, duration: Duration): Date {
-  return datefns.add(date, duration);
+  return add(date, duration);
 }
-
-export const isAfter = datefns.isAfter;

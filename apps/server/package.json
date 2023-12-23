@@ -37,11 +37,11 @@
     "@types/lodash.clonedeep": "^4.5.9",
     "@types/mjml": "^4.7.4",
     "@types/nodemailer": "^6.4.14",
-    "drizzle-kit": "^0.20.6",
+    "drizzle-kit": "^0.20.7",
     "maildev": "^2.1.0",
     "nodemon": "^3.0.2",
     "tsx": "^4.7.0",
-    "typescript": "^5.3.2",
-    "vitest": "^0.34.6"
+    "typescript": "^5.3.3",
+    "vitest": "^1.1.0"
   }
 }
