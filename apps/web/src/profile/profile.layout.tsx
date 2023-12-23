@@ -1,4 +1,3 @@
-import { Outlet } from '@solidjs/router';
 import { Icon } from 'solid-heroicons';
 import { arrowRightOnRectangle, cog_6Tooth, mapPin, user } from 'solid-heroicons/solid';
 import { Component, ComponentProps, JSX } from 'solid-js';
@@ -10,7 +9,11 @@ import { routes } from '../routes';
 
 const T = Translate.prefix('profile.navigation');
 
-export const ProfileLayout: Component = () => {
+type ProfileLayoutProps = {
+  children?: JSX.Element;
+};
+
+export const ProfileLayout: Component<ProfileLayoutProps> = (props) => {
   return (
     <div>
       <BackLink href={routes.home} />
@@ -20,9 +23,7 @@ export const ProfileLayout: Component = () => {
           <Navigation />
         </div>
 
-        <div class="col flex-1 gap-4">
-          <Outlet />
-        </div>
+        <div class="col flex-1 gap-4">{props.children}</div>
       </div>
     </div>
   );
