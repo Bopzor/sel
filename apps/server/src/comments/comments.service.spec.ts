@@ -19,10 +19,8 @@ class Test extends UnitTest {
 
   service = new CommentsService(this.generator, this.dateAdapter, this.events, this.commentsRepository);
 
-  now = createDate();
-
   setup(): void {
-    this.dateAdapter.date = this.now;
+    this.dateAdapter.date = createDate();
   }
 }
 
@@ -44,7 +42,7 @@ describe('CommentsService', () => {
       expect(test.commentsRepository.get('commentId')).toEqual<Comment>({
         id: 'commentId',
         authorId: 'authorId',
-        date: test.now,
+        date: test.dateAdapter.date,
         body: 'body',
       });
     });
