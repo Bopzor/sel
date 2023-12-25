@@ -11,7 +11,9 @@ import postgres from 'postgres';
 import { TOKENS } from '../../tokens';
 import { ConfigPort } from '../config/config.port';
 
-import { comments, members, requests, tokens } from './schema';
+import * as schema from './schema';
+
+const { comments, members, requests, tokens } = schema;
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
@@ -21,12 +23,12 @@ export class Database {
   static migrationsFolder = path.resolve(__dirname, 'migrations');
 
   public readonly pgQueryClient: postgres.Sql;
-  public readonly db: PostgresJsDatabase;
+  public readonly db: PostgresJsDatabase<typeof schema>;
 
   constructor(private config: ConfigPort) {
     // cspell:word onnotice
     this.pgQueryClient = postgres(this.databaseUrl, { onnotice: noop });
-    this.db = drizzle(this.pgQueryClient);
+    this.db = drizzle(this.pgQueryClient, { schema });
   }
 
   private get databaseUrl() {

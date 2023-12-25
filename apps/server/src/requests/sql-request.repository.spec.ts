@@ -3,8 +3,12 @@ import { createDate } from '@sel/utils';
 import { beforeEach, describe, expect, it } from 'vitest';
 
 import { StubDate } from '../infrastructure/date/stub-date.adapter';
-import { members, requests } from '../infrastructure/persistence/schema';
-import { createSqlMember, createSqlRequest } from '../infrastructure/persistence/sql-factories';
+import { comments, members, requests } from '../infrastructure/persistence/schema';
+import {
+  createSqlComment,
+  createSqlMember,
+  createSqlRequest,
+} from '../infrastructure/persistence/sql-factories';
 import { RepositoryTest } from '../repository-test';
 
 import { SqlRequestRepository } from './sql-request.repository';
@@ -98,5 +102,47 @@ describe('SqlRequestRepository', () => {
       body: 'html',
       comments: [],
     });
+  });
+
+  it('retrieves the list of comments for a request', async () => {
+    await test.database.db.insert(members).values(
+      createSqlMember({
+        id: 'memberId',
+        firstName: 'firstName',
+        lastName: 'lastName',
+        emailVisible: false,
+      })
+    );
+
+    await test.database.db.insert(requests).values(
+      createSqlRequest({
+        id: 'requestId',
+        requesterId: 'memberId',
+      })
+    );
+
+    await test.database.db.insert(comments).values(
+      createSqlComment({
+        id: 'commentId',
+        authorId: 'memberId',
+        requestId: 'requestId',
+        date: test.now.toISOString(),
+        body: 'body',
+      })
+    );
+
+    const result = await test.repository.query_getRequest('requestId');
+
+    expect(result).toHaveProperty<shared.Comment[]>('comments', [
+      {
+        id: 'commentId',
+        date: test.now.toISOString(),
+        author: {
+          firstName: 'firstName',
+          lastName: 'lastName',
+        },
+        body: 'body',
+      },
+    ]);
   });
 });

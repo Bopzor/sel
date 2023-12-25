@@ -4,7 +4,7 @@ import { TokenType } from '../../authentication/token.entity';
 import { MemberStatus } from '../../members/entities';
 import { RequestStatus } from '../../requests/request.entity';
 
-import { members, requests, tokens } from './schema';
+import { comments, members, requests, tokens } from './schema';
 
 const createISOStringDate = () => createDate().toISOString();
 
@@ -37,6 +37,15 @@ export const createSqlRequest = createFactory<typeof requests.$inferInsert>(() =
   title: '',
   text: '',
   html: '',
+  createdAt: createISOStringDate(),
+  updatedAt: createISOStringDate(),
+}));
+
+export const createSqlComment = createFactory<typeof comments.$inferInsert>(() => ({
+  id: '',
+  authorId: '',
+  date: createISOStringDate(),
+  body: '',
   createdAt: createISOStringDate(),
   updatedAt: createISOStringDate(),
 }));

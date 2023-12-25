@@ -71,6 +71,7 @@ export const requestStatusEnum = pgEnum('request_status', enumValues(RequestStat
 export const requests = pgTable('requests', {
   id: primaryKey(),
   status: requestStatusEnum('status').notNull(),
+  // todo: use date
   date: timestamp('date')
     .notNull()
     .default(sql`CURRENT_DATE`),
@@ -84,14 +85,33 @@ export const requests = pgTable('requests', {
   updatedAt: updatedAt(),
 });
 
+export const requestsRelations = relations(requests, ({ one, many }) => ({
+  requester: one(members, {
+    fields: [requests.requesterId],
+    references: [members.id],
+  }),
+  comments: many(comments),
+}));
+
 export const comments = pgTable('comments', {
   id: primaryKey(),
   authorId: id('author_id')
     .references(() => members.id)
     .notNull(),
   requestId: id('request_id').references(() => requests.id),
-  date: date('date'),
-  body: text('body'),
+  date: date('date').notNull(),
+  body: text('body').notNull(),
   createdAt: createdAt(),
   updatedAt: updatedAt(),
 });
+
+export const commentsRelations = relations(comments, ({ one }) => ({
+  author: one(members, {
+    fields: [comments.authorId],
+    references: [members.id],
+  }),
+  request: one(requests, {
+    fields: [comments.requestId],
+    references: [requests.id],
+  }),
+}));

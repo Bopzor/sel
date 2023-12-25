@@ -4,7 +4,7 @@ import { eq } from 'drizzle-orm';
 
 import { DatePort } from '../infrastructure/date/date.port';
 import { Database } from '../infrastructure/persistence/database';
-import { members, requests } from '../infrastructure/persistence/schema';
+import { comments, members, requests } from '../infrastructure/persistence/schema';
 import { TOKENS } from '../tokens';
 
 import { RequestStatus } from './request.entity';
@@ -20,32 +20,49 @@ export class SqlRequestRepository implements RequestRepository {
   }
 
   async query_listRequests(): Promise<shared.Request[]> {
-    const results = await this.db
-      .select()
-      .from(requests)
-      .innerJoin(members, eq(members.id, requests.requesterId));
+    const results = await this.db.query.requests.findMany({
+      with: {
+        requester: true,
+        comments: {
+          with: {
+            author: true,
+          },
+        },
+      },
+    });
 
-    return results.map(({ requests, members }) => this.toRequest(requests, members));
+    return results.map(this.toRequest);
   }
 
   async query_getRequest(requestId: string): Promise<shared.Request | undefined> {
-    const result = await this.db
-      .select()
-      .from(requests)
-      .where(eq(requests.id, requestId))
-      .innerJoin(members, eq(members.id, requests.requesterId));
+    const result = await this.db.query.requests.findFirst({
+      where: eq(requests.id, requestId),
+      with: {
+        requester: true,
+        comments: {
+          with: {
+            author: true,
+          },
+        },
+      },
+    });
 
-    if (!result[0]) {
+    if (!result) {
       return undefined;
     }
 
-    return this.toRequest(result[0].requests, result[0].members);
+    return this.toRequest(result);
   }
 
   private toRequest(
-    request: typeof requests.$inferSelect,
-    requester: typeof members.$inferSelect
+    this: void,
+    request: typeof requests.$inferSelect & {
+      requester: typeof members.$inferSelect;
+      comments: Array<typeof comments.$inferSelect & { author: typeof members.$inferSelect }>;
+    }
   ): shared.Request {
+    const { requester, comments } = request;
+
     return {
       id: request.id,
       date: request.date.toISOString(),
@@ -58,7 +75,16 @@ export class SqlRequestRepository implements RequestRepository {
       },
       title: request.title,
       body: request.html,
-      comments: [],
+      comments: comments.map((comment) => ({
+        id: comment.id,
+        date: new Date(comment.date).toISOString(),
+        author: {
+          firstName: comment.author.firstName,
+          lastName: comment.author.lastName,
+          email: comment.author.emailVisible ? comment.author.email : undefined,
+        },
+        body: comment.body,
+      })),
     };
   }
 
