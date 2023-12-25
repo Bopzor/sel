@@ -71,8 +71,7 @@ export const requestStatusEnum = pgEnum('request_status', enumValues(RequestStat
 export const requests = pgTable('requests', {
   id: primaryKey(),
   status: requestStatusEnum('status').notNull(),
-  // todo: use date
-  date: timestamp('date')
+  date: date('date')
     .notNull()
     .default(sql`CURRENT_DATE`),
   requesterId: id('requester_id')

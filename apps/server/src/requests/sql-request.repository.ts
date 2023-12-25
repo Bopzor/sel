@@ -65,7 +65,7 @@ export class SqlRequestRepository implements RequestRepository {
 
     return {
       id: request.id,
-      date: request.date.toISOString(),
+      date: new Date(request.date).toISOString(),
       requester: {
         id: requester.id,
         firstName: requester.firstName,
@@ -94,7 +94,7 @@ export class SqlRequestRepository implements RequestRepository {
     await this.db.insert(requests).values({
       id: model.id,
       status: RequestStatus.pending,
-      date: now,
+      date: now.toISOString(),
       requesterId: model.requesterId,
       title: model.title,
       text: model.body.text,

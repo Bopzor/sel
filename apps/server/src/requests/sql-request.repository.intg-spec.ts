@@ -81,7 +81,7 @@ describe('[Intg] SqlRequestRepository', () => {
       createSqlRequest({
         id: 'requestId',
         requesterId: 'requesterId',
-        date: test.now,
+        date: test.now.toISOString(),
         title: 'title',
         html: 'html',
       })
