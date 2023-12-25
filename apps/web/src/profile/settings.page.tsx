@@ -1,9 +1,12 @@
 import { Component } from 'solid-js';
 
+import { Feature, hasFeatureFlag, setFeatureFlag } from '../components/feature-flag';
 import { Switch } from '../components/switch';
 import { Translate } from '../intl/translate';
 
 const T = Translate.prefix('profile.settings');
+
+const TranslateFeatureFlag = Translate.enum('profile.settings.featureFlags');
 
 export const SettingsPage: Component = () => {
   const isDarkMode = () => localStorage.getItem('dark') === 'true';
@@ -15,6 +18,12 @@ export const SettingsPage: Component = () => {
     document.documentElement.classList.add(isDarkMode() ? 'dark' : 'light');
   };
 
+  const hasRequestsFlag = hasFeatureFlag(Feature.requests);
+
+  const toggleRequestsFlag = () => {
+    setFeatureFlag(Feature.requests, !hasRequestsFlag());
+  };
+
   return (
     <>
       <h1>
@@ -24,6 +33,12 @@ export const SettingsPage: Component = () => {
       <p>
         <Switch checked={isDarkMode()} onChange={() => toggleDarkMode()}>
           <T id="darkMode" />
+        </Switch>
+      </p>
+
+      <p>
+        <Switch checked={hasRequestsFlag()} onChange={() => toggleRequestsFlag()}>
+          <TranslateFeatureFlag value={Feature.requests} />
         </Switch>
       </p>
     </>

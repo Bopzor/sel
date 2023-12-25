@@ -210,7 +210,10 @@
     },
     "settings": {
       "title": "Settings",
-      "darkMode": "Dark mode"
+      "darkMode": "Dark mode",
+      "featureFlags": {
+        "requests": "Requests"
+      }
     },
     "signOut": {
       "description": "To sign out of the app, click the button below.",

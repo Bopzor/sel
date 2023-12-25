@@ -210,7 +210,10 @@
     },
     "settings": {
       "title": "Paramètres",
-      "darkMode": "Mode sombre"
+      "darkMode": "Mode sombre",
+      "featureFlags": {
+        "requests": "Demandes"
+      }
     },
     "signOut": {
       "description": "Pour vous déconnecter de l'app, cliquez sur le bouton ci-dessous.",
