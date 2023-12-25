@@ -4,7 +4,7 @@ import { Component } from 'solid-js';
 
 import { AddressSearch } from '../components/address-search';
 import { Translate } from '../intl/translate';
-import { getAppState, getMutations } from '../store/app-store';
+import { getAppState, getAppActions } from '../store/app-store';
 import { createAsyncCall } from '../utils/async-call';
 
 const T = Translate.prefix('profile.address');
@@ -13,8 +13,8 @@ export const AddressPage: Component = () => {
   const t = T.useTranslation();
   const state = getAppState();
 
-  const mutations = getMutations();
-  const [updateMemberProfile] = createAsyncCall(mutations.updateMemberProfile);
+  const actions = getAppActions();
+  const [updateMemberProfile] = createAsyncCall(actions.updateMemberProfile);
 
   const handleSelected = (address: Address) => {
     const member = defined(state.authenticatedMember);

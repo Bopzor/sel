@@ -10,13 +10,13 @@ import { MemberAvatarName } from '../components/member-avatar-name';
 import { RichText } from '../components/rich-text';
 import { Translate } from '../intl/translate';
 import { routes } from '../routes';
-import { getAppState, getMutations } from '../store/app-store';
+import { getAppState, getAppActions } from '../store/app-store';
 
 const T = Translate.prefix('requests');
 
 export function RequestsPage() {
   const state = getAppState();
-  const { loadRequests } = getMutations();
+  const { loadRequests } = getAppActions();
 
   onMount(loadRequests);
 

@@ -84,7 +84,7 @@ export function getAppState() {
   return useAppStore()[0];
 }
 
-export function getMutations() {
+export function getAppActions() {
   return useAppStore()[1];
 }
 

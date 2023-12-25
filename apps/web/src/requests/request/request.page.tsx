@@ -4,7 +4,7 @@ import { onMount } from 'solid-js';
 import { BackLink } from '../../components/back-link';
 import { SuspenseLoader } from '../../components/loader';
 import { routes } from '../../routes';
-import { getAppState, getMutations } from '../../store/app-store';
+import { getAppState, getAppActions } from '../../store/app-store';
 
 import { AuthorInfo } from './author-info';
 import { Comments } from './comments';
@@ -16,7 +16,7 @@ export function RequestPage() {
   const { requestId } = useParams<{ requestId: string }>();
 
   const state = getAppState();
-  const { loadRequest } = getMutations();
+  const { loadRequest } = getAppActions();
 
   onMount(() => loadRequest(requestId));
 

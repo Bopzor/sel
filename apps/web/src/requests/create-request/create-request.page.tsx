@@ -8,14 +8,14 @@ import { Input } from '../../components/input';
 import { RichEditor, RichEditorToolbar, createRichEditor } from '../../components/rich-editor';
 import { Translate } from '../../intl/translate';
 import { routes } from '../../routes';
-import { getMutations } from '../../store/app-store';
+import { getAppActions } from '../../store/app-store';
 
 const T = Translate.prefix('requests.create');
 
 export function CreateRequestPage() {
   const t = T.useTranslation();
 
-  const { createRequest } = getMutations();
+  const { createRequest } = getAppActions();
 
   let ref!: HTMLDivElement;
 

@@ -10,7 +10,7 @@ import { MemberAvatar } from '../components/member-avatar';
 import { MemberAvatarName } from '../components/member-avatar-name';
 import { Row } from '../components/row';
 import { Translate } from '../intl/translate';
-import { getMutations, getAppState } from '../store/app-store';
+import { getAppActions, getAppState } from '../store/app-store';
 import { createAsyncCall } from '../utils/async-call';
 import { formatPhoneNumber } from '../utils/format-phone-number';
 
@@ -60,13 +60,12 @@ export const ProfileEditionPage: Component = () => {
   const t = T.useTranslation();
   const state = getAppState();
 
-  const mutations = getMutations();
-  const [updateMemberProfile, pending] = createAsyncCall(mutations.updateMemberProfile);
+  const { updateMemberProfile } = getAppActions();
 
-  const { form, data, errors, isDirty, setInitialValues, reset } = createForm<FormType>({
+  const { form, data, errors, isDirty, isSubmitting, setInitialValues, reset } = createForm<FormType>({
     extend: validator({ schema: schema() }),
-    onSubmit(values) {
-      updateMemberProfile({
+    async onSubmit(values) {
+      await updateMemberProfile({
         firstName: values.firstName,
         lastName: values.lastName,
         emailVisible: values.emailVisible,
@@ -105,7 +104,7 @@ export const ProfileEditionPage: Component = () => {
             <T id="reset" />
           </Button>
 
-          <Button type="submit" form="profile-form" loading={pending()}>
+          <Button type="submit" form="profile-form" loading={isSubmitting()}>
             <T id="save" />
           </Button>
         </div>

@@ -24,7 +24,7 @@ import { Row } from '../components/row';
 import { FetchError } from '../fetcher';
 import { Translate } from '../intl/translate';
 import { routes } from '../routes';
-import { getAppState, getMutations } from '../store/app-store';
+import { getAppState, getAppActions } from '../store/app-store';
 import { formatPhoneNumber } from '../utils/format-phone-number';
 
 const T = Translate.prefix('members');
@@ -69,7 +69,7 @@ function PageContent() {
   const { memberId } = useParams<{ memberId: string }>();
 
   const state = getAppState();
-  const { loadMember } = getMutations();
+  const { loadMember } = getAppActions();
 
   createEffect(() => loadMember(memberId));
   onCleanup(() => loadMember(undefined));

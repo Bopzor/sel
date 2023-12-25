@@ -5,7 +5,7 @@ import { Button } from '../components/button';
 import { Input } from '../components/input';
 import { Translate } from '../intl/translate';
 import { Header } from '../layout/header/header';
-import { getMutations, getAppState } from '../store/app-store';
+import { getAppActions, getAppState } from '../store/app-store';
 import { createAsyncCall } from '../utils/async-call';
 
 const T = Translate.prefix('authentication');
@@ -16,8 +16,8 @@ export const Authentication: Component = () => {
 
   const state = getAppState();
 
-  const mutations = getMutations();
-  const [requestAuthenticationLink, pending] = createAsyncCall(mutations.requestAuthenticationLink);
+  const actions = getAppActions();
+  const [requestAuthenticationLink, pending] = createAsyncCall(actions.requestAuthenticationLink);
 
   const handleSubmit: JSX.EventHandler<HTMLFormElement, Event> = (event) => {
     event.preventDefault();

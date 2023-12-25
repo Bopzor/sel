@@ -3,7 +3,7 @@ import { Show, createSignal } from 'solid-js';
 import { createStore } from 'solid-js/store';
 
 import { Translate } from '../intl/translate';
-import { getMutations, getAppState } from '../store/app-store';
+import { getAppActions, getAppState } from '../store/app-store';
 import { createAsyncCall } from '../utils/async-call';
 import { formatPhoneNumber } from '../utils/format-phone-number';
 
@@ -46,8 +46,8 @@ export const OnboardingPage = () => {
     };
   };
 
-  const mutations = getMutations();
-  const [updateMemberProfile, pending] = createAsyncCall(mutations.updateMemberProfile);
+  const actions = getAppActions();
+  const [updateMemberProfile, pending] = createAsyncCall(actions.updateMemberProfile);
 
   const handleEnd = () => {
     updateMemberProfile({

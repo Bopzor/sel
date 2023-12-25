@@ -15,7 +15,7 @@ import { Row } from '../components/row';
 import { useSearchParam } from '../infrastructure/router/use-search-param';
 import { Translate, useTranslation } from '../intl/translate';
 import { routes } from '../routes';
-import { getAppState, getMutations } from '../store/app-store';
+import { getAppState, getAppActions } from '../store/app-store';
 import { createDebouncedValue } from '../utils/debounce';
 
 const T = Translate.prefix('members');
@@ -24,7 +24,7 @@ export const MembersPage: Component = () => {
   const [getSearch, setSearch] = useSearchParam('search', (value) => value ?? '');
   const [getSort, setSort] = useSearchParam('sort', parseEnumValue(MembersSort));
 
-  const actions = getMutations();
+  const actions = getAppActions();
 
   createEffect(() => {
     actions.loadMembers(getSort());

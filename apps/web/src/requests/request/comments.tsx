@@ -9,7 +9,7 @@ import { MemberAvatarName } from '../../components/member-avatar-name';
 import { RichEditor, RichEditorToolbar, createRichEditor } from '../../components/rich-editor';
 import { RichText } from '../../components/rich-text';
 import { Translate } from '../../intl/translate';
-import { getAppState, getMutations } from '../../store/app-store';
+import { getAppState, getAppActions } from '../../store/app-store';
 
 const T = Translate.prefix('requests.comments');
 
@@ -68,7 +68,7 @@ function CreateCommentForm(props: CreateCommentFormProps) {
   const t = T.useTranslation();
 
   const state = getAppState();
-  const { createRequestComment } = getMutations();
+  const { createRequestComment } = getAppActions();
 
   const { form, setData, reset, isSubmitting } = createForm({
     initialValues: {
