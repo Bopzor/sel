@@ -1,10 +1,12 @@
 import { injectableClass } from 'ditox';
 
 import { DatePort } from '../infrastructure/date/date.port';
+import { EventsPort } from '../infrastructure/events/events.port';
 import { GeneratorPort } from '../infrastructure/generator/generator.port';
 import { HtmlParserPort } from '../infrastructure/html-parser/html-parser.port';
 import { TOKENS } from '../tokens';
 
+import { RequestCreated } from './events';
 import { RequestRepository } from './request.repository';
 
 export class RequestService {
@@ -12,6 +14,7 @@ export class RequestService {
     this,
     TOKENS.generator,
     TOKENS.date,
+    TOKENS.events,
     TOKENS.htmlParser,
     TOKENS.requestRepository
   );
@@ -19,6 +22,7 @@ export class RequestService {
   constructor(
     private readonly generator: GeneratorPort,
     private readonly dateAdapter: DatePort,
+    private readonly events: EventsPort,
     private readonly htmlParser: HtmlParserPort,
     private readonly requestRepository: RequestRepository
   ) {}
@@ -36,6 +40,8 @@ export class RequestService {
         text: this.htmlParser.getTextContent(body),
       },
     });
+
+    this.events.emit(new RequestCreated('requestId'));
 
     return requestId;
   }
