@@ -29,6 +29,13 @@
       "when": 1703254127712,
       "tag": "0003_old_starfox",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "5",
+      "when": 1703509831240,
+      "tag": "0004_friendly_spitfire",
+      "breakpoints": true
     }
   ]
 }
