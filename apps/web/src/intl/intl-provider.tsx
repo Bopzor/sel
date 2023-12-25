@@ -29,7 +29,7 @@ async function getTranslations(language: Language): Promise<Record<string, strin
 async function fetchTranslations(locale: Language) {
   switch (locale) {
     case 'fr':
-      return import('./lang/fr.json').then((mod) => mod.default);
+      return fr;
 
     case 'en':
       return import('./lang/en.json').then((mod) => mod.default);

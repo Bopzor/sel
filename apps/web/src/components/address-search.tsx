@@ -8,7 +8,6 @@ import { deepTrack } from '../utils/deep-track';
 
 import { Input } from './input';
 import { Map } from './map';
-import { formatAddressInline } from './member-address';
 import { Spinner } from './spinner';
 
 type AddressSearchProps = Pick<ComponentProps<typeof Input>, 'variant' | 'width'> & {
@@ -62,6 +61,10 @@ async function searchAddress(query: string) {
   }
 
   return container.resolve(TOKENS.geocode).search(query);
+}
+
+function formatAddressInline(address: Address) {
+  return [address.line1, address.line2, `${address.postalCode} ${address.city}`].filter(Boolean).join(', ');
 }
 
 type AddressListProps = {

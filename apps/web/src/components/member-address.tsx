@@ -15,7 +15,3 @@ export const formatAddress = (address: Address) => {
     `${address.postalCode} ${address.city}`,
   ].join('\n');
 };
-
-export const formatAddressInline = (address: Address) => {
-  return [address.line1, address.line2, `${address.postalCode} ${address.city}`].filter(Boolean).join(', ');
-};

@@ -41,6 +41,14 @@ export default defineConfig({
   },
   build: {
     target: 'esnext',
+    chunkSizeWarningLimit: 800,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'maplibre-gl': ['maplibre-gl'],
+        },
+      },
+    },
   },
   test: {
     reporters: ['verbose'],
