@@ -160,6 +160,7 @@
   pointer-events: none;
 }
 
-.tiptap li p {
+.prose li,
+.prose li p {
   @apply my-0;
 }

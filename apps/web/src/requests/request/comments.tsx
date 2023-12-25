@@ -43,7 +43,7 @@ function CommentsList(props: CommentsListProps) {
         {(comment) => (
           <li>
             <div class="row items-center justify-between">
-              <div class="row items-center gap-2">
+              <div class="row items-center gap-2 pb-2">
                 <MemberAvatarName member={comment.author} />
               </div>
 
@@ -93,7 +93,7 @@ function CreateCommentForm(props: CreateCommentFormProps) {
 
   return (
     <form use:form>
-      <div class="row items-center gap-2 p-4 pb-0">
+      <div class="row items-center gap-2 p-4 pb-2">
         <MemberAvatarName member={state.authenticatedMember} />
       </div>
 
