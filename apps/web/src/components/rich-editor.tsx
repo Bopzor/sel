@@ -38,7 +38,7 @@ export function createRichEditor(element: () => HTMLElement, props: CreateRichEd
     content: props.initialValue,
     editorProps: {
       attributes: {
-        class: 'outline-none grow prose dark:prose-invert',
+        class: 'outline-none grow prose max-w-none dark:prose-invert',
       },
     },
     onUpdate({ editor }) {

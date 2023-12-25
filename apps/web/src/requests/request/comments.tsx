@@ -1,6 +1,7 @@
 import { useIntl } from '@cookbook/solid-intl';
 import { createForm } from '@felte/solid';
 import { Comment, Request } from '@sel/shared';
+import { assert } from '@sel/utils';
 import { For, Show } from 'solid-js';
 
 import { Button } from '../../components/button';
@@ -8,7 +9,7 @@ import { MemberAvatarName } from '../../components/member-avatar-name';
 import { RichEditor, RichEditorToolbar, createRichEditor } from '../../components/rich-editor';
 import { RichText } from '../../components/rich-text';
 import { Translate } from '../../intl/translate';
-import { getAppState } from '../../store/app-store';
+import { getAppState, getMutations } from '../../store/app-store';
 
 const T = Translate.prefix('requests.comments');
 
@@ -24,7 +25,7 @@ export function Comments(props: CommentsProps) {
         <hr />
       </Show>
 
-      <CreateCommentForm />
+      <CreateCommentForm requestId={props.request?.id} />
     </div>
   );
 }
@@ -59,16 +60,28 @@ function CommentsList(props: CommentsListProps) {
   );
 }
 
-function CreateCommentForm() {
+type CreateCommentFormProps = {
+  requestId?: string;
+};
+
+function CreateCommentForm(props: CreateCommentFormProps) {
   const t = T.useTranslation();
 
   const state = getAppState();
+  const { createRequestComment } = getMutations();
 
-  const { form, setData } = createForm({
+  const { form, setData, reset, isSubmitting } = createForm({
     initialValues: {
       html: '',
     },
-    onSubmit(values) {},
+    async onSubmit(values) {
+      assert(props.requestId);
+      await createRequestComment(props.requestId, values.html);
+    },
+    onSuccess() {
+      reset();
+      editor()?.chain().clearContent().run();
+    },
   });
 
   let ref!: HTMLDivElement;
@@ -87,7 +100,7 @@ function CreateCommentForm() {
       <RichEditor ref={ref} class="min-h-[10rem] [&>:first-of-type]:ml-[3.5rem]">
         <div class="row items-end justify-between p-2">
           <RichEditorToolbar editor={editor()} />
-          <Button type="submit" variant="secondary">
+          <Button type="submit" variant="secondary" loading={isSubmitting()}>
             <T id="submit" />
           </Button>
         </div>

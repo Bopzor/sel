@@ -3,6 +3,7 @@ import { injectableClass } from 'ditox';
 import { RequestHandler, Router } from 'express';
 import { z } from 'zod';
 
+import { CommentsFacade } from '../comments/comments.facade';
 import { SessionProvider } from '../session/session.provider';
 import { TOKENS } from '../tokens';
 
@@ -15,12 +16,14 @@ export class RequestController {
   static inject = injectableClass(
     this,
     TOKENS.sessionProvider,
+    TOKENS.commentsFacade,
     TOKENS.requestService,
     TOKENS.requestRepository
   );
 
   constructor(
     private readonly sessionProvider: SessionProvider,
+    private readonly commentsFacade: CommentsFacade,
     private readonly requestService: RequestService,
     private readonly requestRepository: RequestRepository
   ) {
@@ -28,6 +31,7 @@ export class RequestController {
     this.router.get('/', this.listRequests);
     this.router.get('/:requestId', this.getRequest);
     this.router.post('/', this.createRequest);
+    this.router.post('/:requestId/comment', this.createComment);
   }
 
   authenticated: RequestHandler = (req, res, next) => {
@@ -61,5 +65,19 @@ export class RequestController {
     const requestId = await this.requestService.createRequest(member.id, data.title, data.body);
 
     res.status(201).send(requestId);
+  };
+
+  private static createCommentSchema = z.object({
+    body: z.string().trim(),
+  });
+
+  createComment: RequestHandler<{ requestId: string }> = async (req, res) => {
+    const requestId = req.params.requestId;
+    const member = this.sessionProvider.getMember();
+    const data = RequestController.createCommentSchema.parse(req.body);
+
+    const commentId = await this.commentsFacade.createComment('request', requestId, member.id, data.body);
+
+    res.status(201).send(commentId);
   };
 }

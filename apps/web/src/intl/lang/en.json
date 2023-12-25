@@ -160,9 +160,10 @@
     "contact": "Contact {author}",
     "comments": {
       "placeholder": "Write a comment...",
-      "submit": "Submit"
+      "submit": "Submit",
+      "created": "Your comment was created successfully."
     },
-    "createExchange": "Créer un échange",
+    "createExchange": "Create exchange",
     "notAvailable": "Transactions are not available on the app yet."
   },
   "events": {

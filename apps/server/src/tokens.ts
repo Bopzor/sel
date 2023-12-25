@@ -5,6 +5,9 @@ import { AuthenticationFacade } from './authentication/authentication.facade';
 import { AuthenticationModule } from './authentication/authentication.module';
 import { AuthenticationService } from './authentication/authentication.service';
 import { TokenRepository } from './authentication/token.repository';
+import { CommentsFacade } from './comments/comments.facade';
+import { CommentsRepository } from './comments/comments.repository';
+import { CommentsService } from './comments/comments.service';
 import { ConfigPort } from './infrastructure/config/config.port';
 import { DatePort } from './infrastructure/date/date.port';
 import { EmailRendererPort } from './infrastructure/email/email-renderer.port';
@@ -65,4 +68,7 @@ export const TOKENS = {
   requestController: token<RequestController>('requestController'),
   requestService: token<RequestService>('requestService'),
   requestRepository: token<RequestRepository>('requestRepository'),
+  commentsFacade: token<CommentsFacade>('commentsFacade'),
+  commentsService: token<CommentsService>('commentsService'),
+  commentsRepository: token<CommentsRepository>('commentsRepository'),
 };

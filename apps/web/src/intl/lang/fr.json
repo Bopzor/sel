@@ -160,7 +160,8 @@
     "contact": "Contacter {author}",
     "comments": {
       "placeholder": "Écrire un commentaire...",
-      "submit": "Envoyer"
+      "submit": "Envoyer",
+      "created": "Votre commentaire a bien été créé."
     },
     "createExchange": "Créer un échange",
     "notAvailable": "Les échanges ne sont pas encore disponibles sur l'app."

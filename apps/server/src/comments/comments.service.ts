@@ -1,12 +1,23 @@
+import { injectableClass } from 'ditox';
+
 import { DatePort } from '../infrastructure/date/date.port';
 import { EventsPort } from '../infrastructure/events/events.port';
 import { GeneratorPort } from '../infrastructure/generator/generator.port';
+import { TOKENS } from '../tokens';
 
 import { CommentsRepository } from './comments.repository';
 import { Comment, CommentParentType } from './entities';
-import { CommentCreatedEvent } from './events';
+import { CommentCreated } from './events';
 
 export class CommentsService {
+  static inject = injectableClass(
+    this,
+    TOKENS.generator,
+    TOKENS.date,
+    TOKENS.events,
+    TOKENS.commentsRepository
+  );
+
   constructor(
     private readonly generator: GeneratorPort,
     private readonly dateAdapter: DatePort,
@@ -14,9 +25,16 @@ export class CommentsService {
     private readonly commentsRepository: CommentsRepository
   ) {}
 
-  async createComment(entity: CommentParentType, entityId: string, authorId: string, body: string) {
+  async createComment(
+    entity: CommentParentType,
+    entityId: string,
+    authorId: string,
+    body: string
+  ): Promise<string> {
+    const commentId = this.generator.id();
+
     const comment: Comment = {
-      id: this.generator.id(),
+      id: commentId,
       authorId,
       date: this.dateAdapter.now(),
       body,
@@ -24,6 +42,8 @@ export class CommentsService {
 
     await this.commentsRepository.insert(entity, entityId, comment);
 
-    this.events.emit(new CommentCreatedEvent(comment.id));
+    this.events.emit(new CommentCreated(comment.id));
+
+    return commentId;
   }
 }

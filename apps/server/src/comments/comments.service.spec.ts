@@ -8,7 +8,7 @@ import { UnitTest } from '../unit-test';
 
 import { CommentsService } from './comments.service';
 import { Comment } from './entities';
-import { CommentCreatedEvent } from './events';
+import { CommentCreated } from './events';
 import { InMemoryCommentsRepository } from './in-memory-comments.repository';
 
 class Test extends UnitTest {
@@ -37,7 +37,9 @@ describe('CommentsService', () => {
     });
 
     it('creates a new comment', async () => {
-      await test.service.createComment('request', 'requestId', 'authorId', 'body');
+      expect(await test.service.createComment('request', 'requestId', 'authorId', 'body')).toEqual(
+        'commentId'
+      );
 
       expect(test.commentsRepository.get('commentId')).toEqual<Comment>({
         id: 'commentId',
@@ -50,7 +52,7 @@ describe('CommentsService', () => {
     it('triggers a CommentCreated domain event', async () => {
       await test.service.createComment('request', 'requestId', 'authorId', 'body');
 
-      expect(test.events).toHaveEmitted(new CommentCreatedEvent('commentId'));
+      expect(test.events).toHaveEmitted(new CommentCreated('commentId'));
     });
   });
 });

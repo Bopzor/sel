@@ -6,6 +6,9 @@ import { AuthenticationFacadeImpl } from './authentication/authentication.facade
 import { AuthenticationModule } from './authentication/authentication.module';
 import { AuthenticationService } from './authentication/authentication.service';
 import { SqlTokenRepository } from './authentication/sql-token.repository';
+import { CommentsFacadeImpl } from './comments/comments.facade';
+import { CommentsService } from './comments/comments.service';
+import { SqlCommentsRepository } from './comments/sql-comments.repository';
 import { EnvConfigAdapter } from './infrastructure/config/env-config.adapter';
 import { NativeDateAdapter } from './infrastructure/date/native-date.adapter';
 import { MjmlEmailRendererAdapter } from './infrastructure/email/mjml-email-renderer.adapter';
@@ -74,3 +77,7 @@ container.bindFactory(TOKENS.tokenRepository, SqlTokenRepository.inject);
 container.bindFactory(TOKENS.sessionProvider, SessionProvider.inject);
 container.bindFactory(TOKENS.sessionController, SessionController.inject);
 container.bindFactory(TOKENS.sessionService, SessionService.inject);
+
+container.bindFactory(TOKENS.commentsFacade, CommentsFacadeImpl.inject);
+container.bindFactory(TOKENS.commentsService, CommentsService.inject);
+container.bindFactory(TOKENS.commentsRepository, SqlCommentsRepository.inject);

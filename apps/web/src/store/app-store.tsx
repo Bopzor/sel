@@ -218,15 +218,21 @@ function requestsState() {
 
   const [loadRequests, setLoadRequests] = createSignal<boolean>();
 
-  const [requests, { refetch }] = createResource(loadRequests, async (): Promise<Request[]> => {
-    return fetcher.get<Request[]>('/api/requests').body();
-  });
+  const [requests, { refetch: refetchRequestsList }] = createResource(
+    loadRequests,
+    async (): Promise<Request[]> => {
+      return fetcher.get<Request[]>('/api/requests').body();
+    }
+  );
 
   const [requestId, setRequestId] = createSignal<string>();
 
-  const [request] = createResource(requestId, async (requestId): Promise<Request> => {
-    return fetcher.get<Request>(`/api/requests/${requestId}`).body();
-  });
+  const [request, { refetch: refetchRequest }] = createResource(
+    requestId,
+    async (requestId): Promise<Request> => {
+      return fetcher.get<Request>(`/api/requests/${requestId}`).body();
+    }
+  );
 
   return {
     requests,
@@ -245,9 +251,16 @@ function requestsState() {
         .post<{ title: string; body: string }, string>('/api/requests', { title, body })
         .body();
 
-      await refetch();
+      await refetchRequestsList();
       router.navigate(routes.requests.request(requestId));
       notify.success(translate('requests.create.created'));
+    },
+
+    createRequestComment: async (requestId: string, body: string) => {
+      await fetcher.post<{ body: string }, string>(`/api/requests/${requestId}/comment`, { body }).body();
+
+      await refetchRequest();
+      notify.success(translate('requests.comments.created'));
     },
   };
 }
