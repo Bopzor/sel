@@ -2,6 +2,7 @@ import { createDate } from '@sel/utils';
 import { beforeEach, describe, expect, it } from 'vitest';
 
 import { StubDate } from '../infrastructure/date/stub-date.adapter';
+import { FakeHtmlParserAdapter } from '../infrastructure/html-parser/fake-html-parser.adapter';
 import { comments, members, requests } from '../infrastructure/persistence/schema';
 import { createSqlMember, createSqlRequest } from '../infrastructure/persistence/sql-factories';
 import { RepositoryTest } from '../repository-test';
@@ -10,7 +11,8 @@ import { SqlCommentsRepository } from './sql-comments.repository';
 
 class Test extends RepositoryTest {
   dateAdapter = new StubDate();
-  repository = new SqlCommentsRepository(this.database, this.dateAdapter);
+  htmlParser = new FakeHtmlParserAdapter();
+  repository = new SqlCommentsRepository(this.database, this.dateAdapter, this.htmlParser);
 
   get now() {
     return this.dateAdapter.now();
@@ -45,13 +47,14 @@ describe('SQLCommentsRepository', () => {
       date: createDate('2023-01-01'),
     });
 
-    expect(await test.database.db.select().from(comments)).toEqual([
+    expect(await test.database.db.select().from(comments)).toEqual<Array<typeof comments.$inferSelect>>([
       {
         id: 'commentId',
         authorId: 'memberId',
         requestId: 'requestId',
         date: createDate('2023-01-01'),
-        body: 'body',
+        html: 'body',
+        text: 'text content of body',
         createdAt: test.now,
         updatedAt: test.now,
       },

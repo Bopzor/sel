@@ -111,7 +111,8 @@ export const comments = pgTable('comments', {
     .notNull(),
   requestId: id('request_id').references(() => requests.id),
   date: date('date').notNull(),
-  body: text('body').notNull(),
+  text: text('text').notNull(),
+  html: text('html').notNull(),
   createdAt: createdAt(),
   updatedAt: updatedAt(),
 });
