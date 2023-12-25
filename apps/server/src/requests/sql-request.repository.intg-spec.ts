@@ -29,7 +29,7 @@ class Test extends RepositoryTest {
   }
 }
 
-describe('SqlRequestRepository', () => {
+describe('[Intg] SqlRequestRepository', () => {
   let test: Test;
 
   beforeEach(async () => {
