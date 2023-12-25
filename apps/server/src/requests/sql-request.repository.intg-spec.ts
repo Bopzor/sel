@@ -81,7 +81,7 @@ describe('[Intg] SqlRequestRepository', () => {
       createSqlRequest({
         id: 'requestId',
         requesterId: 'requesterId',
-        date: test.now.toISOString(),
+        date: test.now,
         title: 'title',
         html: 'html',
       })
@@ -126,8 +126,9 @@ describe('[Intg] SqlRequestRepository', () => {
         id: 'commentId',
         authorId: 'memberId',
         requestId: 'requestId',
-        date: test.now.toISOString(),
-        body: 'body',
+        date: test.now,
+        html: 'html',
+        text: 'text',
       })
     );
 
@@ -141,7 +142,7 @@ describe('[Intg] SqlRequestRepository', () => {
           firstName: 'firstName',
           lastName: 'lastName',
         },
-        body: 'body',
+        body: 'html',
       },
     ]);
   });

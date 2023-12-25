@@ -6,8 +6,6 @@ import { RequestStatus } from '../../requests/request.entity';
 
 import { comments, members, requests, tokens } from './schema';
 
-const createISOStringDate = () => createDate().toISOString();
-
 export const createSqlMember = createFactory<typeof members.$inferInsert>(() => ({
   id: '',
   status: MemberStatus.inactive,
@@ -15,19 +13,19 @@ export const createSqlMember = createFactory<typeof members.$inferInsert>(() => 
   lastName: '',
   email: '',
   emailVisible: false,
-  createdAt: createISOStringDate(),
-  updatedAt: createISOStringDate(),
+  createdAt: createDate(),
+  updatedAt: createDate(),
 }));
 
 export const createSqlToken = createFactory<typeof tokens.$inferInsert>(() => ({
   id: '',
   value: '',
-  expirationDate: createISOStringDate(),
+  expirationDate: createDate(),
   type: TokenType.authentication,
   memberId: '',
   revoked: false,
-  createdAt: createISOStringDate(),
-  updatedAt: createISOStringDate(),
+  createdAt: createDate(),
+  updatedAt: createDate(),
 }));
 
 export const createSqlRequest = createFactory<typeof requests.$inferInsert>(() => ({
@@ -37,15 +35,16 @@ export const createSqlRequest = createFactory<typeof requests.$inferInsert>(() =
   title: '',
   text: '',
   html: '',
-  createdAt: createISOStringDate(),
-  updatedAt: createISOStringDate(),
+  createdAt: createDate(),
+  updatedAt: createDate(),
 }));
 
 export const createSqlComment = createFactory<typeof comments.$inferInsert>(() => ({
   id: '',
   authorId: '',
-  date: createISOStringDate(),
-  body: '',
-  createdAt: createISOStringDate(),
-  updatedAt: createISOStringDate(),
+  date: createDate(),
+  html: '',
+  text: '',
+  createdAt: createDate(),
+  updatedAt: createDate(),
 }));

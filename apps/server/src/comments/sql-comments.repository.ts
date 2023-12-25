@@ -19,9 +19,9 @@ export class SqlCommentsRepository implements CommentsRepository {
     await this.database.db.insert(comments).values({
       ...comment,
       [`${parentType}Id`]: parentId,
-      date: comment.date.toISOString(),
-      createdAt: now.toISOString(),
-      updatedAt: now.toISOString(),
+      date: comment.date,
+      createdAt: now,
+      updatedAt: now,
     });
   }
 }

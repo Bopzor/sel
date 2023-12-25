@@ -34,7 +34,7 @@ export class EventsPersistor {
       entityId,
       type,
       payload,
-      createdAt: now.toISOString(),
+      createdAt: now,
     });
   }
 }

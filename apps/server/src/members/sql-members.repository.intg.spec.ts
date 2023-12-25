@@ -50,7 +50,7 @@ describe('[Intg] SqlMembersRepository', () => {
           country: 'country',
           position: [0, 1],
         },
-        membershipStartDate: test.now.toISOString(),
+        membershipStartDate: test.now,
       })
     );
   });

@@ -65,7 +65,7 @@ export class SqlRequestRepository implements RequestRepository {
 
     return {
       id: request.id,
-      date: new Date(request.date).toISOString(),
+      date: request.date.toISOString(),
       requester: {
         id: requester.id,
         firstName: requester.firstName,
@@ -77,13 +77,13 @@ export class SqlRequestRepository implements RequestRepository {
       body: request.html,
       comments: comments.map((comment) => ({
         id: comment.id,
-        date: new Date(comment.date).toISOString(),
+        date: comment.date.toISOString(),
         author: {
           firstName: comment.author.firstName,
           lastName: comment.author.lastName,
           email: comment.author.emailVisible ? comment.author.email : undefined,
         },
-        body: comment.body,
+        body: comment.html,
       })),
     };
   }
@@ -94,13 +94,13 @@ export class SqlRequestRepository implements RequestRepository {
     await this.db.insert(requests).values({
       id: model.id,
       status: RequestStatus.pending,
-      date: now.toISOString(),
+      date: now,
       requesterId: model.requesterId,
       title: model.title,
       text: model.body.text,
       html: model.body.html,
-      createdAt: now.toISOString(),
-      updatedAt: now.toISOString(),
+      createdAt: now,
+      updatedAt: now,
     });
   }
 
@@ -114,7 +114,7 @@ export class SqlRequestRepository implements RequestRepository {
         title: model.title,
         text: model.body.text,
         html: model.body.html,
-        updatedAt: now.toISOString(),
+        updatedAt: now,
       })
       .where(eq(requests.id, requestId));
   }

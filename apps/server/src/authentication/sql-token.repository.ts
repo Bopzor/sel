@@ -56,9 +56,9 @@ export class SqlTokenRepository implements TokenRepository {
 
     await this.database.db.insert(tokens).values({
       ...token,
-      expirationDate: token.expirationDate.toISOString(),
-      createdAt: now.toISOString(),
-      updatedAt: now.toISOString(),
+      expirationDate: token.expirationDate,
+      createdAt: now,
+      updatedAt: now,
     });
   }
 
