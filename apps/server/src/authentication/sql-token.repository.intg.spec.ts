@@ -88,7 +88,7 @@ describe('[Intg] SqlTokenRepository', () => {
     const token: Token = {
       id: 'id',
       value: 'value',
-      expirationDate: createDate(),
+      expirationDate: createDate('2023-01-02'),
       type: TokenType.authentication,
       memberId: 'memberId',
       revoked: false,

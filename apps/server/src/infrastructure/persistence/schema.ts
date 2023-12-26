@@ -1,14 +1,5 @@
 import { relations, sql } from 'drizzle-orm';
-import {
-  PgTimestampBuilderInitial,
-  boolean,
-  json,
-  pgEnum,
-  pgTable,
-  text,
-  timestamp,
-  varchar,
-} from 'drizzle-orm/pg-core';
+import { boolean, json, pgEnum, pgTable, text, timestamp, varchar } from 'drizzle-orm/pg-core';
 
 import { TokenType } from '../../authentication/token.entity';
 import { MemberStatus } from '../../members/entities';
@@ -17,9 +8,7 @@ import { RequestStatus } from '../../requests/request.entity';
 const id = (name = 'id') => varchar(name, { length: 16 });
 const primaryKey = () => id().primaryKey();
 
-// https://github.com/drizzle-team/drizzle-orm/issues/1407
-const date = <Name extends string>(name: Name) =>
-  timestamp(name, { mode: 'string', precision: 3 }) as unknown as PgTimestampBuilderInitial<Name>;
+const date = <Name extends string>(name: Name) => timestamp(name, { mode: 'date', precision: 3 });
 
 const createdAt = () => date('created_at').notNull();
 const updatedAt = () => date('updated_at').notNull();
