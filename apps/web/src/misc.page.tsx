@@ -14,7 +14,7 @@ export function MiscPage() {
 
       <div class="row gap-6">
         <div class="flex-1">
-          <h2>Contact</h2>
+          <h2 class="mb-2">Contact</h2>
 
           <p>
             Nous communiquons régulièrement les informations importantes relative au développement du projet
@@ -30,7 +30,7 @@ export function MiscPage() {
             <a href="https://selonnous.communityforge.net/users/152">nous envoyer un message</a>.
           </p>
 
-          <h2>Contexte</h2>
+          <h2 class="mb-2 mt-4">Contexte</h2>
 
           <p>
             Le développement de l'app est à l'initiative de Nils et Violaine, membres de SEL'ons-nous depuis
@@ -48,7 +48,7 @@ export function MiscPage() {
             .
           </p>
 
-          <h2>Liens</h2>
+          <h2 class="mb-2 mt-4">Liens</h2>
 
           <ul class="list-inside list-disc">
             <li>
@@ -64,8 +64,7 @@ export function MiscPage() {
             </li>
 
             <li>
-              <a href="https://trello.com/b/5acsJhvj/sel-id%C3%A9es">Roadmap</a> : idées et choses à faire,
-              plus ou moins en vrac.
+              <a href="https://trello.com/b/5acsJhvj/sel-id%C3%A9es">Roadmap</a> : idées et choses à faire.
             </li>
           </ul>
         </div>
@@ -93,6 +92,10 @@ function Changelog() {
 }
 
 const changelog: Array<ChangelogEntryProps> = [
+  {
+    date: '2023-12-26',
+    description: 'Première version des demandes.',
+  },
   {
     date: '2023-12-18',
     description: 'Ajout du mode sombre.',
@@ -140,8 +143,9 @@ function ChangelogEntry(props: ChangelogEntryProps) {
   const intl = useIntl();
 
   return (
-    <li class="py-2">
-      <span class="text-dim">{intl.formatDate(props.date)}</span> &bullet; {props.description}
+    <li class="row py-2">
+      <p class="mt-1 w-24 text-xs text-dim">{intl.formatDate(props.date)}</p>
+      <p class="flex-1">{props.description}</p>
     </li>
   );
 }
