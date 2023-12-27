@@ -4,6 +4,7 @@ import { For, onMount } from 'solid-js';
 
 import { BackLink } from '../components/back-link';
 import { LinkButton } from '../components/button';
+import { FeatureFlag, Feature } from '../components/feature-flag';
 import { Link } from '../components/link';
 import { SuspenseLoader } from '../components/loader';
 import { MemberAvatarName } from '../components/member-avatar-name';
@@ -21,7 +22,7 @@ export function RequestsPage() {
   onMount(loadRequests);
 
   return (
-    <>
+    <FeatureFlag feature={Feature.requests} fallback={<RequestsPlaceholderPage />}>
       <BackLink href={routes.home} />
 
       <div class="row justify-between">
@@ -39,7 +40,7 @@ export function RequestsPage() {
           <For each={state.requests}>{(request) => <RequestListItem request={request} />}</For>
         </ul>
       </SuspenseLoader>
-    </>
+    </FeatureFlag>
   );
 }
 
@@ -70,5 +71,25 @@ function RequestListItem(props: RequestListItemProps) {
         <RichText class="line-clamp-3">{props.request.body}</RichText>
       </Link>
     </li>
+  );
+}
+
+function RequestsPlaceholderPage() {
+  return (
+    <div>
+      <BackLink href={routes.home} />
+
+      <h1>
+        <Translate id="requests.title" />
+      </h1>
+
+      <p class="font-semibold">
+        <Translate id="requests.sentence1" />
+      </p>
+
+      <p>
+        <Translate id="requests.sentence2" />
+      </p>
+    </div>
   );
 }

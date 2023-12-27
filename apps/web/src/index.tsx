@@ -57,14 +57,7 @@ function Routing() {
       <Route path="/onboarding" component={OnboardingPage} />
       <Route path="/members" component={MembersPage} />
       <Route path="/members/:memberId" component={MemberPage} />
-
-      <FeatureFlag
-        feature={Feature.requests}
-        fallback={<Route path="/requests" component={RequestsPlaceholderPage} />}
-      >
-        <Route path="/requests" component={RequestsPage} />
-      </FeatureFlag>
-
+      <Route path="/requests" component={RequestsPage} />
       <Route path="/requests/create" component={CreateRequestPage} />
       <Route path="/requests/:requestId" component={RequestPage} />
       <Route path="/events" component={EventsPage} />
@@ -79,26 +72,6 @@ function Routing() {
       </Route>
       <Route path="/__error" component={ErrorTestPage} />
     </>
-  );
-}
-
-function RequestsPlaceholderPage() {
-  return (
-    <div>
-      <BackLink href={routes.home} />
-
-      <h1>
-        <Translate id="requests.title" />
-      </h1>
-
-      <p class="font-semibold">
-        <Translate id="requests.sentence1" />
-      </p>
-
-      <p>
-        <Translate id="requests.sentence2" />
-      </p>
-    </div>
   );
 }
 
