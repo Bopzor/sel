@@ -1,4 +1,3 @@
-import clsx from 'clsx';
 import { Component, ComponentProps, Show, mergeProps, splitProps } from 'solid-js';
 
 import { createDebouncedValue } from '../utils/debounce';
@@ -6,8 +5,10 @@ import { createDebouncedValue } from '../utils/debounce';
 import { Link } from './link';
 import { Spinner } from './spinner';
 
+type ButtonVariant = 'primary' | 'secondary';
+
 type ButtonProps = ComponentProps<'button'> & {
-  variant?: 'primary' | 'secondary';
+  variant?: ButtonVariant;
   loading?: boolean;
 };
 
@@ -37,12 +38,24 @@ export const Button: Component<ButtonProps> = (props1) => {
 };
 
 type LinkButtonProps = ComponentProps<typeof Link> & {
+  variant?: ButtonVariant;
   loading?: boolean;
 };
 
-export const LinkButton: Component<LinkButtonProps> = (props) => {
+export const LinkButton: Component<LinkButtonProps> = (props1) => {
+  const props = mergeProps({ variant: 'primary' } satisfies Omit<LinkButtonProps, 'href'>, props1);
+
   return (
-    <Link {...props} unstyled class={clsx('button button-primary', props.class)}>
+    <Link
+      {...props}
+      unstyled
+      classList={{
+        button: true,
+        'button-primary': props.variant === 'primary',
+        'button-secondary': props.variant === 'secondary',
+        ...props.classList,
+      }}
+    >
       {props.children}
       {props.loading && <Spinner class="h-4 w-4" />}
     </Link>
