@@ -11,7 +11,6 @@ import { MemberAvatarName } from '../components/member-avatar-name';
 import { Row } from '../components/row';
 import { Translate } from '../intl/translate';
 import { getAppActions, getAppState } from '../store/app-store';
-import { createAsyncCall } from '../utils/async-call';
 import { formatPhoneNumber } from '../utils/format-phone-number';
 
 import { ProfileFieldVisibility } from './components/profile-field-visibility';
@@ -101,11 +100,11 @@ export const ProfileEditionPage: Component = () => {
           classList={{ 'opacity-0 pointer-events-none': !isDirty() }}
         >
           <Button variant="secondary" type="reset" form="profile-form">
-            <T id="reset" />
+            <Translate id="common.cancel" />
           </Button>
 
           <Button type="submit" form="profile-form" loading={isSubmitting()}>
-            <T id="save" />
+            <Translate id="common.save" />
           </Button>
         </div>
       </Row>

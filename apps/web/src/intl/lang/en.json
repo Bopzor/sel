@@ -3,6 +3,8 @@
     "back": "Back",
     "search": "Search",
     "loading": "Loading...",
+    "save": "Save",
+    "cancel": "Cancel",
     "validation": {
       "min": "This field is too short (min: {min} characters).",
       "max": "This field is too long (max: {max} characters)."
@@ -198,8 +200,6 @@
       "bio": "Bio",
       "profilePicture": "Profile picture",
       "profilePictureMessage": "Profile photo management is not yet available directly via the app. In the meantime, it is possible to change your image via <link>gravatar</link> (after registration).",
-      "reset": "Reset",
-      "save": "Save",
       "saved": "Your profile information have been updated."
     },
     "address": {

@@ -3,6 +3,8 @@
     "back": "Retour",
     "search": "Rechercher",
     "loading": "Chargement...",
+    "save": "Enregistrer",
+    "cancel": "Annuler",
     "validation": {
       "min": "Ce champ trop court (min : {min} caractères).",
       "max": "Ce champ est trop long (max : {max} caractères)."
@@ -198,8 +200,6 @@
       "bio": "Présentation",
       "profilePicture": "Photo de profil",
       "profilePictureMessage": "La gestion des photos de profil n'est pas encore disponible directement via l'app. En attendant, il est possible de changer son image via <link>gravatar</link> (après inscription).",
-      "reset": "Annuler",
-      "save": "Enregistrer",
       "saved": "Vos informations de profil ont bien été mises à jour."
     },
     "address": {
