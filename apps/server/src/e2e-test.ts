@@ -60,8 +60,11 @@ export class E2ETest {
     await this.mailServer.close();
   }
 
-  async fetch(path: string, options: { method?: string; token?: string; assertStatus?: boolean } = {}) {
-    const { method = 'GET', token, assertStatus = true } = options;
+  async fetch(
+    path: string,
+    options: { method?: string; token?: string; assertStatus?: boolean; body?: unknown } = {}
+  ) {
+    const { method = 'GET', token, assertStatus = true, body: requestBody } = options;
 
     let response: Response | undefined = undefined;
     let body: unknown = undefined;
@@ -72,6 +75,11 @@ export class E2ETest {
 
       if (token) {
         headers.set('Cookie', `token=${token}`);
+      }
+
+      if (requestBody) {
+        init.body = JSON.stringify(requestBody);
+        headers.set('Content-Type', 'application/json');
       }
 
       response = await fetch(`http://localhost:3030${path}`, init);
