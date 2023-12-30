@@ -1,10 +1,12 @@
 import { expect } from 'vitest';
 
+import { TokenType, createToken } from './authentication/token.entity';
 import { container } from './container';
 import { StubConfigAdapter } from './infrastructure/config/stub-config.adapter';
 import { TestMailSever } from './infrastructure/email/test-mail-server';
 import { TestErrorReporterAdapter } from './infrastructure/error-reporter/test-error-reporter.adapter';
 import { StubLogger } from './infrastructure/logger/stub-logger.adapter';
+import { createMember } from './members/entities';
 import { TOKENS } from './tokens';
 
 export class E2ETest {
@@ -103,5 +105,15 @@ export class E2ETest {
 
       throw error;
     }
+  }
+
+  async createMember() {
+    const member = createMember();
+    const token = createToken({ memberId: member.id, value: 'token', type: TokenType.session });
+
+    await container.resolve(TOKENS.membersRepository).insert(member);
+    await container.resolve(TOKENS.tokenRepository).insert(token);
+
+    return [member, token.value] as const;
   }
 }

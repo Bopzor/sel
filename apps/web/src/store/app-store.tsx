@@ -1,3 +1,4 @@
+import { createCombine, createPipe } from '@nilscox/selektor';
 import { AuthenticatedMember, Member, MembersSort, Request, UpdateMemberProfileData } from '@sel/shared';
 import { defined, isEnumValue } from '@sel/utils';
 import { JSX, createContext, createResource, createSignal, useContext } from 'solid-js';
@@ -10,6 +11,10 @@ import { useTranslation } from '../intl/translate';
 import { routes } from '../routes';
 import { TOKENS } from '../tokens';
 import { notify } from '../utils/notify';
+
+const identity = <T,>(value: T): T => value;
+const pipe = createPipe(identity);
+const combine = createCombine(identity);
 
 const none = Symbol('none');
 type None = typeof none;
@@ -86,6 +91,16 @@ export function getAppState() {
 
 export function getAppActions() {
   return useAppStore()[1];
+}
+
+export type AppSelector<Result> = (state: AppState) => Result;
+
+export function select<Result>(selector: AppSelector<Result>) {
+  const state = getAppState();
+
+  return () => {
+    return selector(state);
+  };
 }
 
 function authenticatedMemberState(state: AppState, setState: SetAppState) {
@@ -165,6 +180,10 @@ function authenticatedMemberState(state: AppState, setState: SetAppState) {
     },
   };
 }
+
+export const selectAuthenticatedMember = (state: AppState) => {
+  return state.authenticatedMember;
+};
 
 function membersState() {
   const fetcher = container.resolve(TOKENS.fetcher);
@@ -256,6 +275,18 @@ function requestsState() {
       notify.success(translate('requests.create.created'));
     },
 
+    editRequest: async (title: string, body: string) => {
+      const requestId = defined(request()?.id);
+
+      await fetcher
+        .put<{ title: string; body: string }, string>(`/api/requests/${requestId}`, { title, body })
+        .body();
+
+      await refetchRequest();
+      router.navigate(routes.requests.request(requestId));
+      notify.success(translate('requests.edit.edited'));
+    },
+
     createRequestComment: async (requestId: string, body: string) => {
       await fetcher.post<{ body: string }, string>(`/api/requests/${requestId}/comment`, { body }).body();
 
@@ -264,3 +295,17 @@ function requestsState() {
     },
   };
 }
+
+export const selectRequest = (state: AppState) => {
+  return state.request;
+};
+
+export const selectRequester = pipe(selectRequest, (request) => request?.requester);
+
+export const selectCanEditRequest = combine(
+  selectAuthenticatedMember,
+  selectRequester,
+  (authenticatedMember, requester) => {
+    return authenticatedMember?.id === requester?.id;
+  }
+);

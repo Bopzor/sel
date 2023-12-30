@@ -158,6 +158,15 @@
       "submit": "Créer la demande",
       "created": "Votre demande a bien été envoyée."
     },
+    "editRequest": "Modifier cette demande",
+    "edit": {
+      "title": "Edition de la demande « {requestTitle} »",
+      "titleLabel": "Titre de la demande",
+      "titlePlaceholder": "Monter un meuble Ikea",
+      "bodyLabel": "Message",
+      "bodyPlaceholder": "J'ai besoin d'un coup de main pour...",
+      "edited": "Votre demande a bien été mise à jour."
+    },
     "date": "Le {date}",
     "contact": "Contacter {author}",
     "comments": {

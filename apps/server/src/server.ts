@@ -7,6 +7,7 @@ import { Container, injectableClass } from 'ditox';
 import express, { ErrorRequestHandler, RequestHandler } from 'express';
 import { z } from 'zod';
 
+import { EntityNotFound } from './domain-error';
 import { ConfigPort } from './infrastructure/config/config.port';
 import { ErrorReporterPort } from './infrastructure/error-reporter/error-reporter.port';
 import { LoggerPort } from './infrastructure/logger/logger.port';
@@ -39,6 +40,7 @@ export class Server {
 
     this.app.use(this.handleZodError);
     this.app.use(this.handleAuthenticationError);
+    this.app.use(this.handleNotFoundError);
     this.app.use(this.handleError);
   }
 
@@ -99,6 +101,14 @@ export class Server {
     } else if (err instanceof InvalidSessionTokenError) {
       const setCookie = [`token=`, `Max-Age=0`, 'HttpOnly', 'Path=/', 'SameSite=Lax'];
       res.status(401).header('Set-Cookie', setCookie.join(';')).json({ message: err.message });
+    } else {
+      next(err);
+    }
+  };
+
+  private handleNotFoundError: ErrorRequestHandler = (err, req, res, next) => {
+    if (err instanceof EntityNotFound) {
+      res.status(404).json({ message: err.message, stack: err.stack, details: err.payload });
     } else {
       next(err);
     }

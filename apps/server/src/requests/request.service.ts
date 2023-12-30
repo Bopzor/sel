@@ -6,7 +6,8 @@ import { GeneratorPort } from '../infrastructure/generator/generator.port';
 import { HtmlParserPort } from '../infrastructure/html-parser/html-parser.port';
 import { TOKENS } from '../tokens';
 
-import { RequestCreated } from './events';
+import { RequestCreated, RequestEdited } from './events';
+import { Request } from './request.entity';
 import { RequestRepository } from './request.repository';
 
 export class RequestService {
@@ -41,8 +42,20 @@ export class RequestService {
       },
     });
 
-    this.events.emit(new RequestCreated('requestId'));
+    this.events.emit(new RequestCreated(requestId));
 
     return requestId;
+  }
+
+  async editRequest(request: Request, title: string, body: string): Promise<void> {
+    await this.requestRepository.update(request.id, {
+      title,
+      body: {
+        html: body,
+        text: this.htmlParser.getTextContent(body),
+      },
+    });
+
+    this.events.emit(new RequestEdited(request.id));
   }
 }

@@ -10,8 +10,8 @@ import '@fontsource-variable/inter/index.css';
 
 import { App } from './app';
 import { BackLink } from './components/back-link';
-import { Feature, FeatureFlag } from './components/feature-flag';
 import { Translate } from './intl/translate';
+import { EditRequestPage } from './requests/edit-request.page';
 import { routes } from './routes';
 
 import './index.css';
@@ -60,6 +60,7 @@ function Routing() {
       <Route path="/requests" component={RequestsPage} />
       <Route path="/requests/create" component={CreateRequestPage} />
       <Route path="/requests/:requestId" component={RequestPage} />
+      <Route path="/requests/:requestId/edit" component={EditRequestPage} />
       <Route path="/events" component={EventsPage} />
       <Route path="/activities" component={ActivitiesPage} />
       <Route path="/assets" component={AssetsPage} />

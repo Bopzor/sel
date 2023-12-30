@@ -158,6 +158,15 @@
       "submit": "Create request",
       "created": "Your request was sent successfully."
     },
+    "editRequest": "Edit request",
+    "edit": {
+      "title": "Edit a request",
+      "titleLabel": "Request title",
+      "titlePlaceholder": "Assembling Ikea furniture",
+      "bodyLabel": "Message",
+      "bodyPlaceholder": "I need a hand with...",
+      "edited": "Your request was edited successfully."
+    },
     "date": "The {date}",
     "contact": "Contact {author}",
     "comments": {

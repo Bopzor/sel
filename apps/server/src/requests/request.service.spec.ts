@@ -1,5 +1,5 @@
 import { createDate } from '@sel/utils';
-import { describe, beforeEach, it, expect } from 'vitest';
+import { beforeEach, describe, expect, it } from 'vitest';
 
 import { StubDate } from '../infrastructure/date/stub-date.adapter';
 import { StubEventsAdapter } from '../infrastructure/events/stub-events.adapter';
@@ -7,9 +7,9 @@ import { StubGenerator } from '../infrastructure/generator/stub-generator.adapte
 import { FakeHtmlParserAdapter } from '../infrastructure/html-parser/fake-html-parser.adapter';
 import { UnitTest } from '../unit-test';
 
-import { RequestCreated } from './events';
+import { RequestCreated, RequestEdited } from './events';
 import { InMemoryRequestRepository } from './in-memory-request.repository';
-import { Request, RequestStatus } from './request.entity';
+import { Request, RequestStatus, createRequest } from './request.entity';
 import { RequestService } from './request.service';
 
 class Test extends UnitTest {
@@ -40,25 +40,58 @@ describe('RequestService', () => {
     test = Test.create(Test);
   });
 
-  it('creates a new request', async () => {
-    expect(await test.service.createRequest('requesterId', 'title', 'body')).toEqual('requestId');
+  describe('createRequest', () => {
+    it('creates a new request', async () => {
+      expect(await test.service.createRequest('requesterId', 'title', 'body')).toEqual('requestId');
 
-    expect(test.requestRepository.get('requestId')).toEqual<Request>({
-      id: 'requestId',
-      requesterId: 'requesterId',
-      status: RequestStatus.pending,
-      date: test.dateAdapter.now(),
-      title: 'title',
-      body: {
-        html: 'body',
-        text: 'text content of body',
-      },
+      expect(test.requestRepository.get('requestId')).toEqual<Request>({
+        id: 'requestId',
+        requesterId: 'requesterId',
+        status: RequestStatus.pending,
+        date: test.dateAdapter.now(),
+        title: 'title',
+        body: {
+          html: 'body',
+          text: 'text content of body',
+        },
+      });
+    });
+
+    it('emits a RequestCreated domain event', async () => {
+      await test.service.createRequest('requesterId', 'title', 'body');
+
+      expect(test.events).toHaveEmitted(new RequestCreated('requestId'));
     });
   });
 
-  it('emits a RequestCreated domain event', async () => {
-    await test.service.createRequest('requesterId', 'title', 'body');
+  describe('editRequest', () => {
+    let request: Request;
 
-    expect(test.events).toHaveEmitted(new RequestCreated('requestId'));
+    beforeEach(() => {
+      request = test.requestRepository.add(
+        createRequest({
+          id: 'requestId',
+          requesterId: 'requesterId',
+          title: 'title',
+          body: { html: 'html', text: 'text' },
+        })
+      );
+    });
+
+    it('edits an existing request', async () => {
+      await test.service.editRequest(request, 'new title', 'new body');
+
+      expect(test.requestRepository.get('requestId')).toHaveProperty<Request['title']>('title', 'new title');
+      expect(test.requestRepository.get('requestId')).toHaveProperty<Request['body']>('body', {
+        html: 'new body',
+        text: 'text content of new body',
+      });
+    });
+
+    it('emits a RequestEdited domain event', async () => {
+      await test.service.editRequest(request, '', '');
+
+      expect(test.events).toHaveEmitted(new RequestEdited('requestId'));
+    });
   });
 });

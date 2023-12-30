@@ -9,6 +9,7 @@ export const routes = {
     list: '/requests',
     create: '/requests/create',
     request: (requestId: string) => `/requests/${requestId}`,
+    edit: (requestId: string) => `/requests/${requestId}/edit`,
   },
   events: {
     list: '/events',
