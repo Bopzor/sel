@@ -1,6 +1,6 @@
 import * as shared from '@sel/shared';
 
-import { RequestStatus } from './request.entity';
+import { Request, RequestStatus } from './request.entity';
 
 export type InsertRequestModel = {
   id: string;
@@ -26,6 +26,7 @@ export interface RequestRepository {
   query_listRequests(): Promise<shared.Request[]>;
   query_getRequest(requestId: string): Promise<shared.Request | undefined>;
 
+  getRequest(requestId: string): Promise<Request | undefined>;
   insert(model: InsertRequestModel): Promise<void>;
   update(requestId: string, model: UpdateRequestModel): Promise<void>;
 }

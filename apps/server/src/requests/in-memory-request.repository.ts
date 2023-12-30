@@ -15,6 +15,10 @@ export class InMemoryRequestRepository extends InMemoryRepository<Request> imple
     throw new Error('Method not implemented.');
   }
 
+  async getRequest(requestId: string): Promise<Request | undefined> {
+    return this.get(requestId);
+  }
+
   async insert(model: InsertRequestModel): Promise<void> {
     this.add({
       status: RequestStatus.pending,

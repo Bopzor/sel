@@ -7,7 +7,7 @@ import { Database } from '../infrastructure/persistence/database';
 import { comments, members, requests } from '../infrastructure/persistence/schema';
 import { TOKENS } from '../tokens';
 
-import { RequestStatus } from './request.entity';
+import { Request, RequestStatus } from './request.entity';
 import { InsertRequestModel, RequestRepository, UpdateRequestModel } from './request.repository';
 
 export class SqlRequestRepository implements RequestRepository {
@@ -85,6 +85,26 @@ export class SqlRequestRepository implements RequestRepository {
         },
         body: comment.html,
       })),
+    };
+  }
+
+  async getRequest(requestId: string): Promise<Request | undefined> {
+    const [result] = await this.db.select().from(requests).where(eq(requests.id, requestId));
+
+    if (!result) {
+      return;
+    }
+
+    return {
+      id: result.id,
+      status: result.status,
+      date: result.date,
+      requesterId: result.requesterId,
+      title: result.title,
+      body: {
+        html: result.html,
+        text: result.text,
+      },
     };
   }
 

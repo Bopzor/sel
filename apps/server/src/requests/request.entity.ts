@@ -1,3 +1,5 @@
+import { createDate, createFactory, createId } from '@sel/utils';
+
 export enum RequestStatus {
   pending = 'pending',
   fulfilled = 'fulfilled',
@@ -15,3 +17,15 @@ export type Request = {
     text: string;
   };
 };
+
+export const createRequest = createFactory<Request>(() => ({
+  id: createId(),
+  status: RequestStatus.pending,
+  date: createDate(),
+  requesterId: '',
+  title: '',
+  body: {
+    html: '',
+    text: '',
+  },
+}));
