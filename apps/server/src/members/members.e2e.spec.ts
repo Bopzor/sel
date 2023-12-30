@@ -17,7 +17,7 @@ describe('[E2E] Members', () => {
   });
 
   it('rejects unauthenticated requests', async () => {
-    const [response] = await test.fetch('/members', { assertStatus: false });
+    const { response } = await test.fetch('/members', { assertStatus: false });
     expect(response.status).toEqual(401);
   });
 });

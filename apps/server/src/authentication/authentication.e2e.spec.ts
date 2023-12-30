@@ -39,7 +39,7 @@ describe('[E2E] Authentication', () => {
     const link = new URL(match[1]);
     const token = link.searchParams.get('auth-token');
 
-    const [response] = await test.fetch(`/authentication/verify-authentication-token?token=${token}`);
+    const { response } = await test.fetch(`/authentication/verify-authentication-token?token=${token}`);
 
     expect(response.headers.get('set-cookie')).toEqual(expect.stringMatching(/^token=/));
   });

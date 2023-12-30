@@ -86,7 +86,7 @@ export class E2ETest {
         expect(response.ok).toBe(true);
       }
 
-      return [response, body] as const;
+      return { response, body };
     } catch (error) {
       if (body) {
         // eslint-disable-next-line no-console
