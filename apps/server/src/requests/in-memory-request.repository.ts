@@ -1,4 +1,5 @@
 import * as shared from '@sel/shared';
+import { defined } from '@sel/utils';
 
 import { InMemoryRepository } from '../in-memory.repository';
 
@@ -22,6 +23,9 @@ export class InMemoryRequestRepository extends InMemoryRepository<Request> imple
   }
 
   async update(requestId: string, model: UpdateRequestModel): Promise<void> {
-    throw new Error('Method not implemented.');
+    this.set(requestId, {
+      ...defined(this.get(requestId)),
+      ...model,
+    });
   }
 }

@@ -14,9 +14,9 @@ export type InsertRequestModel = {
 };
 
 export type UpdateRequestModel = {
-  status: RequestStatus;
-  title: string;
-  body: {
+  status?: RequestStatus;
+  title?: string;
+  body?: {
     text: string;
     html: string;
   };

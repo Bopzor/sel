@@ -112,8 +112,8 @@ export class SqlRequestRepository implements RequestRepository {
       .set({
         status: model.status,
         title: model.title,
-        text: model.body.text,
-        html: model.body.html,
+        text: model.body?.text,
+        html: model.body?.html,
         updatedAt: now,
       })
       .where(eq(requests.id, requestId));
