@@ -1,3 +1,4 @@
+import { defined } from '@sel/utils';
 import clone from 'lodash.clonedeep';
 
 export abstract class InMemoryRepository<Item extends { id: string }> {
@@ -16,7 +17,12 @@ export abstract class InMemoryRepository<Item extends { id: string }> {
   }
 
   add(item: Item) {
-    return clone(this.items.set(item.id, clone(item)));
+    return this.set(item.id, item);
+  }
+
+  set(id: string, item: Item) {
+    this.items.set(id, clone(item));
+    return defined(this.get(id));
   }
 
   find(predicate: (item: Item) => boolean) {
