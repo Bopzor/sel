@@ -1,12 +1,14 @@
 import { expect } from 'vitest';
 
-import { TokenType, createToken } from './authentication/token.entity';
+import { Token, TokenType, createToken } from './authentication/token.entity';
 import { container } from './container';
 import { StubConfigAdapter } from './infrastructure/config/stub-config.adapter';
 import { TestMailSever } from './infrastructure/email/test-mail-server';
 import { TestErrorReporterAdapter } from './infrastructure/error-reporter/test-error-reporter.adapter';
 import { StubLogger } from './infrastructure/logger/stub-logger.adapter';
-import { createMember } from './members/entities';
+import { members, requests, tokens } from './infrastructure/persistence/schema';
+import { Member } from './members/entities';
+import { Request } from './requests/request.entity';
 import { TOKENS } from './tokens';
 
 export class E2ETest {
@@ -39,6 +41,8 @@ export class E2ETest {
   errorReporter = new TestErrorReporterAdapter();
 
   mailServer = new TestMailSever(this.config);
+
+  persist = new Persistor();
 
   private get server() {
     return container.resolve(TOKENS.server);
@@ -107,13 +111,53 @@ export class E2ETest {
     }
   }
 
-  async createMember() {
-    const member = createMember();
-    const token = createToken({ memberId: member.id, value: 'token', type: TokenType.session });
+  async persistAuthenticatedMember(member: Member, tokenValue: string) {
+    const token = createToken({ memberId: member.id, value: tokenValue, type: TokenType.session });
 
-    await container.resolve(TOKENS.membersRepository).insert(member);
-    await container.resolve(TOKENS.tokenRepository).insert(token);
+    await this.persist.member(member);
+    await this.persist.token(token);
 
     return [member, token.value] as const;
+  }
+}
+
+class Persistor {
+  private get db() {
+    return container.resolve(TOKENS.database).db;
+  }
+
+  private get now() {
+    return container.resolve(TOKENS.date).now();
+  }
+
+  async member(member: Member): Promise<Member> {
+    await this.db.insert(members).values({
+      ...member,
+      createdAt: this.now,
+      updatedAt: this.now,
+    });
+
+    return member;
+  }
+
+  async request(request: Request): Promise<Request> {
+    await this.db.insert(requests).values({
+      ...request,
+      ...request.body,
+      createdAt: this.now,
+      updatedAt: this.now,
+    });
+
+    return request;
+  }
+
+  async token(token: Token): Promise<Token> {
+    await this.db.insert(tokens).values({
+      ...token,
+      createdAt: this.now,
+      updatedAt: this.now,
+    });
+
+    return token;
   }
 }
