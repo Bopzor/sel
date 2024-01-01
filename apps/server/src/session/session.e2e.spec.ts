@@ -3,6 +3,7 @@ import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import { TokenType, createToken } from '../authentication/token.entity';
 import { container } from '../container';
 import { E2ETest } from '../e2e-test';
+import { HttpStatus } from '../http-status';
 import { createMember } from '../members/entities';
 import { TOKENS } from '../tokens';
 
@@ -30,16 +31,16 @@ describe('[E2E] Session', () => {
     expect(body).toHaveProperty('id', member.id);
   });
 
-  it('fails with a 401 unauthorized error when no session token is provided', async () => {
+  it('fails when no session token is provided', async () => {
     const { response } = await test.fetch('/session/member', { assertStatus: false });
 
-    expect(response.status).toEqual(401);
+    expect(response.status).toEqual(HttpStatus.unauthorized);
   });
 
-  it('fails with a 401 unauthorized error when an invalid session token is provided', async () => {
+  it('fails when an invalid session token is provided', async () => {
     const { response } = await test.fetch('/session/member', { token: 'invalid', assertStatus: false });
 
-    expect(response.status).toEqual(401);
+    expect(response.status).toEqual(HttpStatus.unauthorized);
     expect(response.headers.get('Set-Cookie')).toEqual('token=;Max-Age=0;HttpOnly;Path=/;SameSite=Lax');
   });
 });

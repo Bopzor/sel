@@ -2,6 +2,7 @@ import * as shared from '@sel/shared';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
 import { E2ETest } from '../e2e-test';
+import { HttpStatus } from '../http-status';
 import { createMember } from '../members/entities';
 
 import { createRequest } from './request.entity';
@@ -52,12 +53,12 @@ describe('[E2E] Request', () => {
 
   it('rejects unauthenticated requests', async () => {
     const { response } = await test.fetch('/requests', { assertStatus: false });
-    expect(response.status).toEqual(401);
+    expect(response.status).toEqual(HttpStatus.unauthorized);
   });
 
-  it('fails with a 404 when the request does not exist', async () => {
+  it('fails when the request does not exist', async () => {
     const { response } = await test.fetch('/requests/nope', { assertStatus: false });
-    expect(response.status).toEqual(404);
+    expect(response.status).toEqual(HttpStatus.notFound);
   });
 
   it('edits an existing request', async () => {
@@ -96,7 +97,7 @@ describe('[E2E] Request', () => {
         body: { title: '', body: '' },
         assertStatus: false,
       })
-    ).toHaveProperty('response.status', 403);
+    ).toHaveProperty('response.status', HttpStatus.forbidden);
   });
 
   it('creates a comment on an existing request', async () => {

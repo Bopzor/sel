@@ -3,6 +3,7 @@ import { injectableClass } from 'ditox';
 import { RequestHandler, Router } from 'express';
 
 import { AuthenticationFacade } from '../authentication/authentication.facade';
+import { HttpStatus } from '../http-status';
 import { MembersFacade } from '../members/members.facade';
 import { TOKENS } from '../tokens';
 
@@ -35,8 +36,7 @@ export class SessionController {
     const setCookie = [`token=`, `Max-Age=0`, 'HttpOnly', 'Path=/', 'SameSite=Lax'];
 
     res.header('Set-Cookie', setCookie.join(';'));
-    res.status(204);
-    res.end();
+    res.status(HttpStatus.noContent).end();
   };
 
   getCurrentMember: RequestHandler<never, shared.AuthenticatedMember> = async (req, res) => {

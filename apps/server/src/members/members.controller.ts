@@ -4,6 +4,7 @@ import { RequestHandler, Router } from 'express';
 import { z } from 'zod';
 
 import { AuthorizationError } from '../authorization-error';
+import { HttpStatus } from '../http-status';
 import { SessionProvider } from '../session/session.provider';
 import { TOKENS } from '../tokens';
 
@@ -50,7 +51,7 @@ export class MembersController {
     const member = await this.membersRepository.query_getMember(req.params.memberId);
 
     if (!member) {
-      return res.status(404).end();
+      return res.status(HttpStatus.notFound).end();
     }
 
     res.json(member);
@@ -92,6 +93,6 @@ export class MembersController {
 
     await this.membersService.updateMemberProfile(memberId, data);
 
-    res.status(204).end();
+    res.status(HttpStatus.noContent).end();
   };
 }

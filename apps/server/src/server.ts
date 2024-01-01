@@ -8,6 +8,7 @@ import express, { ErrorRequestHandler, RequestHandler } from 'express';
 import { z } from 'zod';
 
 import { DomainError } from './domain-error';
+import { HttpStatus } from './http-status';
 import { ConfigPort } from './infrastructure/config/config.port';
 import { ErrorReporterPort } from './infrastructure/error-reporter/error-reporter.port';
 import { LoggerPort } from './infrastructure/logger/logger.port';
@@ -89,7 +90,7 @@ export class Server {
 
   private handleZodError: ErrorRequestHandler = (err, req, res, next) => {
     if (err instanceof z.ZodError) {
-      res.status(400).json(err.format());
+      res.status(HttpStatus.badRequest).json(err.format());
     } else {
       next(err);
     }
@@ -97,10 +98,12 @@ export class Server {
 
   private handleAuthenticationError: ErrorRequestHandler = (err, req, res, next) => {
     if (err instanceof AuthenticationError) {
-      res.status(401).json({ message: err.message });
+      res.status(HttpStatus.unauthorized).json({ message: err.message });
     } else if (err instanceof InvalidSessionTokenError) {
       const setCookie = [`token=`, `Max-Age=0`, 'HttpOnly', 'Path=/', 'SameSite=Lax'];
-      res.status(401).header('Set-Cookie', setCookie.join(';')).json({ message: err.message });
+
+      res.header('Set-Cookie', setCookie.join(';'));
+      res.status(HttpStatus.unauthorized).json({ message: err.message });
     } else {
       next(err);
     }
@@ -108,7 +111,8 @@ export class Server {
 
   private handleDomainError: ErrorRequestHandler = (err, req, res, next) => {
     if (err instanceof DomainError) {
-      res.status(err.status ?? 500).json({ message: err.message, stack: err.stack, details: err.payload });
+      res.status(err.status ?? HttpStatus.internalServerError);
+      res.json({ message: err.message, stack: err.stack, details: err.payload });
     } else {
       next(err);
     }
@@ -118,9 +122,7 @@ export class Server {
     this.logger.error(err);
     void this.errorReporter.report(err);
 
-    res.status(500).json({
-      error: err.message,
-      stack: err.stack,
-    });
+    res.status(HttpStatus.internalServerError);
+    res.json({ error: err.message, stack: err.stack });
   };
 }

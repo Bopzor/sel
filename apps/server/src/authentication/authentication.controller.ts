@@ -2,6 +2,7 @@ import { injectableClass } from 'ditox';
 import { ErrorRequestHandler, RequestHandler, Router } from 'express';
 import { z } from 'zod';
 
+import { HttpStatus } from '../http-status';
 import { ConfigPort } from '../infrastructure/config/config.port';
 import { TOKENS } from '../tokens';
 
@@ -65,7 +66,7 @@ export class AuthenticationController {
 
   verifyAuthenticationTokenErrorHandler: ErrorRequestHandler = async (err, req, res, next) => {
     if (err instanceof TokenNotFound || err instanceof TokenExpired) {
-      res.status(401).json({
+      res.status(HttpStatus.unauthorized).json({
         code: err.constructor.name,
         message: err.message,
         token: err.payload.tokenValue,

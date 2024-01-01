@@ -1,4 +1,5 @@
 import { DomainError, EntityNotFound } from '../domain-error';
+import { HttpStatus } from '../http-status';
 
 export class RequestNotFound extends EntityNotFound {
   constructor(requestId: string) {
@@ -7,7 +8,7 @@ export class RequestNotFound extends EntityNotFound {
 }
 
 export class MemberIsNotAuthor extends DomainError<{ requestId: string; memberId: string }> {
-  status = 403;
+  status = HttpStatus.forbidden;
 
   constructor(requestId: string, memberId: string) {
     super('Member must be the author of the request', { requestId, memberId });

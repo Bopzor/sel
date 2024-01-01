@@ -7,6 +7,7 @@ import { RequestHandler, Router } from 'express';
 import { z } from 'zod';
 
 import { CommentsFacade } from '../comments/comments.facade';
+import { HttpStatus } from '../http-status';
 import { SessionProvider } from '../session/session.provider';
 import { TOKENS } from '../tokens';
 
@@ -72,7 +73,7 @@ export class RequestController {
     const request = await this.requestRepository.query_getRequest(req.params.requestId);
 
     if (!request) {
-      return res.status(404).end();
+      return res.status(HttpStatus.notFound).end();
     }
 
     res.json(request);
@@ -89,7 +90,7 @@ export class RequestController {
 
     const requestId = await this.requestService.createRequest(member.id, data.title, data.body);
 
-    res.status(201).send(requestId);
+    res.status(HttpStatus.created).send(requestId);
   };
 
   canEditRequest: RequestHandler<{ requestId: string }> = async (req, res, next) => {
@@ -121,6 +122,6 @@ export class RequestController {
 
     const commentId = await this.commentsFacade.createComment('request', requestId, member.id, data.body);
 
-    res.status(201).send(commentId);
+    res.status(HttpStatus.created).send(commentId);
   };
 }
