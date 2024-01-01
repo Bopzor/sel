@@ -4,9 +4,11 @@ class MemberEvent extends DomainEvent {
   entity = 'member';
 }
 
+export class MemberCreated extends MemberEvent {}
+
 export class AuthenticationLinkRequested extends MemberEvent {
-  constructor(entityId: string, public readonly link: string) {
-    super(entityId);
+  constructor(memberId: string, public readonly link: string) {
+    super(memberId);
   }
 }
 

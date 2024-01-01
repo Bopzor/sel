@@ -2,16 +2,36 @@ import * as shared from '@sel/shared';
 import { injectableClass } from 'ditox';
 
 import { EventsPort } from '../infrastructure/events/events.port';
+import { GeneratorPort } from '../infrastructure/generator/generator.port';
 import { TOKENS } from '../tokens';
 
 import { MemberStatus } from './entities';
-import { OnboardingCompleted } from './events';
+import { MemberCreated, OnboardingCompleted } from './events';
 import { MembersRepository } from './members.repository';
 
 export class MembersService {
-  static inject = injectableClass(this, TOKENS.events, TOKENS.membersRepository);
+  static inject = injectableClass(this, TOKENS.generator, TOKENS.events, TOKENS.membersRepository);
 
-  constructor(private readonly events: EventsPort, private readonly membersRepository: MembersRepository) {}
+  constructor(
+    private readonly generator: GeneratorPort,
+    private readonly events: EventsPort,
+    private readonly membersRepository: MembersRepository
+  ) {}
+
+  async createMember(firstName: string, lastName: string, email: string): Promise<string> {
+    const memberId = this.generator.id();
+
+    await this.membersRepository.insert({
+      id: memberId,
+      firstName,
+      lastName,
+      email,
+    });
+
+    this.events.emit(new MemberCreated(memberId));
+
+    return memberId;
+  }
 
   async updateMemberProfile(memberId: string, data: shared.UpdateMemberProfileData): Promise<void> {
     await this.membersRepository.update(memberId, data);
