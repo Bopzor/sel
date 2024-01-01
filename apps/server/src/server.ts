@@ -7,7 +7,7 @@ import { Container, injectableClass } from 'ditox';
 import express, { ErrorRequestHandler, RequestHandler } from 'express';
 import { z } from 'zod';
 
-import { EntityNotFound } from './domain-error';
+import { DomainError } from './domain-error';
 import { ConfigPort } from './infrastructure/config/config.port';
 import { ErrorReporterPort } from './infrastructure/error-reporter/error-reporter.port';
 import { LoggerPort } from './infrastructure/logger/logger.port';
@@ -40,7 +40,7 @@ export class Server {
 
     this.app.use(this.handleZodError);
     this.app.use(this.handleAuthenticationError);
-    this.app.use(this.handleNotFoundError);
+    this.app.use(this.handleDomainError);
     this.app.use(this.handleError);
   }
 
@@ -106,9 +106,9 @@ export class Server {
     }
   };
 
-  private handleNotFoundError: ErrorRequestHandler = (err, req, res, next) => {
-    if (err instanceof EntityNotFound) {
-      res.status(404).json({ message: err.message, stack: err.stack, details: err.payload });
+  private handleDomainError: ErrorRequestHandler = (err, req, res, next) => {
+    if (err instanceof DomainError) {
+      res.status(err.status ?? 500).json({ message: err.message, stack: err.stack, details: err.payload });
     } else {
       next(err);
     }
