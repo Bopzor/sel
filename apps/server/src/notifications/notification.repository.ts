@@ -8,5 +8,5 @@ export type InsertNotificationModel = {
 };
 
 export interface NotificationRepository {
-  insert(model: InsertNotificationModel): Promise<void>;
+  insertAll(models: InsertNotificationModel[]): Promise<void>;
 }

@@ -7,17 +7,19 @@ import { InsertNotificationModel, NotificationRepository } from './notification.
 export class SqlNotificationRepository implements NotificationRepository {
   constructor(private readonly database: Database, private readonly dateAdapter: DatePort) {}
 
-  async insert(model: InsertNotificationModel): Promise<void> {
+  async insertAll(models: InsertNotificationModel[]): Promise<void> {
     const now = this.dateAdapter.now();
 
-    await this.database.db.insert(notifications).values({
-      id: model.id,
-      subscriptionId: model.subscriptionId,
-      date: model.date,
-      title: model.title,
-      content: model.content,
-      createdAt: now,
-      updatedAt: now,
-    });
+    await this.database.db.insert(notifications).values(
+      models.map((model) => ({
+        id: model.id,
+        subscriptionId: model.subscriptionId,
+        date: model.date,
+        title: model.title,
+        content: model.content,
+        createdAt: now,
+        updatedAt: now,
+      }))
+    );
   }
 }

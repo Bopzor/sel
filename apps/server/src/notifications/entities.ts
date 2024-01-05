@@ -13,3 +13,11 @@ export const createSubscription = createFactory<Subscription>(() => ({
   eventType: 'NewAppVersion',
   memberId: '',
 }));
+
+export type Notification = {
+  id: string;
+};
+
+export const createNotification = createFactory<Notification>(() => ({
+  id: createId(),
+}));

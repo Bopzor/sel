@@ -4,5 +4,6 @@ export * from './enum';
 export * from './factory';
 export * from './function';
 export * from './id';
+export * from './object';
 export * from './types';
 export * from './wait';
