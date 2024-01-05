@@ -27,6 +27,7 @@ import { MembersController } from './members/members.controller';
 import { MembersFacadeImpl } from './members/members.facade';
 import { MembersService } from './members/members.service';
 import { SqlMembersRepository } from './members/sql-members.repository';
+import { Persistor } from './persistor';
 import { RequestController } from './requests/request.controller';
 import { RequestService } from './requests/request.service';
 import { SqlRequestRepository } from './requests/sql-request.repository';
@@ -47,6 +48,7 @@ container.bindFactory(TOKENS.logger, ConsoleLogger.inject);
 container.bindFactory(TOKENS.slackClient, WebSlackClientAdapter.inject);
 container.bindFactory(TOKENS.errorReporter, SlackErrorReporterAdapter.inject);
 container.bindFactory(TOKENS.htmlParser, CheerioHtmlParserAdapter.inject);
+container.bindFactory(TOKENS.persistor, Persistor.inject);
 
 container.bindFactory(TOKENS.events, EmitterEventsAdapter.inject);
 container.bindFactory(TOKENS.eventsLogger, EventsLogger.inject);

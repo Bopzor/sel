@@ -116,3 +116,29 @@ export const commentsRelations = relations(comments, ({ one }) => ({
     references: [requests.id],
   }),
 }));
+
+export const subscriptions = pgTable('subscriptions', {
+  id: primaryKey(),
+  active: boolean('active').notNull(),
+  eventType: varchar('event_type', { length: 32 }).notNull(),
+  memberId: id('member_id')
+    .references(() => members.id)
+    .notNull(),
+  requestId: id('request_id').references(() => requests.id),
+  createdAt: createdAt(),
+  updatedAt: updatedAt(),
+});
+
+export const notifications = pgTable('notifications', {
+  id: primaryKey(),
+  subscriptionId: id('subscription_id')
+    .references(() => subscriptions.id)
+    .notNull(),
+  eventId: id('event_id').references(() => events.id),
+  date: date('date').notNull(),
+  readAt: date('read_at'),
+  title: text('title').notNull(),
+  content: text('content').notNull(),
+  createdAt: createdAt(),
+  updatedAt: updatedAt(),
+});

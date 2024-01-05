@@ -13,7 +13,7 @@ import { ConfigPort } from '../config/config.port';
 
 import * as schema from './schema';
 
-const { comments, members, requests, tokens } = schema;
+const { comments, members, requests, tokens, subscriptions, notifications } = schema;
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
@@ -48,6 +48,8 @@ export class Database {
   async reset() {
     assert(this.databaseUrl.endsWith('/test'), 'Not using test database');
 
+    await this.db.delete(notifications);
+    await this.db.delete(subscriptions);
     await this.db.delete(comments);
     await this.db.delete(requests);
     await this.db.delete(tokens);

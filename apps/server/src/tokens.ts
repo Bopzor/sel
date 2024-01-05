@@ -27,6 +27,7 @@ import { MembersController } from './members/members.controller';
 import { MembersFacade } from './members/members.facade';
 import { MembersRepository } from './members/members.repository';
 import { MembersService } from './members/members.service';
+import { Persistor } from './persistor';
 import { RequestController } from './requests/request.controller';
 import { RequestRepository } from './requests/request.repository';
 import { RequestService } from './requests/request.service';
@@ -41,6 +42,7 @@ export const TOKENS = {
   date: token<DatePort>('date'),
   generator: token<GeneratorPort>('generator'),
   logger: token<LoggerPort>('logger'),
+  persistor: token<Persistor>('persistor'),
   events: token<EventsPort>('events'),
   eventsLogger: token<EventsLogger>('eventsLogger'),
   eventsPersistor: token<EventsPersistor>('eventsPersistor'),
