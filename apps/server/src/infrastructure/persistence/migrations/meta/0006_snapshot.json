@@ -1,5 +1,5 @@
 {
-  "id": "deef1905-05c5-4ee6-9b43-85707af99489",
+  "id": "c780da01-b520-48e3-b80d-61b244265f6d",
   "prevId": "efdf5c40-c574-43af-a248-7b63173c27a7",
   "version": "5",
   "dialect": "pg",
@@ -413,8 +413,8 @@
           "primaryKey": false,
           "notNull": true
         },
-        "event_type": {
-          "name": "event_type",
+        "type": {
+          "name": "type",
           "type": "varchar(32)",
           "primaryKey": false,
           "notNull": true

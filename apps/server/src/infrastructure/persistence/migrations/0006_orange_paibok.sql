@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS "notifications" (
 CREATE TABLE IF NOT EXISTS "subscriptions" (
 	"id" varchar(16) PRIMARY KEY NOT NULL,
 	"active" boolean NOT NULL,
-	"event_type" varchar(32) NOT NULL,
+	"type" varchar(32) NOT NULL,
 	"member_id" varchar(16) NOT NULL,
 	"request_id" varchar(16),
 	"created_at" timestamp (3) NOT NULL,

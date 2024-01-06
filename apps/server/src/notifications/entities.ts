@@ -1,16 +1,16 @@
 import { createDate, createFactory, createId } from '@sel/utils';
 
-import { SubscriptionEventType } from './subscription.repository';
+import { SubscriptionType } from './subscription.repository';
 
 export type Subscription = {
   id: string;
-  eventType: SubscriptionEventType;
+  type: SubscriptionType;
   memberId: string;
 };
 
 export const createSubscription = createFactory<Subscription>(() => ({
   id: createId(),
-  eventType: 'NewAppVersion',
+  type: 'NewAppVersion',
   memberId: '',
 }));
 

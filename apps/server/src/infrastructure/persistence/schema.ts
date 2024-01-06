@@ -120,7 +120,7 @@ export const commentsRelations = relations(comments, ({ one }) => ({
 export const subscriptions = pgTable('subscriptions', {
   id: primaryKey(),
   active: boolean('active').notNull(),
-  eventType: varchar('event_type', { length: 32 }).notNull(),
+  type: varchar('type', { length: 32 }).notNull(),
   memberId: id('member_id')
     .references(() => members.id)
     .notNull(),

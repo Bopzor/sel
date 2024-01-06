@@ -2,11 +2,11 @@ import { injectableClass } from 'ditox';
 
 import { TOKENS } from '../tokens';
 
-import { SubscriptionEventType } from './subscription.repository';
+import { SubscriptionType } from './subscription.repository';
 import { SubscriptionService } from './subscription.service';
 
 export interface SubscriptionFacade {
-  createSubscription(eventType: SubscriptionEventType, memberId: string): Promise<void>;
+  createSubscription(type: SubscriptionType, memberId: string): Promise<void>;
 }
 
 export class SubscriptionFacadeImpl implements SubscriptionFacade {
@@ -14,7 +14,7 @@ export class SubscriptionFacadeImpl implements SubscriptionFacade {
 
   constructor(private readonly subscriptionService: SubscriptionService) {}
 
-  async createSubscription(eventType: SubscriptionEventType, memberId: string) {
-    return this.subscriptionService.createSubscription(eventType, memberId);
+  async createSubscription(type: SubscriptionType, memberId: string) {
+    return this.subscriptionService.createSubscription(type, memberId);
   }
 }

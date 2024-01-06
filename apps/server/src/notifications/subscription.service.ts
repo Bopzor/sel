@@ -5,7 +5,7 @@ import { GeneratorPort } from '../infrastructure/generator/generator.port';
 import { TOKENS } from '../tokens';
 
 import { InsertNotificationModel, NotificationRepository } from './notification.repository';
-import { SubscriptionEventType, SubscriptionRepository } from './subscription.repository';
+import { SubscriptionType, SubscriptionRepository } from './subscription.repository';
 
 export class SubscriptionService {
   static inject = injectableClass(
@@ -23,18 +23,18 @@ export class SubscriptionService {
     private readonly notificationRepository: NotificationRepository
   ) {}
 
-  async createSubscription(eventType: SubscriptionEventType, memberId: string): Promise<void> {
+  async createSubscription(type: SubscriptionType, memberId: string): Promise<void> {
     await this.subscriptionRepository.insert({
       id: this.generator.id(),
-      eventType,
+      type,
       memberId,
     });
   }
 
-  async notify(eventType: SubscriptionEventType): Promise<void> {
+  async notify(type: SubscriptionType): Promise<void> {
     const now = this.dateAdapter.now();
 
-    const subscriptions = await this.subscriptionRepository.getSubscriptionsForEventType(eventType);
+    const subscriptions = await this.subscriptionRepository.getSubscriptionsForEventType(type);
     const notifications = new Array<InsertNotificationModel>();
 
     for (const subscription of subscriptions) {
@@ -42,21 +42,21 @@ export class SubscriptionService {
         id: this.generator.id(),
         subscriptionId: subscription.id,
         date: now,
-        ...this.getNotificationPayload(eventType),
+        ...this.getNotificationPayload(type),
       });
     }
 
     await this.notificationRepository.insertAll(notifications);
   }
 
-  private getNotificationPayload(eventType: SubscriptionEventType): { title: string; content: string } {
-    if (eventType === 'NewAppVersion') {
+  private getNotificationPayload(type: SubscriptionType): { title: string; content: string } {
+    if (type === 'NewAppVersion') {
       return {
         title: "Nouvelle version de l'app",
         content: "Une nouvelle version de l'app est disponible.",
       };
     }
 
-    throw new Error(`Unknown event type "${eventType}"`);
+    throw new Error(`Unknown subscription type "${type}"`);
   }
 }

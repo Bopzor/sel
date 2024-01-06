@@ -37,7 +37,7 @@ describe('[Intg] SqlSubscriptionRepository', () => {
 
     await test.repository.insert({
       id: 'subscriptionId',
-      eventType: 'NewAppVersion',
+      type: 'NewAppVersion',
       memberId: member.id,
     });
 

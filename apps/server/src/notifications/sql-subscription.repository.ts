@@ -7,27 +7,23 @@ import { subscriptions } from '../infrastructure/persistence/schema';
 import { TOKENS } from '../tokens';
 
 import { Subscription } from './entities';
-import {
-  InsertSubscriptionModel,
-  SubscriptionEventType,
-  SubscriptionRepository,
-} from './subscription.repository';
+import { InsertSubscriptionModel, SubscriptionType, SubscriptionRepository } from './subscription.repository';
 
 export class SqlSubscriptionRepository implements SubscriptionRepository {
   static inject = injectableClass(this, TOKENS.database, TOKENS.date);
 
   constructor(private readonly database: Database, private readonly dateAdapter: DatePort) {}
 
-  async getSubscriptionsForEventType(eventType: SubscriptionEventType): Promise<Subscription[]> {
+  async getSubscriptionsForEventType(type: SubscriptionType): Promise<Subscription[]> {
     const sqlSubscriptions = await this.database.db
       .select()
       .from(subscriptions)
-      .where(eq(subscriptions.eventType, eventType));
+      .where(eq(subscriptions.type, type));
 
     return sqlSubscriptions.map(
       (subscription): Subscription => ({
         id: subscription.id,
-        eventType: subscription.eventType as SubscriptionEventType,
+        type: subscription.type as SubscriptionType,
         memberId: subscription.memberId,
       })
     );
@@ -39,7 +35,7 @@ export class SqlSubscriptionRepository implements SubscriptionRepository {
     await this.database.db.insert(subscriptions).values({
       id: model.id,
       active: true,
-      eventType: model.eventType,
+      type: model.type,
       memberId: model.memberId,
       [`${model.entityType}Id`]: model.entityId,
       createdAt: now,

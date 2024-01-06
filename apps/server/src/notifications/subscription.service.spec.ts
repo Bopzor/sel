@@ -36,9 +36,7 @@ describe('SubscriptionService', () => {
 
   describe('notify', () => {
     it('sends a notification to membres subscribed to an event', async () => {
-      test.subscriptionRepository.add(
-        createSubscription({ id: 'subscriptionId', eventType: 'NewAppVersion' })
-      );
+      test.subscriptionRepository.add(createSubscription({ id: 'subscriptionId', type: 'NewAppVersion' }));
 
       await test.service.notify('NewAppVersion');
 
