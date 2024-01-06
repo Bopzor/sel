@@ -3,6 +3,7 @@ import { injectableClass } from 'ditox';
 
 import { EventsPort } from '../infrastructure/events/events.port';
 import { GeneratorPort } from '../infrastructure/generator/generator.port';
+import { SubscriptionFacade } from '../notifications/subscription.facade';
 import { TOKENS } from '../tokens';
 
 import { MemberStatus } from './entities';
@@ -10,12 +11,19 @@ import { MemberCreated, OnboardingCompleted } from './events';
 import { MembersRepository } from './members.repository';
 
 export class MembersService {
-  static inject = injectableClass(this, TOKENS.generator, TOKENS.events, TOKENS.membersRepository);
+  static inject = injectableClass(
+    this,
+    TOKENS.generator,
+    TOKENS.events,
+    TOKENS.membersRepository,
+    TOKENS.subscriptionFacade
+  );
 
   constructor(
     private readonly generator: GeneratorPort,
     private readonly events: EventsPort,
-    private readonly membersRepository: MembersRepository
+    private readonly membersRepository: MembersRepository,
+    private readonly subscriptionFacade: SubscriptionFacade
   ) {}
 
   async createMember(firstName: string, lastName: string, email: string): Promise<string> {
@@ -50,5 +58,9 @@ export class MembersService {
     if (completed) {
       this.events.emit(new OnboardingCompleted(memberId));
     }
+  }
+
+  async createMemberSubscription(event: MemberCreated) {
+    await this.subscriptionFacade.createSubscription('NewAppVersion', event.entityId);
   }
 }

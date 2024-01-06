@@ -56,6 +56,7 @@ export class E2ETest {
     await container.resolve(TOKENS.database).reset();
     await container.resolve(TOKENS.emailRenderer).init?.();
     container.resolve(TOKENS.authenticationModule).init();
+    container.resolve(TOKENS.membersModule).init();
 
     await this.mailServer.listen();
     await this.server.start();

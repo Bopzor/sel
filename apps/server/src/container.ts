@@ -25,8 +25,13 @@ import { Database } from './infrastructure/persistence/database';
 import { WebSlackClientAdapter } from './infrastructure/slack/web-slack-client.adapter';
 import { MembersController } from './members/members.controller';
 import { MembersFacadeImpl } from './members/members.facade';
+import { MembersModule } from './members/members.module';
 import { MembersService } from './members/members.service';
 import { SqlMembersRepository } from './members/sql-members.repository';
+import { SqlNotificationRepository } from './notifications/sql-notification.repository';
+import { SqlSubscriptionRepository } from './notifications/sql-subscription.repository';
+import { SubscriptionFacadeImpl } from './notifications/subscription.facade';
+import { SubscriptionService } from './notifications/subscription.service';
 import { Persistor } from './persistor';
 import { RequestController } from './requests/request.controller';
 import { RequestService } from './requests/request.service';
@@ -61,6 +66,7 @@ container.bindFactory(TOKENS.emailRenderer, MjmlEmailRendererAdapter.inject);
 container.bindValue(TOKENS.nodemailer, nodemailer);
 container.bindFactory(TOKENS.emailSender, NodemailerEmailSenderAdapter.inject);
 
+container.bindFactory(TOKENS.membersModule, MembersModule.inject);
 container.bindFactory(TOKENS.membersFacade, MembersFacadeImpl.inject);
 container.bindFactory(TOKENS.membersController, MembersController.inject);
 container.bindFactory(TOKENS.membersService, MembersService.inject);
@@ -83,3 +89,9 @@ container.bindFactory(TOKENS.sessionService, SessionService.inject);
 container.bindFactory(TOKENS.commentsFacade, CommentsFacadeImpl.inject);
 container.bindFactory(TOKENS.commentsService, CommentsService.inject);
 container.bindFactory(TOKENS.commentsRepository, SqlCommentsRepository.inject);
+
+container.bindFactory(TOKENS.subscriptionFacade, SubscriptionFacadeImpl.inject);
+container.bindFactory(TOKENS.subscriptionService, SubscriptionService.inject);
+container.bindFactory(TOKENS.subscriptionRepository, SqlSubscriptionRepository.inject);
+
+container.bindFactory(TOKENS.notificationRepository, SqlNotificationRepository.inject);

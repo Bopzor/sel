@@ -7,6 +7,10 @@ export class InMemoryNotificationRepository
   extends InMemoryRepository<Notification>
   implements NotificationRepository
 {
+  getNotificationsForMember(memberId: string): Promise<Notification[]> {
+    throw new Error('Method not implemented.');
+  }
+
   async insertAll(models: InsertNotificationModel[]): Promise<void> {
     models.forEach((model) => this.add({ id: model.id }));
   }

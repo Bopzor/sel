@@ -1,4 +1,4 @@
-import { createFactory, createId } from '@sel/utils';
+import { createDate, createFactory, createId } from '@sel/utils';
 
 import { SubscriptionEventType } from './subscription.repository';
 
@@ -16,8 +16,16 @@ export const createSubscription = createFactory<Subscription>(() => ({
 
 export type Notification = {
   id: string;
+  subscriptionId: string;
+  content: string;
+  title: string;
+  date: Date;
 };
 
 export const createNotification = createFactory<Notification>(() => ({
   id: createId(),
+  subscriptionId: createId(),
+  content: '',
+  title: '',
+  date: createDate(),
 }));

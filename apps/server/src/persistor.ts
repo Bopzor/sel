@@ -3,9 +3,9 @@ import { injectableClass } from 'ditox';
 import { Token } from './authentication/token.entity';
 import { DatePort } from './infrastructure/date/date.port';
 import { Database } from './infrastructure/persistence/database';
-import { members, requests, subscriptions, tokens } from './infrastructure/persistence/schema';
+import { members, notifications, requests, subscriptions, tokens } from './infrastructure/persistence/schema';
 import { Member } from './members/entities';
-import { Subscription } from './notifications/entities';
+import { Notification, Subscription } from './notifications/entities';
 import { Request } from './requests/request.entity';
 import { TOKENS } from './tokens';
 
@@ -62,5 +62,15 @@ export class Persistor {
     });
 
     return subscription;
+  }
+
+  async notification(notification: Notification): Promise<Notification> {
+    await this.db.insert(notifications).values({
+      ...notification,
+      createdAt: this.now,
+      updatedAt: this.now,
+    });
+
+    return notification;
   }
 }

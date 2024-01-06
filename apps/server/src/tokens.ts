@@ -25,8 +25,13 @@ import { Database } from './infrastructure/persistence/database';
 import { SlackClientPort } from './infrastructure/slack/slack-client.port';
 import { MembersController } from './members/members.controller';
 import { MembersFacade } from './members/members.facade';
+import { MembersModule } from './members/members.module';
 import { MembersRepository } from './members/members.repository';
 import { MembersService } from './members/members.service';
+import { NotificationRepository } from './notifications/notification.repository';
+import { SubscriptionFacade } from './notifications/subscription.facade';
+import { SubscriptionRepository } from './notifications/subscription.repository';
+import { SubscriptionService } from './notifications/subscription.service';
 import { Persistor } from './persistor';
 import { RequestController } from './requests/request.controller';
 import { RequestRepository } from './requests/request.repository';
@@ -55,6 +60,7 @@ export const TOKENS = {
   nodemailer: token<Nodemailer>('nodemailer'),
   emailRenderer: token<EmailRendererPort>('emailRenderer'),
   emailSender: token<EmailSenderPort>('emailSender'),
+  membersModule: token<MembersModule>('membersModule'),
   membersFacade: token<MembersFacade>('membersFacade'),
   membersController: token<MembersController>('membersController'),
   membersService: token<MembersService>('membersService'),
@@ -73,4 +79,8 @@ export const TOKENS = {
   commentsFacade: token<CommentsFacade>('commentsFacade'),
   commentsService: token<CommentsService>('commentsService'),
   commentsRepository: token<CommentsRepository>('commentsRepository'),
+  subscriptionFacade: token<SubscriptionFacade>('subscriptionFacade'),
+  subscriptionService: token<SubscriptionService>('subscriptionService'),
+  subscriptionRepository: token<SubscriptionRepository>('subscriptionRepository'),
+  notificationRepository: token<NotificationRepository>('notificationRepository'),
 };

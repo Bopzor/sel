@@ -1,16 +1,35 @@
+import { injectableClass } from 'ditox';
+
 import { DatePort } from '../infrastructure/date/date.port';
 import { GeneratorPort } from '../infrastructure/generator/generator.port';
+import { TOKENS } from '../tokens';
 
 import { InsertNotificationModel, NotificationRepository } from './notification.repository';
 import { SubscriptionEventType, SubscriptionRepository } from './subscription.repository';
 
 export class SubscriptionService {
+  static inject = injectableClass(
+    this,
+    TOKENS.generator,
+    TOKENS.date,
+    TOKENS.subscriptionRepository,
+    TOKENS.notificationRepository
+  );
+
   constructor(
     private readonly generator: GeneratorPort,
     private readonly dateAdapter: DatePort,
     private readonly subscriptionRepository: SubscriptionRepository,
     private readonly notificationRepository: NotificationRepository
   ) {}
+
+  async createSubscription(eventType: SubscriptionEventType, memberId: string): Promise<void> {
+    await this.subscriptionRepository.insert({
+      id: this.generator.id(),
+      eventType,
+      memberId,
+    });
+  }
 
   async notify(eventType: SubscriptionEventType): Promise<void> {
     const now = this.dateAdapter.now();
