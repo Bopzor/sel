@@ -32,7 +32,6 @@ import { NotificationRepository } from './notifications/notification.repository'
 import { SubscriptionFacade } from './notifications/subscription.facade';
 import { SubscriptionRepository } from './notifications/subscription.repository';
 import { SubscriptionService } from './notifications/subscription.service';
-import { Persistor } from './persistor';
 import { RequestController } from './requests/request.controller';
 import { RequestRepository } from './requests/request.repository';
 import { RequestService } from './requests/request.service';
@@ -47,7 +46,6 @@ export const TOKENS = {
   date: token<DatePort>('date'),
   generator: token<GeneratorPort>('generator'),
   logger: token<LoggerPort>('logger'),
-  persistor: token<Persistor>('persistor'),
   events: token<EventsPort>('events'),
   eventsLogger: token<EventsLogger>('eventsLogger'),
   eventsPersistor: token<EventsPersistor>('eventsPersistor'),

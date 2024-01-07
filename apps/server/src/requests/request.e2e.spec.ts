@@ -1,19 +1,22 @@
 import * as shared from '@sel/shared';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
+import { TokenType } from '../authentication/token.entity';
 import { E2ETest } from '../e2e-test';
 import { HttpStatus } from '../http-status';
-import { createMember } from '../members/entities';
-
-import { createRequest } from './request.entity';
+import { Member } from '../members/entities';
 
 class Test extends E2ETest {
-  member = createMember();
-  token = 'token';
+  member!: Member;
+  token!: string;
 
   async setup(): Promise<void> {
     await super.setup();
-    await this.persistAuthenticatedMember(this.member, this.token);
+
+    this.member = await this.create.member();
+
+    const token = await this.create.token(TokenType.session, this.member.id);
+    this.token = token.value;
   }
 }
 
@@ -62,13 +65,11 @@ describe('[E2E] Request', () => {
   });
 
   it('edits an existing request', async () => {
-    const request = await test.persist.request(
-      createRequest({
-        requesterId: test.member.id,
-        title: 'title',
-        body: { text: 'body', html: '<p>body</p>' },
-      })
-    );
+    const request = await test.create.request({
+      requesterId: test.member.id,
+      title: 'title',
+      body: '<p>body</p>',
+    });
 
     await test.fetch(`/requests/${request.id}`, {
       token,
@@ -87,8 +88,8 @@ describe('[E2E] Request', () => {
   });
 
   it('prevents to edit a request when the authenticated member is not the requester', async () => {
-    const requester = await test.persist.member(createMember({ email: 'requester' }));
-    const request = await test.persist.request(createRequest({ requesterId: requester.id }));
+    const requester = await test.create.member({ email: 'requester' });
+    const request = await test.create.request({ requesterId: requester.id });
 
     expect(
       await test.fetch(`/requests/${request.id}`, {
@@ -101,7 +102,7 @@ describe('[E2E] Request', () => {
   });
 
   it('creates a comment on an existing request', async () => {
-    const request = await test.persist.request(createRequest({ requesterId: test.member.id }));
+    const request = await test.create.request({ requesterId: test.member.id });
 
     await test.fetch(`/requests/${request.id}/comment`, { token, method: 'POST', body: { body: 'body' } });
 

@@ -1,12 +1,19 @@
+import { defined } from '@sel/utils';
 import { expect } from 'vitest';
 
-import { TokenType, createToken } from './authentication/token.entity';
+import { AuthenticationService } from './authentication/authentication.service';
+import { Token, TokenType } from './authentication/token.entity';
 import { container } from './container';
 import { StubConfigAdapter } from './infrastructure/config/stub-config.adapter';
 import { TestMailSever } from './infrastructure/email/test-mail-server';
 import { TestErrorReporterAdapter } from './infrastructure/error-reporter/test-error-reporter.adapter';
 import { StubLogger } from './infrastructure/logger/stub-logger.adapter';
 import { Member } from './members/entities';
+import { MembersRepository } from './members/members.repository';
+import { MembersService } from './members/members.service';
+import { Request } from './requests/request.entity';
+import { RequestRepository } from './requests/request.repository';
+import { RequestService } from './requests/request.service';
 import { TOKENS } from './tokens';
 
 export class E2ETest {
@@ -44,9 +51,7 @@ export class E2ETest {
     return container.resolve(TOKENS.server);
   }
 
-  get persist() {
-    return container.resolve(TOKENS.persistor);
-  }
+  create!: EntityCreator;
 
   async setup() {
     container.bindValue(TOKENS.config, this.config);
@@ -57,6 +62,15 @@ export class E2ETest {
     await container.resolve(TOKENS.emailRenderer).init?.();
     container.resolve(TOKENS.authenticationModule).init();
     container.resolve(TOKENS.membersModule).init();
+    container.resolve(TOKENS.requestModule).init();
+
+    this.create = new EntityCreator(
+      container.resolve(TOKENS.membersService),
+      container.resolve(TOKENS.membersRepository),
+      container.resolve(TOKENS.authenticationService),
+      container.resolve(TOKENS.requestService),
+      container.resolve(TOKENS.requestRepository)
+    );
 
     await this.mailServer.listen();
     await this.server.start();
@@ -111,13 +125,30 @@ export class E2ETest {
       throw error;
     }
   }
+}
 
-  async persistAuthenticatedMember(member: Member, tokenValue: string) {
-    const token = createToken({ memberId: member.id, value: tokenValue, type: TokenType.session });
+class EntityCreator {
+  constructor(
+    private readonly memberService: MembersService,
+    private readonly memberRepository: MembersRepository,
+    private readonly authenticationService: AuthenticationService,
+    private readonly requestService: RequestService,
+    private readonly requestRepository: RequestRepository
+  ) {}
 
-    await this.persist.member(member);
-    await this.persist.token(token);
+  // prettier-ignore
+  async member({ firstName = '', lastName = '', email = '' }: { firstName?: string; lastName?: string; email?: string } = {}): Promise<Member> {
+    const memberId = await this.memberService.createMember(firstName, lastName, email);
+    return defined(await this.memberRepository.getMember(memberId));
+  }
 
-    return [member, token.value] as const;
+  async token(type: TokenType, memberId: string): Promise<Token> {
+    return this.authenticationService.generateToken(type, memberId);
+  }
+
+  // prettier-ignore
+  async request({requesterId = '', title = '', body = '' }: { requesterId?: string, title?: string, body?: string } = {}): Promise<Request> {
+    const requestId = await this.requestService.createRequest(requesterId, title, body);
+    return defined(await this.requestRepository.getRequest(requestId));
   }
 }
