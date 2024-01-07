@@ -5,6 +5,7 @@ import { isSubscriptionType } from '../notifications/subscription.repository';
 import { TOKENS } from '../tokens';
 
 main(process.argv.slice(2))
+  // eslint-disable-next-line no-console
   .catch(console.error)
   .finally(() => void container.resolve(TOKENS.database).close());
 
