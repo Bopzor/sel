@@ -1,6 +1,11 @@
 import { Subscription } from './entities';
 
-export type SubscriptionType = 'NewAppVersion' | 'RequestCreated';
+const subscriptionTypes = ['NewAppVersion', 'RequestCreated'] as const;
+export type SubscriptionType = (typeof subscriptionTypes)[number];
+
+export function isSubscriptionType(type: unknown): type is SubscriptionType {
+  return subscriptionTypes.includes(type as SubscriptionType);
+}
 
 export type SubscriptionEntityType = 'request';
 
