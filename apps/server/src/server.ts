@@ -62,9 +62,17 @@ export class Server {
   }
 
   async close() {
+    const events = this.container.resolve(TOKENS.events);
+    const database = this.container.resolve(TOKENS.database);
+
+    if (events instanceof EmitterEventsAdapter) {
+      await Promise.all(events.promises);
+    }
+
     this.server.closeAllConnections();
     await util.promisify<void>((cb) => this.server.close(cb))();
-    await this.container.resolve(TOKENS.database).close();
+
+    await database.close();
 
     this.logger.info('server closed');
   }
