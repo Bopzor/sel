@@ -21,7 +21,7 @@ export class FormatJsTranslationAdapter implements TranslationPort {
     );
   }
 
-  translate(key: keyof typeof fr, values: Record<string, string | number>): string {
+  translate(key: keyof typeof fr, values?: Record<string, string | number>): string {
     return this.intl.formatMessage({ id: key }, values);
   }
 
