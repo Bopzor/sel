@@ -63,21 +63,26 @@ describe('[E2E] Request', () => {
     expect(await test.fetch(`/requests/${requestId}`, { token })).toHaveProperty('body.id', requestId);
   });
 
-  it('sends a notification to all members', async () => {
+  it('sends a notification to all members excluding the requester', async () => {
     await test.fetch('/requests', {
       token,
       method: 'POST',
       body: { title: 'Title', body: '' },
     });
 
+    const notificationRepository = container.resolve(TOKENS.notificationRepository);
+
     await waitFor(async () => {
-      const notificationRepository = container.resolve(TOKENS.notificationRepository);
       const notifications = await notificationRepository.getNotificationsForMember(test.member.id);
       const notification = notifications[notifications.length - 1];
 
       expect(notification).toHaveProperty('title', 'Nouvelle demande de Foo B.');
       expect(notification).toHaveProperty('content', 'Title');
     });
+
+    const requesterNotifications = await notificationRepository.getNotificationsForMember(test.requester.id);
+
+    expect(requesterNotifications).toHaveLength(0);
   });
 
   it('rejects unauthenticated requests', async () => {

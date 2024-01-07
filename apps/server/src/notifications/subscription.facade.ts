@@ -3,13 +3,22 @@ import { injectableClass } from 'ditox';
 import { TOKENS } from '../tokens';
 
 import { SubscriptionType } from './subscription.repository';
-import { GetNotificationPayload, NotificationPayload, SubscriptionService } from './subscription.service';
+import {
+  GetNotificationPayload,
+  NotificationPayload,
+  ShouldSendNotification,
+  SubscriptionService,
+} from './subscription.service';
 
 export type { NotificationPayload };
 
 export interface SubscriptionFacade {
   createSubscription(type: SubscriptionType, memberId: string): Promise<void>;
-  notify(type: SubscriptionType, getPayload: GetNotificationPayload): Promise<void>;
+  notify(
+    type: SubscriptionType,
+    shouldSendNotification: ShouldSendNotification,
+    getPayload: GetNotificationPayload
+  ): Promise<void>;
 }
 
 export class SubscriptionFacadeImpl implements SubscriptionFacade {
@@ -21,8 +30,12 @@ export class SubscriptionFacadeImpl implements SubscriptionFacade {
     await this.subscriptionService.createSubscription(type, memberId);
   }
 
-  async notify(type: SubscriptionType, getPayload: GetNotificationPayload): Promise<void> {
-    await this.subscriptionService.notify(type, getPayload);
+  async notify(
+    type: SubscriptionType,
+    shouldSendNotification: ShouldSendNotification,
+    getPayload: GetNotificationPayload
+  ): Promise<void> {
+    await this.subscriptionService.notify(type, shouldSendNotification, getPayload);
   }
 }
 
@@ -31,7 +44,11 @@ export class StubSubscriptionFacade implements SubscriptionFacade {
     throw new Error('Method not implemented.');
   }
 
-  notify(type: SubscriptionType, getPayload: GetNotificationPayload): Promise<void> {
+  notify(
+    type: SubscriptionType,
+    shouldSendNotification: ShouldSendNotification,
+    getPayload: GetNotificationPayload
+  ): Promise<void> {
     throw new Error('Method not implemented.');
   }
 }

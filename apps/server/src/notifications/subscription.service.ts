@@ -15,6 +15,7 @@ export type NotificationPayload = {
   content: string;
 };
 
+export type ShouldSendNotification = (member: Member) => boolean;
 export type GetNotificationPayload = (member: Member) => NotificationPayload;
 
 export class SubscriptionService {
@@ -43,7 +44,11 @@ export class SubscriptionService {
     });
   }
 
-  async notify(type: SubscriptionType, getPayload: GetNotificationPayload): Promise<void> {
+  async notify(
+    type: SubscriptionType,
+    shouldSendNotification: ShouldSendNotification,
+    getPayload: GetNotificationPayload
+  ): Promise<void> {
     const now = this.dateAdapter.now();
 
     const subscriptions = await this.subscriptionRepository.getSubscriptionsForEventType(type);
@@ -54,11 +59,17 @@ export class SubscriptionService {
     );
 
     for (const subscription of subscriptions) {
+      const member = defined(members.find(hasId(subscription.memberId)));
+
+      if (!shouldSendNotification(member)) {
+        continue;
+      }
+
       notifications.push({
         id: this.generator.id(),
         subscriptionId: subscription.id,
         date: now,
-        ...getPayload(defined(members.find(hasId(subscription.memberId)))),
+        ...getPayload(member),
       });
     }
 

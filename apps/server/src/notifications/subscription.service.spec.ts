@@ -1,3 +1,4 @@
+import { hasId } from '@sel/utils';
 import { beforeEach, describe, expect, it } from 'vitest';
 
 import { StubDate } from '../infrastructure/date/stub-date.adapter';
@@ -46,16 +47,40 @@ describe('SubscriptionService', () => {
         createSubscription({ id: 'subscriptionId', memberId: 'memberId', type: 'NewAppVersion' })
       );
 
-      await test.service.notify('NewAppVersion', () => ({
-        title: 'title',
-        content: 'content',
-      }));
+      await test.service.notify(
+        'NewAppVersion',
+        () => true,
+        () => ({
+          title: 'title',
+          content: 'content',
+        })
+      );
 
       const notification = test.notificationRepository.get('notificationId');
 
       expect(notification).toHaveProperty('id', 'notificationId');
       expect(notification).toHaveProperty('title', 'title');
       expect(notification).toHaveProperty('content', 'content');
+    });
+
+    it('does not send notify when the predicate does not pass', async () => {
+      for (const i of [1, 2]) {
+        test.membersFacade.members.push(createMember({ id: `memberId${i}` }));
+
+        test.subscriptionRepository.add(
+          createSubscription({ id: `subscriptionId${i}`, memberId: `memberId${i}`, type: 'NewAppVersion' })
+        );
+      }
+
+      await test.service.notify('NewAppVersion', hasId('memberId1'), () => ({
+        title: '',
+        content: '',
+      }));
+
+      const notifications = test.notificationRepository.all();
+
+      expect(notifications).toHaveLength(1);
+      expect(notifications).toHaveProperty('0.subscriptionId', 'subscriptionId1');
     });
   });
 });

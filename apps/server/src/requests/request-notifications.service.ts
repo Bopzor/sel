@@ -1,4 +1,4 @@
-import { assert } from '@sel/utils';
+import { assert, hasId, negate } from '@sel/utils';
 import { injectableClass } from 'ditox';
 
 import { TranslationPort } from '../infrastructure/translation/translation.port';
@@ -32,11 +32,16 @@ export class RequestNotificationsService {
     const requester = await this.memberFacade.getMember(request?.requesterId);
     assert(requester);
 
-    await this.subscriptionFacade.notify('RequestCreated', () => ({
-      title: this.translation.translate('requestCreated.title', {
-        requester: this.translation.memberName(requester),
-      }),
-      content: request.title,
-    }));
+    await this.subscriptionFacade.notify(
+      //
+      'RequestCreated',
+      negate(hasId(requester.id)),
+      () => ({
+        title: this.translation.translate('requestCreated.title', {
+          requester: this.translation.memberName(requester),
+        }),
+        content: request.title,
+      })
+    );
   }
 }
