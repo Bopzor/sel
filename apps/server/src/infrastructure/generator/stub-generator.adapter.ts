@@ -6,7 +6,7 @@ export class StubGenerator implements GeneratorPort {
   nextIds = new Array<string>();
 
   set nextId(value: string) {
-    this.nextIds.push(value);
+    this.nextIds.unshift(value);
   }
 
   id(): string {
@@ -19,7 +19,7 @@ export class StubGenerator implements GeneratorPort {
   nextTokens = new Array<string>();
 
   set nextToken(value: string) {
-    this.nextTokens.push(value);
+    this.nextTokens.unshift(value);
   }
 
   token(): string {

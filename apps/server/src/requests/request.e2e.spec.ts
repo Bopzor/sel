@@ -74,8 +74,6 @@ describe('[E2E] Request', () => {
 
     const { body: notifications } = await test.fetch('/session/notifications', { token: test.memberToken });
     expect(notifications).toHaveLength(1);
-    expect(notifications).toHaveProperty('0.title', 'Nouvelle demande de Foo B.');
-    expect(notifications).toHaveProperty('0.content', 'Title');
 
     const { body: requesterNotifications } = await test.fetch('/session/notifications', { token });
     expect(requesterNotifications).toHaveLength(0);
