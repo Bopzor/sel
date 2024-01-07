@@ -1,6 +1,6 @@
 import { Subscription } from './entities';
 
-export type SubscriptionType = 'NewAppVersion';
+export type SubscriptionType = 'NewAppVersion' | 'RequestCreated';
 
 export type SubscriptionEntityType = 'request';
 

@@ -62,5 +62,6 @@ export class MembersService {
 
   async createMemberSubscription(event: MemberCreated) {
     await this.subscriptionFacade.createSubscription('NewAppVersion', event.entityId);
+    await this.subscriptionFacade.createSubscription('RequestCreated', event.entityId);
   }
 }
