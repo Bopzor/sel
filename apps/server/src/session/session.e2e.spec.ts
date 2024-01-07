@@ -1,4 +1,4 @@
-import { afterAll, beforeAll, beforeEach, describe, expect, it } from 'vitest';
+import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it } from 'vitest';
 
 import { TokenType, createToken } from '../authentication/token.entity';
 import { container } from '../container';
@@ -11,17 +11,13 @@ describe('[E2E] Session', () => {
   let test: E2ETest;
 
   beforeAll(async () => {
-    test = new E2ETest();
-    await test.init();
+    test = await E2ETest.create(E2ETest);
   });
 
-  beforeEach(async () => {
-    await test.reset();
-  });
+  afterAll(() => test?.teardown());
 
-  afterAll(async () => {
-    await test?.teardown();
-  });
+  beforeEach(() => test.reset());
+  afterEach(() => test?.waitForEventHandlers());
 
   it('fetches the authenticated member', async () => {
     const member = createMember();

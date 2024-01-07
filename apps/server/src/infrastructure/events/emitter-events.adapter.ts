@@ -18,6 +18,12 @@ export class EmitterEventsAdapter implements EventsPort {
   private emitter = new EventEmitter();
   private anyEventListeners = new Set<EventListener>();
 
+  private _promises = new Array<Promise<unknown>>();
+
+  get promises() {
+    return this._promises;
+  }
+
   addAnyEventListener(listener: EventListener): void {
     this.anyEventListeners.add((event: DomainEvent) => {
       void this.handleEvent(event, listener);
@@ -35,7 +41,13 @@ export class EmitterEventsAdapter implements EventsPort {
 
   private async handleEvent(event: DomainEvent, listener: EventListener) {
     try {
-      await listener(event);
+      const promise = listener(event);
+
+      if (promise) {
+        this._promises.push(promise);
+      }
+
+      await promise;
     } catch (error) {
       this.logger.error(error);
       await this.errorReporter.report('An error was caught while handling event', event, error);

@@ -1,4 +1,4 @@
-import { defined } from '@sel/utils';
+import { assert, defined } from '@sel/utils';
 import { expect } from 'vitest';
 
 import { AuthenticationService } from './authentication/authentication.service';
@@ -7,6 +7,7 @@ import { container } from './container';
 import { StubConfigAdapter } from './infrastructure/config/stub-config.adapter';
 import { TestMailSever } from './infrastructure/email/test-mail-server';
 import { TestErrorReporterAdapter } from './infrastructure/error-reporter/test-error-reporter.adapter';
+import { EmitterEventsAdapter } from './infrastructure/events/emitter-events.adapter';
 import { StubLogger } from './infrastructure/logger/stub-logger.adapter';
 import { Member } from './members/entities';
 import { MembersRepository } from './members/members.repository';
@@ -53,6 +54,14 @@ export class E2ETest {
 
   create!: EntityCreator;
 
+  static async create<Test extends E2ETest>(TestClass: { new (): Test }) {
+    const test = new TestClass();
+
+    await test.init?.();
+
+    return test;
+  }
+
   async init() {
     container.bindValue(TOKENS.config, this.config);
     container.bindValue(TOKENS.logger, this.logger);
@@ -82,6 +91,14 @@ export class E2ETest {
 
   async reset() {
     await container.resolve(TOKENS.database).reset();
+  }
+
+  async waitForEventHandlers() {
+    const events = container.resolve(TOKENS.events);
+
+    assert(events instanceof EmitterEventsAdapter);
+
+    await Promise.all(events.promises);
   }
 
   async fetch(
@@ -115,7 +132,7 @@ export class E2ETest {
       }
 
       if (assertStatus) {
-        expect(response.ok).toBe(true);
+        expect(response.ok, `status = ${response.status}`).toBe(true);
       }
 
       return { response, body };

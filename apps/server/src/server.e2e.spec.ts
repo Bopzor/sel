@@ -1,4 +1,4 @@
-import { afterAll, beforeAll, beforeEach, describe, expect, it } from 'vitest';
+import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it } from 'vitest';
 
 import { E2ETest } from './e2e-test';
 import { HttpStatus } from './http-status';
@@ -7,17 +7,13 @@ describe('[E2E] Server', () => {
   let test: E2ETest;
 
   beforeAll(async () => {
-    test = new E2ETest();
-    await test.init();
+    test = await E2ETest.create(E2ETest);
   });
 
-  beforeEach(async () => {
-    await test.reset();
-  });
+  afterAll(() => test?.teardown());
 
-  afterAll(async () => {
-    await test?.teardown();
-  });
+  beforeEach(() => test.reset());
+  afterEach(() => test?.waitForEventHandlers());
 
   it('starts a HTTP server', async () => {
     const response = await fetch('http://localhost:3030/health');

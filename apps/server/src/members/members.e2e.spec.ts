@@ -1,4 +1,4 @@
-import { afterAll, beforeAll, beforeEach, describe, expect, it } from 'vitest';
+import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it } from 'vitest';
 
 import { E2ETest } from '../e2e-test';
 import { HttpStatus } from '../http-status';
@@ -9,17 +9,13 @@ describe('[E2E] Members', () => {
   let test: Test;
 
   beforeAll(async () => {
-    test = new Test();
-    await test.init();
+    test = await E2ETest.create(E2ETest);
   });
 
-  beforeEach(async () => {
-    await test.reset();
-  });
+  afterAll(() => test?.teardown());
 
-  afterAll(async () => {
-    await test?.teardown();
-  });
+  beforeEach(() => test.reset());
+  afterEach(() => test?.waitForEventHandlers());
 
   it('rejects unauthenticated requests', async () => {
     const { response } = await test.fetch('/members', { assertStatus: false });

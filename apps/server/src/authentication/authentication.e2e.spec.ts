@@ -1,5 +1,5 @@
 import { assert, waitFor } from '@sel/utils';
-import { afterAll, beforeAll, beforeEach, describe, expect, it } from 'vitest';
+import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it } from 'vitest';
 
 import { container } from '../container';
 import { E2ETest } from '../e2e-test';
@@ -10,17 +10,13 @@ describe('[E2E] Authentication', () => {
   let test: E2ETest;
 
   beforeAll(async () => {
-    test = new E2ETest();
-    await test.init();
+    test = await E2ETest.create(E2ETest);
   });
 
-  beforeEach(async () => {
-    await test.reset();
-  });
+  afterAll(() => test?.teardown());
 
-  afterAll(async () => {
-    await test?.teardown();
-  });
+  beforeEach(() => test.reset());
+  afterEach(() => test?.waitForEventHandlers());
 
   it('requests an authentication link by email', async () => {
     const memberRepository = container.resolve(TOKENS.membersRepository);

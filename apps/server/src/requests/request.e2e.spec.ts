@@ -1,13 +1,10 @@
 import * as shared from '@sel/shared';
-import { waitFor } from '@sel/utils';
-import { afterAll, beforeAll, describe, expect, it } from 'vitest';
+import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it } from 'vitest';
 
 import { TokenType } from '../authentication/token.entity';
-import { container } from '../container';
 import { E2ETest } from '../e2e-test';
 import { HttpStatus } from '../http-status';
 import { Member } from '../members/entities';
-import { TOKENS } from '../tokens';
 
 class Test extends E2ETest {
   requester!: Member;
@@ -34,18 +31,17 @@ describe('[E2E] Request', () => {
   let token: string;
 
   beforeAll(async () => {
-    test = new Test();
-    await test.init();
+    test = await E2ETest.create(Test);
   });
+
+  afterAll(() => test?.teardown());
 
   beforeEach(async () => {
     await test.setup();
     token = test.requesterToken;
   });
 
-  afterAll(async () => {
-    await test?.teardown();
-  });
+  afterEach(() => test?.waitForEventHandlers());
 
   it('creates a new request', async () => {
     expect(await test.fetch('/requests', { token })).toHaveProperty('body', []);
