@@ -5,6 +5,7 @@ import { RequestHandler, Router } from 'express';
 import { AuthenticationFacade } from '../authentication/authentication.facade';
 import { HttpStatus } from '../http-status';
 import { MembersFacade } from '../members/members.facade';
+import { SubscriptionFacade } from '../notifications/subscription.facade';
 import { TOKENS } from '../tokens';
 
 import { SessionProvider } from './session.provider';
@@ -12,20 +13,23 @@ import { SessionProvider } from './session.provider';
 export class SessionController {
   static inject = injectableClass(
     this,
+    TOKENS.sessionProvider,
     TOKENS.authenticationFacade,
     TOKENS.membersFacade,
-    TOKENS.sessionProvider
+    TOKENS.subscriptionFacade
   );
 
   readonly router = Router();
 
   constructor(
+    private readonly sessionProvider: SessionProvider,
     private readonly authenticationFacade: AuthenticationFacade,
     private readonly membersFacade: MembersFacade,
-    private readonly sessionProvider: SessionProvider
+    private readonly subscriptionFacade: SubscriptionFacade
   ) {
     this.router.delete('/', this.deleteCurrentSession);
     this.router.get('/member', this.getCurrentMember);
+    this.router.get('/notifications', this.getMemberNotifications);
   }
 
   deleteCurrentSession: RequestHandler = async (req, res) => {
@@ -40,8 +44,14 @@ export class SessionController {
   };
 
   getCurrentMember: RequestHandler<never, shared.AuthenticatedMember> = async (req, res) => {
-    const memberId = this.sessionProvider.getMember().id;
+    const member = this.sessionProvider.getMember();
 
-    res.json(await this.membersFacade.query_getAuthenticatedMember(memberId));
+    res.json(await this.membersFacade.query_getAuthenticatedMember(member.id));
+  };
+
+  getMemberNotifications: RequestHandler<never, shared.Notification[]> = async (req, res) => {
+    const member = this.sessionProvider.getMember();
+
+    res.json(await this.subscriptionFacade.query_getNotifications(member.id));
   };
 }

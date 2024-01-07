@@ -30,7 +30,6 @@ import { MembersModule } from './members/members.module';
 import { MembersRepository } from './members/members.repository';
 import { MembersService } from './members/members.service';
 import { NotificationRepository } from './notifications/notification.repository';
-import { NotificationsController } from './notifications/notifications.controller';
 import { SubscriptionFacade } from './notifications/subscription.facade';
 import { SubscriptionRepository } from './notifications/subscription.repository';
 import { SubscriptionService } from './notifications/subscription.service';
@@ -87,6 +86,5 @@ export const TOKENS = {
   subscriptionFacade: token<SubscriptionFacade>('subscriptionFacade'),
   subscriptionService: token<SubscriptionService>('subscriptionService'),
   subscriptionRepository: token<SubscriptionRepository>('subscriptionRepository'),
-  notificationController: token<NotificationsController>('notificationController'),
   notificationRepository: token<NotificationRepository>('notificationRepository'),
 };

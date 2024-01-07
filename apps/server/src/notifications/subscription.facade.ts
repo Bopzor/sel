@@ -1,7 +1,9 @@
+import * as shared from '@sel/shared';
 import { injectableClass } from 'ditox';
 
 import { TOKENS } from '../tokens';
 
+import { NotificationRepository } from './notification.repository';
 import { SubscriptionType } from './subscription.repository';
 import {
   GetNotificationPayload,
@@ -13,6 +15,8 @@ import {
 export type { NotificationPayload };
 
 export interface SubscriptionFacade {
+  query_getNotifications(memberId: string): Promise<shared.Notification[]>;
+
   createSubscription(type: SubscriptionType, memberId: string): Promise<void>;
   notify(
     type: SubscriptionType,
@@ -22,9 +26,16 @@ export interface SubscriptionFacade {
 }
 
 export class SubscriptionFacadeImpl implements SubscriptionFacade {
-  static inject = injectableClass(this, TOKENS.subscriptionService);
+  static inject = injectableClass(this, TOKENS.subscriptionService, TOKENS.notificationRepository);
 
-  constructor(private readonly subscriptionService: SubscriptionService) {}
+  constructor(
+    private readonly subscriptionService: SubscriptionService,
+    private readonly notificationRepository: NotificationRepository
+  ) {}
+
+  query_getNotifications(memberId: string): Promise<shared.Notification[]> {
+    return this.notificationRepository.query_getNotificationsForMember(memberId);
+  }
 
   async createSubscription(type: SubscriptionType, memberId: string): Promise<void> {
     await this.subscriptionService.createSubscription(type, memberId);
@@ -40,6 +51,10 @@ export class SubscriptionFacadeImpl implements SubscriptionFacade {
 }
 
 export class StubSubscriptionFacade implements SubscriptionFacade {
+  query_getNotifications(memberId: string): Promise<shared.Notification[]> {
+    throw new Error('Method not implemented.');
+  }
+
   createSubscription(type: SubscriptionType, memberId: string): Promise<void> {
     throw new Error('Method not implemented.');
   }
