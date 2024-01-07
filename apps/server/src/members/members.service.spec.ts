@@ -29,7 +29,7 @@ describe('MembersService', () => {
 
   describe('createMember', () => {
     beforeEach(() => {
-      test.generator.idValue = 'memberId';
+      test.generator.nextId = 'memberId';
     });
 
     it('creates a new member', async () => {

@@ -28,7 +28,7 @@ class Test extends UnitTest {
   );
 
   setup() {
-    this.generator.idValue = 'requestId';
+    this.generator.nextId = 'requestId';
     this.dateAdapter.date = createDate('2023-01-01');
   }
 }

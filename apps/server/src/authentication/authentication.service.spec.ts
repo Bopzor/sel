@@ -33,8 +33,8 @@ class Test extends UnitTest {
   sessionToken = createToken({ value: 'session-token', memberId: 'memberId', type: TokenType.session });
 
   setup() {
-    this.generator.idValue = 'generatedId';
-    this.generator.tokenValue = 'generatedAuthToken';
+    this.generator.nextId = 'generatedId';
+    this.generator.nextToken = 'generatedAuthToken';
     this.dateAdapter.date = new Date('2023-10-29T11:12:12.000Z');
     this.tokenRepository.add(this.sessionToken);
   }
@@ -68,7 +68,7 @@ describe('[Unit] AuthenticationService', () => {
 
   describe('requestAuthenticationLink', () => {
     it('triggers a AuthenticationLinkRequested domain event', async () => {
-      test.generator.tokenValue = 'authToken';
+      test.generator.nextToken = 'authToken';
       test.memberFacade.members.push(
         createMember({ id: 'memberId', firstName: 'firstName', email: 'email' })
       );
@@ -118,7 +118,7 @@ describe('[Unit] AuthenticationService', () => {
     });
 
     it('returns a session token', async () => {
-      test.generator.tokenValue = 'sessionToken';
+      test.generator.nextToken = 'sessionToken';
       test.dateAdapter.date = createDate('2023-01-01');
 
       const sessionToken = await test.service.verifyAuthenticationToken('authToken');

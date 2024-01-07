@@ -1,15 +1,31 @@
+import { assert } from '@sel/utils';
+
 import { GeneratorPort } from './generator.port';
 
 export class StubGenerator implements GeneratorPort {
-  idValue = '';
+  nextIds = new Array<string>();
 
-  id(): string {
-    return this.idValue;
+  set nextId(value: string) {
+    this.nextIds.push(value);
   }
 
-  tokenValue = '';
+  id(): string {
+    const id = this.nextIds.splice(0, 1)[0];
+    assert(id !== undefined, 'No next id');
+
+    return id;
+  }
+
+  nextTokens = new Array<string>();
+
+  set nextToken(value: string) {
+    this.nextTokens.push(value);
+  }
 
   token(): string {
-    return this.tokenValue;
+    const token = this.nextTokens.splice(0, 1)[0];
+    assert(token !== undefined, 'No next token');
+
+    return token;
   }
 }

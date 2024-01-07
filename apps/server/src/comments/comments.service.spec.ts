@@ -33,7 +33,7 @@ describe('CommentsService', () => {
 
   describe('createComment', () => {
     beforeEach(() => {
-      test.generator.idValue = 'commentId';
+      test.generator.nextId = 'commentId';
     });
 
     it('creates a new comment', async () => {

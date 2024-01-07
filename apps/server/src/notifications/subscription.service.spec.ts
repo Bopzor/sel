@@ -28,7 +28,7 @@ class Test extends UnitTest {
   );
 
   setup(): void {
-    this.generator.idValue = 'notificationId';
+    this.generator.nextId = 'notificationId';
   }
 }
 
