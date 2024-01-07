@@ -1,3 +1,4 @@
+import * as shared from '@sel/shared';
 import { defined, hasId } from '@sel/utils';
 import { injectableClass } from 'ditox';
 
@@ -10,13 +11,17 @@ import { TOKENS } from '../tokens';
 import { InsertNotificationModel, NotificationRepository } from './notification.repository';
 import { SubscriptionType, SubscriptionRepository } from './subscription.repository';
 
-export type NotificationPayload = {
+export type NotificationPayload<Type extends shared.NotificationType> = {
   title: string;
   content: string;
+  data: shared.NotificationData[Type];
 };
 
 export type ShouldSendNotification = (member: Member) => boolean;
-export type GetNotificationPayload = (member: Member) => NotificationPayload;
+
+export type GetNotificationPayload<Type extends shared.NotificationType> = (
+  member: Member
+) => NotificationPayload<Type>;
 
 export class SubscriptionService {
   static inject = injectableClass(
@@ -44,10 +49,10 @@ export class SubscriptionService {
     });
   }
 
-  async notify(
-    type: SubscriptionType,
+  async notify<Type extends shared.NotificationType>(
+    type: Type,
     shouldSendNotification: ShouldSendNotification,
-    getPayload: GetNotificationPayload
+    getPayload: GetNotificationPayload<Type>
   ): Promise<void> {
     const now = this.dateAdapter.now();
 

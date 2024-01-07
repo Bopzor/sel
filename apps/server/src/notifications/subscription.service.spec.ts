@@ -53,6 +53,7 @@ describe('SubscriptionService', () => {
         () => ({
           title: 'title',
           content: 'content',
+          data: { version: '1.2.3' },
         })
       );
 
@@ -61,6 +62,7 @@ describe('SubscriptionService', () => {
       expect(notification).toHaveProperty('id', 'notificationId');
       expect(notification).toHaveProperty('title', 'title');
       expect(notification).toHaveProperty('content', 'content');
+      expect(notification).toHaveProperty('data', { version: '1.2.3' });
     });
 
     it('does not send notify when the predicate does not pass', async () => {
@@ -75,6 +77,7 @@ describe('SubscriptionService', () => {
       await test.service.notify('NewAppVersion', hasId('memberId1'), () => ({
         title: '',
         content: '',
+        data: { version: '' },
       }));
 
       const notifications = test.notificationRepository.all();

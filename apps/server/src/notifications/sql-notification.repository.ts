@@ -1,6 +1,6 @@
 import * as shared from '@sel/shared';
 import { injectableClass } from 'ditox';
-import { eq } from 'drizzle-orm';
+import { desc, eq } from 'drizzle-orm';
 
 import { DatePort } from '../infrastructure/date/date.port';
 import { Database } from '../infrastructure/persistence/database';
@@ -9,6 +9,7 @@ import { TOKENS } from '../tokens';
 
 import { Notification } from './entities';
 import { InsertNotificationModel, NotificationRepository } from './notification.repository';
+import { SubscriptionType } from './subscription.repository';
 
 export class SqlNotificationRepository implements NotificationRepository {
   static inject = injectableClass(this, TOKENS.database, TOKENS.date);
@@ -20,11 +21,18 @@ export class SqlNotificationRepository implements NotificationRepository {
       .select()
       .from(notifications)
       .innerJoin(subscriptions, eq(notifications.subscriptionId, subscriptions.id))
-      .where(eq(subscriptions.memberId, memberId));
+      .where(eq(subscriptions.memberId, memberId))
+      .orderBy(desc(notifications.date));
 
     return sqlNotifications.map(
-      ({ notifications }): shared.Notification => ({
+      ({ notifications, subscriptions }): shared.Notification => ({
         id: notifications.id,
+        type: subscriptions.type as SubscriptionType,
+        date: notifications.date.toISOString(),
+        read: notifications.readAt !== null,
+        title: notifications.title,
+        content: notifications.content,
+        data: notifications.data as shared.Notification['data'],
       })
     );
   }
@@ -39,9 +47,10 @@ export class SqlNotificationRepository implements NotificationRepository {
     return sqlNotifications.map(({ notifications, subscriptions }) => ({
       id: notifications.id,
       subscriptionId: subscriptions.id,
+      date: notifications.date,
       content: notifications.content,
       title: notifications.title,
-      date: notifications.date,
+      data: notifications.data,
     }));
   }
 
@@ -59,6 +68,7 @@ export class SqlNotificationRepository implements NotificationRepository {
         date: model.date,
         title: model.title,
         content: model.content,
+        data: model.data,
         createdAt: now,
         updatedAt: now,
       }))

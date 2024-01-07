@@ -6,6 +6,7 @@ CREATE TABLE IF NOT EXISTS "notifications" (
 	"read_at" timestamp (3),
 	"title" text NOT NULL,
 	"content" text NOT NULL,
+	"data" json NOT NULL,
 	"created_at" timestamp (3) NOT NULL,
 	"updated_at" timestamp (3) NOT NULL
 );

@@ -1,11 +1,9 @@
+import { NotificationType, isNotificationType } from '@sel/shared';
+
 import { Subscription } from './entities';
 
-const subscriptionTypes = ['NewAppVersion', 'RequestCreated'] as const;
-export type SubscriptionType = (typeof subscriptionTypes)[number];
-
-export function isSubscriptionType(type: unknown): type is SubscriptionType {
-  return subscriptionTypes.includes(type as SubscriptionType);
-}
+export type SubscriptionType = NotificationType;
+export const isSubscriptionType = isNotificationType;
 
 export type SubscriptionEntityType = 'request';
 

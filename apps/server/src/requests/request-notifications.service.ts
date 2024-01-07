@@ -41,6 +41,17 @@ export class RequestNotificationsService {
           requester: this.translation.memberName(requester),
         }),
         content: request.title,
+        data: {
+          request: {
+            id: request.id,
+            title: request.title,
+          },
+          requester: {
+            id: requester.id,
+            firstName: requester.firstName,
+            lastName: requester.lastName,
+          },
+        },
       })
     );
   }

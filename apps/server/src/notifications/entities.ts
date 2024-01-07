@@ -17,9 +17,10 @@ export const createSubscription = createFactory<Subscription>(() => ({
 export type Notification = {
   id: string;
   subscriptionId: string;
+  date: Date;
   content: string;
   title: string;
-  date: Date;
+  data: unknown;
 };
 
 export const createNotification = createFactory<Notification>(() => ({
@@ -28,4 +29,5 @@ export const createNotification = createFactory<Notification>(() => ({
   content: '',
   title: '',
   date: createDate(),
+  data: {},
 }));

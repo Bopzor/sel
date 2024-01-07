@@ -18,10 +18,11 @@ export interface SubscriptionFacade {
   query_getNotifications(memberId: string): Promise<shared.Notification[]>;
 
   createSubscription(type: SubscriptionType, memberId: string): Promise<void>;
-  notify(
-    type: SubscriptionType,
+
+  notify<Type extends shared.NotificationType>(
+    type: Type,
     shouldSendNotification: ShouldSendNotification,
-    getPayload: GetNotificationPayload
+    getPayload: GetNotificationPayload<Type>
   ): Promise<void>;
 }
 
@@ -41,11 +42,11 @@ export class SubscriptionFacadeImpl implements SubscriptionFacade {
     await this.subscriptionService.createSubscription(type, memberId);
   }
 
-  async notify(
-    type: SubscriptionType,
+  async notify<Type extends shared.NotificationType>(
+    type: Type,
     shouldSendNotification: ShouldSendNotification,
-    getPayload: GetNotificationPayload
-  ): Promise<void> {
+    getPayload: GetNotificationPayload<Type>
+  ) {
     await this.subscriptionService.notify(type, shouldSendNotification, getPayload);
   }
 }
@@ -60,9 +61,9 @@ export class StubSubscriptionFacade implements SubscriptionFacade {
   }
 
   notify(
-    type: SubscriptionType,
+    type: shared.NotificationType,
     shouldSendNotification: ShouldSendNotification,
-    getPayload: GetNotificationPayload
+    getPayload: GetNotificationPayload<shared.NotificationType>
   ): Promise<void> {
     throw new Error('Method not implemented.');
   }

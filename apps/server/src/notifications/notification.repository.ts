@@ -9,6 +9,7 @@ export type InsertNotificationModel = {
   date: Date;
   title: string;
   content: string;
+  data: unknown;
 };
 
 export interface NotificationRepository {
