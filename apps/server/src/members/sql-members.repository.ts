@@ -94,6 +94,10 @@ export class SqlMembersRepository implements MembersRepository {
   }
 
   async getMembers(memberIds: string[]): Promise<Member[]> {
+    if (memberIds.length === 0) {
+      return [];
+    }
+
     const results = await this.db.select().from(members).where(inArray(members.id, memberIds));
 
     return results.map(this.toMember);

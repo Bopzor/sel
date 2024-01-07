@@ -181,6 +181,10 @@ describe('[Intg] SqlMembersRepository', () => {
       expect(results).toHaveLength(1);
       expect(results).toHaveProperty('0.id', member.id);
     });
+
+    it('returns an empty array when no ids are given', async () => {
+      expect(await test.repository.getMembers([])).toEqual([]);
+    });
   });
 
   describe('getMemberFromEmail', () => {
