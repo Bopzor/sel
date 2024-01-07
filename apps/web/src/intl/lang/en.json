@@ -196,6 +196,7 @@
     "navigation": {
       "profile": "Profile",
       "address": "Address",
+      "notifications": "Notifications",
       "settings": "Settings",
       "signOut": "Sign out"
     },
@@ -216,6 +217,9 @@
       "description": "Search for your address and select a result to update it on your profile. If you can't find it, contact us so we can update it manually.",
       "placeholder": "Search for an address...",
       "saved": "Your address has been saved."
+    },
+    "notifications": {
+      "title": "Notifications"
     },
     "settings": {
       "title": "Settings",

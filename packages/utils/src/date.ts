@@ -10,8 +10,8 @@ export function createDate(date?: string) {
 
 // while Intl.DurationFormat isn't fully supported
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DurationFormat
-export function formatDateRelative(date: string) {
-  return formatDistanceToNowStrict(createDate(date), { locale: fr });
+export function formatDateRelative(date: string, addSuffix = true) {
+  return formatDistanceToNowStrict(createDate(date), { locale: fr, addSuffix });
 }
 
 export type Duration = {

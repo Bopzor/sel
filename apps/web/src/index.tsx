@@ -11,6 +11,7 @@ import '@fontsource-variable/inter/index.css';
 import { App } from './app';
 import { BackLink } from './components/back-link';
 import { Translate } from './intl/translate';
+import { NotificationsPage } from './profile/notifications.page';
 import { EditRequestPage } from './requests/edit-request.page';
 import { routes } from './routes';
 
@@ -68,6 +69,7 @@ function Routing() {
       <Route path="/profile" component={ProfileLayout}>
         <Route path="/" component={ProfileEditionPage} />
         <Route path="/address" component={AddressPage} />
+        <Route path="/notifications" component={NotificationsPage} />
         <Route path="/settings" component={SettingsPage} />
         <Route path="/sign-out" component={SignOutPage} />
       </Route>

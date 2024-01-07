@@ -196,6 +196,7 @@
     "navigation": {
       "profile": "Profil",
       "address": "Adresse",
+      "notifications": "Notifications",
       "settings": "Paramètres",
       "signOut": "Déconnexion"
     },
@@ -216,6 +217,9 @@
       "description": "Cherchez votre adresse et sélectionnez un résultat pour la mettre à jour sur votre page de profil. Si vous ne la trouvez pas, contactez-nous pour que nous la mettions à jour manuellement.",
       "placeholder": "Chercher une adresse...",
       "saved": "Votre adresse a été bien enregistrée."
+    },
+    "notifications": {
+      "title": "Notifications"
     },
     "settings": {
       "title": "Paramètres",

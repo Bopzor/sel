@@ -1,5 +1,12 @@
 import { createCombine, createPipe } from '@nilscox/selektor';
-import { AuthenticatedMember, Member, MembersSort, Request, UpdateMemberProfileData } from '@sel/shared';
+import {
+  AuthenticatedMember,
+  Member,
+  MembersSort,
+  Notification,
+  Request,
+  UpdateMemberProfileData,
+} from '@sel/shared';
 import { defined, isEnumValue } from '@sel/utils';
 import { JSX, createContext, createResource, createSignal, useContext } from 'solid-js';
 import { SetStoreFunction, createStore } from 'solid-js/store';
@@ -25,6 +32,7 @@ type AppState = {
   verifyAuthenticationTokenResult: undefined;
   loadingMembers: boolean;
   members: Member[] | undefined;
+  notifications: Notification[] | undefined;
   member: Member | undefined;
   requests: Request[] | undefined;
   request: Request | undefined;
@@ -47,6 +55,9 @@ function createAppStore() {
     get members() {
       return members();
     },
+    get notifications() {
+      return notifications();
+    },
     get member() {
       return member();
     },
@@ -58,8 +69,12 @@ function createAppStore() {
     },
   });
 
-  const { authenticatedMember, verifyAuthenticationTokenResult, ...authenticatedMemberActions } =
-    authenticatedMemberState(state, setState);
+  const {
+    authenticatedMember,
+    verifyAuthenticationTokenResult,
+    notifications,
+    ...authenticatedMemberActions
+  } = authenticatedMemberState(state, setState);
 
   const { members, loadingMembers, member, ...membersActions } = membersState();
 
@@ -151,9 +166,14 @@ function authenticatedMemberState(state: AppState, setState: SetAppState) {
     }
   });
 
+  const [notifications] = createResource(async () => {
+    return fetcher.get<Notification[]>('/api/session/notifications').body();
+  });
+
   return {
     authenticatedMember: () => authenticatedMember.latest,
     verifyAuthenticationTokenResult,
+    notifications,
 
     requestAuthenticationLink: async (email: string) => {
       setState('authenticationLinkRequested', true);

@@ -1,5 +1,5 @@
 import { Icon } from 'solid-heroicons';
-import { arrowRightOnRectangle, cog_6Tooth, mapPin, user } from 'solid-heroicons/solid';
+import { arrowRightOnRectangle, bell, cog_6Tooth, mapPin, user } from 'solid-heroicons/solid';
 import { Component, ComponentProps, JSX } from 'solid-js';
 
 import { BackLink } from '../components/back-link';
@@ -37,6 +37,10 @@ const Navigation: Component = () => (
 
     <NavigationLink href={routes.profile.address} icon={mapPin}>
       <T id="address" />
+    </NavigationLink>
+
+    <NavigationLink href={routes.profile.notifications} icon={bell}>
+      <T id="notifications" />
     </NavigationLink>
 
     <NavigationLink href={routes.profile.settings} icon={cog_6Tooth}>
