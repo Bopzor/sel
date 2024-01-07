@@ -23,6 +23,7 @@ import { CheerioHtmlParserAdapter } from './infrastructure/html-parser/cheerio-h
 import { ConsoleLogger } from './infrastructure/logger/console-logger.adapter';
 import { Database } from './infrastructure/persistence/database';
 import { WebSlackClientAdapter } from './infrastructure/slack/web-slack-client.adapter';
+import { FormatJsTranslationAdapter } from './infrastructure/translation/formatjs-translation.adapter';
 import { MembersController } from './members/members.controller';
 import { MembersFacadeImpl } from './members/members.facade';
 import { MembersModule } from './members/members.module';
@@ -54,6 +55,7 @@ container.bindFactory(TOKENS.logger, ConsoleLogger.inject);
 container.bindFactory(TOKENS.slackClient, WebSlackClientAdapter.inject);
 container.bindFactory(TOKENS.errorReporter, SlackErrorReporterAdapter.inject);
 container.bindFactory(TOKENS.htmlParser, CheerioHtmlParserAdapter.inject);
+container.bindFactory(TOKENS.translation, FormatJsTranslationAdapter.inject);
 
 container.bindFactory(TOKENS.events, EmitterEventsAdapter.inject);
 container.bindFactory(TOKENS.eventsLogger, EventsLogger.inject);

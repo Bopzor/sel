@@ -23,6 +23,7 @@ import { HtmlParserPort } from './infrastructure/html-parser/html-parser.port';
 import { LoggerPort } from './infrastructure/logger/logger.port';
 import { Database } from './infrastructure/persistence/database';
 import { SlackClientPort } from './infrastructure/slack/slack-client.port';
+import { TranslationPort } from './infrastructure/translation/translation.port';
 import { MembersController } from './members/members.controller';
 import { MembersFacade } from './members/members.facade';
 import { MembersModule } from './members/members.module';
@@ -55,6 +56,7 @@ export const TOKENS = {
   slackClient: token<SlackClientPort>('slackClientPort'),
   errorReporter: token<ErrorReporterPort>('errorReporter'),
   htmlParser: token<HtmlParserPort>('htmlParser'),
+  translation: token<TranslationPort>('translation'),
   server: token<Server>('server'),
   database: token<Database>('database'),
   nodemailer: token<Nodemailer>('nodemailer'),

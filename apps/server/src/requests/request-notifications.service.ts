@@ -1,6 +1,7 @@
 import { assert } from '@sel/utils';
 import { injectableClass } from 'ditox';
 
+import { TranslationPort } from '../infrastructure/translation/translation.port';
 import { MembersFacade } from '../members/members.facade';
 import { SubscriptionFacade } from '../notifications/subscription.facade';
 import { TOKENS } from '../tokens';
@@ -11,12 +12,14 @@ import { RequestRepository } from './request.repository';
 export class RequestNotificationsService {
   static inject = injectableClass(
     this,
+    TOKENS.translation,
     TOKENS.subscriptionFacade,
     TOKENS.membersFacade,
     TOKENS.requestRepository
   );
 
   constructor(
+    private readonly translation: TranslationPort,
     private readonly subscriptionFacade: SubscriptionFacade,
     private readonly memberFacade: MembersFacade,
     private readonly requestRepository: RequestRepository
@@ -30,7 +33,9 @@ export class RequestNotificationsService {
     assert(requester);
 
     await this.subscriptionFacade.notify('RequestCreated', () => ({
-      title: `Nouvelle demande de ${requester.firstName} ${requester.lastName[0]}.`,
+      title: this.translation.translate('requestCreated.title', {
+        requester: this.translation.memberName(requester),
+      }),
       content: request.title,
     }));
   }

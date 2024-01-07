@@ -1,0 +1,4 @@
+{
+  "memberName": "{firstName} {lastNameFirstLetter}.",
+  "requestCreated.title": "Nouvelle demande de {requester}"
+}

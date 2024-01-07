@@ -11,6 +11,7 @@
     "db:migrate": "tsx src/infrastructure/persistence/migrate.ts"
   },
   "dependencies": {
+    "@formatjs/intl": "^2.9.9",
     "body-parser": "^1.20.2",
     "cheerio": "1.0.0-rc.12",
     "cookie-parser": "^1.4.6",
