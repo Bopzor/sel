@@ -1,3 +1,5 @@
+import * as shared from '@sel/shared';
+
 import { Notification } from './entities';
 
 export type InsertNotificationModel = {
@@ -10,6 +12,8 @@ export type InsertNotificationModel = {
 };
 
 export interface NotificationRepository {
+  query_getNotificationsForMember(memberId: string): Promise<Array<shared.Notification>>;
+
   insertAll(models: InsertNotificationModel[]): Promise<void>;
   getNotificationsForMember(memberId: string): Promise<Array<Notification>>;
 }

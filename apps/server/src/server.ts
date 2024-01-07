@@ -11,6 +11,7 @@ import { DomainError } from './domain-error';
 import { HttpStatus } from './http-status';
 import { ConfigPort } from './infrastructure/config/config.port';
 import { ErrorReporterPort } from './infrastructure/error-reporter/error-reporter.port';
+import { EmitterEventsAdapter } from './infrastructure/events/emitter-events.adapter';
 import { LoggerPort } from './infrastructure/logger/logger.port';
 import { AuthenticationError } from './session/session.provider';
 import { InvalidSessionTokenError } from './session/session.service';
@@ -38,6 +39,7 @@ export class Server {
     this.app.use('/requests', container.resolve(TOKENS.requestController).router);
     this.app.use('/authentication', container.resolve(TOKENS.authenticationController).router);
     this.app.use('/session', container.resolve(TOKENS.sessionController).router);
+    this.app.use('/notifications', container.resolve(TOKENS.notificationController).router);
 
     this.app.use(this.handleZodError);
     this.app.use(this.handleAuthenticationError);

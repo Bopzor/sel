@@ -70,18 +70,14 @@ describe('[E2E] Request', () => {
       body: { title: 'Title', body: '' },
     });
 
-    const notificationRepository = container.resolve(TOKENS.notificationRepository);
+    await test.waitForEventHandlers();
 
-    await waitFor(async () => {
-      const notifications = await notificationRepository.getNotificationsForMember(test.member.id);
-      const notification = notifications[notifications.length - 1];
+    const { body: notifications } = await test.fetch('/notifications', { token: test.memberToken });
+    expect(notifications).toHaveLength(1);
+    expect(notifications).toHaveProperty('0.title', 'Nouvelle demande de Foo B.');
+    expect(notifications).toHaveProperty('0.content', 'Title');
 
-      expect(notification).toHaveProperty('title', 'Nouvelle demande de Foo B.');
-      expect(notification).toHaveProperty('content', 'Title');
-    });
-
-    const requesterNotifications = await notificationRepository.getNotificationsForMember(test.requester.id);
-
+    const { body: requesterNotifications } = await test.fetch('/notifications', { token });
     expect(requesterNotifications).toHaveLength(0);
   });
 

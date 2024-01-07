@@ -1,3 +1,5 @@
+import * as shared from '@sel/shared';
+
 import { InMemoryRepository } from '../in-memory.repository';
 
 import { Notification } from './entities';
@@ -7,6 +9,10 @@ export class InMemoryNotificationRepository
   extends InMemoryRepository<Notification>
   implements NotificationRepository
 {
+  query_getNotificationsForMember(memberId: string): Promise<shared.Notification[]> {
+    throw new Error('Method not implemented.');
+  }
+
   getNotificationsForMember(memberId: string): Promise<Notification[]> {
     throw new Error('Method not implemented.');
   }

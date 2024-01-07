@@ -1,3 +1,4 @@
+import * as shared from '@sel/shared';
 import { injectableClass } from 'ditox';
 import { eq } from 'drizzle-orm';
 
@@ -13,6 +14,20 @@ export class SqlNotificationRepository implements NotificationRepository {
   static inject = injectableClass(this, TOKENS.database, TOKENS.date);
 
   constructor(private readonly database: Database, private readonly dateAdapter: DatePort) {}
+
+  async query_getNotificationsForMember(memberId: string): Promise<Array<shared.Notification>> {
+    const sqlNotifications = await this.database.db
+      .select()
+      .from(notifications)
+      .innerJoin(subscriptions, eq(notifications.subscriptionId, subscriptions.id))
+      .where(eq(subscriptions.memberId, memberId));
+
+    return sqlNotifications.map(
+      ({ notifications }): shared.Notification => ({
+        id: notifications.id,
+      })
+    );
+  }
 
   async getNotificationsForMember(memberId: string): Promise<Notification[]> {
     const sqlNotifications = await this.database.db
