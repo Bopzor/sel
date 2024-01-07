@@ -1,4 +1,4 @@
-import { afterAll, beforeAll, describe, expect, it } from 'vitest';
+import { afterAll, beforeAll, beforeEach, describe, expect, it } from 'vitest';
 
 import { E2ETest } from '../e2e-test';
 import { HttpStatus } from '../http-status';
@@ -10,7 +10,11 @@ describe('[E2E] Members', () => {
 
   beforeAll(async () => {
     test = new Test();
-    await test.setup();
+    await test.init();
+  });
+
+  beforeEach(async () => {
+    await test.reset();
   });
 
   afterAll(async () => {

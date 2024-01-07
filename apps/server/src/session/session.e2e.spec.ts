@@ -1,4 +1,4 @@
-import { afterAll, beforeAll, describe, expect, it } from 'vitest';
+import { afterAll, beforeAll, beforeEach, describe, expect, it } from 'vitest';
 
 import { TokenType, createToken } from '../authentication/token.entity';
 import { container } from '../container';
@@ -12,7 +12,11 @@ describe('[E2E] Session', () => {
 
   beforeAll(async () => {
     test = new E2ETest();
-    await test.setup();
+    await test.init();
+  });
+
+  beforeEach(async () => {
+    await test.reset();
   });
 
   afterAll(async () => {

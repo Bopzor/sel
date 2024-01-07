@@ -17,7 +17,7 @@ class Test extends E2ETest {
   memberToken!: string;
 
   async setup(): Promise<void> {
-    await super.setup();
+    await this.reset();
 
     this.requester = await this.create.member({ firstName: 'Foo', lastName: 'Bar', email: 'requester' });
     const requesterToken = await this.create.token(TokenType.session, this.requester.id);
@@ -35,6 +35,10 @@ describe('[E2E] Request', () => {
 
   beforeAll(async () => {
     test = new Test();
+    await test.init();
+  });
+
+  beforeEach(async () => {
     await test.setup();
     token = test.requesterToken;
   });

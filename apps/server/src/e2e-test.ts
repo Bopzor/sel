@@ -53,12 +53,11 @@ export class E2ETest {
 
   create!: EntityCreator;
 
-  async setup() {
+  async init() {
     container.bindValue(TOKENS.config, this.config);
     container.bindValue(TOKENS.logger, this.logger);
     container.bindValue(TOKENS.errorReporter, this.errorReporter);
 
-    await container.resolve(TOKENS.database).reset();
     await container.resolve(TOKENS.emailRenderer).init?.();
     container.resolve(TOKENS.authenticationModule).init();
     container.resolve(TOKENS.membersModule).init();
@@ -79,6 +78,10 @@ export class E2ETest {
   async teardown() {
     await this.server.close();
     await this.mailServer.close();
+  }
+
+  async reset() {
+    await container.resolve(TOKENS.database).reset();
   }
 
   async fetch(
