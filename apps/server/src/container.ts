@@ -32,8 +32,9 @@ import { SqlNotificationRepository } from './notifications/sql-notification.repo
 import { SqlSubscriptionRepository } from './notifications/sql-subscription.repository';
 import { SubscriptionFacadeImpl } from './notifications/subscription.facade';
 import { SubscriptionService } from './notifications/subscription.service';
-import { Persistor } from './persistor';
+import { RequestNotificationsService } from './requests/request-notifications.service';
 import { RequestController } from './requests/request.controller';
+import { RequestModule } from './requests/request.module';
 import { RequestService } from './requests/request.service';
 import { SqlRequestRepository } from './requests/sql-request.repository';
 import { Server } from './server';
@@ -53,7 +54,6 @@ container.bindFactory(TOKENS.logger, ConsoleLogger.inject);
 container.bindFactory(TOKENS.slackClient, WebSlackClientAdapter.inject);
 container.bindFactory(TOKENS.errorReporter, SlackErrorReporterAdapter.inject);
 container.bindFactory(TOKENS.htmlParser, CheerioHtmlParserAdapter.inject);
-container.bindFactory(TOKENS.persistor, Persistor.inject);
 
 container.bindFactory(TOKENS.events, EmitterEventsAdapter.inject);
 container.bindFactory(TOKENS.eventsLogger, EventsLogger.inject);
@@ -72,8 +72,10 @@ container.bindFactory(TOKENS.membersController, MembersController.inject);
 container.bindFactory(TOKENS.membersService, MembersService.inject);
 container.bindFactory(TOKENS.membersRepository, SqlMembersRepository.inject);
 
+container.bindFactory(TOKENS.requestModule, RequestModule.inject);
 container.bindFactory(TOKENS.requestController, RequestController.inject);
 container.bindFactory(TOKENS.requestService, RequestService.inject);
+container.bindFactory(TOKENS.requestNotificationsService, RequestNotificationsService.inject);
 container.bindFactory(TOKENS.requestRepository, SqlRequestRepository.inject);
 
 container.bindFactory(TOKENS.authenticationModule, AuthenticationModule.inject);

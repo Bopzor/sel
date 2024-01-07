@@ -15,15 +15,15 @@ export class MembersService {
     this,
     TOKENS.generator,
     TOKENS.events,
-    TOKENS.membersRepository,
-    TOKENS.subscriptionFacade
+    TOKENS.subscriptionFacade,
+    TOKENS.membersRepository
   );
 
   constructor(
     private readonly generator: GeneratorPort,
     private readonly events: EventsPort,
-    private readonly membersRepository: MembersRepository,
-    private readonly subscriptionFacade: SubscriptionFacade
+    private readonly subscriptionFacade: SubscriptionFacade,
+    private readonly membersRepository: MembersRepository
   ) {}
 
   async createMember(firstName: string, lastName: string, email: string): Promise<string> {

@@ -4,6 +4,7 @@ import { beforeEach, describe, expect, it } from 'vitest';
 
 import { StubEventsAdapter } from '../infrastructure/events/stub-events.adapter';
 import { StubGenerator } from '../infrastructure/generator/stub-generator.adapter';
+import { StubSubscriptionFacade } from '../notifications/subscription.facade';
 import { UnitTest } from '../unit-test';
 
 import { MemberStatus, createMember } from './entities';
@@ -14,8 +15,9 @@ import { MembersService } from './members.service';
 class Test extends UnitTest {
   generator = new StubGenerator();
   events = new StubEventsAdapter();
+  subscriptionFacade = new StubSubscriptionFacade();
   membersRepository = new InMemoryMembersRepository();
-  service = new MembersService(this.generator, this.events, this.membersRepository);
+  service = new MembersService(this.generator, this.events, this.subscriptionFacade, this.membersRepository);
 }
 
 describe('MembersService', () => {

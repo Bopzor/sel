@@ -32,7 +32,9 @@ import { NotificationRepository } from './notifications/notification.repository'
 import { SubscriptionFacade } from './notifications/subscription.facade';
 import { SubscriptionRepository } from './notifications/subscription.repository';
 import { SubscriptionService } from './notifications/subscription.service';
+import { RequestNotificationsService } from './requests/request-notifications.service';
 import { RequestController } from './requests/request.controller';
+import { RequestModule } from './requests/request.module';
 import { RequestRepository } from './requests/request.repository';
 import { RequestService } from './requests/request.service';
 import { Server } from './server';
@@ -71,8 +73,10 @@ export const TOKENS = {
   tokenRepository: token<TokenRepository>('tokenRepository'),
   sessionController: token<SessionController>('sessionController'),
   sessionService: token<SessionService>('sessionService'),
+  requestModule: token<RequestModule>('requestModule'),
   requestController: token<RequestController>('requestController'),
   requestService: token<RequestService>('requestService'),
+  requestNotificationsService: token<RequestNotificationsService>('requestNotificationsService'),
   requestRepository: token<RequestRepository>('requestRepository'),
   commentsFacade: token<CommentsFacade>('commentsFacade'),
   commentsService: token<CommentsService>('commentsService'),

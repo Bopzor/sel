@@ -8,7 +8,7 @@ import { members, tokens } from '../infrastructure/persistence/schema';
 import { createSqlMember } from '../infrastructure/persistence/sql-factories';
 import { RepositoryTest } from '../repository-test';
 
-import { MemberStatus } from './entities';
+import { MemberStatus, createMember } from './entities';
 import { SqlMembersRepository } from './sql-members.repository';
 
 class Test extends RepositoryTest {
@@ -165,10 +165,21 @@ describe('[Intg] SqlMembersRepository', () => {
   });
 
   describe('getMember', () => {
-    it('does not find a member from its id', async () => {
+    it('returns undefined when the id does not refer to an existing member', async () => {
       const results = await test.repository.getMember('not-id');
 
       expect(results).toBeUndefined();
+    });
+  });
+
+  describe('getMembers', () => {
+    it('finds a list of members from their ids', async () => {
+      const member = await test.persist.member(createMember());
+
+      const results = await test.repository.getMembers([member.id]);
+
+      expect(results).toHaveLength(1);
+      expect(results).toHaveProperty('0.id', member.id);
     });
   });
 

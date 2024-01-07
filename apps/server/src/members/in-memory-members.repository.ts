@@ -63,6 +63,10 @@ export class InMemoryMembersRepository extends InMemoryRepository<Member> implem
     return this.get(memberId);
   }
 
+  async getMembers(memberIds: string[]): Promise<Member[]> {
+    return this.filter((member) => memberIds.includes(member.id));
+  }
+
   async insert(model: InsertMemberModel): Promise<void> {
     this.add({
       ...model,

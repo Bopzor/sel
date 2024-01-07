@@ -12,6 +12,7 @@ async function main() {
   container.resolve(TOKENS.eventsSlackPublisher).init();
   container.resolve(TOKENS.authenticationModule).init();
   container.resolve(TOKENS.membersModule).init();
+  container.resolve(TOKENS.requestModule).init();
   await container.resolve(TOKENS.emailRenderer).init?.();
 
   await container.resolve(TOKENS.server).start();

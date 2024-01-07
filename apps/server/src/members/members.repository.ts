@@ -24,6 +24,7 @@ export interface MembersRepository {
   query_getAuthenticatedMember(memberId: string): Promise<shared.AuthenticatedMember | undefined>;
 
   getMember(memberId: string): Promise<Member | undefined>;
+  getMembers(memberIds: string[]): Promise<Member[]>;
   getMemberFromEmail(email: string): Promise<Member | undefined>;
   insert(model: InsertMemberModel): Promise<void>;
   update(memberId: string, model: UpdateMemberModel): Promise<void>;

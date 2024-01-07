@@ -1,6 +1,6 @@
 import * as shared from '@sel/shared';
 import { injectableClass } from 'ditox';
-import { and, asc, desc, eq } from 'drizzle-orm';
+import { and, asc, desc, eq, inArray } from 'drizzle-orm';
 
 import { DatePort } from '../infrastructure/date/date.port';
 import { Database } from '../infrastructure/persistence/database';
@@ -91,6 +91,12 @@ export class SqlMembersRepository implements MembersRepository {
     if (result) {
       return this.toMember(result);
     }
+  }
+
+  async getMembers(memberIds: string[]): Promise<Member[]> {
+    const results = await this.db.select().from(members).where(inArray(members.id, memberIds));
+
+    return results.map(this.toMember);
   }
 
   async getMemberFromEmail(email: string): Promise<Member | undefined> {

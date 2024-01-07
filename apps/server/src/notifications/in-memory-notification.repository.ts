@@ -12,6 +12,6 @@ export class InMemoryNotificationRepository
   }
 
   async insertAll(models: InsertNotificationModel[]): Promise<void> {
-    models.forEach((model) => this.add({ id: model.id }));
+    models.forEach((model) => this.add(model));
   }
 }
