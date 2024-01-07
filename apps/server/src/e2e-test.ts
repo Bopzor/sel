@@ -67,6 +67,9 @@ export class E2ETest {
     container.bindValue(TOKENS.logger, this.logger);
     container.bindValue(TOKENS.errorReporter, this.errorReporter);
 
+    await container.resolve(TOKENS.database).ensureTestDatabase?.();
+    await container.resolve(TOKENS.database).migrate?.();
+
     await container.resolve(TOKENS.emailRenderer).init?.();
     container.resolve(TOKENS.authenticationModule).init();
     container.resolve(TOKENS.membersModule).init();
