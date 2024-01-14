@@ -15,6 +15,7 @@ export class InMemorySubscriptionRepository
 
   async insert(model: InsertSubscriptionModel): Promise<void> {
     this.add({
+      active: true,
       ...model,
     });
   }

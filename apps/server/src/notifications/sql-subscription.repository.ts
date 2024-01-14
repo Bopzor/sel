@@ -34,7 +34,7 @@ export class SqlSubscriptionRepository implements SubscriptionRepository {
 
     await this.database.db.insert(subscriptions).values({
       id: model.id,
-      active: true,
+      active: model.active ?? true,
       type: model.type,
       memberId: model.memberId,
       [`${model.entityType}Id`]: model.entityId,

@@ -10,6 +10,7 @@ export type SubscriptionEntityType = 'request';
 export type InsertSubscriptionModel = {
   id: string;
   type: SubscriptionType;
+  active?: boolean;
   memberId: string;
   entityType?: SubscriptionEntityType;
   entityId?: string;

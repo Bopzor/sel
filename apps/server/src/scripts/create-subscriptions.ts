@@ -16,6 +16,6 @@ async function main(args: string[]) {
   assert(isSubscriptionType(type), 'Invalid subscription type');
 
   for (const memberId of memberIds) {
-    await subscriptionFacade.createSubscription(type, memberId);
+    await subscriptionFacade.createSubscription(type, memberId, false);
   }
 }

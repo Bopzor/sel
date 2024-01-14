@@ -41,11 +41,12 @@ export class SubscriptionService {
     private readonly notificationRepository: NotificationRepository
   ) {}
 
-  async createSubscription(type: SubscriptionType, memberId: string): Promise<void> {
+  async createSubscription(type: SubscriptionType, memberId: string, active?: boolean): Promise<void> {
     await this.subscriptionRepository.insert({
       id: this.generator.id(),
       type,
       memberId,
+      active,
     });
   }
 
