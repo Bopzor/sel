@@ -61,6 +61,9 @@ jobs:
             EMAIL_PASSWORD=@sel-staging-email-password
             EMAIL_TEMPLATES=./email-templates
             SLACK_WEBHOOK_URL=@sel-staging-slack-webhook-url
+            WEB_PUSH_SUBJECT=${{ needs.environment.outputs.app-url }}
+            WEB_PUSH_PUBLIC_KEY=@sel-staging-web-push-public-key
+            WEB_PUSH_PRIVATE_KEY=@sel-staging-web-push-private-key
           )
           IFS=, ; echo "env=${variables[*]}" >> $GITHUB_OUTPUT
 
@@ -106,7 +109,7 @@ jobs:
           service-regions: fra
           service-ports: 8080:http
           service-routes: /:8080
-          service-env: VITE_GEOAPIFY_API_KEY=@sel-staging-geoapify-key
+          service-env: VITE_GEOAPIFY_API_KEY=@sel-staging-geoapify-key,VITE_WEB_PUSH_PUBLIC_KEY=@sel-staging-web-push-public-key
 
   cleanup:
     name: Delete Koyeb application

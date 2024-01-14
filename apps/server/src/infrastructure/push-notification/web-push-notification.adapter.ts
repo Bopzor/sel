@@ -9,8 +9,12 @@ import { PushNotificationPort, PushDeviceSubscription } from './push-notificatio
 export class WebPushNotificationAdapter implements PushNotificationPort {
   static inject = injectableClass(this, TOKENS.config);
 
-  constructor(config: ConfigPort) {
-    webpush.setVapidDetails(config.push.subject, config.push.publicKey, config.push.privateKey);
+  constructor(private readonly config: ConfigPort) {}
+
+  init() {
+    const { subject, publicKey, privateKey } = this.config.push;
+
+    webpush.setVapidDetails(subject, publicKey, privateKey);
   }
 
   async send(subscription: PushDeviceSubscription, title: string, content: string): Promise<void> {

@@ -13,6 +13,7 @@ async function main() {
   container.resolve(TOKENS.authenticationModule).init();
   container.resolve(TOKENS.membersModule).init();
   container.resolve(TOKENS.requestModule).init();
+  container.resolve(TOKENS.notificationModule).init();
   await container.resolve(TOKENS.emailRenderer).init?.();
 
   await container.resolve(TOKENS.server).start();
