@@ -17,7 +17,7 @@ class Test extends UnitTest {
   dateAdapter = new StubDate();
   membersFacade = new StubMembersFacade();
   subscriptionRepository = new InMemorySubscriptionRepository();
-  notificationRepository = new InMemoryNotificationRepository();
+  notificationRepository = new InMemoryNotificationRepository(this.dateAdapter);
 
   service = new SubscriptionService(
     this.generator,

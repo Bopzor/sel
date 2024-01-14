@@ -24,6 +24,15 @@ class Test extends RepositoryTest {
     await this.database.migrate();
     await this.database.reset();
   }
+
+  async find(notificationId: string) {
+    const [result] = await this.database.db
+      .select()
+      .from(notifications)
+      .where(eq(notifications.id, notificationId));
+
+    return result;
+  }
 }
 
 describe('[Intg] SqlNotificationRepository', () => {
@@ -48,6 +57,22 @@ describe('[Intg] SqlNotificationRepository', () => {
     });
   });
 
+  describe('getNotification', () => {
+    it('finds a notification from its id', async () => {
+      const member = await test.persist.member(createMember());
+      const subscription = await test.persist.subscription(createSubscription({ memberId: member.id }));
+
+      const notification = await test.persist.notification(
+        createNotification({ subscriptionId: subscription.id })
+      );
+
+      const found = await test.repository.getNotification(notification.id);
+
+      expect(found).toHaveProperty('id', notification.id);
+      expect(found).toHaveProperty('memberId', member.id);
+    });
+  });
+
   describe('insertAll', () => {
     it('creates a set of notifications', async () => {
       const member = await test.persist.member(createMember());
@@ -64,17 +89,31 @@ describe('[Intg] SqlNotificationRepository', () => {
         },
       ]);
 
-      const inserted = await test.database.db
-        .select()
-        .from(notifications)
-        .where(eq(notifications.id, 'notificationId'));
+      const inserted = await test.find('notificationId');
 
-      expect(inserted).toHaveLength(1);
-      expect(inserted).toHaveProperty('0.id', 'notificationId');
+      expect(inserted).toBeDefined();
+      expect(inserted).toHaveProperty('id', 'notificationId');
     });
 
     it('does not fail when the given array is empty', async () => {
       await test.repository.insertAll([]);
+    });
+  });
+
+  describe('markAsRead', () => {
+    it('marks a notification as read', async () => {
+      const member = await test.persist.member(createMember());
+      const subscription = await test.persist.subscription(createSubscription({ memberId: member.id }));
+
+      const notification = await test.persist.notification(
+        createNotification({ subscriptionId: subscription.id, readAt: undefined })
+      );
+
+      await test.repository.markAsRead(notification.id);
+
+      const updated = await test.find(notification.id);
+
+      expect(updated).toHaveProperty('readAt', test.now);
     });
   });
 });

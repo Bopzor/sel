@@ -19,7 +19,9 @@ export const createSubscription = createFactory<Subscription>(() => ({
 export type Notification = {
   id: string;
   subscriptionId: string;
+  memberId: string;
   date: Date;
+  readAt?: Date;
   content: string;
   title: string;
   data: unknown;
@@ -27,7 +29,8 @@ export type Notification = {
 
 export const createNotification = createFactory<Notification>(() => ({
   id: createId(),
-  subscriptionId: createId(),
+  subscriptionId: '',
+  memberId: '',
   content: '',
   title: '',
   date: createDate(),

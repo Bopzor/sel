@@ -8,7 +8,7 @@ import { Link } from '../components/link';
 import { FormattedRelativeDate } from '../intl/formatted';
 import { Translate } from '../intl/translate';
 import { routes } from '../routes';
-import { getAppState } from '../store/app-store';
+import { getAppActions, getAppState } from '../store/app-store';
 
 const T = Translate.prefix('profile.notifications');
 
@@ -33,6 +33,8 @@ type NotificationComponentProps = {
 };
 
 const NotificationComponent = (props: NotificationComponentProps) => {
+  const { markNotificationAsRead } = getAppActions();
+
   return (
     <div
       class={clsx('col max-w-xl gap-2 rounded-lg border-primary bg-neutral p-4 shadow')}
@@ -40,7 +42,11 @@ const NotificationComponent = (props: NotificationComponentProps) => {
     >
       <div class="row items-start justify-between gap-4">
         <div class="text-lg font-medium">{props.notification.title}</div>
-        <button type="button" classList={{ hidden: props.notification.read }}>
+        <button
+          type="button"
+          classList={{ hidden: props.notification.read }}
+          onClick={() => void markNotificationAsRead(props.notification.id)}
+        >
           <Icon path={xMark} class="h-5 w-5" />
         </button>
       </div>

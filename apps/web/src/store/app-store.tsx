@@ -125,7 +125,7 @@ function authenticatedMemberState(state: AppState, setState: SetAppState) {
 
   const [getToken, setToken] = useSearchParam('auth-token');
 
-  const [authenticatedMember, { refetch }] = createResource(
+  const [authenticatedMember, { refetch: refetchMember }] = createResource(
     () => !getToken(),
     async () => {
       try {
@@ -145,7 +145,7 @@ function authenticatedMemberState(state: AppState, setState: SetAppState) {
 
     try {
       await fetcher.get(`/api/authentication/verify-authentication-token?${params}`);
-      await refetch();
+      await refetchMember();
 
       // required to trigger suspense
       return undefined;
@@ -166,7 +166,7 @@ function authenticatedMemberState(state: AppState, setState: SetAppState) {
     }
   });
 
-  const [notifications] = createResource(authenticatedMember, async () => {
+  const [notifications, { refetch: refetchNotifications }] = createResource(authenticatedMember, async () => {
     return fetcher.get<Notification[]>('/api/session/notifications').body();
   });
 
@@ -189,14 +189,19 @@ function authenticatedMemberState(state: AppState, setState: SetAppState) {
 
     signOut: async () => {
       await fetcher.delete('/api/session');
-      await refetch();
+      await refetchMember();
       router.navigate(routes.home);
     },
 
     updateMemberProfile: async (data: UpdateMemberProfileData) => {
       await fetcher.put(`/api/members/${state.authenticatedMember?.id}/profile`, data);
-      await refetch();
+      await refetchMember();
       notify.success(translate('profile.profile.saved'));
+    },
+
+    markNotificationAsRead: async (notificationId: string) => {
+      await fetcher.put(`/api/session/notifications/${notificationId}/read`);
+      await refetchNotifications();
     },
   };
 }

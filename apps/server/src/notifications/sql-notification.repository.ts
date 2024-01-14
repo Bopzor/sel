@@ -1,6 +1,6 @@
 import * as shared from '@sel/shared';
 import { injectableClass } from 'ditox';
-import { desc, eq } from 'drizzle-orm';
+import { desc, eq, not } from 'drizzle-orm';
 
 import { DatePort } from '../infrastructure/date/date.port';
 import { Database } from '../infrastructure/persistence/database';
@@ -37,6 +37,20 @@ export class SqlNotificationRepository implements NotificationRepository {
     );
   }
 
+  async getNotification(notificationId: string): Promise<Notification | undefined> {
+    const [result] = await this.database.db
+      .select()
+      .from(notifications)
+      .innerJoin(subscriptions, eq(notifications.subscriptionId, subscriptions.id))
+      .where(eq(notifications.id, notificationId));
+
+    if (!result) {
+      return undefined;
+    }
+
+    return this.toNotification(result.subscriptions, result.notifications);
+  }
+
   async getNotificationsForMember(memberId: string): Promise<Notification[]> {
     const sqlNotifications = await this.database.db
       .select()
@@ -44,14 +58,25 @@ export class SqlNotificationRepository implements NotificationRepository {
       .innerJoin(subscriptions, eq(notifications.subscriptionId, subscriptions.id))
       .where(eq(subscriptions.memberId, memberId));
 
-    return sqlNotifications.map(({ notifications, subscriptions }) => ({
-      id: notifications.id,
-      subscriptionId: subscriptions.id,
-      date: notifications.date,
-      content: notifications.content,
-      title: notifications.title,
-      data: notifications.data,
-    }));
+    return sqlNotifications.map(({ notifications, subscriptions }) =>
+      this.toNotification(subscriptions, notifications)
+    );
+  }
+
+  private toNotification(
+    this: void,
+    sqlSubscription: typeof subscriptions.$inferSelect,
+    sqlNotification: typeof notifications.$inferSelect
+  ): Notification {
+    return {
+      id: sqlNotification.id,
+      subscriptionId: sqlSubscription.id,
+      memberId: sqlSubscription.memberId,
+      date: sqlNotification.date,
+      content: sqlNotification.content,
+      title: sqlNotification.title,
+      data: sqlNotification.data,
+    };
   }
 
   async insertAll(models: InsertNotificationModel[]): Promise<void> {
@@ -73,5 +98,14 @@ export class SqlNotificationRepository implements NotificationRepository {
         updatedAt: now,
       }))
     );
+  }
+
+  async markAsRead(notificationId: string): Promise<void> {
+    const now = this.dateAdapter.now();
+
+    await this.database.db
+      .update(notifications)
+      .set({ readAt: now })
+      .where(eq(notifications.id, notificationId));
   }
 }

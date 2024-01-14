@@ -16,5 +16,7 @@ export interface NotificationRepository {
   query_getNotificationsForMember(memberId: string): Promise<Array<shared.Notification>>;
 
   insertAll(models: InsertNotificationModel[]): Promise<void>;
+  getNotification(notificationId: string): Promise<Notification | undefined>;
   getNotificationsForMember(memberId: string): Promise<Array<Notification>>;
+  markAsRead(notificationId: string): Promise<void>;
 }

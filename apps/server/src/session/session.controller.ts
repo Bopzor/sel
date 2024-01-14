@@ -30,6 +30,7 @@ export class SessionController {
     this.router.delete('/', this.deleteCurrentSession);
     this.router.get('/member', this.getCurrentMember);
     this.router.get('/notifications', this.getMemberNotifications);
+    this.router.put('/notifications/:notificationId/read', this.markNotificationAsRead);
   }
 
   deleteCurrentSession: RequestHandler = async (req, res) => {
@@ -53,5 +54,13 @@ export class SessionController {
     const member = this.sessionProvider.getMember();
 
     res.json(await this.subscriptionFacade.query_getNotifications(member.id));
+  };
+
+  markNotificationAsRead: RequestHandler<{ notificationId: string }> = async (req, res) => {
+    const member = this.sessionProvider.getMember();
+
+    await this.subscriptionFacade.markNotificationAsRead(req.params.notificationId, member.id);
+
+    res.status(HttpStatus.noContent).end();
   };
 }
