@@ -10,6 +10,7 @@ main(process.argv.slice(2))
 
 async function main(args: string[]) {
   const pushNotificationService = container.resolve(TOKENS.pushNotificationService);
+  const notificationModule = container.resolve(TOKENS.notificationModule);
 
   const [memberId, title, content] = args;
 
@@ -17,5 +18,6 @@ async function main(args: string[]) {
   assert(title, 'missing title');
   assert(content, 'missing content');
 
+  notificationModule.init();
   await pushNotificationService.sendPushNotification(memberId, title, content);
 }
