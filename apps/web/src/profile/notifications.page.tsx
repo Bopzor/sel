@@ -13,7 +13,7 @@ import { getAppState } from '../store/app-store';
 const T = Translate.prefix('profile.notifications');
 
 export const NotificationsPage: Component = () => {
-  const { notifications } = getAppState();
+  const state = getAppState();
 
   return (
     <>
@@ -21,7 +21,7 @@ export const NotificationsPage: Component = () => {
         <T id="title" />
       </h1>
 
-      <For each={notifications}>
+      <For each={state.notifications}>
         {(notification) => <NotificationComponent notification={notification} />}
       </For>
     </>
