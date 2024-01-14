@@ -22,6 +22,7 @@ import { NanoIdGenerator } from './infrastructure/generator/nanoid-generator.ada
 import { CheerioHtmlParserAdapter } from './infrastructure/html-parser/cheerio-html-parser.adapter';
 import { ConsoleLogger } from './infrastructure/logger/console-logger.adapter';
 import { Database } from './infrastructure/persistence/database';
+import { WebPushNotificationAdapter } from './infrastructure/push-notification/web-push-notification.adapter';
 import { WebSlackClientAdapter } from './infrastructure/slack/web-slack-client.adapter';
 import { FormatJsTranslationAdapter } from './infrastructure/translation/formatjs-translation.adapter';
 import { MembersController } from './members/members.controller';
@@ -31,6 +32,8 @@ import { MembersService } from './members/members.service';
 import { SqlMembersRepository } from './members/sql-members.repository';
 import { NotificationController } from './notifications/notification.controller';
 import { NotificationService } from './notifications/notification.service';
+import { PushNotificationService } from './notifications/push-notification.service';
+import { SqlMemberDeviceRepository } from './notifications/sql-member-device.repository';
 import { SqlNotificationRepository } from './notifications/sql-notification.repository';
 import { SqlSubscriptionRepository } from './notifications/sql-subscription.repository';
 import { SubscriptionFacadeImpl } from './notifications/subscription.facade';
@@ -58,6 +61,7 @@ container.bindFactory(TOKENS.slackClient, WebSlackClientAdapter.inject);
 container.bindFactory(TOKENS.errorReporter, SlackErrorReporterAdapter.inject);
 container.bindFactory(TOKENS.htmlParser, CheerioHtmlParserAdapter.inject);
 container.bindFactory(TOKENS.translation, FormatJsTranslationAdapter.inject);
+container.bindFactory(TOKENS.pushNotification, WebPushNotificationAdapter.inject);
 
 container.bindFactory(TOKENS.events, EmitterEventsAdapter.inject);
 container.bindFactory(TOKENS.eventsLogger, EventsLogger.inject);
@@ -103,3 +107,6 @@ container.bindFactory(TOKENS.subscriptionRepository, SqlSubscriptionRepository.i
 container.bindFactory(TOKENS.notificationController, NotificationController.inject);
 container.bindFactory(TOKENS.notificationService, NotificationService.inject);
 container.bindFactory(TOKENS.notificationRepository, SqlNotificationRepository.inject);
+
+container.bindFactory(TOKENS.pushNotificationService, PushNotificationService.inject);
+container.bindFactory(TOKENS.memberDeviceRepository, SqlMemberDeviceRepository.inject);

@@ -9,7 +9,7 @@ import { MembersFacade } from '../members/members.facade';
 import { TOKENS } from '../tokens';
 
 import { InsertNotificationModel, NotificationRepository } from './notification.repository';
-import { SubscriptionType, SubscriptionRepository } from './subscription.repository';
+import { SubscriptionRepository, SubscriptionType } from './subscription.repository';
 
 export type NotificationPayload<Type extends shared.NotificationType> = {
   title: string;

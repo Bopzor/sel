@@ -22,6 +22,7 @@ import { GeneratorPort } from './infrastructure/generator/generator.port';
 import { HtmlParserPort } from './infrastructure/html-parser/html-parser.port';
 import { LoggerPort } from './infrastructure/logger/logger.port';
 import { Database } from './infrastructure/persistence/database';
+import { PushNotificationPort } from './infrastructure/push-notification/push-notification.port';
 import { SlackClientPort } from './infrastructure/slack/slack-client.port';
 import { TranslationPort } from './infrastructure/translation/translation.port';
 import { MembersController } from './members/members.controller';
@@ -29,9 +30,11 @@ import { MembersFacade } from './members/members.facade';
 import { MembersModule } from './members/members.module';
 import { MembersRepository } from './members/members.repository';
 import { MembersService } from './members/members.service';
+import { MemberDeviceRepository } from './notifications/member-device.repository';
 import { NotificationController } from './notifications/notification.controller';
 import { NotificationRepository } from './notifications/notification.repository';
 import { NotificationService } from './notifications/notification.service';
+import { PushNotificationService } from './notifications/push-notification.service';
 import { SubscriptionFacade } from './notifications/subscription.facade';
 import { SubscriptionRepository } from './notifications/subscription.repository';
 import { SubscriptionService } from './notifications/subscription.service';
@@ -59,6 +62,7 @@ export const TOKENS = {
   errorReporter: token<ErrorReporterPort>('errorReporter'),
   htmlParser: token<HtmlParserPort>('htmlParser'),
   translation: token<TranslationPort>('translation'),
+  pushNotification: token<PushNotificationPort>('pushNotification'),
   server: token<Server>('server'),
   database: token<Database>('database'),
   nodemailer: token<Nodemailer>('nodemailer'),
@@ -91,4 +95,6 @@ export const TOKENS = {
   notificationController: token<NotificationController>('notificationController'),
   notificationService: token<NotificationService>('notificationService'),
   notificationRepository: token<NotificationRepository>('notificationRepository'),
+  pushNotificationService: token<PushNotificationService>('pushNotificationService'),
+  memberDeviceRepository: token<MemberDeviceRepository>('memberDeviceRepository'),
 };

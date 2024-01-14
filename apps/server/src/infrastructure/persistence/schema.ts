@@ -1,5 +1,5 @@
 import { relations, sql } from 'drizzle-orm';
-import { boolean, json, pgEnum, pgTable, text, timestamp, varchar } from 'drizzle-orm/pg-core';
+import { boolean, json, pgEnum, pgTable, text, timestamp, unique, varchar } from 'drizzle-orm/pg-core';
 
 import { TokenType } from '../../authentication/token.entity';
 import { MemberStatus } from '../../members/entities';
@@ -143,3 +143,19 @@ export const notifications = pgTable('notifications', {
   createdAt: createdAt(),
   updatedAt: updatedAt(),
 });
+
+export const memberDevice = pgTable(
+  'member_device',
+  {
+    id: primaryKey(),
+    memberId: id('member_id')
+      .references(() => members.id)
+      .notNull(),
+    deviceSubscription: text('device_subscription').notNull(),
+    createdAt: createdAt(),
+    updatedAt: updatedAt(),
+  },
+  (table) => ({
+    unique: unique().on(table.memberId, table.deviceSubscription),
+  })
+);

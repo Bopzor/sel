@@ -29,6 +29,12 @@ export type SlackConfig = {
   webhookUrl: string;
 };
 
+export type PushConfig = {
+  subject: string;
+  publicKey: string;
+  privateKey: string;
+};
+
 export interface ConfigPort {
   server: ServerConfig;
   session: SessionConfig;
@@ -36,4 +42,5 @@ export interface ConfigPort {
   database: DatabaseConfig;
   email: EmailConfig;
   slack: SlackConfig;
+  push: PushConfig;
 }

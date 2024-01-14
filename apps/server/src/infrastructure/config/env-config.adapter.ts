@@ -7,6 +7,7 @@ import {
   ConfigPort,
   DatabaseConfig,
   EmailConfig,
+  PushConfig,
   ServerConfig,
   SessionConfig,
   SlackConfig,
@@ -21,6 +22,7 @@ export class EnvConfigAdapter implements ConfigPort {
   database: DatabaseConfig;
   email: EmailConfig;
   slack: SlackConfig;
+  push: PushConfig;
 
   constructor() {
     dotenv.config();
@@ -54,6 +56,12 @@ export class EnvConfigAdapter implements ConfigPort {
 
     this.slack = {
       webhookUrl: this.get('SLACK_WEBHOOK_URL', String),
+    };
+
+    this.push = {
+      subject: this.get('WEB_PUSH_SUBJECT', String),
+      privateKey: this.get('WEB_PUSH_PRIVATE_KEY', String),
+      publicKey: this.get('WEB_PUSH_PUBLIC_KEY', String),
     };
   }
 
