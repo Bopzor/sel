@@ -18,8 +18,14 @@ export default defineConfig({
     solidSvg(),
     VitePWA({
       registerType: 'autoUpdate',
-      workbox: { skipWaiting: true },
       manifest: require('./manifest.json'),
+      strategies: 'injectManifest',
+      srcDir: 'src',
+      filename: 'service-worker.ts',
+      devOptions: {
+        enabled: true,
+        type: 'module',
+      },
     }),
     version(require('../../package.json').version),
   ],

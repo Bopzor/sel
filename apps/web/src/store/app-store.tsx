@@ -8,7 +8,7 @@ import {
   UpdateMemberProfileData,
 } from '@sel/shared';
 import { defined, isEnumValue } from '@sel/utils';
-import { JSX, createContext, createResource, createSignal, useContext } from 'solid-js';
+import { JSX, createContext, createEffect, createResource, createSignal, useContext } from 'solid-js';
 import { SetStoreFunction, createStore } from 'solid-js/store';
 
 import { FetchError } from '../fetcher';
@@ -141,6 +141,27 @@ function authenticatedMemberState(state: AppState, setState: SetAppState) {
       }
     }
   );
+
+  async function registerDeviceSubscription() {
+    const registration = await navigator.serviceWorker.ready;
+    let subscription = await registration.pushManager.getSubscription();
+
+    if (!subscription) {
+      subscription = await registration.pushManager.subscribe({
+        userVisibleOnly: true,
+        applicationServerKey: import.meta.env.VITE_WEB_PUSH_PUBLIC_KEY,
+      });
+    }
+
+    await fetcher.post('/api/session/notifications/register-device', { subscription });
+  }
+
+  createEffect(() => {
+    if (authenticatedMember()) {
+      // eslint-disable-next-line no-console
+      void registerDeviceSubscription().catch(console.error);
+    }
+  });
 
   const [verifyAuthenticationTokenResult] = createResource(getToken, async (token) => {
     const params = new URLSearchParams({ token });
