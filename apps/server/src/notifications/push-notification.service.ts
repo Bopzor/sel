@@ -2,6 +2,7 @@ import { injectableClass } from 'ditox';
 
 import { GeneratorPort } from '../infrastructure/generator/generator.port';
 import {
+  DeviceType,
   PushDeviceSubscription,
   PushNotificationPort,
 } from '../infrastructure/push-notification/push-notification.port';
@@ -23,11 +24,16 @@ export class PushNotificationService {
     private readonly memberDeviceRepository: MemberDeviceRepository
   ) {}
 
-  async registerDevice(memberId: string, deviceSubscription: PushDeviceSubscription): Promise<void> {
+  async registerDevice(
+    memberId: string,
+    deviceSubscription: PushDeviceSubscription,
+    deviceType: DeviceType
+  ): Promise<void> {
     await this.memberDeviceRepository.register({
       id: this.generator.id(),
       memberId,
       deviceSubscription,
+      deviceType,
     });
   }
 

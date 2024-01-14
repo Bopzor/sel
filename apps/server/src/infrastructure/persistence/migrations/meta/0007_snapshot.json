@@ -1,5 +1,5 @@
 {
-  "id": "2a0aae83-9a97-422c-a26b-a7e4e3c6bd3b",
+  "id": "976177a6-cc1e-474b-91ac-a0e1121e3f6d",
   "prevId": "6cdc4523-8b0d-4e1c-bbf9-3d225864b275",
   "version": "5",
   "dialect": "pg",
@@ -154,6 +154,12 @@
         "device_subscription": {
           "name": "device_subscription",
           "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "device_type": {
+          "name": "device_type",
+          "type": "varchar(32)",
           "primaryKey": false,
           "notNull": true
         },

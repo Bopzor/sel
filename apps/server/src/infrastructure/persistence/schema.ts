@@ -152,6 +152,7 @@ export const memberDevice = pgTable(
       .references(() => members.id)
       .notNull(),
     deviceSubscription: text('device_subscription').notNull(),
+    deviceType: varchar('device_type', { length: 32 }).notNull(),
     createdAt: createdAt(),
     updatedAt: updatedAt(),
   },

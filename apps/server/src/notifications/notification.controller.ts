@@ -53,13 +53,14 @@ export class NotificationController {
 
   private static registerDeviceSchema = z.object({
     subscription: z.any(),
+    deviceType: z.union([z.literal('mobile'), z.literal('desktop')]),
   });
 
   registerMemberDevice: RequestHandler = async (req, res) => {
     const member = this.sessionProvider.getMember();
-    const { subscription } = NotificationController.registerDeviceSchema.parse(req.body);
+    const { subscription, deviceType } = NotificationController.registerDeviceSchema.parse(req.body);
 
-    await this.pushNotificationService.registerDevice(member.id, subscription);
+    await this.pushNotificationService.registerDevice(member.id, subscription, deviceType);
 
     res.status(HttpStatus.noContent).end();
   };

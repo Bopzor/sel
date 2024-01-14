@@ -17,6 +17,7 @@ import { useSearchParam } from '../infrastructure/router/use-search-param';
 import { useTranslation } from '../intl/translate';
 import { routes } from '../routes';
 import { TOKENS } from '../tokens';
+import { detectDevice } from '../utils/detect-device';
 import { notify } from '../utils/notify';
 
 const identity = <T,>(value: T): T => value;
@@ -143,6 +144,10 @@ function authenticatedMemberState(state: AppState, setState: SetAppState) {
   );
 
   async function registerDeviceSubscription() {
+    if (!navigator.serviceWorker) {
+      return;
+    }
+
     const registration = await navigator.serviceWorker.ready;
     let subscription = await registration.pushManager.getSubscription();
 
@@ -153,7 +158,10 @@ function authenticatedMemberState(state: AppState, setState: SetAppState) {
       });
     }
 
-    await fetcher.post('/api/session/notifications/register-device', { subscription });
+    await fetcher.post('/api/session/notifications/register-device', {
+      deviceType: detectDevice(),
+      subscription,
+    });
   }
 
   createEffect(() => {
