@@ -40,7 +40,7 @@ const NotificationComponent = (props: NotificationComponentProps) => {
     >
       <div class="row items-start justify-between gap-4">
         <div class="text-lg font-medium">{props.notification.title}</div>
-        <button classList={{ hidden: props.notification.read }}>
+        <button type="button" classList={{ hidden: props.notification.read }}>
           <Icon path={xMark} class="h-5 w-5" />
         </button>
       </div>
@@ -71,7 +71,9 @@ const NotificationLink = (props: NotificationLinkProps) => {
   return (
     <>
       {isNotificationOfType(props.notification, 'RequestCreated') && (
-        <Link href={routes.requests.request(props.notification.data.request.id)}>Voir la demande</Link>
+        <Link href={routes.requests.request(props.notification.data.request.id)}>
+          <T id="viewRequest" />
+        </Link>
       )}
     </>
   );

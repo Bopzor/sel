@@ -19,7 +19,7 @@ export interface SubscriptionFacade {
 
   createSubscription(type: SubscriptionType, memberId: string): Promise<void>;
 
-  notify<Type extends shared.NotificationType>(
+  notify<Type extends SubscriptionType>(
     type: Type,
     shouldSendNotification: ShouldSendNotification,
     getPayload: GetNotificationPayload<Type>
@@ -42,11 +42,11 @@ export class SubscriptionFacadeImpl implements SubscriptionFacade {
     await this.subscriptionService.createSubscription(type, memberId);
   }
 
-  async notify<Type extends shared.NotificationType>(
-    type: Type,
+  async notify(
+    type: SubscriptionType,
     shouldSendNotification: ShouldSendNotification,
-    getPayload: GetNotificationPayload<Type>
-  ) {
+    getPayload: GetNotificationPayload<SubscriptionType>
+  ): Promise<void> {
     await this.subscriptionService.notify(type, shouldSendNotification, getPayload);
   }
 }

@@ -219,7 +219,8 @@
       "saved": "Votre adresse a été bien enregistrée."
     },
     "notifications": {
-      "title": "Notifications"
+      "title": "Notifications",
+      "viewRequest": "Voir la demande"
     },
     "settings": {
       "title": "Paramètres",

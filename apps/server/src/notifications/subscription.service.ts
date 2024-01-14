@@ -49,7 +49,7 @@ export class SubscriptionService {
     });
   }
 
-  async notify<Type extends shared.NotificationType>(
+  async notify<Type extends SubscriptionType>(
     type: Type,
     shouldSendNotification: ShouldSendNotification,
     getPayload: GetNotificationPayload<Type>
