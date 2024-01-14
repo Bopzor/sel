@@ -79,9 +79,9 @@ export class SqlRequestRepository implements RequestRepository {
         id: comment.id,
         date: comment.date.toISOString(),
         author: {
+          id: comment.author.id,
           firstName: comment.author.firstName,
           lastName: comment.author.lastName,
-          email: comment.author.emailVisible ? comment.author.email : undefined,
         },
         body: comment.html,
       })),

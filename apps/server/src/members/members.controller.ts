@@ -1,3 +1,5 @@
+import crypto from 'node:crypto';
+
 import * as shared from '@sel/shared';
 import { injectableClass } from 'ditox';
 import { RequestHandler, Router } from 'express';
@@ -29,6 +31,7 @@ export class MembersController {
     this.router.use(this.authenticated);
     this.router.get('/', this.listMembers);
     this.router.get('/:memberId', this.getMember);
+    this.router.get('/:memberId/avatar', this.getMemberAvatar);
     this.router.put('/:memberId/profile', this.canUpdateMemberProfile, this.updateMemberProfile);
   }
 
@@ -55,6 +58,22 @@ export class MembersController {
     }
 
     res.json(member);
+  };
+
+  getMemberAvatar: RequestHandler<{ memberId: string }, shared.Member> = async (req, res) => {
+    const member = await this.membersRepository.getMember(req.params.memberId);
+
+    if (!member) {
+      return res.status(HttpStatus.notFound).end();
+    }
+
+    const email = member.email;
+    const hash = crypto.createHash('sha256').update(email).digest('hex');
+
+    const search = new URL(req.url, `http://${req.hostname}`).search;
+    const url = `https://www.gravatar.com/avatar/${hash}${search}`;
+
+    res.status(HttpStatus.permanentRedirect).header('Location', url).end();
   };
 
   canUpdateMemberProfile: RequestHandler<{ memberId: string }> = (req, res, next) => {

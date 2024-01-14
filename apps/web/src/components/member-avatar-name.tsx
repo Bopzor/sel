@@ -5,7 +5,7 @@ import { Component } from 'solid-js';
 import { MemberAvatar } from './member-avatar';
 
 type MemberAvatarNameProps = {
-  member?: Pick<Member, 'firstName' | 'lastName' | 'email'>;
+  member?: Pick<Member, 'id' | 'firstName' | 'lastName'>;
   classes?: Partial<{
     avatar: string;
     name: string;

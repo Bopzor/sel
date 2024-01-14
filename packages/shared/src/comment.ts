@@ -6,7 +6,7 @@ export type Comment = {
 };
 
 export type CommentAuthor = {
+  id: string;
   firstName: string;
   lastName: string;
-  email?: string;
 };

@@ -139,6 +139,7 @@ describe('[Intg] SqlRequestRepository', () => {
         id: 'commentId',
         date: test.now.toISOString(),
         author: {
+          id: 'memberId',
           firstName: 'firstName',
           lastName: 'lastName',
         },
