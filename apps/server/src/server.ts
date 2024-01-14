@@ -39,6 +39,7 @@ export class Server {
     this.app.use('/requests', container.resolve(TOKENS.requestController).router);
     this.app.use('/authentication', container.resolve(TOKENS.authenticationController).router);
     this.app.use('/session', container.resolve(TOKENS.sessionController).router);
+    this.app.use('/session/notifications', container.resolve(TOKENS.notificationController).router);
 
     this.app.use(this.handleZodError);
     this.app.use(this.handleAuthenticationError);

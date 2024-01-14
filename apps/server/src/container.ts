@@ -29,6 +29,7 @@ import { MembersFacadeImpl } from './members/members.facade';
 import { MembersModule } from './members/members.module';
 import { MembersService } from './members/members.service';
 import { SqlMembersRepository } from './members/sql-members.repository';
+import { NotificationController } from './notifications/notification.controller';
 import { NotificationService } from './notifications/notification.service';
 import { SqlNotificationRepository } from './notifications/sql-notification.repository';
 import { SqlSubscriptionRepository } from './notifications/sql-subscription.repository';
@@ -98,5 +99,7 @@ container.bindFactory(TOKENS.commentsRepository, SqlCommentsRepository.inject);
 container.bindFactory(TOKENS.subscriptionFacade, SubscriptionFacadeImpl.inject);
 container.bindFactory(TOKENS.subscriptionService, SubscriptionService.inject);
 container.bindFactory(TOKENS.subscriptionRepository, SqlSubscriptionRepository.inject);
+
+container.bindFactory(TOKENS.notificationController, NotificationController.inject);
 container.bindFactory(TOKENS.notificationService, NotificationService.inject);
 container.bindFactory(TOKENS.notificationRepository, SqlNotificationRepository.inject);

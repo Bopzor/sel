@@ -1,10 +1,7 @@
-import * as shared from '@sel/shared';
 import { injectableClass } from 'ditox';
 
 import { TOKENS } from '../tokens';
 
-import { NotificationRepository } from './notification.repository';
-import { NotificationService } from './notification.service';
 import { SubscriptionType } from './subscription.repository';
 import {
   GetNotificationPayload,
@@ -16,11 +13,6 @@ import {
 export type { NotificationPayload };
 
 export interface SubscriptionFacade {
-  query_countNotifications(memberId: string, read?: boolean): Promise<number>;
-  query_getNotifications(memberId: string): Promise<shared.Notification[]>;
-
-  markNotificationAsRead(notificationId: string, memberId: string): Promise<void>;
-
   createSubscription(type: SubscriptionType, memberId: string, active?: boolean): Promise<void>;
 
   notify<Type extends SubscriptionType>(
@@ -31,30 +23,9 @@ export interface SubscriptionFacade {
 }
 
 export class SubscriptionFacadeImpl implements SubscriptionFacade {
-  static inject = injectableClass(
-    this,
-    TOKENS.subscriptionService,
-    TOKENS.notificationService,
-    TOKENS.notificationRepository
-  );
+  static inject = injectableClass(this, TOKENS.subscriptionService);
 
-  constructor(
-    private readonly subscriptionService: SubscriptionService,
-    private readonly notificationService: NotificationService,
-    private readonly notificationRepository: NotificationRepository
-  ) {}
-
-  query_countNotifications(memberId: string, read?: boolean): Promise<number> {
-    return this.notificationRepository.query_countNotificationsForMember(memberId, read);
-  }
-
-  query_getNotifications(memberId: string): Promise<shared.Notification[]> {
-    return this.notificationRepository.query_getNotificationsForMember(memberId);
-  }
-
-  async markNotificationAsRead(notificationId: string, memberId: string): Promise<void> {
-    await this.notificationService.markAsRead(notificationId, memberId);
-  }
+  constructor(private readonly subscriptionService: SubscriptionService) {}
 
   async createSubscription(type: SubscriptionType, memberId: string, active?: boolean): Promise<void> {
     await this.subscriptionService.createSubscription(type, memberId, active);
@@ -70,18 +41,6 @@ export class SubscriptionFacadeImpl implements SubscriptionFacade {
 }
 
 export class StubSubscriptionFacade implements SubscriptionFacade {
-  query_countNotifications(): Promise<number> {
-    throw new Error('Method not implemented.');
-  }
-
-  query_getNotifications(): Promise<shared.Notification[]> {
-    throw new Error('Method not implemented.');
-  }
-
-  markNotificationAsRead(): Promise<void> {
-    throw new Error('Method not implemented.');
-  }
-
   createSubscription(): Promise<void> {
     throw new Error('Method not implemented.');
   }

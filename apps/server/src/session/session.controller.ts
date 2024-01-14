@@ -5,7 +5,6 @@ import { RequestHandler, Router } from 'express';
 import { AuthenticationFacade } from '../authentication/authentication.facade';
 import { HttpStatus } from '../http-status';
 import { MembersFacade } from '../members/members.facade';
-import { SubscriptionFacade } from '../notifications/subscription.facade';
 import { TOKENS } from '../tokens';
 
 import { SessionProvider } from './session.provider';
@@ -24,13 +23,10 @@ export class SessionController {
   constructor(
     private readonly sessionProvider: SessionProvider,
     private readonly authenticationFacade: AuthenticationFacade,
-    private readonly membersFacade: MembersFacade,
-    private readonly subscriptionFacade: SubscriptionFacade
+    private readonly membersFacade: MembersFacade
   ) {
     this.router.delete('/', this.deleteCurrentSession);
     this.router.get('/member', this.getCurrentMember);
-    this.router.get('/notifications', this.getMemberNotifications);
-    this.router.put('/notifications/:notificationId/read', this.markNotificationAsRead);
   }
 
   deleteCurrentSession: RequestHandler = async (req, res) => {
@@ -48,23 +44,5 @@ export class SessionController {
     const member = this.sessionProvider.getMember();
 
     res.json(await this.membersFacade.query_getAuthenticatedMember(member.id));
-  };
-
-  getMemberNotifications: RequestHandler<never, shared.Notification[]> = async (req, res) => {
-    const member = this.sessionProvider.getMember();
-
-    const unreadCount = await this.subscriptionFacade.query_countNotifications(member.id, false);
-    const notifications = await this.subscriptionFacade.query_getNotifications(member.id);
-
-    res.header('X-Unread-Notifications-Count', String(unreadCount));
-    res.json(notifications);
-  };
-
-  markNotificationAsRead: RequestHandler<{ notificationId: string }> = async (req, res) => {
-    const member = this.sessionProvider.getMember();
-
-    await this.subscriptionFacade.markNotificationAsRead(req.params.notificationId, member.id);
-
-    res.status(HttpStatus.noContent).end();
   };
 }
