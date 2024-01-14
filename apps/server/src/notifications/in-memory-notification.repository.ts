@@ -14,6 +14,10 @@ export class InMemoryNotificationRepository
     super();
   }
 
+  query_countNotificationsForMember(): Promise<number> {
+    throw new Error('Method not implemented.');
+  }
+
   query_getNotificationsForMember(): Promise<shared.Notification[]> {
     throw new Error('Method not implemented.');
   }

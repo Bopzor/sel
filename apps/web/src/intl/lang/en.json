@@ -31,7 +31,8 @@
     "header": {
       "title": "Local Exchange System",
       "subtitle": "of Cavaillon and its surroundings",
-      "sign-in": "Sign in"
+      "sign-in": "Sign in",
+      "notificationsCountGreaterThan9": "9+"
     }
   },
   "authentication": {

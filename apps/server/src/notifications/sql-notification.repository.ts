@@ -1,6 +1,6 @@
 import * as shared from '@sel/shared';
 import { injectableClass } from 'ditox';
-import { desc, eq, not } from 'drizzle-orm';
+import { SQL, and, count, desc, eq, isNotNull, isNull, not } from 'drizzle-orm';
 
 import { DatePort } from '../infrastructure/date/date.port';
 import { Database } from '../infrastructure/persistence/database';
@@ -15,6 +15,22 @@ export class SqlNotificationRepository implements NotificationRepository {
   static inject = injectableClass(this, TOKENS.database, TOKENS.date);
 
   constructor(private readonly database: Database, private readonly dateAdapter: DatePort) {}
+
+  async query_countNotificationsForMember(memberId: string, read?: boolean): Promise<number> {
+    let where: SQL<unknown> | undefined = eq(subscriptions.memberId, memberId);
+
+    if (read !== undefined) {
+      where = and(where, read ? isNotNull(notifications.readAt) : isNull(notifications.readAt));
+    }
+
+    const result = await this.database.db
+      .select({ value: count() })
+      .from(notifications)
+      .innerJoin(subscriptions, eq(notifications.subscriptionId, subscriptions.id))
+      .where(where);
+
+    return result[0].value;
+  }
 
   async query_getNotificationsForMember(memberId: string): Promise<Array<shared.Notification>> {
     const sqlNotifications = await this.database.db

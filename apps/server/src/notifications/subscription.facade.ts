@@ -16,6 +16,7 @@ import {
 export type { NotificationPayload };
 
 export interface SubscriptionFacade {
+  query_countNotifications(memberId: string, read?: boolean): Promise<number>;
   query_getNotifications(memberId: string): Promise<shared.Notification[]>;
 
   markNotificationAsRead(notificationId: string, memberId: string): Promise<void>;
@@ -43,6 +44,10 @@ export class SubscriptionFacadeImpl implements SubscriptionFacade {
     private readonly notificationRepository: NotificationRepository
   ) {}
 
+  query_countNotifications(memberId: string, read?: boolean): Promise<number> {
+    return this.notificationRepository.query_countNotificationsForMember(memberId, read);
+  }
+
   query_getNotifications(memberId: string): Promise<shared.Notification[]> {
     return this.notificationRepository.query_getNotificationsForMember(memberId);
   }
@@ -65,6 +70,10 @@ export class SubscriptionFacadeImpl implements SubscriptionFacade {
 }
 
 export class StubSubscriptionFacade implements SubscriptionFacade {
+  query_countNotifications(): Promise<number> {
+    throw new Error('Method not implemented.');
+  }
+
   query_getNotifications(): Promise<shared.Notification[]> {
     throw new Error('Method not implemented.');
   }

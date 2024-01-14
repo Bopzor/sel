@@ -33,6 +33,7 @@ type AppState = {
   loadingMembers: boolean;
   members: Member[] | undefined;
   notifications: Notification[] | undefined;
+  unreadNotificationsCount: number | undefined;
   member: Member | undefined;
   requests: Request[] | undefined;
   request: Request | undefined;
@@ -58,6 +59,7 @@ function createAppStore() {
     get notifications() {
       return notifications();
     },
+    unreadNotificationsCount: undefined,
     get member() {
       return member();
     },
@@ -167,7 +169,14 @@ function authenticatedMemberState(state: AppState, setState: SetAppState) {
   });
 
   const [notifications, { refetch: refetchNotifications }] = createResource(authenticatedMember, async () => {
-    return fetcher.get<Notification[]>('/api/session/notifications').body();
+    const response = await fetcher.get<Notification[]>('/api/session/notifications');
+    const count = response.headers.get('X-Unread-Notifications-Count');
+
+    if (count) {
+      setState('unreadNotificationsCount', Number(count));
+    }
+
+    return response.body;
   });
 
   return {

@@ -53,7 +53,11 @@ export class SessionController {
   getMemberNotifications: RequestHandler<never, shared.Notification[]> = async (req, res) => {
     const member = this.sessionProvider.getMember();
 
-    res.json(await this.subscriptionFacade.query_getNotifications(member.id));
+    const unreadCount = await this.subscriptionFacade.query_countNotifications(member.id, false);
+    const notifications = await this.subscriptionFacade.query_getNotifications(member.id);
+
+    res.header('X-Unread-Notifications-Count', String(unreadCount));
+    res.json(notifications);
   };
 
   markNotificationAsRead: RequestHandler<{ notificationId: string }> = async (req, res) => {

@@ -7,6 +7,10 @@ export class FetchResult<Body> {
   get status() {
     return this.response.status;
   }
+
+  get headers() {
+    return this.response.headers;
+  }
 }
 
 export class FetchError extends Error {

@@ -31,7 +31,8 @@
     "header": {
       "title": "Système d'échange local",
       "subtitle": "de Cavaillon et ses environs",
-      "sign-in": "Connexion"
+      "sign-in": "Connexion",
+      "notificationsCountGreaterThan9": "9+"
     }
   },
   "authentication": {

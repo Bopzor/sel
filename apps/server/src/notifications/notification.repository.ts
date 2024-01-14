@@ -13,6 +13,7 @@ export type InsertNotificationModel = {
 };
 
 export interface NotificationRepository {
+  query_countNotificationsForMember(memberId: string, read?: boolean): Promise<number>;
   query_getNotificationsForMember(memberId: string): Promise<Array<shared.Notification>>;
 
   insertAll(models: InsertNotificationModel[]): Promise<void>;
