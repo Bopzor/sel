@@ -166,7 +166,7 @@ function authenticatedMemberState(state: AppState, setState: SetAppState) {
     }
   });
 
-  const [notifications] = createResource(async () => {
+  const [notifications] = createResource(authenticatedMember, async () => {
     return fetcher.get<Notification[]>('/api/session/notifications').body();
   });
 
