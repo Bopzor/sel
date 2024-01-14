@@ -65,7 +65,34 @@ describe('SubscriptionService', () => {
       expect(notification).toHaveProperty('data', { version: '1.2.3' });
     });
 
-    it('does not send notify when the predicate does not pass', async () => {
+    it('does not send a notification when the subscription is not active', async () => {
+      test.membersFacade.members.push(createMember({ id: 'memberId' }));
+
+      test.subscriptionRepository.add(
+        createSubscription({
+          id: 'subscriptionId',
+          memberId: 'memberId',
+          type: 'NewAppVersion',
+          active: false,
+        })
+      );
+
+      await test.service.notify(
+        'NewAppVersion',
+        () => true,
+        () => ({
+          title: '',
+          content: '',
+          data: { version: '' },
+        })
+      );
+
+      const notifications = test.notificationRepository.all();
+
+      expect(notifications).toHaveLength(0);
+    });
+
+    it('does not send a notification when the predicate does not pass', async () => {
       for (const i of [1, 2]) {
         test.membersFacade.members.push(createMember({ id: `memberId${i}` }));
 

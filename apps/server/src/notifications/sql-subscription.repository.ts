@@ -24,6 +24,7 @@ export class SqlSubscriptionRepository implements SubscriptionRepository {
       (subscription): Subscription => ({
         id: subscription.id,
         type: subscription.type as SubscriptionType,
+        active: subscription.active,
         memberId: subscription.memberId,
       })
     );

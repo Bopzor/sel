@@ -5,12 +5,14 @@ import { SubscriptionType } from './subscription.repository';
 export type Subscription = {
   id: string;
   type: SubscriptionType;
+  active: boolean;
   memberId: string;
 };
 
 export const createSubscription = createFactory<Subscription>(() => ({
   id: createId(),
   type: 'NewAppVersion',
+  active: true,
   memberId: '',
 }));
 

@@ -67,7 +67,7 @@ export class SubscriptionService {
     for (const subscription of subscriptions) {
       const member = defined(members.find(hasId(subscription.memberId)));
 
-      if (!shouldSendNotification(member)) {
+      if (!subscription.active || !shouldSendNotification(member)) {
         continue;
       }
 
