@@ -5,6 +5,7 @@ import { StubDate } from '../infrastructure/date/stub-date.adapter';
 import { StubEventsAdapter } from '../infrastructure/events/stub-events.adapter';
 import { StubGenerator } from '../infrastructure/generator/stub-generator.adapter';
 import { FakeHtmlParserAdapter } from '../infrastructure/html-parser/fake-html-parser.adapter';
+import { StubSubscriptionFacade } from '../notifications/subscription.facade';
 import { UnitTest } from '../unit-test';
 
 import { RequestCreated, RequestEdited } from './events';
@@ -17,6 +18,7 @@ class Test extends UnitTest {
   dateAdapter = new StubDate();
   events = new StubEventsAdapter();
   htmlParser = new FakeHtmlParserAdapter();
+  subscriptionFacade = new StubSubscriptionFacade();
   requestRepository = new InMemoryRequestRepository();
 
   service = new RequestService(
@@ -24,6 +26,7 @@ class Test extends UnitTest {
     this.dateAdapter,
     this.events,
     this.htmlParser,
+    this.subscriptionFacade,
     this.requestRepository
   );
 

@@ -19,6 +19,7 @@ async function main(args: string[]) {
     'NewAppVersion',
     () => true,
     () => ({
+      type: 'NewAppVersion',
       title: translation.translate('newAppVersion.title'),
       content: content ?? translation.translate('newAppVersion.content'),
       data: { version },

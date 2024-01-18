@@ -25,7 +25,7 @@ export class RequestNotificationsService {
     private readonly requestRepository: RequestRepository
   ) {}
 
-  async onRequestCreated(event: RequestCreated): Promise<void> {
+  async notifyRequestCreated(event: RequestCreated): Promise<void> {
     const request = await this.requestRepository.getRequest(event.entityId);
     assert(request);
 
@@ -37,6 +37,7 @@ export class RequestNotificationsService {
       'RequestCreated',
       negate(hasId(requester.id)),
       () => ({
+        type: 'RequestCreated',
         title: this.translation.translate('requestCreated.title', {
           requester: this.translation.memberName(requester),
         }),

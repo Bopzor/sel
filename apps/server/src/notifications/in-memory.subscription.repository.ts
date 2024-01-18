@@ -2,14 +2,14 @@ import { hasProperty } from '@sel/utils';
 
 import { InMemoryRepository } from '../in-memory.repository';
 
-import { Subscription } from './entities';
-import { InsertSubscriptionModel, SubscriptionType, SubscriptionRepository } from './subscription.repository';
+import { Subscription, SubscriptionType } from './entities';
+import { InsertSubscriptionModel, SubscriptionRepository } from './subscription.repository';
 
 export class InMemorySubscriptionRepository
   extends InMemoryRepository<Subscription>
   implements SubscriptionRepository
 {
-  async getSubscriptionsForEventType(type: SubscriptionType): Promise<Subscription[]> {
+  async getSubscriptionsByType(type: SubscriptionType): Promise<Subscription[]> {
     return this.filter(hasProperty('type', type));
   }
 

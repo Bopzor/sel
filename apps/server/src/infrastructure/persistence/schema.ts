@@ -135,6 +135,7 @@ export const notifications = pgTable('notifications', {
     .references(() => subscriptions.id)
     .notNull(),
   eventId: id('event_id').references(() => events.id),
+  type: varchar('type', { length: 32 }).notNull(),
   date: date('date').notNull(),
   readAt: date('read_at'),
   title: text('title').notNull(),

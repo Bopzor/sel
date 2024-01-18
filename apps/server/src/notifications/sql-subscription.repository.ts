@@ -6,15 +6,15 @@ import { Database } from '../infrastructure/persistence/database';
 import { subscriptions } from '../infrastructure/persistence/schema';
 import { TOKENS } from '../tokens';
 
-import { Subscription } from './entities';
-import { InsertSubscriptionModel, SubscriptionType, SubscriptionRepository } from './subscription.repository';
+import { Subscription, SubscriptionType } from './entities';
+import { InsertSubscriptionModel, SubscriptionRepository } from './subscription.repository';
 
 export class SqlSubscriptionRepository implements SubscriptionRepository {
   static inject = injectableClass(this, TOKENS.database, TOKENS.date);
 
   constructor(private readonly database: Database, private readonly dateAdapter: DatePort) {}
 
-  async getSubscriptionsForEventType(type: SubscriptionType): Promise<Subscription[]> {
+  async getSubscriptionsByType(type: SubscriptionType): Promise<Subscription[]> {
     const sqlSubscriptions = await this.database.db
       .select()
       .from(subscriptions)

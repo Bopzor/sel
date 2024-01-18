@@ -82,6 +82,7 @@ describe('[Intg] SqlNotificationRepository', () => {
         {
           id: 'notificationId',
           subscriptionId: subscription.id,
+          type: 'NewAppVersion',
           date: createDate(),
           title: '',
           content: '',

@@ -2,7 +2,8 @@ import { injectableClass } from 'ditox';
 
 import { TOKENS } from '../tokens';
 
-import { SubscriptionType } from './subscription.repository';
+import { SubscriptionType } from './entities';
+import { SubscriptionEntityType } from './subscription.repository';
 import {
   GetNotificationPayload,
   NotificationPayload,
@@ -13,12 +14,17 @@ import {
 export type { NotificationPayload };
 
 export interface SubscriptionFacade {
-  createSubscription(type: SubscriptionType, memberId: string, active?: boolean): Promise<void>;
+  createSubscription(
+    type: SubscriptionType,
+    memberId: string,
+    entity?: { type: SubscriptionEntityType; id: string },
+    active?: boolean
+  ): Promise<void>;
 
-  notify<Type extends SubscriptionType>(
-    type: Type,
+  notify(
+    type: SubscriptionType,
     shouldSendNotification: ShouldSendNotification,
-    getPayload: GetNotificationPayload<Type>
+    getPayload: GetNotificationPayload
   ): Promise<void>;
 }
 
@@ -27,14 +33,19 @@ export class SubscriptionFacadeImpl implements SubscriptionFacade {
 
   constructor(private readonly subscriptionService: SubscriptionService) {}
 
-  async createSubscription(type: SubscriptionType, memberId: string, active?: boolean): Promise<void> {
-    await this.subscriptionService.createSubscription(type, memberId, active);
+  async createSubscription(
+    type: SubscriptionType,
+    memberId: string,
+    entity?: { type: SubscriptionEntityType; id: string },
+    active?: boolean
+  ): Promise<void> {
+    await this.subscriptionService.createSubscription(type, memberId, entity, active);
   }
 
   async notify(
     type: SubscriptionType,
     shouldSendNotification: ShouldSendNotification,
-    getPayload: GetNotificationPayload<SubscriptionType>
+    getPayload: GetNotificationPayload
   ): Promise<void> {
     await this.subscriptionService.notify(type, shouldSendNotification, getPayload);
   }

@@ -57,6 +57,13 @@
       "when": 1705272832123,
       "tag": "0007_big_jazinda",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "5",
+      "when": 1705615376924,
+      "tag": "0008_cool_norman_osborn",
+      "breakpoints": true
     }
   ]
 }

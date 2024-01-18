@@ -51,6 +51,7 @@ describe('SubscriptionService', () => {
         'NewAppVersion',
         () => true,
         () => ({
+          type: 'NewAppVersion',
           title: 'title',
           content: 'content',
           data: { version: '1.2.3' },
@@ -81,6 +82,7 @@ describe('SubscriptionService', () => {
         'NewAppVersion',
         () => true,
         () => ({
+          type: 'NewAppVersion',
           title: '',
           content: '',
           data: { version: '' },
@@ -102,6 +104,7 @@ describe('SubscriptionService', () => {
       }
 
       await test.service.notify('NewAppVersion', hasId('memberId1'), () => ({
+        type: 'NewAppVersion',
         title: '',
         content: '',
         data: { version: '' },

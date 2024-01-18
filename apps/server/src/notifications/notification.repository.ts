@@ -6,6 +6,7 @@ export type InsertNotificationModel = {
   id: string;
   subscriptionId: string;
   eventId?: string;
+  type: shared.NotificationType;
   date: Date;
   title: string;
   content: string;

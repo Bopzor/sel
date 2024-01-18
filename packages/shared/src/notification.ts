@@ -1,4 +1,4 @@
-const notificationTypes = ['NewAppVersion', 'RequestCreated'] as const;
+const notificationTypes = ['NewAppVersion', 'RequestCreated', 'RequestCommentCreated'] as const;
 export type NotificationType = (typeof notificationTypes)[number];
 
 export function isNotificationType(type: string): type is NotificationType {
@@ -36,6 +36,22 @@ export type NotificationData = {
       id: string;
       firstName: string;
       lastName: string;
+    };
+  };
+
+  RequestCommentCreated: {
+    request: {
+      id: string;
+      title: string;
+    };
+    comment: {
+      id: string;
+      body: string;
+      author: {
+        id: string;
+        firstName: string;
+        lastName: string;
+      };
     };
   };
 };

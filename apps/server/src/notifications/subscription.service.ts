@@ -8,20 +8,19 @@ import { Member } from '../members/entities';
 import { MembersFacade } from '../members/members.facade';
 import { TOKENS } from '../tokens';
 
+import { SubscriptionType } from './entities';
 import { InsertNotificationModel, NotificationRepository } from './notification.repository';
-import { SubscriptionRepository, SubscriptionType } from './subscription.repository';
+import { SubscriptionEntityType, SubscriptionRepository } from './subscription.repository';
 
 export type NotificationPayload<Type extends shared.NotificationType> = {
+  type: Type;
   title: string;
   content: string;
   data: shared.NotificationData[Type];
 };
 
 export type ShouldSendNotification = (member: Member) => boolean;
-
-export type GetNotificationPayload<Type extends shared.NotificationType> = (
-  member: Member
-) => NotificationPayload<Type>;
+export type GetNotificationPayload = (member: Member) => NotificationPayload<shared.NotificationType>;
 
 export class SubscriptionService {
   static inject = injectableClass(
@@ -41,23 +40,30 @@ export class SubscriptionService {
     private readonly notificationRepository: NotificationRepository
   ) {}
 
-  async createSubscription(type: SubscriptionType, memberId: string, active?: boolean): Promise<void> {
+  async createSubscription(
+    type: SubscriptionType,
+    memberId: string,
+    entity?: { type: SubscriptionEntityType; id: string },
+    active?: boolean
+  ): Promise<void> {
     await this.subscriptionRepository.insert({
       id: this.generator.id(),
       type,
       memberId,
+      entityType: entity?.type,
+      entityId: entity?.id,
       active,
     });
   }
 
-  async notify<Type extends SubscriptionType>(
-    type: Type,
+  async notify(
+    type: SubscriptionType,
     shouldSendNotification: ShouldSendNotification,
-    getPayload: GetNotificationPayload<Type>
+    getPayload: GetNotificationPayload
   ): Promise<void> {
     const now = this.dateAdapter.now();
 
-    const subscriptions = await this.subscriptionRepository.getSubscriptionsForEventType(type);
+    const subscriptions = await this.subscriptionRepository.getSubscriptionsByType(type);
     const notifications = new Array<InsertNotificationModel>();
 
     const members = await this.membersFacade.getMembers(

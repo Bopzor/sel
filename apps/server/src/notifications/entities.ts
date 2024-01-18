@@ -1,6 +1,12 @@
+import * as shared from '@sel/shared';
 import { createDate, createFactory, createId } from '@sel/utils';
 
-import { SubscriptionType } from './subscription.repository';
+const subscriptionType = ['NewAppVersion', 'RequestCreated', 'RequestEvent'] as const;
+export type SubscriptionType = (typeof subscriptionType)[number];
+
+export const isSubscriptionType = (type: string): type is SubscriptionType => {
+  return subscriptionType.includes(type as SubscriptionType);
+};
 
 export type Subscription = {
   id: string;
@@ -20,6 +26,7 @@ export type Notification = {
   id: string;
   subscriptionId: string;
   memberId: string;
+  type: shared.NotificationType;
   date: Date;
   readAt?: Date;
   content: string;
@@ -30,6 +37,7 @@ export type Notification = {
 export const createNotification = createFactory<Notification>(() => ({
   id: createId(),
   subscriptionId: '',
+  type: 'NewAppVersion',
   memberId: '',
   content: '',
   title: '',
