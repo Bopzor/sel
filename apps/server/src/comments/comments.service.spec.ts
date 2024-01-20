@@ -44,15 +44,16 @@ describe('CommentsService', () => {
       expect(test.commentsRepository.get('commentId')).toEqual<Comment>({
         id: 'commentId',
         authorId: 'authorId',
+        entityId: 'requestId',
         date: test.dateAdapter.date,
-        body: 'body',
+        text: 'body',
       });
     });
 
     it('triggers a CommentCreated domain event', async () => {
       await test.service.createComment('request', 'requestId', 'authorId', 'body');
 
-      expect(test.events).toHaveEmitted(new CommentCreated('commentId'));
+      expect(test.events).toHaveEmitted(new CommentCreated('commentId', 'request'));
     });
   });
 });

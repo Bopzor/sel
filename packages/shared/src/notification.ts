@@ -46,7 +46,7 @@ export type NotificationData = {
     };
     comment: {
       id: string;
-      body: string;
+      message: string;
       author: {
         id: string;
         firstName: string;

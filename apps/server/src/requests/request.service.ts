@@ -1,7 +1,7 @@
 import { defined } from '@sel/utils';
 import { injectableClass } from 'ditox';
 
-import { CommentCreated } from '../comments/events';
+import { CommentsFacade } from '../comments/comments.facade';
 import { DatePort } from '../infrastructure/date/date.port';
 import { EventsPort } from '../infrastructure/events/events.port';
 import { GeneratorPort } from '../infrastructure/generator/generator.port';
@@ -9,7 +9,7 @@ import { HtmlParserPort } from '../infrastructure/html-parser/html-parser.port';
 import { SubscriptionFacade } from '../notifications/subscription.facade';
 import { TOKENS } from '../tokens';
 
-import { RequestCreated, RequestEdited } from './events';
+import { RequestCommentCreated, RequestCreated, RequestEdited } from './events';
 import { Request } from './request.entity';
 import { RequestRepository } from './request.repository';
 
@@ -20,6 +20,7 @@ export class RequestService {
     TOKENS.date,
     TOKENS.events,
     TOKENS.htmlParser,
+    TOKENS.commentsFacade,
     TOKENS.subscriptionFacade,
     TOKENS.requestRepository
   );
@@ -29,6 +30,7 @@ export class RequestService {
     private readonly dateAdapter: DatePort,
     private readonly events: EventsPort,
     private readonly htmlParser: HtmlParserPort,
+    private readonly commentsFacade: CommentsFacade,
     private readonly subscriptionFacade: SubscriptionFacade,
     private readonly requestRepository: RequestRepository
   ) {}
@@ -64,11 +66,15 @@ export class RequestService {
     this.events.emit(new RequestEdited(request.id));
   }
 
-  async createRequestSubscription(event: RequestCreated | CommentCreated): Promise<void> {
-    if (event instanceof CommentCreated && event.parentEntity !== 'request') {
-      return;
-    }
+  async createComment(requestId: string, authorId: string, text: string): Promise<string> {
+    const commentId = await this.commentsFacade.createComment('request', requestId, authorId, text);
 
+    this.events.emit(new RequestCommentCreated(requestId, commentId));
+
+    return commentId;
+  }
+
+  async createRequestSubscription(event: RequestCreated | RequestCommentCreated): Promise<void> {
     const request = defined(await this.requestRepository.getRequest(event.entityId));
 
     await this.subscriptionFacade.createSubscription('RequestEvent', request.requesterId, {

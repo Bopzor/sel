@@ -11,7 +11,7 @@ export class InMemoryRequestRepository extends InMemoryRepository<Request> imple
     throw new Error('Method not implemented.');
   }
 
-  async query_getRequest(requestId: string): Promise<shared.Request | undefined> {
+  async query_getRequest(): Promise<shared.Request | undefined> {
     throw new Error('Method not implemented.');
   }
 

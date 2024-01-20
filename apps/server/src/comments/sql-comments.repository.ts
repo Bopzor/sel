@@ -1,4 +1,5 @@
 import { injectableClass } from 'ditox';
+import { eq } from 'drizzle-orm';
 
 import { DatePort } from '../infrastructure/date/date.port';
 import { HtmlParserPort } from '../infrastructure/html-parser/html-parser.port';
@@ -18,6 +19,22 @@ export class SqlCommentsRepository implements CommentsRepository {
     private readonly htmlParser: HtmlParserPort
   ) {}
 
+  async getComment(commentId: string): Promise<Comment | undefined> {
+    const [sqlComment] = await this.database.db.select().from(comments).where(eq(comments.id, commentId));
+
+    if (!sqlComment) {
+      return;
+    }
+
+    return {
+      id: sqlComment.id,
+      authorId: sqlComment.authorId,
+      entityId: sqlComment.requestId as string,
+      date: sqlComment.date,
+      text: sqlComment.text,
+    };
+  }
+
   async insert(parentType: CommentParentType, parentId: string, comment: Comment): Promise<void> {
     const now = this.dateAdapter.now();
 
@@ -26,8 +43,8 @@ export class SqlCommentsRepository implements CommentsRepository {
       authorId: comment.authorId,
       [`${parentType}Id`]: parentId,
       date: comment.date,
-      html: comment.body,
-      text: this.htmlParser.getTextContent(comment.body),
+      html: comment.text,
+      text: this.htmlParser.getTextContent(comment.text),
       createdAt: now,
       updatedAt: now,
     });

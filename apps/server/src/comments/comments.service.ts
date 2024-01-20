@@ -29,15 +29,16 @@ export class CommentsService {
     entity: CommentParentType,
     entityId: string,
     authorId: string,
-    body: string
+    text: string
   ): Promise<string> {
     const commentId = this.generator.id();
 
     const comment: Comment = {
       id: commentId,
+      entityId,
       authorId,
       date: this.dateAdapter.now(),
-      body,
+      text,
     };
 
     await this.commentsRepository.insert(entity, entityId, comment);

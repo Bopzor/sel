@@ -120,7 +120,7 @@ export class RequestController {
     const member = this.sessionProvider.getMember();
     const data = RequestController.createCommentSchema.parse(req.body);
 
-    const commentId = await this.commentsFacade.createComment('request', requestId, member.id, data.body);
+    const commentId = await this.requestService.createComment(requestId, member.id, data.body);
 
     res.status(HttpStatus.created).send(commentId);
   };

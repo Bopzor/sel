@@ -43,7 +43,8 @@ describe('SQLCommentsRepository', () => {
     await test.repository.insert('request', 'requestId', {
       id: 'commentId',
       authorId: 'memberId',
-      body: 'body',
+      entityId: 'requestId',
+      text: 'body',
       date: createDate('2023-01-01'),
     });
 

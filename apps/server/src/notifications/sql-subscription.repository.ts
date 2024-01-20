@@ -21,10 +21,10 @@ export class SqlSubscriptionRepository implements SubscriptionRepository {
   ): Promise<boolean> {
     let where: SQL<unknown> | undefined = eq(subscriptions.type, type);
 
-    where = and(eq(subscriptions.memberId, memberId));
+    where = and(where, eq(subscriptions.memberId, memberId));
 
     if (entity && entity.type === 'request') {
-      where = and(eq(subscriptions.requestId, entity.id));
+      where = and(where, eq(subscriptions.requestId, entity.id));
     }
 
     const [subscription] = await this.database.db.select().from(subscriptions).where(where);

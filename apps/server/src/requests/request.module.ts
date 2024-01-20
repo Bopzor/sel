@@ -1,10 +1,9 @@
 import { injectableClass } from 'ditox';
 
-import { CommentCreated } from '../comments/events';
 import { EventsPort } from '../infrastructure/events/events.port';
 import { TOKENS } from '../tokens';
 
-import { RequestCreated } from './events';
+import { RequestCommentCreated, RequestCreated } from './events';
 import { RequestNotificationsService } from './request-notifications.service';
 import { RequestService } from './request.service';
 
@@ -29,13 +28,18 @@ export class RequestModule {
     );
 
     this.events.addEventListener(
-      CommentCreated,
+      RequestCommentCreated,
       this.requestService.createRequestSubscription.bind(this.requestService)
     );
 
     this.events.addEventListener(
       RequestCreated,
       this.requestNotificationsService.notifyRequestCreated.bind(this.requestNotificationsService)
+    );
+
+    this.events.addEventListener(
+      RequestCommentCreated,
+      this.requestNotificationsService.notifyCommentCreated.bind(this.requestNotificationsService)
     );
   }
 }

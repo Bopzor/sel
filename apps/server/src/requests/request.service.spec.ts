@@ -1,6 +1,7 @@
 import { createDate } from '@sel/utils';
 import { beforeEach, describe, expect, it } from 'vitest';
 
+import { StubCommentsFacade } from '../comments/comments.facade';
 import { StubDate } from '../infrastructure/date/stub-date.adapter';
 import { StubEventsAdapter } from '../infrastructure/events/stub-events.adapter';
 import { StubGenerator } from '../infrastructure/generator/stub-generator.adapter';
@@ -18,6 +19,7 @@ class Test extends UnitTest {
   dateAdapter = new StubDate();
   events = new StubEventsAdapter();
   htmlParser = new FakeHtmlParserAdapter();
+  commentsFacade = new StubCommentsFacade();
   subscriptionFacade = new StubSubscriptionFacade();
   requestRepository = new InMemoryRequestRepository();
 
@@ -26,6 +28,7 @@ class Test extends UnitTest {
     this.dateAdapter,
     this.events,
     this.htmlParser,
+    this.commentsFacade,
     this.subscriptionFacade,
     this.requestRepository
   );
