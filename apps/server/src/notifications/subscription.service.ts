@@ -46,6 +46,10 @@ export class SubscriptionService {
     entity?: { type: SubscriptionEntityType; id: string },
     active?: boolean
   ): Promise<void> {
+    if (await this.subscriptionRepository.hasSubscription(type, memberId, entity)) {
+      return;
+    }
+
     await this.subscriptionRepository.insert({
       id: this.generator.id(),
       type,

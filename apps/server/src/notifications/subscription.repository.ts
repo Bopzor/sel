@@ -12,6 +12,13 @@ export type InsertSubscriptionModel = {
 };
 
 export interface SubscriptionRepository {
+  hasSubscription(
+    type: string,
+    memberId: string,
+    entity?: { type: 'request'; id: string } | undefined
+  ): Promise<boolean>;
+
   getSubscriptionsByType(type: SubscriptionType): Promise<Subscription[]>;
+
   insert(model: InsertSubscriptionModel): Promise<void>;
 }

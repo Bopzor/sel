@@ -42,7 +42,7 @@ export class CommentsService {
 
     await this.commentsRepository.insert(entity, entityId, comment);
 
-    this.events.emit(new CommentCreated(comment.id));
+    this.events.emit(new CommentCreated(comment.id, entity));
 
     return commentId;
   }

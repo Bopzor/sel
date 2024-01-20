@@ -1,5 +1,6 @@
 import { injectableClass } from 'ditox';
 
+import { CommentCreated } from '../comments/events';
 import { EventsPort } from '../infrastructure/events/events.port';
 import { TOKENS } from '../tokens';
 
@@ -24,6 +25,11 @@ export class RequestModule {
   init() {
     this.events.addEventListener(
       RequestCreated,
+      this.requestService.createRequestSubscription.bind(this.requestService)
+    );
+
+    this.events.addEventListener(
+      CommentCreated,
       this.requestService.createRequestSubscription.bind(this.requestService)
     );
 

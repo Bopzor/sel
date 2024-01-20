@@ -9,6 +9,10 @@ export class InMemorySubscriptionRepository
   extends InMemoryRepository<Subscription>
   implements SubscriptionRepository
 {
+  hasSubscription(): Promise<boolean> {
+    throw new Error('Method not implemented.');
+  }
+
   async getSubscriptionsByType(type: SubscriptionType): Promise<Subscription[]> {
     return this.filter(hasProperty('type', type));
   }

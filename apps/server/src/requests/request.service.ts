@@ -1,6 +1,7 @@
 import { defined } from '@sel/utils';
 import { injectableClass } from 'ditox';
 
+import { CommentCreated } from '../comments/events';
 import { DatePort } from '../infrastructure/date/date.port';
 import { EventsPort } from '../infrastructure/events/events.port';
 import { GeneratorPort } from '../infrastructure/generator/generator.port';
@@ -63,7 +64,11 @@ export class RequestService {
     this.events.emit(new RequestEdited(request.id));
   }
 
-  async createRequestSubscription(event: RequestCreated): Promise<void> {
+  async createRequestSubscription(event: RequestCreated | CommentCreated): Promise<void> {
+    if (event instanceof CommentCreated && event.parentEntity !== 'request') {
+      return;
+    }
+
     const request = defined(await this.requestRepository.getRequest(event.entityId));
 
     await this.subscriptionFacade.createSubscription('RequestEvent', request.requesterId, {

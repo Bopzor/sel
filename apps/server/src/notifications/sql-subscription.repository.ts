@@ -1,5 +1,5 @@
 import { injectableClass } from 'ditox';
-import { eq } from 'drizzle-orm';
+import { SQL, and, eq } from 'drizzle-orm';
 
 import { DatePort } from '../infrastructure/date/date.port';
 import { Database } from '../infrastructure/persistence/database';
@@ -13,6 +13,24 @@ export class SqlSubscriptionRepository implements SubscriptionRepository {
   static inject = injectableClass(this, TOKENS.database, TOKENS.date);
 
   constructor(private readonly database: Database, private readonly dateAdapter: DatePort) {}
+
+  async hasSubscription(
+    type: string,
+    memberId: string,
+    entity?: { type: 'request'; id: string } | undefined
+  ): Promise<boolean> {
+    let where: SQL<unknown> | undefined = eq(subscriptions.type, type);
+
+    where = and(eq(subscriptions.memberId, memberId));
+
+    if (entity && entity.type === 'request') {
+      where = and(eq(subscriptions.requestId, entity.id));
+    }
+
+    const [subscription] = await this.database.db.select().from(subscriptions).where(where);
+
+    return subscription !== undefined;
+  }
 
   async getSubscriptionsByType(type: SubscriptionType): Promise<Subscription[]> {
     const sqlSubscriptions = await this.database.db
