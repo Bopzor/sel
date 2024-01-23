@@ -1,12 +1,13 @@
 import { injectableClass } from 'ditox';
 import { SQL, and, eq } from 'drizzle-orm';
 
-import { DatePort } from '../infrastructure/date/date.port';
-import { Database } from '../persistence/database';
-import { subscriptions } from '../persistence/schema';
-import { TOKENS } from '../tokens';
+import { DatePort } from '../../../infrastructure/date/date.port';
+import { Subscription, SubscriptionType } from '../../../notifications/entities';
+import { TOKENS } from '../../../tokens';
+import { Database } from '../../database';
+import { subscriptions } from '../../schema';
 
-import { Subscription, SubscriptionType } from './entities';
+
 import { InsertSubscriptionModel, SubscriptionRepository } from './subscription.repository';
 
 export class SqlSubscriptionRepository implements SubscriptionRepository {

@@ -1,12 +1,12 @@
 import { injectableClass } from 'ditox';
 import { and, eq } from 'drizzle-orm';
 
-import { DatePort } from '../infrastructure/date/date.port';
-import { Database } from '../persistence/database';
-import { tokens } from '../persistence/schema';
-import { TOKENS } from '../tokens';
+import { Token, TokenType } from '../../../authentication/token.entity';
+import { DatePort } from '../../../infrastructure/date/date.port';
+import { TOKENS } from '../../../tokens';
+import { Database } from '../../database';
+import { tokens } from '../../schema';
 
-import { Token, TokenType } from './token.entity';
 import { TokenRepository } from './token.repository';
 
 export class SqlTokenRepository implements TokenRepository {

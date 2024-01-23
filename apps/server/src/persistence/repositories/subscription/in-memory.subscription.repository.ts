@@ -1,8 +1,8 @@
 import { hasProperty } from '@sel/utils';
 
-import { InMemoryRepository } from '../in-memory.repository';
+import { InMemoryRepository } from '../../../in-memory.repository';
+import { Subscription, SubscriptionType } from '../../../notifications/entities';
 
-import { Subscription, SubscriptionType } from './entities';
 import { InsertSubscriptionModel, SubscriptionRepository } from './subscription.repository';
 
 export class InMemorySubscriptionRepository

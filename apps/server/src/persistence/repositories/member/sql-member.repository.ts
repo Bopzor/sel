@@ -2,15 +2,16 @@ import * as shared from '@sel/shared';
 import { injectableClass } from 'ditox';
 import { and, asc, desc, eq, inArray } from 'drizzle-orm';
 
-import { DatePort } from '../infrastructure/date/date.port';
-import { Database } from '../persistence/database';
-import { members } from '../persistence/schema';
-import { TOKENS } from '../tokens';
+import { DatePort } from '../../../infrastructure/date/date.port';
+import { Address, Member, MemberStatus, PhoneNumber } from '../../../members/entities';
+import { TOKENS } from '../../../tokens';
+import { Database } from '../../database';
+import { members } from '../../schema';
 
-import { Address, Member, MemberStatus, PhoneNumber } from './entities';
-import { InsertMemberModel, MembersRepository, UpdateMemberModel } from './members.repository';
 
-export class SqlMembersRepository implements MembersRepository {
+import { InsertMemberModel, MemberRepository, UpdateMemberModel } from './member.repository';
+
+export class SqlMemberRepository implements MemberRepository {
   static inject = injectableClass(this, TOKENS.database, TOKENS.date);
 
   constructor(private database: Database, private readonly dateAdapter: DatePort) {}

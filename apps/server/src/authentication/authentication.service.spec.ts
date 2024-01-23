@@ -8,10 +8,10 @@ import { StubGenerator } from '../infrastructure/generator/stub-generator.adapte
 import { createMember } from '../members/entities';
 import { AuthenticationLinkRequested, MemberAuthenticated } from '../members/events';
 import { StubMembersFacade } from '../members/members.facade';
+import { InMemoryTokenRepository } from '../persistence/repositories/token/in-memory-token.repository';
 import { UnitTest } from '../unit-test';
 
 import { AuthenticationService } from './authentication.service';
-import { InMemoryTokenRepository } from './in-memory-token.repository';
 import { TokenType, createToken } from './token.entity';
 class Test extends UnitTest {
   config = new StubConfigAdapter({ app: { baseUrl: 'https://app.url' } });

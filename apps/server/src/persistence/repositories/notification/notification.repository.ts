@@ -1,6 +1,6 @@
 import * as shared from '@sel/shared';
 
-import { Notification } from './entities';
+import { Notification } from '../../../notifications/entities';
 
 export type InsertNotificationModel = {
   id: string;

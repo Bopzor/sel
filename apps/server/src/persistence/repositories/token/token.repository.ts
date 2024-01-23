@@ -1,4 +1,4 @@
-import { Token, TokenType } from './token.entity';
+import { Token, TokenType } from '../../../authentication/token.entity';
 
 export interface TokenRepository {
   findByValue(tokenValue: string): Promise<Token | undefined>;

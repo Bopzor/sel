@@ -10,10 +10,10 @@ import { TestErrorReporterAdapter } from './infrastructure/error-reporter/test-e
 import { EmitterEventsAdapter } from './infrastructure/events/emitter-events.adapter';
 import { StubLogger } from './infrastructure/logger/stub-logger.adapter';
 import { Member } from './members/entities';
-import { MembersRepository } from './members/members.repository';
 import { MembersService } from './members/members.service';
+import { MemberRepository } from './persistence/repositories/member/member.repository';
+import { RequestRepository } from './persistence/repositories/request/request.repository';
 import { Request } from './requests/request.entity';
-import { RequestRepository } from './requests/request.repository';
 import { RequestService } from './requests/request.service';
 import { TOKENS } from './tokens';
 
@@ -77,7 +77,7 @@ export class E2ETest {
 
     this.create = new EntityCreator(
       container.resolve(TOKENS.membersService),
-      container.resolve(TOKENS.membersRepository),
+      container.resolve(TOKENS.memberRepository),
       container.resolve(TOKENS.authenticationService),
       container.resolve(TOKENS.requestService),
       container.resolve(TOKENS.requestRepository)
@@ -153,7 +153,7 @@ export class E2ETest {
 class EntityCreator {
   constructor(
     private readonly memberService: MembersService,
-    private readonly memberRepository: MembersRepository,
+    private readonly memberRepository: MemberRepository,
     private readonly authenticationService: AuthenticationService,
     private readonly requestService: RequestService,
     private readonly requestRepository: RequestRepository

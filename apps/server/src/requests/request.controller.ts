@@ -8,12 +8,12 @@ import { z } from 'zod';
 
 import { CommentsFacade } from '../comments/comments.facade';
 import { HttpStatus } from '../http-status';
+import { RequestRepository } from '../persistence/repositories/request/request.repository';
 import { SessionProvider } from '../session/session.provider';
 import { TOKENS } from '../tokens';
 
 import { MemberIsNotAuthor, RequestNotFound } from './errors';
 import { Request } from './request.entity';
-import { RequestRepository } from './request.repository';
 import { RequestService } from './request.service';
 
 export class RequestController {

@@ -7,10 +7,10 @@ import { StubEventsAdapter } from '../infrastructure/events/stub-events.adapter'
 import { StubGenerator } from '../infrastructure/generator/stub-generator.adapter';
 import { FakeHtmlParserAdapter } from '../infrastructure/html-parser/fake-html-parser.adapter';
 import { StubSubscriptionFacade } from '../notifications/subscription.facade';
+import { InMemoryRequestRepository } from '../persistence/repositories/request/in-memory-request.repository';
 import { UnitTest } from '../unit-test';
 
 import { RequestCreated, RequestEdited } from './events';
-import { InMemoryRequestRepository } from './in-memory-request.repository';
 import { Request, RequestStatus, createRequest } from './request.entity';
 import { RequestService } from './request.service';
 

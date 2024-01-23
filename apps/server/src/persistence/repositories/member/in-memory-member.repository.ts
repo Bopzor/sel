@@ -1,12 +1,12 @@
 import * as shared from '@sel/shared';
 import { assert, createDate, defined } from '@sel/utils';
 
-import { InMemoryRepository } from '../in-memory.repository';
+import { InMemoryRepository } from '../../../in-memory.repository';
+import { Member, MemberStatus } from '../../../members/entities';
 
-import { Member, MemberStatus } from './entities';
-import { InsertMemberModel, MembersRepository, UpdateMemberModel } from './members.repository';
+import { InsertMemberModel, MemberRepository, UpdateMemberModel } from './member.repository';
 
-export class InMemoryMembersRepository extends InMemoryRepository<Member> implements MembersRepository {
+export class InMemoryMemberRepository extends InMemoryRepository<Member> implements MemberRepository {
   async query_listMembers(): Promise<shared.Member[]> {
     return this.all().map(this.toMemberQuery);
   }

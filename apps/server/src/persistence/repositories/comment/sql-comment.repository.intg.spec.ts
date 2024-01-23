@@ -1,18 +1,18 @@
 import { createDate } from '@sel/utils';
 import { beforeEach, describe, expect, it } from 'vitest';
 
-import { StubDate } from '../infrastructure/date/stub-date.adapter';
-import { FakeHtmlParserAdapter } from '../infrastructure/html-parser/fake-html-parser.adapter';
-import { comments, members, requests } from '../persistence/schema';
-import { createSqlMember, createSqlRequest } from '../persistence/sql-factories';
-import { RepositoryTest } from '../repository-test';
+import { StubDate } from '../../../infrastructure/date/stub-date.adapter';
+import { FakeHtmlParserAdapter } from '../../../infrastructure/html-parser/fake-html-parser.adapter';
+import { RepositoryTest } from '../../../repository-test';
+import { comments, members, requests } from '../../schema';
+import { createSqlMember, createSqlRequest } from '../../sql-factories';
 
-import { SqlCommentsRepository } from './sql-comments.repository';
+import { SqlCommentRepository } from './sql-comment.repository';
 
 class Test extends RepositoryTest {
   dateAdapter = new StubDate();
   htmlParser = new FakeHtmlParserAdapter();
-  repository = new SqlCommentsRepository(this.database, this.dateAdapter, this.htmlParser);
+  repository = new SqlCommentRepository(this.database, this.dateAdapter, this.htmlParser);
 
   get now() {
     return this.dateAdapter.now();
@@ -26,7 +26,7 @@ class Test extends RepositoryTest {
   }
 }
 
-describe('SQLCommentsRepository', () => {
+describe('[Intg] SQLCommentRepository', () => {
   let test: Test;
 
   beforeEach(async () => {

@@ -5,10 +5,10 @@ import { CommentsFacade } from '../comments/comments.facade';
 import { TranslationPort } from '../infrastructure/translation/translation.port';
 import { MembersFacade } from '../members/members.facade';
 import { SubscriptionFacade } from '../notifications/subscription.facade';
+import { RequestRepository } from '../persistence/repositories/request/request.repository';
 import { TOKENS } from '../tokens';
 
 import { RequestCommentCreated, RequestCreated } from './events';
-import { RequestRepository } from './request.repository';
 
 export class RequestNotificationsService {
   static inject = injectableClass(

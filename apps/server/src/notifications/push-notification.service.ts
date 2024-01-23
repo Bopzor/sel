@@ -6,9 +6,9 @@ import {
   PushDeviceSubscription,
   PushNotificationPort,
 } from '../infrastructure/push-notification/push-notification.port';
+import { MemberDeviceRepository } from '../persistence/repositories/member-device/member-device.repository';
 import { TOKENS } from '../tokens';
 
-import { MemberDeviceRepository } from './member-device.repository';
 
 export class PushNotificationService {
   static inject = injectableClass(

@@ -2,10 +2,10 @@ import * as shared from '@sel/shared';
 import { createDate } from '@sel/utils';
 import { beforeEach, describe, expect, it } from 'vitest';
 
-import { StubDate } from '../infrastructure/date/stub-date.adapter';
-import { comments, members, requests } from '../persistence/schema';
-import { createSqlComment, createSqlMember, createSqlRequest } from '../persistence/sql-factories';
-import { RepositoryTest } from '../repository-test';
+import { StubDate } from '../../../infrastructure/date/stub-date.adapter';
+import { RepositoryTest } from '../../../repository-test';
+import { comments, members, requests } from '../../schema';
+import { createSqlComment, createSqlMember, createSqlRequest } from '../../sql-factories';
 
 import { SqlRequestRepository } from './sql-request.repository';
 

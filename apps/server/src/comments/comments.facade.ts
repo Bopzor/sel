@@ -1,8 +1,8 @@
 import { injectableClass } from 'ditox';
 
+import { CommentRepository } from '../persistence/repositories/comment/comment.repository';
 import { TOKENS } from '../tokens';
 
-import { CommentsRepository } from './comments.repository';
 import { CommentsService } from './comments.service';
 import { Comment, CommentParentType } from './entities';
 
@@ -22,11 +22,11 @@ export class StubCommentsFacade implements CommentsFacade {
 }
 
 export class CommentsFacadeImpl implements CommentsFacade {
-  static inject = injectableClass(this, TOKENS.commentsService, TOKENS.commentsRepository);
+  static inject = injectableClass(this, TOKENS.commentsService, TOKENS.commentRepository);
 
   constructor(
     private readonly commentsService: CommentsService,
-    private readonly commentsRepository: CommentsRepository
+    private readonly commentsRepository: CommentRepository
   ) {}
 
   async getComment(commentId: string): Promise<Comment | undefined> {

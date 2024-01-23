@@ -1,6 +1,6 @@
-import { InMemoryRepository } from '../in-memory.repository';
+import { Token, TokenType } from '../../../authentication/token.entity';
+import { InMemoryRepository } from '../../../in-memory.repository';
 
-import { Token, TokenType } from './token.entity';
 import { TokenRepository } from './token.repository';
 
 export class InMemoryTokenRepository extends InMemoryRepository<Token> implements TokenRepository {

@@ -5,18 +5,18 @@ import { beforeEach, describe, expect, it } from 'vitest';
 import { StubEventsAdapter } from '../infrastructure/events/stub-events.adapter';
 import { StubGenerator } from '../infrastructure/generator/stub-generator.adapter';
 import { StubSubscriptionFacade } from '../notifications/subscription.facade';
+import { InMemoryMemberRepository } from '../persistence/repositories/member/in-memory-member.repository';
 import { UnitTest } from '../unit-test';
 
 import { MemberStatus, createMember } from './entities';
 import { MemberCreated, OnboardingCompleted } from './events';
-import { InMemoryMembersRepository } from './in-memory-members.repository';
 import { MembersService } from './members.service';
 
 class Test extends UnitTest {
   generator = new StubGenerator();
   events = new StubEventsAdapter();
   subscriptionFacade = new StubSubscriptionFacade();
-  membersRepository = new InMemoryMembersRepository();
+  membersRepository = new InMemoryMemberRepository();
   service = new MembersService(this.generator, this.events, this.subscriptionFacade, this.membersRepository);
 }
 

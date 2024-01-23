@@ -1,7 +1,7 @@
 import {
   DeviceType,
   PushDeviceSubscription,
-} from '../infrastructure/push-notification/push-notification.port';
+} from '../../../infrastructure/push-notification/push-notification.port';
 
 export type InsertMemberDeviceModel = {
   id: string;

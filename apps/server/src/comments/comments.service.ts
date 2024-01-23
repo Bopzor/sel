@@ -3,9 +3,9 @@ import { injectableClass } from 'ditox';
 import { DatePort } from '../infrastructure/date/date.port';
 import { EventsPort } from '../infrastructure/events/events.port';
 import { GeneratorPort } from '../infrastructure/generator/generator.port';
+import { CommentRepository } from '../persistence/repositories/comment/comment.repository';
 import { TOKENS } from '../tokens';
 
-import { CommentsRepository } from './comments.repository';
 import { Comment, CommentParentType } from './entities';
 import { CommentCreated } from './events';
 
@@ -15,14 +15,14 @@ export class CommentsService {
     TOKENS.generator,
     TOKENS.date,
     TOKENS.events,
-    TOKENS.commentsRepository
+    TOKENS.commentRepository
   );
 
   constructor(
     private readonly generator: GeneratorPort,
     private readonly dateAdapter: DatePort,
     private readonly events: EventsPort,
-    private readonly commentsRepository: CommentsRepository
+    private readonly commentsRepository: CommentRepository
   ) {}
 
   async createComment(

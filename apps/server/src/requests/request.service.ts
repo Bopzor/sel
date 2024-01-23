@@ -7,11 +7,11 @@ import { EventsPort } from '../infrastructure/events/events.port';
 import { GeneratorPort } from '../infrastructure/generator/generator.port';
 import { HtmlParserPort } from '../infrastructure/html-parser/html-parser.port';
 import { SubscriptionFacade } from '../notifications/subscription.facade';
+import { RequestRepository } from '../persistence/repositories/request/request.repository';
 import { TOKENS } from '../tokens';
 
 import { RequestCommentCreated, RequestCreated, RequestEdited } from './events';
 import { Request } from './request.entity';
-import { RequestRepository } from './request.repository';
 
 export class RequestService {
   static inject = injectableClass(

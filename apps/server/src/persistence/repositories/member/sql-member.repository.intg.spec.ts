@@ -3,17 +3,18 @@ import { createDate, getId } from '@sel/utils';
 import { eq } from 'drizzle-orm';
 import { beforeEach, describe, expect, it } from 'vitest';
 
-import { StubDate } from '../infrastructure/date/stub-date.adapter';
-import { members, tokens } from '../persistence/schema';
-import { createSqlMember } from '../persistence/sql-factories';
-import { RepositoryTest } from '../repository-test';
+import { StubDate } from '../../../infrastructure/date/stub-date.adapter';
+import { MemberStatus, createMember } from '../../../members/entities';
+import { RepositoryTest } from '../../../repository-test';
+import { members, tokens } from '../../schema';
+import { createSqlMember } from '../../sql-factories';
 
-import { MemberStatus, createMember } from './entities';
-import { SqlMembersRepository } from './sql-members.repository';
+
+import { SqlMemberRepository } from './sql-member.repository';
 
 class Test extends RepositoryTest {
   dateAdapter = new StubDate();
-  repository = new SqlMembersRepository(this.database, this.dateAdapter);
+  repository = new SqlMemberRepository(this.database, this.dateAdapter);
 
   now = createDate('2023-01-01');
 
@@ -26,7 +27,7 @@ class Test extends RepositoryTest {
   }
 }
 
-describe('[Intg] SqlMembersRepository', () => {
+describe('[Intg] SqlMemberRepository', () => {
   let test: Test;
 
   beforeEach(async () => {

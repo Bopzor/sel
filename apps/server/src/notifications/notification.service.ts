@@ -1,9 +1,9 @@
 import { injectableClass } from 'ditox';
 
+import { NotificationRepository } from '../persistence/repositories/notification/notification.repository';
 import { TOKENS } from '../tokens';
 
 import { MemberIsNotNotificationRecipient, NotificationNotFound } from './errors';
-import { NotificationRepository } from './notification.repository';
 
 export class NotificationService {
   static inject = injectableClass(this, TOKENS.notificationRepository);

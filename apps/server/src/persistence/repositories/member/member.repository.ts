@@ -1,6 +1,6 @@
 import * as shared from '@sel/shared';
 
-import { Address, Member, MemberStatus } from './entities';
+import { Address, Member, MemberStatus } from '../../../members/entities';
 
 export type InsertMemberModel = {
   id: string;
@@ -18,7 +18,7 @@ export type UpdateMemberModel = {
   address?: Address;
 };
 
-export interface MembersRepository {
+export interface MemberRepository {
   query_listMembers(sort: shared.MembersSort): Promise<shared.Member[]>;
   query_getMember(memberId: string): Promise<shared.Member | undefined>;
   query_getAuthenticatedMember(memberId: string): Promise<shared.AuthenticatedMember | undefined>;

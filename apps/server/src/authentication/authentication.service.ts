@@ -7,11 +7,11 @@ import { EventsPort } from '../infrastructure/events/events.port';
 import { GeneratorPort } from '../infrastructure/generator/generator.port';
 import { AuthenticationLinkRequested, MemberAuthenticated, MemberUnauthenticated } from '../members/events';
 import { MembersFacade } from '../members/members.facade';
+import { TokenRepository } from '../persistence/repositories/token/token.repository';
 import { TOKENS } from '../tokens';
 
 import { TokenExpired, TokenNotFound } from './authentication.errors';
 import { Token, TokenType } from './token.entity';
-import { TokenRepository } from './token.repository';
 
 export class AuthenticationService {
   static inject = injectableClass(

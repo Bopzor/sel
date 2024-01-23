@@ -4,11 +4,11 @@ import { injectableClass } from 'ditox';
 import { EventsPort } from '../infrastructure/events/events.port';
 import { GeneratorPort } from '../infrastructure/generator/generator.port';
 import { SubscriptionFacade } from '../notifications/subscription.facade';
+import { MemberRepository } from '../persistence/repositories/member/member.repository';
 import { TOKENS } from '../tokens';
 
 import { MemberStatus } from './entities';
 import { MemberCreated, OnboardingCompleted } from './events';
-import { MembersRepository } from './members.repository';
 
 export class MembersService {
   static inject = injectableClass(
@@ -16,14 +16,14 @@ export class MembersService {
     TOKENS.generator,
     TOKENS.events,
     TOKENS.subscriptionFacade,
-    TOKENS.membersRepository
+    TOKENS.memberRepository
   );
 
   constructor(
     private readonly generator: GeneratorPort,
     private readonly events: EventsPort,
     private readonly subscriptionFacade: SubscriptionFacade,
-    private readonly membersRepository: MembersRepository
+    private readonly membersRepository: MemberRepository
   ) {}
 
   async createMember(firstName: string, lastName: string, email: string): Promise<string> {

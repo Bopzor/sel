@@ -2,11 +2,11 @@ import { createDate } from '@sel/utils';
 import { beforeEach, describe, expect, it } from 'vitest';
 
 import { StubDate } from '../infrastructure/date/stub-date.adapter';
+import { InMemoryNotificationRepository } from '../persistence/repositories/notification/in-memory-notification.repository';
 import { UnitTest } from '../unit-test';
 
 import { createNotification } from './entities';
 import { MemberIsNotNotificationRecipient, NotificationNotFound } from './errors';
-import { InMemoryNotificationRepository } from './in-memory-notification.repository';
 import { NotificationService } from './notification.service';
 
 class Test extends UnitTest {

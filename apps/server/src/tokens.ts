@@ -4,9 +4,7 @@ import { AuthenticationController } from './authentication/authentication.contro
 import { AuthenticationFacade } from './authentication/authentication.facade';
 import { AuthenticationModule } from './authentication/authentication.module';
 import { AuthenticationService } from './authentication/authentication.service';
-import { TokenRepository } from './authentication/token.repository';
 import { CommentsFacade } from './comments/comments.facade';
-import { CommentsRepository } from './comments/comments.repository';
 import { CommentsService } from './comments/comments.service';
 import { ConfigPort } from './infrastructure/config/config.port';
 import { DatePort } from './infrastructure/date/date.port';
@@ -27,22 +25,24 @@ import { TranslationPort } from './infrastructure/translation/translation.port';
 import { MembersController } from './members/members.controller';
 import { MembersFacade } from './members/members.facade';
 import { MembersModule } from './members/members.module';
-import { MembersRepository } from './members/members.repository';
 import { MembersService } from './members/members.service';
-import { MemberDeviceRepository } from './notifications/member-device.repository';
 import { NotificationController } from './notifications/notification.controller';
 import { NotificationModule } from './notifications/notification.module';
-import { NotificationRepository } from './notifications/notification.repository';
 import { NotificationService } from './notifications/notification.service';
 import { PushNotificationService } from './notifications/push-notification.service';
 import { SubscriptionFacade } from './notifications/subscription.facade';
-import { SubscriptionRepository } from './notifications/subscription.repository';
 import { SubscriptionService } from './notifications/subscription.service';
 import { Database } from './persistence/database';
+import { CommentRepository } from './persistence/repositories/comment/comment.repository';
+import { MemberRepository } from './persistence/repositories/member/member.repository';
+import { MemberDeviceRepository } from './persistence/repositories/member-device/member-device.repository';
+import { NotificationRepository } from './persistence/repositories/notification/notification.repository';
+import { RequestRepository } from './persistence/repositories/request/request.repository';
+import { SubscriptionRepository } from './persistence/repositories/subscription/subscription.repository';
+import { TokenRepository } from './persistence/repositories/token/token.repository';
 import { RequestNotificationsService } from './requests/request-notifications.service';
 import { RequestController } from './requests/request.controller';
 import { RequestModule } from './requests/request.module';
-import { RequestRepository } from './requests/request.repository';
 import { RequestService } from './requests/request.service';
 import { Server } from './server';
 import { SessionController } from './session/session.controller';
@@ -73,7 +73,7 @@ export const TOKENS = {
   membersFacade: token<MembersFacade>('membersFacade'),
   membersController: token<MembersController>('membersController'),
   membersService: token<MembersService>('membersService'),
-  membersRepository: token<MembersRepository>('membersRepository'),
+  memberRepository: token<MemberRepository>('memberRepository'),
   sessionProvider: token<SessionProvider>('authenticatedMemberProvider'),
   authenticationModule: token<AuthenticationModule>('authenticationModule'),
   authenticationFacade: token<AuthenticationFacade>('authenticationFacade'),
@@ -89,7 +89,7 @@ export const TOKENS = {
   requestRepository: token<RequestRepository>('requestRepository'),
   commentsFacade: token<CommentsFacade>('commentsFacade'),
   commentsService: token<CommentsService>('commentsService'),
-  commentsRepository: token<CommentsRepository>('commentsRepository'),
+  commentRepository: token<CommentRepository>('commentRepository'),
   notificationModule: token<NotificationModule>('notificationModule'),
   subscriptionFacade: token<SubscriptionFacade>('subscriptionFacade'),
   subscriptionService: token<SubscriptionService>('subscriptionService'),

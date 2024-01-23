@@ -1,6 +1,6 @@
 import * as shared from '@sel/shared';
 
-import { Request, RequestStatus } from './request.entity';
+import { Request, RequestStatus } from '../../../requests/request.entity';
 
 export type InsertRequestModel = {
   id: string;

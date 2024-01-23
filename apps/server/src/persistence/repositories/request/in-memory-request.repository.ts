@@ -1,9 +1,9 @@
 import * as shared from '@sel/shared';
 import { defined } from '@sel/utils';
 
-import { InMemoryRepository } from '../in-memory.repository';
+import { InMemoryRepository } from '../../../in-memory.repository';
+import { Request, RequestStatus } from '../../../requests/request.entity';
 
-import { Request, RequestStatus } from './request.entity';
 import { InsertRequestModel, RequestRepository, UpdateRequestModel } from './request.repository';
 
 export class InMemoryRequestRepository extends InMemoryRepository<Request> implements RequestRepository {

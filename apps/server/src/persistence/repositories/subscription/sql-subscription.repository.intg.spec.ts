@@ -2,10 +2,10 @@ import { createDate } from '@sel/utils';
 import { eq } from 'drizzle-orm';
 import { beforeEach, describe, expect, it } from 'vitest';
 
-import { StubDate } from '../infrastructure/date/stub-date.adapter';
-import { createMember } from '../members/entities';
-import { subscriptions } from '../persistence/schema';
-import { RepositoryTest } from '../repository-test';
+import { StubDate } from '../../../infrastructure/date/stub-date.adapter';
+import { createMember } from '../../../members/entities';
+import { RepositoryTest } from '../../../repository-test';
+import { subscriptions } from '../../schema';
 
 import { SqlSubscriptionRepository } from './sql-subscription.repository';
 

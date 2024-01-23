@@ -2,12 +2,13 @@ import * as shared from '@sel/shared';
 import { injectableClass } from 'ditox';
 import { eq } from 'drizzle-orm';
 
-import { DatePort } from '../infrastructure/date/date.port';
-import { Database } from '../persistence/database';
-import { comments, members, requests } from '../persistence/schema';
-import { TOKENS } from '../tokens';
+import { DatePort } from '../../../infrastructure/date/date.port';
+import { Request, RequestStatus } from '../../../requests/request.entity';
+import { TOKENS } from '../../../tokens';
+import { Database } from '../../database';
+import { comments, members, requests } from '../../schema';
 
-import { Request, RequestStatus } from './request.entity';
+
 import { InsertRequestModel, RequestRepository, UpdateRequestModel } from './request.repository';
 
 export class SqlRequestRepository implements RequestRepository {

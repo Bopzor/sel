@@ -5,11 +5,11 @@ import { StubDate } from '../infrastructure/date/stub-date.adapter';
 import { StubGenerator } from '../infrastructure/generator/stub-generator.adapter';
 import { createMember } from '../members/entities';
 import { StubMembersFacade } from '../members/members.facade';
+import { InMemoryNotificationRepository } from '../persistence/repositories/notification/in-memory-notification.repository';
+import { InMemorySubscriptionRepository } from '../persistence/repositories/subscription/in-memory.subscription.repository';
 import { UnitTest } from '../unit-test';
 
 import { createSubscription } from './entities';
-import { InMemoryNotificationRepository } from './in-memory-notification.repository';
-import { InMemorySubscriptionRepository } from './in-memory.subscription.repository';
 import { SubscriptionService } from './subscription.service';
 
 class Test extends UnitTest {

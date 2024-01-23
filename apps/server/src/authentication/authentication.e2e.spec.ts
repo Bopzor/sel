@@ -19,7 +19,7 @@ describe('[E2E] Authentication', () => {
   afterEach(() => test?.waitForEventHandlers());
 
   it('requests an authentication link by email', async () => {
-    const memberRepository = container.resolve(TOKENS.membersRepository);
+    const memberRepository = container.resolve(TOKENS.memberRepository);
 
     await memberRepository.insert(createMember({ email: 'member@domain.tld' }));
 

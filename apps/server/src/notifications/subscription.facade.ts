@@ -1,9 +1,9 @@
 import { injectableClass } from 'ditox';
 
+import { SubscriptionEntityType } from '../persistence/repositories/subscription/subscription.repository';
 import { TOKENS } from '../tokens';
 
 import { SubscriptionType } from './entities';
-import { SubscriptionEntityType } from './subscription.repository';
 import {
   GetNotificationPayload,
   NotificationPayload,

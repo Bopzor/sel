@@ -6,11 +6,17 @@ import { DatePort } from '../infrastructure/date/date.port';
 import { GeneratorPort } from '../infrastructure/generator/generator.port';
 import { Member } from '../members/entities';
 import { MembersFacade } from '../members/members.facade';
+import {
+  InsertNotificationModel,
+  NotificationRepository,
+} from '../persistence/repositories/notification/notification.repository';
+import {
+  SubscriptionEntityType,
+  SubscriptionRepository,
+} from '../persistence/repositories/subscription/subscription.repository';
 import { TOKENS } from '../tokens';
 
 import { SubscriptionType } from './entities';
-import { InsertNotificationModel, NotificationRepository } from './notification.repository';
-import { SubscriptionEntityType, SubscriptionRepository } from './subscription.repository';
 
 export type NotificationPayload<Type extends shared.NotificationType> = {
   type: Type;

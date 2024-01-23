@@ -2,12 +2,13 @@ import * as shared from '@sel/shared';
 import { injectableClass } from 'ditox';
 import { SQL, and, count, desc, eq, isNotNull, isNull } from 'drizzle-orm';
 
-import { DatePort } from '../infrastructure/date/date.port';
-import { Database } from '../persistence/database';
-import { notifications, subscriptions } from '../persistence/schema';
-import { TOKENS } from '../tokens';
+import { DatePort } from '../../../infrastructure/date/date.port';
+import { Notification } from '../../../notifications/entities';
+import { TOKENS } from '../../../tokens';
+import { Database } from '../../database';
+import { notifications, subscriptions } from '../../schema';
 
-import { Notification } from './entities';
+
 import { InsertNotificationModel, NotificationRepository } from './notification.repository';
 
 export class SqlNotificationRepository implements NotificationRepository {

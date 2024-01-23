@@ -1,10 +1,10 @@
 import * as shared from '@sel/shared';
 import { injectableClass } from 'ditox';
 
+import { MemberRepository } from '../persistence/repositories/member/member.repository';
 import { TOKENS } from '../tokens';
 
 import { Member } from './entities';
-import { MembersRepository } from './members.repository';
 
 export interface MembersFacade {
   query_getAuthenticatedMember(memberId: string): Promise<shared.AuthenticatedMember | undefined>;
@@ -15,9 +15,9 @@ export interface MembersFacade {
 }
 
 export class MembersFacadeImpl implements MembersFacade {
-  static inject = injectableClass(this, TOKENS.membersRepository);
+  static inject = injectableClass(this, TOKENS.memberRepository);
 
-  constructor(private readonly membersRepository: MembersRepository) {}
+  constructor(private readonly membersRepository: MemberRepository) {}
 
   async query_getAuthenticatedMember(id: string): Promise<shared.AuthenticatedMember | undefined> {
     return this.membersRepository.query_getAuthenticatedMember(id);

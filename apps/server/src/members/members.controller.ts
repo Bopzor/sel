@@ -7,10 +7,10 @@ import { z } from 'zod';
 
 import { AuthorizationError } from '../authorization-error';
 import { HttpStatus } from '../http-status';
+import { MemberRepository } from '../persistence/repositories/member/member.repository';
 import { SessionProvider } from '../session/session.provider';
 import { TOKENS } from '../tokens';
 
-import { MembersRepository } from './members.repository';
 import { MembersService } from './members.service';
 
 export class MembersController {
@@ -20,13 +20,13 @@ export class MembersController {
     this,
     TOKENS.sessionProvider,
     TOKENS.membersService,
-    TOKENS.membersRepository
+    TOKENS.memberRepository
   );
 
   constructor(
     private readonly sessionProvider: SessionProvider,
     private readonly membersService: MembersService,
-    private readonly membersRepository: MembersRepository
+    private readonly membersRepository: MemberRepository
   ) {
     this.router.use(this.authenticated);
     this.router.get('/', this.listMembers);

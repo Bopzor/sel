@@ -2,12 +2,13 @@ import { createDate } from '@sel/utils';
 import { eq } from 'drizzle-orm';
 import { beforeEach, describe, expect, it } from 'vitest';
 
-import { StubDate } from '../infrastructure/date/stub-date.adapter';
-import { createMember } from '../members/entities';
-import { notifications } from '../persistence/schema';
-import { RepositoryTest } from '../repository-test';
+import { StubDate } from '../../../infrastructure/date/stub-date.adapter';
+import { createMember } from '../../../members/entities';
+import { createNotification, createSubscription } from '../../../notifications/entities';
+import { RepositoryTest } from '../../../repository-test';
+import { notifications } from '../../schema';
 
-import { createNotification, createSubscription } from './entities';
+
 import { SqlNotificationRepository } from './sql-notification.repository';
 
 class Test extends RepositoryTest {

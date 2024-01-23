@@ -1,16 +1,16 @@
 import { injectableClass } from 'ditox';
 import { eq } from 'drizzle-orm';
 
-import { DatePort } from '../infrastructure/date/date.port';
-import { HtmlParserPort } from '../infrastructure/html-parser/html-parser.port';
-import { Database } from '../persistence/database';
-import { comments } from '../persistence/schema';
-import { TOKENS } from '../tokens';
+import { Comment, CommentParentType } from '../../../comments/entities';
+import { DatePort } from '../../../infrastructure/date/date.port';
+import { HtmlParserPort } from '../../../infrastructure/html-parser/html-parser.port';
+import { TOKENS } from '../../../tokens';
+import { Database } from '../../database';
+import { comments } from '../../schema';
 
-import { CommentsRepository } from './comments.repository';
-import { Comment, CommentParentType } from './entities';
+import { CommentRepository } from './comment.repository';
 
-export class SqlCommentsRepository implements CommentsRepository {
+export class SqlCommentRepository implements CommentRepository {
   static inject = injectableClass(this, TOKENS.database, TOKENS.date, TOKENS.htmlParser);
 
   constructor(

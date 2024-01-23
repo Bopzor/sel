@@ -1,10 +1,10 @@
 import { injectableClass } from 'ditox';
 import { eq } from 'drizzle-orm';
 
-import { DatePort } from '../infrastructure/date/date.port';
-import { Database } from '../persistence/database';
-import { memberDevice } from '../persistence/schema';
-import { TOKENS } from '../tokens';
+import { DatePort } from '../../../infrastructure/date/date.port';
+import { TOKENS } from '../../../tokens';
+import { Database } from '../../database';
+import { memberDevice } from '../../schema';
 
 import { InsertMemberDeviceModel, MemberDeviceRepository } from './member-device.repository';
 

@@ -4,10 +4,10 @@ import { RequestHandler, Router } from 'express';
 import { z } from 'zod';
 
 import { HttpStatus } from '../http-status';
+import { NotificationRepository } from '../persistence/repositories/notification/notification.repository';
 import { SessionProvider } from '../session/session.provider';
 import { TOKENS } from '../tokens';
 
-import { NotificationRepository } from './notification.repository';
 import { NotificationService } from './notification.service';
 import { PushNotificationService } from './push-notification.service';
 
