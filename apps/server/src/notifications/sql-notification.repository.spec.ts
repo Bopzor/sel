@@ -3,8 +3,8 @@ import { eq } from 'drizzle-orm';
 import { beforeEach, describe, expect, it } from 'vitest';
 
 import { StubDate } from '../infrastructure/date/stub-date.adapter';
-import { notifications } from '../infrastructure/persistence/schema';
 import { createMember } from '../members/entities';
+import { notifications } from '../persistence/schema';
 import { RepositoryTest } from '../repository-test';
 
 import { createNotification, createSubscription } from './entities';

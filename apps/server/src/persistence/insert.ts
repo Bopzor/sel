@@ -1,7 +1,7 @@
 import fs from 'fs';
 
-import { container } from '../../container';
-import { TOKENS } from '../../tokens';
+import { container } from '../container';
+import { TOKENS } from '../tokens';
 
 import { members, requests } from './schema';
 

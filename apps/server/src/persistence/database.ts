@@ -8,8 +8,8 @@ import { PostgresJsDatabase, drizzle } from 'drizzle-orm/postgres-js';
 import { migrate } from 'drizzle-orm/postgres-js/migrator';
 import postgres from 'postgres';
 
-import { TOKENS } from '../../tokens';
-import { ConfigPort } from '../config/config.port';
+import { ConfigPort } from '../infrastructure/config/config.port';
+import { TOKENS } from '../tokens';
 
 import * as schema from './schema';
 

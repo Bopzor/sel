@@ -3,8 +3,8 @@ import { beforeEach, describe, expect, it } from 'vitest';
 
 import { StubDate } from '../infrastructure/date/stub-date.adapter';
 import { FakeHtmlParserAdapter } from '../infrastructure/html-parser/fake-html-parser.adapter';
-import { comments, members, requests } from '../infrastructure/persistence/schema';
-import { createSqlMember, createSqlRequest } from '../infrastructure/persistence/sql-factories';
+import { comments, members, requests } from '../persistence/schema';
+import { createSqlMember, createSqlRequest } from '../persistence/sql-factories';
 import { RepositoryTest } from '../repository-test';
 
 import { SqlCommentsRepository } from './sql-comments.repository';

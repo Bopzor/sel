@@ -3,8 +3,8 @@ import { eq } from 'drizzle-orm';
 
 import { DatePort } from '../infrastructure/date/date.port';
 import { HtmlParserPort } from '../infrastructure/html-parser/html-parser.port';
-import { Database } from '../infrastructure/persistence/database';
-import { comments } from '../infrastructure/persistence/schema';
+import { Database } from '../persistence/database';
+import { comments } from '../persistence/schema';
 import { TOKENS } from '../tokens';
 
 import { CommentsRepository } from './comments.repository';

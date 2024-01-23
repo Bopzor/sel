@@ -8,7 +8,7 @@
     "start": "TZ=UTC tsx src/index.ts",
     "lint": "eslint src",
     "test": "vitest",
-    "db:migrate": "tsx src/infrastructure/persistence/migrate.ts"
+    "db:migrate": "tsx src/persistence/migrate.ts"
   },
   "dependencies": {
     "@formatjs/intl": "^2.9.9",

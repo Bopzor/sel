@@ -3,8 +3,8 @@ import { injectableClass } from 'ditox';
 import { SQL, and, count, desc, eq, isNotNull, isNull } from 'drizzle-orm';
 
 import { DatePort } from '../infrastructure/date/date.port';
-import { Database } from '../infrastructure/persistence/database';
-import { notifications, subscriptions } from '../infrastructure/persistence/schema';
+import { Database } from '../persistence/database';
+import { notifications, subscriptions } from '../persistence/schema';
 import { TOKENS } from '../tokens';
 
 import { Notification } from './entities';

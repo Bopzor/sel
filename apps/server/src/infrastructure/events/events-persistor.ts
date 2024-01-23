@@ -1,11 +1,11 @@
 import { injectableClass } from 'ditox';
 
 import { DomainEvent } from '../../domain-event';
+import { Database } from '../../persistence/database';
+import { events } from '../../persistence/schema';
 import { TOKENS } from '../../tokens';
 import { DatePort } from '../date/date.port';
 import { GeneratorPort } from '../generator/generator.port';
-import { Database } from '../persistence/database';
-import { events } from '../persistence/schema';
 
 import { EventsPort } from './events.port';
 

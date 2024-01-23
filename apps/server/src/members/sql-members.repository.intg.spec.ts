@@ -4,8 +4,8 @@ import { eq } from 'drizzle-orm';
 import { beforeEach, describe, expect, it } from 'vitest';
 
 import { StubDate } from '../infrastructure/date/stub-date.adapter';
-import { members, tokens } from '../infrastructure/persistence/schema';
-import { createSqlMember } from '../infrastructure/persistence/sql-factories';
+import { members, tokens } from '../persistence/schema';
+import { createSqlMember } from '../persistence/sql-factories';
 import { RepositoryTest } from '../repository-test';
 
 import { MemberStatus, createMember } from './entities';

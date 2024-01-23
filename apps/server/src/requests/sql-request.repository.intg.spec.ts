@@ -3,12 +3,8 @@ import { createDate } from '@sel/utils';
 import { beforeEach, describe, expect, it } from 'vitest';
 
 import { StubDate } from '../infrastructure/date/stub-date.adapter';
-import { comments, members, requests } from '../infrastructure/persistence/schema';
-import {
-  createSqlComment,
-  createSqlMember,
-  createSqlRequest,
-} from '../infrastructure/persistence/sql-factories';
+import { comments, members, requests } from '../persistence/schema';
+import { createSqlComment, createSqlMember, createSqlRequest } from '../persistence/sql-factories';
 import { RepositoryTest } from '../repository-test';
 
 import { SqlRequestRepository } from './sql-request.repository';

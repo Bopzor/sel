@@ -2,8 +2,8 @@ import { injectableClass } from 'ditox';
 import { and, eq } from 'drizzle-orm';
 
 import { DatePort } from '../infrastructure/date/date.port';
-import { Database } from '../infrastructure/persistence/database';
-import { tokens } from '../infrastructure/persistence/schema';
+import { Database } from '../persistence/database';
+import { tokens } from '../persistence/schema';
 import { TOKENS } from '../tokens';
 
 import { Token, TokenType } from './token.entity';

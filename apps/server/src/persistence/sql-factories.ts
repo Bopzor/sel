@@ -1,8 +1,8 @@
 import { createDate, createFactory } from '@sel/utils';
 
-import { TokenType } from '../../authentication/token.entity';
-import { MemberStatus } from '../../members/entities';
-import { RequestStatus } from '../../requests/request.entity';
+import { TokenType } from '../authentication/token.entity';
+import { MemberStatus } from '../members/entities';
+import { RequestStatus } from '../requests/request.entity';
 
 import { comments, members, requests, tokens } from './schema';
 

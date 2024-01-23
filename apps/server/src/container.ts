@@ -21,7 +21,6 @@ import { EventsSlackPublisher } from './infrastructure/events/events-slack-publi
 import { NanoIdGenerator } from './infrastructure/generator/nanoid-generator.adapter';
 import { CheerioHtmlParserAdapter } from './infrastructure/html-parser/cheerio-html-parser.adapter';
 import { ConsoleLogger } from './infrastructure/logger/console-logger.adapter';
-import { Database } from './infrastructure/persistence/database';
 import { WebPushNotificationAdapter } from './infrastructure/push-notification/web-push-notification.adapter';
 import { WebSlackClientAdapter } from './infrastructure/slack/web-slack-client.adapter';
 import { FormatJsTranslationAdapter } from './infrastructure/translation/formatjs-translation.adapter';
@@ -39,6 +38,7 @@ import { SqlNotificationRepository } from './notifications/sql-notification.repo
 import { SqlSubscriptionRepository } from './notifications/sql-subscription.repository';
 import { SubscriptionFacadeImpl } from './notifications/subscription.facade';
 import { SubscriptionService } from './notifications/subscription.service';
+import { Database } from './persistence/database';
 import { RequestNotificationsService } from './requests/request-notifications.service';
 import { RequestController } from './requests/request.controller';
 import { RequestModule } from './requests/request.module';

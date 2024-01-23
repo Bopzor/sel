@@ -21,7 +21,6 @@ import { EventsPort } from './infrastructure/events/events.port';
 import { GeneratorPort } from './infrastructure/generator/generator.port';
 import { HtmlParserPort } from './infrastructure/html-parser/html-parser.port';
 import { LoggerPort } from './infrastructure/logger/logger.port';
-import { Database } from './infrastructure/persistence/database';
 import { PushNotificationPort } from './infrastructure/push-notification/push-notification.port';
 import { SlackClientPort } from './infrastructure/slack/slack-client.port';
 import { TranslationPort } from './infrastructure/translation/translation.port';
@@ -39,6 +38,7 @@ import { PushNotificationService } from './notifications/push-notification.servi
 import { SubscriptionFacade } from './notifications/subscription.facade';
 import { SubscriptionRepository } from './notifications/subscription.repository';
 import { SubscriptionService } from './notifications/subscription.service';
+import { Database } from './persistence/database';
 import { RequestNotificationsService } from './requests/request-notifications.service';
 import { RequestController } from './requests/request.controller';
 import { RequestModule } from './requests/request.module';
