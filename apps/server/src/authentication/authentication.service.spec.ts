@@ -1,34 +1,23 @@
 import { createDate } from '@sel/utils';
 import { beforeEach, describe, expect, it } from 'vitest';
 
-import { StubConfigAdapter } from '../infrastructure/config/stub-config.adapter';
 import { StubDate } from '../infrastructure/date/stub-date.adapter';
 import { StubEventsAdapter } from '../infrastructure/events/stub-events.adapter';
 import { StubGenerator } from '../infrastructure/generator/stub-generator.adapter';
-import { createMember } from '../members/entities';
-import { AuthenticationLinkRequested, MemberAuthenticated } from '../members/events';
-import { StubMembersFacade } from '../members/members.facade';
+import { MemberAuthenticated } from '../members/events';
 import { InMemoryTokenRepository } from '../persistence/repositories/token/in-memory-token.repository';
 import { UnitTest } from '../unit-test';
 
 import { AuthenticationService } from './authentication.service';
 import { TokenType, createToken } from './token.entity';
+
 class Test extends UnitTest {
-  config = new StubConfigAdapter({ app: { baseUrl: 'https://app.url' } });
   generator = new StubGenerator();
   dateAdapter = new StubDate();
   events = new StubEventsAdapter();
   tokenRepository = new InMemoryTokenRepository();
-  memberFacade = new StubMembersFacade();
 
-  service = new AuthenticationService(
-    this.config,
-    this.generator,
-    this.dateAdapter,
-    this.events,
-    this.tokenRepository,
-    this.memberFacade
-  );
+  service = new AuthenticationService(this.generator, this.dateAdapter, this.events, this.tokenRepository);
 
   sessionToken = createToken({ value: 'session-token', memberId: 'memberId', type: TokenType.session });
 
@@ -63,39 +52,6 @@ describe('[Unit] AuthenticationService', () => {
       await test.service.generateToken(TokenType.authentication, 'memberId');
 
       expect(test.tokenRepository.get('generatedId')).toBeDefined();
-    });
-  });
-
-  describe('requestAuthenticationLink', () => {
-    it('triggers a AuthenticationLinkRequested domain event', async () => {
-      test.generator.nextToken = 'authToken';
-      test.memberFacade.members.push(
-        createMember({ id: 'memberId', firstName: 'firstName', email: 'email' })
-      );
-
-      await test.service.requestAuthenticationLink('email');
-
-      expect(test.events).toHaveEmitted(
-        new AuthenticationLinkRequested('memberId', 'https://app.url/?auth-token=authToken')
-      );
-    });
-
-    it('does trigger the event when the member does not exist', async () => {
-      await test.service.requestAuthenticationLink('does-not-exist');
-
-      expect(test.events.events).toHaveLength(0);
-    });
-
-    it('revokes the previous authentication token', async () => {
-      test.memberFacade.members.push(createMember({ id: 'memberId', email: 'email' }));
-
-      test.tokenRepository.add(
-        createToken({ id: 'tokenId', memberId: 'memberId', type: TokenType.authentication, revoked: false })
-      );
-
-      await test.service.requestAuthenticationLink('email');
-
-      expect(test.tokenRepository.get('tokenId')).toHaveProperty('revoked', true);
     });
   });
 

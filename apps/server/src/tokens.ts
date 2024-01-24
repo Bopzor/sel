@@ -4,9 +4,13 @@ import { AuthenticationController } from './authentication/authentication.contro
 import { AuthenticationFacade } from './authentication/authentication.facade';
 import { AuthenticationModule } from './authentication/authentication.module';
 import { AuthenticationService } from './authentication/authentication.service';
+import { RequestAuthenticationLink } from './authentication/commands/request-authentication-link.command';
 import { CommentsFacade } from './comments/comments.facade';
 import { CommentsService } from './comments/comments.service';
 import { ConfigPort } from './infrastructure/config/config.port';
+import { Bus } from './infrastructure/cqs/bus';
+import { CommandBus } from './infrastructure/cqs/command-bus';
+import { EventBus } from './infrastructure/cqs/event-bus';
 import { DatePort } from './infrastructure/date/date.port';
 import { EmailRendererPort } from './infrastructure/email/email-renderer.port';
 import { EmailSenderPort } from './infrastructure/email/email-sender.port';
@@ -99,4 +103,12 @@ export const TOKENS = {
   notificationRepository: token<NotificationRepository>('notificationRepository'),
   pushNotificationService: token<PushNotificationService>('pushNotificationService'),
   memberDeviceRepository: token<MemberDeviceRepository>('memberDeviceRepository'),
+
+  commandBus: token<CommandBus>('commandBus'),
+  queryBus: token<Bus>('queryBus'),
+  eventBus: token<EventBus>('eventBus'),
+};
+
+export const COMMANDS = {
+  requestAuthenticationLink: token<RequestAuthenticationLink>('requestAuthenticationLink'),
 };

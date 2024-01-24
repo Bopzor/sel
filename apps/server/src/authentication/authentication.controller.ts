@@ -4,18 +4,28 @@ import { z } from 'zod';
 
 import { HttpStatus } from '../http-status';
 import { ConfigPort } from '../infrastructure/config/config.port';
-import { TOKENS } from '../tokens';
+import { CommandBus } from '../infrastructure/cqs/command-bus';
+import { COMMANDS, TOKENS } from '../tokens';
 
 import { TokenExpired, TokenNotFound } from './authentication.errors';
 import { AuthenticationService } from './authentication.service';
+import { RequestAuthenticationLink } from './commands/request-authentication-link.command';
 
 export class AuthenticationController {
-  static inject = injectableClass(this, TOKENS.config, TOKENS.authenticationService);
+  static inject = injectableClass(
+    this,
+    TOKENS.config,
+    TOKENS.commandBus,
+    COMMANDS.requestAuthenticationLink,
+    TOKENS.authenticationService
+  );
 
   readonly router = Router();
 
   constructor(
     private readonly config: ConfigPort,
+    private readonly commandBus: CommandBus,
+    private readonly requestAuthenticationLinkCommand: RequestAuthenticationLink,
     private readonly authenticationService: AuthenticationService
   ) {
     this.router.post('/request-authentication-link', this.requestAuthenticationLink);
@@ -34,7 +44,10 @@ export class AuthenticationController {
 
     const { email } = schema.parse(req.query);
 
-    await this.authenticationService.requestAuthenticationLink(email);
+    await this.commandBus.execute(
+      this.requestAuthenticationLinkCommand.handle.bind(this.requestAuthenticationLinkCommand),
+      email
+    );
 
     res.end();
   };

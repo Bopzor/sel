@@ -70,6 +70,7 @@ export class E2ETest {
     await container.resolve(TOKENS.database).ensureTestDatabase?.();
     await container.resolve(TOKENS.database).migrate?.();
 
+    container.resolve(TOKENS.commandBus).init();
     await container.resolve(TOKENS.emailRenderer).init?.();
     container.resolve(TOKENS.authenticationModule).init();
     container.resolve(TOKENS.membersModule).init();

@@ -8,7 +8,6 @@ import { TOKENS } from '../../../tokens';
 import { Database } from '../../database';
 import { members } from '../../schema';
 
-
 import { InsertMemberModel, MemberRepository, UpdateMemberModel } from './member.repository';
 
 export class SqlMemberRepository implements MemberRepository {
@@ -18,6 +17,10 @@ export class SqlMemberRepository implements MemberRepository {
 
   private get db() {
     return this.database.db;
+  }
+
+  private get tx() {
+    return this.database.transaction;
   }
 
   async query_listMembers(sort: shared.MembersSort): Promise<shared.Member[]> {
@@ -87,7 +90,7 @@ export class SqlMemberRepository implements MemberRepository {
   }
 
   async getMember(memberId: string): Promise<Member | undefined> {
-    const [result] = await this.db.select().from(members).where(eq(members.id, memberId));
+    const [result] = await this.tx.select().from(members).where(eq(members.id, memberId));
 
     if (result) {
       return this.toMember(result);
@@ -99,13 +102,13 @@ export class SqlMemberRepository implements MemberRepository {
       return [];
     }
 
-    const results = await this.db.select().from(members).where(inArray(members.id, memberIds));
+    const results = await this.tx.select().from(members).where(inArray(members.id, memberIds));
 
     return results.map(this.toMember);
   }
 
   async getMemberFromEmail(email: string): Promise<Member | undefined> {
-    const [result] = await this.db.select().from(members).where(eq(members.email, email));
+    const [result] = await this.tx.select().from(members).where(eq(members.email, email));
 
     if (result) {
       return this.toMember(result);
@@ -115,7 +118,7 @@ export class SqlMemberRepository implements MemberRepository {
   async insert(model: InsertMemberModel): Promise<void> {
     const now = this.dateAdapter.now();
 
-    await this.db.insert(members).values({
+    await this.tx.insert(members).values({
       id: model.id,
       status: MemberStatus.onboarding,
       firstName: model.firstName,
@@ -134,7 +137,7 @@ export class SqlMemberRepository implements MemberRepository {
   async update(memberId: string, model: UpdateMemberModel): Promise<void> {
     const now = this.dateAdapter.now();
 
-    await this.db
+    await this.tx
       .update(members)
       .set({
         firstName: model.firstName,
@@ -151,7 +154,7 @@ export class SqlMemberRepository implements MemberRepository {
   async setStatus(memberId: string, status: MemberStatus): Promise<void> {
     const now = this.dateAdapter.now();
 
-    await this.db
+    await this.tx
       .update(members)
       .set({
         status,

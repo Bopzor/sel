@@ -1,13 +1,17 @@
-import { createContainer } from 'ditox';
+import { createContainer, injectableClass } from 'ditox';
 import nodemailer from 'nodemailer';
 
 import { AuthenticationController } from './authentication/authentication.controller';
 import { AuthenticationFacadeImpl } from './authentication/authentication.facade';
 import { AuthenticationModule } from './authentication/authentication.module';
 import { AuthenticationService } from './authentication/authentication.service';
+import { RequestAuthenticationLink } from './authentication/commands/request-authentication-link.command';
 import { CommentsFacadeImpl } from './comments/comments.facade';
 import { CommentsService } from './comments/comments.service';
 import { EnvConfigAdapter } from './infrastructure/config/env-config.adapter';
+import { Bus } from './infrastructure/cqs/bus';
+import { CommandBus } from './infrastructure/cqs/command-bus';
+import { EventBus } from './infrastructure/cqs/event-bus';
 import { NativeDateAdapter } from './infrastructure/date/native-date.adapter';
 import { MjmlEmailRendererAdapter } from './infrastructure/email/mjml-email-renderer.adapter';
 import { NodemailerEmailSenderAdapter } from './infrastructure/email/nodemailer-email-sender.adapter';
@@ -48,7 +52,7 @@ import { Server } from './server';
 import { SessionController } from './session/session.controller';
 import { SessionProvider } from './session/session.provider';
 import { SessionService } from './session/session.service';
-import { TOKENS } from './tokens';
+import { COMMANDS, TOKENS } from './tokens';
 
 export const container = createContainer();
 
@@ -112,3 +116,9 @@ container.bindFactory(TOKENS.notificationRepository, SqlNotificationRepository.i
 
 container.bindFactory(TOKENS.pushNotificationService, PushNotificationService.inject);
 container.bindFactory(TOKENS.memberDeviceRepository, SqlMemberDeviceRepository.inject);
+
+container.bindFactory(TOKENS.commandBus, CommandBus.inject);
+container.bindFactory(TOKENS.queryBus, injectableClass(Bus));
+container.bindFactory(TOKENS.eventBus, injectableClass(EventBus));
+
+container.bindFactory(COMMANDS.requestAuthenticationLink, RequestAuthenticationLink.inject);

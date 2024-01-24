@@ -14,8 +14,12 @@ export class SqlTokenRepository implements TokenRepository {
 
   constructor(private readonly database: Database, private readonly dateAdapter: DatePort) {}
 
+  private get tx() {
+    return this.database.transaction;
+  }
+
   async findByValue(value: string): Promise<Token | undefined> {
-    const [sqlToken] = await this.database.db
+    const [sqlToken] = await this.tx
       .select()
       .from(tokens)
       .where(and(eq(tokens.value, value), eq(tokens.revoked, false)));
@@ -28,7 +32,7 @@ export class SqlTokenRepository implements TokenRepository {
   }
 
   async findByMemberId(memberId: string, type: TokenType): Promise<Token | undefined> {
-    const [sqlToken] = await this.database.db
+    const [sqlToken] = await this.tx
       .select()
       .from(tokens)
       .where(and(eq(tokens.memberId, memberId), eq(tokens.type, type), eq(tokens.revoked, false)));
@@ -54,7 +58,7 @@ export class SqlTokenRepository implements TokenRepository {
   async insert(token: Token): Promise<void> {
     const now = this.dateAdapter.now();
 
-    await this.database.db.insert(tokens).values({
+    await this.tx.insert(tokens).values({
       ...token,
       expirationDate: token.expirationDate,
       createdAt: now,
@@ -63,6 +67,6 @@ export class SqlTokenRepository implements TokenRepository {
   }
 
   async revoke(tokenId: string): Promise<void> {
-    await this.database.db.update(tokens).set({ revoked: true }).where(eq(tokens.id, tokenId));
+    await this.tx.update(tokens).set({ revoked: true }).where(eq(tokens.id, tokenId));
   }
 }

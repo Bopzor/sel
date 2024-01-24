@@ -1,3 +1,4 @@
+import { AsyncLocalStorage } from 'node:async_hooks';
 import path from 'node:path';
 import url from 'node:url';
 
@@ -17,13 +18,18 @@ const { comments, members, requests, tokens, subscriptions, notifications } = sc
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
+type DB = PostgresJsDatabase<typeof schema>;
+
+export type Transaction = Parameters<Parameters<DB['transaction']>[0]>[0];
+
 export class Database {
   static inject = injectableClass(this, TOKENS.config);
 
   static migrationsFolder = path.resolve(__dirname, 'migrations');
 
   public readonly pgQueryClient: postgres.Sql;
-  public readonly db: PostgresJsDatabase<typeof schema>;
+  public readonly db: DB;
+  private readonly transactionLocalStorage = new AsyncLocalStorage<Transaction>();
 
   constructor(private readonly config: ConfigPort) {
     // cspell:word onnotice
@@ -33,6 +39,16 @@ export class Database {
 
   private get databaseUrl() {
     return this.config.database.url;
+  }
+
+  get transaction() {
+    return this.transactionLocalStorage.getStore() ?? this.db;
+  }
+
+  createTransaction(cb: () => void): void {
+    void this.db.transaction(async (tx: Transaction) => {
+      return this.transactionLocalStorage.run(tx, cb);
+    });
   }
 
   async close() {

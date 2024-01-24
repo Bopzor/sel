@@ -1,10 +1,12 @@
 import { Duration, addDuration, isAfter } from '@sel/utils';
 import { injectableClass } from 'ditox';
 
+import { ConfigPort } from '../infrastructure/config/config.port';
 import { DatePort } from '../infrastructure/date/date.port';
 import { EventsPort } from '../infrastructure/events/events.port';
 import { GeneratorPort } from '../infrastructure/generator/generator.port';
-import { MemberAuthenticated, MemberUnauthenticated } from '../members/events';
+import { AuthenticationLinkRequested, MemberAuthenticated, MemberUnauthenticated } from '../members/events';
+import { MembersFacade } from '../members/members.facade';
 import { TokenRepository } from '../persistence/repositories/token/token.repository';
 import { TOKENS } from '../tokens';
 
@@ -12,13 +14,23 @@ import { TokenExpired, TokenNotFound } from './authentication.errors';
 import { Token, TokenType } from './token.entity';
 
 export class AuthenticationService {
-  static inject = injectableClass(this, TOKENS.generator, TOKENS.date, TOKENS.events, TOKENS.tokenRepository);
+  static inject = injectableClass(
+    this,
+    TOKENS.config,
+    TOKENS.generator,
+    TOKENS.date,
+    TOKENS.events,
+    TOKENS.tokenRepository,
+    TOKENS.membersFacade
+  );
 
   constructor(
+    private readonly config: ConfigPort,
     private readonly generator: GeneratorPort,
     private readonly dateAdapter: DatePort,
     private readonly events: EventsPort,
-    private readonly tokenRepository: TokenRepository
+    private readonly tokenRepository: TokenRepository,
+    private readonly memberFacade: MembersFacade
   ) {}
 
   private static expirationDurations: Record<TokenType, Duration> = {
