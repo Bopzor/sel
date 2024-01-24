@@ -7,7 +7,6 @@ import { TOKENS } from '../../../tokens';
 import { Database } from '../../database';
 import { subscriptions } from '../../schema';
 
-
 import { InsertSubscriptionModel, SubscriptionRepository } from './subscription.repository';
 
 export class SqlSubscriptionRepository implements SubscriptionRepository {

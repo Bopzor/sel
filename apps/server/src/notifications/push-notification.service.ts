@@ -9,7 +9,6 @@ import {
 import { MemberDeviceRepository } from '../persistence/repositories/member-device/member-device.repository';
 import { TOKENS } from '../tokens';
 
-
 export class PushNotificationService {
   static inject = injectableClass(
     this,

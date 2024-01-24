@@ -9,7 +9,6 @@ import { RepositoryTest } from '../../../repository-test';
 import { members, tokens } from '../../schema';
 import { createSqlMember } from '../../sql-factories';
 
-
 import { SqlMemberRepository } from './sql-member.repository';
 
 class Test extends RepositoryTest {

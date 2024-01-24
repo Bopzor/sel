@@ -8,7 +8,6 @@ import { TOKENS } from '../../../tokens';
 import { Database } from '../../database';
 import { notifications, subscriptions } from '../../schema';
 
-
 import { InsertNotificationModel, NotificationRepository } from './notification.repository';
 
 export class SqlNotificationRepository implements NotificationRepository {

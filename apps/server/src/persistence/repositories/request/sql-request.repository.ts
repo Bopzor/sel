@@ -8,7 +8,6 @@ import { TOKENS } from '../../../tokens';
 import { Database } from '../../database';
 import { comments, members, requests } from '../../schema';
 
-
 import { InsertRequestModel, RequestRepository, UpdateRequestModel } from './request.repository';
 
 export class SqlRequestRepository implements RequestRepository {

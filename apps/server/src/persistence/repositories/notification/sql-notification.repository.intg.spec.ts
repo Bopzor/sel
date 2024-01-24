@@ -8,7 +8,6 @@ import { createNotification, createSubscription } from '../../../notifications/e
 import { RepositoryTest } from '../../../repository-test';
 import { notifications } from '../../schema';
 
-
 import { SqlNotificationRepository } from './sql-notification.repository';
 
 class Test extends RepositoryTest {
