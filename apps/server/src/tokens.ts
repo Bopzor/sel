@@ -5,6 +5,7 @@ import { AuthenticationFacade } from './authentication/authentication.facade';
 import { AuthenticationModule } from './authentication/authentication.module';
 import { AuthenticationService } from './authentication/authentication.service';
 import { RequestAuthenticationLink } from './authentication/commands/request-authentication-link.command';
+import { VerifyAuthenticationToken } from './authentication/commands/verify-authentication-token.command';
 import { CommentsFacade } from './comments/comments.facade';
 import { CommentsService } from './comments/comments.service';
 import { ConfigPort } from './infrastructure/config/config.port';
@@ -111,4 +112,5 @@ export const TOKENS = {
 
 export const COMMANDS = {
   requestAuthenticationLink: token<RequestAuthenticationLink>('requestAuthenticationLink'),
+  verifyAuthenticationToken: token<VerifyAuthenticationToken>('verifyAuthenticationToken'),
 };

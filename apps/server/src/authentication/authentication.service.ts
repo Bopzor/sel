@@ -1,14 +1,13 @@
-import { Duration, addDuration, isAfter } from '@sel/utils';
+import { Duration, addDuration } from '@sel/utils';
 import { injectableClass } from 'ditox';
 
 import { DatePort } from '../infrastructure/date/date.port';
 import { EventsPort } from '../infrastructure/events/events.port';
 import { GeneratorPort } from '../infrastructure/generator/generator.port';
-import { MemberAuthenticated, MemberUnauthenticated } from '../members/events';
+import { MemberUnauthenticated } from '../members/events';
 import { TokenRepository } from '../persistence/repositories/token/token.repository';
 import { TOKENS } from '../tokens';
 
-import { TokenExpired, TokenNotFound } from './authentication.errors';
 import { Token, TokenType } from './token.entity';
 
 export class AuthenticationService {
@@ -44,24 +43,6 @@ export class AuthenticationService {
     await this.tokenRepository.insert(token);
 
     return token;
-  }
-
-  async verifyAuthenticationToken(tokenValue: string): Promise<Token> {
-    const token = await this.tokenRepository.findByValue(tokenValue);
-
-    if (token === undefined) {
-      throw new TokenNotFound(tokenValue);
-    }
-
-    if (isAfter(this.dateAdapter.now(), token.expirationDate)) {
-      throw new TokenExpired(tokenValue);
-    }
-
-    this.events.emit(new MemberAuthenticated(token.memberId));
-
-    await this.tokenRepository.revoke(token.id);
-
-    return this.generateToken(TokenType.session, token.memberId);
   }
 
   async getMemberIdFromToken(tokenValue: string, type?: TokenType): Promise<string | undefined> {

@@ -10,6 +10,7 @@ import { COMMANDS, TOKENS } from '../tokens';
 import { TokenExpired, TokenNotFound } from './authentication.errors';
 import { AuthenticationService } from './authentication.service';
 import { RequestAuthenticationLink } from './commands/request-authentication-link.command';
+import { VerifyAuthenticationToken } from './commands/verify-authentication-token.command';
 
 export class AuthenticationController {
   static inject = injectableClass(
@@ -17,6 +18,7 @@ export class AuthenticationController {
     TOKENS.config,
     TOKENS.commandBus,
     COMMANDS.requestAuthenticationLink,
+    COMMANDS.verifyAuthenticationToken,
     TOKENS.authenticationService
   );
 
@@ -26,6 +28,7 @@ export class AuthenticationController {
     private readonly config: ConfigPort,
     private readonly commandBus: CommandBus,
     private readonly requestAuthenticationLinkCommand: RequestAuthenticationLink,
+    private readonly verifyAuthenticationTokenCommand: VerifyAuthenticationToken,
     private readonly authenticationService: AuthenticationService
   ) {
     this.router.post('/request-authentication-link', this.requestAuthenticationLink);
@@ -59,7 +62,10 @@ export class AuthenticationController {
 
     const { token } = schema.parse(req.query);
 
-    const sessionToken = await this.authenticationService.verifyAuthenticationToken(token);
+    const sessionToken = await this.commandBus.execute(
+      this.verifyAuthenticationTokenCommand.handle.bind(this.verifyAuthenticationTokenCommand),
+      token
+    );
 
     const setCookie = [
       `token=${sessionToken.value}`,

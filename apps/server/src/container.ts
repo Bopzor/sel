@@ -6,6 +6,7 @@ import { AuthenticationFacadeImpl } from './authentication/authentication.facade
 import { AuthenticationModule } from './authentication/authentication.module';
 import { AuthenticationService } from './authentication/authentication.service';
 import { RequestAuthenticationLink } from './authentication/commands/request-authentication-link.command';
+import { VerifyAuthenticationToken } from './authentication/commands/verify-authentication-token.command';
 import { CommentsFacadeImpl } from './comments/comments.facade';
 import { CommentsService } from './comments/comments.service';
 import { EnvConfigAdapter } from './infrastructure/config/env-config.adapter';
@@ -122,3 +123,4 @@ container.bindFactory(TOKENS.queryBus, injectableClass(Bus));
 container.bindFactory(TOKENS.eventBus, injectableClass(EventBus));
 
 container.bindFactory(COMMANDS.requestAuthenticationLink, RequestAuthenticationLink.inject);
+container.bindFactory(COMMANDS.verifyAuthenticationToken, VerifyAuthenticationToken.inject);
