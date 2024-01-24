@@ -1,14 +1,11 @@
-type Hook = (next: () => void) => void;
+type Next = () => Promise<void>;
+type Hook = (next: Next) => Promise<void>;
 
 export class Bus {
-  private _before = new Array<Hook>();
-  before(hook: Hook) {
-    this._before.push(hook);
-  }
+  private hooks = new Array<Hook>();
 
-  private _after = new Array<Hook>();
-  after(hook: Hook) {
-    this._after.push(hook);
+  registerHook(hook: Hook) {
+    this.hooks.push(hook);
   }
 
   async execute<Params extends unknown[], Result>(
@@ -17,27 +14,18 @@ export class Bus {
   ): Promise<Result> {
     let result: Result;
 
-    const setResult = (value: Result) => {
-      result = value;
-    };
-
-    const hooks: Hook[] = [
-      ...this._before,
-      (next) =>
-        fn(...params)
-          .then(setResult)
-          .then(next),
-      ...this._after,
-    ];
-
-    await new Promise<void>((resolve) => {
-      const chain = hooks.reduceRight((next, fn) => {
+    const chain = this.hooks.reduceRight(
+      (next: Next, fn) => {
         return () => fn(next);
-      }, resolve);
-      chain();
-    });
+      },
+      async () => {
+        result = await fn(...params);
+      }
+    );
 
-    // @ts-expect-error setResult was called
+    await chain();
+
+    // @ts-expect-error result is set
     return result;
   }
 }

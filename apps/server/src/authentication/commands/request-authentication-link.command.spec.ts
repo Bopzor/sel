@@ -31,6 +31,7 @@ class Test extends UnitTest {
 
   handler = new RequestAuthenticationLink(
     this.config,
+    this.generator,
     this.events,
     this.memberRepository,
     this.tokenRepository,

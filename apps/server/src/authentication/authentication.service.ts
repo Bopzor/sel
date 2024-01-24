@@ -25,14 +25,14 @@ export class AuthenticationService {
     [TokenType.session]: { months: 1 },
   };
 
-  async generateToken(type: TokenType, memberId: string): Promise<Token> {
+  async generateToken(type: TokenType, tokenId: string, memberId: string): Promise<Token> {
     const expirationDate = addDuration(
       this.dateAdapter.now(),
       AuthenticationService.expirationDurations[type]
     );
 
     const token: Token = {
-      id: this.generator.id(),
+      id: tokenId,
       value: this.generator.token(24),
       expirationDate,
       type,

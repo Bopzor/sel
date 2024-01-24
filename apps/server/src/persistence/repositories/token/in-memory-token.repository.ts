@@ -1,9 +1,13 @@
 import { Token, TokenType } from '../../../authentication/token.entity';
 import { InMemoryRepository } from '../../../in-memory.repository';
 
-import { TokenRepository } from './token.repository';
+import { TokenQueryResult, TokenRepository } from './token.repository';
 
 export class InMemoryTokenRepository extends InMemoryRepository<Token> implements TokenRepository {
+  query_findById(): Promise<TokenQueryResult | undefined> {
+    throw new Error('Method not implemented.');
+  }
+
   async findByValue(tokenValue: string): Promise<Token | undefined> {
     return this.find((token) => !token.revoked && token.value === tokenValue);
   }

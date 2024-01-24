@@ -6,12 +6,14 @@ import { AuthenticationModule } from './authentication/authentication.module';
 import { AuthenticationService } from './authentication/authentication.service';
 import { RequestAuthenticationLink } from './authentication/commands/request-authentication-link.command';
 import { VerifyAuthenticationToken } from './authentication/commands/verify-authentication-token.command';
+import { GetToken } from './authentication/queries/get-session-token.query';
 import { CommentsFacade } from './comments/comments.facade';
 import { CommentsService } from './comments/comments.service';
 import { ConfigPort } from './infrastructure/config/config.port';
 import { Bus } from './infrastructure/cqs/bus';
 import { CommandBus } from './infrastructure/cqs/command-bus';
 import { EventBus } from './infrastructure/cqs/event-bus';
+import { QueryBus } from './infrastructure/cqs/query-bus';
 import { DatePort } from './infrastructure/date/date.port';
 import { EmailRendererPort } from './infrastructure/email/email-renderer.port';
 import { EmailSenderPort } from './infrastructure/email/email-sender.port';
@@ -106,11 +108,15 @@ export const TOKENS = {
   memberDeviceRepository: token<MemberDeviceRepository>('memberDeviceRepository'),
 
   commandBus: token<CommandBus>('commandBus'),
-  queryBus: token<Bus>('queryBus'),
+  queryBus: token<QueryBus>('queryBus'),
   eventBus: token<EventBus>('eventBus'),
 };
 
 export const COMMANDS = {
   requestAuthenticationLink: token<RequestAuthenticationLink>('requestAuthenticationLink'),
   verifyAuthenticationToken: token<VerifyAuthenticationToken>('verifyAuthenticationToken'),
+};
+
+export const QUERIES = {
+  getToken: token<GetToken>('getToken'),
 };

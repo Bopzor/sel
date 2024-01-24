@@ -1,3 +1,4 @@
+import { assert } from '@sel/utils';
 import { injectableClass } from 'ditox';
 import { ErrorRequestHandler, RequestHandler, Router } from 'express';
 import { z } from 'zod';
@@ -5,31 +6,23 @@ import { z } from 'zod';
 import { HttpStatus } from '../http-status';
 import { ConfigPort } from '../infrastructure/config/config.port';
 import { CommandBus } from '../infrastructure/cqs/command-bus';
-import { COMMANDS, TOKENS } from '../tokens';
+import { QueryBus } from '../infrastructure/cqs/query-bus';
+import { GeneratorPort } from '../infrastructure/generator/generator.port';
+import { COMMANDS, QUERIES, TOKENS } from '../tokens';
 
 import { TokenExpired, TokenNotFound } from './authentication.errors';
-import { AuthenticationService } from './authentication.service';
-import { RequestAuthenticationLink } from './commands/request-authentication-link.command';
-import { VerifyAuthenticationToken } from './commands/verify-authentication-token.command';
+import { TokenType } from './token.entity';
 
 export class AuthenticationController {
-  static inject = injectableClass(
-    this,
-    TOKENS.config,
-    TOKENS.commandBus,
-    COMMANDS.requestAuthenticationLink,
-    COMMANDS.verifyAuthenticationToken,
-    TOKENS.authenticationService
-  );
+  static inject = injectableClass(this, TOKENS.config, TOKENS.generator, TOKENS.commandBus, TOKENS.queryBus);
 
   readonly router = Router();
 
   constructor(
     private readonly config: ConfigPort,
+    private readonly generator: GeneratorPort,
     private readonly commandBus: CommandBus,
-    private readonly requestAuthenticationLinkCommand: RequestAuthenticationLink,
-    private readonly verifyAuthenticationTokenCommand: VerifyAuthenticationToken,
-    private readonly authenticationService: AuthenticationService
+    private readonly queryBus: QueryBus
   ) {
     this.router.post('/request-authentication-link', this.requestAuthenticationLink);
 
@@ -47,10 +40,7 @@ export class AuthenticationController {
 
     const { email } = schema.parse(req.query);
 
-    await this.commandBus.execute(
-      this.requestAuthenticationLinkCommand.handle.bind(this.requestAuthenticationLinkCommand),
-      email
-    );
+    await this.commandBus.executeCommand(COMMANDS.requestAuthenticationLink, email);
 
     res.end();
   };
@@ -61,11 +51,17 @@ export class AuthenticationController {
     });
 
     const { token } = schema.parse(req.query);
+    const sessionTokenId = this.generator.id();
 
-    const sessionToken = await this.commandBus.execute(
-      this.verifyAuthenticationTokenCommand.handle.bind(this.verifyAuthenticationTokenCommand),
-      token
+    await this.commandBus.executeCommand(COMMANDS.verifyAuthenticationToken, token, sessionTokenId);
+
+    const sessionToken = await this.queryBus.executeQuery(
+      QUERIES.getToken,
+      sessionTokenId,
+      TokenType.session
     );
+
+    assert(sessionToken);
 
     const setCookie = [
       `token=${sessionToken.value}`,

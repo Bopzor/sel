@@ -8,6 +8,7 @@ import { StubConfigAdapter } from './infrastructure/config/stub-config.adapter';
 import { TestMailSever } from './infrastructure/email/test-mail-server';
 import { TestErrorReporterAdapter } from './infrastructure/error-reporter/test-error-reporter.adapter';
 import { EmitterEventsAdapter } from './infrastructure/events/emitter-events.adapter';
+import { GeneratorPort } from './infrastructure/generator/generator.port';
 import { StubLogger } from './infrastructure/logger/stub-logger.adapter';
 import { Member } from './members/entities';
 import { MembersService } from './members/members.service';
@@ -77,6 +78,7 @@ export class E2ETest {
     container.resolve(TOKENS.requestModule).init();
 
     this.create = new EntityCreator(
+      container.resolve(TOKENS.generator),
       container.resolve(TOKENS.membersService),
       container.resolve(TOKENS.memberRepository),
       container.resolve(TOKENS.authenticationService),
@@ -153,6 +155,7 @@ export class E2ETest {
 
 class EntityCreator {
   constructor(
+    private readonly generator: GeneratorPort,
     private readonly memberService: MembersService,
     private readonly memberRepository: MemberRepository,
     private readonly authenticationService: AuthenticationService,
@@ -167,7 +170,7 @@ class EntityCreator {
   }
 
   async token(type: TokenType, memberId: string): Promise<Token> {
-    return this.authenticationService.generateToken(type, memberId);
+    return this.authenticationService.generateToken(type, this.generator.id(), memberId);
   }
 
   // prettier-ignore

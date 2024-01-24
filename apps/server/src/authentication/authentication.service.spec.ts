@@ -36,9 +36,9 @@ describe('[Unit] AuthenticationService', () => {
 
   describe('generateToken', () => {
     it('generates an authentication token', async () => {
-      const token = await test.service.generateToken(TokenType.authentication, 'memberId');
+      const token = await test.service.generateToken(TokenType.authentication, 'tokenId', 'memberId');
 
-      expect(token).toHaveProperty('id', 'generatedId');
+      expect(token).toHaveProperty('id', 'tokenId');
       expect(token).toHaveProperty('value', 'generatedAuthToken');
       expect(token).toHaveProperty('expirationDate', new Date('2023-10-29T12:12:12.000Z'));
       expect(token).toHaveProperty('type', TokenType.authentication);
@@ -47,9 +47,9 @@ describe('[Unit] AuthenticationService', () => {
     });
 
     it('persists the generated token', async () => {
-      await test.service.generateToken(TokenType.authentication, 'memberId');
+      await test.service.generateToken(TokenType.authentication, 'tokenId', 'memberId');
 
-      expect(test.tokenRepository.get('generatedId')).toBeDefined();
+      expect(test.tokenRepository.get('tokenId')).toBeDefined();
     });
   });
 

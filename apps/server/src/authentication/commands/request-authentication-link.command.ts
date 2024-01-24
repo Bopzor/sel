@@ -2,6 +2,7 @@ import { injectableClass } from 'ditox';
 
 import { ConfigPort } from '../../infrastructure/config/config.port';
 import { EventsPort } from '../../infrastructure/events/events.port';
+import { GeneratorPort } from '../../infrastructure/generator/generator.port';
 import { AuthenticationLinkRequested } from '../../members/events';
 import { MemberRepository } from '../../persistence/repositories/member/member.repository';
 import { TokenRepository } from '../../persistence/repositories/token/token.repository';
@@ -13,6 +14,7 @@ export class RequestAuthenticationLink {
   static inject = injectableClass(
     this,
     TOKENS.config,
+    TOKENS.generator,
     TOKENS.events,
     TOKENS.memberRepository,
     TOKENS.tokenRepository,
@@ -21,6 +23,7 @@ export class RequestAuthenticationLink {
 
   constructor(
     private readonly config: ConfigPort,
+    private readonly generator: GeneratorPort,
     private readonly events: EventsPort,
     private readonly memberRepository: MemberRepository,
     private readonly tokenRepository: TokenRepository,
@@ -40,7 +43,11 @@ export class RequestAuthenticationLink {
       await this.tokenRepository.revoke(previousToken.id);
     }
 
-    const token = await this.authenticationService.generateToken(TokenType.authentication, member.id);
+    const token = await this.authenticationService.generateToken(
+      TokenType.authentication,
+      this.generator.id(),
+      member.id
+    );
 
     const authenticationUrl = new URL(this.config.app.baseUrl);
     authenticationUrl.searchParams.set('auth-token', token.value);

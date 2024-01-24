@@ -6,9 +6,9 @@ import { EventsPort } from '../../infrastructure/events/events.port';
 import { MemberAuthenticated } from '../../members/events';
 import { TokenRepository } from '../../persistence/repositories/token/token.repository';
 import { TOKENS } from '../../tokens';
-import { TokenNotFound, TokenExpired } from '../authentication.errors';
+import { TokenExpired, TokenNotFound } from '../authentication.errors';
 import { AuthenticationService } from '../authentication.service';
-import { Token, TokenType } from '../token.entity';
+import { TokenType } from '../token.entity';
 
 export class VerifyAuthenticationToken {
   static inject = injectableClass(
@@ -26,7 +26,7 @@ export class VerifyAuthenticationToken {
     private readonly authenticationService: AuthenticationService
   ) {}
 
-  async handle(tokenValue: string): Promise<Token> {
+  async handle(tokenValue: string, sessionTokenId: string): Promise<void> {
     const token = await this.tokenRepository.findByValue(tokenValue);
 
     if (token === undefined) {
@@ -41,6 +41,6 @@ export class VerifyAuthenticationToken {
 
     await this.tokenRepository.revoke(token.id);
 
-    return this.authenticationService.generateToken(TokenType.session, token.memberId);
+    await this.authenticationService.generateToken(TokenType.session, sessionTokenId, token.memberId);
   }
 }

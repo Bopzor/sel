@@ -7,15 +7,35 @@ import { TOKENS } from '../../../tokens';
 import { Database } from '../../database';
 import { tokens } from '../../schema';
 
-import { TokenRepository } from './token.repository';
+import { TokenQueryResult, TokenRepository } from './token.repository';
 
 export class SqlTokenRepository implements TokenRepository {
   static inject = injectableClass(this, TOKENS.database, TOKENS.date);
 
   constructor(private readonly database: Database, private readonly dateAdapter: DatePort) {}
 
+  private get db() {
+    return this.database.db;
+  }
+
   private get tx() {
     return this.database.transaction;
+  }
+
+  async query_findById(tokenId: string, type: TokenType): Promise<TokenQueryResult | undefined> {
+    const [sqlToken] = await this.db
+      .select()
+      .from(tokens)
+      .where(and(eq(tokens.id, tokenId), eq(tokens.type, type), eq(tokens.revoked, false)));
+
+    if (!sqlToken) {
+      return undefined;
+    }
+
+    return {
+      value: sqlToken.value,
+      expirationDate: sqlToken.expirationDate,
+    };
   }
 
   async findByValue(value: string): Promise<Token | undefined> {

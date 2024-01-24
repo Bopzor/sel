@@ -45,9 +45,9 @@ export class Database {
     return this.transactionLocalStorage.getStore() ?? this.db;
   }
 
-  createTransaction(cb: () => void): void {
-    void this.db.transaction(async (tx: Transaction) => {
-      return this.transactionLocalStorage.run(tx, cb);
+  async createTransaction(cb: () => Promise<void>): Promise<void> {
+    await this.db.transaction(async (tx: Transaction) => {
+      await this.transactionLocalStorage.run(tx, cb);
     });
   }
 
