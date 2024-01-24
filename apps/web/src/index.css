@@ -46,7 +46,7 @@
   }
 
   a {
-    color: theme('colors.blue.500');
+    @apply text-blue-500 dark:text-blue-300;
   }
 
   a:hover {
