@@ -114,7 +114,7 @@ container.bindFactory(TOKENS.memberDeviceRepository, SqlMemberDeviceRepository.i
 
 container.bindFactory(TOKENS.commandBus, CommandBus.inject);
 container.bindFactory(TOKENS.queryBus, QueryBus.inject);
-container.bindFactory(TOKENS.eventBus, injectableClass(EventBus));
+container.bindFactory(TOKENS.eventBus, EventBus.inject);
 container.bindFactory(TOKENS.eventPublisher, EventPublisher.inject);
 
 container.bindFactory(COMMANDS.requestAuthenticationLink, RequestAuthenticationLink.inject);

@@ -1,37 +1,26 @@
+import { EventBus as BaseEventBus } from '@sel/cqs';
 import { ClassType } from '@sel/utils';
+import { Token, injectableClass } from 'ditox';
 
-type EventListener<Event extends object = object> = (event: Event) => void | Promise<void>;
+import { container } from '../../container';
+import { TOKENS } from '../../tokens';
+import { ErrorReporterPort } from '../error-reporter/error-reporter.port';
 
-export class EventBus {
-  private listeners = new Map<unknown, Array<EventListener>>();
-  readonly promises = new Set<Promise<void>>();
+type EventHandler<Event> = {
+  handle(event: Event): Promise<void>;
+};
 
-  constructor(private readonly onError?: (error: unknown) => void) {}
+export class EventBus extends BaseEventBus {
+  static inject = injectableClass(this, TOKENS.errorReporter);
 
-  addListener<Event extends object>(EventClass: ClassType<Event> | null, listener: EventListener<Event>) {
-    if (!this.listeners.has(EventClass)) {
-      this.listeners.set(EventClass, []);
-    }
-
-    this.listeners.get(EventClass)?.push(listener as EventListener);
+  constructor(errorReporter: ErrorReporterPort) {
+    super((error) => errorReporter.report(error));
   }
 
-  publish(event: object) {
-    this.getListeners(event).forEach((listener) => {
-      const promise = Promise.resolve()
-        .then(() => listener(event))
-        .catch(this.onError)
-        .finally(() => this.promises.delete(promise));
+  bind<Event extends object>(EventClass: ClassType<Event>, token: Token<EventHandler<Event>>) {
+    const handlerClass = container.resolve(token);
+    const handler = handlerClass.handle.bind(handlerClass);
 
-      this.promises.add(promise);
-    });
-  }
-
-  private getListeners(event: object) {
-    return [
-      //
-      ...(this.listeners.get(event.constructor) ?? []),
-      ...(this.listeners.get(null) ?? []),
-    ];
+    this.addListener(EventClass, handler);
   }
 }

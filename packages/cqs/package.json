@@ -1,0 +1,17 @@
+{
+  "name": "@sel/cqs",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "lint": "eslint src"
+  },
+  "devDependencies": {
+    "@sel/eslint-config": "workspace:*",
+    "@sel/typescript-config": "workspace:*",
+    "typescript": "^5.3.3"
+  }
+}

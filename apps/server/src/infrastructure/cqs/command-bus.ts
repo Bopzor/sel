@@ -1,11 +1,10 @@
+import { Bus } from '@sel/cqs';
 import { Token, injectableClass } from 'ditox';
 
 import { container } from '../../container';
 import { Database } from '../../persistence/database';
 import { TOKENS } from '../../tokens';
 import { EventPublisher } from '../events/event-publisher';
-
-import { Bus } from './bus';
 
 interface CommandHandler<Params extends unknown[]> {
   handle(...params: Params): Promise<void>;

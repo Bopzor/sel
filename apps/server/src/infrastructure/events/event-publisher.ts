@@ -25,7 +25,7 @@ export class EventPublisher implements EventPublisherPort {
     await this.eventsStorage.run(events, cb);
 
     for (const event of events) {
-      this.eventBus.publish(event);
+      this.eventBus.emit(event);
     }
   }
 

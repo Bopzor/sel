@@ -1,8 +1,7 @@
+import { Bus } from '@sel/cqs';
 import { Token, injectableClass } from 'ditox';
 
 import { container } from '../../container';
-
-import { Bus } from './bus';
 
 interface QueryHandler<Params extends unknown[], Result> {
   handle(...params: Params): Promise<Result>;
