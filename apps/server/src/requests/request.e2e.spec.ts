@@ -87,7 +87,7 @@ describe('[E2E] Request', () => {
   });
 
   it('fails when the request does not exist', async () => {
-    const { response } = await test.fetch('/requests/nope', { assertStatus: false });
+    const { response } = await test.fetch('/requests/nope', { token, assertStatus: false });
     expect(response.status).toEqual(HttpStatus.notFound);
   });
 

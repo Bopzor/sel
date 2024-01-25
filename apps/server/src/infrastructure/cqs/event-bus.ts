@@ -4,6 +4,7 @@ type EventListener<Event extends object = object> = (event: Event) => void | Pro
 
 export class EventBus {
   private listeners = new Map<unknown, Array<EventListener>>();
+  readonly promises = new Set<Promise<void>>();
 
   constructor(private readonly onError?: (error: unknown) => void) {}
 
@@ -17,9 +18,12 @@ export class EventBus {
 
   publish(event: object) {
     this.getListeners(event).forEach((listener) => {
-      void Promise.resolve()
+      const promise = Promise.resolve()
         .then(() => listener(event))
-        .catch(this.onError);
+        .catch(this.onError)
+        .finally(() => this.promises.delete(promise));
+
+      this.promises.add(promise);
     });
   }
 

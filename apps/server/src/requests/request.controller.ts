@@ -7,35 +7,38 @@ import { RequestHandler, Router } from 'express';
 import { z } from 'zod';
 
 import { SessionProvider } from '../authentication/session.provider';
-import { CommentsFacade } from '../comments/comments.facade';
 import { HttpStatus } from '../http-status';
+import { CommandBus } from '../infrastructure/cqs/command-bus';
+import { QueryBus } from '../infrastructure/cqs/query-bus';
+import { GeneratorPort } from '../infrastructure/generator/generator.port';
 import { RequestRepository } from '../persistence/repositories/request/request.repository';
-import { TOKENS } from '../tokens';
+import { COMMANDS, QUERIES, TOKENS } from '../tokens';
 
-import { MemberIsNotAuthor, RequestNotFound } from './errors';
+import { MemberIsNotAuthor, RequestNotFound } from './request-errors';
 import { Request } from './request.entity';
-import { RequestService } from './request.service';
 
 export class RequestController {
   readonly router = Router();
 
   static inject = injectableClass(
     this,
+    TOKENS.generator,
     TOKENS.sessionProvider,
-    TOKENS.commentsFacade,
-    TOKENS.requestService,
+    TOKENS.commandBus,
+    TOKENS.queryBus,
     TOKENS.requestRepository
   );
 
   constructor(
+    private readonly generator: GeneratorPort,
     private readonly sessionProvider: SessionProvider,
-    private readonly commentsFacade: CommentsFacade,
-    private readonly requestService: RequestService,
+    private readonly commandBus: CommandBus,
+    private readonly queryBus: QueryBus,
     private readonly requestRepository: RequestRepository
   ) {
+    this.router.use(this.authenticated);
     this.router.use('/:requestId', this.provideRequest);
 
-    this.router.use(this.authenticated);
     this.router.get('/', this.listRequests);
     this.router.get('/:requestId', this.getRequest);
     this.router.post('/', this.createRequest);
@@ -66,11 +69,11 @@ export class RequestController {
   };
 
   listRequests: RequestHandler<never, shared.Request[]> = async (req, res) => {
-    res.json(await this.requestRepository.query_listRequests());
+    res.json(await this.queryBus.executeQuery(QUERIES.listRequests));
   };
 
   getRequest: RequestHandler<{ requestId: string }, shared.Request> = async (req, res) => {
-    const request = await this.requestRepository.query_getRequest(req.params.requestId);
+    const request = await this.queryBus.executeQuery(QUERIES.getRequest, req.params.requestId);
 
     if (!request) {
       return res.status(HttpStatus.notFound).end();
@@ -85,10 +88,11 @@ export class RequestController {
   });
 
   createRequest: RequestHandler = async (req, res) => {
+    const requestId = this.generator.id();
     const member = this.sessionProvider.getMember();
     const data = RequestController.requestSchema.parse(req.body);
 
-    const requestId = await this.requestService.createRequest(member.id, data.title, data.body);
+    await this.commandBus.executeCommand(COMMANDS.createRequest, requestId, member.id, data.title, data.body);
 
     res.status(HttpStatus.created).send(requestId);
   };
@@ -104,9 +108,10 @@ export class RequestController {
   };
 
   editRequest: RequestHandler<{ requestId: string }> = async (req, res) => {
+    const requestId = req.params.requestId;
     const data = RequestController.requestSchema.parse(req.body);
 
-    await this.requestService.editRequest(this.request, data.title, data.body);
+    await this.commandBus.executeCommand(COMMANDS.editRequest, requestId, data.title, data.body);
 
     res.end();
   };
@@ -116,11 +121,18 @@ export class RequestController {
   });
 
   createComment: RequestHandler<{ requestId: string }> = async (req, res) => {
+    const commentId = this.generator.id();
     const requestId = this.request.id;
     const member = this.sessionProvider.getMember();
     const data = RequestController.createCommentSchema.parse(req.body);
 
-    const commentId = await this.requestService.createComment(requestId, member.id, data.body);
+    await this.commandBus.executeCommand(
+      COMMANDS.createRequestComment,
+      commentId,
+      requestId,
+      member.id,
+      data.body
+    );
 
     res.status(HttpStatus.created).send(commentId);
   };

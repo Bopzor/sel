@@ -10,7 +10,6 @@ import { GetAuthenticatedMember } from './authentication/queries/get-authenticat
 import { GetToken } from './authentication/queries/get-session-token.query';
 import { SessionController } from './authentication/session.controller';
 import { SessionProvider } from './authentication/session.provider';
-import { CommentsFacade } from './comments/comments.facade';
 import { CommentsService } from './comments/comments.service';
 import { ConfigPort } from './infrastructure/config/config.port';
 import { CommandBus } from './infrastructure/cqs/command-bus';
@@ -50,10 +49,15 @@ import { NotificationRepository } from './persistence/repositories/notification/
 import { RequestRepository } from './persistence/repositories/request/request.repository';
 import { SubscriptionRepository } from './persistence/repositories/subscription/subscription.repository';
 import { TokenRepository } from './persistence/repositories/token/token.repository';
-import { RequestNotificationsService } from './requests/request-notifications.service';
+import { CreateRequestComment } from './requests/commands/create-request-comment.command';
+import { CreateRequest } from './requests/commands/create-request.command';
+import { EditRequest } from './requests/commands/edit-request.command';
+import { CreateRequestSubscription } from './requests/event-handlers/create-request-subscriptions.event-handler';
+import { NotifyRequestCommentCreated } from './requests/event-handlers/notify-request-comment-created.event-handler';
+import { NotifyRequestCreated } from './requests/event-handlers/notify-request-created.event-handler';
+import { GetRequest } from './requests/queries/get-request.query';
+import { ListRequests } from './requests/queries/list-requests.query';
 import { RequestController } from './requests/request.controller';
-import { RequestModule } from './requests/request.module';
-import { RequestService } from './requests/request.service';
 import { Server } from './server';
 
 export const TOKENS = {
@@ -86,12 +90,8 @@ export const TOKENS = {
   authenticationService: token<AuthenticationService>('authenticationService'),
   tokenRepository: token<TokenRepository>('tokenRepository'),
   sessionController: token<SessionController>('sessionController'),
-  requestModule: token<RequestModule>('requestModule'),
   requestController: token<RequestController>('requestController'),
-  requestService: token<RequestService>('requestService'),
-  requestNotificationsService: token<RequestNotificationsService>('requestNotificationsService'),
   requestRepository: token<RequestRepository>('requestRepository'),
-  commentsFacade: token<CommentsFacade>('commentsFacade'),
   commentsService: token<CommentsService>('commentsService'),
   commentRepository: token<CommentRepository>('commentRepository'),
   notificationModule: token<NotificationModule>('notificationModule'),
@@ -114,13 +114,21 @@ export const COMMANDS = {
   requestAuthenticationLink: token<RequestAuthenticationLink>('requestAuthenticationLink'),
   verifyAuthenticationToken: token<VerifyAuthenticationToken>('verifyAuthenticationToken'),
   revokeSessionToken: token<RevokeSessionToken>('revokeSessionToken'),
+  createRequest: token<CreateRequest>('createRequest'),
+  editRequest: token<EditRequest>('editRequest'),
+  createRequestComment: token<CreateRequestComment>('createRequestComment'),
 };
 
 export const QUERIES = {
   getToken: token<GetToken>('getToken'),
   getAuthenticatedMember: token<GetAuthenticatedMember>('getAuthenticatedMember'),
+  listRequests: token<ListRequests>('listRequests'),
+  getRequest: token<GetRequest>('getRequest'),
 };
 
 export const EVENT_HANDLERS = {
   sendAuthenticationEmail: token<SendAuthenticationEmail>('sendAuthenticationEmail'),
+  createRequestSubscription: token<CreateRequestSubscription>('createRequestSubscription'),
+  notifyRequestCreated: token<NotifyRequestCreated>('notifyRequestCreated'),
+  notifyRequestCommentCreated: token<NotifyRequestCommentCreated>('notifyRequestCommentCreated'),
 };

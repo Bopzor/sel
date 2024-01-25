@@ -5,6 +5,7 @@ import { AuthenticationService } from './authentication/authentication.service';
 import { Token, TokenType } from './authentication/token.entity';
 import { container } from './container';
 import { StubConfigAdapter } from './infrastructure/config/stub-config.adapter';
+import { CommandBus } from './infrastructure/cqs/command-bus';
 import { TestMailSever } from './infrastructure/email/test-mail-server';
 import { TestErrorReporterAdapter } from './infrastructure/error-reporter/test-error-reporter.adapter';
 import { EmitterEventsAdapter } from './infrastructure/events/emitter-events.adapter';
@@ -16,8 +17,7 @@ import { MembersService } from './members/members.service';
 import { MemberRepository } from './persistence/repositories/member/member.repository';
 import { RequestRepository } from './persistence/repositories/request/request.repository';
 import { Request } from './requests/request.entity';
-import { RequestService } from './requests/request.service';
-import { TOKENS } from './tokens';
+import { COMMANDS, TOKENS } from './tokens';
 
 export class E2ETest {
   config = new StubConfigAdapter({
@@ -75,7 +75,6 @@ export class E2ETest {
     container.resolve(TOKENS.commandBus).init();
     await container.resolve(TOKENS.emailRenderer).init?.();
     container.resolve(TOKENS.membersModule).init();
-    container.resolve(TOKENS.requestModule).init();
 
     initEventHandlers();
 
@@ -84,8 +83,8 @@ export class E2ETest {
       container.resolve(TOKENS.membersService),
       container.resolve(TOKENS.memberRepository),
       container.resolve(TOKENS.authenticationService),
-      container.resolve(TOKENS.requestService),
-      container.resolve(TOKENS.requestRepository)
+      container.resolve(TOKENS.requestRepository),
+      container.resolve(TOKENS.commandBus)
     );
 
     await this.mailServer.listen();
@@ -102,10 +101,12 @@ export class E2ETest {
   }
 
   async waitForEventHandlers() {
+    const eventBus = container.resolve(TOKENS.eventBus);
     const events = container.resolve(TOKENS.events);
 
     assert(events instanceof EmitterEventsAdapter);
 
+    await Promise.all(eventBus.promises);
     await Promise.all(events.promises);
   }
 
@@ -161,8 +162,8 @@ class EntityCreator {
     private readonly memberService: MembersService,
     private readonly memberRepository: MemberRepository,
     private readonly authenticationService: AuthenticationService,
-    private readonly requestService: RequestService,
-    private readonly requestRepository: RequestRepository
+    private readonly requestRepository: RequestRepository,
+    private readonly commandBus: CommandBus
   ) {}
 
   // prettier-ignore
@@ -177,7 +178,8 @@ class EntityCreator {
 
   // prettier-ignore
   async request({requesterId = '', title = '', body = '' }: { requesterId?: string, title?: string, body?: string } = {}): Promise<Request> {
-    const requestId = await this.requestService.createRequest(requesterId, title, body);
+    const requestId = this.generator.id();
+    await this.commandBus.executeCommand(COMMANDS.createRequest, requestId, requesterId, title, body);
     return defined(await this.requestRepository.getRequest(requestId));
   }
 }

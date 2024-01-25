@@ -10,7 +10,6 @@ import { GetAuthenticatedMember } from './authentication/queries/get-authenticat
 import { GetToken } from './authentication/queries/get-session-token.query';
 import { SessionController } from './authentication/session.controller';
 import { SessionProvider } from './authentication/session.provider';
-import { CommentsFacadeImpl } from './comments/comments.facade';
 import { CommentsService } from './comments/comments.service';
 import { EnvConfigAdapter } from './infrastructure/config/env-config.adapter';
 import { CommandBus } from './infrastructure/cqs/command-bus';
@@ -49,10 +48,15 @@ import { SqlNotificationRepository } from './persistence/repositories/notificati
 import { SqlRequestRepository } from './persistence/repositories/request/sql-request.repository';
 import { SqlSubscriptionRepository } from './persistence/repositories/subscription/sql-subscription.repository';
 import { SqlTokenRepository } from './persistence/repositories/token/sql-token.repository';
-import { RequestNotificationsService } from './requests/request-notifications.service';
+import { CreateRequestComment } from './requests/commands/create-request-comment.command';
+import { CreateRequest } from './requests/commands/create-request.command';
+import { EditRequest } from './requests/commands/edit-request.command';
+import { CreateRequestSubscription } from './requests/event-handlers/create-request-subscriptions.event-handler';
+import { NotifyRequestCommentCreated } from './requests/event-handlers/notify-request-comment-created.event-handler';
+import { NotifyRequestCreated } from './requests/event-handlers/notify-request-created.event-handler';
+import { GetRequest } from './requests/queries/get-request.query';
+import { ListRequests } from './requests/queries/list-requests.query';
 import { RequestController } from './requests/request.controller';
-import { RequestModule } from './requests/request.module';
-import { RequestService } from './requests/request.service';
 import { Server } from './server';
 import { COMMANDS, EVENT_HANDLERS, QUERIES, TOKENS } from './tokens';
 
@@ -87,10 +91,7 @@ container.bindFactory(TOKENS.membersController, MembersController.inject);
 container.bindFactory(TOKENS.membersService, MembersService.inject);
 container.bindFactory(TOKENS.memberRepository, SqlMemberRepository.inject);
 
-container.bindFactory(TOKENS.requestModule, RequestModule.inject);
 container.bindFactory(TOKENS.requestController, RequestController.inject);
-container.bindFactory(TOKENS.requestService, RequestService.inject);
-container.bindFactory(TOKENS.requestNotificationsService, RequestNotificationsService.inject);
 container.bindFactory(TOKENS.requestRepository, SqlRequestRepository.inject);
 
 container.bindFactory(TOKENS.authenticationController, AuthenticationController.inject);
@@ -99,7 +100,6 @@ container.bindFactory(TOKENS.sessionProvider, SessionProvider.inject);
 container.bindFactory(TOKENS.authenticationService, AuthenticationService.inject);
 container.bindFactory(TOKENS.tokenRepository, SqlTokenRepository.inject);
 
-container.bindFactory(TOKENS.commentsFacade, CommentsFacadeImpl.inject);
 container.bindFactory(TOKENS.commentsService, CommentsService.inject);
 container.bindFactory(TOKENS.commentRepository, SqlCommentRepository.inject);
 
@@ -122,8 +122,16 @@ container.bindFactory(TOKENS.eventPublisher, EventPublisher.inject);
 
 container.bindFactory(COMMANDS.requestAuthenticationLink, RequestAuthenticationLink.inject);
 container.bindFactory(COMMANDS.verifyAuthenticationToken, VerifyAuthenticationToken.inject);
+container.bindFactory(COMMANDS.createRequest, CreateRequest.inject);
+container.bindFactory(COMMANDS.editRequest, EditRequest.inject);
+container.bindFactory(COMMANDS.createRequestComment, CreateRequestComment.inject);
 
 container.bindFactory(QUERIES.getToken, GetToken.inject);
 container.bindFactory(QUERIES.getAuthenticatedMember, GetAuthenticatedMember.inject);
+container.bindFactory(QUERIES.listRequests, ListRequests.inject);
+container.bindFactory(QUERIES.getRequest, GetRequest.inject);
 
 container.bindFactory(EVENT_HANDLERS.sendAuthenticationEmail, SendAuthenticationEmail.inject);
+container.bindFactory(EVENT_HANDLERS.createRequestSubscription, CreateRequestSubscription.inject);
+container.bindFactory(EVENT_HANDLERS.notifyRequestCreated, NotifyRequestCreated.inject);
+container.bindFactory(EVENT_HANDLERS.notifyRequestCommentCreated, NotifyRequestCommentCreated.inject);
