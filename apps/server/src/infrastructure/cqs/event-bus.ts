@@ -6,9 +6,7 @@ import { container } from '../../container';
 import { TOKENS } from '../../tokens';
 import { ErrorReporterPort } from '../error-reporter/error-reporter.port';
 
-type EventHandler<Event> = {
-  handle(event: Event): Promise<void>;
-};
+import { EventHandler } from './event-handler';
 
 export class EventBus extends BaseEventBus {
   static inject = injectableClass(this, TOKENS.errorReporter);

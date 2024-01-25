@@ -1,5 +1,6 @@
 import { injectableClass } from 'ditox';
 
+import { CommandHandler } from '../../infrastructure/cqs/command-handler';
 import { DatePort } from '../../infrastructure/date/date.port';
 import { EventPublisherPort } from '../../infrastructure/events/event-publisher.port';
 import { HtmlParserPort } from '../../infrastructure/html-parser/html-parser.port';
@@ -14,7 +15,7 @@ export type CreateRequestCommand = {
   body: string;
 };
 
-export class CreateRequest {
+export class CreateRequest implements CommandHandler<CreateRequestCommand> {
   static inject = injectableClass(
     this,
     TOKENS.date,

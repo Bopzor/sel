@@ -6,9 +6,7 @@ import { Database } from '../../persistence/database';
 import { TOKENS } from '../../tokens';
 import { EventPublisher } from '../events/event-publisher';
 
-interface CommandHandler<Params extends unknown[]> {
-  handle(...params: Params): Promise<void>;
-}
+import { CommandHandler } from './command-handler';
 
 export class CommandBus extends Bus {
   static inject = injectableClass(this, TOKENS.database, TOKENS.eventPublisher);
@@ -22,12 +20,9 @@ export class CommandBus extends Bus {
     this.registerHook((next) => this.database.createTransaction(next));
   }
 
-  async executeCommand<Params extends unknown[]>(
-    token: Token<CommandHandler<Params>>,
-    ...params: Params
-  ): Promise<void> {
+  async executeCommand<Command>(token: Token<CommandHandler<Command>>, command: Command): Promise<void> {
     const handler = container.resolve(token);
 
-    await this.execute(handler.handle.bind(handler), ...params);
+    await this.execute(handler.handle.bind(handler), command);
   }
 }

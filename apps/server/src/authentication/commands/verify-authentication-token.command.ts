@@ -1,6 +1,7 @@
 import { isAfter } from '@sel/utils';
 import { injectableClass } from 'ditox';
 
+import { CommandHandler } from '../../infrastructure/cqs/command-handler';
 import { DatePort } from '../../infrastructure/date/date.port';
 import { EventPublisherPort } from '../../infrastructure/events/event-publisher.port';
 import { MemberAuthenticated } from '../../members/member-events';
@@ -15,7 +16,7 @@ export type VerifyAuthenticationTokenCommand = {
   sessionTokenId: string;
 };
 
-export class VerifyAuthenticationToken {
+export class VerifyAuthenticationToken implements CommandHandler<VerifyAuthenticationTokenCommand> {
   static inject = injectableClass(
     this,
     TOKENS.date,

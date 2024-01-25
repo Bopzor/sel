@@ -1,5 +1,6 @@
 import { injectableClass } from 'ditox';
 
+import { CommandHandler } from '../../infrastructure/cqs/command-handler';
 import { GeneratorPort } from '../../infrastructure/generator/generator.port';
 import {
   PushDeviceSubscription,
@@ -14,7 +15,7 @@ export type RegisterDeviceCommand = {
   deviceType: DeviceType;
 };
 
-export class RegisterDevice {
+export class RegisterDevice implements CommandHandler<RegisterDeviceCommand> {
   static inject = injectableClass(this, TOKENS.generator, TOKENS.memberDeviceRepository);
 
   constructor(

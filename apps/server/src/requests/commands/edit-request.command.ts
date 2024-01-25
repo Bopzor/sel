@@ -1,5 +1,6 @@
 import { injectableClass } from 'ditox';
 
+import { CommandHandler } from '../../infrastructure/cqs/command-handler';
 import { EventPublisherPort } from '../../infrastructure/events/event-publisher.port';
 import { HtmlParserPort } from '../../infrastructure/html-parser/html-parser.port';
 import { RequestRepository } from '../../persistence/repositories/request/request.repository';
@@ -12,7 +13,7 @@ export type EditRequestCommand = {
   body: string;
 };
 
-export class EditRequest {
+export class EditRequest implements CommandHandler<EditRequestCommand> {
   static inject = injectableClass(this, TOKENS.eventPublisher, TOKENS.htmlParser, TOKENS.requestRepository);
 
   constructor(

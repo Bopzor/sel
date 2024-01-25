@@ -4,7 +4,6 @@ import { RequestHandler, Router } from 'express';
 import { z } from 'zod';
 
 import { SessionProvider } from '../authentication/session.provider';
-import { EntityNotFound } from '../domain-error';
 import { HttpStatus } from '../http-status';
 import { CommandBus } from '../infrastructure/cqs/command-bus';
 import { QueryBus } from '../infrastructure/cqs/query-bus';
@@ -48,7 +47,7 @@ export class RequestController {
   };
 
   listRequests: RequestHandler<never, shared.Request[]> = async (req, res) => {
-    res.json(await this.queryBus.executeQuery(QUERIES.listRequests));
+    res.json(await this.queryBus.executeQuery(QUERIES.listRequests, {}));
   };
 
   getRequest: RequestHandler<{ requestId: string }, shared.Request> = async (req, res) => {

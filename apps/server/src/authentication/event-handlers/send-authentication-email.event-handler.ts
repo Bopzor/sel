@@ -1,6 +1,7 @@
 import { assert } from '@sel/utils';
 import { injectableClass } from 'ditox';
 
+import { EventHandler } from '../../infrastructure/cqs/event-handler';
 import { EmailSenderPort } from '../../infrastructure/email/email-sender.port';
 import { EmailKind } from '../../infrastructure/email/email.types';
 import { TranslationPort } from '../../infrastructure/translation/translation.port';
@@ -8,7 +9,7 @@ import { AuthenticationLinkRequested } from '../../members/member-events';
 import { MemberRepository } from '../../persistence/repositories/member/member.repository';
 import { TOKENS } from '../../tokens';
 
-export class SendAuthenticationEmail {
+export class SendAuthenticationEmail implements EventHandler<AuthenticationLinkRequested> {
   static inject = injectableClass(this, TOKENS.translation, TOKENS.emailSender, TOKENS.membersFacade);
 
   constructor(

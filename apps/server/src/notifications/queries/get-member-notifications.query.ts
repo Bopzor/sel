@@ -1,6 +1,7 @@
 import * as shared from '@sel/shared';
 import { injectableClass } from 'ditox';
 
+import { QueryHandler } from '../../infrastructure/cqs/query-handler';
 import { NotificationRepository } from '../../persistence/repositories/notification/notification.repository';
 import { TOKENS } from '../../tokens';
 
@@ -13,7 +14,9 @@ export type GetMemberNotificationQueryResult = {
   notifications: shared.Notification[];
 };
 
-export class GetMemberNotifications {
+export class GetMemberNotifications
+  implements QueryHandler<GetMemberNotificationQuery, GetMemberNotificationQueryResult>
+{
   static inject = injectableClass(this, TOKENS.notificationRepository);
 
   constructor(private readonly notificationRepository: NotificationRepository) {}

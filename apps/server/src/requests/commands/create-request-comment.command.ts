@@ -1,6 +1,7 @@
 import { injectableClass } from 'ditox';
 
 import { CommentService } from '../../comments/comment.service';
+import { CommandHandler } from '../../infrastructure/cqs/command-handler';
 import { EventPublisherPort } from '../../infrastructure/events/event-publisher.port';
 import { TOKENS } from '../../tokens';
 import { RequestCommentCreated } from '../request-events';
@@ -12,7 +13,7 @@ export type CreateRequestCommentCommand = {
   text: string;
 };
 
-export class CreateRequestComment {
+export class CreateRequestComment implements CommandHandler<CreateRequestCommentCommand> {
   static inject = injectableClass(this, TOKENS.eventPublisher, TOKENS.commentService);
 
   constructor(

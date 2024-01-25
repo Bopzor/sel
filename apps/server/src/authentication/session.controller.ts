@@ -27,9 +27,11 @@ export class SessionController {
   deleteCurrentSession: RequestHandler = async (req, res) => {
     this.sessionProvider.getMember();
 
-    const token = req.cookies['token'];
+    const token: string = req.cookies['token'];
 
-    await this.commandBus.executeCommand(COMMANDS.revokeSessionToken, token);
+    await this.commandBus.executeCommand(COMMANDS.revokeSessionToken, {
+      token,
+    });
 
     const setCookie = [`token=`, `Max-Age=0`, 'HttpOnly', 'Path=/', 'SameSite=Lax'];
 

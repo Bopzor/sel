@@ -1,5 +1,6 @@
 import { injectableClass } from 'ditox';
 
+import { CommandHandler } from '../../infrastructure/cqs/command-handler';
 import { EventPublisherPort } from '../../infrastructure/events/event-publisher.port';
 import { MemberRepository } from '../../persistence/repositories/member/member.repository';
 import { TOKENS } from '../../tokens';
@@ -12,7 +13,7 @@ export type CreateMemberCommand = {
   email: string;
 };
 
-export class CreateMember {
+export class CreateMember implements CommandHandler<CreateMemberCommand> {
   static inject = injectableClass(this, TOKENS.memberRepository, TOKENS.eventPublisher);
 
   constructor(

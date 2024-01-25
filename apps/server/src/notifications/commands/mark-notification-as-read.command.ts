@@ -1,5 +1,6 @@
 import { injectableClass } from 'ditox';
 
+import { CommandHandler } from '../../infrastructure/cqs/command-handler';
 import { NotificationRepository } from '../../persistence/repositories/notification/notification.repository';
 import { TOKENS } from '../../tokens';
 import { NotificationNotFound, MemberIsNotNotificationRecipient } from '../notification-errors';
@@ -9,7 +10,7 @@ export type MarkNotificationAsReadCommand = {
   memberId: string;
 };
 
-export class MarkNotificationAsRead {
+export class MarkNotificationAsRead implements CommandHandler<MarkNotificationAsReadCommand> {
   static inject = injectableClass(this, TOKENS.notificationRepository);
 
   constructor(private readonly notificationRepository: NotificationRepository) {}

@@ -1,4 +1,4 @@
-import { createContainer, injectableClass } from 'ditox';
+import { createContainer } from 'ditox';
 import nodemailer from 'nodemailer';
 
 import { AuthenticationController } from './authentication/authentication.controller';

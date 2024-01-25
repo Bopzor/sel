@@ -1,5 +1,5 @@
 type ClassType<T> = {
-  new (...params: any[]): T;
+  new (...params: unknown[]): T;
 };
 
 interface EventListener<Event extends object = object> {

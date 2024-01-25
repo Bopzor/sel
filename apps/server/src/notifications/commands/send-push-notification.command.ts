@@ -1,5 +1,6 @@
 import { injectableClass } from 'ditox';
 
+import { CommandHandler } from '../../infrastructure/cqs/command-handler';
 import { PushNotificationPort } from '../../infrastructure/push-notification/push-notification.port';
 import { MemberDeviceRepository } from '../../persistence/repositories/member-device/member-device.repository';
 import { TOKENS } from '../../tokens';
@@ -10,7 +11,7 @@ export type SendPushNotificationCommand = {
   content: string;
 };
 
-export class SendPushNotification {
+export class SendPushNotification implements CommandHandler<SendPushNotificationCommand> {
   static inject = injectableClass(this, TOKENS.pushNotification, TOKENS.memberDeviceRepository);
 
   constructor(

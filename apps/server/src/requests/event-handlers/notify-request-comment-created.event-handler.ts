@@ -1,6 +1,7 @@
 import { assert, hasId, negate } from '@sel/utils';
 import { injectableClass } from 'ditox';
 
+import { EventHandler } from '../../infrastructure/cqs/event-handler';
 import { TranslationPort } from '../../infrastructure/translation/translation.port';
 import { SubscriptionService } from '../../notifications/subscription.service';
 import { CommentRepository } from '../../persistence/repositories/comment/comment.repository';
@@ -9,7 +10,7 @@ import { RequestRepository } from '../../persistence/repositories/request/reques
 import { TOKENS } from '../../tokens';
 import { RequestCommentCreated } from '../request-events';
 
-export class NotifyRequestCommentCreated {
+export class NotifyRequestCommentCreated implements EventHandler<RequestCommentCreated> {
   static inject = injectableClass(
     this,
     TOKENS.translation,

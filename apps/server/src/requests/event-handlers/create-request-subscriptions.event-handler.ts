@@ -1,13 +1,14 @@
 import { defined } from '@sel/utils';
 import { injectableClass } from 'ditox';
 
+import { EventHandler } from '../../infrastructure/cqs/event-handler';
 import { SubscriptionService } from '../../notifications/subscription.service';
 import { CommentRepository } from '../../persistence/repositories/comment/comment.repository';
 import { RequestRepository } from '../../persistence/repositories/request/request.repository';
 import { TOKENS } from '../../tokens';
 import { RequestCommentCreated, RequestCreated } from '../request-events';
 
-export class CreateRequestSubscription {
+export class CreateRequestSubscription implements EventHandler<RequestCreated | RequestCommentCreated> {
   static inject = injectableClass(
     this,
     TOKENS.requestRepository,

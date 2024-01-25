@@ -1,6 +1,7 @@
 import { injectableClass } from 'ditox';
 
 import { ConfigPort } from '../../infrastructure/config/config.port';
+import { CommandHandler } from '../../infrastructure/cqs/command-handler';
 import { EventPublisherPort } from '../../infrastructure/events/event-publisher.port';
 import { GeneratorPort } from '../../infrastructure/generator/generator.port';
 import { AuthenticationLinkRequested } from '../../members/member-events';
@@ -14,7 +15,7 @@ export type RequestAuthenticationLinkCommand = {
   email: string;
 };
 
-export class RequestAuthenticationLink {
+export class RequestAuthenticationLink implements CommandHandler<RequestAuthenticationLinkCommand> {
   static inject = injectableClass(
     this,
     TOKENS.config,

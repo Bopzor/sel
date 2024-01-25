@@ -3,19 +3,17 @@ import { Token, injectableClass } from 'ditox';
 
 import { container } from '../../container';
 
-interface QueryHandler<Params extends unknown[], Result> {
-  handle(...params: Params): Promise<Result>;
-}
+import { QueryHandler } from './query-handler';
 
 export class QueryBus extends Bus {
   static inject = injectableClass(this);
 
-  async executeQuery<Params extends unknown[], Result>(
-    token: Token<QueryHandler<Params, Result>>,
-    ...params: Params
+  async executeQuery<Query, Result>(
+    token: Token<QueryHandler<Query, Result>>,
+    query: Query
   ): Promise<Result> {
     const handler = container.resolve(token);
 
-    return this.execute(handler.handle.bind(handler), ...params);
+    return this.execute(handler.handle.bind(handler), query);
   }
 }
