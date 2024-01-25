@@ -9,7 +9,7 @@ import { UnitTest } from '../../unit-test';
 import { RequestCreated } from '../request-events';
 import { Request, RequestStatus } from '../request.entity';
 
-import { CreateRequest } from './create-request.command';
+import { CreateRequest, CreateRequestCommand } from './create-request.command';
 
 class Test extends UnitTest {
   dateAdapter = new StubDate();
@@ -18,6 +18,17 @@ class Test extends UnitTest {
   requestRepository = new InMemoryRequestRepository();
 
   handler = new CreateRequest(this.dateAdapter, this.eventPublisher, this.htmlParser, this.requestRepository);
+
+  command: CreateRequestCommand = {
+    requestId: 'requestId',
+    requesterId: '',
+    title: '',
+    body: '',
+  };
+
+  async execute() {
+    await this.handler.handle(this.command);
+  }
 
   setup() {
     this.dateAdapter.date = createDate('2023-01-01');
@@ -32,7 +43,10 @@ describe('[Unit] CreateRequest', () => {
   });
 
   it('creates a new request', async () => {
-    await test.handler.handle('requestId', 'requesterId', 'title', 'body');
+    test.command.requesterId = 'requesterId';
+    test.command.title = 'title';
+    test.command.body = 'body';
+    await test.execute();
 
     expect(test.requestRepository.get('requestId')).toEqual<Request>({
       id: 'requestId',
@@ -48,7 +62,7 @@ describe('[Unit] CreateRequest', () => {
   });
 
   it('emits a RequestCreated domain event', async () => {
-    await test.handler.handle('requestId', 'requesterId', 'title', 'body');
+    await test.execute();
 
     expect(test.eventPublisher).toHaveEmitted(new RequestCreated('requestId'));
   });

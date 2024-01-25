@@ -6,6 +6,12 @@ import { RequestRepository } from '../../persistence/repositories/request/reques
 import { TOKENS } from '../../tokens';
 import { RequestEdited } from '../request-events';
 
+export type EditRequestCommand = {
+  requestId: string;
+  title: string;
+  body: string;
+};
+
 export class EditRequest {
   static inject = injectableClass(this, TOKENS.eventPublisher, TOKENS.htmlParser, TOKENS.requestRepository);
 
@@ -15,7 +21,7 @@ export class EditRequest {
     private readonly requestRepository: RequestRepository
   ) {}
 
-  async handle(requestId: string, title: string, body: string): Promise<void> {
+  async handle({ requestId, title, body }: EditRequestCommand): Promise<void> {
     await this.requestRepository.update(requestId, {
       title,
       body: {

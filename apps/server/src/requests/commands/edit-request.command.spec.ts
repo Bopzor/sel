@@ -7,7 +7,7 @@ import { UnitTest } from '../../unit-test';
 import { RequestEdited } from '../request-events';
 import { Request, createRequest } from '../request.entity';
 
-import { EditRequest } from './edit-request.command';
+import { EditRequest, EditRequestCommand } from './edit-request.command';
 
 class Test extends UnitTest {
   eventPublisher = new StubEventPublisher();
@@ -23,6 +23,16 @@ class Test extends UnitTest {
     body: { html: 'html', text: 'text' },
   });
 
+  command: EditRequestCommand = {
+    requestId: this.request.id,
+    title: '',
+    body: '',
+  };
+
+  async execute() {
+    await this.handler.handle(this.command);
+  }
+
   setup() {
     this.requestRepository.add(this.request);
   }
@@ -36,7 +46,9 @@ describe('[Unit] EditRequest', () => {
   });
 
   it('edits an existing request', async () => {
-    await test.handler.handle(test.request.id, 'new title', 'new body');
+    test.command.title = 'new title';
+    test.command.body = 'new body';
+    await test.execute();
 
     expect(test.requestRepository.get('requestId')).toHaveProperty<Request['title']>('title', 'new title');
     expect(test.requestRepository.get('requestId')).toHaveProperty<Request['body']>('body', {
@@ -46,7 +58,7 @@ describe('[Unit] EditRequest', () => {
   });
 
   it('emits a RequestEdited domain event', async () => {
-    await test.handler.handle(test.request.id, '', '');
+    await test.execute();
 
     expect(test.eventPublisher).toHaveEmitted(new RequestEdited('requestId'));
   });

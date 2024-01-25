@@ -40,7 +40,10 @@ export class SessionController {
   getCurrentMember: RequestHandler<never, shared.AuthenticatedMember> = async (req, res) => {
     const member = this.sessionProvider.getMember();
 
-    const result = await this.queryBus.executeQuery(QUERIES.getAuthenticatedMember, member.id);
+    const result = await this.queryBus.executeQuery(QUERIES.getAuthenticatedMember, {
+      memberId: member.id,
+    });
+
     assert(result);
 
     res.json(result);

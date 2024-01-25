@@ -176,7 +176,7 @@ class EntityCreator {
   // prettier-ignore
   async request({ requesterId = '', title = '', body = '' }: { requesterId?: string, title?: string, body?: string } = {}): Promise<Request> {
     const requestId = this.generator.id();
-    await this.commandBus.executeCommand(COMMANDS.createRequest, requestId, requesterId, title, body);
+    await this.commandBus.executeCommand(COMMANDS.createRequest, { requestId, requesterId, title, body });
     return defined(await this.requestRepository.getRequest(requestId));
   }
 }

@@ -40,7 +40,9 @@ export class AuthenticationController {
 
     const { email } = schema.parse(req.query);
 
-    await this.commandBus.executeCommand(COMMANDS.requestAuthenticationLink, email);
+    await this.commandBus.executeCommand(COMMANDS.requestAuthenticationLink, {
+      email,
+    });
 
     res.end();
   };
@@ -53,13 +55,15 @@ export class AuthenticationController {
     const { token } = schema.parse(req.query);
     const sessionTokenId = this.generator.id();
 
-    await this.commandBus.executeCommand(COMMANDS.verifyAuthenticationToken, token, sessionTokenId);
-
-    const sessionToken = await this.queryBus.executeQuery(
-      QUERIES.getToken,
+    await this.commandBus.executeCommand(COMMANDS.verifyAuthenticationToken, {
+      tokenValue: token,
       sessionTokenId,
-      TokenType.session
-    );
+    });
+
+    const sessionToken = await this.queryBus.executeQuery(QUERIES.getToken, {
+      tokenId: sessionTokenId,
+      type: TokenType.session,
+    });
 
     assert(sessionToken);
 

@@ -10,6 +10,10 @@ import { TOKENS } from '../../tokens';
 import { AuthenticationService } from '../authentication.service';
 import { TokenType } from '../token.entity';
 
+export type RequestAuthenticationLinkCommand = {
+  email: string;
+};
+
 export class RequestAuthenticationLink {
   static inject = injectableClass(
     this,
@@ -30,7 +34,7 @@ export class RequestAuthenticationLink {
     private readonly authenticationService: AuthenticationService
   ) {}
 
-  async handle(email: string): Promise<void> {
+  async handle({ email }: RequestAuthenticationLinkCommand): Promise<void> {
     const member = await this.memberRepository.getMemberFromEmail(email);
 
     if (!member) {

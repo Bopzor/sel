@@ -12,7 +12,10 @@ import { UnitTest } from '../../unit-test';
 import { AuthenticationService } from '../authentication.service';
 import { createToken, TokenType } from '../token.entity';
 
-import { RequestAuthenticationLink } from './request-authentication-link.command';
+import {
+  RequestAuthenticationLink,
+  RequestAuthenticationLinkCommand,
+} from './request-authentication-link.command';
 
 class Test extends UnitTest {
   config = new StubConfigAdapter({ app: { baseUrl: 'https://app.url' } });
@@ -38,13 +41,23 @@ class Test extends UnitTest {
     this.authenticationService
   );
 
-  sessionToken = createToken({ value: 'session-token', memberId: 'memberId', type: TokenType.session });
+  member = createMember({
+    id: 'memberId',
+    email: 'email',
+  });
+
+  command: RequestAuthenticationLinkCommand = {
+    email: this.member.email,
+  };
 
   setup() {
-    this.generator.nextId = 'generatedId';
-    this.generator.nextToken = 'generatedAuthToken';
-    this.dateAdapter.date = new Date('2023-10-29T11:12:12.000Z');
-    this.tokenRepository.add(this.sessionToken);
+    this.generator.nextId = '';
+    this.generator.nextToken = '';
+    this.memberRepository.add(this.member);
+  }
+
+  async execute() {
+    await this.handler.handle(this.command);
   }
 }
 
@@ -56,10 +69,11 @@ describe('[Unit] RequestAuthenticationLink', () => {
   });
 
   it('triggers a AuthenticationLinkRequested domain event', async () => {
+    test.generator.nextId = 'authTokenId';
     test.generator.nextToken = 'authToken';
-    test.memberRepository.add(createMember({ id: 'memberId', firstName: 'firstName', email: 'email' }));
 
-    await test.handler.handle('email');
+    test.command.email = 'email';
+    await test.execute();
 
     expect(test.eventPublisher).toHaveEmitted(
       new AuthenticationLinkRequested('memberId', 'https://app.url/?auth-token=authToken')
@@ -67,19 +81,23 @@ describe('[Unit] RequestAuthenticationLink', () => {
   });
 
   it('does trigger the event when the member does not exist', async () => {
-    await test.handler.handle('does-not-exist');
+    test.command.email = 'does-not-exist';
+    await test.execute();
 
     expect(test.eventPublisher.events).toHaveLength(0);
   });
 
   it('revokes the previous authentication token', async () => {
-    test.memberRepository.add(createMember({ id: 'memberId', email: 'email' }));
-
     test.tokenRepository.add(
-      createToken({ id: 'tokenId', memberId: 'memberId', type: TokenType.authentication, revoked: false })
+      createToken({
+        id: 'tokenId',
+        memberId: 'memberId',
+        type: TokenType.authentication,
+        revoked: false,
+      })
     );
 
-    await test.handler.handle('email');
+    await test.execute();
 
     expect(test.tokenRepository.get('tokenId')).toHaveProperty('revoked', true);
   });

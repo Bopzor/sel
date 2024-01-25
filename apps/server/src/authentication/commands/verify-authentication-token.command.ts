@@ -10,6 +10,11 @@ import { TokenExpired, TokenNotFound } from '../authentication.errors';
 import { AuthenticationService } from '../authentication.service';
 import { TokenType } from '../token.entity';
 
+export type VerifyAuthenticationTokenCommand = {
+  tokenValue: string;
+  sessionTokenId: string;
+};
+
 export class VerifyAuthenticationToken {
   static inject = injectableClass(
     this,
@@ -26,7 +31,7 @@ export class VerifyAuthenticationToken {
     private readonly authenticationService: AuthenticationService
   ) {}
 
-  async handle(tokenValue: string, sessionTokenId: string): Promise<void> {
+  async handle({ tokenValue, sessionTokenId }: VerifyAuthenticationTokenCommand): Promise<void> {
     const token = await this.tokenRepository.findByValue(tokenValue);
 
     if (token === undefined) {

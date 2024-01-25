@@ -7,6 +7,13 @@ import { RequestRepository } from '../../persistence/repositories/request/reques
 import { TOKENS } from '../../tokens';
 import { RequestCreated } from '../request-events';
 
+export type CreateRequestCommand = {
+  requestId: string;
+  requesterId: string;
+  title: string;
+  body: string;
+};
+
 export class CreateRequest {
   static inject = injectableClass(
     this,
@@ -23,7 +30,7 @@ export class CreateRequest {
     private readonly requestRepository: RequestRepository
   ) {}
 
-  async handle(requestId: string, requesterId: string, title: string, body: string): Promise<void> {
+  async handle({ requestId, requesterId, title, body }: CreateRequestCommand): Promise<void> {
     await this.requestRepository.insert({
       id: requestId,
       requesterId,
