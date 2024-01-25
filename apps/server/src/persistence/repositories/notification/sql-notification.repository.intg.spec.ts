@@ -4,7 +4,8 @@ import { beforeEach, describe, expect, it } from 'vitest';
 
 import { StubDate } from '../../../infrastructure/date/stub-date.adapter';
 import { createMember } from '../../../members/member.entity';
-import { createNotification, createSubscription } from '../../../notifications/entities';
+import { createNotification } from '../../../notifications/notification.entity';
+import { createSubscription } from '../../../notifications/subscription.entity';
 import { RepositoryTest } from '../../../repository-test';
 import { notifications } from '../../schema';
 

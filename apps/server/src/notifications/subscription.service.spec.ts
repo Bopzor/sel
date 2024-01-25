@@ -9,7 +9,7 @@ import { InMemoryNotificationRepository } from '../persistence/repositories/noti
 import { InMemorySubscriptionRepository } from '../persistence/repositories/subscription/in-memory.subscription.repository';
 import { UnitTest } from '../unit-test';
 
-import { createSubscription } from './entities';
+import { createSubscription } from './subscription.entity';
 import { SubscriptionService } from './subscription.service';
 
 class Test extends UnitTest {

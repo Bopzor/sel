@@ -31,16 +31,18 @@ import { LoggerPort } from './infrastructure/logger/logger.port';
 import { PushNotificationPort } from './infrastructure/push-notification/push-notification.port';
 import { SlackClientPort } from './infrastructure/slack/slack-client.port';
 import { TranslationPort } from './infrastructure/translation/translation.port';
+import { CreateMember } from './members/commands/create-member.command';
 import { UpdateMemberProfile } from './members/commands/update-member-profile.command';
+import { CreateMemberSubscription } from './members/event-handlers/create-member-subscription.event-handler';
 import { MembersController } from './members/members.controller';
 import { MembersFacade } from './members/members.facade';
 import { GetMember } from './members/queries/get-member.query';
 import { ListMembers } from './members/queries/list-members.query';
+import { MarkNotificationAsRead } from './notifications/commands/mark-notification-as-read.command';
+import { RegisterDevice } from './notifications/commands/register-device.command';
+import { SendPushNotification } from './notifications/commands/send-push-notification.command';
 import { NotificationController } from './notifications/notification.controller';
-import { NotificationModule } from './notifications/notification.module';
-import { NotificationService } from './notifications/notification.service';
-import { PushNotificationService } from './notifications/push-notification.service';
-import { SubscriptionFacade } from './notifications/subscription.facade';
+import { GetMemberNotifications } from './notifications/queries/get-member-notifications.query';
 import { SubscriptionService } from './notifications/subscription.service';
 import { Database } from './persistence/database';
 import { CommentRepository } from './persistence/repositories/comment/comment.repository';
@@ -60,8 +62,6 @@ import { GetRequest } from './requests/queries/get-request.query';
 import { ListRequests } from './requests/queries/list-requests.query';
 import { RequestController } from './requests/request.controller';
 import { Server } from './server';
-import { CreateMember } from './members/commands/create-member.command';
-import { CreateMemberSubscription } from './members/event-handlers/create-member-subscription.event-handler';
 
 export const TOKENS = {
   container: token<Container>('container'),
@@ -95,14 +95,10 @@ export const TOKENS = {
   requestRepository: token<RequestRepository>('requestRepository'),
   commentService: token<CommentService>('commentService'),
   commentRepository: token<CommentRepository>('commentRepository'),
-  notificationModule: token<NotificationModule>('notificationModule'),
-  subscriptionFacade: token<SubscriptionFacade>('subscriptionFacade'),
   subscriptionService: token<SubscriptionService>('subscriptionService'),
   subscriptionRepository: token<SubscriptionRepository>('subscriptionRepository'),
   notificationController: token<NotificationController>('notificationController'),
-  notificationService: token<NotificationService>('notificationService'),
   notificationRepository: token<NotificationRepository>('notificationRepository'),
-  pushNotificationService: token<PushNotificationService>('pushNotificationService'),
   memberDeviceRepository: token<MemberDeviceRepository>('memberDeviceRepository'),
 
   commandBus: token<CommandBus>('commandBus'),
@@ -120,6 +116,9 @@ export const COMMANDS = {
   createRequestComment: token<CreateRequestComment>('createRequestComment'),
   createMember: token<CreateMember>('createMember'),
   updateMemberProfile: token<UpdateMemberProfile>('updateMemberProfile'),
+  markNotificationAsRead: token<MarkNotificationAsRead>('markNotificationAsRead'),
+  registerDevice: token<RegisterDevice>('registerDevice'),
+  sendPushNotification: token<SendPushNotification>('sendPushNotification'),
 };
 
 export const QUERIES = {
@@ -129,6 +128,7 @@ export const QUERIES = {
   getRequest: token<GetRequest>('getRequest'),
   listMembers: token<ListMembers>('listMembers'),
   getMember: token<GetMember>('getMember'),
+  getMemberNotifications: token<GetMemberNotifications>('getMemberNotifications'),
 };
 
 export const EVENT_HANDLERS = {

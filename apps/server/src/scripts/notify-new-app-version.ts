@@ -11,11 +11,11 @@ main(process.argv.slice(2))
 async function main(args: string[]) {
   const [version, content] = args;
   const translation = container.resolve(TOKENS.translation);
-  const subscriptionFacade = container.resolve(TOKENS.subscriptionFacade);
+  const subscriptionService = container.resolve(TOKENS.subscriptionService);
 
   assert(version, 'missing version');
 
-  await subscriptionFacade.notify(
+  await subscriptionService.notify(
     'NewAppVersion',
     () => true,
     () => ({

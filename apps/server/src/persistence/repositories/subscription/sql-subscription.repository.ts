@@ -2,7 +2,7 @@ import { injectableClass } from 'ditox';
 import { SQL, and, eq } from 'drizzle-orm';
 
 import { DatePort } from '../../../infrastructure/date/date.port';
-import { Subscription, SubscriptionType } from '../../../notifications/entities';
+import { Subscription, SubscriptionType } from '../../../notifications/subscription.entity';
 import { TOKENS } from '../../../tokens';
 import { Database } from '../../database';
 import { subscriptions } from '../../schema';

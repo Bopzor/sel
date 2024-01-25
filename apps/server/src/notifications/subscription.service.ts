@@ -16,7 +16,7 @@ import {
 } from '../persistence/repositories/subscription/subscription.repository';
 import { TOKENS } from '../tokens';
 
-import { SubscriptionType } from './entities';
+import { SubscriptionType } from './subscription.entity';
 
 export type NotificationPayload<Type extends shared.NotificationType> = {
   type: Type;

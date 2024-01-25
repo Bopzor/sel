@@ -1,18 +1,18 @@
 import { createDate } from '@sel/utils';
 import { beforeEach, describe, expect, it } from 'vitest';
 
-import { StubDate } from '../infrastructure/date/stub-date.adapter';
-import { InMemoryNotificationRepository } from '../persistence/repositories/notification/in-memory-notification.repository';
-import { UnitTest } from '../unit-test';
+import { StubDate } from '../../infrastructure/date/stub-date.adapter';
+import { InMemoryNotificationRepository } from '../../persistence/repositories/notification/in-memory-notification.repository';
+import { UnitTest } from '../../unit-test';
+import { MemberIsNotNotificationRecipient, NotificationNotFound } from '../notification-errors';
+import { createNotification } from '../notification.entity';
 
-import { createNotification } from './entities';
-import { MemberIsNotNotificationRecipient, NotificationNotFound } from './errors';
-import { NotificationService } from './notification.service';
+import { MarkNotificationAsRead } from './mark-notification-as-read.command';
 
 class Test extends UnitTest {
   dateAdapter = new StubDate();
   notificationRepository = new InMemoryNotificationRepository(this.dateAdapter);
-  service = new NotificationService(this.notificationRepository);
+  handler = new MarkNotificationAsRead(this.notificationRepository);
 
   now = createDate('2024-01-01');
 
@@ -21,7 +21,7 @@ class Test extends UnitTest {
   }
 }
 
-describe('NotificationService', () => {
+describe('[Unit] MarkNotificationAsRead', () => {
   let test: Test;
 
   beforeEach(() => {
@@ -34,15 +34,15 @@ describe('NotificationService', () => {
         createNotification({ id: 'notificationId', memberId: 'memberId', readAt: undefined })
       );
 
-      await test.service.markAsRead('notificationId', 'memberId');
+      await test.handler.handle({ notificationId: 'notificationId', memberId: 'memberId' });
 
       expect(test.notificationRepository.get('notificationId')).toHaveProperty('readAt', test.now);
     });
 
     it('fails when the notification does not exist', async () => {
-      await expect(test.service.markAsRead('notificationId', 'memberId')).rejects.toThrow(
-        NotificationNotFound
-      );
+      await expect(
+        test.handler.handle({ notificationId: 'notificationId', memberId: 'memberId' })
+      ).rejects.toThrow(NotificationNotFound);
     });
 
     it('fails when the member is not the recipient of the notification', async () => {
@@ -50,9 +50,9 @@ describe('NotificationService', () => {
         createNotification({ id: 'notificationId', memberId: 'memberId', readAt: undefined })
       );
 
-      await expect(test.service.markAsRead('notificationId', 'notMemberId')).rejects.toThrow(
-        MemberIsNotNotificationRecipient
-      );
+      await expect(
+        test.handler.handle({ notificationId: 'notificationId', memberId: 'notMemberId' })
+      ).rejects.toThrow(MemberIsNotNotificationRecipient);
     });
   });
 });

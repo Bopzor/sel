@@ -1,4 +1,4 @@
-import { Subscription, SubscriptionType } from '../../../notifications/entities';
+import { Subscription, SubscriptionType } from '../../../notifications/subscription.entity';
 
 export type SubscriptionEntityType = 'request';
 

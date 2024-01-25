@@ -5,8 +5,8 @@ import { beforeEach, describe, expect, it } from 'vitest';
 import { StubEventPublisher } from '../../infrastructure/events/stub-event-publisher';
 import { InMemoryMemberRepository } from '../../persistence/repositories/member/in-memory-member.repository';
 import { UnitTest } from '../../unit-test';
-import { MemberStatus, createMember } from '../member.entity';
 import { OnboardingCompleted } from '../member-events';
+import { MemberStatus, createMember } from '../member.entity';
 
 import { UpdateMemberProfile, UpdateMemberProfileCommand } from './update-member-profile.command';
 

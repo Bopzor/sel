@@ -37,11 +37,11 @@ import { MembersController } from './members/members.controller';
 import { MembersFacadeImpl } from './members/members.facade';
 import { GetMember } from './members/queries/get-member.query';
 import { ListMembers } from './members/queries/list-members.query';
+import { MarkNotificationAsRead } from './notifications/commands/mark-notification-as-read.command';
+import { RegisterDevice } from './notifications/commands/register-device.command';
+import { SendPushNotification } from './notifications/commands/send-push-notification.command';
 import { NotificationController } from './notifications/notification.controller';
-import { NotificationModule } from './notifications/notification.module';
-import { NotificationService } from './notifications/notification.service';
-import { PushNotificationService } from './notifications/push-notification.service';
-import { SubscriptionFacadeImpl } from './notifications/subscription.facade';
+import { GetMemberNotifications } from './notifications/queries/get-member-notifications.query';
 import { SubscriptionService } from './notifications/subscription.service';
 import { Database } from './persistence/database';
 import { SqlCommentRepository } from './persistence/repositories/comment/sql-comment.repository';
@@ -104,16 +104,12 @@ container.bindFactory(TOKENS.tokenRepository, SqlTokenRepository.inject);
 container.bindFactory(TOKENS.commentService, CommentService.inject);
 container.bindFactory(TOKENS.commentRepository, SqlCommentRepository.inject);
 
-container.bindFactory(TOKENS.notificationModule, NotificationModule.inject);
-container.bindFactory(TOKENS.subscriptionFacade, SubscriptionFacadeImpl.inject);
 container.bindFactory(TOKENS.subscriptionService, SubscriptionService.inject);
 container.bindFactory(TOKENS.subscriptionRepository, SqlSubscriptionRepository.inject);
 
 container.bindFactory(TOKENS.notificationController, NotificationController.inject);
-container.bindFactory(TOKENS.notificationService, NotificationService.inject);
 container.bindFactory(TOKENS.notificationRepository, SqlNotificationRepository.inject);
 
-container.bindFactory(TOKENS.pushNotificationService, PushNotificationService.inject);
 container.bindFactory(TOKENS.memberDeviceRepository, SqlMemberDeviceRepository.inject);
 
 container.bindFactory(TOKENS.commandBus, CommandBus.inject);
@@ -128,6 +124,9 @@ container.bindFactory(COMMANDS.editRequest, EditRequest.inject);
 container.bindFactory(COMMANDS.createRequestComment, CreateRequestComment.inject);
 container.bindFactory(COMMANDS.createMember, CreateMember.inject);
 container.bindFactory(COMMANDS.updateMemberProfile, UpdateMemberProfile.inject);
+container.bindFactory(COMMANDS.markNotificationAsRead, MarkNotificationAsRead.inject);
+container.bindFactory(COMMANDS.registerDevice, RegisterDevice.inject);
+container.bindFactory(COMMANDS.sendPushNotification, SendPushNotification.inject);
 
 container.bindFactory(QUERIES.getToken, GetToken.inject);
 container.bindFactory(QUERIES.getAuthenticatedMember, GetAuthenticatedMember.inject);
@@ -135,6 +134,7 @@ container.bindFactory(QUERIES.listRequests, ListRequests.inject);
 container.bindFactory(QUERIES.getRequest, GetRequest.inject);
 container.bindFactory(QUERIES.listMembers, ListMembers.inject);
 container.bindFactory(QUERIES.getMember, GetMember.inject);
+container.bindFactory(QUERIES.getMemberNotifications, GetMemberNotifications.inject);
 
 container.bindFactory(EVENT_HANDLERS.sendAuthenticationEmail, SendAuthenticationEmail.inject);
 container.bindFactory(EVENT_HANDLERS.createRequestSubscription, CreateRequestSubscription.inject);

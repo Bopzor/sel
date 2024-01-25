@@ -1,7 +1,7 @@
 import { assert } from '@sel/utils';
 
 import { container } from '../container';
-import { TOKENS } from '../tokens';
+import { COMMANDS, TOKENS } from '../tokens';
 
 main(process.argv.slice(2))
   // eslint-disable-next-line no-console
@@ -9,8 +9,8 @@ main(process.argv.slice(2))
   .finally(() => void container.resolve(TOKENS.database).close());
 
 async function main(args: string[]) {
-  const pushNotificationService = container.resolve(TOKENS.pushNotificationService);
-  const notificationModule = container.resolve(TOKENS.notificationModule);
+  const commandBus = container.resolve(TOKENS.commandBus);
+  const pushNotification = container.resolve(TOKENS.pushNotification);
 
   const [memberId, title, content] = args;
 
@@ -18,6 +18,6 @@ async function main(args: string[]) {
   assert(title, 'missing title');
   assert(content, 'missing content');
 
-  notificationModule.init();
-  await pushNotificationService.sendPushNotification(memberId, title, content);
+  pushNotification.init?.();
+  await commandBus.executeCommand(COMMANDS.sendPushNotification, { memberId, title, content });
 }

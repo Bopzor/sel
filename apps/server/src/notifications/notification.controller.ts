@@ -5,28 +5,19 @@ import { z } from 'zod';
 
 import { SessionProvider } from '../authentication/session.provider';
 import { HttpStatus } from '../http-status';
-import { NotificationRepository } from '../persistence/repositories/notification/notification.repository';
-import { TOKENS } from '../tokens';
-
-import { NotificationService } from './notification.service';
-import { PushNotificationService } from './push-notification.service';
+import { CommandBus } from '../infrastructure/cqs/command-bus';
+import { QueryBus } from '../infrastructure/cqs/query-bus';
+import { COMMANDS, QUERIES, TOKENS } from '../tokens';
 
 export class NotificationController {
-  static inject = injectableClass(
-    this,
-    TOKENS.sessionProvider,
-    TOKENS.notificationService,
-    TOKENS.notificationRepository,
-    TOKENS.pushNotificationService
-  );
+  static inject = injectableClass(this, TOKENS.queryBus, TOKENS.commandBus, TOKENS.sessionProvider);
 
   readonly router = Router();
 
   constructor(
-    private readonly sessionProvider: SessionProvider,
-    private readonly notificationService: NotificationService,
-    private readonly notificationRepository: NotificationRepository,
-    private readonly pushNotificationService: PushNotificationService
+    private readonly queryBus: QueryBus,
+    private readonly commandBud: CommandBus,
+    private readonly sessionProvider: SessionProvider
   ) {
     this.router.get('/', this.getMemberNotifications);
     this.router.put('/:notificationId/read', this.markNotificationAsRead);
@@ -36,8 +27,9 @@ export class NotificationController {
   getMemberNotifications: RequestHandler<never, shared.Notification[]> = async (req, res) => {
     const member = this.sessionProvider.getMember();
 
-    const unreadCount = await this.notificationRepository.query_countNotificationsForMember(member.id, false);
-    const notifications = await this.notificationRepository.query_getNotificationsForMember(member.id);
+    const { unreadCount, notifications } = await this.queryBus.executeQuery(QUERIES.getMemberNotifications, {
+      memberId: member.id,
+    });
 
     res.header('X-Unread-Notifications-Count', String(unreadCount));
     res.json(notifications);
@@ -46,7 +38,10 @@ export class NotificationController {
   markNotificationAsRead: RequestHandler<{ notificationId: string }> = async (req, res) => {
     const member = this.sessionProvider.getMember();
 
-    await this.notificationService.markAsRead(req.params.notificationId, member.id);
+    await this.commandBud.executeCommand(COMMANDS.markNotificationAsRead, {
+      notificationId: req.params.notificationId,
+      memberId: member.id,
+    });
 
     res.status(HttpStatus.noContent).end();
   };
@@ -60,7 +55,11 @@ export class NotificationController {
     const member = this.sessionProvider.getMember();
     const { subscription, deviceType } = NotificationController.registerDeviceSchema.parse(req.body);
 
-    await this.pushNotificationService.registerDevice(member.id, subscription, deviceType);
+    await this.commandBud.executeCommand(COMMANDS.registerDevice, {
+      memberId: member.id,
+      deviceSubscription: subscription,
+      deviceType,
+    });
 
     res.status(HttpStatus.noContent).end();
   };

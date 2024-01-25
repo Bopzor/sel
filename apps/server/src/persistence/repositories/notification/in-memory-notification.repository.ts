@@ -2,7 +2,7 @@ import * as shared from '@sel/shared';
 
 import { InMemoryRepository } from '../../../in-memory.repository';
 import { DatePort } from '../../../infrastructure/date/date.port';
-import { Notification } from '../../../notifications/entities';
+import { Notification } from '../../../notifications/notification.entity';
 
 import { InsertNotificationModel, NotificationRepository } from './notification.repository';
 

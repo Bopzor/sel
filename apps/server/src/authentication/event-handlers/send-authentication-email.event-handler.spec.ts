@@ -3,8 +3,8 @@ import { beforeEach, describe, expect, it } from 'vitest';
 import { Email, EmailKind } from '../../infrastructure/email/email.types';
 import { StubEmailSenderAdapter } from '../../infrastructure/email/stub-email-sender.adapter';
 import { FormatJsTranslationAdapter } from '../../infrastructure/translation/formatjs-translation.adapter';
-import { createMember } from '../../members/member.entity';
 import { AuthenticationLinkRequested } from '../../members/member-events';
+import { createMember } from '../../members/member.entity';
 import { InMemoryMemberRepository } from '../../persistence/repositories/member/in-memory-member.repository';
 import { UnitTest } from '../../unit-test';
 

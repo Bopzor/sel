@@ -1,7 +1,7 @@
 import { assert } from '@sel/utils';
 
 import { container } from '../container';
-import { isSubscriptionType } from '../notifications/entities';
+import { isSubscriptionType } from '../notifications/subscription.entity';
 import { TOKENS } from '../tokens';
 
 main(process.argv.slice(2))
@@ -11,11 +11,11 @@ main(process.argv.slice(2))
 
 async function main(args: string[]) {
   const [type, ...memberIds] = args;
-  const subscriptionFacade = container.resolve(TOKENS.subscriptionFacade);
+  const subscriptionService = container.resolve(TOKENS.subscriptionService);
 
   assert(isSubscriptionType(type), 'Invalid subscription type');
 
   for (const memberId of memberIds) {
-    await subscriptionFacade.createSubscription(type, memberId, undefined, false);
+    await subscriptionService.createSubscription(type, memberId, undefined, false);
   }
 }

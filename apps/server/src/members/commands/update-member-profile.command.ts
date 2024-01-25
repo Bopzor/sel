@@ -4,8 +4,8 @@ import { injectableClass } from 'ditox';
 import { EventPublisherPort } from '../../infrastructure/events/event-publisher.port';
 import { MemberRepository } from '../../persistence/repositories/member/member.repository';
 import { TOKENS } from '../../tokens';
-import { MemberStatus } from '../member.entity';
 import { OnboardingCompleted } from '../member-events';
+import { MemberStatus } from '../member.entity';
 
 export type UpdateMemberProfileCommand = {
   memberId: string;
