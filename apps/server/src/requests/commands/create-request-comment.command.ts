@@ -1,16 +1,16 @@
 import { injectableClass } from 'ditox';
 
-import { CommentsService } from '../../comments/comments.service';
+import { CommentService } from '../../comments/comment.service';
 import { EventPublisherPort } from '../../infrastructure/events/event-publisher.port';
 import { TOKENS } from '../../tokens';
 import { RequestCommentCreated } from '../request-events';
 
 export class CreateRequestComment {
-  static inject = injectableClass(this, TOKENS.eventPublisher, TOKENS.commentsService);
+  static inject = injectableClass(this, TOKENS.eventPublisher, TOKENS.commentService);
 
   constructor(
     private readonly eventPublisher: EventPublisherPort,
-    private readonly commentService: CommentsService
+    private readonly commentService: CommentService
   ) {}
 
   async handle(commentId: string, requestId: string, authorId: string, text: string): Promise<void> {

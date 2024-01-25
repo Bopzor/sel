@@ -10,7 +10,7 @@ import { GetAuthenticatedMember } from './authentication/queries/get-authenticat
 import { GetToken } from './authentication/queries/get-session-token.query';
 import { SessionController } from './authentication/session.controller';
 import { SessionProvider } from './authentication/session.provider';
-import { CommentsService } from './comments/comments.service';
+import { CommentService } from './comments/comment.service';
 import { EnvConfigAdapter } from './infrastructure/config/env-config.adapter';
 import { CommandBus } from './infrastructure/cqs/command-bus';
 import { EventBus } from './infrastructure/cqs/event-bus';
@@ -100,7 +100,7 @@ container.bindFactory(TOKENS.sessionProvider, SessionProvider.inject);
 container.bindFactory(TOKENS.authenticationService, AuthenticationService.inject);
 container.bindFactory(TOKENS.tokenRepository, SqlTokenRepository.inject);
 
-container.bindFactory(TOKENS.commentsService, CommentsService.inject);
+container.bindFactory(TOKENS.commentService, CommentService.inject);
 container.bindFactory(TOKENS.commentRepository, SqlCommentRepository.inject);
 
 container.bindFactory(TOKENS.notificationModule, NotificationModule.inject);

@@ -1,6 +1,6 @@
 import { DomainEvent } from '../domain-event';
 
-import { CommentParentType } from './entities';
+import { CommentParentType } from './comment.entity';
 
 export class CommentCreated extends DomainEvent {
   entity = 'comment';

@@ -10,7 +10,7 @@ import { GetAuthenticatedMember } from './authentication/queries/get-authenticat
 import { GetToken } from './authentication/queries/get-session-token.query';
 import { SessionController } from './authentication/session.controller';
 import { SessionProvider } from './authentication/session.provider';
-import { CommentsService } from './comments/comments.service';
+import { CommentService } from './comments/comment.service';
 import { ConfigPort } from './infrastructure/config/config.port';
 import { CommandBus } from './infrastructure/cqs/command-bus';
 import { EventBus } from './infrastructure/cqs/event-bus';
@@ -92,7 +92,7 @@ export const TOKENS = {
   sessionController: token<SessionController>('sessionController'),
   requestController: token<RequestController>('requestController'),
   requestRepository: token<RequestRepository>('requestRepository'),
-  commentsService: token<CommentsService>('commentsService'),
+  commentService: token<CommentService>('commentService'),
   commentRepository: token<CommentRepository>('commentRepository'),
   notificationModule: token<NotificationModule>('notificationModule'),
   subscriptionFacade: token<SubscriptionFacade>('subscriptionFacade'),

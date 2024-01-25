@@ -27,6 +27,9 @@ describe('[E2E] Authentication', () => {
       method: 'POST',
     });
 
+    await test.waitForEventHandlers();
+
+    // mail is sent asynchronously
     await waitFor(() => {
       expect(test.mailServer.emails).toHaveLength(1);
     });

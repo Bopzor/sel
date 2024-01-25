@@ -1,19 +1,19 @@
 import { injectableClass } from 'ditox';
 
 import { DatePort } from '../infrastructure/date/date.port';
-import { EventsPort } from '../infrastructure/events/events.port';
+import { EventPublisherPort } from '../infrastructure/events/event-publisher.port';
 import { CommentRepository } from '../persistence/repositories/comment/comment.repository';
 import { TOKENS } from '../tokens';
 
-import { Comment, CommentParentType } from './entities';
-import { CommentCreated } from './events';
+import { CommentCreated } from './comment-events';
+import { Comment, CommentParentType } from './comment.entity';
 
-export class CommentsService {
-  static inject = injectableClass(this, TOKENS.date, TOKENS.events, TOKENS.commentRepository);
+export class CommentService {
+  static inject = injectableClass(this, TOKENS.date, TOKENS.eventPublisher, TOKENS.commentRepository);
 
   constructor(
     private readonly dateAdapter: DatePort,
-    private readonly events: EventsPort,
+    private readonly eventPublisher: EventPublisherPort,
     private readonly commentsRepository: CommentRepository
   ) {}
 
@@ -34,7 +34,7 @@ export class CommentsService {
 
     await this.commentsRepository.insert(entity, entityId, comment);
 
-    this.events.emit(new CommentCreated(comment.id, entity));
+    this.eventPublisher.publish(new CommentCreated(comment.id, entity));
 
     return commentId;
   }

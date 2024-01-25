@@ -2,27 +2,27 @@ import { createDate } from '@sel/utils';
 import { beforeEach, describe, expect, it } from 'vitest';
 
 import { StubDate } from '../infrastructure/date/stub-date.adapter';
-import { StubEventsAdapter } from '../infrastructure/events/stub-events.adapter';
+import { StubEventPublisher } from '../infrastructure/events/stub-event-publisher';
 import { InMemoryCommentRepository } from '../persistence/repositories/comment/in-memory-comment.repository';
 import { UnitTest } from '../unit-test';
 
-import { CommentsService } from './comments.service';
-import { Comment } from './entities';
-import { CommentCreated } from './events';
+import { CommentCreated } from './comment-events';
+import { Comment } from './comment.entity';
+import { CommentService } from './comment.service';
 
 class Test extends UnitTest {
   dateAdapter = new StubDate();
-  events = new StubEventsAdapter();
+  eventPublisher = new StubEventPublisher();
   commentsRepository = new InMemoryCommentRepository();
 
-  service = new CommentsService(this.dateAdapter, this.events, this.commentsRepository);
+  service = new CommentService(this.dateAdapter, this.eventPublisher, this.commentsRepository);
 
   setup(): void {
     this.dateAdapter.date = createDate();
   }
 }
 
-describe('CommentsService', () => {
+describe('[Unit] CommentService', () => {
   let test: Test;
 
   beforeEach(() => {
@@ -45,7 +45,7 @@ describe('CommentsService', () => {
     it('triggers a CommentCreated domain event', async () => {
       await test.service.createComment('commentId', 'request', 'requestId', 'authorId', 'body');
 
-      expect(test.events).toHaveEmitted(new CommentCreated('commentId', 'request'));
+      expect(test.eventPublisher).toHaveEmitted(new CommentCreated('commentId', 'request'));
     });
   });
 });

@@ -1,7 +1,7 @@
 import { injectableClass } from 'ditox';
 import { eq } from 'drizzle-orm';
 
-import { Comment, CommentParentType } from '../../../comments/entities';
+import { Comment, CommentParentType } from '../../../comments/comment.entity';
 import { DatePort } from '../../../infrastructure/date/date.port';
 import { HtmlParserPort } from '../../../infrastructure/html-parser/html-parser.port';
 import { TOKENS } from '../../../tokens';

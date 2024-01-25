@@ -1,4 +1,4 @@
-import { Comment, CommentParentType } from '../../../comments/entities';
+import { Comment, CommentParentType } from '../../../comments/comment.entity';
 import { InMemoryRepository } from '../../../in-memory.repository';
 
 import { CommentRepository } from './comment.repository';

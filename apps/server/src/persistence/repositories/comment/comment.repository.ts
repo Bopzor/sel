@@ -1,4 +1,4 @@
-import { Comment, CommentParentType } from '../../../comments/entities';
+import { Comment, CommentParentType } from '../../../comments/comment.entity';
 
 export interface CommentRepository {
   getComment(commentId: string): Promise<Comment | undefined>;
