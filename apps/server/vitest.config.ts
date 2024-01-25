@@ -11,6 +11,7 @@ export default defineConfig({
     environment: 'node',
     reporters: ['verbose'],
     alias: {
+      '@sel/cqs': path.resolve('../../packages/cqs/src'),
       '@sel/shared': path.resolve('../../packages/shared/src'),
       '@sel/utils': path.resolve('../../packages/utils/src'),
     },
