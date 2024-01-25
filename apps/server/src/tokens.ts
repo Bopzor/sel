@@ -10,7 +10,6 @@ import { GetToken } from './authentication/queries/get-session-token.query';
 import { CommentsFacade } from './comments/comments.facade';
 import { CommentsService } from './comments/comments.service';
 import { ConfigPort } from './infrastructure/config/config.port';
-import { Bus } from './infrastructure/cqs/bus';
 import { CommandBus } from './infrastructure/cqs/command-bus';
 import { EventBus } from './infrastructure/cqs/event-bus';
 import { QueryBus } from './infrastructure/cqs/query-bus';
@@ -19,6 +18,7 @@ import { EmailRendererPort } from './infrastructure/email/email-renderer.port';
 import { EmailSenderPort } from './infrastructure/email/email-sender.port';
 import { Nodemailer } from './infrastructure/email/nodemailer-email-sender.adapter';
 import { ErrorReporterPort } from './infrastructure/error-reporter/error-reporter.port';
+import { EventPublisherPort } from './infrastructure/events/event-publisher.port';
 import { EventsLogger } from './infrastructure/events/events-logger';
 import { EventsPersistor } from './infrastructure/events/events-persistor';
 import { EventsSlackPublisher } from './infrastructure/events/events-slack-publisher';
@@ -110,6 +110,7 @@ export const TOKENS = {
   commandBus: token<CommandBus>('commandBus'),
   queryBus: token<QueryBus>('queryBus'),
   eventBus: token<EventBus>('eventBus'),
+  eventPublisher: token<EventPublisherPort>('eventPublisher'),
 };
 
 export const COMMANDS = {

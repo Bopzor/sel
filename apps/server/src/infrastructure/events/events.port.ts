@@ -6,6 +6,7 @@ export interface EventListener<Event extends DomainEvent = DomainEvent> {
   (event: Event): void | Promise<void>;
 }
 
+/** @deprecated use EventBus */
 export interface EventsPort {
   addAnyEventListener(listener: EventListener): void;
 

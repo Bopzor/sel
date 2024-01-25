@@ -11,6 +11,7 @@ export class EventBus {
     if (!this.listeners.has(EventClass)) {
       this.listeners.set(EventClass, []);
     }
+
     this.listeners.get(EventClass)?.push(listener as EventListener);
   }
 
@@ -23,6 +24,10 @@ export class EventBus {
   }
 
   private getListeners(event: object) {
-    return [...(this.listeners.get(event.constructor) ?? []), ...(this.listeners.get(null) ?? [])];
+    return [
+      //
+      ...(this.listeners.get(event.constructor) ?? []),
+      ...(this.listeners.get(null) ?? []),
+    ];
   }
 }

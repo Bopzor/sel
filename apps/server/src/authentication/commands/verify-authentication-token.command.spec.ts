@@ -2,7 +2,7 @@ import { createDate } from '@sel/utils';
 import { beforeEach, describe, expect, it } from 'vitest';
 
 import { StubDate } from '../../infrastructure/date/stub-date.adapter';
-import { StubEventsAdapter } from '../../infrastructure/events/stub-events.adapter';
+import { StubEventPublisher } from '../../infrastructure/events/stub-event-publisher';
 import { StubGenerator } from '../../infrastructure/generator/stub-generator.adapter';
 import { MemberAuthenticated } from '../../members/events';
 import { InMemoryTokenRepository } from '../../persistence/repositories/token/in-memory-token.repository';
@@ -15,19 +15,19 @@ import { VerifyAuthenticationToken } from './verify-authentication-token.command
 class Test extends UnitTest {
   generator = new StubGenerator();
   dateAdapter = new StubDate();
-  events = new StubEventsAdapter();
+  eventPublisher = new StubEventPublisher();
   tokenRepository = new InMemoryTokenRepository();
 
   authenticationService = new AuthenticationService(
     this.generator,
     this.dateAdapter,
-    this.events,
+    this.eventPublisher,
     this.tokenRepository
   );
 
   handler = new VerifyAuthenticationToken(
     this.dateAdapter,
-    this.events,
+    this.eventPublisher,
     this.tokenRepository,
     this.authenticationService
   );
@@ -89,7 +89,7 @@ describe('[Unit] VerifyAuthenticationToken', () => {
   it('triggers a AuthenticationLinkRequested domain event', async () => {
     await test.handler.handle('authToken', '');
 
-    expect(test.events).toHaveEmitted(new MemberAuthenticated('memberId'));
+    expect(test.eventPublisher).toHaveEmitted(new MemberAuthenticated('memberId'));
   });
 
   it('throws when the authentication token does not exist', async () => {

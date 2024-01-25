@@ -1,8 +1,8 @@
 import { beforeEach, describe, expect, it } from 'vitest';
 
+import { EventBus } from '../infrastructure/cqs/event-bus';
 import { Email, EmailKind } from '../infrastructure/email/email.types';
 import { StubEmailSenderAdapter } from '../infrastructure/email/stub-email-sender.adapter';
-import { StubEventsAdapter } from '../infrastructure/events/stub-events.adapter';
 import { createMember } from '../members/entities';
 import { AuthenticationLinkRequested } from '../members/events';
 import { StubMembersFacade } from '../members/members.facade';
@@ -11,11 +11,11 @@ import { UnitTest } from '../unit-test';
 import { AuthenticationModule } from './authentication.module';
 
 class Test extends UnitTest {
-  events = new StubEventsAdapter();
+  eventBus = new EventBus();
   emailSender = new StubEmailSenderAdapter();
   membersFacade = new StubMembersFacade();
 
-  module = new AuthenticationModule(this.events, this.emailSender, this.membersFacade);
+  module = new AuthenticationModule(this.eventBus, this.emailSender, this.membersFacade);
 
   member = createMember({ id: 'memberId', email: 'email', firstName: 'firstName' });
 
@@ -33,7 +33,9 @@ describe('AuthenticationModule', () => {
   });
 
   it('sends an authentication email when a request authentication link domain event is triggered', async () => {
-    await test.events.trigger(new AuthenticationLinkRequested('memberId', 'link'));
+    // todo: test without eventBus
+    test.eventBus.publish(new AuthenticationLinkRequested('memberId', 'link'));
+    await new Promise<void>((resolve) => setTimeout(resolve, 0));
 
     expect(test.emailSender.emails).toContainEqual<Email>({
       to: 'email',

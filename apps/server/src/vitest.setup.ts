@@ -1,6 +1,7 @@
 import { assert, expect } from 'vitest';
 
 import { DomainEvent } from './domain-event';
+import { StubEventPublisher } from './infrastructure/events/stub-event-publisher';
 import { StubEventsAdapter } from './infrastructure/events/stub-events.adapter';
 
 interface CustomMatchers<R = unknown> {
@@ -14,9 +15,9 @@ declare module 'vitest' {
 }
 
 expect.extend({
-  toHaveEmitted(events: StubEventsAdapter, expected: DomainEvent) {
+  toHaveEmitted(adapter: StubEventsAdapter | StubEventPublisher, expected: DomainEvent) {
     let error: Error | undefined = undefined;
-    let assertion = expect(events.events);
+    let assertion = expect(adapter.events);
 
     if (this.isNot) {
       assertion = assertion.not;
@@ -35,7 +36,7 @@ expect.extend({
         assert(error);
         return [
           error.message,
-          `received: ${this.utils.printReceived(events.events)}`,
+          `received: ${this.utils.printReceived(adapter.events)}`,
           `expected: ${this.utils.printExpected(expected)}`,
         ].join('\n');
       },

@@ -2,7 +2,7 @@ import { isAfter } from '@sel/utils';
 import { injectableClass } from 'ditox';
 
 import { DatePort } from '../../infrastructure/date/date.port';
-import { EventsPort } from '../../infrastructure/events/events.port';
+import { EventPublisherPort } from '../../infrastructure/events/event-publisher.port';
 import { MemberAuthenticated } from '../../members/events';
 import { TokenRepository } from '../../persistence/repositories/token/token.repository';
 import { TOKENS } from '../../tokens';
@@ -14,14 +14,14 @@ export class VerifyAuthenticationToken {
   static inject = injectableClass(
     this,
     TOKENS.date,
-    TOKENS.events,
+    TOKENS.eventPublisher,
     TOKENS.tokenRepository,
     TOKENS.authenticationService
   );
 
   constructor(
     private readonly dateAdapter: DatePort,
-    private readonly events: EventsPort,
+    private readonly eventPublisher: EventPublisherPort,
     private readonly tokenRepository: TokenRepository,
     private readonly authenticationService: AuthenticationService
   ) {}
@@ -37,7 +37,7 @@ export class VerifyAuthenticationToken {
       throw new TokenExpired(tokenValue);
     }
 
-    this.events.emit(new MemberAuthenticated(token.memberId));
+    this.eventPublisher.publish(new MemberAuthenticated(token.memberId));
 
     await this.tokenRepository.revoke(token.id);
 

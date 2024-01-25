@@ -1,8 +1,8 @@
-import { describe, it, expect, beforeEach } from 'vitest';
+import { beforeEach, describe, expect, it } from 'vitest';
 
 import { StubConfigAdapter } from '../../infrastructure/config/stub-config.adapter';
 import { StubDate } from '../../infrastructure/date/stub-date.adapter';
-import { StubEventsAdapter } from '../../infrastructure/events/stub-events.adapter';
+import { StubEventPublisher } from '../../infrastructure/events/stub-event-publisher';
 import { StubGenerator } from '../../infrastructure/generator/stub-generator.adapter';
 import { createMember } from '../../members/entities';
 import { AuthenticationLinkRequested } from '../../members/events';
@@ -18,21 +18,21 @@ class Test extends UnitTest {
   config = new StubConfigAdapter({ app: { baseUrl: 'https://app.url' } });
   generator = new StubGenerator();
   dateAdapter = new StubDate();
-  events = new StubEventsAdapter();
+  eventPublisher = new StubEventPublisher();
   tokenRepository = new InMemoryTokenRepository();
   memberRepository = new InMemoryMemberRepository();
 
   authenticationService = new AuthenticationService(
     this.generator,
     this.dateAdapter,
-    this.events,
+    this.eventPublisher,
     this.tokenRepository
   );
 
   handler = new RequestAuthenticationLink(
     this.config,
     this.generator,
-    this.events,
+    this.eventPublisher,
     this.memberRepository,
     this.tokenRepository,
     this.authenticationService
@@ -61,7 +61,7 @@ describe('[Unit] RequestAuthenticationLink', () => {
 
     await test.handler.handle('email');
 
-    expect(test.events).toHaveEmitted(
+    expect(test.eventPublisher).toHaveEmitted(
       new AuthenticationLinkRequested('memberId', 'https://app.url/?auth-token=authToken')
     );
   });
@@ -69,7 +69,7 @@ describe('[Unit] RequestAuthenticationLink', () => {
   it('does trigger the event when the member does not exist', async () => {
     await test.handler.handle('does-not-exist');
 
-    expect(test.events.events).toHaveLength(0);
+    expect(test.eventPublisher.events).toHaveLength(0);
   });
 
   it('revokes the previous authentication token', async () => {

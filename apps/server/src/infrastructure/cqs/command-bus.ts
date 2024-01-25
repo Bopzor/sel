@@ -3,6 +3,7 @@ import { Token, injectableClass } from 'ditox';
 import { container } from '../../container';
 import { Database } from '../../persistence/database';
 import { TOKENS } from '../../tokens';
+import { EventPublisher } from '../events/event-publisher';
 
 import { Bus } from './bus';
 
@@ -11,13 +12,14 @@ interface CommandHandler<Params extends unknown[]> {
 }
 
 export class CommandBus extends Bus {
-  static inject = injectableClass(this, TOKENS.database);
+  static inject = injectableClass(this, TOKENS.database, TOKENS.eventPublisher);
 
-  constructor(private readonly database: Database) {
+  constructor(private readonly database: Database, private readonly eventPublisher: EventPublisher) {
     super();
   }
 
   init() {
+    this.registerHook((next) => this.eventPublisher.provide(next));
     this.registerHook((next) => this.database.createTransaction(next));
   }
 

@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it } from 'vitest';
 
 import { StubDate } from '../infrastructure/date/stub-date.adapter';
-import { StubEventsAdapter } from '../infrastructure/events/stub-events.adapter';
+import { StubEventPublisher } from '../infrastructure/events/stub-event-publisher';
 import { StubGenerator } from '../infrastructure/generator/stub-generator.adapter';
 import { InMemoryTokenRepository } from '../persistence/repositories/token/in-memory-token.repository';
 import { UnitTest } from '../unit-test';
@@ -12,10 +12,15 @@ import { TokenType, createToken } from './token.entity';
 class Test extends UnitTest {
   generator = new StubGenerator();
   dateAdapter = new StubDate();
-  events = new StubEventsAdapter();
+  eventPublisher = new StubEventPublisher();
   tokenRepository = new InMemoryTokenRepository();
 
-  service = new AuthenticationService(this.generator, this.dateAdapter, this.events, this.tokenRepository);
+  service = new AuthenticationService(
+    this.generator,
+    this.dateAdapter,
+    this.eventPublisher,
+    this.tokenRepository
+  );
 
   sessionToken = createToken({ value: 'session-token', memberId: 'memberId', type: TokenType.session });
 

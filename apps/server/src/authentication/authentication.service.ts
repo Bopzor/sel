@@ -2,7 +2,7 @@ import { Duration, addDuration } from '@sel/utils';
 import { injectableClass } from 'ditox';
 
 import { DatePort } from '../infrastructure/date/date.port';
-import { EventsPort } from '../infrastructure/events/events.port';
+import { EventPublisherPort } from '../infrastructure/events/event-publisher.port';
 import { GeneratorPort } from '../infrastructure/generator/generator.port';
 import { MemberUnauthenticated } from '../members/events';
 import { TokenRepository } from '../persistence/repositories/token/token.repository';
@@ -11,12 +11,18 @@ import { TOKENS } from '../tokens';
 import { Token, TokenType } from './token.entity';
 
 export class AuthenticationService {
-  static inject = injectableClass(this, TOKENS.generator, TOKENS.date, TOKENS.events, TOKENS.tokenRepository);
+  static inject = injectableClass(
+    this,
+    TOKENS.generator,
+    TOKENS.date,
+    TOKENS.eventPublisher,
+    TOKENS.tokenRepository
+  );
 
   constructor(
     private readonly generator: GeneratorPort,
     private readonly dateAdapter: DatePort,
-    private readonly events: EventsPort,
+    private readonly eventPublisher: EventPublisherPort,
     private readonly tokenRepository: TokenRepository
   ) {}
 
@@ -67,7 +73,7 @@ export class AuthenticationService {
     await this.tokenRepository.revoke(token.id);
 
     if (type === TokenType.session) {
-      this.events.emit(new MemberUnauthenticated(token.memberId));
+      this.eventPublisher.publish(new MemberUnauthenticated(token.memberId));
     }
   }
 }

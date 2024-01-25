@@ -19,6 +19,7 @@ import { MjmlEmailRendererAdapter } from './infrastructure/email/mjml-email-rend
 import { NodemailerEmailSenderAdapter } from './infrastructure/email/nodemailer-email-sender.adapter';
 import { SlackErrorReporterAdapter } from './infrastructure/error-reporter/slack-error-reporter.adapter';
 import { EmitterEventsAdapter } from './infrastructure/events/emitter-events.adapter';
+import { EventPublisher } from './infrastructure/events/event-publisher';
 import { EventsLogger } from './infrastructure/events/events-logger';
 import { EventsPersistor } from './infrastructure/events/events-persistor';
 import { EventsSlackPublisher } from './infrastructure/events/events-slack-publisher';
@@ -122,6 +123,7 @@ container.bindFactory(TOKENS.memberDeviceRepository, SqlMemberDeviceRepository.i
 container.bindFactory(TOKENS.commandBus, CommandBus.inject);
 container.bindFactory(TOKENS.queryBus, QueryBus.inject);
 container.bindFactory(TOKENS.eventBus, injectableClass(EventBus));
+container.bindFactory(TOKENS.eventPublisher, EventPublisher.inject);
 
 container.bindFactory(COMMANDS.requestAuthenticationLink, RequestAuthenticationLink.inject);
 container.bindFactory(COMMANDS.verifyAuthenticationToken, VerifyAuthenticationToken.inject);
