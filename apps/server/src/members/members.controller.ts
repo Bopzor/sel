@@ -5,10 +5,10 @@ import { injectableClass } from 'ditox';
 import { RequestHandler, Router } from 'express';
 import { z } from 'zod';
 
+import { SessionProvider } from '../authentication/session.provider';
 import { AuthorizationError } from '../authorization-error';
 import { HttpStatus } from '../http-status';
 import { MemberRepository } from '../persistence/repositories/member/member.repository';
-import { SessionProvider } from '../session/session.provider';
 import { TOKENS } from '../tokens';
 
 import { MembersService } from './members.service';

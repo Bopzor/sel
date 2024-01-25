@@ -3,9 +3,9 @@ import { injectableClass } from 'ditox';
 import { RequestHandler, Router } from 'express';
 import { z } from 'zod';
 
+import { SessionProvider } from '../authentication/session.provider';
 import { HttpStatus } from '../http-status';
 import { NotificationRepository } from '../persistence/repositories/notification/notification.repository';
-import { SessionProvider } from '../session/session.provider';
 import { TOKENS } from '../tokens';
 
 import { NotificationService } from './notification.service';

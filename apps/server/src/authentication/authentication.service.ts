@@ -51,18 +51,6 @@ export class AuthenticationService {
     return token;
   }
 
-  async getMemberIdFromToken(tokenValue: string, type?: TokenType): Promise<string | undefined> {
-    const token = await this.tokenRepository.findByValue(tokenValue);
-
-    if (!token) {
-      return undefined;
-    }
-
-    if (type === undefined || token.type === type) {
-      return token.memberId;
-    }
-  }
-
   async revokeToken(tokenValue: string, type?: TokenType): Promise<void> {
     const token = await this.tokenRepository.findByValue(tokenValue);
 

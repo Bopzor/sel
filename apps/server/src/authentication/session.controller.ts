@@ -1,29 +1,24 @@
 import * as shared from '@sel/shared';
+import { assert } from '@sel/utils';
 import { injectableClass } from 'ditox';
 import { RequestHandler, Router } from 'express';
 
-import { AuthenticationFacade } from '../authentication/authentication.facade';
 import { HttpStatus } from '../http-status';
-import { MembersFacade } from '../members/members.facade';
-import { TOKENS } from '../tokens';
+import { CommandBus } from '../infrastructure/cqs/command-bus';
+import { QueryBus } from '../infrastructure/cqs/query-bus';
+import { COMMANDS, QUERIES, TOKENS } from '../tokens';
 
 import { SessionProvider } from './session.provider';
 
 export class SessionController {
-  static inject = injectableClass(
-    this,
-    TOKENS.sessionProvider,
-    TOKENS.authenticationFacade,
-    TOKENS.membersFacade,
-    TOKENS.subscriptionFacade
-  );
+  static inject = injectableClass(this, TOKENS.sessionProvider, TOKENS.commandBus, TOKENS.queryBus);
 
   readonly router = Router();
 
   constructor(
     private readonly sessionProvider: SessionProvider,
-    private readonly authenticationFacade: AuthenticationFacade,
-    private readonly membersFacade: MembersFacade
+    private readonly commandBus: CommandBus,
+    private readonly queryBus: QueryBus
   ) {
     this.router.delete('/', this.deleteCurrentSession);
     this.router.get('/member', this.getCurrentMember);
@@ -32,7 +27,9 @@ export class SessionController {
   deleteCurrentSession: RequestHandler = async (req, res) => {
     this.sessionProvider.getMember();
 
-    await this.authenticationFacade.revokeSessionToken(req.cookies['token']);
+    const token = req.cookies['token'];
+
+    await this.commandBus.executeCommand(COMMANDS.revokeSessionToken, token);
 
     const setCookie = [`token=`, `Max-Age=0`, 'HttpOnly', 'Path=/', 'SameSite=Lax'];
 
@@ -43,6 +40,9 @@ export class SessionController {
   getCurrentMember: RequestHandler<never, shared.AuthenticatedMember> = async (req, res) => {
     const member = this.sessionProvider.getMember();
 
-    res.json(await this.membersFacade.query_getAuthenticatedMember(member.id));
+    const result = await this.queryBus.executeQuery(QUERIES.getAuthenticatedMember, member.id);
+    assert(result);
+
+    res.json(result);
   };
 }

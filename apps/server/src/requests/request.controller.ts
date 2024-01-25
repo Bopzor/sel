@@ -6,10 +6,10 @@ import { injectableClass } from 'ditox';
 import { RequestHandler, Router } from 'express';
 import { z } from 'zod';
 
+import { SessionProvider } from '../authentication/session.provider';
 import { CommentsFacade } from '../comments/comments.facade';
 import { HttpStatus } from '../http-status';
 import { RequestRepository } from '../persistence/repositories/request/request.repository';
-import { SessionProvider } from '../session/session.provider';
 import { TOKENS } from '../tokens';
 
 import { MemberIsNotAuthor, RequestNotFound } from './errors';

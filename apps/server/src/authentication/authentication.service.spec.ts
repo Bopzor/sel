@@ -57,30 +57,4 @@ describe('[Unit] AuthenticationService', () => {
       expect(test.tokenRepository.get('tokenId')).toBeDefined();
     });
   });
-
-  describe('getMemberIdFromToken', () => {
-    it("retrieves a member's id from a token", async () => {
-      const result = test.service.getMemberIdFromToken('session-token');
-
-      await expect(result).resolves.toEqual('memberId');
-    });
-
-    it("retrieves a member's id from a token of an expected type", async () => {
-      const result = test.service.getMemberIdFromToken('session-token', TokenType.session);
-
-      await expect(result).resolves.toEqual('memberId');
-    });
-
-    it('resolves with undefined when the token is not of the expected type', async () => {
-      const result = test.service.getMemberIdFromToken('session-token', TokenType.authentication);
-
-      await expect(result).resolves.toBeUndefined();
-    });
-
-    it('resolves with undefined when the token does not exist', async () => {
-      const result = test.service.getMemberIdFromToken('unknown-token');
-
-      await expect(result).resolves.toBeUndefined();
-    });
-  });
 });

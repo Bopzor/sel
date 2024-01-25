@@ -7,14 +7,13 @@ import { Container, injectableClass } from 'ditox';
 import express, { ErrorRequestHandler, RequestHandler } from 'express';
 import { z } from 'zod';
 
+import { AuthenticationError, InvalidSessionTokenError } from './authentication/authentication.errors';
 import { DomainError } from './domain-error';
 import { HttpStatus } from './http-status';
 import { ConfigPort } from './infrastructure/config/config.port';
 import { ErrorReporterPort } from './infrastructure/error-reporter/error-reporter.port';
 import { EmitterEventsAdapter } from './infrastructure/events/emitter-events.adapter';
 import { LoggerPort } from './infrastructure/logger/logger.port';
-import { AuthenticationError } from './session/session.provider';
-import { InvalidSessionTokenError } from './session/session.service';
 import { TOKENS } from './tokens';
 
 export class Server {
@@ -84,18 +83,14 @@ export class Server {
   };
 
   private authenticationMiddleware: RequestHandler = async (req, res, next) => {
-    const sessionService = this.container.resolve(TOKENS.sessionService);
     const sessionProvider = this.container.resolve(TOKENS.sessionProvider);
-
     const token = req.cookies['token'];
 
     if (typeof token !== 'string') {
       return next();
     }
 
-    const member = await sessionService.getSessionMember(token);
-
-    sessionProvider.provide(member, next);
+    await sessionProvider.provide(token, next);
   };
 
   private handleZodError: ErrorRequestHandler = (err, req, res, next) => {

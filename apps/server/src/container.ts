@@ -2,12 +2,14 @@ import { createContainer, injectableClass } from 'ditox';
 import nodemailer from 'nodemailer';
 
 import { AuthenticationController } from './authentication/authentication.controller';
-import { AuthenticationFacadeImpl } from './authentication/authentication.facade';
 import { AuthenticationService } from './authentication/authentication.service';
 import { RequestAuthenticationLink } from './authentication/commands/request-authentication-link.command';
 import { VerifyAuthenticationToken } from './authentication/commands/verify-authentication-token.command';
 import { SendAuthenticationEmail } from './authentication/event-handlers/send-authentication-email.event-handler';
+import { GetAuthenticatedMember } from './authentication/queries/get-authenticated-member.query';
 import { GetToken } from './authentication/queries/get-session-token.query';
+import { SessionController } from './authentication/session.controller';
+import { SessionProvider } from './authentication/session.provider';
 import { CommentsFacadeImpl } from './comments/comments.facade';
 import { CommentsService } from './comments/comments.service';
 import { EnvConfigAdapter } from './infrastructure/config/env-config.adapter';
@@ -52,9 +54,6 @@ import { RequestController } from './requests/request.controller';
 import { RequestModule } from './requests/request.module';
 import { RequestService } from './requests/request.service';
 import { Server } from './server';
-import { SessionController } from './session/session.controller';
-import { SessionProvider } from './session/session.provider';
-import { SessionService } from './session/session.service';
 import { COMMANDS, EVENT_HANDLERS, QUERIES, TOKENS } from './tokens';
 
 export const container = createContainer();
@@ -94,14 +93,11 @@ container.bindFactory(TOKENS.requestService, RequestService.inject);
 container.bindFactory(TOKENS.requestNotificationsService, RequestNotificationsService.inject);
 container.bindFactory(TOKENS.requestRepository, SqlRequestRepository.inject);
 
-container.bindFactory(TOKENS.authenticationFacade, AuthenticationFacadeImpl.inject);
 container.bindFactory(TOKENS.authenticationController, AuthenticationController.inject);
+container.bindFactory(TOKENS.sessionController, SessionController.inject);
+container.bindFactory(TOKENS.sessionProvider, SessionProvider.inject);
 container.bindFactory(TOKENS.authenticationService, AuthenticationService.inject);
 container.bindFactory(TOKENS.tokenRepository, SqlTokenRepository.inject);
-
-container.bindFactory(TOKENS.sessionProvider, SessionProvider.inject);
-container.bindFactory(TOKENS.sessionController, SessionController.inject);
-container.bindFactory(TOKENS.sessionService, SessionService.inject);
 
 container.bindFactory(TOKENS.commentsFacade, CommentsFacadeImpl.inject);
 container.bindFactory(TOKENS.commentsService, CommentsService.inject);
@@ -128,5 +124,6 @@ container.bindFactory(COMMANDS.requestAuthenticationLink, RequestAuthenticationL
 container.bindFactory(COMMANDS.verifyAuthenticationToken, VerifyAuthenticationToken.inject);
 
 container.bindFactory(QUERIES.getToken, GetToken.inject);
+container.bindFactory(QUERIES.getAuthenticatedMember, GetAuthenticatedMember.inject);
 
 container.bindFactory(EVENT_HANDLERS.sendAuthenticationEmail, SendAuthenticationEmail.inject);

@@ -1,11 +1,12 @@
 import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it } from 'vitest';
 
-import { TokenType, createToken } from '../authentication/token.entity';
 import { container } from '../container';
 import { E2ETest } from '../e2e-test';
 import { HttpStatus } from '../http-status';
 import { createMember } from '../members/entities';
 import { TOKENS } from '../tokens';
+
+import { TokenType, createToken } from './token.entity';
 
 describe('[E2E] Session', () => {
   let test: E2ETest;

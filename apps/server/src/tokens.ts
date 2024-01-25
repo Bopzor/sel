@@ -1,12 +1,15 @@
 import { Container, token } from 'ditox';
 
 import { AuthenticationController } from './authentication/authentication.controller';
-import { AuthenticationFacade } from './authentication/authentication.facade';
 import { AuthenticationService } from './authentication/authentication.service';
 import { RequestAuthenticationLink } from './authentication/commands/request-authentication-link.command';
+import { RevokeSessionToken } from './authentication/commands/revoke-session-token.command';
 import { VerifyAuthenticationToken } from './authentication/commands/verify-authentication-token.command';
 import { SendAuthenticationEmail } from './authentication/event-handlers/send-authentication-email.event-handler';
+import { GetAuthenticatedMember } from './authentication/queries/get-authenticated-member.query';
 import { GetToken } from './authentication/queries/get-session-token.query';
+import { SessionController } from './authentication/session.controller';
+import { SessionProvider } from './authentication/session.provider';
 import { CommentsFacade } from './comments/comments.facade';
 import { CommentsService } from './comments/comments.service';
 import { ConfigPort } from './infrastructure/config/config.port';
@@ -52,9 +55,6 @@ import { RequestController } from './requests/request.controller';
 import { RequestModule } from './requests/request.module';
 import { RequestService } from './requests/request.service';
 import { Server } from './server';
-import { SessionController } from './session/session.controller';
-import { SessionProvider } from './session/session.provider';
-import { SessionService } from './session/session.service';
 
 export const TOKENS = {
   container: token<Container>('container'),
@@ -82,12 +82,10 @@ export const TOKENS = {
   membersService: token<MembersService>('membersService'),
   memberRepository: token<MemberRepository>('memberRepository'),
   sessionProvider: token<SessionProvider>('authenticatedMemberProvider'),
-  authenticationFacade: token<AuthenticationFacade>('authenticationFacade'),
   authenticationController: token<AuthenticationController>('authenticationController'),
   authenticationService: token<AuthenticationService>('authenticationService'),
   tokenRepository: token<TokenRepository>('tokenRepository'),
   sessionController: token<SessionController>('sessionController'),
-  sessionService: token<SessionService>('sessionService'),
   requestModule: token<RequestModule>('requestModule'),
   requestController: token<RequestController>('requestController'),
   requestService: token<RequestService>('requestService'),
@@ -115,10 +113,12 @@ export const TOKENS = {
 export const COMMANDS = {
   requestAuthenticationLink: token<RequestAuthenticationLink>('requestAuthenticationLink'),
   verifyAuthenticationToken: token<VerifyAuthenticationToken>('verifyAuthenticationToken'),
+  revokeSessionToken: token<RevokeSessionToken>('revokeSessionToken'),
 };
 
 export const QUERIES = {
   getToken: token<GetToken>('getToken'),
+  getAuthenticatedMember: token<GetAuthenticatedMember>('getAuthenticatedMember'),
 };
 
 export const EVENT_HANDLERS = {
