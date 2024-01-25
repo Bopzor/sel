@@ -1,7 +1,7 @@
 import { createDate, createFactory } from '@sel/utils';
 
 import { TokenType } from '../authentication/token.entity';
-import { MemberStatus } from '../members/entities';
+import { MemberStatus } from '../members/member.entity';
 import { RequestStatus } from '../requests/request.entity';
 
 import { comments, members, requests, tokens } from './schema';

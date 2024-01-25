@@ -12,7 +12,6 @@ async function main() {
   container.resolve(TOKENS.eventsLogger).init();
   container.resolve(TOKENS.eventsPersistor).init();
   container.resolve(TOKENS.eventsSlackPublisher).init();
-  container.resolve(TOKENS.membersModule).init();
   container.resolve(TOKENS.notificationModule).init();
   await container.resolve(TOKENS.emailRenderer).init?.();
 

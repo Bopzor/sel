@@ -3,7 +3,7 @@ import { injectableClass } from 'ditox';
 import { and, asc, desc, eq, inArray } from 'drizzle-orm';
 
 import { DatePort } from '../../../infrastructure/date/date.port';
-import { Address, Member, MemberStatus, PhoneNumber } from '../../../members/entities';
+import { Address, Member, MemberStatus, PhoneNumber } from '../../../members/member.entity';
 import { TOKENS } from '../../../tokens';
 import { Database } from '../../database';
 import { members } from '../../schema';

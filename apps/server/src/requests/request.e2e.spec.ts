@@ -4,7 +4,7 @@ import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it } from
 import { TokenType } from '../authentication/token.entity';
 import { E2ETest } from '../e2e-test';
 import { HttpStatus } from '../http-status';
-import { Member } from '../members/entities';
+import { Member } from '../members/member.entity';
 
 class Test extends E2ETest {
   requester!: Member;

@@ -3,7 +3,7 @@ import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it } from
 import { container } from '../container';
 import { E2ETest } from '../e2e-test';
 import { HttpStatus } from '../http-status';
-import { createMember } from '../members/entities';
+import { createMember } from '../members/member.entity';
 import { TOKENS } from '../tokens';
 
 import { TokenType, createToken } from './token.entity';

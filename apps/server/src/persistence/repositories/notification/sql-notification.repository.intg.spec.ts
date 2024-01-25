@@ -3,7 +3,7 @@ import { eq } from 'drizzle-orm';
 import { beforeEach, describe, expect, it } from 'vitest';
 
 import { StubDate } from '../../../infrastructure/date/stub-date.adapter';
-import { createMember } from '../../../members/entities';
+import { createMember } from '../../../members/member.entity';
 import { createNotification, createSubscription } from '../../../notifications/entities';
 import { RepositoryTest } from '../../../repository-test';
 import { notifications } from '../../schema';

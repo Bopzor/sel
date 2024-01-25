@@ -4,7 +4,7 @@ import { injectableClass } from 'ditox';
 
 import { DatePort } from '../infrastructure/date/date.port';
 import { GeneratorPort } from '../infrastructure/generator/generator.port';
-import { Member } from '../members/entities';
+import { Member } from '../members/member.entity';
 import { MembersFacade } from '../members/members.facade';
 import {
   InsertNotificationModel,

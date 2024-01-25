@@ -1,6 +1,6 @@
 import { injectableClass } from 'ditox';
 
-import { OnboardingCompleted } from '../../members/events';
+import { OnboardingCompleted } from '../../members/member-events';
 import { MembersFacade } from '../../members/members.facade';
 import { TOKENS } from '../../tokens';
 import { SlackClientPort } from '../slack/slack-client.port';

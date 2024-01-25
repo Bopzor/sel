@@ -4,8 +4,8 @@ import { StubConfigAdapter } from '../../infrastructure/config/stub-config.adapt
 import { StubDate } from '../../infrastructure/date/stub-date.adapter';
 import { StubEventPublisher } from '../../infrastructure/events/stub-event-publisher';
 import { StubGenerator } from '../../infrastructure/generator/stub-generator.adapter';
-import { createMember } from '../../members/entities';
-import { AuthenticationLinkRequested } from '../../members/events';
+import { createMember } from '../../members/member.entity';
+import { AuthenticationLinkRequested } from '../../members/member-events';
 import { InMemoryMemberRepository } from '../../persistence/repositories/member/in-memory-member.repository';
 import { InMemoryTokenRepository } from '../../persistence/repositories/token/in-memory-token.repository';
 import { UnitTest } from '../../unit-test';

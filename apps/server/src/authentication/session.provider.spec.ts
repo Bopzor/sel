@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it } from 'vitest';
 
-import { createMember } from '../members/entities';
+import { createMember } from '../members/member.entity';
 import { InMemoryMemberRepository } from '../persistence/repositories/member/in-memory-member.repository';
 import { InMemoryTokenRepository } from '../persistence/repositories/token/in-memory-token.repository';
 import { UnitTest } from '../unit-test';

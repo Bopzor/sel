@@ -3,7 +3,7 @@ import { AsyncLocalStorage } from 'node:async_hooks';
 import { assert } from '@sel/utils';
 import { injectableClass } from 'ditox';
 
-import { Member } from '../members/entities';
+import { Member } from '../members/member.entity';
 import { MemberRepository } from '../persistence/repositories/member/member.repository';
 import { TokenRepository } from '../persistence/repositories/token/token.repository';
 import { TOKENS } from '../tokens';

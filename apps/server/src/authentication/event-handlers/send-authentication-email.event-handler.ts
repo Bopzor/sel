@@ -4,7 +4,7 @@ import { injectableClass } from 'ditox';
 import { EmailSenderPort } from '../../infrastructure/email/email-sender.port';
 import { EmailKind } from '../../infrastructure/email/email.types';
 import { TranslationPort } from '../../infrastructure/translation/translation.port';
-import { AuthenticationLinkRequested } from '../../members/events';
+import { AuthenticationLinkRequested } from '../../members/member-events';
 import { MemberRepository } from '../../persistence/repositories/member/member.repository';
 import { TOKENS } from '../../tokens';
 

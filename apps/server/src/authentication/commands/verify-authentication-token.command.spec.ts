@@ -4,7 +4,7 @@ import { beforeEach, describe, expect, it } from 'vitest';
 import { StubDate } from '../../infrastructure/date/stub-date.adapter';
 import { StubEventPublisher } from '../../infrastructure/events/stub-event-publisher';
 import { StubGenerator } from '../../infrastructure/generator/stub-generator.adapter';
-import { MemberAuthenticated } from '../../members/events';
+import { MemberAuthenticated } from '../../members/member-events';
 import { InMemoryTokenRepository } from '../../persistence/repositories/token/in-memory-token.repository';
 import { UnitTest } from '../../unit-test';
 import { AuthenticationService } from '../authentication.service';

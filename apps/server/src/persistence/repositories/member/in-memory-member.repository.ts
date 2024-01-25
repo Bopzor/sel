@@ -2,7 +2,7 @@ import * as shared from '@sel/shared';
 import { assert, createDate, defined } from '@sel/utils';
 
 import { InMemoryRepository } from '../../../in-memory.repository';
-import { Member, MemberStatus } from '../../../members/entities';
+import { Member, MemberStatus } from '../../../members/member.entity';
 
 import { InsertMemberModel, MemberRepository, UpdateMemberModel } from './member.repository';
 

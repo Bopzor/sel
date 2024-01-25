@@ -1,7 +1,7 @@
 import { IntlShape, createIntl, createIntlCache } from '@formatjs/intl';
 import { injectableClass } from 'ditox';
 
-import { Member } from '../../members/entities';
+import { Member } from '../../members/member.entity';
 
 import fr from './lang/fr.json';
 import { TranslationPort } from './translation.port';

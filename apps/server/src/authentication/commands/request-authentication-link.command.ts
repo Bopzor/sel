@@ -3,7 +3,7 @@ import { injectableClass } from 'ditox';
 import { ConfigPort } from '../../infrastructure/config/config.port';
 import { EventPublisherPort } from '../../infrastructure/events/event-publisher.port';
 import { GeneratorPort } from '../../infrastructure/generator/generator.port';
-import { AuthenticationLinkRequested } from '../../members/events';
+import { AuthenticationLinkRequested } from '../../members/member-events';
 import { MemberRepository } from '../../persistence/repositories/member/member.repository';
 import { TokenRepository } from '../../persistence/repositories/token/token.repository';
 import { TOKENS } from '../../tokens';

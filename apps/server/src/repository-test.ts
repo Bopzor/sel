@@ -5,7 +5,7 @@ import { Token } from './authentication/token.entity';
 import { StubConfigAdapter } from './infrastructure/config/stub-config.adapter';
 import { DatePort } from './infrastructure/date/date.port';
 import { StubDate } from './infrastructure/date/stub-date.adapter';
-import { Member } from './members/entities';
+import { Member } from './members/member.entity';
 import { Notification, Subscription } from './notifications/entities';
 import { Database } from './persistence/database';
 import { members, requests, tokens, subscriptions, notifications } from './persistence/schema';

@@ -4,7 +4,7 @@ import { injectableClass } from 'ditox';
 import { MemberRepository } from '../persistence/repositories/member/member.repository';
 import { TOKENS } from '../tokens';
 
-import { Member } from './entities';
+import { Member } from './member.entity';
 
 export interface MembersFacade {
   query_getAuthenticatedMember(memberId: string): Promise<shared.AuthenticatedMember | undefined>;

@@ -3,7 +3,7 @@ import { injectableClass } from 'ditox';
 
 import { DatePort } from '../../infrastructure/date/date.port';
 import { EventPublisherPort } from '../../infrastructure/events/event-publisher.port';
-import { MemberAuthenticated } from '../../members/events';
+import { MemberAuthenticated } from '../../members/member-events';
 import { TokenRepository } from '../../persistence/repositories/token/token.repository';
 import { TOKENS } from '../../tokens';
 import { TokenExpired, TokenNotFound } from '../authentication.errors';

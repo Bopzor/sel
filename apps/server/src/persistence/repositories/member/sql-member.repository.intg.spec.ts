@@ -4,7 +4,7 @@ import { eq } from 'drizzle-orm';
 import { beforeEach, describe, expect, it } from 'vitest';
 
 import { StubDate } from '../../../infrastructure/date/stub-date.adapter';
-import { MemberStatus, createMember } from '../../../members/entities';
+import { MemberStatus, createMember } from '../../../members/member.entity';
 import { RepositoryTest } from '../../../repository-test';
 import { members, tokens } from '../../schema';
 import { createSqlMember } from '../../sql-factories';

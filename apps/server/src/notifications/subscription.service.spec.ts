@@ -3,7 +3,7 @@ import { beforeEach, describe, expect, it } from 'vitest';
 
 import { StubDate } from '../infrastructure/date/stub-date.adapter';
 import { StubGenerator } from '../infrastructure/generator/stub-generator.adapter';
-import { createMember } from '../members/entities';
+import { createMember } from '../members/member.entity';
 import { StubMembersFacade } from '../members/members.facade';
 import { InMemoryNotificationRepository } from '../persistence/repositories/notification/in-memory-notification.repository';
 import { InMemorySubscriptionRepository } from '../persistence/repositories/subscription/in-memory.subscription.repository';

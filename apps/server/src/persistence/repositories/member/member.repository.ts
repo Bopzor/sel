@@ -1,6 +1,6 @@
 import * as shared from '@sel/shared';
 
-import { Address, Member, MemberStatus } from '../../../members/entities';
+import { Address, Member, MemberStatus } from '../../../members/member.entity';
 
 export type InsertMemberModel = {
   id: string;

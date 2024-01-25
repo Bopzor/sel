@@ -30,10 +30,13 @@ import { ConsoleLogger } from './infrastructure/logger/console-logger.adapter';
 import { WebPushNotificationAdapter } from './infrastructure/push-notification/web-push-notification.adapter';
 import { WebSlackClientAdapter } from './infrastructure/slack/web-slack-client.adapter';
 import { FormatJsTranslationAdapter } from './infrastructure/translation/formatjs-translation.adapter';
+import { CreateMember } from './members/commands/create-member.command';
+import { UpdateMemberProfile } from './members/commands/update-member-profile.command';
+import { CreateMemberSubscription } from './members/event-handlers/create-member-subscription.event-handler';
 import { MembersController } from './members/members.controller';
 import { MembersFacadeImpl } from './members/members.facade';
-import { MembersModule } from './members/members.module';
-import { MembersService } from './members/members.service';
+import { GetMember } from './members/queries/get-member.query';
+import { ListMembers } from './members/queries/list-members.query';
 import { NotificationController } from './notifications/notification.controller';
 import { NotificationModule } from './notifications/notification.module';
 import { NotificationService } from './notifications/notification.service';
@@ -85,10 +88,8 @@ container.bindFactory(TOKENS.emailRenderer, MjmlEmailRendererAdapter.inject);
 container.bindValue(TOKENS.nodemailer, nodemailer);
 container.bindFactory(TOKENS.emailSender, NodemailerEmailSenderAdapter.inject);
 
-container.bindFactory(TOKENS.membersModule, MembersModule.inject);
 container.bindFactory(TOKENS.membersFacade, MembersFacadeImpl.inject);
 container.bindFactory(TOKENS.membersController, MembersController.inject);
-container.bindFactory(TOKENS.membersService, MembersService.inject);
 container.bindFactory(TOKENS.memberRepository, SqlMemberRepository.inject);
 
 container.bindFactory(TOKENS.requestController, RequestController.inject);
@@ -125,13 +126,18 @@ container.bindFactory(COMMANDS.verifyAuthenticationToken, VerifyAuthenticationTo
 container.bindFactory(COMMANDS.createRequest, CreateRequest.inject);
 container.bindFactory(COMMANDS.editRequest, EditRequest.inject);
 container.bindFactory(COMMANDS.createRequestComment, CreateRequestComment.inject);
+container.bindFactory(COMMANDS.createMember, CreateMember.inject);
+container.bindFactory(COMMANDS.updateMemberProfile, UpdateMemberProfile.inject);
 
 container.bindFactory(QUERIES.getToken, GetToken.inject);
 container.bindFactory(QUERIES.getAuthenticatedMember, GetAuthenticatedMember.inject);
 container.bindFactory(QUERIES.listRequests, ListRequests.inject);
 container.bindFactory(QUERIES.getRequest, GetRequest.inject);
+container.bindFactory(QUERIES.listMembers, ListMembers.inject);
+container.bindFactory(QUERIES.getMember, GetMember.inject);
 
 container.bindFactory(EVENT_HANDLERS.sendAuthenticationEmail, SendAuthenticationEmail.inject);
 container.bindFactory(EVENT_HANDLERS.createRequestSubscription, CreateRequestSubscription.inject);
 container.bindFactory(EVENT_HANDLERS.notifyRequestCreated, NotifyRequestCreated.inject);
 container.bindFactory(EVENT_HANDLERS.notifyRequestCommentCreated, NotifyRequestCommentCreated.inject);
+container.bindFactory(EVENT_HANDLERS.createMemberSubscription, CreateMemberSubscription.inject);

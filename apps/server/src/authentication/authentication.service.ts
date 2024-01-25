@@ -4,7 +4,7 @@ import { injectableClass } from 'ditox';
 import { DatePort } from '../infrastructure/date/date.port';
 import { EventPublisherPort } from '../infrastructure/events/event-publisher.port';
 import { GeneratorPort } from '../infrastructure/generator/generator.port';
-import { MemberUnauthenticated } from '../members/events';
+import { MemberUnauthenticated } from '../members/member-events';
 import { TokenRepository } from '../persistence/repositories/token/token.repository';
 import { TOKENS } from '../tokens';
 

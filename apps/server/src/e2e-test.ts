@@ -12,8 +12,7 @@ import { EmitterEventsAdapter } from './infrastructure/events/emitter-events.ada
 import { GeneratorPort } from './infrastructure/generator/generator.port';
 import { StubLogger } from './infrastructure/logger/stub-logger.adapter';
 import { initEventHandlers } from './init-event-handlers';
-import { Member } from './members/entities';
-import { MembersService } from './members/members.service';
+import { Member } from './members/member.entity';
 import { MemberRepository } from './persistence/repositories/member/member.repository';
 import { RequestRepository } from './persistence/repositories/request/request.repository';
 import { Request } from './requests/request.entity';
@@ -74,13 +73,11 @@ export class E2ETest {
 
     container.resolve(TOKENS.commandBus).init();
     await container.resolve(TOKENS.emailRenderer).init?.();
-    container.resolve(TOKENS.membersModule).init();
 
     initEventHandlers();
 
     this.create = new EntityCreator(
       container.resolve(TOKENS.generator),
-      container.resolve(TOKENS.membersService),
       container.resolve(TOKENS.memberRepository),
       container.resolve(TOKENS.authenticationService),
       container.resolve(TOKENS.requestRepository),
@@ -159,7 +156,6 @@ export class E2ETest {
 class EntityCreator {
   constructor(
     private readonly generator: GeneratorPort,
-    private readonly memberService: MembersService,
     private readonly memberRepository: MemberRepository,
     private readonly authenticationService: AuthenticationService,
     private readonly requestRepository: RequestRepository,
@@ -168,7 +164,8 @@ class EntityCreator {
 
   // prettier-ignore
   async member({ firstName = '', lastName = '', email = '' }: { firstName?: string; lastName?: string; email?: string } = {}): Promise<Member> {
-    const memberId = await this.memberService.createMember(firstName, lastName, email);
+    const memberId = this.generator.id();
+    await this.commandBus.executeCommand(COMMANDS.createMember,{ memberId, firstName, lastName, email });
     return defined(await this.memberRepository.getMember(memberId));
   }
 
@@ -177,7 +174,7 @@ class EntityCreator {
   }
 
   // prettier-ignore
-  async request({requesterId = '', title = '', body = '' }: { requesterId?: string, title?: string, body?: string } = {}): Promise<Request> {
+  async request({ requesterId = '', title = '', body = '' }: { requesterId?: string, title?: string, body?: string } = {}): Promise<Request> {
     const requestId = this.generator.id();
     await this.commandBus.executeCommand(COMMANDS.createRequest, requestId, requesterId, title, body);
     return defined(await this.requestRepository.getRequest(requestId));

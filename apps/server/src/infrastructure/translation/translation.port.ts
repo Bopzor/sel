@@ -1,4 +1,4 @@
-import { Member } from '../../members/entities';
+import { Member } from '../../members/member.entity';
 
 import fr from './lang/fr.json';
 

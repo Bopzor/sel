@@ -31,10 +31,11 @@ import { LoggerPort } from './infrastructure/logger/logger.port';
 import { PushNotificationPort } from './infrastructure/push-notification/push-notification.port';
 import { SlackClientPort } from './infrastructure/slack/slack-client.port';
 import { TranslationPort } from './infrastructure/translation/translation.port';
+import { UpdateMemberProfile } from './members/commands/update-member-profile.command';
 import { MembersController } from './members/members.controller';
 import { MembersFacade } from './members/members.facade';
-import { MembersModule } from './members/members.module';
-import { MembersService } from './members/members.service';
+import { GetMember } from './members/queries/get-member.query';
+import { ListMembers } from './members/queries/list-members.query';
 import { NotificationController } from './notifications/notification.controller';
 import { NotificationModule } from './notifications/notification.module';
 import { NotificationService } from './notifications/notification.service';
@@ -59,6 +60,8 @@ import { GetRequest } from './requests/queries/get-request.query';
 import { ListRequests } from './requests/queries/list-requests.query';
 import { RequestController } from './requests/request.controller';
 import { Server } from './server';
+import { CreateMember } from './members/commands/create-member.command';
+import { CreateMemberSubscription } from './members/event-handlers/create-member-subscription.event-handler';
 
 export const TOKENS = {
   container: token<Container>('container'),
@@ -80,10 +83,8 @@ export const TOKENS = {
   nodemailer: token<Nodemailer>('nodemailer'),
   emailRenderer: token<EmailRendererPort>('emailRenderer'),
   emailSender: token<EmailSenderPort>('emailSender'),
-  membersModule: token<MembersModule>('membersModule'),
   membersFacade: token<MembersFacade>('membersFacade'),
   membersController: token<MembersController>('membersController'),
-  membersService: token<MembersService>('membersService'),
   memberRepository: token<MemberRepository>('memberRepository'),
   sessionProvider: token<SessionProvider>('authenticatedMemberProvider'),
   authenticationController: token<AuthenticationController>('authenticationController'),
@@ -117,6 +118,8 @@ export const COMMANDS = {
   createRequest: token<CreateRequest>('createRequest'),
   editRequest: token<EditRequest>('editRequest'),
   createRequestComment: token<CreateRequestComment>('createRequestComment'),
+  createMember: token<CreateMember>('createMember'),
+  updateMemberProfile: token<UpdateMemberProfile>('updateMemberProfile'),
 };
 
 export const QUERIES = {
@@ -124,6 +127,8 @@ export const QUERIES = {
   getAuthenticatedMember: token<GetAuthenticatedMember>('getAuthenticatedMember'),
   listRequests: token<ListRequests>('listRequests'),
   getRequest: token<GetRequest>('getRequest'),
+  listMembers: token<ListMembers>('listMembers'),
+  getMember: token<GetMember>('getMember'),
 };
 
 export const EVENT_HANDLERS = {
@@ -131,4 +136,5 @@ export const EVENT_HANDLERS = {
   createRequestSubscription: token<CreateRequestSubscription>('createRequestSubscription'),
   notifyRequestCreated: token<NotifyRequestCreated>('notifyRequestCreated'),
   notifyRequestCommentCreated: token<NotifyRequestCommentCreated>('notifyRequestCommentCreated'),
+  createMemberSubscription: token<CreateMemberSubscription>('createMemberSubscription'),
 };

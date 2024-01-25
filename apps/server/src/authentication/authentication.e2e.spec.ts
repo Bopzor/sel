@@ -3,7 +3,7 @@ import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it } from
 
 import { container } from '../container';
 import { E2ETest } from '../e2e-test';
-import { createMember } from '../members/entities';
+import { createMember } from '../members/member.entity';
 import { TOKENS } from '../tokens';
 
 describe('[E2E] Authentication', () => {

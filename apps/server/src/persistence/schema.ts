@@ -2,7 +2,7 @@ import { relations, sql } from 'drizzle-orm';
 import { boolean, json, pgEnum, pgTable, text, timestamp, unique, varchar } from 'drizzle-orm/pg-core';
 
 import { TokenType } from '../authentication/token.entity';
-import { MemberStatus } from '../members/entities';
+import { MemberStatus } from '../members/member.entity';
 import { RequestStatus } from '../requests/request.entity';
 
 const id = (name = 'id') => varchar(name, { length: 16 });
