@@ -2,10 +2,10 @@ import { Container, token } from 'ditox';
 
 import { AuthenticationController } from './authentication/authentication.controller';
 import { AuthenticationFacade } from './authentication/authentication.facade';
-import { AuthenticationModule } from './authentication/authentication.module';
 import { AuthenticationService } from './authentication/authentication.service';
 import { RequestAuthenticationLink } from './authentication/commands/request-authentication-link.command';
 import { VerifyAuthenticationToken } from './authentication/commands/verify-authentication-token.command';
+import { SendAuthenticationEmail } from './authentication/event-handlers/send-authentication-email.event-handler';
 import { GetToken } from './authentication/queries/get-session-token.query';
 import { CommentsFacade } from './comments/comments.facade';
 import { CommentsService } from './comments/comments.service';
@@ -82,7 +82,6 @@ export const TOKENS = {
   membersService: token<MembersService>('membersService'),
   memberRepository: token<MemberRepository>('memberRepository'),
   sessionProvider: token<SessionProvider>('authenticatedMemberProvider'),
-  authenticationModule: token<AuthenticationModule>('authenticationModule'),
   authenticationFacade: token<AuthenticationFacade>('authenticationFacade'),
   authenticationController: token<AuthenticationController>('authenticationController'),
   authenticationService: token<AuthenticationService>('authenticationService'),
@@ -120,4 +119,8 @@ export const COMMANDS = {
 
 export const QUERIES = {
   getToken: token<GetToken>('getToken'),
+};
+
+export const EVENT_HANDLERS = {
+  sendAuthenticationEmail: token<SendAuthenticationEmail>('sendAuthenticationEmail'),
 };

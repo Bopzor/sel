@@ -1,4 +1,5 @@
 import { container } from './container.js';
+import { initEventHandlers } from './init-event-handlers.js';
 import { TOKENS } from './tokens.js';
 
 Error.stackTraceLimit = 1000;
@@ -11,11 +12,12 @@ async function main() {
   container.resolve(TOKENS.eventsLogger).init();
   container.resolve(TOKENS.eventsPersistor).init();
   container.resolve(TOKENS.eventsSlackPublisher).init();
-  container.resolve(TOKENS.authenticationModule).init();
   container.resolve(TOKENS.membersModule).init();
   container.resolve(TOKENS.requestModule).init();
   container.resolve(TOKENS.notificationModule).init();
   await container.resolve(TOKENS.emailRenderer).init?.();
+
+  initEventHandlers();
 
   await container.resolve(TOKENS.server).start();
 }

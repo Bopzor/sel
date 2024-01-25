@@ -10,6 +10,7 @@ import { TestErrorReporterAdapter } from './infrastructure/error-reporter/test-e
 import { EmitterEventsAdapter } from './infrastructure/events/emitter-events.adapter';
 import { GeneratorPort } from './infrastructure/generator/generator.port';
 import { StubLogger } from './infrastructure/logger/stub-logger.adapter';
+import { initEventHandlers } from './init-event-handlers';
 import { Member } from './members/entities';
 import { MembersService } from './members/members.service';
 import { MemberRepository } from './persistence/repositories/member/member.repository';
@@ -73,9 +74,10 @@ export class E2ETest {
 
     container.resolve(TOKENS.commandBus).init();
     await container.resolve(TOKENS.emailRenderer).init?.();
-    container.resolve(TOKENS.authenticationModule).init();
     container.resolve(TOKENS.membersModule).init();
     container.resolve(TOKENS.requestModule).init();
+
+    initEventHandlers();
 
     this.create = new EntityCreator(
       container.resolve(TOKENS.generator),
