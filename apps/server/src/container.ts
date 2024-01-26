@@ -19,7 +19,6 @@ import { NativeDateAdapter } from './infrastructure/date/native-date.adapter';
 import { MjmlEmailRendererAdapter } from './infrastructure/email/mjml-email-renderer.adapter';
 import { NodemailerEmailSenderAdapter } from './infrastructure/email/nodemailer-email-sender.adapter';
 import { SlackErrorReporterAdapter } from './infrastructure/error-reporter/slack-error-reporter.adapter';
-import { EmitterEventsAdapter } from './infrastructure/events/emitter-events.adapter';
 import { EventPublisher } from './infrastructure/events/event-publisher';
 import { EventsLogger } from './infrastructure/events/events-logger';
 import { EventsPersistor } from './infrastructure/events/events-persistor';
@@ -76,11 +75,6 @@ container.bindFactory(TOKENS.htmlParser, CheerioHtmlParserAdapter.inject);
 container.bindFactory(TOKENS.translation, FormatJsTranslationAdapter.inject);
 container.bindFactory(TOKENS.pushNotification, WebPushNotificationAdapter.inject);
 
-container.bindFactory(TOKENS.events, EmitterEventsAdapter.inject);
-container.bindFactory(TOKENS.eventsLogger, EventsLogger.inject);
-container.bindFactory(TOKENS.eventsPersistor, EventsPersistor.inject);
-container.bindFactory(TOKENS.eventsSlackPublisher, EventsSlackPublisher.inject);
-
 container.bindFactory(TOKENS.server, Server.inject);
 container.bindFactory(TOKENS.database, Database.inject);
 container.bindFactory(TOKENS.emailRenderer, MjmlEmailRendererAdapter.inject);
@@ -134,6 +128,9 @@ container.bindFactory(QUERIES.listMembers, ListMembers.inject);
 container.bindFactory(QUERIES.getMember, GetMember.inject);
 container.bindFactory(QUERIES.getMemberNotifications, GetMemberNotifications.inject);
 
+container.bindFactory(EVENT_HANDLERS.eventsLogger, EventsLogger.inject);
+container.bindFactory(EVENT_HANDLERS.eventsPersistor, EventsPersistor.inject);
+container.bindFactory(EVENT_HANDLERS.eventsSlackPublisher, EventsSlackPublisher.inject);
 container.bindFactory(EVENT_HANDLERS.sendAuthenticationEmail, SendAuthenticationEmail.inject);
 container.bindFactory(EVENT_HANDLERS.createRequestSubscription, CreateRequestSubscription.inject);
 container.bindFactory(EVENT_HANDLERS.notifyRequestCreated, NotifyRequestCreated.inject);

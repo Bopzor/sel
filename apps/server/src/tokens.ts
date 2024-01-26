@@ -24,7 +24,6 @@ import { EventPublisherPort } from './infrastructure/events/event-publisher.port
 import { EventsLogger } from './infrastructure/events/events-logger';
 import { EventsPersistor } from './infrastructure/events/events-persistor';
 import { EventsSlackPublisher } from './infrastructure/events/events-slack-publisher';
-import { EventsPort } from './infrastructure/events/events.port';
 import { GeneratorPort } from './infrastructure/generator/generator.port';
 import { HtmlParserPort } from './infrastructure/html-parser/html-parser.port';
 import { LoggerPort } from './infrastructure/logger/logger.port';
@@ -68,10 +67,6 @@ export const TOKENS = {
   date: token<DatePort>('date'),
   generator: token<GeneratorPort>('generator'),
   logger: token<LoggerPort>('logger'),
-  events: token<EventsPort>('events'),
-  eventsLogger: token<EventsLogger>('eventsLogger'),
-  eventsPersistor: token<EventsPersistor>('eventsPersistor'),
-  eventsSlackPublisher: token<EventsSlackPublisher>('eventsSlackPublisher'),
   slackClient: token<SlackClientPort>('slackClientPort'),
   errorReporter: token<ErrorReporterPort>('errorReporter'),
   htmlParser: token<HtmlParserPort>('htmlParser'),
@@ -130,6 +125,9 @@ export const QUERIES = {
 };
 
 export const EVENT_HANDLERS = {
+  eventsLogger: token<EventsLogger>('eventsLogger'),
+  eventsPersistor: token<EventsPersistor>('eventsPersistor'),
+  eventsSlackPublisher: token<EventsSlackPublisher>('eventsSlackPublisher'),
   sendAuthenticationEmail: token<SendAuthenticationEmail>('sendAuthenticationEmail'),
   createRequestSubscription: token<CreateRequestSubscription>('createRequestSubscription'),
   notifyRequestCreated: token<NotifyRequestCreated>('notifyRequestCreated'),

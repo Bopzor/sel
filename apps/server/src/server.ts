@@ -12,7 +12,6 @@ import { DomainError } from './domain-error';
 import { HttpStatus } from './http-status';
 import { ConfigPort } from './infrastructure/config/config.port';
 import { ErrorReporterPort } from './infrastructure/error-reporter/error-reporter.port';
-import { EmitterEventsAdapter } from './infrastructure/events/emitter-events.adapter';
 import { LoggerPort } from './infrastructure/logger/logger.port';
 import { TOKENS } from './tokens';
 
@@ -63,12 +62,10 @@ export class Server {
   }
 
   async close() {
-    const events = this.container.resolve(TOKENS.events);
+    const eventBus = this.container.resolve(TOKENS.eventBus);
     const database = this.container.resolve(TOKENS.database);
 
-    if (events instanceof EmitterEventsAdapter) {
-      await Promise.all(events.promises);
-    }
+    await Promise.all(eventBus.promises);
 
     this.server.closeAllConnections();
     await util.promisify<void>((cb) => this.server.close(cb))();

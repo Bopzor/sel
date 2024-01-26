@@ -1,4 +1,4 @@
-import { assert, defined } from '@sel/utils';
+import { defined } from '@sel/utils';
 import { expect } from 'vitest';
 
 import { AuthenticationService } from './authentication/authentication.service';
@@ -8,7 +8,6 @@ import { StubConfigAdapter } from './infrastructure/config/stub-config.adapter';
 import { CommandBus } from './infrastructure/cqs/command-bus';
 import { TestMailSever } from './infrastructure/email/test-mail-server';
 import { TestErrorReporterAdapter } from './infrastructure/error-reporter/test-error-reporter.adapter';
-import { EmitterEventsAdapter } from './infrastructure/events/emitter-events.adapter';
 import { GeneratorPort } from './infrastructure/generator/generator.port';
 import { StubLogger } from './infrastructure/logger/stub-logger.adapter';
 import { initEventHandlers } from './init-event-handlers';
@@ -99,12 +98,7 @@ export class E2ETest {
 
   async waitForEventHandlers() {
     const eventBus = container.resolve(TOKENS.eventBus);
-    const events = container.resolve(TOKENS.events);
-
-    assert(events instanceof EmitterEventsAdapter);
-
     await Promise.all(eventBus.promises);
-    await Promise.all(events.promises);
   }
 
   async fetch(

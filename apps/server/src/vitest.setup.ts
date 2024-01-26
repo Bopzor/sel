@@ -2,7 +2,6 @@ import { assert, expect } from 'vitest';
 
 import { DomainEvent } from './domain-event';
 import { StubEventPublisher } from './infrastructure/events/stub-event-publisher';
-import { StubEventsAdapter } from './infrastructure/events/stub-events.adapter';
 
 interface CustomMatchers<R = unknown> {
   toHaveEmitted(event: DomainEvent): R;
@@ -15,7 +14,7 @@ declare module 'vitest' {
 }
 
 expect.extend({
-  toHaveEmitted(adapter: StubEventsAdapter | StubEventPublisher, expected: DomainEvent) {
+  toHaveEmitted(adapter: StubEventPublisher, expected: DomainEvent) {
     let error: Error | undefined = undefined;
     let assertion = expect(adapter.events);
 

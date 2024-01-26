@@ -15,7 +15,7 @@ export class EventBus extends BaseEventBus {
     super((error) => errorReporter.report(error));
   }
 
-  bind<Event extends object>(EventClass: ClassType<Event>, token: Token<EventHandler<Event>>) {
+  bind<Event extends object>(EventClass: ClassType<Event> | null, token: Token<EventHandler<Event>>) {
     const handlerClass = container.resolve(token);
     const handler = handlerClass.handle.bind(handlerClass);
 

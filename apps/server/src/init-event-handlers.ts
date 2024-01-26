@@ -6,6 +6,10 @@ import { EVENT_HANDLERS, TOKENS } from './tokens';
 export function initEventHandlers() {
   const eventBus = container.resolve(TOKENS.eventBus);
 
+  eventBus.bind(null, EVENT_HANDLERS.eventsLogger);
+  eventBus.bind(null, EVENT_HANDLERS.eventsPersistor);
+  eventBus.bind(null, EVENT_HANDLERS.eventsSlackPublisher);
+
   eventBus.bind(AuthenticationLinkRequested, EVENT_HANDLERS.sendAuthenticationEmail);
 
   eventBus.bind(RequestCreated, EVENT_HANDLERS.createRequestSubscription);
