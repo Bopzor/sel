@@ -1,5 +1,6 @@
 import { injectableClass } from 'ditox';
 
+import { NotificationDeliveryType } from '../../common/notification-delivery-type';
 import { CommandHandler } from '../../infrastructure/cqs/command-handler';
 import { EventPublisherPort } from '../../infrastructure/events/event-publisher.port';
 import { MemberRepository } from '../../persistence/repositories/member/member.repository';
@@ -27,6 +28,10 @@ export class CreateMember implements CommandHandler<CreateMemberCommand> {
       firstName,
       lastName,
       email,
+      notificationDeliveryType: {
+        [NotificationDeliveryType.email]: false,
+        [NotificationDeliveryType.push]: false,
+      },
     });
 
     this.eventPublisher.publish(new MemberCreated(memberId));

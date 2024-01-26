@@ -1,12 +1,15 @@
 import * as shared from '@sel/shared';
 import { createDate, createFactory, createId } from '@sel/utils';
 
+import { NotificationDeliveryType } from '../common/notification-delivery-type';
+
 export type Notification = {
   id: string;
   subscriptionId: string;
   memberId: string;
   type: shared.NotificationType;
   date: Date;
+  deliveryType: Record<NotificationDeliveryType, boolean>;
   readAt?: Date;
   title: string;
   titleTrimmed: string;
@@ -17,11 +20,15 @@ export type Notification = {
 export const createNotification = createFactory<Notification>(() => ({
   id: createId(),
   subscriptionId: '',
-  type: 'NewAppVersion',
   memberId: '',
-  content: '',
+  type: 'NewAppVersion',
+  date: createDate(),
+  deliveryType: {
+    [NotificationDeliveryType.email]: false,
+    [NotificationDeliveryType.push]: false,
+  },
   title: '',
   titleTrimmed: '',
-  date: createDate(),
+  content: '',
   data: {},
 }));

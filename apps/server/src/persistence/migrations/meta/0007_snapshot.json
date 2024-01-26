@@ -1,5 +1,5 @@
 {
-  "id": "b72b7067-49d1-46fa-89bf-3cf23e1c57db",
+  "id": "bfe1044f-4aac-48bc-aec6-45d6598ef595",
   "prevId": "6cdc4523-8b0d-4e1c-bbf9-3d225864b275",
   "version": "5",
   "dialect": "pg",
@@ -270,6 +270,12 @@
           "notNull": true,
           "default": "CURRENT_DATE"
         },
+        "delivery_type": {
+          "name": "delivery_type",
+          "type": "notification_delivery_type[]",
+          "primaryKey": false,
+          "notNull": true
+        },
         "created_at": {
           "name": "created_at",
           "type": "timestamp (3)",
@@ -327,6 +333,12 @@
         "date": {
           "name": "date",
           "type": "timestamp (3)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "delivery_type": {
+          "name": "delivery_type",
+          "type": "notification_delivery_type[]",
           "primaryKey": false,
           "notNull": true
         },
@@ -652,6 +664,13 @@
         "onboarding": "onboarding",
         "inactive": "inactive",
         "active": "active"
+      }
+    },
+    "notification_delivery_type": {
+      "name": "notification_delivery_type",
+      "values": {
+        "email": "email",
+        "push": "push"
       }
     },
     "request_status": {

@@ -41,8 +41,11 @@ describe('[Intg] SqlSubscriptionRepository', () => {
       memberId: member.id,
     });
 
-    expect(
-      await test.database.db.select().from(subscriptions).where(eq(subscriptions.id, 'subscriptionId'))
-    ).toBeDefined();
+    const [subscription] = await test.database.db
+      .select()
+      .from(subscriptions)
+      .where(eq(subscriptions.id, 'subscriptionId'));
+
+    expect(subscription).toBeDefined();
   });
 });

@@ -1,6 +1,7 @@
 import { hasId } from '@sel/utils';
 import { beforeEach, describe, expect, it } from 'vitest';
 
+import { NotificationDeliveryType } from '../common/notification-delivery-type';
 import { StubDate } from '../infrastructure/date/stub-date.adapter';
 import { StubGenerator } from '../infrastructure/generator/stub-generator.adapter';
 import { createMember } from '../members/member.entity';
@@ -32,7 +33,7 @@ class Test extends UnitTest {
   }
 }
 
-describe('SubscriptionService', () => {
+describe('[Unit] SubscriptionService', () => {
   let test: Test;
 
   beforeEach(() => {
@@ -41,10 +42,24 @@ describe('SubscriptionService', () => {
 
   describe('notify', () => {
     it('sends a notification to members subscribed to an event', async () => {
-      test.memberRepository.add(createMember({ id: 'memberId' }));
+      const notificationDeliveryType = {
+        [NotificationDeliveryType.email]: false,
+        [NotificationDeliveryType.push]: true,
+      };
+
+      test.memberRepository.add(
+        createMember({
+          id: 'memberId',
+          notificationDeliveryType,
+        })
+      );
 
       test.subscriptionRepository.add(
-        createSubscription({ id: 'subscriptionId', memberId: 'memberId', type: 'NewAppVersion' })
+        createSubscription({
+          id: 'subscriptionId',
+          memberId: 'memberId',
+          type: 'NewAppVersion',
+        })
       );
 
       await test.service.notify(
@@ -65,6 +80,7 @@ describe('SubscriptionService', () => {
       expect(notification).toHaveProperty('title', 'title');
       expect(notification).toHaveProperty('content', 'content');
       expect(notification).toHaveProperty('data', { version: '1.2.3' });
+      expect(notification).toHaveProperty('deliveryType', notificationDeliveryType);
     });
 
     it('does not send a notification when the subscription is not active', async () => {

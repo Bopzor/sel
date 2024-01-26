@@ -92,6 +92,7 @@ export class SubscriptionService {
         id: this.generator.id(),
         subscriptionId: subscription.id,
         date: now,
+        deliveryType: member.notificationDeliveryType,
         ...getPayload(member),
       });
     }

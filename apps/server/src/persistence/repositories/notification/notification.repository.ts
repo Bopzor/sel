@@ -1,5 +1,6 @@
 import * as shared from '@sel/shared';
 
+import { NotificationDeliveryType } from '../../../common/notification-delivery-type';
 import { Notification } from '../../../notifications/notification.entity';
 
 export type InsertNotificationModel = {
@@ -8,6 +9,7 @@ export type InsertNotificationModel = {
   eventId?: string;
   type: shared.NotificationType;
   date: Date;
+  deliveryType: Record<NotificationDeliveryType, boolean>;
   title: string;
   titleTrimmed: string;
   content: string;

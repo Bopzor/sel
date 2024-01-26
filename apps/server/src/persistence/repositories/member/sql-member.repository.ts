@@ -1,7 +1,9 @@
 import * as shared from '@sel/shared';
+import { entries, identity, toObject } from '@sel/utils';
 import { injectableClass } from 'ditox';
 import { and, asc, desc, eq, inArray } from 'drizzle-orm';
 
+import { NotificationDeliveryType } from '../../../common/notification-delivery-type';
 import { DatePort } from '../../../infrastructure/date/date.port';
 import { Address, Member, MemberStatus, PhoneNumber } from '../../../members/member.entity';
 import { TOKENS } from '../../../tokens';
@@ -129,6 +131,9 @@ export class SqlMemberRepository implements MemberRepository {
       bio: null,
       address: null,
       membershipStartDate: now,
+      notificationDeliveryType: entries(model.notificationDeliveryType)
+        .filter(([, value]) => value)
+        .map(([key]) => key),
       createdAt: now,
       updatedAt: now,
     });
@@ -175,6 +180,9 @@ export class SqlMemberRepository implements MemberRepository {
       bio: result.bio ?? undefined,
       address: (result.address as Address | null) ?? undefined,
       membershipStartDate: result.membershipStartDate,
+      notificationDeliveryType: toObject(Object.values(NotificationDeliveryType), identity, (type) =>
+        result.notificationDeliveryType.includes(type)
+      ),
     };
   }
 }

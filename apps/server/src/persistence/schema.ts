@@ -2,6 +2,7 @@ import { relations, sql } from 'drizzle-orm';
 import { boolean, json, pgEnum, pgTable, text, timestamp, unique, varchar } from 'drizzle-orm/pg-core';
 
 import { TokenType } from '../authentication/token.entity';
+import { NotificationDeliveryType } from '../common/notification-delivery-type';
 import { MemberStatus } from '../members/member.entity';
 import { RequestStatus } from '../requests/request.entity';
 
@@ -16,6 +17,11 @@ const updatedAt = () => date('updated_at').notNull();
 const enumValues = <Values extends string>(enumType: Record<string, Values>) => {
   return Object.values(enumType) as [Values, ...Values[]];
 };
+
+export const notificationDeliveryTypeEnum = pgEnum(
+  'notification_delivery_type',
+  enumValues(NotificationDeliveryType)
+);
 
 export const memberStatusEnum = pgEnum('member_status', enumValues(MemberStatus));
 
@@ -32,6 +38,7 @@ export const members = pgTable('members', {
   membershipStartDate: date('membership_start_date')
     .notNull()
     .default(sql`CURRENT_DATE`),
+  notificationDeliveryType: notificationDeliveryTypeEnum('delivery_type').array().notNull(),
   createdAt: createdAt(),
   updatedAt: updatedAt(),
 });
@@ -137,6 +144,7 @@ export const notifications = pgTable('notifications', {
   eventId: id('event_id').references(() => events.id),
   type: varchar('type', { length: 32 }).notNull(),
   date: date('date').notNull(),
+  deliveryType: notificationDeliveryTypeEnum('delivery_type').array().notNull(),
   readAt: date('read_at'),
   title: text('title').notNull(),
   titleTrimmed: varchar('title_trimmed', { length: 65 }).notNull(),

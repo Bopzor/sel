@@ -1,5 +1,6 @@
 import * as shared from '@sel/shared';
 
+import { NotificationDeliveryType } from '../../../common/notification-delivery-type';
 import { Address, Member, MemberStatus } from '../../../members/member.entity';
 
 export type InsertMemberModel = {
@@ -7,6 +8,7 @@ export type InsertMemberModel = {
   firstName: string;
   lastName: string;
   email: string;
+  notificationDeliveryType: Record<NotificationDeliveryType, boolean>;
 };
 
 export type UpdateMemberModel = {

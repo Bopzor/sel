@@ -1,5 +1,7 @@
 import { createDate, createFactory, createId } from '@sel/utils';
 
+import { NotificationDeliveryType } from '../common/notification-delivery-type';
+
 export enum MemberStatus {
   onboarding = 'onboarding',
   inactive = 'inactive',
@@ -17,6 +19,7 @@ export type Member = {
   bio?: string;
   address?: Address;
   membershipStartDate: Date;
+  notificationDeliveryType: Record<NotificationDeliveryType, boolean>;
 };
 
 export const createMember = createFactory<Member>(() => ({
@@ -29,6 +32,10 @@ export const createMember = createFactory<Member>(() => ({
   phoneNumbers: [],
   onboardingCompleted: false,
   membershipStartDate: createDate(),
+  notificationDeliveryType: {
+    [NotificationDeliveryType.email]: false,
+    [NotificationDeliveryType.push]: false,
+  },
 }));
 
 export type PhoneNumber = {

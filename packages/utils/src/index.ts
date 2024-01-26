@@ -3,6 +3,7 @@ export * from './date';
 export * from './enum';
 export * from './factory';
 export * from './function';
+export * from './generic';
 export * from './id';
 export * from './object';
 export * from './types';

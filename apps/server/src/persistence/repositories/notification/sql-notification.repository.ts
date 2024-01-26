@@ -1,7 +1,9 @@
 import * as shared from '@sel/shared';
+import { entries, identity, toObject } from '@sel/utils';
 import { injectableClass } from 'ditox';
 import { SQL, and, count, desc, eq, isNotNull, isNull } from 'drizzle-orm';
 
+import { NotificationDeliveryType } from '../../../common/notification-delivery-type';
 import { DatePort } from '../../../infrastructure/date/date.port';
 import { Notification } from '../../../notifications/notification.entity';
 import { TOKENS } from '../../../tokens';
@@ -88,6 +90,9 @@ export class SqlNotificationRepository implements NotificationRepository {
       subscriptionId: sqlSubscription.id,
       type: sqlNotification.type as shared.NotificationType,
       memberId: sqlSubscription.memberId,
+      deliveryType: toObject(Object.values(NotificationDeliveryType), identity, (type) =>
+        sqlNotification.deliveryType.includes(type)
+      ),
       date: sqlNotification.date,
       content: sqlNotification.content,
       title: sqlNotification.title,
@@ -109,6 +114,9 @@ export class SqlNotificationRepository implements NotificationRepository {
         subscriptionId: model.subscriptionId,
         type: model.type,
         date: model.date,
+        deliveryType: entries(model.deliveryType)
+          .filter(([, value]) => value)
+          .map(([key]) => key),
         title: model.title,
         titleTrimmed: model.titleTrimmed,
         content: model.content,

@@ -2,6 +2,7 @@ import { createDate } from '@sel/utils';
 import { eq } from 'drizzle-orm';
 import { beforeEach, describe, expect, it } from 'vitest';
 
+import { NotificationDeliveryType } from '../../../common/notification-delivery-type';
 import { StubDate } from '../../../infrastructure/date/stub-date.adapter';
 import { createMember } from '../../../members/member.entity';
 import { createNotification } from '../../../notifications/notification.entity';
@@ -76,7 +77,13 @@ describe('[Intg] SqlNotificationRepository', () => {
 
   describe('insertAll', () => {
     it('creates a set of notifications', async () => {
-      const member = await test.persist.member(createMember());
+      const notificationDeliveryType = {
+        [NotificationDeliveryType.email]: true,
+        [NotificationDeliveryType.push]: false,
+      };
+
+      const member = await test.persist.member(createMember({ notificationDeliveryType }));
+
       const subscription = await test.persist.subscription(createSubscription({ memberId: member.id }));
 
       await test.repository.insertAll([
@@ -85,6 +92,7 @@ describe('[Intg] SqlNotificationRepository', () => {
           subscriptionId: subscription.id,
           type: 'NewAppVersion',
           date: createDate(),
+          deliveryType: notificationDeliveryType,
           title: '',
           titleTrimmed: '',
           content: '',
