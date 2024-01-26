@@ -1,17 +1,19 @@
 import { DomainEvent } from '../domain-event';
 
-export class RequestCreated extends DomainEvent {
+export class RequestEvent extends DomainEvent {
   entity = 'request';
 }
 
-export class RequestEdited extends DomainEvent {
-  entity = 'request';
+export class RequestCreated extends RequestEvent {
+  constructor(requestId: string, public readonly requesterId: string) {
+    super(requestId);
+  }
 }
 
-export class RequestCommentCreated extends DomainEvent {
-  entity = 'request';
+export class RequestEdited extends RequestEvent {}
 
-  constructor(requestId: string, public readonly commentId: string) {
+export class RequestCommentCreated extends RequestEvent {
+  constructor(requestId: string, public readonly commentId: string, public readonly authorId: string) {
     super(requestId);
   }
 }

@@ -11,10 +11,7 @@ import {
   InsertNotificationModel,
   NotificationRepository,
 } from '../persistence/repositories/notification/notification.repository';
-import {
-  SubscriptionEntityType,
-  SubscriptionRepository,
-} from '../persistence/repositories/subscription/subscription.repository';
+import { SubscriptionRepository } from '../persistence/repositories/subscription/subscription.repository';
 import { TOKENS } from '../tokens';
 
 import { NotificationCreated } from './notification-events';
@@ -50,26 +47,6 @@ export class SubscriptionService {
     private readonly subscriptionRepository: SubscriptionRepository,
     private readonly notificationRepository: NotificationRepository
   ) {}
-
-  async createSubscription(
-    type: SubscriptionType,
-    memberId: string,
-    entity?: { type: SubscriptionEntityType; id: string },
-    active?: boolean
-  ): Promise<void> {
-    if (await this.subscriptionRepository.hasSubscription(type, memberId, entity)) {
-      return;
-    }
-
-    await this.subscriptionRepository.insert({
-      id: this.generator.id(),
-      type,
-      memberId,
-      entityType: entity?.type,
-      entityId: entity?.id,
-      active,
-    });
-  }
 
   async notify(
     type: SubscriptionType,

@@ -1,17 +1,26 @@
 import { injectableClass } from 'ditox';
 
+import { CommandBus } from '../../infrastructure/cqs/command-bus';
 import { EventHandler } from '../../infrastructure/cqs/event-handler';
-import { SubscriptionService } from '../../notifications/subscription.service';
-import { TOKENS } from '../../tokens';
+import { COMMANDS, TOKENS } from '../../tokens';
 import { MemberCreated } from '../member-events';
 
 export class CreateMemberSubscription implements EventHandler<MemberCreated> {
-  static inject = injectableClass(this, TOKENS.subscriptionService);
+  static inject = injectableClass(this, TOKENS.commandBus);
 
-  constructor(private readonly subscriptionService: SubscriptionService) {}
+  constructor(private readonly commandBus: CommandBus) {}
 
   async handle(event: MemberCreated) {
-    await this.subscriptionService.createSubscription('NewAppVersion', event.entityId);
-    await this.subscriptionService.createSubscription('RequestCreated', event.entityId);
+    const memberId = event.entityId;
+
+    await this.commandBus.executeCommand(COMMANDS.createSubscription, {
+      type: 'NewAppVersion',
+      memberId,
+    });
+
+    await this.commandBus.executeCommand(COMMANDS.createSubscription, {
+      type: 'RequestCreated',
+      memberId,
+    });
   }
 }

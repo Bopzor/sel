@@ -2,7 +2,7 @@ import { assert } from '@sel/utils';
 
 import { container } from '../container';
 import { isSubscriptionType } from '../notifications/subscription.entity';
-import { TOKENS } from '../tokens';
+import { COMMANDS, TOKENS } from '../tokens';
 
 main(process.argv.slice(2))
   // eslint-disable-next-line no-console
@@ -11,11 +11,15 @@ main(process.argv.slice(2))
 
 async function main(args: string[]) {
   const [type, ...memberIds] = args;
-  const subscriptionService = container.resolve(TOKENS.subscriptionService);
+  const commandBus = container.resolve(TOKENS.commandBus);
 
   assert(isSubscriptionType(type), 'Invalid subscription type');
 
   for (const memberId of memberIds) {
-    await subscriptionService.createSubscription(type, memberId, undefined, false);
+    await commandBus.executeCommand(COMMANDS.createSubscription, {
+      type,
+      memberId,
+      active: false,
+    });
   }
 }

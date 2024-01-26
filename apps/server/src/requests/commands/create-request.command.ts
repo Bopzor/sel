@@ -43,6 +43,6 @@ export class CreateRequest implements CommandHandler<CreateRequestCommand> {
       },
     });
 
-    this.eventPublisher.publish(new RequestCreated(requestId));
+    this.eventPublisher.publish(new RequestCreated(requestId, requesterId));
   }
 }

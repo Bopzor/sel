@@ -36,6 +36,7 @@ import { CreateMemberSubscription } from './members/event-handlers/create-member
 import { MembersController } from './members/members.controller';
 import { GetMember } from './members/queries/get-member.query';
 import { ListMembers } from './members/queries/list-members.query';
+import { CreateSubscription } from './notifications/commands/create-subscription.command';
 import { MarkNotificationAsRead } from './notifications/commands/mark-notification-as-read.command';
 import { RegisterDevice } from './notifications/commands/register-device.command';
 import { SendPushNotification } from './notifications/commands/send-push-notification.command';
@@ -110,6 +111,7 @@ export const COMMANDS = {
   createRequestComment: token<CreateRequestComment>('createRequestComment'),
   createMember: token<CreateMember>('createMember'),
   updateMemberProfile: token<UpdateMemberProfile>('updateMemberProfile'),
+  createSubscription: token<CreateSubscription>('createSubscription'),
   markNotificationAsRead: token<MarkNotificationAsRead>('markNotificationAsRead'),
   registerDevice: token<RegisterDevice>('registerDevice'),
   sendPushNotification: token<SendPushNotification>('sendPushNotification'),

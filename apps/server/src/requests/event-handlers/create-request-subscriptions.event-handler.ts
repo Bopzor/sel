@@ -1,44 +1,28 @@
-import { defined } from '@sel/utils';
 import { injectableClass } from 'ditox';
 
+import { CommandBus } from '../../infrastructure/cqs/command-bus';
 import { EventHandler } from '../../infrastructure/cqs/event-handler';
-import { SubscriptionService } from '../../notifications/subscription.service';
-import { CommentRepository } from '../../persistence/repositories/comment/comment.repository';
-import { RequestRepository } from '../../persistence/repositories/request/request.repository';
-import { TOKENS } from '../../tokens';
+import { COMMANDS, TOKENS } from '../../tokens';
 import { RequestCommentCreated, RequestCreated } from '../request-events';
 
 export class CreateRequestSubscription implements EventHandler<RequestCreated | RequestCommentCreated> {
-  static inject = injectableClass(
-    this,
-    TOKENS.requestRepository,
-    TOKENS.commentRepository,
-    TOKENS.subscriptionService
-  );
+  static inject = injectableClass(this, TOKENS.commandBus);
 
-  constructor(
-    private readonly requestRepository: RequestRepository,
-    private readonly commentRepository: CommentRepository,
-    private readonly subscriptionService: SubscriptionService
-  ) {}
+  constructor(private readonly commandBus: CommandBus) {}
 
   async handle(event: RequestCreated | RequestCommentCreated): Promise<void> {
+    await this.commandBus.executeCommand(COMMANDS.createSubscription, {
+      type: 'RequestEvent',
+      memberId: this.memberId(event),
+      entity: { type: 'request', id: event.entityId },
+    });
+  }
+
+  private memberId(event: RequestCreated | RequestCommentCreated): string {
     if (event instanceof RequestCreated) {
-      const request = defined(await this.requestRepository.getRequest(event.entityId));
-
-      await this.subscriptionService.createSubscription('RequestEvent', request.requesterId, {
-        type: 'request',
-        id: request.id,
-      });
+      return event.requesterId;
     }
 
-    if (event instanceof RequestCommentCreated) {
-      const comment = defined(await this.commentRepository.getComment(event.commentId));
-
-      await this.subscriptionService.createSubscription('RequestEvent', comment.authorId, {
-        type: 'request',
-        id: event.entityId,
-      });
-    }
+    return event.authorId;
   }
 }

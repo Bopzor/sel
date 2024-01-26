@@ -24,6 +24,6 @@ export class CreateRequestComment implements CommandHandler<CreateRequestComment
   async handle({ commentId, requestId, authorId, text }: CreateRequestCommentCommand): Promise<void> {
     await this.commentService.createComment(commentId, 'request', requestId, authorId, text);
 
-    this.eventPublisher.publish(new RequestCommentCreated(requestId, commentId));
+    this.eventPublisher.publish(new RequestCommentCreated(requestId, commentId, authorId));
   }
 }

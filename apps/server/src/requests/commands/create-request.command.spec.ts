@@ -62,8 +62,9 @@ describe('[Unit] CreateRequest', () => {
   });
 
   it('emits a RequestCreated domain event', async () => {
+    test.command.requesterId = 'requesterId';
     await test.execute();
 
-    expect(test.eventPublisher).toHaveEmitted(new RequestCreated('requestId'));
+    expect(test.eventPublisher).toHaveEmitted(new RequestCreated('requestId', 'requesterId'));
   });
 });
