@@ -5,7 +5,7 @@ import { injectableClass } from 'ditox';
 import { DatePort } from '../infrastructure/date/date.port';
 import { GeneratorPort } from '../infrastructure/generator/generator.port';
 import { Member } from '../members/member.entity';
-import { MembersFacade } from '../members/members.facade';
+import { MemberRepository } from '../persistence/repositories/member/member.repository';
 import {
   InsertNotificationModel,
   NotificationRepository,
@@ -34,7 +34,7 @@ export class SubscriptionService {
     this,
     TOKENS.generator,
     TOKENS.date,
-    TOKENS.membersFacade,
+    TOKENS.memberRepository,
     TOKENS.subscriptionRepository,
     TOKENS.notificationRepository
   );
@@ -42,7 +42,7 @@ export class SubscriptionService {
   constructor(
     private readonly generator: GeneratorPort,
     private readonly dateAdapter: DatePort,
-    private readonly membersFacade: MembersFacade,
+    private readonly memberRepository: MemberRepository,
     private readonly subscriptionRepository: SubscriptionRepository,
     private readonly notificationRepository: NotificationRepository
   ) {}
@@ -77,7 +77,7 @@ export class SubscriptionService {
     const subscriptions = await this.subscriptionRepository.getSubscriptionsByType(type);
     const notifications = new Array<InsertNotificationModel>();
 
-    const members = await this.membersFacade.getMembers(
+    const members = await this.memberRepository.getMembers(
       subscriptions.map((subscription) => subscription.memberId)
     );
 

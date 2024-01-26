@@ -10,7 +10,7 @@ import { MemberRepository } from '../../persistence/repositories/member/member.r
 import { TOKENS } from '../../tokens';
 
 export class SendAuthenticationEmail implements EventHandler<AuthenticationLinkRequested> {
-  static inject = injectableClass(this, TOKENS.translation, TOKENS.emailSender, TOKENS.membersFacade);
+  static inject = injectableClass(this, TOKENS.translation, TOKENS.emailSender, TOKENS.memberRepository);
 
   constructor(
     private readonly translation: TranslationPort,

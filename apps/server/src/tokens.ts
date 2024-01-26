@@ -35,7 +35,6 @@ import { CreateMember } from './members/commands/create-member.command';
 import { UpdateMemberProfile } from './members/commands/update-member-profile.command';
 import { CreateMemberSubscription } from './members/event-handlers/create-member-subscription.event-handler';
 import { MembersController } from './members/members.controller';
-import { MembersFacade } from './members/members.facade';
 import { GetMember } from './members/queries/get-member.query';
 import { ListMembers } from './members/queries/list-members.query';
 import { MarkNotificationAsRead } from './notifications/commands/mark-notification-as-read.command';
@@ -83,7 +82,6 @@ export const TOKENS = {
   nodemailer: token<Nodemailer>('nodemailer'),
   emailRenderer: token<EmailRendererPort>('emailRenderer'),
   emailSender: token<EmailSenderPort>('emailSender'),
-  membersFacade: token<MembersFacade>('membersFacade'),
   membersController: token<MembersController>('membersController'),
   memberRepository: token<MemberRepository>('memberRepository'),
   sessionProvider: token<SessionProvider>('authenticatedMemberProvider'),

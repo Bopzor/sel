@@ -34,7 +34,6 @@ import { CreateMember } from './members/commands/create-member.command';
 import { UpdateMemberProfile } from './members/commands/update-member-profile.command';
 import { CreateMemberSubscription } from './members/event-handlers/create-member-subscription.event-handler';
 import { MembersController } from './members/members.controller';
-import { MembersFacadeImpl } from './members/members.facade';
 import { GetMember } from './members/queries/get-member.query';
 import { ListMembers } from './members/queries/list-members.query';
 import { MarkNotificationAsRead } from './notifications/commands/mark-notification-as-read.command';
@@ -88,7 +87,6 @@ container.bindFactory(TOKENS.emailRenderer, MjmlEmailRendererAdapter.inject);
 container.bindValue(TOKENS.nodemailer, nodemailer);
 container.bindFactory(TOKENS.emailSender, NodemailerEmailSenderAdapter.inject);
 
-container.bindFactory(TOKENS.membersFacade, MembersFacadeImpl.inject);
 container.bindFactory(TOKENS.membersController, MembersController.inject);
 container.bindFactory(TOKENS.memberRepository, SqlMemberRepository.inject);
 
