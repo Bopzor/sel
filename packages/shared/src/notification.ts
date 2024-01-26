@@ -25,6 +25,7 @@ export type Notification<Type extends NotificationType = NotificationType> = {
 export type NotificationData = {
   NewAppVersion: {
     version: string;
+    content?: string;
   };
 
   RequestCreated: {

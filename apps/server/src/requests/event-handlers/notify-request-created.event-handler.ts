@@ -1,28 +1,21 @@
-import { assert, hasId, negate } from '@sel/utils';
+import { NotificationData } from '@sel/shared';
+import { assert } from '@sel/utils';
 import { injectableClass } from 'ditox';
 
+import { CommandBus } from '../../infrastructure/cqs/command-bus';
 import { EventHandler } from '../../infrastructure/cqs/event-handler';
-import { TranslationPort } from '../../infrastructure/translation/translation.port';
-import { SubscriptionService } from '../../notifications/subscription.service';
 import { MemberRepository } from '../../persistence/repositories/member/member.repository';
 import { RequestRepository } from '../../persistence/repositories/request/request.repository';
-import { TOKENS } from '../../tokens';
+import { COMMANDS, TOKENS } from '../../tokens';
 import { RequestCreated } from '../request-events';
 
 export class NotifyRequestCreated implements EventHandler<RequestCreated> {
-  static inject = injectableClass(
-    this,
-    TOKENS.translation,
-    TOKENS.memberRepository,
-    TOKENS.requestRepository,
-    TOKENS.subscriptionService
-  );
+  static inject = injectableClass(this, TOKENS.commandBus, TOKENS.memberRepository, TOKENS.requestRepository);
 
   constructor(
-    private readonly translation: TranslationPort,
+    private readonly commandBus: CommandBus,
     private readonly memberRepository: MemberRepository,
-    private readonly requestRepository: RequestRepository,
-    private readonly subscriptionService: SubscriptionService
+    private readonly requestRepository: RequestRepository
   ) {}
 
   async handle(event: RequestCreated): Promise<void> {
@@ -32,31 +25,20 @@ export class NotifyRequestCreated implements EventHandler<RequestCreated> {
     const requester = await this.memberRepository.getMember(request?.requesterId);
     assert(requester);
 
-    await this.subscriptionService.notify(
-      //
-      'RequestCreated',
-      negate(hasId(requester.id)),
-      () => ({
-        type: 'RequestCreated',
-        title: this.translation.translate('requestCreated.title', {
-          requester: this.translation.memberName(requester),
-        }),
-        titleTrimmed: this.translation.notificationTitle('requestCreated.title', 'requester', {
-          requester: this.translation.memberName(requester),
-        }),
-        content: request.title,
-        data: {
-          request: {
-            id: request.id,
-            title: request.title,
-          },
-          requester: {
-            id: requester.id,
-            firstName: requester.firstName,
-            lastName: requester.lastName,
-          },
+    await this.commandBus.executeCommand(COMMANDS.createNotification, {
+      subscriptionType: 'RequestCreated',
+      notificationType: 'RequestCreated',
+      data: {
+        request: {
+          id: request.id,
+          title: request.title,
         },
-      })
-    );
+        requester: {
+          id: requester.id,
+          firstName: requester.firstName,
+          lastName: requester.lastName,
+        },
+      } satisfies NotificationData['RequestCreated'],
+    });
   }
 }

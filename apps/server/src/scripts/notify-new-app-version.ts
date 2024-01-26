@@ -1,7 +1,7 @@
 import { assert } from '@sel/utils';
 
 import { container } from '../container';
-import { TOKENS } from '../tokens';
+import { COMMANDS, TOKENS } from '../tokens';
 
 main(process.argv.slice(2))
   // eslint-disable-next-line no-console
@@ -10,20 +10,16 @@ main(process.argv.slice(2))
 
 async function main(args: string[]) {
   const [version, content] = args;
-  const translation = container.resolve(TOKENS.translation);
-  const subscriptionService = container.resolve(TOKENS.subscriptionService);
+  const commandBus = container.resolve(TOKENS.commandBus);
 
   assert(version, 'missing version');
 
-  await subscriptionService.notify(
-    'NewAppVersion',
-    () => true,
-    () => ({
-      type: 'NewAppVersion',
-      title: translation.translate('newAppVersion.title'),
-      titleTrimmed: translation.translate('newAppVersion.title'),
-      content: content ?? translation.translate('newAppVersion.content'),
-      data: { version },
-    })
-  );
+  await commandBus.executeCommand(COMMANDS.createNotification, {
+    subscriptionType: 'NewAppVersion',
+    notificationType: 'NewAppVersion',
+    data: {
+      version,
+      content,
+    },
+  });
 }

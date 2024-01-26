@@ -1,31 +1,29 @@
-import { assert, hasId, negate } from '@sel/utils';
+import { NotificationData } from '@sel/shared';
+import { assert } from '@sel/utils';
 import { injectableClass } from 'ditox';
 
+import { CommandBus } from '../../infrastructure/cqs/command-bus';
 import { EventHandler } from '../../infrastructure/cqs/event-handler';
-import { TranslationPort } from '../../infrastructure/translation/translation.port';
-import { SubscriptionService } from '../../notifications/subscription.service';
 import { CommentRepository } from '../../persistence/repositories/comment/comment.repository';
 import { MemberRepository } from '../../persistence/repositories/member/member.repository';
 import { RequestRepository } from '../../persistence/repositories/request/request.repository';
-import { TOKENS } from '../../tokens';
+import { COMMANDS, TOKENS } from '../../tokens';
 import { RequestCommentCreated } from '../request-events';
 
 export class NotifyRequestCommentCreated implements EventHandler<RequestCommentCreated> {
   static inject = injectableClass(
     this,
-    TOKENS.translation,
+    TOKENS.commandBus,
     TOKENS.memberRepository,
     TOKENS.commentRepository,
-    TOKENS.requestRepository,
-    TOKENS.subscriptionService
+    TOKENS.requestRepository
   );
 
   constructor(
-    private readonly translation: TranslationPort,
+    private readonly commandBus: CommandBus,
     private readonly memberRepository: MemberRepository,
     private readonly commentRepository: CommentRepository,
-    private readonly requestRepository: RequestRepository,
-    private readonly subscriptionService: SubscriptionService
+    private readonly requestRepository: RequestRepository
   ) {}
 
   async handle(event: RequestCommentCreated): Promise<void> {
@@ -38,36 +36,28 @@ export class NotifyRequestCommentCreated implements EventHandler<RequestCommentC
     const author = await this.memberRepository.getMember(comment.authorId);
     assert(author);
 
-    await this.subscriptionService.notify(
-      //
-      'RequestEvent',
-      negate(hasId(author.id)),
-      () => ({
-        type: 'RequestCommentCreated',
-        title: this.translation.translate('requestCommentCreated.title', { title: request.title }),
-        titleTrimmed: this.translation.notificationTitle('requestCommentCreated.title', 'title', {
+    await this.commandBus.executeCommand(COMMANDS.createNotification, {
+      subscriptionType: 'RequestEvent',
+      notificationType: 'RequestCommentCreated',
+      entity: {
+        type: 'request',
+        id: request.id,
+      },
+      data: {
+        request: {
+          id: request.id,
           title: request.title,
-        }),
-        content: this.translation.translate('requestCommentCreated.content', {
-          author: this.translation.memberName(author),
+        },
+        comment: {
+          id: comment.id,
           message: comment.text,
-        }),
-        data: {
-          request: {
-            id: request.id,
-            title: request.title,
-          },
-          comment: {
-            id: comment.id,
-            message: comment.text,
-            author: {
-              id: author.id,
-              firstName: author.firstName,
-              lastName: author.lastName,
-            },
+          author: {
+            id: author.id,
+            firstName: author.firstName,
+            lastName: author.lastName,
           },
         },
-      })
-    );
+      } satisfies NotificationData['RequestCommentCreated'],
+    });
   }
 }

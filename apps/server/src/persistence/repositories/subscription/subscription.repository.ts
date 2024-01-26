@@ -15,7 +15,10 @@ export interface SubscriptionRepository {
   hasSubscription(
     type: string,
     memberId: string,
-    entity?: { type: 'request'; id: string } | undefined
+    entity?: {
+      type: SubscriptionEntityType;
+      id: string;
+    }
   ): Promise<boolean>;
 
   getSubscriptionsByType(type: SubscriptionType): Promise<Subscription[]>;

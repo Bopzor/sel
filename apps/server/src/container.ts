@@ -35,6 +35,7 @@ import { CreateMemberSubscription } from './members/event-handlers/create-member
 import { MembersController } from './members/members.controller';
 import { GetMember } from './members/queries/get-member.query';
 import { ListMembers } from './members/queries/list-members.query';
+import { CreateNotification } from './notifications/commands/create-notification.command';
 import { CreateSubscription } from './notifications/commands/create-subscription.command';
 import { MarkNotificationAsRead } from './notifications/commands/mark-notification-as-read.command';
 import { RegisterDevice } from './notifications/commands/register-device.command';
@@ -42,7 +43,6 @@ import { SendPushNotification } from './notifications/commands/send-push-notific
 import { DeliverNotification } from './notifications/event-handlers/deliver-notification.event-handler';
 import { NotificationController } from './notifications/notification.controller';
 import { GetMemberNotifications } from './notifications/queries/get-member-notifications.query';
-import { SubscriptionService } from './notifications/subscription.service';
 import { Database } from './persistence/database';
 import { SqlCommentRepository } from './persistence/repositories/comment/sql-comment.repository';
 import { SqlMemberRepository } from './persistence/repositories/member/sql-member.repository';
@@ -98,7 +98,6 @@ container.bindFactory(TOKENS.tokenRepository, SqlTokenRepository.inject);
 container.bindFactory(TOKENS.commentService, CommentService.inject);
 container.bindFactory(TOKENS.commentRepository, SqlCommentRepository.inject);
 
-container.bindFactory(TOKENS.subscriptionService, SubscriptionService.inject);
 container.bindFactory(TOKENS.subscriptionRepository, SqlSubscriptionRepository.inject);
 
 container.bindFactory(TOKENS.notificationController, NotificationController.inject);
@@ -121,6 +120,7 @@ container.bindFactory(COMMANDS.updateMemberProfile, UpdateMemberProfile.inject);
 container.bindFactory(COMMANDS.createSubscription, CreateSubscription.inject);
 container.bindFactory(COMMANDS.markNotificationAsRead, MarkNotificationAsRead.inject);
 container.bindFactory(COMMANDS.registerDevice, RegisterDevice.inject);
+container.bindFactory(COMMANDS.createNotification, CreateNotification.inject);
 container.bindFactory(COMMANDS.sendPushNotification, SendPushNotification.inject);
 
 container.bindFactory(QUERIES.getToken, GetToken.inject);

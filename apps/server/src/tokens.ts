@@ -36,6 +36,7 @@ import { CreateMemberSubscription } from './members/event-handlers/create-member
 import { MembersController } from './members/members.controller';
 import { GetMember } from './members/queries/get-member.query';
 import { ListMembers } from './members/queries/list-members.query';
+import { CreateNotification } from './notifications/commands/create-notification.command';
 import { CreateSubscription } from './notifications/commands/create-subscription.command';
 import { MarkNotificationAsRead } from './notifications/commands/mark-notification-as-read.command';
 import { RegisterDevice } from './notifications/commands/register-device.command';
@@ -43,7 +44,6 @@ import { SendPushNotification } from './notifications/commands/send-push-notific
 import { DeliverNotification } from './notifications/event-handlers/deliver-notification.event-handler';
 import { NotificationController } from './notifications/notification.controller';
 import { GetMemberNotifications } from './notifications/queries/get-member-notifications.query';
-import { SubscriptionService } from './notifications/subscription.service';
 import { Database } from './persistence/database';
 import { CommentRepository } from './persistence/repositories/comment/comment.repository';
 import { MemberRepository } from './persistence/repositories/member/member.repository';
@@ -90,7 +90,6 @@ export const TOKENS = {
   requestRepository: token<RequestRepository>('requestRepository'),
   commentService: token<CommentService>('commentService'),
   commentRepository: token<CommentRepository>('commentRepository'),
-  subscriptionService: token<SubscriptionService>('subscriptionService'),
   subscriptionRepository: token<SubscriptionRepository>('subscriptionRepository'),
   notificationController: token<NotificationController>('notificationController'),
   notificationRepository: token<NotificationRepository>('notificationRepository'),
@@ -114,6 +113,7 @@ export const COMMANDS = {
   createSubscription: token<CreateSubscription>('createSubscription'),
   markNotificationAsRead: token<MarkNotificationAsRead>('markNotificationAsRead'),
   registerDevice: token<RegisterDevice>('registerDevice'),
+  createNotification: token<CreateNotification>('createNotification'),
   sendPushNotification: token<SendPushNotification>('sendPushNotification'),
 };
 

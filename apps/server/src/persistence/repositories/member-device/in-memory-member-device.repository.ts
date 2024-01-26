@@ -3,13 +3,13 @@ import { hasProperty } from '@sel/utils';
 import { InMemoryRepository } from '../../../in-memory.repository';
 import { MemberDevice } from '../../../notifications/member-device.entity';
 
-import { InsertMemberDeviceModel, MemberDeviceRepository } from './member-device.repository';
+import { MemberDeviceRepository } from './member-device.repository';
 
 export class InMemoryMemberDeviceRepository
   extends InMemoryRepository<MemberDevice>
   implements MemberDeviceRepository
 {
-  register(model: InsertMemberDeviceModel): Promise<void> {
+  register(): Promise<void> {
     throw new Error('Method not implemented.');
   }
 
