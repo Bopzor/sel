@@ -14,19 +14,6 @@ export class SqlSubscriptionRepository implements SubscriptionRepository {
 
   constructor(private readonly database: Database, private readonly dateAdapter: DatePort) {}
 
-  async getSubscription(subscriptionId: string): Promise<Subscription | undefined> {
-    const [sqlSubscription] = await this.database.db
-      .select()
-      .from(subscriptions)
-      .where(eq(subscriptions.id, subscriptionId));
-
-    if (!sqlSubscription) {
-      return undefined;
-    }
-
-    return this.toSubscription(sqlSubscription);
-  }
-
   async hasSubscription(
     type: string,
     memberId: string,

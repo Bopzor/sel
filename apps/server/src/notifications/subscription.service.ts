@@ -3,6 +3,7 @@ import { defined, hasId } from '@sel/utils';
 import { injectableClass } from 'ditox';
 
 import { DatePort } from '../infrastructure/date/date.port';
+import { EventPublisherPort } from '../infrastructure/events/event-publisher.port';
 import { GeneratorPort } from '../infrastructure/generator/generator.port';
 import { Member } from '../members/member.entity';
 import { MemberRepository } from '../persistence/repositories/member/member.repository';
@@ -16,6 +17,7 @@ import {
 } from '../persistence/repositories/subscription/subscription.repository';
 import { TOKENS } from '../tokens';
 
+import { NotificationCreated } from './notification-events';
 import { SubscriptionType } from './subscription.entity';
 
 export type NotificationPayload<Type extends shared.NotificationType> = {
@@ -34,6 +36,7 @@ export class SubscriptionService {
     this,
     TOKENS.generator,
     TOKENS.date,
+    TOKENS.eventPublisher,
     TOKENS.memberRepository,
     TOKENS.subscriptionRepository,
     TOKENS.notificationRepository
@@ -42,6 +45,7 @@ export class SubscriptionService {
   constructor(
     private readonly generator: GeneratorPort,
     private readonly dateAdapter: DatePort,
+    private readonly eventPublisher: EventPublisherPort,
     private readonly memberRepository: MemberRepository,
     private readonly subscriptionRepository: SubscriptionRepository,
     private readonly notificationRepository: NotificationRepository
@@ -88,15 +92,21 @@ export class SubscriptionService {
         continue;
       }
 
-      notifications.push({
+      const notification = {
         id: this.generator.id(),
         subscriptionId: subscription.id,
         date: now,
         deliveryType: member.notificationDeliveryType,
         ...getPayload(member),
-      });
+      };
+
+      notifications.push(notification);
     }
 
     await this.notificationRepository.insertAll(notifications);
+
+    for (const notification of notifications) {
+      this.eventPublisher.publish(new NotificationCreated(notification.id));
+    }
   }
 }

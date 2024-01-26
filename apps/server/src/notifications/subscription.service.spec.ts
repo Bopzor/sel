@@ -3,6 +3,7 @@ import { beforeEach, describe, expect, it } from 'vitest';
 
 import { NotificationDeliveryType } from '../common/notification-delivery-type';
 import { StubDate } from '../infrastructure/date/stub-date.adapter';
+import { StubEventPublisher } from '../infrastructure/events/stub-event-publisher';
 import { StubGenerator } from '../infrastructure/generator/stub-generator.adapter';
 import { createMember } from '../members/member.entity';
 import { InMemoryMemberRepository } from '../persistence/repositories/member/in-memory-member.repository';
@@ -10,12 +11,14 @@ import { InMemoryNotificationRepository } from '../persistence/repositories/noti
 import { InMemorySubscriptionRepository } from '../persistence/repositories/subscription/in-memory.subscription.repository';
 import { UnitTest } from '../unit-test';
 
+import { NotificationCreated } from './notification-events';
 import { createSubscription } from './subscription.entity';
 import { SubscriptionService } from './subscription.service';
 
 class Test extends UnitTest {
   generator = new StubGenerator();
   dateAdapter = new StubDate();
+  eventPublisher = new StubEventPublisher();
   memberRepository = new InMemoryMemberRepository();
   subscriptionRepository = new InMemorySubscriptionRepository();
   notificationRepository = new InMemoryNotificationRepository(this.dateAdapter);
@@ -23,6 +26,7 @@ class Test extends UnitTest {
   service = new SubscriptionService(
     this.generator,
     this.dateAdapter,
+    this.eventPublisher,
     this.memberRepository,
     this.subscriptionRepository,
     this.notificationRepository
@@ -81,6 +85,8 @@ describe('[Unit] SubscriptionService', () => {
       expect(notification).toHaveProperty('content', 'content');
       expect(notification).toHaveProperty('data', { version: '1.2.3' });
       expect(notification).toHaveProperty('deliveryType', notificationDeliveryType);
+
+      expect(test.eventPublisher).toHaveEmitted(new NotificationCreated('notificationId'));
     });
 
     it('does not send a notification when the subscription is not active', async () => {

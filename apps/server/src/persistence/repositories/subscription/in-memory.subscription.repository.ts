@@ -9,10 +9,6 @@ export class InMemorySubscriptionRepository
   extends InMemoryRepository<Subscription>
   implements SubscriptionRepository
 {
-  async getSubscription(subscriptionId: string): Promise<Subscription | undefined> {
-    return this.get(subscriptionId);
-  }
-
   hasSubscription(): Promise<boolean> {
     throw new Error('Method not implemented.');
   }

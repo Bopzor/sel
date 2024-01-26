@@ -1,5 +1,5 @@
 {
-  "id": "bfe1044f-4aac-48bc-aec6-45d6598ef595",
+  "id": "b71ab812-89b8-45ce-81e5-d92a8235d436",
   "prevId": "6cdc4523-8b0d-4e1c-bbf9-3d225864b275",
   "version": "5",
   "dialect": "pg",
@@ -270,8 +270,8 @@
           "notNull": true,
           "default": "CURRENT_DATE"
         },
-        "delivery_type": {
-          "name": "delivery_type",
+        "notification_delivery_type": {
+          "name": "notification_delivery_type",
           "type": "notification_delivery_type[]",
           "primaryKey": false,
           "notNull": true

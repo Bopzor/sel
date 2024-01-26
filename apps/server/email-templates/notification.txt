@@ -1,0 +1,7 @@
+Bonjour {{firstName}},
+
+{{title}}
+
+{{content}}
+
+À bientôt !

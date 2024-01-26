@@ -1,6 +1,5 @@
 import { AsyncLocalStorage } from 'node:async_hooks';
 
-import { defined } from '@sel/utils';
 import { injectableClass } from 'ditox';
 
 import { TOKENS } from '../../tokens';
@@ -16,7 +15,7 @@ export class EventPublisher implements EventPublisherPort {
   private eventsStorage = new AsyncLocalStorage<Array<object>>();
 
   private get events() {
-    return defined(this.eventsStorage.getStore(), 'Missing events storage');
+    return this.eventsStorage.getStore();
   }
 
   async provide(cb: () => Promise<void>) {
@@ -30,6 +29,10 @@ export class EventPublisher implements EventPublisherPort {
   }
 
   publish(event: object) {
-    this.events.push(event);
+    if (this.events !== undefined) {
+      this.events.push(event);
+    } else {
+      this.eventBus.emit(event);
+    }
   }
 }

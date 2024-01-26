@@ -1,6 +1,7 @@
 export enum EmailKind {
   test = 'test',
   authentication = 'authentication',
+  notification = 'notification',
 }
 
 export type EmailVariables = {
@@ -11,6 +12,12 @@ export type EmailVariables = {
   [EmailKind.authentication]: {
     firstName: string;
     authenticationUrl: string;
+  };
+
+  [EmailKind.notification]: {
+    firstName: string;
+    title: string;
+    content: string;
   };
 };
 
