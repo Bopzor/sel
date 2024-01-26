@@ -22,7 +22,7 @@ const entries = JSON.parse(String(fs.readFileSync(filename)));
 
 for (const entry of entries) {
   for (const [key, value] of Object.entries(entry)) {
-    if (key === 'date') {
+    if (key === 'date' || key.endsWith('At')) {
       entry[key] = new Date(value as string);
     }
   }

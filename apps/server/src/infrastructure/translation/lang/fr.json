@@ -7,5 +7,5 @@
   "newAppVersion.content": "Une nouvelle version de l'app est disponible.",
   "requestCreated.title": "Demande de {requester}",
   "requestCommentCreated.title": "Nouveau commentaire sur la demande \"{title}\"",
-  "requestCommentCreated.body": "{author} : {message}"
+  "requestCommentCreated.content": "{author} : {message}"
 }

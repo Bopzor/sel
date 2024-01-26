@@ -8,8 +8,8 @@ const DB_URL = process.env.DB_URL;
 assert(typeof DB_URL === 'string');
 
 export default {
-  schema: './src/infrastructure/persistence/schema.ts',
-  out: './src/infrastructure/persistence/migrations',
+  schema: './src/persistence/schema.ts',
+  out: './src/persistence/migrations',
   driver: 'pg',
   dbCredentials: {
     connectionString: DB_URL,

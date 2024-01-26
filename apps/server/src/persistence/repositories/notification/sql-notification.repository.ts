@@ -91,6 +91,7 @@ export class SqlNotificationRepository implements NotificationRepository {
       date: sqlNotification.date,
       content: sqlNotification.content,
       title: sqlNotification.title,
+      titleTrimmed: sqlNotification.titleTrimmed,
       data: sqlNotification.data,
     };
   }
@@ -109,6 +110,7 @@ export class SqlNotificationRepository implements NotificationRepository {
         type: model.type,
         date: model.date,
         title: model.title,
+        titleTrimmed: model.titleTrimmed,
         content: model.content,
         data: model.data,
         createdAt: now,

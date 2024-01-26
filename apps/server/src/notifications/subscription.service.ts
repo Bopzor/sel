@@ -21,6 +21,7 @@ import { SubscriptionType } from './subscription.entity';
 export type NotificationPayload<Type extends shared.NotificationType> = {
   type: Type;
   title: string;
+  titleTrimmed: string;
   content: string;
   data: shared.NotificationData[Type];
 };

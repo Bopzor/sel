@@ -21,6 +21,7 @@
     "SEL'ons",
     "solidjs",
     "tailwindcss",
-    "tiptap"
+    "tiptap",
+    "trimmable"
   ]
 }

@@ -44,10 +44,11 @@ export class NotifyRequestCommentCreated implements EventHandler<RequestCommentC
       negate(hasId(author.id)),
       () => ({
         type: 'RequestCommentCreated',
-        title: this.translation.translate('requestCreated.title', {
+        title: this.translation.translate('requestCommentCreated.title', { title: request.title }),
+        titleTrimmed: this.translation.notificationTitle('requestCommentCreated.title', 'title', {
           title: request.title,
         }),
-        content: this.translation.translate('requestCreated.title', {
+        content: this.translation.translate('requestCommentCreated.content', {
           author: this.translation.memberName(author),
           message: comment.text,
         }),

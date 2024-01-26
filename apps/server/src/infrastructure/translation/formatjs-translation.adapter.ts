@@ -21,21 +21,37 @@ export class FormatJsTranslationAdapter implements TranslationPort {
     );
   }
 
-  translate(key: keyof typeof fr, values?: Record<string, string | number>): string {
+  translate(key: string, values?: Record<string, string | number>): string {
     return this.intl.formatMessage({ id: key }, values);
-  }
-
-  emailSubject(key: keyof typeof fr, values?: Record<string, string | number>): string {
-    return this.translate('emailSubject', {
-      prefix: this.translate('emailSubjectPrefix'),
-      subject: this.translate(key, values),
-    });
   }
 
   memberName(member: Pick<Member, 'firstName' | 'lastName'>): string {
     return this.translate('memberName', {
       firstName: member.firstName,
       lastNameFirstLetter: member.lastName[0],
+    });
+  }
+
+  emailSubject(key: string, values?: Record<string, string | number>): string {
+    return this.translate('emailSubject', {
+      prefix: this.translate('emailSubjectPrefix'),
+      subject: this.translate(key, values),
+    });
+  }
+
+  notificationTitle(key: string, trimmableKey: string, values: Record<string, string | number>) {
+    const length = this.translate(key, { ...values, [trimmableKey]: '' }).length;
+    const maxLength = 65 - length;
+
+    let trimmableValue = String(values[trimmableKey]);
+
+    if (trimmableValue.length > maxLength) {
+      trimmableValue = trimmableValue.substring(0, maxLength - 1) + '…';
+    }
+
+    return this.translate(key, {
+      ...values,
+      [trimmableKey]: trimmableValue,
     });
   }
 }

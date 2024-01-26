@@ -86,6 +86,7 @@ describe('[Intg] SqlNotificationRepository', () => {
           type: 'NewAppVersion',
           date: createDate(),
           title: '',
+          titleTrimmed: '',
           content: '',
           data: { version: '' },
         },

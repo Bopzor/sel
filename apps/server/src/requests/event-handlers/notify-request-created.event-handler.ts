@@ -41,6 +41,9 @@ export class NotifyRequestCreated implements EventHandler<RequestCreated> {
         title: this.translation.translate('requestCreated.title', {
           requester: this.translation.memberName(requester),
         }),
+        titleTrimmed: this.translation.notificationTitle('requestCreated.title', 'requester', {
+          requester: this.translation.memberName(requester),
+        }),
         content: request.title,
         data: {
           request: {

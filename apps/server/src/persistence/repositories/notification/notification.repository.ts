@@ -9,6 +9,7 @@ export type InsertNotificationModel = {
   type: shared.NotificationType;
   date: Date;
   title: string;
+  titleTrimmed: string;
   content: string;
   data: unknown;
 };

@@ -139,6 +139,7 @@ export const notifications = pgTable('notifications', {
   date: date('date').notNull(),
   readAt: date('read_at'),
   title: text('title').notNull(),
+  titleTrimmed: varchar('title_trimmed', { length: 65 }).notNull(),
   content: text('content').notNull(),
   data: json('data').notNull(),
   createdAt: createdAt(),

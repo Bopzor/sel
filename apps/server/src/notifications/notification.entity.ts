@@ -8,8 +8,9 @@ export type Notification = {
   type: shared.NotificationType;
   date: Date;
   readAt?: Date;
-  content: string;
   title: string;
+  titleTrimmed: string;
+  content: string;
   data: unknown;
 };
 
@@ -20,6 +21,7 @@ export const createNotification = createFactory<Notification>(() => ({
   memberId: '',
   content: '',
   title: '',
+  titleTrimmed: '',
   date: createDate(),
   data: {},
 }));

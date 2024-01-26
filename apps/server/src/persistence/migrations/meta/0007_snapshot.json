@@ -1,5 +1,5 @@
 {
-  "id": "976177a6-cc1e-474b-91ac-a0e1121e3f6d",
+  "id": "b72b7067-49d1-46fa-89bf-3cf23e1c57db",
   "prevId": "6cdc4523-8b0d-4e1c-bbf9-3d225864b275",
   "version": "5",
   "dialect": "pg",
@@ -318,6 +318,12 @@
           "primaryKey": false,
           "notNull": false
         },
+        "type": {
+          "name": "type",
+          "type": "varchar(32)",
+          "primaryKey": false,
+          "notNull": true
+        },
         "date": {
           "name": "date",
           "type": "timestamp (3)",
@@ -333,6 +339,12 @@
         "title": {
           "name": "title",
           "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "title_trimmed": {
+          "name": "title_trimmed",
+          "type": "varchar(65)",
           "primaryKey": false,
           "notNull": true
         },
