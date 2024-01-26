@@ -39,6 +39,7 @@ import { ListMembers } from './members/queries/list-members.query';
 import { MarkNotificationAsRead } from './notifications/commands/mark-notification-as-read.command';
 import { RegisterDevice } from './notifications/commands/register-device.command';
 import { SendPushNotification } from './notifications/commands/send-push-notification.command';
+import { DeliverNotification } from './notifications/event-handlers/deliver-notification.event-handler';
 import { NotificationController } from './notifications/notification.controller';
 import { GetMemberNotifications } from './notifications/queries/get-member-notifications.query';
 import { SubscriptionService } from './notifications/subscription.service';
@@ -133,4 +134,5 @@ export const EVENT_HANDLERS = {
   notifyRequestCreated: token<NotifyRequestCreated>('notifyRequestCreated'),
   notifyRequestCommentCreated: token<NotifyRequestCommentCreated>('notifyRequestCommentCreated'),
   createMemberSubscription: token<CreateMemberSubscription>('createMemberSubscription'),
+  deliverNotification: token<DeliverNotification>('deliverNotification'),
 };

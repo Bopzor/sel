@@ -1,5 +1,6 @@
 import { container } from './container';
 import { AuthenticationLinkRequested, MemberCreated } from './members/member-events';
+import { NotificationCreated } from './notifications/notification-events';
 import { RequestCommentCreated, RequestCreated } from './requests/request-events';
 import { EVENT_HANDLERS, TOKENS } from './tokens';
 
@@ -18,4 +19,6 @@ export function initEventHandlers() {
   eventBus.bind(RequestCommentCreated, EVENT_HANDLERS.notifyRequestCommentCreated);
 
   eventBus.bind(MemberCreated, EVENT_HANDLERS.createMemberSubscription);
+
+  eventBus.bind(NotificationCreated, EVENT_HANDLERS.deliverNotification);
 }

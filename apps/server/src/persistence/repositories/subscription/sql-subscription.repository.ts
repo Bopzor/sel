@@ -1,4 +1,3 @@
-import { entries } from '@sel/utils';
 import { injectableClass } from 'ditox';
 import { SQL, and, eq } from 'drizzle-orm';
 
@@ -14,6 +13,19 @@ export class SqlSubscriptionRepository implements SubscriptionRepository {
   static inject = injectableClass(this, TOKENS.database, TOKENS.date);
 
   constructor(private readonly database: Database, private readonly dateAdapter: DatePort) {}
+
+  async getSubscription(subscriptionId: string): Promise<Subscription | undefined> {
+    const [sqlSubscription] = await this.database.db
+      .select()
+      .from(subscriptions)
+      .where(eq(subscriptions.id, subscriptionId));
+
+    if (!sqlSubscription) {
+      return undefined;
+    }
+
+    return this.toSubscription(sqlSubscription);
+  }
 
   async hasSubscription(
     type: string,
@@ -39,14 +51,7 @@ export class SqlSubscriptionRepository implements SubscriptionRepository {
       .from(subscriptions)
       .where(eq(subscriptions.type, type));
 
-    return sqlSubscriptions.map(
-      (subscription): Subscription => ({
-        id: subscription.id,
-        type: subscription.type as SubscriptionType,
-        active: subscription.active,
-        memberId: subscription.memberId,
-      })
-    );
+    return sqlSubscriptions.map(this.toSubscription);
   }
 
   async insert(model: InsertSubscriptionModel): Promise<void> {
@@ -61,5 +66,14 @@ export class SqlSubscriptionRepository implements SubscriptionRepository {
       createdAt: now,
       updatedAt: now,
     });
+  }
+
+  private toSubscription(this: void, sqlSubscription: typeof subscriptions.$inferSelect): Subscription {
+    return {
+      id: sqlSubscription.id,
+      type: sqlSubscription.type as SubscriptionType,
+      active: sqlSubscription.active,
+      memberId: sqlSubscription.memberId,
+    };
   }
 }

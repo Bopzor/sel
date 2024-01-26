@@ -12,6 +12,8 @@ export type InsertSubscriptionModel = {
 };
 
 export interface SubscriptionRepository {
+  getSubscription(subscriptionId: string): Promise<Subscription | undefined>;
+
   hasSubscription(
     type: string,
     memberId: string,
