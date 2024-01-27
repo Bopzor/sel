@@ -9,13 +9,10 @@ import { GeneratorPort } from '../../infrastructure/generator/generator.port';
 import { TranslationPort } from '../../infrastructure/translation/translation.port';
 import { MemberRepository } from '../../persistence/repositories/member/member.repository';
 import {
-  NotificationRepository,
   InsertNotificationModel,
+  NotificationRepository,
 } from '../../persistence/repositories/notification/notification.repository';
-import {
-  SubscriptionEntityType,
-  SubscriptionRepository,
-} from '../../persistence/repositories/subscription/subscription.repository';
+import { SubscriptionRepository } from '../../persistence/repositories/subscription/subscription.repository';
 import { TOKENS } from '../../tokens';
 import { NotificationCreated } from '../notification-events';
 import { Notification } from '../notification.entity';
@@ -23,19 +20,16 @@ import { NewAppVersionNotification } from '../notifications/new-app-version.noti
 import { NotificationCreator } from '../notifications/notification-creator';
 import { RequestCommentCreatedNotification } from '../notifications/request-comment-created.notification';
 import { RequestCreatedNotification } from '../notifications/request-created.notification';
-import { SubscriptionType } from '../subscription.entity';
+import { SubscriptionEntity, SubscriptionType } from '../subscription.entity';
 
-export type CreateNotificationCommand = {
+export type NotifyCommand = {
   subscriptionType: SubscriptionType;
   notificationType: NotificationType;
-  entity?: {
-    type: SubscriptionEntityType;
-    id: string;
-  };
+  entity?: SubscriptionEntity;
   data: NotificationData[NotificationType];
 };
 
-export class CreateNotification implements CommandHandler<CreateNotificationCommand> {
+export class Notify implements CommandHandler<NotifyCommand> {
   static inject = injectableClass(
     this,
     TOKENS.generator,
@@ -57,10 +51,14 @@ export class CreateNotification implements CommandHandler<CreateNotificationComm
     private readonly notificationRepository: NotificationRepository
   ) {}
 
-  async handle({ subscriptionType, notificationType, data }: CreateNotificationCommand): Promise<void> {
+  async handle({ subscriptionType, notificationType, data }: NotifyCommand): Promise<void> {
     const now = this.dateAdapter.now();
+    const creator = this.getCreator(notificationType, data);
 
-    const subscriptions = await this.subscriptionRepository.getSubscriptionsByType(subscriptionType);
+    const subscriptions = await this.subscriptionRepository.getSubscriptions({
+      type: subscriptionType,
+      entity: creator.entity?.(),
+    });
     const notifications = new Array<InsertNotificationModel>();
 
     const members = await this.memberRepository.getMembers(
@@ -69,7 +67,6 @@ export class CreateNotification implements CommandHandler<CreateNotificationComm
 
     for (const subscription of subscriptions) {
       const member = defined(members.find(hasId(subscription.memberId)));
-      const creator = this.getCreator(notificationType, data);
 
       if (!subscription.active || !creator.shouldSend(member.id)) {
         continue;

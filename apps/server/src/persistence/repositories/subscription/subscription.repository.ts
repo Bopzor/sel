@@ -1,6 +1,5 @@
+import { SubscriptionEntity, SubscriptionEntityType } from '../../../notifications/subscription.entity';
 import { Subscription, SubscriptionType } from '../../../notifications/subscription.entity';
-
-export type SubscriptionEntityType = 'request';
 
 export type InsertSubscriptionModel = {
   id: string;
@@ -11,17 +10,15 @@ export type InsertSubscriptionModel = {
   entityId?: string;
 };
 
-export interface SubscriptionRepository {
-  hasSubscription(
-    type: string,
-    memberId: string,
-    entity?: {
-      type: SubscriptionEntityType;
-      id: string;
-    }
-  ): Promise<boolean>;
+export type GetSubscriptionsFilters = {
+  type?: SubscriptionType;
+  entity?: SubscriptionEntity;
+};
 
-  getSubscriptionsByType(type: SubscriptionType): Promise<Subscription[]>;
+export interface SubscriptionRepository {
+  hasSubscription(type: string, memberId: string, entity?: SubscriptionEntity): Promise<boolean>;
+
+  getSubscriptions(filters: GetSubscriptionsFilters): Promise<Subscription[]>;
 
   insert(model: InsertSubscriptionModel): Promise<void>;
 }

@@ -14,7 +14,7 @@ async function main(args: string[]) {
 
   assert(version, 'missing version');
 
-  await commandBus.executeCommand(COMMANDS.createNotification, {
+  await commandBus.executeCommand(COMMANDS.notify, {
     subscriptionType: 'NewAppVersion',
     notificationType: 'NewAppVersion',
     data: {

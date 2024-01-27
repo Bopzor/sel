@@ -35,9 +35,9 @@ import { CreateMemberSubscription } from './members/event-handlers/create-member
 import { MembersController } from './members/members.controller';
 import { GetMember } from './members/queries/get-member.query';
 import { ListMembers } from './members/queries/list-members.query';
-import { CreateNotification } from './notifications/commands/create-notification.command';
 import { CreateSubscription } from './notifications/commands/create-subscription.command';
 import { MarkNotificationAsRead } from './notifications/commands/mark-notification-as-read.command';
+import { Notify } from './notifications/commands/notify.command';
 import { RegisterDevice } from './notifications/commands/register-device.command';
 import { SendEmailNotification } from './notifications/commands/send-email-notification.command';
 import { SendPushNotification } from './notifications/commands/send-push-notification.command';
@@ -121,7 +121,7 @@ container.bindFactory(COMMANDS.updateMemberProfile, UpdateMemberProfile.inject);
 container.bindFactory(COMMANDS.createSubscription, CreateSubscription.inject);
 container.bindFactory(COMMANDS.markNotificationAsRead, MarkNotificationAsRead.inject);
 container.bindFactory(COMMANDS.registerDevice, RegisterDevice.inject);
-container.bindFactory(COMMANDS.createNotification, CreateNotification.inject);
+container.bindFactory(COMMANDS.notify, Notify.inject);
 container.bindFactory(COMMANDS.sendPushNotification, SendPushNotification.inject);
 container.bindFactory(COMMANDS.sendEmailNotification, SendEmailNotification.inject);
 

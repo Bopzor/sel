@@ -25,7 +25,7 @@ export class NotifyRequestCreated implements EventHandler<RequestCreated> {
     const requester = await this.memberRepository.getMember(request?.requesterId);
     assert(requester);
 
-    await this.commandBus.executeCommand(COMMANDS.createNotification, {
+    await this.commandBus.executeCommand(COMMANDS.notify, {
       subscriptionType: 'RequestCreated',
       notificationType: 'RequestCreated',
       data: {

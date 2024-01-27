@@ -7,7 +7,11 @@ import { TOKENS } from '../../../tokens';
 import { Database } from '../../database';
 import { subscriptions } from '../../schema';
 
-import { InsertSubscriptionModel, SubscriptionRepository } from './subscription.repository';
+import {
+  GetSubscriptionsFilters,
+  InsertSubscriptionModel,
+  SubscriptionRepository,
+} from './subscription.repository';
 
 export class SqlSubscriptionRepository implements SubscriptionRepository {
   static inject = injectableClass(this, TOKENS.database, TOKENS.date);
@@ -32,11 +36,18 @@ export class SqlSubscriptionRepository implements SubscriptionRepository {
     return subscription !== undefined;
   }
 
-  async getSubscriptionsByType(type: SubscriptionType): Promise<Subscription[]> {
-    const sqlSubscriptions = await this.database.db
-      .select()
-      .from(subscriptions)
-      .where(eq(subscriptions.type, type));
+  async getSubscriptions({ type, entity }: GetSubscriptionsFilters): Promise<Subscription[]> {
+    let where: SQL<unknown> | undefined = undefined;
+
+    if (type) {
+      where = and(where, eq(subscriptions.type, type));
+    }
+
+    if (entity?.type === 'request') {
+      where = and(where, eq(subscriptions.requestId, entity.id));
+    }
+
+    const sqlSubscriptions = await this.database.db.select().from(subscriptions).where(where);
 
     return sqlSubscriptions.map(this.toSubscription);
   }

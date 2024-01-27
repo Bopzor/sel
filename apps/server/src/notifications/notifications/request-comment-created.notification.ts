@@ -1,6 +1,7 @@
 import { NotificationData } from '@sel/shared';
 
 import { TranslationPort } from '../../infrastructure/translation/translation.port';
+import { SubscriptionEntity } from '../subscription.entity';
 
 import { NotificationCreator } from './notification-creator';
 
@@ -9,6 +10,13 @@ export class RequestCommentCreatedNotification implements NotificationCreator {
     private readonly translation: TranslationPort,
     private readonly data: NotificationData['RequestCommentCreated']
   ) {}
+
+  entity(): SubscriptionEntity {
+    return {
+      type: 'request',
+      id: this.data.request.id,
+    };
+  }
 
   shouldSend(memberId: string) {
     return memberId !== this.data.comment.author.id;

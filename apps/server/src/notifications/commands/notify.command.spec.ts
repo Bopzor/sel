@@ -14,7 +14,7 @@ import { UnitTest } from '../../unit-test';
 import { NotificationCreated } from '../notification-events';
 import { createSubscription } from '../subscription.entity';
 
-import { CreateNotification, CreateNotificationCommand } from './create-notification.command';
+import { Notify, NotifyCommand } from './notify.command';
 
 class Test extends UnitTest {
   generator = new StubGenerator();
@@ -25,7 +25,7 @@ class Test extends UnitTest {
   subscriptionRepository = new InMemorySubscriptionRepository();
   notificationRepository = new InMemoryNotificationRepository(this.dateAdapter);
 
-  handler = new CreateNotification(
+  handler = new Notify(
     this.generator,
     this.dateAdapter,
     this.translation,
@@ -35,7 +35,7 @@ class Test extends UnitTest {
     this.notificationRepository
   );
 
-  command: CreateNotificationCommand = {
+  command: NotifyCommand = {
     subscriptionType: 'NewAppVersion',
     notificationType: 'NewAppVersion',
     data: { version: '1.2.3' },
@@ -50,7 +50,7 @@ class Test extends UnitTest {
   }
 }
 
-describe('[Unit] CreateNotification', () => {
+describe('[Unit] Notify', () => {
   let test: Test;
 
   beforeEach(() => {
@@ -126,6 +126,44 @@ describe('[Unit] CreateNotification', () => {
         request: { id: '', title: '' },
         requester: { id: 'memberId2', firstName: '', lastName: '' },
       } satisfies NotificationData['RequestCreated'],
+    };
+
+    await test.execute();
+
+    const notifications = test.notificationRepository.all();
+
+    expect(notifications).toHaveLength(1);
+    expect(notifications).toHaveProperty('0.subscriptionId', 'subscriptionId1');
+  });
+
+  it('sends a notification related to specific entity only', async () => {
+    test.memberRepository.add(createMember({ id: 'memberId' }));
+
+    test.subscriptionRepository.add(
+      createSubscription({
+        id: 'subscriptionId1',
+        type: 'RequestEvent',
+        entity: { type: 'request', id: 'requestId1' },
+        memberId: 'memberId',
+      })
+    );
+
+    test.subscriptionRepository.add(
+      createSubscription({
+        id: 'subscriptionId2',
+        type: 'RequestEvent',
+        entity: { type: 'request', id: 'requestId2' },
+        memberId: 'memberId',
+      })
+    );
+
+    test.command = {
+      subscriptionType: 'RequestEvent',
+      notificationType: 'RequestCommentCreated',
+      data: {
+        request: { id: 'requestId1', title: '' },
+        comment: { id: '', author: { id: '', firstName: '', lastName: '' }, message: '' },
+      } satisfies NotificationData['RequestCommentCreated'],
     };
 
     await test.execute();

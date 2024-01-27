@@ -3,12 +3,10 @@ import { injectableClass } from 'ditox';
 import { CommandHandler } from '../../infrastructure/cqs/command-handler';
 import { EventPublisherPort } from '../../infrastructure/events/event-publisher.port';
 import { GeneratorPort } from '../../infrastructure/generator/generator.port';
-import {
-  SubscriptionEntityType,
-  SubscriptionRepository,
-} from '../../persistence/repositories/subscription/subscription.repository';
+import { SubscriptionRepository } from '../../persistence/repositories/subscription/subscription.repository';
 import { TOKENS } from '../../tokens';
 import { SubscriptionCreated } from '../subscription-events';
+import { SubscriptionEntityType } from '../subscription.entity';
 import { SubscriptionType } from '../subscription.entity';
 
 export type CreateSubscriptionCommand = {

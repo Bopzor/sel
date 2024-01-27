@@ -36,7 +36,7 @@ export class NotifyRequestCommentCreated implements EventHandler<RequestCommentC
     const author = await this.memberRepository.getMember(comment.authorId);
     assert(author);
 
-    await this.commandBus.executeCommand(COMMANDS.createNotification, {
+    await this.commandBus.executeCommand(COMMANDS.notify, {
       subscriptionType: 'RequestEvent',
       notificationType: 'RequestCommentCreated',
       entity: {

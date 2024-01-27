@@ -1,9 +1,11 @@
-import { hasProperty } from '@sel/utils';
-
 import { InMemoryRepository } from '../../../in-memory.repository';
-import { Subscription, SubscriptionType } from '../../../notifications/subscription.entity';
+import { Subscription } from '../../../notifications/subscription.entity';
 
-import { InsertSubscriptionModel, SubscriptionRepository } from './subscription.repository';
+import {
+  GetSubscriptionsFilters,
+  InsertSubscriptionModel,
+  SubscriptionRepository,
+} from './subscription.repository';
 
 export class InMemorySubscriptionRepository
   extends InMemoryRepository<Subscription>
@@ -13,8 +15,21 @@ export class InMemorySubscriptionRepository
     throw new Error('Method not implemented.');
   }
 
-  async getSubscriptionsByType(type: SubscriptionType): Promise<Subscription[]> {
-    return this.filter(hasProperty('type', type));
+  async getSubscriptions({ type, entity }: GetSubscriptionsFilters): Promise<Subscription[]> {
+    return this.filter((subscription) => {
+      if (type !== undefined && subscription.type !== type) {
+        return false;
+      }
+
+      if (
+        entity !== undefined &&
+        (entity.type !== subscription.entity?.type || entity.id !== subscription.entity?.id)
+      ) {
+        return false;
+      }
+
+      return true;
+    });
   }
 
   async insert(model: InsertSubscriptionModel): Promise<void> {
