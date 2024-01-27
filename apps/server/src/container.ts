@@ -39,6 +39,7 @@ import { CreateNotification } from './notifications/commands/create-notification
 import { CreateSubscription } from './notifications/commands/create-subscription.command';
 import { MarkNotificationAsRead } from './notifications/commands/mark-notification-as-read.command';
 import { RegisterDevice } from './notifications/commands/register-device.command';
+import { SendEmailNotification } from './notifications/commands/send-email-notification.command';
 import { SendPushNotification } from './notifications/commands/send-push-notification.command';
 import { DeliverNotification } from './notifications/event-handlers/deliver-notification.event-handler';
 import { NotificationController } from './notifications/notification.controller';
@@ -122,6 +123,7 @@ container.bindFactory(COMMANDS.markNotificationAsRead, MarkNotificationAsRead.in
 container.bindFactory(COMMANDS.registerDevice, RegisterDevice.inject);
 container.bindFactory(COMMANDS.createNotification, CreateNotification.inject);
 container.bindFactory(COMMANDS.sendPushNotification, SendPushNotification.inject);
+container.bindFactory(COMMANDS.sendEmailNotification, SendEmailNotification.inject);
 
 container.bindFactory(QUERIES.getToken, GetToken.inject);
 container.bindFactory(QUERIES.getAuthenticatedMember, GetAuthenticatedMember.inject);

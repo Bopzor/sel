@@ -40,6 +40,7 @@ import { CreateNotification } from './notifications/commands/create-notification
 import { CreateSubscription } from './notifications/commands/create-subscription.command';
 import { MarkNotificationAsRead } from './notifications/commands/mark-notification-as-read.command';
 import { RegisterDevice } from './notifications/commands/register-device.command';
+import { SendEmailNotification } from './notifications/commands/send-email-notification.command';
 import { SendPushNotification } from './notifications/commands/send-push-notification.command';
 import { DeliverNotification } from './notifications/event-handlers/deliver-notification.event-handler';
 import { NotificationController } from './notifications/notification.controller';
@@ -115,6 +116,7 @@ export const COMMANDS = {
   registerDevice: token<RegisterDevice>('registerDevice'),
   createNotification: token<CreateNotification>('createNotification'),
   sendPushNotification: token<SendPushNotification>('sendPushNotification'),
+  sendEmailNotification: token<SendEmailNotification>('sendEmailNotification'),
 };
 
 export const QUERIES = {
