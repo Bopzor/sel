@@ -56,12 +56,12 @@ export class NodemailerEmailSenderAdapter implements EmailSenderPort {
   }
 
   async send<Kind extends EmailKind>(email: Email<Kind>): Promise<void> {
-    const [text, html] = this.renderer.render(email.kind, email.variables);
+    const { subject, text, html } = this.renderer.render(email.kind, email.variables);
 
     const message: MessageConfiguration = {
       from: this.from,
       to: email.to,
-      subject: email.subject,
+      subject,
       text,
       html,
     };

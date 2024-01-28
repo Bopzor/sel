@@ -32,13 +32,6 @@ export class FormatJsTranslationAdapter implements TranslationPort {
     });
   }
 
-  emailSubject(key: string, values?: Record<string, string | number>): string {
-    return this.translate('emailSubject', {
-      prefix: this.translate('emailSubjectPrefix'),
-      subject: this.translate(key, values),
-    });
-  }
-
   notificationTitle(key: string, trimmableKey: string, values: Record<string, string | number>) {
     const length = this.translate(key, { ...values, [trimmableKey]: '' }).length;
     const maxLength = 65 - length;

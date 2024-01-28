@@ -23,7 +23,6 @@ export class SendAuthenticationEmail implements EventHandler<AuthenticationLinkR
 
     await this.emailSender.send({
       to: member.email,
-      subject: this.translation.emailSubject('authenticationEmail.subject'),
       kind: 'authentication',
       variables: {
         firstName: member.firstName,

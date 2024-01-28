@@ -65,7 +65,6 @@ describe('[Unit] NodemailerEmailSenderAdapter', () => {
 
     const email: Email<'test'> = {
       to: 'to',
-      subject: 'subject',
       kind: 'test',
       variables: { variable: 'value' },
     };

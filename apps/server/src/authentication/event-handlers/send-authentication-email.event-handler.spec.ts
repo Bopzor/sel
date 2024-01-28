@@ -36,7 +36,6 @@ describe('AuthenticationModule', () => {
 
     expect(test.emailSender.emails).toContainEqual<Email>({
       to: 'email',
-      subject: "SEL'ons-nous - Lien de connexion",
       kind: 'authentication',
       variables: {
         firstName: 'firstName',

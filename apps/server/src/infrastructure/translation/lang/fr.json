@@ -1,8 +1,5 @@
 {
   "memberName": "{firstName} {lastNameFirstLetter}.",
-  "emailSubject": "{prefix} - {subject}",
-  "emailSubjectPrefix": "SEL'ons-nous",
-  "authenticationEmail.subject": "Lien de connexion",
   "newAppVersion.title": "Nouvelle version de l'app",
   "newAppVersion.content": "Une nouvelle version de l'app est disponible.",
   "requestCreated.title": "Demande de {requester}",

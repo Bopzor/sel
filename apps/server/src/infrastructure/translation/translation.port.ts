@@ -7,8 +7,6 @@ export interface TranslationPort {
 
   memberName(member: Pick<Member, 'firstName' | 'lastName'>): string;
 
-  emailSubject(key: keyof typeof fr, values?: Record<string, string | number>): string;
-
   notificationTitle<K extends string>(
     key: keyof typeof fr,
     trimmableKey: K,

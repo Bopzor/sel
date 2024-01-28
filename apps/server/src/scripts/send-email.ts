@@ -22,7 +22,6 @@ async function main(argv: string[]) {
 
   await emailAdapter.send({
     to,
-    subject: '[SEL] Test email',
     kind: 'test',
     variables: { variable },
   });

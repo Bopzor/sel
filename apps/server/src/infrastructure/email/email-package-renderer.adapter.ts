@@ -15,14 +15,16 @@ export class EmailPackageRendererAdapter implements EmailRendererPort {
   render<Kind extends EmailKind>(
     kind: EmailKind,
     variables: EmailVariables[Kind]
-  ): [text: string, html: string] {
-    const renderer = emails[kind] as (variables: object) => { text: string; html: string };
+  ): { subject: string; text: string; html: string } {
+    const renderer = emails[kind] as (variables: object) => {
+      subject: string;
+      text: string;
+      html: string;
+    };
 
-    const { text, html } = renderer({
+    return renderer({
       appBaseUrl: this.config.app.baseUrl,
       ...variables,
     });
-
-    return [text, html];
   }
 }

@@ -5,10 +5,11 @@ export class StubEmailRendererAdapter implements EmailRendererPort {
   render<Kind extends EmailKind>(
     kind: EmailKind,
     variables: EmailVariables[Kind]
-  ): [text: string, html: string] {
-    return [
-      JSON.stringify({ type: 'text', kind, variables }),
-      JSON.stringify({ type: 'html', kind, variables }),
-    ];
+  ): { subject: string; text: string; html: string } {
+    return {
+      subject: 'subject',
+      text: JSON.stringify({ type: 'text', kind, variables }),
+      html: JSON.stringify({ type: 'html', kind, variables }),
+    };
   }
 }

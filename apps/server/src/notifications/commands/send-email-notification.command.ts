@@ -35,10 +35,6 @@ export class SendEmailNotification implements CommandHandler<SendEmailNotificati
     await this.emailSender.send({
       to: member.email,
       kind: 'notification',
-      subject: this.translation.translate('emailSubject', {
-        prefix: this.translation.translate('emailSubjectPrefix'),
-        subject: notification.title,
-      }),
       variables: {
         firstName: member.firstName,
         title: notification.title,

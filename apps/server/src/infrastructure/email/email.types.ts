@@ -11,7 +11,6 @@ export type EmailVariables = {
 
 export type Email<Kind extends EmailKind = EmailKind> = {
   to: string;
-  subject: string;
   kind: Kind;
   variables: EmailVariables[Kind];
 };

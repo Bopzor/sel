@@ -4,5 +4,5 @@ export interface EmailRendererPort {
   render<Kind extends EmailKind>(
     kind: EmailKind,
     variables: EmailVariables[Kind]
-  ): [text: string, html: string];
+  ): { subject: string; text: string; html: string };
 }

@@ -21,7 +21,7 @@ type EmailFunctions<Props> = {
 
 function renderer<Props>({ subject, html, text }: EmailFunctions<Props>) {
   return (props: Props) => ({
-    subject: subject(props),
+    subject: `SEL'ons-nous - ${subject(props)}`,
     html: mjml2html(renderToString(() => html(props))).html,
     text: text(props).trim(),
   });
