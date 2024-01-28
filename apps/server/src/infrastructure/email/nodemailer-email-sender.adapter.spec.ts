@@ -3,7 +3,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { ConfigPort } from '../config/config.port';
 import { StubConfigAdapter } from '../config/stub-config.adapter';
 
-import { Email, EmailKind } from './email.types';
+import { Email } from './email.types';
 import { Nodemailer, NodemailerEmailSenderAdapter, Transporter } from './nodemailer-email-sender.adapter';
 import { StubEmailRendererAdapter } from './stub-email-renderer.adapter';
 
@@ -63,10 +63,10 @@ describe('[Unit] NodemailerEmailSenderAdapter', () => {
 
     const adapter = new NodemailerEmailSenderAdapter(config, nodemailer, renderer);
 
-    const email: Email<EmailKind.test> = {
+    const email: Email<'test'> = {
       to: 'to',
       subject: 'subject',
-      kind: EmailKind.test,
+      kind: 'test',
       variables: { variable: 'value' },
     };
 

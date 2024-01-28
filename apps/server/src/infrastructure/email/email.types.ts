@@ -1,24 +1,12 @@
-export enum EmailKind {
-  test = 'test',
-  authentication = 'authentication',
-  notification = 'notification',
-}
+import emails from '@sel/emails';
+
+type Emails = typeof emails;
+export type EmailKind = keyof Emails;
+
+type CommonEmailVariables = 'appBaseUrl';
 
 export type EmailVariables = {
-  [EmailKind.test]: {
-    variable: string;
-  };
-
-  [EmailKind.authentication]: {
-    firstName: string;
-    authenticationUrl: string;
-  };
-
-  [EmailKind.notification]: {
-    firstName: string;
-    title: string;
-    content: string;
-  };
+  [Kind in EmailKind]: Omit<Parameters<Emails[Kind]>[0], CommonEmailVariables>;
 };
 
 export type Email<Kind extends EmailKind = EmailKind> = {

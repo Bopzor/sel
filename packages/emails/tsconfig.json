@@ -1,0 +1,14 @@
+{
+  "extends": "@sel/typescript-config/tsconfig.base.json",
+  "include": ["src/**/*"],
+  "compilerOptions": {
+    "outDir": "dist",
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "jsx": "preserve",
+    "skipLibCheck": true,
+    "jsxImportSource": "solid-js",
+    "types": ["vite/client"],
+    "isolatedModules": true
+  }
+}

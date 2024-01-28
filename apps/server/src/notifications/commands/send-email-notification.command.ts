@@ -3,7 +3,6 @@ import { injectableClass } from 'ditox';
 
 import { CommandHandler } from '../../infrastructure/cqs/command-handler';
 import { EmailSenderPort } from '../../infrastructure/email/email-sender.port';
-import { EmailKind } from '../../infrastructure/email/email.types';
 import { TranslationPort } from '../../infrastructure/translation/translation.port';
 import { MemberRepository } from '../../persistence/repositories/member/member.repository';
 import { NotificationRepository } from '../../persistence/repositories/notification/notification.repository';
@@ -35,7 +34,7 @@ export class SendEmailNotification implements CommandHandler<SendEmailNotificati
 
     await this.emailSender.send({
       to: member.email,
-      kind: EmailKind.notification,
+      kind: 'notification',
       subject: this.translation.translate('emailSubject', {
         prefix: this.translation.translate('emailSubjectPrefix'),
         subject: notification.title,

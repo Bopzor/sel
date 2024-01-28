@@ -78,7 +78,6 @@ export class E2ETest {
     await container.resolve(TOKENS.database).migrate?.();
 
     this.commandBus.init();
-    await container.resolve(TOKENS.emailRenderer).init?.();
 
     initEventHandlers();
 

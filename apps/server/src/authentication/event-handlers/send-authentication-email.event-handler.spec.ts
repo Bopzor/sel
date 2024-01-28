@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it } from 'vitest';
 
-import { Email, EmailKind } from '../../infrastructure/email/email.types';
+import { Email } from '../../infrastructure/email/email.types';
 import { StubEmailSenderAdapter } from '../../infrastructure/email/stub-email-sender.adapter';
 import { FormatJsTranslationAdapter } from '../../infrastructure/translation/formatjs-translation.adapter';
 import { AuthenticationLinkRequested } from '../../members/member-events';
@@ -37,7 +37,7 @@ describe('AuthenticationModule', () => {
     expect(test.emailSender.emails).toContainEqual<Email>({
       to: 'email',
       subject: "SEL'ons-nous - Lien de connexion",
-      kind: EmailKind.authentication,
+      kind: 'authentication',
       variables: {
         firstName: 'firstName',
         authenticationUrl: 'link',

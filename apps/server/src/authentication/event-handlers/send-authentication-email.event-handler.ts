@@ -3,7 +3,6 @@ import { injectableClass } from 'ditox';
 
 import { EventHandler } from '../../infrastructure/cqs/event-handler';
 import { EmailSenderPort } from '../../infrastructure/email/email-sender.port';
-import { EmailKind } from '../../infrastructure/email/email.types';
 import { TranslationPort } from '../../infrastructure/translation/translation.port';
 import { AuthenticationLinkRequested } from '../../members/member-events';
 import { MemberRepository } from '../../persistence/repositories/member/member.repository';
@@ -25,7 +24,7 @@ export class SendAuthenticationEmail implements EventHandler<AuthenticationLinkR
     await this.emailSender.send({
       to: member.email,
       subject: this.translation.emailSubject('authenticationEmail.subject'),
-      kind: EmailKind.authentication,
+      kind: 'authentication',
       variables: {
         firstName: member.firstName,
         authenticationUrl: event.link,

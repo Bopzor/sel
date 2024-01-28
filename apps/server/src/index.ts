@@ -10,7 +10,6 @@ main().catch(console.error);
 async function main() {
   container.resolve(TOKENS.commandBus).init();
   container.resolve(TOKENS.pushNotification).init?.();
-  await container.resolve(TOKENS.emailRenderer).init?.();
 
   initEventHandlers();
 

@@ -16,7 +16,7 @@ import { CommandBus } from './infrastructure/cqs/command-bus';
 import { EventBus } from './infrastructure/cqs/event-bus';
 import { QueryBus } from './infrastructure/cqs/query-bus';
 import { NativeDateAdapter } from './infrastructure/date/native-date.adapter';
-import { MjmlEmailRendererAdapter } from './infrastructure/email/mjml-email-renderer.adapter';
+import { EmailPackageRendererAdapter } from './infrastructure/email/email-package-renderer.adapter';
 import { NodemailerEmailSenderAdapter } from './infrastructure/email/nodemailer-email-sender.adapter';
 import { SlackErrorReporterAdapter } from './infrastructure/error-reporter/slack-error-reporter.adapter';
 import { EventPublisher } from './infrastructure/events/event-publisher';
@@ -81,7 +81,7 @@ container.bindFactory(TOKENS.pushNotification, WebPushNotificationAdapter.inject
 
 container.bindFactory(TOKENS.server, Server.inject);
 container.bindFactory(TOKENS.database, Database.inject);
-container.bindFactory(TOKENS.emailRenderer, MjmlEmailRendererAdapter.inject);
+container.bindFactory(TOKENS.emailRenderer, EmailPackageRendererAdapter.inject);
 container.bindValue(TOKENS.nodemailer, nodemailer);
 container.bindFactory(TOKENS.emailSender, NodemailerEmailSenderAdapter.inject);
 
