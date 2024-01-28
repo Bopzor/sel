@@ -57,7 +57,7 @@ export class Persistor {
   async member(member: Member): Promise<Member> {
     await this.db.insert(members).values({
       ...member,
-      notificationDeliveryType: entries(member.notificationDeliveryType)
+      notificationDelivery: entries(member.notificationDelivery)
         .filter(([, value]) => value)
         .map(([key]) => key),
       createdAt: this.now,

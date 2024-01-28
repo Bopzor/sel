@@ -77,12 +77,12 @@ describe('[Intg] SqlNotificationRepository', () => {
 
   describe('insertAll', () => {
     it('creates a set of notifications', async () => {
-      const notificationDeliveryType = {
+      const notificationDelivery = {
         [NotificationDeliveryType.email]: true,
         [NotificationDeliveryType.push]: false,
       };
 
-      const member = await test.persist.member(createMember({ notificationDeliveryType }));
+      const member = await test.persist.member(createMember({ notificationDelivery }));
 
       const subscription = await test.persist.subscription(createSubscription({ memberId: member.id }));
 
@@ -92,7 +92,7 @@ describe('[Intg] SqlNotificationRepository', () => {
           subscriptionId: subscription.id,
           type: 'NewAppVersion',
           date: createDate(),
-          deliveryType: notificationDeliveryType,
+          deliveryType: notificationDelivery,
           title: '',
           titleTrimmed: '',
           content: '',

@@ -8,7 +8,7 @@ export type InsertMemberModel = {
   firstName: string;
   lastName: string;
   email: string;
-  notificationDeliveryType: Record<NotificationDeliveryType, boolean>;
+  notificationDelivery: Record<NotificationDeliveryType, boolean>;
 };
 
 export type UpdateMemberModel = {
@@ -31,4 +31,8 @@ export interface MemberRepository {
   insert(model: InsertMemberModel): Promise<void>;
   update(memberId: string, model: UpdateMemberModel): Promise<void>;
   setStatus(memberId: string, status: MemberStatus): Promise<void>;
+  setNotificationDelivery(
+    memberId: string,
+    delivery: Partial<Record<NotificationDeliveryType, boolean>>
+  ): Promise<void>;
 }

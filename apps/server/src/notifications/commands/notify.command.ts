@@ -78,7 +78,7 @@ export class Notify implements CommandHandler<NotifyCommand> {
         memberId: member.id,
         type: notificationType,
         date: now,
-        deliveryType: member.notificationDeliveryType,
+        deliveryType: member.notificationDelivery,
         title: creator.title(),
         titleTrimmed: creator.titleTrimmed(),
         content: creator.content(),

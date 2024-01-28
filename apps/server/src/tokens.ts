@@ -30,6 +30,7 @@ import { LoggerPort } from './infrastructure/logger/logger.port';
 import { PushNotificationPort } from './infrastructure/push-notification/push-notification.port';
 import { SlackClientPort } from './infrastructure/slack/slack-client.port';
 import { TranslationPort } from './infrastructure/translation/translation.port';
+import { ChangeNotificationDeliveryType } from './members/commands/change-notification-delivery-type.command';
 import { CreateMember } from './members/commands/create-member.command';
 import { UpdateMemberProfile } from './members/commands/update-member-profile.command';
 import { CreateMemberSubscription } from './members/event-handlers/create-member-subscription.event-handler';
@@ -111,6 +112,7 @@ export const COMMANDS = {
   createRequestComment: token<CreateRequestComment>('createRequestComment'),
   createMember: token<CreateMember>('createMember'),
   updateMemberProfile: token<UpdateMemberProfile>('updateMemberProfile'),
+  changeNotificationDeliveryType: token<ChangeNotificationDeliveryType>('changeNotificationDeliveryType'),
   createSubscription: token<CreateSubscription>('createSubscription'),
   markNotificationAsRead: token<MarkNotificationAsRead>('markNotificationAsRead'),
   registerDevice: token<RegisterDevice>('registerDevice'),

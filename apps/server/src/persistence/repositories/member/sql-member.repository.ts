@@ -131,7 +131,7 @@ export class SqlMemberRepository implements MemberRepository {
       bio: null,
       address: null,
       membershipStartDate: now,
-      notificationDeliveryType: entries(model.notificationDeliveryType)
+      notificationDelivery: entries(model.notificationDelivery)
         .filter(([, value]) => value)
         .map(([key]) => key),
       createdAt: now,
@@ -168,6 +168,23 @@ export class SqlMemberRepository implements MemberRepository {
       .where(eq(members.id, memberId));
   }
 
+  async setNotificationDelivery(
+    memberId: string,
+    delivery: Partial<Record<NotificationDeliveryType, boolean>>
+  ): Promise<void> {
+    const now = this.dateAdapter.now();
+
+    await this.tx
+      .update(members)
+      .set({
+        notificationDelivery: entries(delivery)
+          .filter(([, value]) => value)
+          .map(([key]) => key),
+        updatedAt: now,
+      })
+      .where(eq(members.id, memberId));
+  }
+
   private toMember(this: void, result: typeof members.$inferSelect): Member {
     return {
       id: result.id,
@@ -180,8 +197,8 @@ export class SqlMemberRepository implements MemberRepository {
       bio: result.bio ?? undefined,
       address: (result.address as Address | null) ?? undefined,
       membershipStartDate: result.membershipStartDate,
-      notificationDeliveryType: toObject(Object.values(NotificationDeliveryType), identity, (type) =>
-        result.notificationDeliveryType.includes(type)
+      notificationDelivery: toObject(Object.values(NotificationDeliveryType), identity, (type) =>
+        result.notificationDelivery.includes(type)
       ),
     };
   }

@@ -4,7 +4,7 @@ import { eq } from 'drizzle-orm';
 import { DatePort } from '../../../infrastructure/date/date.port';
 import { TOKENS } from '../../../tokens';
 import { Database } from '../../database';
-import { memberDevice } from '../../schema';
+import { memberDevices } from '../../schema';
 
 import { InsertMemberDeviceModel, MemberDeviceRepository } from './member-device.repository';
 
@@ -19,7 +19,7 @@ export class SqlMemberDeviceRepository implements MemberDeviceRepository {
 
   async register(model: InsertMemberDeviceModel): Promise<void> {
     await this.db
-      .insert(memberDevice)
+      .insert(memberDevices)
       .values({
         ...model,
         deviceSubscription: JSON.stringify(model.deviceSubscription),
@@ -30,7 +30,7 @@ export class SqlMemberDeviceRepository implements MemberDeviceRepository {
   }
 
   async getMemberDeviceSubscriptions(memberId: string): Promise<unknown[]> {
-    const results = await this.db.select().from(memberDevice).where(eq(memberDevice.memberId, memberId));
+    const results = await this.db.select().from(memberDevices).where(eq(memberDevices.memberId, memberId));
 
     return results.map((result) => JSON.parse(result.deviceSubscription));
   }

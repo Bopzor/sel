@@ -28,7 +28,7 @@ export class CreateMember implements CommandHandler<CreateMemberCommand> {
       firstName,
       lastName,
       email,
-      notificationDeliveryType: {
+      notificationDelivery: {
         [NotificationDeliveryType.email]: false,
         [NotificationDeliveryType.push]: false,
       },

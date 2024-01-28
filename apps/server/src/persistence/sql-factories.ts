@@ -13,7 +13,7 @@ export const createSqlMember = createFactory<typeof members.$inferInsert>(() => 
   lastName: '',
   email: '',
   emailVisible: false,
-  notificationDeliveryType: [],
+  notificationDelivery: [],
   createdAt: createDate(),
   updatedAt: createDate(),
 }));

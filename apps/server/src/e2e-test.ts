@@ -10,6 +10,7 @@ import { TestMailSever } from './infrastructure/email/test-mail-server';
 import { TestErrorReporterAdapter } from './infrastructure/error-reporter/test-error-reporter.adapter';
 import { GeneratorPort } from './infrastructure/generator/generator.port';
 import { StubLogger } from './infrastructure/logger/stub-logger.adapter';
+import { StubPushNotificationAdapter } from './infrastructure/push-notification/stub-push-notification.adapter';
 import { initEventHandlers } from './init-event-handlers';
 import { Member } from './members/member.entity';
 import { MemberRepository } from './persistence/repositories/member/member.repository';
@@ -45,6 +46,7 @@ export class E2ETest {
 
   logger = new StubLogger();
   errorReporter = new TestErrorReporterAdapter();
+  pushNotification = new StubPushNotificationAdapter();
 
   mailServer = new TestMailSever(this.config);
 
@@ -52,12 +54,16 @@ export class E2ETest {
     return container.resolve(TOKENS.server);
   }
 
+  get commandBus() {
+    return container.resolve(TOKENS.commandBus);
+  }
+
   create!: EntityCreator;
 
   static async create<Test extends E2ETest>(TestClass: { new (): Test }) {
     const test = new TestClass();
 
-    await test.init?.();
+    await test.init();
 
     return test;
   }
@@ -66,11 +72,12 @@ export class E2ETest {
     container.bindValue(TOKENS.config, this.config);
     container.bindValue(TOKENS.logger, this.logger);
     container.bindValue(TOKENS.errorReporter, this.errorReporter);
+    container.bindValue(TOKENS.pushNotification, this.pushNotification);
 
     await container.resolve(TOKENS.database).ensureTestDatabase?.();
     await container.resolve(TOKENS.database).migrate?.();
 
-    container.resolve(TOKENS.commandBus).init();
+    this.commandBus.init();
     await container.resolve(TOKENS.emailRenderer).init?.();
 
     initEventHandlers();
@@ -80,12 +87,14 @@ export class E2ETest {
       container.resolve(TOKENS.memberRepository),
       container.resolve(TOKENS.authenticationService),
       container.resolve(TOKENS.requestRepository),
-      container.resolve(TOKENS.commandBus)
+      this.commandBus
     );
 
     await this.mailServer.listen();
     await this.server.start();
   }
+
+  async setup?(): Promise<void>;
 
   async teardown() {
     await this.server.close();
@@ -94,6 +103,11 @@ export class E2ETest {
 
   async reset() {
     await container.resolve(TOKENS.database).reset();
+
+    this.mailServer.emails = [];
+    this.pushNotification.notifications.clear();
+
+    await this.setup?.();
   }
 
   async waitForEventHandlers() {

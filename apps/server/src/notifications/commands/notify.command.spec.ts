@@ -58,7 +58,7 @@ describe('[Unit] Notify', () => {
   });
 
   it('sends a notification to members subscribed to an event', async () => {
-    const notificationDeliveryType = {
+    const notificationDelivery = {
       [NotificationDeliveryType.email]: false,
       [NotificationDeliveryType.push]: true,
     };
@@ -66,7 +66,7 @@ describe('[Unit] Notify', () => {
     test.memberRepository.add(
       createMember({
         id: 'memberId',
-        notificationDeliveryType,
+        notificationDelivery,
       })
     );
 
@@ -86,7 +86,7 @@ describe('[Unit] Notify', () => {
     expect(notification).toHaveProperty('title', "Nouvelle version de l'app");
     expect(notification).toHaveProperty('content', "Une nouvelle version de l'app est disponible.");
     expect(notification).toHaveProperty('data', { version: '1.2.3' });
-    expect(notification).toHaveProperty('deliveryType', notificationDeliveryType);
+    expect(notification).toHaveProperty('deliveryType', notificationDelivery);
 
     expect(test.eventPublisher).toHaveEmitted(new NotificationCreated('notificationId'));
   });

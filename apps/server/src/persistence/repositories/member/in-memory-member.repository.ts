@@ -1,6 +1,7 @@
 import * as shared from '@sel/shared';
 import { assert, createDate, defined } from '@sel/utils';
 
+import { NotificationDeliveryType } from '../../../common/notification-delivery-type';
 import { InMemoryRepository } from '../../../in-memory.repository';
 import { Member, MemberStatus } from '../../../members/member.entity';
 
@@ -100,6 +101,18 @@ export class InMemoryMemberRepository extends InMemoryRepository<Member> impleme
     this.add({
       ...defined(this.get(memberId)),
       status,
+    });
+  }
+
+  async setNotificationDelivery(
+    memberId: string,
+    delivery: Partial<Record<NotificationDeliveryType, boolean>>
+  ): Promise<void> {
+    const member = defined(this.get(memberId));
+
+    this.add({
+      ...member,
+      notificationDelivery: { ...member.notificationDelivery, ...delivery },
     });
   }
 }

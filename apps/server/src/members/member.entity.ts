@@ -19,7 +19,7 @@ export type Member = {
   bio?: string;
   address?: Address;
   membershipStartDate: Date;
-  notificationDeliveryType: Record<NotificationDeliveryType, boolean>;
+  notificationDelivery: Record<NotificationDeliveryType, boolean>;
 };
 
 export const createMember = createFactory<Member>(() => ({
@@ -32,7 +32,7 @@ export const createMember = createFactory<Member>(() => ({
   phoneNumbers: [],
   onboardingCompleted: false,
   membershipStartDate: createDate(),
-  notificationDeliveryType: {
+  notificationDelivery: {
     [NotificationDeliveryType.email]: false,
     [NotificationDeliveryType.push]: false,
   },
