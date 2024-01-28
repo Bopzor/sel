@@ -5,6 +5,7 @@ import { CommandHandler } from '../../infrastructure/cqs/command-handler';
 import { EventPublisherPort } from '../../infrastructure/events/event-publisher.port';
 import { MemberRepository } from '../../persistence/repositories/member/member.repository';
 import { TOKENS } from '../../tokens';
+import { MemberNotFound } from '../member-errors';
 import { OnboardingCompleted } from '../member-events';
 import { MemberStatus } from '../member.entity';
 
@@ -22,10 +23,16 @@ export class UpdateMemberProfile implements CommandHandler<UpdateMemberProfileCo
   ) {}
 
   async handle({ memberId, data }: UpdateMemberProfileCommand): Promise<void> {
-    await this.memberRepository.update(memberId, data);
+    const member = await this.memberRepository.getMember(memberId);
+
+    if (!member) {
+      throw new MemberNotFound(memberId);
+    }
+
+    await this.memberRepository.update(member.id, data);
 
     if (data.onboardingCompleted !== undefined) {
-      await this.setOnboardingCompleted(memberId, data.onboardingCompleted);
+      await this.setOnboardingCompleted(member.id, data.onboardingCompleted);
     }
   }
 

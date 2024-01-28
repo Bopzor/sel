@@ -1,11 +1,11 @@
 import { injectableClass } from 'ditox';
 
 import { NotificationDeliveryType } from '../../common/notification-delivery-type';
-import { EntityNotFound } from '../../domain-error';
 import { CommandHandler } from '../../infrastructure/cqs/command-handler';
 import { EventPublisherPort } from '../../infrastructure/events/event-publisher.port';
 import { MemberRepository } from '../../persistence/repositories/member/member.repository';
 import { TOKENS } from '../../tokens';
+import { MemberNotFound } from '../member-errors';
 import { NotificationDeliveryTypeChanged } from '../member-events';
 
 export type ChangeNotificationDeliveryTypeCommand = {
@@ -25,7 +25,7 @@ export class ChangeNotificationDeliveryType implements CommandHandler<ChangeNoti
     const member = await this.memberRepository.getMember(command.memberId);
 
     if (!member) {
-      throw new EntityNotFound('Member not found', 'member', command.memberId);
+      throw new MemberNotFound(command.memberId);
     }
 
     await this.memberRepository.setNotificationDelivery(member.id, command.notificationDeliveryType);
