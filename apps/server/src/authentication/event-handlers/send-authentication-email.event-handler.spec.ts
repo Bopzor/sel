@@ -2,7 +2,6 @@ import { beforeEach, describe, expect, it } from 'vitest';
 
 import { Email } from '../../infrastructure/email/email.types';
 import { StubEmailSenderAdapter } from '../../infrastructure/email/stub-email-sender.adapter';
-import { FormatJsTranslationAdapter } from '../../infrastructure/translation/formatjs-translation.adapter';
 import { AuthenticationLinkRequested } from '../../members/member-events';
 import { createMember } from '../../members/member.entity';
 import { InMemoryMemberRepository } from '../../persistence/repositories/member/in-memory-member.repository';
@@ -11,11 +10,10 @@ import { UnitTest } from '../../unit-test';
 import { SendAuthenticationEmail } from './send-authentication-email.event-handler';
 
 class Test extends UnitTest {
-  translation = new FormatJsTranslationAdapter();
   emailSender = new StubEmailSenderAdapter();
   memberRepository = new InMemoryMemberRepository();
 
-  handler = new SendAuthenticationEmail(this.translation, this.emailSender, this.memberRepository);
+  handler = new SendAuthenticationEmail(this.emailSender, this.memberRepository);
 
   member = createMember({ id: 'memberId', email: 'email', firstName: 'firstName' });
 
