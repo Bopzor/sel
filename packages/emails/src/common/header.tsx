@@ -19,10 +19,13 @@ export function Header(props: HeaderProps) {
         </mj-column>
 
         <mj-column width="85%" padding-left="16px" vertical-align="middle">
-          <mj-text font-size="32px" font-weight="bold" color="#ffffff">
+          <mj-text font-size="32px" line-height="32px" font-weight="bold" color="#ffffff">
             <a href={props.appBaseUrl} style="text-decoration: none; color: inherit">
               SEL'ons-nous
             </a>
+          </mj-text>
+          <mj-text font-size="14px" color="#ffffff">
+            Système d'Échange Local de Cavaillon et ses environs
           </mj-text>
         </mj-column>
       </mj-section>
