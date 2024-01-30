@@ -15,7 +15,7 @@ type MemberAvatarNameProps = {
 export const MemberAvatarName: Component<MemberAvatarNameProps> = (props) => {
   return (
     <>
-      <MemberAvatar member={props.member} class={clsx(props.classes?.avatar, 'h-8 w-8 rounded-full')} />
+      <MemberAvatar member={props.member} class={clsx(props.classes?.avatar, 'size-8 rounded-full')} />
 
       <span class={clsx(props.classes?.name, 'font-medium')}>
         {props.member?.firstName} {props.member?.lastName}

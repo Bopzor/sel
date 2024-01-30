@@ -2,7 +2,7 @@ import { useIntl } from '@cookbook/solid-intl';
 import { formatDateRelative } from '@sel/utils';
 
 type FormattedDateProps = Intl.DateTimeFormatOptions & {
-  date: string | Date | number;
+  date: string | Date | number | undefined;
 };
 
 export const FormattedDate = (props: FormattedDateProps) => {

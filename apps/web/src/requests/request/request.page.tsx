@@ -2,7 +2,9 @@ import { useParams } from '@solidjs/router';
 import { onMount } from 'solid-js';
 
 import { BackLink } from '../../components/back-link';
+import { Link } from '../../components/link';
 import { SuspenseLoader } from '../../components/loader';
+import { MemberAvatarName } from '../../components/member-avatar-name';
 import { routes } from '../../routes';
 import { getAppState, getAppActions } from '../../store/app-store';
 
@@ -27,17 +29,38 @@ export function RequestPage() {
       <SuspenseLoader>
         <Title request={state.request} />
 
-        <div class="row items-start gap-6">
-          <div class="col flex-1 gap-6">
-            <Message request={state.request} />
+        <div class="col sm:row gap-6">
+          <div class="col flex-2 gap-6">
+            <section class="sm:hidden">
+              <Link
+                href={routes.members.member(state.request?.requester.id ?? '')}
+                unstyled
+                class="row items-center gap-4"
+              >
+                <MemberAvatarName member={state.request?.requester} classes={{ name: 'text-lg' }} />
+              </Link>
+            </section>
+
+            <section>
+              <Message request={state.request} />
+            </section>
+
+            <section class="col sm:hidden">
+              <CreateExchange />
+            </section>
+
             <hr />
-            <Comments request={state.request} />
+
+            <section>
+              <h2 class="mb-4">Commentaires</h2>
+              <Comments request={state.request} />
+            </section>
           </div>
 
-          <div class="col max-w-sm flex-1 gap-6">
+          <section class="sm:col hidden flex-1 gap-4">
             <AuthorInfo request={state.request} />
             <CreateExchange />
-          </div>
+          </section>
         </div>
       </SuspenseLoader>
     </>
