@@ -5,13 +5,9 @@ import { Translate, translate } from '../intl/intl';
 
 const fr = {
   greeting: 'Bonjour {firstName},',
-  commentCreated: {
-    html: '<strong>{commentAuthor}</strong> a écrit un commentaire en réponse à la demande de <strong>{requester}</strong> :',
-    text: '{commentAuthor} a écrit un commentaire en réponse à la demande de {requester} :',
-  },
-  requestConcerned: {
-    html: 'Demande concernée : <link>{title}</link>',
-    text: 'Demande concernée : {title}\nLien : {link}',
+  requestCreated: {
+    html: '<strong>{requester}</strong> a publié une nouvelle demande : <link>{title}</link>',
+    text: '{requester} a publié une nouvelle demande : {title}\nLien : {link}',
   },
 };
 
@@ -26,20 +22,12 @@ type RequestCommentCreatedEmailProps = {
       firstName: string;
       lastName: string;
     };
-  };
-  comment: {
-    id: string;
-    message: string;
-    author: {
-      id: string;
-      firstName: string;
-      lastName: string;
-    };
+    body: string;
   };
 };
 
 export function subject(props: RequestCommentCreatedEmailProps) {
-  return `Commentaire de ${MemberName.text(props.comment.author)} sur la demande "${props.request.title}"`;
+  return `Demande de ${MemberName.text(props.request.author)} : ${props.request.title}`;
 }
 
 export function html(props: RequestCommentCreatedEmailProps) {
@@ -54,10 +42,11 @@ export function html(props: RequestCommentCreatedEmailProps) {
 
         <mj-text padding="8px 0">
           <Translate
-            message={messages.commentCreated.html}
+            message={messages.requestCreated.html}
             values={{
-              commentAuthor: <MemberName member={props.comment.author} />,
               requester: <MemberName member={props.request.author} />,
+              title: props.request.title,
+              link: (children) => <a href={`${props.appBaseUrl}/requests/${props.request.id}`}>{children}</a>,
             }}
           />
         </mj-text>
@@ -65,21 +54,9 @@ export function html(props: RequestCommentCreatedEmailProps) {
 
       <mj-section padding="16px">
         <mj-column padding="16px" background-color="#F6F6F6" border-radius="8px">
-          <mj-text font-style="italic">{props.comment.message}</mj-text>
+          <mj-text font-style="italic">{props.request.body}</mj-text>
         </mj-column>
       </mj-section>
-
-      <Section>
-        <mj-text>
-          <Translate
-            message={messages.requestConcerned.html}
-            values={{
-              link: (children) => <a href={`${props.appBaseUrl}/requests/${props.request.id}`}>{children}</a>,
-              title: props.request.title,
-            }}
-          />
-        </mj-text>
-      </Section>
     </Email>
   );
 }
@@ -89,14 +66,11 @@ export function text(props: RequestCommentCreatedEmailProps) {
 
   return [
     translate(messages.greeting, { firstName: props.firstName }),
-    translate(messages.commentCreated.text, {
-      commentAuthor: MemberName.text(props.comment.author),
+    translate(messages.requestCreated.text, {
       requester: MemberName.text(props.request.author),
-    }),
-    '-',
-    translate(messages.requestConcerned.text, {
       title: props.request.title,
       link: `${props.appBaseUrl}/requests/${props.request.id}`,
     }),
+    props.request.body,
   ].join('\n\n');
 }

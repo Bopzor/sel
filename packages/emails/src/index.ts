@@ -1,16 +1,17 @@
-import { renderToString } from 'solid-js/web';
-
-import { Component } from 'solid-js';
 import mjml2html from 'mjml';
+import { Component } from 'solid-js';
+import { renderToString } from 'solid-js/web';
 
 import * as authentication from './emails/authentication';
 import * as notification from './emails/notification';
+import * as requestCreated from './emails/request-created';
 import * as requestCommentCreated from './emails/request-comment-created';
 import * as test from './emails/test';
 
 export default {
   authentication: renderer(authentication),
   notification: renderer(notification),
+  requestCreated: renderer(requestCreated),
   requestCommentCreated: renderer(requestCommentCreated),
   test: renderer(test),
 };

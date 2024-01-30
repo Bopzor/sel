@@ -3,14 +3,13 @@ import fs from 'node:fs/promises';
 import emails from './dist/index.js';
 
 function output({ subject, text, html }) {
+  const iframeHtml = html.replaceAll('"', '&quot;');
+
   return [
     //
     `<h1>${subject}</h1>`,
-    `<pre style="background: #EEE; padding: 8px">${text}</pre>`,
-    `<iframe seamless sandbox width="640" height="600" style="resize: both" srcdoc="${html.replaceAll(
-      '"',
-      '&quot;'
-    )}" />`,
+    `<pre style="background: #EEE; padding: 8px; white-space: pre-wrap">${text}</pre>`,
+    `<iframe seamless sandbox width="640" height="600" style="resize: both" srcdoc="${iframeHtml}" />`,
   ].join('\n\n');
 }
 
@@ -34,6 +33,21 @@ const variables = {
     firstName,
     content: 'Content',
     title: 'Title',
+  },
+
+  requestCreated: {
+    appBaseUrl,
+    firstName,
+    request: {
+      id: 'requestId',
+      title: 'Accorder un piano',
+      author: {
+        id: 'authorId',
+        firstName: 'Maxence',
+        lastName: 'Duparc',
+      },
+      body: "Bonjour,\n\nJ'ai récupéré un vieux piano qui sonne faux, est-ce que quelqu'un saurait l'accorder ?",
+    },
   },
 
   requestCommentCreated: {

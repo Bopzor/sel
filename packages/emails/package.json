@@ -6,7 +6,7 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "dev": "nodemon -w dist -w render.js render.js",
+    "dev": "nodemon -w dist -w render.js -x 'node render.js'",
     "build": "vite build"
   },
   "devDependencies": {
