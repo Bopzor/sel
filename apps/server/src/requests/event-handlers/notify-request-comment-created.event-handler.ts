@@ -30,6 +30,9 @@ export class NotifyRequestCommentCreated implements EventHandler<RequestCommentC
     const request = await this.requestRepository.getRequest(event.entityId);
     assert(request);
 
+    const requester = await this.memberRepository.getMember(request.requesterId);
+    assert(requester);
+
     const comment = await this.commentRepository.getComment(event.commentId);
     assert(comment);
 
@@ -47,6 +50,11 @@ export class NotifyRequestCommentCreated implements EventHandler<RequestCommentC
         request: {
           id: request.id,
           title: request.title,
+          requester: {
+            id: requester.id,
+            firstName: requester.firstName,
+            lastName: requester.lastName,
+          },
         },
         comment: {
           id: comment.id,

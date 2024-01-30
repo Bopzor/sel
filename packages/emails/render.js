@@ -28,11 +28,9 @@ const variables = {
     authenticationUrl: appBaseUrl + '?auth-token=token',
   },
 
-  notification: {
+  newAppVersion: {
     appBaseUrl,
     firstName,
-    content: 'Content',
-    title: 'Title',
   },
 
   requestCreated: {
@@ -41,8 +39,8 @@ const variables = {
     request: {
       id: 'requestId',
       title: 'Accorder un piano',
-      author: {
-        id: 'authorId',
+      requester: {
+        id: 'requesterId',
         firstName: 'Maxence',
         lastName: 'Duparc',
       },
@@ -56,8 +54,8 @@ const variables = {
     request: {
       id: 'requestId',
       title: 'Accorder un piano',
-      author: {
-        id: 'authorId',
+      requester: {
+        id: 'requesterId',
         firstName: 'Maxence',
         lastName: 'Duparc',
       },

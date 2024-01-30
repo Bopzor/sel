@@ -16,10 +16,7 @@ import { SubscriptionRepository } from '../../persistence/repositories/subscript
 import { TOKENS } from '../../tokens';
 import { NotificationCreated } from '../notification-events';
 import { Notification } from '../notification.entity';
-import { NewAppVersionNotification } from '../notifications/new-app-version.notification';
-import { NotificationCreator } from '../notifications/notification-creator';
-import { RequestCommentCreatedNotification } from '../notifications/request-comment-created.notification';
-import { RequestCreatedNotification } from '../notifications/request-created.notification';
+import { getNotificationCreator } from '../notifications/notification-creator';
 import { SubscriptionEntity, SubscriptionType } from '../subscription.entity';
 
 export type NotifyCommand = {
@@ -53,7 +50,7 @@ export class Notify implements CommandHandler<NotifyCommand> {
 
   async handle({ subscriptionType, notificationType, data }: NotifyCommand): Promise<void> {
     const now = this.dateAdapter.now();
-    const creator = this.getCreator(notificationType, data);
+    const creator = getNotificationCreator(this.translation, notificationType, data);
 
     const subscriptions = await this.subscriptionRepository.getSubscriptions({
       type: subscriptionType,
@@ -90,24 +87,5 @@ export class Notify implements CommandHandler<NotifyCommand> {
     }
 
     await this.notificationRepository.insertAll(notifications);
-  }
-
-  getCreator(type: NotificationType, data: NotificationData[NotificationType]): NotificationCreator {
-    switch (type) {
-      case 'NewAppVersion':
-        return new NewAppVersionNotification(this.translation, data as NotificationData['NewAppVersion']);
-
-      case 'RequestCreated':
-        return new RequestCreatedNotification(this.translation, data as NotificationData['RequestCreated']);
-
-      case 'RequestCommentCreated':
-        return new RequestCommentCreatedNotification(
-          this.translation,
-          data as NotificationData['RequestCommentCreated']
-        );
-
-      default:
-        throw new Error(`Unknown notification type "${type}"`);
-    }
   }
 }

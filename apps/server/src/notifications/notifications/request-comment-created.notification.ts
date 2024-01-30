@@ -1,6 +1,8 @@
 import { NotificationData } from '@sel/shared';
 
+import { EmailKind, EmailVariables } from '../../infrastructure/email/email.types';
 import { TranslationPort } from '../../infrastructure/translation/translation.port';
+import { Member } from '../../members/member.entity';
 import { SubscriptionEntity } from '../subscription.entity';
 
 import { NotificationCreator } from './notification-creator';
@@ -39,5 +41,13 @@ export class RequestCommentCreatedNotification implements NotificationCreator {
       author: this.translation.memberName(this.data.comment.author),
       message: this.data.comment.message,
     });
+  }
+
+  emailKind(): EmailKind {
+    return 'requestCommentCreated';
+  }
+
+  emailVariables({ firstName }: Member): EmailVariables['requestCommentCreated'] {
+    return { firstName, ...this.data };
   }
 }

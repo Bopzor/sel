@@ -32,11 +32,12 @@ export class NotifyRequestCreated implements EventHandler<RequestCreated> {
         request: {
           id: request.id,
           title: request.title,
-        },
-        requester: {
-          id: requester.id,
-          firstName: requester.firstName,
-          lastName: requester.lastName,
+          requester: {
+            id: requester.id,
+            firstName: requester.firstName,
+            lastName: requester.lastName,
+          },
+          message: request.body.text,
         },
       } satisfies NotificationData['RequestCreated'],
     });

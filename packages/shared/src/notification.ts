@@ -32,11 +32,12 @@ export type NotificationData = {
     request: {
       id: string;
       title: string;
-    };
-    requester: {
-      id: string;
-      firstName: string;
-      lastName: string;
+      requester: {
+        id: string;
+        firstName: string;
+        lastName: string;
+      };
+      message: string;
     };
   };
 
@@ -44,6 +45,11 @@ export type NotificationData = {
     request: {
       id: string;
       title: string;
+      requester: {
+        id: string;
+        firstName: string;
+        lastName: string;
+      };
     };
     comment: {
       id: string;

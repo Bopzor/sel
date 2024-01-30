@@ -7,6 +7,7 @@ import { TranslationPort } from '../../infrastructure/translation/translation.po
 import { MemberRepository } from '../../persistence/repositories/member/member.repository';
 import { NotificationRepository } from '../../persistence/repositories/notification/notification.repository';
 import { TOKENS } from '../../tokens';
+import { getNotificationCreator } from '../notifications/notification-creator';
 
 export type SendEmailNotificationCommand = {
   notificationId: string;
@@ -31,15 +32,12 @@ export class SendEmailNotification implements CommandHandler<SendEmailNotificati
   async handle({ notificationId }: SendEmailNotificationCommand) {
     const notification = await this.getNotification(notificationId);
     const member = await this.getMember(notification.memberId);
+    const creator = getNotificationCreator(this.translation, notification.type, notification.data);
 
     await this.emailSender.send({
       to: member.email,
-      kind: 'notification',
-      variables: {
-        firstName: member.firstName,
-        title: notification.title,
-        content: notification.content,
-      },
+      kind: creator.emailKind(),
+      variables: creator.emailVariables(member),
     });
   }
 

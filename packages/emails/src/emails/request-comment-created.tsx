@@ -21,7 +21,7 @@ type RequestCommentCreatedEmailProps = {
   request: {
     id: string;
     title: string;
-    author: {
+    requester: {
       id: string;
       firstName: string;
       lastName: string;
@@ -57,7 +57,7 @@ export function html(props: RequestCommentCreatedEmailProps) {
             message={messages.commentCreated.html}
             values={{
               commentAuthor: <MemberName member={props.comment.author} />,
-              requester: <MemberName member={props.request.author} />,
+              requester: <MemberName member={props.request.requester} />,
             }}
           />
         </mj-text>
@@ -91,7 +91,7 @@ export function text(props: RequestCommentCreatedEmailProps) {
     translate(messages.greeting, { firstName: props.firstName }),
     translate(messages.commentCreated.text, {
       commentAuthor: MemberName.text(props.comment.author),
-      requester: MemberName.text(props.request.author),
+      requester: MemberName.text(props.request.requester),
     }),
     '-',
     translate(messages.requestConcerned.text, {

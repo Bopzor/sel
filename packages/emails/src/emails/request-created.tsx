@@ -17,17 +17,17 @@ type RequestCommentCreatedEmailProps = {
   request: {
     id: string;
     title: string;
-    author: {
+    requester: {
       id: string;
       firstName: string;
       lastName: string;
     };
-    body: string;
+    message: string;
   };
 };
 
 export function subject(props: RequestCommentCreatedEmailProps) {
-  return `Demande de ${MemberName.text(props.request.author)} : ${props.request.title}`;
+  return `Demande de ${MemberName.text(props.request.requester)} : ${props.request.title}`;
 }
 
 export function html(props: RequestCommentCreatedEmailProps) {
@@ -44,7 +44,7 @@ export function html(props: RequestCommentCreatedEmailProps) {
           <Translate
             message={messages.requestCreated.html}
             values={{
-              requester: <MemberName member={props.request.author} />,
+              requester: <MemberName member={props.request.requester} />,
               title: props.request.title,
               link: (children) => <a href={`${props.appBaseUrl}/requests/${props.request.id}`}>{children}</a>,
             }}
@@ -54,7 +54,7 @@ export function html(props: RequestCommentCreatedEmailProps) {
 
       <mj-section padding="16px">
         <mj-column padding="16px" background-color="#F6F6F6" border-radius="8px">
-          <mj-text font-style="italic">{props.request.body}</mj-text>
+          <mj-text font-style="italic">{props.request.message}</mj-text>
         </mj-column>
       </mj-section>
     </Email>
@@ -67,10 +67,10 @@ export function text(props: RequestCommentCreatedEmailProps) {
   return [
     translate(messages.greeting, { firstName: props.firstName }),
     translate(messages.requestCreated.text, {
-      requester: MemberName.text(props.request.author),
+      requester: MemberName.text(props.request.requester),
       title: props.request.title,
       link: `${props.appBaseUrl}/requests/${props.request.id}`,
     }),
-    props.request.body,
+    props.request.message,
   ].join('\n\n');
 }

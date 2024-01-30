@@ -123,8 +123,12 @@ describe('[Unit] Notify', () => {
       subscriptionType: 'RequestCreated',
       notificationType: 'RequestCreated',
       data: {
-        request: { id: '', title: '' },
-        requester: { id: 'memberId2', firstName: '', lastName: '' },
+        request: {
+          id: '',
+          title: '',
+          requester: { id: 'memberId2', firstName: '', lastName: '' },
+          message: '',
+        },
       } satisfies NotificationData['RequestCreated'],
     };
 
@@ -161,7 +165,7 @@ describe('[Unit] Notify', () => {
       subscriptionType: 'RequestEvent',
       notificationType: 'RequestCommentCreated',
       data: {
-        request: { id: 'requestId1', title: '' },
+        request: { id: 'requestId1', title: '', requester: { id: '', firstName: '', lastName: '' } },
         comment: { id: '', author: { id: '', firstName: '', lastName: '' }, message: '' },
       } satisfies NotificationData['RequestCommentCreated'],
     };
