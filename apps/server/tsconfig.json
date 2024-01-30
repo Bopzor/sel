@@ -4,6 +4,7 @@
   "files": ["vitest.config.ts", "drizzle.config.ts"],
   "references": [
     { "path": "../../packages/cqs" },
+    { "path": "../../packages/emails" },
     { "path": "../../packages/shared" },
     { "path": "../../packages/utils" }
   ],

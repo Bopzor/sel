@@ -73,7 +73,7 @@ jobs:
           app-name: ${{ needs.environment.outputs.name }}
           service-name: server
           git-branch: ${{ github.head_ref }}
-          git-build-command: pnpm exec tsc -b && pnpm run --filter @sel/server build
+          git-build-command: pnpm exec tsc -b && pnpm run --filter @sel/emails build && pnpm run --filter @sel/server build
           git-run-command: pnpm run --filter @sel/server start
           service-instance-type: micro
           service-regions: fra

@@ -1,3 +1,5 @@
+/* cspell:disable */
+
 export {};
 
 declare module 'solid-js' {

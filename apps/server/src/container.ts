@@ -4,6 +4,7 @@ import nodemailer from 'nodemailer';
 import { AuthenticationController } from './authentication/authentication.controller';
 import { AuthenticationService } from './authentication/authentication.service';
 import { RequestAuthenticationLink } from './authentication/commands/request-authentication-link.command';
+import { RevokeSessionToken } from './authentication/commands/revoke-session-token.command';
 import { VerifyAuthenticationToken } from './authentication/commands/verify-authentication-token.command';
 import { SendAuthenticationEmail } from './authentication/event-handlers/send-authentication-email.event-handler';
 import { GetAuthenticatedMember } from './authentication/queries/get-authenticated-member.query';
@@ -114,6 +115,7 @@ container.bindFactory(TOKENS.eventPublisher, EventPublisher.inject);
 
 container.bindFactory(COMMANDS.requestAuthenticationLink, RequestAuthenticationLink.inject);
 container.bindFactory(COMMANDS.verifyAuthenticationToken, VerifyAuthenticationToken.inject);
+container.bindFactory(COMMANDS.revokeSessionToken, RevokeSessionToken.inject);
 container.bindFactory(COMMANDS.createRequest, CreateRequest.inject);
 container.bindFactory(COMMANDS.editRequest, EditRequest.inject);
 container.bindFactory(COMMANDS.createRequestComment, CreateRequestComment.inject);

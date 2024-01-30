@@ -111,7 +111,10 @@ export class E2ETest {
 
   async waitForEventHandlers() {
     const eventBus = container.resolve(TOKENS.eventBus);
-    await Promise.all(eventBus.promises);
+
+    while (eventBus.promises.size > 0) {
+      await Promise.all(eventBus.promises);
+    }
   }
 
   async fetch(
