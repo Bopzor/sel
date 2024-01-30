@@ -1,6 +1,7 @@
 import { createContainer } from 'ditox';
 import nodemailer from 'nodemailer';
 
+import { Application } from './application';
 import { AuthenticationController } from './authentication/authentication.controller';
 import { AuthenticationService } from './authentication/authentication.service';
 import { RequestAuthenticationLink } from './authentication/commands/request-authentication-link.command';
@@ -70,6 +71,7 @@ export const container = createContainer();
 
 container.bindValue(TOKENS.container, container);
 
+container.bindFactory(TOKENS.application, Application.inject);
 container.bindFactory(TOKENS.config, EnvConfigAdapter.inject);
 container.bindFactory(TOKENS.date, NativeDateAdapter.inject);
 container.bindFactory(TOKENS.generator, NanoIdGenerator.inject);

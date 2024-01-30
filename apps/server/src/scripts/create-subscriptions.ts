@@ -1,22 +1,24 @@
 import { assert } from '@sel/utils';
 
+import { Application } from '../application';
 import { container } from '../container';
 import { isSubscriptionType } from '../notifications/subscription.entity';
-import { COMMANDS, TOKENS } from '../tokens';
+import { TOKENS } from '../tokens';
 
-main(process.argv.slice(2))
-  // eslint-disable-next-line no-console
-  .catch(console.error)
-  .finally(() => void container.resolve(TOKENS.database).close());
+const app = container.resolve(TOKENS.application);
+const logger = container.resolve(TOKENS.logger);
 
-async function main(args: string[]) {
+main(app, process.argv.slice(2))
+  .catch((error) => logger.error(error))
+  .finally(() => void app.close());
+
+async function main(app: Application, args: string[]) {
   const [type, ...memberIds] = args;
-  const commandBus = container.resolve(TOKENS.commandBus);
 
   assert(isSubscriptionType(type), 'Invalid subscription type');
 
   for (const memberId of memberIds) {
-    await commandBus.executeCommand(COMMANDS.createSubscription, {
+    await app.createSubscription({
       type,
       memberId,
       active: false,

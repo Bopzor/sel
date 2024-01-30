@@ -13,7 +13,7 @@ class Test extends E2ETest {
   async setup() {
     this.member = await this.create.member({ email: 'member@localhost' });
 
-    await this.commandBus.executeCommand(COMMANDS.registerDevice, {
+    await this.application.registerDevice({
       memberId: this.member.id,
       deviceSubscription: 'subscription',
       deviceType: 'mobile',
@@ -23,14 +23,14 @@ class Test extends E2ETest {
   async changeNotificationDeliveryType(
     notificationDeliveryType: ChangeNotificationDeliveryTypeCommand['notificationDeliveryType']
   ) {
-    await this.commandBus.executeCommand(COMMANDS.changeNotificationDeliveryType, {
+    await this.application.changeNotificationDeliveryType({
       memberId: this.member.id,
       notificationDeliveryType,
     });
   }
 
   async notify() {
-    await this.commandBus.executeCommand(COMMANDS.notify, {
+    await this.application.notify({
       subscriptionType: 'NewAppVersion',
       notificationType: 'NewAppVersion',
       data: { version: '' },
@@ -76,7 +76,7 @@ describe('[E2E] Notification', () => {
   it('sends an email notification', async () => {
     await test.changeNotificationDeliveryType({ [NotificationDeliveryType.email]: true });
 
-    await test.commandBus.executeCommand(COMMANDS.registerDevice, {
+    await test.application.registerDevice({
       memberId: test.member.id,
       deviceSubscription: 'subscription',
       deviceType: 'mobile',

@@ -1,5 +1,6 @@
 import { Container, token } from 'ditox';
 
+import { Application } from './application';
 import { AuthenticationController } from './authentication/authentication.controller';
 import { AuthenticationService } from './authentication/authentication.service';
 import { RequestAuthenticationLink } from './authentication/commands/request-authentication-link.command';
@@ -67,6 +68,7 @@ import { Server } from './server';
 
 export const TOKENS = {
   container: token<Container>('container'),
+  application: token<Application>('application'),
   config: token<ConfigPort>('config'),
   date: token<DatePort>('date'),
   generator: token<GeneratorPort>('generator'),

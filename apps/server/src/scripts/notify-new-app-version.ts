@@ -1,20 +1,22 @@
 import { assert } from '@sel/utils';
 
+import { Application } from '../application';
 import { container } from '../container';
-import { COMMANDS, TOKENS } from '../tokens';
+import { TOKENS } from '../tokens';
 
-main(process.argv.slice(2))
-  // eslint-disable-next-line no-console
-  .catch(console.error)
-  .finally(() => void container.resolve(TOKENS.database).close());
+const app = container.resolve(TOKENS.application);
+const logger = container.resolve(TOKENS.logger);
 
-async function main(args: string[]) {
+main(app, process.argv.slice(2))
+  .catch((error) => logger.error(error))
+  .finally(() => void app.close());
+
+async function main(app: Application, args: string[]) {
   const [version, content] = args;
-  const commandBus = container.resolve(TOKENS.commandBus);
 
   assert(version, 'missing version');
 
-  await commandBus.executeCommand(COMMANDS.notify, {
+  await app.notify({
     subscriptionType: 'NewAppVersion',
     notificationType: 'NewAppVersion',
     data: {

@@ -8,7 +8,7 @@ interface EventListener<Event extends object = object> {
 
 export class EventBus {
   private listeners = new Map<unknown, Array<EventListener>>();
-  readonly promises = new Set<Promise<void>>();
+  protected promises = new Set<Promise<void>>();
 
   constructor(private readonly onError?: (error: unknown) => void) {}
 

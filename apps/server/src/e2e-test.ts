@@ -54,8 +54,8 @@ export class E2ETest {
     return container.resolve(TOKENS.server);
   }
 
-  get commandBus() {
-    return container.resolve(TOKENS.commandBus);
+  get application() {
+    return container.resolve(TOKENS.application);
   }
 
   create!: EntityCreator;
@@ -77,16 +77,12 @@ export class E2ETest {
     await container.resolve(TOKENS.database).ensureTestDatabase?.();
     await container.resolve(TOKENS.database).migrate?.();
 
-    this.commandBus.init();
-
-    initEventHandlers();
-
     this.create = new EntityCreator(
       container.resolve(TOKENS.generator),
       container.resolve(TOKENS.memberRepository),
       container.resolve(TOKENS.authenticationService),
       container.resolve(TOKENS.requestRepository),
-      this.commandBus
+      container.resolve(TOKENS.commandBus)
     );
 
     await this.mailServer.listen();
@@ -110,11 +106,7 @@ export class E2ETest {
   }
 
   async waitForEventHandlers() {
-    const eventBus = container.resolve(TOKENS.eventBus);
-
-    while (eventBus.promises.size > 0) {
-      await Promise.all(eventBus.promises);
-    }
+    await container.resolve(TOKENS.eventBus).waitForPromises();
   }
 
   async fetch(

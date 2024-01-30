@@ -7,6 +7,7 @@ import { Container, injectableClass } from 'ditox';
 import express, { ErrorRequestHandler, RequestHandler } from 'express';
 import { z } from 'zod';
 
+import { Application } from './application';
 import { AuthenticationError, InvalidSessionTokenError } from './authentication/authentication.errors';
 import { DomainError } from './domain-error';
 import { HttpStatus } from './http-status';
@@ -16,13 +17,21 @@ import { LoggerPort } from './infrastructure/logger/logger.port';
 import { TOKENS } from './tokens';
 
 export class Server {
-  static inject = injectableClass(this, TOKENS.container, TOKENS.config, TOKENS.logger, TOKENS.errorReporter);
+  static inject = injectableClass(
+    this,
+    TOKENS.container,
+    TOKENS.application,
+    TOKENS.config,
+    TOKENS.logger,
+    TOKENS.errorReporter
+  );
 
   private app = express();
   private server = http.createServer(this.app);
 
   constructor(
     private readonly container: Container,
+    private readonly application: Application,
     private readonly config: ConfigPort,
     private readonly logger: LoggerPort,
     private readonly errorReporter: ErrorReporterPort
@@ -62,15 +71,10 @@ export class Server {
   }
 
   async close() {
-    const eventBus = this.container.resolve(TOKENS.eventBus);
-    const database = this.container.resolve(TOKENS.database);
-
-    await Promise.all(eventBus.promises);
-
     this.server.closeAllConnections();
     await util.promisify<void>((cb) => this.server.close(cb))();
 
-    await database.close();
+    await this.application.close();
 
     this.logger.info('server closed');
   }
