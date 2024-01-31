@@ -47,7 +47,6 @@ export class StubConfigAdapter implements ConfigPort {
       sender: '',
       password: '',
       secure: false,
-      templatesPath: '',
       ...config.email,
     };
 

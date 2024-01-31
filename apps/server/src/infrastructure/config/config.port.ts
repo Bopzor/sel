@@ -22,7 +22,6 @@ export type EmailConfig = {
   secure: boolean;
   sender: string;
   password: string;
-  templatesPath: string;
 };
 
 export type SlackConfig = {

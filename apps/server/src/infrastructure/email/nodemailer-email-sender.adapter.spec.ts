@@ -18,7 +18,6 @@ describe('[Unit] NodemailerEmailSenderAdapter', () => {
         secure: true,
         sender: 'sender',
         password: 'password',
-        templatesPath: '',
       },
     });
   });

@@ -59,7 +59,6 @@ jobs:
             EMAIL_SECURE=true
             EMAIL_FROM=@sel-staging-email-from
             EMAIL_PASSWORD=@sel-staging-email-password
-            EMAIL_TEMPLATES=./email-templates
             SLACK_WEBHOOK_URL=@sel-staging-slack-webhook-url
             WEB_PUSH_SUBJECT=${{ needs.environment.outputs.app-url }}
             WEB_PUSH_PUBLIC_KEY=@sel-staging-web-push-public-key

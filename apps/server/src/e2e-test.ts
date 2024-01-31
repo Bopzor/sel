@@ -11,7 +11,6 @@ import { TestErrorReporterAdapter } from './infrastructure/error-reporter/test-e
 import { GeneratorPort } from './infrastructure/generator/generator.port';
 import { StubLogger } from './infrastructure/logger/stub-logger.adapter';
 import { StubPushNotificationAdapter } from './infrastructure/push-notification/stub-push-notification.adapter';
-import { initEventHandlers } from './init-event-handlers';
 import { Member } from './members/member.entity';
 import { MemberRepository } from './persistence/repositories/member/member.repository';
 import { RequestRepository } from './persistence/repositories/request/request.repository';
@@ -40,7 +39,6 @@ export class E2ETest {
       secure: false,
       port: 1125,
       sender: 'sel@localhost',
-      templatesPath: 'email-templates',
     },
   });
 
