@@ -38,7 +38,7 @@ export const members = pgTable('members', {
   membershipStartDate: date('membership_start_date')
     .notNull()
     .default(sql`CURRENT_DATE`),
-  notificationDelivery: notificationDeliveryTypeEnum('notification_delivery').array().notNull(),
+  notificationDelivery: notificationDeliveryTypeEnum('notification_delivery').array().notNull().default([]),
   createdAt: createdAt(),
   updatedAt: updatedAt(),
 });

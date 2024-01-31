@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS "member_device" (
 	CONSTRAINT "member_device_member_id_device_subscription_unique" UNIQUE("member_id","device_subscription")
 );
 --> statement-breakpoint
-ALTER TABLE "members" ADD COLUMN "notification_delivery" notification_delivery_type[] NOT NULL;--> statement-breakpoint
+ALTER TABLE "members" ADD COLUMN "notification_delivery" notification_delivery_type[] DEFAULT '{}' NOT NULL;--> statement-breakpoint
 ALTER TABLE "notifications" ADD COLUMN "type" varchar(32) NOT NULL;--> statement-breakpoint
 ALTER TABLE "notifications" ADD COLUMN "delivery_type" notification_delivery_type[] NOT NULL;--> statement-breakpoint
 ALTER TABLE "notifications" ADD COLUMN "title_trimmed" varchar(65) NOT NULL;--> statement-breakpoint
