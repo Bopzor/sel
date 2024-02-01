@@ -58,6 +58,7 @@ koyeb service create web \
   --env VITE_ANALYTICS_URL="$analytics_url" \
   --env VITE_ANALYTICS_SITE_ID="$analytics_site_id" \
   --env VITE_GEOAPIFY_API_KEY="@$app_name-geoapify-key" \
+  --env VITE_WEB_PUSH_PUBLIC_KEY="$app_name-web-push-public-key" \
   --ports 8080:http \
   --routes /:8080 \
   --checks 8080:http:/ \
