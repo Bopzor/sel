@@ -5,6 +5,7 @@ import { BackLink } from '../../components/back-link';
 import { Link } from '../../components/link';
 import { SuspenseLoader } from '../../components/loader';
 import { MemberAvatarName } from '../../components/member-avatar-name';
+import { Translate } from '../../intl/translate';
 import { routes } from '../../routes';
 import { getAppState, getAppActions } from '../../store/app-store';
 
@@ -13,6 +14,8 @@ import { Comments } from './comments';
 import { CreateExchange } from './create-exchange';
 import { Message } from './message';
 import { Title } from './title';
+
+const T = Translate.prefix('requests.comments');
 
 export function RequestPage() {
   const { requestId } = useParams<{ requestId: string }>();
@@ -52,7 +55,9 @@ export function RequestPage() {
             <hr />
 
             <section>
-              <h2 class="mb-4">Commentaires</h2>
+              <h2 class="mb-4">
+                <T id="title" />
+              </h2>
               <Comments request={state.request} />
             </section>
           </div>

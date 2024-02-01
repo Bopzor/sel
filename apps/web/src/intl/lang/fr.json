@@ -150,6 +150,11 @@
     "sentence1": "La partie demandes n'est pas encore disponible !",
     "sentence2": "L'atelier de conception est prévu le mercredi 20 décembre 2023, à 18h30. Cette partie devrait être disponible courant février 2024.",
     "newRequest": "Nouvelle demande",
+    "status": {
+      "pending": "En cours",
+      "fulfilled": "Terminée",
+      "canceled": "Annulée"
+    },
     "create": {
       "title": "Créer une nouvelle demande",
       "titleLabel": "Titre de la demande",
@@ -171,6 +176,7 @@
     "date": "Le {date}",
     "contact": "Contacter {author}",
     "comments": {
+      "title": "Commentaires",
       "placeholder": "Écrire un commentaire...",
       "submit": "Envoyer",
       "created": "Votre commentaire a bien été créé."

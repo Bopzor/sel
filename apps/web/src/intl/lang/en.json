@@ -150,6 +150,11 @@
     "sentence1": "",
     "sentence2": "",
     "newRequest": "New request",
+    "status": {
+      "pending": "Pending",
+      "fulfilled": "Fulfilled",
+      "canceled": "Canceled"
+    },
     "create": {
       "title": "Create a new request",
       "titleLabel": "Request title",
@@ -171,6 +176,7 @@
     "date": "The {date}",
     "contact": "Contact {author}",
     "comments": {
+      "title": "Comments",
       "placeholder": "Write a comment...",
       "submit": "Submit",
       "created": "Your comment was created successfully."
