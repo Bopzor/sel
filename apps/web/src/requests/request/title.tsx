@@ -1,4 +1,4 @@
-import { Request, RequestStatus } from '@sel/shared';
+import { Request } from '@sel/shared';
 import { Icon } from 'solid-heroicons';
 import { pencil } from 'solid-heroicons/solid';
 import { Show } from 'solid-js';
@@ -8,10 +8,9 @@ import { FormattedDate } from '../../intl/formatted';
 import { Translate } from '../../intl/translate';
 import { routes } from '../../routes';
 import { select, selectCanEditRequest } from '../../store/app-store';
+import { RequestStatus } from '../request-status';
 
 const T = Translate.prefix('requests');
-
-const TranslateRequestStatus = Translate.enum('requests.status');
 
 type TitleProps = {
   request?: Request;
@@ -33,15 +32,7 @@ export function Title(props: TitleProps) {
 
           <span>&bullet;</span>
 
-          <span
-            class="font-semibold"
-            classList={{
-              'text-green-600 dark:text-green-400': props.request?.status === RequestStatus.pending,
-              'text-yellow-600 dark:text-yellow-400': props.request?.status === RequestStatus.canceled,
-            }}
-          >
-            <TranslateRequestStatus value={props.request?.status ?? ''} />
-          </span>
+          <RequestStatus status={props.request?.status} />
         </div>
       </div>
 

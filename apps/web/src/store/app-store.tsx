@@ -368,6 +368,16 @@ function requestsState() {
   };
 }
 
+export const selectRequests = (state: AppState) => state.requests;
+
+export const selectPendingRequests = pipe(selectRequests, (requests) => {
+  return requests?.filter((request) => request.status === RequestStatus.pending);
+});
+
+export const selectNotPendingRequests = pipe(selectRequests, (requests) => {
+  return requests?.filter((request) => request.status !== RequestStatus.pending);
+});
+
 export const selectRequest = (state: AppState) => {
   return state.request;
 };

@@ -147,6 +147,7 @@
   },
   "requests": {
     "title": "Requests",
+    "passedRequests": "Passed requests",
     "sentence1": "",
     "sentence2": "",
     "newRequest": "New request",

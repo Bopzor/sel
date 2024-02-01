@@ -4,22 +4,26 @@ import { For, onMount } from 'solid-js';
 
 import { BackLink } from '../components/back-link';
 import { LinkButton } from '../components/button';
-import { FeatureFlag, Feature } from '../components/feature-flag';
+import { Feature, FeatureFlag } from '../components/feature-flag';
 import { Link } from '../components/link';
 import { SuspenseLoader } from '../components/loader';
 import { MemberAvatarName } from '../components/member-avatar-name';
 import { RichText } from '../components/rich-text';
 import { Translate } from '../intl/translate';
 import { routes } from '../routes';
-import { getAppState, getAppActions } from '../store/app-store';
+import { getAppActions, select, selectNotPendingRequests, selectPendingRequests } from '../store/app-store';
+
+import { RequestStatus } from './request-status';
 
 const T = Translate.prefix('requests');
 
 export function RequestsPage() {
-  const state = getAppState();
   const { loadRequests } = getAppActions();
 
   onMount(loadRequests);
+
+  const pendingRequests = select(selectPendingRequests);
+  const notPendingRequests = select(selectNotPendingRequests);
 
   return (
     <FeatureFlag feature={Feature.requests} fallback={<RequestsPlaceholderPage />}>
@@ -36,9 +40,21 @@ export function RequestsPage() {
       </div>
 
       <SuspenseLoader>
-        <ul class="col mt-6 gap-6">
-          <For each={state.requests}>{(request) => <RequestListItem request={request} />}</For>
-        </ul>
+        <div class="mt-6 max-w-4xl">
+          <ul class="col gap-6">
+            <For each={pendingRequests()}>{(request) => <RequestListItem request={request} />}</For>
+          </ul>
+
+          <div role="separator" class="row my-6 items-center gap-4">
+            <span class="flex-1 border-t" />
+            <T id="passedRequests" />
+            <span class="flex-1 border-t" />
+          </div>
+
+          <ul class="col gap-6 opacity-50">
+            <For each={notPendingRequests()}>{(request) => <RequestListItem request={request} />}</For>
+          </ul>
+        </div>
       </SuspenseLoader>
     </FeatureFlag>
   );
@@ -52,17 +68,21 @@ function RequestListItem(props: RequestListItemProps) {
   const intl = useIntl();
 
   return (
-    <li class="max-w-4xl rounded-lg bg-neutral p-4 shadow">
+    <li class="rounded-lg bg-neutral p-4 shadow">
       <Link unstyled href={routes.requests.request(props.request.id)}>
         <div class="row items-center justify-between">
           <div class="row items-center gap-4">
             <MemberAvatarName member={props.request.requester} classes={{ name: 'text-lg' }} />
           </div>
 
-          <div class="text-dim">
+          <div class="row gap-3 text-dim">
             {intl.formatDate(props.request.date, {
               dateStyle: 'long',
             })}
+
+            <span>&bullet;</span>
+
+            <RequestStatus status={props.request.status} />
           </div>
         </div>
 

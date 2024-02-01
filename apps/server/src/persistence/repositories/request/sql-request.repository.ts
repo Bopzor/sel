@@ -1,6 +1,6 @@
 import * as shared from '@sel/shared';
 import { injectableClass } from 'ditox';
-import { eq } from 'drizzle-orm';
+import { desc, eq, sql } from 'drizzle-orm';
 
 import { DatePort } from '../../../infrastructure/date/date.port';
 import { Request, RequestStatus } from '../../../requests/request.entity';
@@ -21,6 +21,9 @@ export class SqlRequestRepository implements RequestRepository {
 
   async query_listRequests(): Promise<shared.Request[]> {
     const results = await this.db.query.requests.findMany({
+      extras: {
+        position: sql`case status when 'pending' then 1 else 2 end`.as('position'),
+      },
       with: {
         requester: true,
         comments: {
@@ -29,6 +32,7 @@ export class SqlRequestRepository implements RequestRepository {
           },
         },
       },
+      orderBy: [sql`position`, desc(requests.createdAt)],
     });
 
     return results.map(this.toRequest);
