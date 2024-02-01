@@ -65,6 +65,7 @@ export class SqlRequestRepository implements RequestRepository {
 
     return {
       id: request.id,
+      status: request.status,
       date: request.date.toISOString(),
       requester: {
         id: requester.id,

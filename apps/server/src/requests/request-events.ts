@@ -17,3 +17,15 @@ export class RequestCommentCreated extends RequestEvent {
     super(requestId);
   }
 }
+
+export class RequestFulfilled extends RequestEvent {
+  constructor(requestId: string) {
+    super(requestId);
+  }
+}
+
+export class RequestCanceled extends RequestEvent {
+  constructor(requestId: string) {
+    super(requestId);
+  }
+}

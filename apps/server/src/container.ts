@@ -55,6 +55,7 @@ import { SqlNotificationRepository } from './persistence/repositories/notificati
 import { SqlRequestRepository } from './persistence/repositories/request/sql-request.repository';
 import { SqlSubscriptionRepository } from './persistence/repositories/subscription/sql-subscription.repository';
 import { SqlTokenRepository } from './persistence/repositories/token/sql-token.repository';
+import { ChangeRequestStatus } from './requests/commands/change-request-status.command';
 import { CreateRequestComment } from './requests/commands/create-request-comment.command';
 import { CreateRequest } from './requests/commands/create-request.command';
 import { EditRequest } from './requests/commands/edit-request.command';
@@ -121,6 +122,7 @@ container.bindFactory(COMMANDS.revokeSessionToken, RevokeSessionToken.inject);
 container.bindFactory(COMMANDS.createRequest, CreateRequest.inject);
 container.bindFactory(COMMANDS.editRequest, EditRequest.inject);
 container.bindFactory(COMMANDS.createRequestComment, CreateRequestComment.inject);
+container.bindFactory(COMMANDS.changeRequestStatus, ChangeRequestStatus.inject);
 container.bindFactory(COMMANDS.createMember, CreateMember.inject);
 container.bindFactory(COMMANDS.updateMemberProfile, UpdateMemberProfile.inject);
 container.bindFactory(COMMANDS.changeNotificationDeliveryType, ChangeNotificationDeliveryType.inject);

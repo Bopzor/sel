@@ -130,9 +130,19 @@ describe('[E2E] Request', () => {
 
     await test.fetch(`/requests/${request.id}/comment`, { token, method: 'POST', body: { body: 'body' } });
 
-    expect(await test.fetch(`/requests/${request.id}`, { token })).toHaveProperty<shared.Request[]>(
-      'body.comments',
-      [expect.objectContaining({ body: 'body' })]
+    expect(await test.fetch(`/requests/${request.id}`, { token })).toHaveProperty('body.comments', [
+      expect.objectContaining({ body: 'body' }),
+    ]);
+  });
+
+  it('marks a request as fulfilled', async () => {
+    const request = await test.create.request({ requesterId: test.requester.id });
+
+    await test.fetch(`/requests/${request.id}/fulfilled`, { token, method: 'PUT' });
+
+    expect(await test.fetch(`/requests/${request.id}`, { token })).toHaveProperty(
+      'body.status',
+      shared.RequestStatus.fulfilled
     );
   });
 });

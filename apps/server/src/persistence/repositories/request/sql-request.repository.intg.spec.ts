@@ -76,6 +76,7 @@ describe('[Intg] SqlRequestRepository', () => {
     await test.database.db.insert(requests).values(
       createSqlRequest({
         id: 'requestId',
+        status: shared.RequestStatus.pending,
         requesterId: 'requesterId',
         date: test.now,
         title: 'title',
@@ -87,6 +88,7 @@ describe('[Intg] SqlRequestRepository', () => {
 
     expect(result).toEqual<shared.Request>({
       id: 'requestId',
+      status: shared.RequestStatus.pending,
       date: test.now.toISOString(),
       requester: {
         id: 'requesterId',

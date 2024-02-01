@@ -1,10 +1,7 @@
+import { RequestStatus } from '@sel/shared';
 import { createDate, createFactory, createId } from '@sel/utils';
 
-export enum RequestStatus {
-  pending = 'pending',
-  fulfilled = 'fulfilled',
-  canceled = 'canceled',
-}
+export { RequestStatus };
 
 export type Request = {
   id: string;

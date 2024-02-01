@@ -12,6 +12,7 @@ import { RequestRepository } from '../persistence/repositories/request/request.r
 import { COMMANDS, QUERIES, TOKENS } from '../tokens';
 
 import { MemberIsNotAuthor, RequestNotFound } from './request-errors';
+import { RequestStatus } from './request.entity';
 
 export class RequestController {
   readonly router = Router();
@@ -37,8 +38,10 @@ export class RequestController {
     this.router.get('/', this.listRequests);
     this.router.get('/:requestId', this.getRequest);
     this.router.post('/', this.createRequest);
-    this.router.put('/:requestId', this.canEditRequest, this.editRequest);
+    this.router.put('/:requestId', this.isRequester, this.editRequest);
     this.router.post('/:requestId/comment', this.createComment);
+    this.router.put('/:requestId/fulfilled', this.isRequester, this.setRequestFulfilled);
+    this.router.put('/:requestId/canceled', this.isRequester, this.setRequestCanceled);
   }
 
   authenticated: RequestHandler = (req, res, next) => {
@@ -81,7 +84,7 @@ export class RequestController {
     res.status(HttpStatus.created).send(requestId);
   };
 
-  canEditRequest: RequestHandler<{ requestId: string }> = async (req, res, next) => {
+  isRequester: RequestHandler<{ requestId: string }> = async (req, res, next) => {
     const member = this.sessionProvider.getMember();
     const requestId = req.params.requestId;
     const request = await this.requestRepository.getRequest(requestId);
@@ -127,5 +130,27 @@ export class RequestController {
     });
 
     res.status(HttpStatus.created).send(commentId);
+  };
+
+  setRequestFulfilled: RequestHandler<{ requestId: string }> = async (req, res) => {
+    const requestId = req.params.requestId;
+
+    await this.commandBus.executeCommand(COMMANDS.changeRequestStatus, {
+      requestId,
+      status: RequestStatus.fulfilled,
+    });
+
+    res.status(HttpStatus.noContent).end();
+  };
+
+  setRequestCanceled: RequestHandler<{ requestId: string }> = async (req, res) => {
+    const requestId = req.params.requestId;
+
+    await this.commandBus.executeCommand(COMMANDS.changeRequestStatus, {
+      requestId,
+      status: RequestStatus.canceled,
+    });
+
+    res.status(HttpStatus.noContent).end();
   };
 }

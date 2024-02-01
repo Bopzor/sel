@@ -55,6 +55,7 @@ import { NotificationRepository } from './persistence/repositories/notification/
 import { RequestRepository } from './persistence/repositories/request/request.repository';
 import { SubscriptionRepository } from './persistence/repositories/subscription/subscription.repository';
 import { TokenRepository } from './persistence/repositories/token/token.repository';
+import { ChangeRequestStatus } from './requests/commands/change-request-status.command';
 import { CreateRequestComment } from './requests/commands/create-request-comment.command';
 import { CreateRequest } from './requests/commands/create-request.command';
 import { EditRequest } from './requests/commands/edit-request.command';
@@ -112,6 +113,7 @@ export const COMMANDS = {
   createRequest: token<CreateRequest>('createRequest'),
   editRequest: token<EditRequest>('editRequest'),
   createRequestComment: token<CreateRequestComment>('createRequestComment'),
+  changeRequestStatus: token<ChangeRequestStatus>('changeRequestStatus'),
   createMember: token<CreateMember>('createMember'),
   updateMemberProfile: token<UpdateMemberProfile>('updateMemberProfile'),
   changeNotificationDeliveryType: token<ChangeNotificationDeliveryType>('changeNotificationDeliveryType'),
