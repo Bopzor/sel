@@ -43,6 +43,7 @@ export class EnvConfigAdapter implements ConfigPort {
 
     this.database = {
       url: this.get('DB_URL', String),
+      debug: this.get('DB_DEBUG', Boolean, false),
     };
 
     this.email = {
@@ -64,8 +65,12 @@ export class EnvConfigAdapter implements ConfigPort {
     };
   }
 
-  private get<T>(name: string, parse: (input: string) => T): T {
+  private get<T>(name: string, parse: (input: string) => T, defaultValue?: T): T {
     const input = process.env[name];
+
+    if (input === undefined && defaultValue !== undefined) {
+      return defaultValue;
+    }
 
     assert(input !== undefined, `Missing environment variable "${name}"`);
 

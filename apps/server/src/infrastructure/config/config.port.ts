@@ -14,6 +14,7 @@ export type AppConfig = {
 
 export type DatabaseConfig = {
   url: string;
+  debug: boolean;
 };
 
 export type EmailConfig = {

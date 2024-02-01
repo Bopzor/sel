@@ -38,6 +38,7 @@ export class StubConfigAdapter implements ConfigPort {
 
     this.database = {
       url: '',
+      debug: false,
       ...config.database,
     };
 

@@ -34,7 +34,11 @@ export class Database {
   constructor(private readonly config: ConfigPort) {
     // cspell:word onnotice
     this.pgQueryClient = postgres(this.databaseUrl, { onnotice: noop });
-    this.db = drizzle(this.pgQueryClient, { schema });
+
+    this.db = drizzle(this.pgQueryClient, {
+      schema,
+      logger: config.database.debug ? true : undefined,
+    });
   }
 
   private get databaseUrl() {
