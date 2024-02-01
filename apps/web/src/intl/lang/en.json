@@ -176,7 +176,9 @@
       "created": "Your comment was created successfully."
     },
     "createExchange": "Create exchange",
-    "notAvailable": "Transactions are not available on the app yet."
+    "notAvailable": "Transactions are not available on the app yet.",
+    "cancel": "Cancel request",
+    "canceled": "Your request was canceled"
   },
   "events": {
     "title": "Events",

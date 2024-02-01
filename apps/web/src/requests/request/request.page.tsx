@@ -46,7 +46,7 @@ export function RequestPage() {
             </section>
 
             <section class="col sm:hidden">
-              <CreateExchange />
+              <CreateExchange request={state.request} />
             </section>
 
             <hr />
@@ -59,7 +59,7 @@ export function RequestPage() {
 
           <section class="sm:col hidden flex-1 gap-4">
             <AuthorInfo request={state.request} />
-            <CreateExchange />
+            <CreateExchange request={state.request} />
           </section>
         </div>
       </SuspenseLoader>

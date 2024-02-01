@@ -5,6 +5,7 @@ import {
   MembersSort,
   Notification,
   Request,
+  RequestStatus,
   UpdateMemberProfileData,
 } from '@sel/shared';
 import { defined, isEnumValue } from '@sel/utils';
@@ -341,9 +342,10 @@ function requestsState() {
     editRequest: async (title: string, body: string) => {
       const requestId = defined(request()?.id);
 
-      await fetcher
-        .put<{ title: string; body: string }, string>(`/api/requests/${requestId}`, { title, body })
-        .body();
+      await fetcher.put<{ title: string; body: string }, void>(`/api/requests/${requestId}`, {
+        title,
+        body,
+      });
 
       await refetchRequest();
       router.navigate(routes.requests.request(requestId));
@@ -351,10 +353,17 @@ function requestsState() {
     },
 
     createRequestComment: async (requestId: string, body: string) => {
-      await fetcher.post<{ body: string }, string>(`/api/requests/${requestId}/comment`, { body }).body();
+      await fetcher.post<{ body: string }, void>(`/api/requests/${requestId}/comment`, { body });
 
       await refetchRequest();
       notify.success(translate('requests.comments.created'));
+    },
+
+    cancelRequest: async (requestId: string) => {
+      await fetcher.put<unknown, void>(`/api/requests/${requestId}/cancel`);
+
+      await refetchRequest();
+      notify.success(translate('requests.canceled'));
     },
   };
 }
@@ -365,10 +374,20 @@ export const selectRequest = (state: AppState) => {
 
 export const selectRequester = pipe(selectRequest, (request) => request?.requester);
 
-export const selectCanEditRequest = combine(
+export const selectIsRequester = combine(
   selectAuthenticatedMember,
   selectRequester,
   (authenticatedMember, requester) => {
     return authenticatedMember?.id === requester?.id;
   }
 );
+
+export const selectCanEditRequest = selectIsRequester;
+
+export const selectCanCreateRequestExchange = pipe(selectRequest, (request) => {
+  return request?.status === RequestStatus.pending;
+});
+
+export const selectCanCancelRequest = combine(selectIsRequester, selectRequest, (isRequester, request) => {
+  return isRequester && request?.status === RequestStatus.pending;
+});

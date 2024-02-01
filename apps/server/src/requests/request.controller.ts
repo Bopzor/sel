@@ -40,8 +40,8 @@ export class RequestController {
     this.router.post('/', this.createRequest);
     this.router.put('/:requestId', this.isRequester, this.editRequest);
     this.router.post('/:requestId/comment', this.createComment);
-    this.router.put('/:requestId/fulfilled', this.isRequester, this.setRequestFulfilled);
-    this.router.put('/:requestId/canceled', this.isRequester, this.setRequestCanceled);
+    this.router.put('/:requestId/fulfill', this.isRequester, this.setRequestFulfilled);
+    this.router.put('/:requestId/cancel', this.isRequester, this.setRequestCanceled);
   }
 
   authenticated: RequestHandler = (req, res, next) => {

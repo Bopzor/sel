@@ -176,7 +176,9 @@
       "created": "Votre commentaire a bien été créé."
     },
     "createExchange": "Créer un échange",
-    "notAvailable": "Les échanges ne sont pas encore disponibles sur l'app."
+    "notAvailable": "Les échanges ne sont pas encore disponibles sur l'app.",
+    "cancel": "Annuler la demande",
+    "canceled": "Votre demande a été annulée"
   },
   "events": {
     "title": "Événements",
