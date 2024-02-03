@@ -110,7 +110,7 @@ export const requestAnswers = pgTable('request_answers', {
     .references(() => members.id)
     .notNull(),
   date: date('date').notNull(),
-  answer: varchar('answer', { length: 16, enum: ['positive', 'negative'] }),
+  answer: varchar('answer', { length: 16, enum: ['positive', 'negative'] }).notNull(),
   createdAt: createdAt(),
   updatedAt: updatedAt(),
 });

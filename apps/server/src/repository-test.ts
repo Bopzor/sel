@@ -17,6 +17,7 @@ export class RepositoryTest {
   config = new StubConfigAdapter({
     database: {
       url: process.env.DATABASE_URL ?? 'postgres://postgres@localhost/test',
+      debug: process.env.DATABASE_URL === 'true',
     },
   });
 

@@ -138,7 +138,7 @@ describe('[E2E] Request', () => {
   it('marks a request as fulfilled', async () => {
     const request = await test.create.request({ requesterId: test.requester.id });
 
-    await test.fetch(`/requests/${request.id}/fulfilled`, { token, method: 'PUT' });
+    await test.fetch(`/requests/${request.id}/fulfill`, { token, method: 'PUT' });
 
     expect(await test.fetch(`/requests/${request.id}`, { token })).toHaveProperty(
       'body.status',

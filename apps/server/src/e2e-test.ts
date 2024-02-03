@@ -29,6 +29,7 @@ export class E2ETest {
     },
     database: {
       url: process.env.DATABASE_URL ?? 'postgres://postgres@localhost/test',
+      debug: process.env.DATABASE_URL === 'true',
     },
     app: {
       baseUrl: 'http://app.url',

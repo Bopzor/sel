@@ -3,7 +3,7 @@ CREATE TABLE IF NOT EXISTS "request_answers" (
 	"request_id" varchar(16) NOT NULL,
 	"member_id" varchar(16) NOT NULL,
 	"date" timestamp (3) NOT NULL,
-	"answer" varchar(16),
+	"answer" varchar(16) NOT NULL,
 	"created_at" timestamp (3) NOT NULL,
 	"updated_at" timestamp (3) NOT NULL
 );

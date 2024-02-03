@@ -25,6 +25,10 @@ export abstract class InMemoryRepository<Item extends { id: string }> {
     return defined(this.get(id));
   }
 
+  delete(id: string) {
+    this.items.delete(id);
+  }
+
   find(predicate: (item: Item) => boolean) {
     return this.all().find(predicate);
   }

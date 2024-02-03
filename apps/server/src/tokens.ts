@@ -53,12 +53,14 @@ import { MemberRepository } from './persistence/repositories/member/member.repos
 import { MemberDeviceRepository } from './persistence/repositories/member-device/member-device.repository';
 import { NotificationRepository } from './persistence/repositories/notification/notification.repository';
 import { RequestRepository } from './persistence/repositories/request/request.repository';
+import { RequestAnswerRepository } from './persistence/repositories/request-answer/request-answer.repository';
 import { SubscriptionRepository } from './persistence/repositories/subscription/subscription.repository';
 import { TokenRepository } from './persistence/repositories/token/token.repository';
 import { ChangeRequestStatus } from './requests/commands/change-request-status.command';
 import { CreateRequestComment } from './requests/commands/create-request-comment.command';
 import { CreateRequest } from './requests/commands/create-request.command';
 import { EditRequest } from './requests/commands/edit-request.command';
+import { SetRequestAnswer } from './requests/commands/set-request-answer.command';
 import { CreateRequestSubscription } from './requests/event-handlers/create-request-subscriptions.event-handler';
 import { NotifyRequestCommentCreated } from './requests/event-handlers/notify-request-comment-created.event-handler';
 import { NotifyRequestCreated } from './requests/event-handlers/notify-request-created.event-handler';
@@ -93,6 +95,7 @@ export const TOKENS = {
   sessionController: token<SessionController>('sessionController'),
   requestController: token<RequestController>('requestController'),
   requestRepository: token<RequestRepository>('requestRepository'),
+  requestAnswerRepository: token<RequestAnswerRepository>('requestAnswerRepository'),
   commentService: token<CommentService>('commentService'),
   commentRepository: token<CommentRepository>('commentRepository'),
   subscriptionRepository: token<SubscriptionRepository>('subscriptionRepository'),
@@ -114,6 +117,7 @@ export const COMMANDS = {
   editRequest: token<EditRequest>('editRequest'),
   createRequestComment: token<CreateRequestComment>('createRequestComment'),
   changeRequestStatus: token<ChangeRequestStatus>('changeRequestStatus'),
+  setRequestAnswer: token<SetRequestAnswer>('setRequestAnswer'),
   createMember: token<CreateMember>('createMember'),
   updateMemberProfile: token<UpdateMemberProfile>('updateMemberProfile'),
   changeNotificationDeliveryType: token<ChangeNotificationDeliveryType>('changeNotificationDeliveryType'),

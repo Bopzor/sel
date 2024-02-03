@@ -24,3 +24,11 @@ export class RequestIsNotPending extends DomainError<{ requestId: string; status
     super('Request is not pending', { requestId, status });
   }
 }
+
+export class CannotAnswerOwnRequest extends DomainError<{ requestId: string }> {
+  status = HttpStatus.badRequest;
+
+  constructor(requestId: string) {
+    super('Request is not pending', { requestId });
+  }
+}

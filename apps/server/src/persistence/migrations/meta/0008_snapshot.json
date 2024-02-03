@@ -1,5 +1,5 @@
 {
-  "id": "cdb2b9d4-3437-4dc9-aea4-b57f8ce334e4",
+  "id": "4e3c6916-72eb-47d7-ab9f-dc9ac079064d",
   "prevId": "6f72987b-9ad6-4b5b-a188-5ef556b46b81",
   "version": "5",
   "dialect": "pg",
@@ -450,7 +450,7 @@
           "name": "answer",
           "type": "varchar(16)",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true
         },
         "created_at": {
           "name": "created_at",

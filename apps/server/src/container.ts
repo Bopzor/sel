@@ -53,12 +53,14 @@ import { SqlMemberRepository } from './persistence/repositories/member/sql-membe
 import { SqlMemberDeviceRepository } from './persistence/repositories/member-device/sql-member-device.repository';
 import { SqlNotificationRepository } from './persistence/repositories/notification/sql-notification.repository';
 import { SqlRequestRepository } from './persistence/repositories/request/sql-request.repository';
+import { SqlRequestAnswerRepository } from './persistence/repositories/request-answer/sql-memory-request-answer.repository';
 import { SqlSubscriptionRepository } from './persistence/repositories/subscription/sql-subscription.repository';
 import { SqlTokenRepository } from './persistence/repositories/token/sql-token.repository';
 import { ChangeRequestStatus } from './requests/commands/change-request-status.command';
 import { CreateRequestComment } from './requests/commands/create-request-comment.command';
 import { CreateRequest } from './requests/commands/create-request.command';
 import { EditRequest } from './requests/commands/edit-request.command';
+import { SetRequestAnswer } from './requests/commands/set-request-answer.command';
 import { CreateRequestSubscription } from './requests/event-handlers/create-request-subscriptions.event-handler';
 import { NotifyRequestCommentCreated } from './requests/event-handlers/notify-request-comment-created.event-handler';
 import { NotifyRequestCreated } from './requests/event-handlers/notify-request-created.event-handler';
@@ -94,6 +96,7 @@ container.bindFactory(TOKENS.memberRepository, SqlMemberRepository.inject);
 
 container.bindFactory(TOKENS.requestController, RequestController.inject);
 container.bindFactory(TOKENS.requestRepository, SqlRequestRepository.inject);
+container.bindFactory(TOKENS.requestAnswerRepository, SqlRequestAnswerRepository.inject);
 
 container.bindFactory(TOKENS.authenticationController, AuthenticationController.inject);
 container.bindFactory(TOKENS.sessionController, SessionController.inject);
@@ -123,6 +126,7 @@ container.bindFactory(COMMANDS.createRequest, CreateRequest.inject);
 container.bindFactory(COMMANDS.editRequest, EditRequest.inject);
 container.bindFactory(COMMANDS.createRequestComment, CreateRequestComment.inject);
 container.bindFactory(COMMANDS.changeRequestStatus, ChangeRequestStatus.inject);
+container.bindFactory(COMMANDS.setRequestAnswer, SetRequestAnswer.inject);
 container.bindFactory(COMMANDS.createMember, CreateMember.inject);
 container.bindFactory(COMMANDS.updateMemberProfile, UpdateMemberProfile.inject);
 container.bindFactory(COMMANDS.changeNotificationDeliveryType, ChangeNotificationDeliveryType.inject);
