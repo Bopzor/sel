@@ -101,6 +101,22 @@
   .typo-h2 {
     @apply text-2xl font-semibold;
   }
+
+  .text-green {
+    @apply text-green-700 dark:text-green-300;
+  }
+
+  .border-green {
+    @apply border-green-700 dark:border-green-300;
+  }
+
+  .text-red {
+    @apply text-red-700 dark:text-red-300;
+  }
+
+  .border-red {
+    @apply border-red-700 dark:border-red-300;
+  }
 }
 
 @layer components {
@@ -134,16 +150,16 @@
     &:disabled {
       opacity: 0.6;
     }
+  }
 
-    &.button-primary {
-      @apply bg-green-600 dark:bg-green-700;
-      @apply border-green-600 dark:border-green-700;
-      color: white;
-    }
+  .button-primary {
+    @apply bg-green-600 dark:bg-green-700;
+    @apply border-green-600 dark:border-green-700;
+    color: white;
+  }
 
-    &.button-secondary {
-      @apply text-dim border-gray-400 dark:border-gray-600;
-    }
+  .button-secondary {
+    @apply text-dim border-gray-400 dark:border-gray-600;
   }
 }
 

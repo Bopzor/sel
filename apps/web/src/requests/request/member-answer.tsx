@@ -31,11 +31,11 @@ export const MemberAnswer = (props: MemberAnswerProps) => {
         class="row items-center gap-1 bg-neutral"
         onClick={() => setAnswer('positive')}
         classList={{
-          '!border-green-700': memberAnswer() === 'positive',
+          'border-green': memberAnswer() === 'positive',
           'grayscale opacity-75': memberAnswer() === 'negative',
         }}
       >
-        <Icon path={check} class="size-5 stroke-2 text-green-700" />
+        <Icon path={check} class="text-green size-5 stroke-2" />
         <T id="positive" />
       </Button>
 
@@ -43,12 +43,12 @@ export const MemberAnswer = (props: MemberAnswerProps) => {
         variant="secondary"
         class="row items-center gap-1 bg-neutral"
         classList={{
-          '!border-red-700': memberAnswer() === 'negative',
+          'border-red': memberAnswer() === 'negative',
           'grayscale opacity-75': memberAnswer() === 'positive',
         }}
         onClick={() => setAnswer('negative')}
       >
-        <Icon path={xMark} class="size-5 stroke-2 text-red-700" />
+        <Icon path={xMark} class="text-red size-5 stroke-2" />
         <T id="negative" />
       </Button>
     </div>

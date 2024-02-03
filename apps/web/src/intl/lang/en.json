@@ -188,6 +188,11 @@
       "submit": "Submit",
       "created": "Your comment was created successfully."
     },
+    "answersList": {
+      "title": "Answers",
+      "positive": "Yes",
+      "negative": "No"
+    },
     "createExchange": "Create exchange",
     "notAvailable": "Transactions are not available on the app yet.",
     "cancel": "Cancel request",

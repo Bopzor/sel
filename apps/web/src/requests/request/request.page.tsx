@@ -1,5 +1,5 @@
 import { useParams } from '@solidjs/router';
-import { onMount } from 'solid-js';
+import { Show, onMount } from 'solid-js';
 
 import { BackLink } from '../../components/back-link';
 import { Link } from '../../components/link';
@@ -7,8 +7,9 @@ import { SuspenseLoader } from '../../components/loader';
 import { MemberAvatarName } from '../../components/member-avatar-name';
 import { Translate } from '../../intl/translate';
 import { routes } from '../../routes';
-import { getAppState, getAppActions } from '../../store/app-store';
+import { getAppActions, getAppState, select, selectIsRequester } from '../../store/app-store';
 
+import { AnswersList } from './answers-list';
 import { AuthorInfo } from './author-info';
 import { Comments } from './comments';
 import { CreateExchange } from './create-exchange';
@@ -23,6 +24,8 @@ export function RequestPage() {
 
   const state = getAppState();
   const { loadRequest } = getAppActions();
+
+  const isRequester = select(selectIsRequester);
 
   onMount(() => loadRequest(requestId));
 
@@ -53,14 +56,16 @@ export function RequestPage() {
               <CreateExchange request={state.request} />
             </section>
 
-            <hr />
+            <Show when={!isRequester()}>
+              <hr />
 
-            <section>
-              <h2 class="mb-4">
-                <T id="answer.title" />
-              </h2>
-              <MemberAnswer request={state.request} />
-            </section>
+              <section>
+                <h2 class="mb-4">
+                  <T id="answer.title" />
+                </h2>
+                <MemberAnswer request={state.request} />
+              </section>
+            </Show>
 
             <hr />
 
@@ -72,10 +77,21 @@ export function RequestPage() {
             </section>
           </div>
 
-          <section class="sm:col hidden flex-1 gap-4">
+          <div class="sm:col hidden flex-1 gap-4">
             <AuthorInfo request={state.request} />
             <CreateExchange request={state.request} />
-          </section>
+
+            <Show when={isRequester()}>
+              <hr />
+
+              <section>
+                <h2 class="mb-4">
+                  <T id="answersList.title" />
+                </h2>
+                <AnswersList request={state.request} />
+              </section>
+            </Show>
+          </div>
         </div>
       </SuspenseLoader>
     </>

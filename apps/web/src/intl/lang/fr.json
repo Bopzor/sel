@@ -166,7 +166,7 @@
       "submit": "Créer la demande",
       "created": "Votre demande a bien été envoyée."
     },
-    "editRequest": "Modifier cette demande",
+    "editRequest": "Modifier la demande",
     "edit": {
       "title": "Edition de la demande « {requestTitle} »",
       "titleLabel": "Titre de la demande",
@@ -187,6 +187,11 @@
       "placeholder": "Écrire un commentaire...",
       "submit": "Envoyer",
       "created": "Votre commentaire a bien été créé."
+    },
+    "answersList": {
+      "title": "Réponses",
+      "positive": "Oui",
+      "negative": "Non"
     },
     "createExchange": "Créer un échange",
     "notAvailable": "Les échanges ne sont pas encore disponibles sur l'app.",
