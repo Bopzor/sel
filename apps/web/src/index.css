@@ -109,6 +109,10 @@
   .border-red {
     @apply border-red-700 dark:border-red-300;
   }
+
+  .fallback {
+    @apply text-dim font-medium row justify-center items-center;
+  }
 }
 
 @layer components {

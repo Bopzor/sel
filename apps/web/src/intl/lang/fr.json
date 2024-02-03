@@ -191,8 +191,10 @@
     },
     "answersList": {
       "title": "Réponses",
-      "positive": "Oui",
-      "negative": "Non"
+      "empty": "Aucune réponse n'a été faite pour l'instant.",
+      "answered": "{member} a répondu : ",
+      "positive": "oui",
+      "negative": "non"
     },
     "createExchange": "Créer un échange",
     "notAvailable": "Les échanges ne sont pas encore disponibles sur l'app.",

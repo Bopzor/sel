@@ -77,9 +77,11 @@ export function RequestPage() {
             </section>
           </div>
 
-          <div class="sm:col hidden flex-1 gap-4">
-            <AuthorInfo request={state.request} />
-            <CreateExchange request={state.request} />
+          <div class="col flex-1 gap-6">
+            <section class="sm:col hidden gap-4">
+              <AuthorInfo request={state.request} />
+              <CreateExchange request={state.request} />
+            </section>
 
             <Show when={isRequester()}>
               <hr />

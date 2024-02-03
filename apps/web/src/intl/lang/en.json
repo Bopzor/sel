@@ -191,8 +191,10 @@
     },
     "answersList": {
       "title": "Answers",
-      "positive": "Yes",
-      "negative": "No"
+      "empty": "No answer has been made yet.",
+      "answered": "{member} answered: ",
+      "positive": "yes",
+      "negative": "no"
     },
     "createExchange": "Create exchange",
     "notAvailable": "Transactions are not available on the app yet.",

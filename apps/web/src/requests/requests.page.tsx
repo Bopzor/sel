@@ -48,7 +48,7 @@ export function RequestsPage() {
 
       <SuspenseLoader>
         <Show when={(requests()?.length ?? 0) === 0}>
-          <div class="row min-h-32 items-center justify-center font-medium text-dim">
+          <div class="fallback min-h-32">
             <T id="noRequests" />
           </div>
         </Show>
@@ -87,7 +87,7 @@ function RequestListItem(props: RequestListItemProps) {
   return (
     <li class="rounded-lg bg-neutral p-4 shadow">
       <Link unstyled href={routes.requests.request(props.request.id)}>
-        <div class="row items-center justify-between">
+        <div class="sm:row flex flex-col-reverse justify-between gap-4 sm:items-center">
           <div class="row items-center gap-4">
             <MemberAvatarName member={props.request.requester} classes={{ name: 'text-lg' }} />
           </div>
