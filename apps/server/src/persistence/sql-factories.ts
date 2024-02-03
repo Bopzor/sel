@@ -4,7 +4,7 @@ import { TokenType } from '../authentication/token.entity';
 import { MemberStatus } from '../members/member.entity';
 import { RequestStatus } from '../requests/request.entity';
 
-import { comments, members, requests, tokens } from './schema';
+import { comments, members, requestAnswers, requests, tokens } from './schema';
 
 export const createSqlMember = createFactory<typeof members.$inferInsert>(() => ({
   id: '',
@@ -36,6 +36,16 @@ export const createSqlRequest = createFactory<typeof requests.$inferInsert>(() =
   title: '',
   text: '',
   html: '',
+  createdAt: createDate(),
+  updatedAt: createDate(),
+}));
+
+export const createSqlRequestAnswer = createFactory<typeof requestAnswers.$inferInsert>(() => ({
+  id: '',
+  requestId: '',
+  memberId: '',
+  date: createDate(),
+  answer: 'positive',
   createdAt: createDate(),
   updatedAt: createDate(),
 }));

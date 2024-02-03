@@ -115,6 +115,17 @@ export const requestAnswers = pgTable('request_answers', {
   updatedAt: updatedAt(),
 });
 
+export const requestAnswersRelations = relations(requestAnswers, ({ one }) => ({
+  request: one(requests, {
+    fields: [requestAnswers.requestId],
+    references: [requests.id],
+  }),
+  member: one(members, {
+    fields: [requestAnswers.memberId],
+    references: [members.id],
+  }),
+}));
+
 export const comments = pgTable('comments', {
   id: primaryKey(),
   authorId: id('author_id')

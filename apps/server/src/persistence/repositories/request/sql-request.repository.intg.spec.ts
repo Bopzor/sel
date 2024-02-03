@@ -4,8 +4,13 @@ import { beforeEach, describe, expect, it } from 'vitest';
 
 import { StubDate } from '../../../infrastructure/date/stub-date.adapter';
 import { RepositoryTest } from '../../../repository-test';
-import { comments, members, requests } from '../../schema';
-import { createSqlComment, createSqlMember, createSqlRequest } from '../../sql-factories';
+import { comments, members, requestAnswers, requests } from '../../schema';
+import {
+  createSqlComment,
+  createSqlMember,
+  createSqlRequest,
+  createSqlRequestAnswer,
+} from '../../sql-factories';
 
 import { SqlRequestRepository } from './sql-request.repository';
 
@@ -48,7 +53,7 @@ describe('[Intg] SqlRequestRepository', () => {
 
     const result = await test.repository.query_listRequests();
 
-    expect(result).toEqual<shared.Request[]>([
+    expect(result).toEqual([
       expect.objectContaining({
         id: 'requestId',
         requester: expect.objectContaining({
@@ -98,8 +103,53 @@ describe('[Intg] SqlRequestRepository', () => {
       },
       title: 'title',
       body: 'html',
+      answers: [],
       comments: [],
     });
+  });
+
+  it('retrieves the list of answers for a request', async () => {
+    await test.database.db.insert(members).values([
+      createSqlMember({
+        id: 'requesterId',
+        email: 'requester',
+      }),
+      createSqlMember({
+        id: 'memberId',
+        firstName: 'firstName',
+        lastName: 'lastName',
+      }),
+    ]);
+
+    await test.database.db.insert(requests).values(
+      createSqlRequest({
+        id: 'requestId',
+        requesterId: 'requesterId',
+      })
+    );
+
+    await test.database.db.insert(requestAnswers).values(
+      createSqlRequestAnswer({
+        id: 'requestAnswerId',
+        requestId: 'requestId',
+        memberId: 'memberId',
+        answer: 'positive',
+      })
+    );
+
+    const result = await test.repository.query_getRequest('requestId');
+
+    expect(result).toHaveProperty<shared.RequestAnswer[]>('answers', [
+      {
+        id: 'requestAnswerId',
+        member: {
+          id: 'memberId',
+          firstName: 'firstName',
+          lastName: 'lastName',
+        },
+        answer: 'positive',
+      },
+    ]);
   });
 
   it('retrieves the list of comments for a request', async () => {

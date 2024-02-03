@@ -14,7 +14,8 @@ import { TOKENS } from '../tokens';
 
 import * as schema from './schema';
 
-const { comments, members, memberDevices, requests, tokens, subscriptions, notifications } = schema;
+const { comments, members, memberDevices, requests, requestAnswers, tokens, subscriptions, notifications } =
+  schema;
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
@@ -71,6 +72,7 @@ export class Database {
     await this.db.delete(notifications);
     await this.db.delete(subscriptions);
     await this.db.delete(comments);
+    await this.db.delete(requestAnswers);
     await this.db.delete(requests);
     await this.db.delete(tokens);
     await this.db.delete(memberDevices);

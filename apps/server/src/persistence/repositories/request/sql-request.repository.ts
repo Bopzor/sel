@@ -6,7 +6,7 @@ import { DatePort } from '../../../infrastructure/date/date.port';
 import { Request, RequestStatus } from '../../../requests/request.entity';
 import { TOKENS } from '../../../tokens';
 import { Database } from '../../database';
-import { comments, members, requests } from '../../schema';
+import { comments, members, requestAnswers, requests } from '../../schema';
 
 import { InsertRequestModel, RequestRepository, UpdateRequestModel } from './request.repository';
 
@@ -26,6 +26,11 @@ export class SqlRequestRepository implements RequestRepository {
       },
       with: {
         requester: true,
+        answers: {
+          with: {
+            member: true,
+          },
+        },
         comments: {
           with: {
             author: true,
@@ -43,6 +48,11 @@ export class SqlRequestRepository implements RequestRepository {
       where: eq(requests.id, requestId),
       with: {
         requester: true,
+        answers: {
+          with: {
+            member: true,
+          },
+        },
         comments: {
           with: {
             author: true,
@@ -63,9 +73,10 @@ export class SqlRequestRepository implements RequestRepository {
     request: typeof requests.$inferSelect & {
       requester: typeof members.$inferSelect;
       comments: Array<typeof comments.$inferSelect & { author: typeof members.$inferSelect }>;
+      answers: Array<typeof requestAnswers.$inferSelect & { member: typeof members.$inferSelect }>;
     }
   ): shared.Request {
-    const { requester, comments } = request;
+    const { requester, comments, answers } = request;
 
     return {
       id: request.id,
@@ -80,6 +91,15 @@ export class SqlRequestRepository implements RequestRepository {
       },
       title: request.title,
       body: request.html,
+      answers: answers.map((answer) => ({
+        id: answer.id,
+        member: {
+          id: answer.member.id,
+          firstName: answer.member.firstName,
+          lastName: answer.member.lastName,
+        },
+        answer: answer.answer,
+      })),
       comments: comments.map((comment) => ({
         id: comment.id,
         date: comment.date.toISOString(),

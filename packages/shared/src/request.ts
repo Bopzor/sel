@@ -14,6 +14,7 @@ export type Request = {
   requester: Requester;
   title: string;
   body: string;
+  answers: RequestAnswer[];
   comments: Comment[];
 };
 
@@ -23,4 +24,14 @@ export type Requester = {
   lastName: string;
   email?: string;
   phoneNumbers: PhoneNumber[];
+};
+
+export type RequestAnswer = {
+  id: string;
+  member: {
+    id: string;
+    firstName: string;
+    lastName: string;
+  };
+  answer: 'positive' | 'negative';
 };
