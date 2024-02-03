@@ -77,7 +77,7 @@ export function MiscPage() {
           </section>
         </div>
 
-        <div class="max-w-md flex-1">
+        <div class="flex-1 sm:max-w-md">
           <Changelog />
         </div>
       </div>
@@ -92,7 +92,8 @@ function Changelog() {
         <T id="changelog.title" />
       </h2>
 
-      <ul class="divide-y">
+      {/* eslint-disable-next-line tailwindcss/no-arbitrary-value */}
+      <ul class="divide-y overflow-y-auto rounded border p-2 sm:max-h-[32rem]">
         <Index each={changelog}>{(entry) => <ChangelogEntry {...entry()} />}</Index>
       </ul>
     </section>
@@ -100,6 +101,14 @@ function Changelog() {
 }
 
 const changelog: Array<ChangelogEntryProps> = [
+  {
+    date: '2024-02-03',
+    description: 'Ajout des statuts et des réponses aux demandes.',
+  },
+  {
+    date: '2024-01-28',
+    description: 'Ajout des notifications.',
+  },
   {
     date: '2023-12-26',
     description: 'Première version des demandes.',
