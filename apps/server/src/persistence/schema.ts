@@ -97,8 +97,23 @@ export const requestsRelations = relations(requests, ({ one, many }) => ({
     fields: [requests.requesterId],
     references: [members.id],
   }),
+  answers: many(requestAnswers),
   comments: many(comments),
 }));
+
+export const requestAnswers = pgTable('request_answers', {
+  id: primaryKey(),
+  requestId: id('request_id')
+    .references(() => requests.id)
+    .notNull(),
+  memberId: id('member_id')
+    .references(() => members.id)
+    .notNull(),
+  date: date('date').notNull(),
+  answer: varchar('answer', { length: 16, enum: ['positive', 'negative'] }),
+  createdAt: createdAt(),
+  updatedAt: updatedAt(),
+});
 
 export const comments = pgTable('comments', {
   id: primaryKey(),
