@@ -147,6 +147,7 @@
   },
   "requests": {
     "title": "Requests",
+    "noRequests": "No request has been created yet.",
     "passedRequests": "Passed requests",
     "sentence1": "",
     "sentence2": "",

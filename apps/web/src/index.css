@@ -45,20 +45,12 @@
     height: 100%;
   }
 
-  a {
+  a:not(.unstyled) {
     @apply text-blue-500 dark:text-blue-300;
   }
 
-  a:hover {
+  a:not(.unstyled):hover {
     text-decoration: underline;
-  }
-
-  a.unstyled {
-    color: inherit;
-  }
-
-  a.unstyled:hover {
-    text-decoration: none;
   }
 
   h1 {

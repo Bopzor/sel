@@ -1,6 +1,6 @@
 import { useIntl } from '@cookbook/solid-intl';
 import { Request } from '@sel/shared';
-import { For, onMount } from 'solid-js';
+import { For, Show, onMount } from 'solid-js';
 
 import { BackLink } from '../components/back-link';
 import { LinkButton } from '../components/button';
@@ -11,7 +11,13 @@ import { MemberAvatarName } from '../components/member-avatar-name';
 import { RichText } from '../components/rich-text';
 import { Translate } from '../intl/translate';
 import { routes } from '../routes';
-import { getAppActions, select, selectNotPendingRequests, selectPendingRequests } from '../store/app-store';
+import {
+  getAppActions,
+  select,
+  selectNotPendingRequests,
+  selectPendingRequests,
+  selectRequests,
+} from '../store/app-store';
 
 import { RequestStatus } from './request-status';
 
@@ -22,6 +28,7 @@ export function RequestsPage() {
 
   onMount(loadRequests);
 
+  const requests = select(selectRequests);
   const pendingRequests = select(selectPendingRequests);
   const notPendingRequests = select(selectNotPendingRequests);
 
@@ -40,20 +47,30 @@ export function RequestsPage() {
       </div>
 
       <SuspenseLoader>
-        <div class="mt-6 max-w-4xl">
-          <ul class="col gap-6">
-            <For each={pendingRequests()}>{(request) => <RequestListItem request={request} />}</For>
-          </ul>
-
-          <div role="separator" class="row my-6 items-center gap-4">
-            <span class="flex-1 border-t" />
-            <T id="passedRequests" />
-            <span class="flex-1 border-t" />
+        <Show when={(requests()?.length ?? 0) === 0}>
+          <div class="row min-h-32 items-center justify-center font-medium text-dim">
+            <T id="noRequests" />
           </div>
+        </Show>
 
-          <ul class="col gap-6 opacity-50">
-            <For each={notPendingRequests()}>{(request) => <RequestListItem request={request} />}</For>
-          </ul>
+        <div class="mt-6 max-w-4xl">
+          <Show when={(pendingRequests()?.length ?? 0) > 0}>
+            <ul class="col gap-6">
+              <For each={pendingRequests()}>{(request) => <RequestListItem request={request} />}</For>
+            </ul>
+          </Show>
+
+          <Show when={(notPendingRequests()?.length ?? 0) > 0}>
+            <div role="separator" class="row my-6 items-center gap-4">
+              <span class="flex-1 border-t" />
+              <T id="passedRequests" />
+              <span class="flex-1 border-t" />
+            </div>
+
+            <ul class="col gap-6 opacity-50">
+              <For each={notPendingRequests()}>{(request) => <RequestListItem request={request} />}</For>
+            </ul>
+          </Show>
         </div>
       </SuspenseLoader>
     </FeatureFlag>

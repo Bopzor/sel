@@ -1,11 +1,13 @@
 import { A } from '@solidjs/router';
 import clsx from 'clsx';
-import { Component, ComponentProps } from 'solid-js';
+import { Component, ComponentProps, splitProps } from 'solid-js';
 
 type LinkProps = ComponentProps<typeof A> & {
   unstyled?: boolean;
 };
 
 export const Link: Component<LinkProps> = (props) => {
-  return <A {...props} class={clsx(props.class, props.unstyled && 'unstyled')} />;
+  const [unstyled, rest] = splitProps(props, ['unstyled']);
+
+  return <A {...rest} class={clsx(props.class, unstyled && 'unstyled')} />;
 };
