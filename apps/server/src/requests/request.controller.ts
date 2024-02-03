@@ -40,6 +40,7 @@ export class RequestController {
     this.router.post('/', this.createRequest);
     this.router.put('/:requestId', this.isRequester, this.editRequest);
     this.router.post('/:requestId/comment', this.createComment);
+    this.router.post('/:requestId/answer', this.setRequestAnswer);
     this.router.put('/:requestId/fulfill', this.isRequester, this.setRequestFulfilled);
     this.router.put('/:requestId/cancel', this.isRequester, this.setRequestCanceled);
   }
@@ -130,6 +131,24 @@ export class RequestController {
     });
 
     res.status(HttpStatus.created).send(commentId);
+  };
+
+  private static setAnswerSchema = z.object({
+    answer: z.enum(['positive', 'negative']).nullable(),
+  });
+
+  setRequestAnswer: RequestHandler<{ requestId: string }> = async (req, res) => {
+    const requestId = req.params.requestId;
+    const member = this.sessionProvider.getMember();
+    const data = RequestController.setAnswerSchema.parse(req.body);
+
+    await this.commandBus.executeCommand(COMMANDS.setRequestAnswer, {
+      requestId,
+      memberId: member.id,
+      answer: data.answer,
+    });
+
+    res.status(HttpStatus.noContent).end();
   };
 
   setRequestFulfilled: RequestHandler<{ requestId: string }> = async (req, res) => {

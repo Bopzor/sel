@@ -12,10 +12,11 @@ import { getAppState, getAppActions } from '../../store/app-store';
 import { AuthorInfo } from './author-info';
 import { Comments } from './comments';
 import { CreateExchange } from './create-exchange';
+import { MemberAnswer } from './member-answer';
 import { Message } from './message';
 import { Title } from './title';
 
-const T = Translate.prefix('requests.comments');
+const T = Translate.prefix('requests');
 
 export function RequestPage() {
   const { requestId } = useParams<{ requestId: string }>();
@@ -56,7 +57,16 @@ export function RequestPage() {
 
             <section>
               <h2 class="mb-4">
-                <T id="title" />
+                <T id="answer.title" />
+              </h2>
+              <MemberAnswer request={state.request} />
+            </section>
+
+            <hr />
+
+            <section>
+              <h2 class="mb-4">
+                <T id="comments.title" />
               </h2>
               <Comments request={state.request} />
             </section>

@@ -365,6 +365,15 @@ function requestsState() {
       await refetchRequest();
       notify.success(translate('requests.canceled'));
     },
+
+    setRequestAnswer: async (requestId: string, answer: 'positive' | 'negative' | null) => {
+      await fetcher.post<{ answer: 'positive' | 'negative' | null }, void>(
+        `/api/requests/${requestId}/answer`,
+        { answer }
+      );
+
+      await refetchRequest();
+    },
   };
 }
 
@@ -401,3 +410,15 @@ export const selectCanCreateRequestExchange = pipe(selectRequest, (request) => {
 export const selectCanCancelRequest = combine(selectIsRequester, selectRequest, (isRequester, request) => {
   return isRequester && request?.status === RequestStatus.pending;
 });
+
+export const selectNumberOfPositiveRequestAnswers = pipe(selectRequest, (request) => {
+  return request?.answers.filter((answer) => answer.answer === 'positive')?.length;
+});
+
+export const selectRequestMemberAnswer = combine(
+  selectAuthenticatedMember,
+  selectRequest,
+  (member, request) => {
+    return request?.answers.find((answer) => answer.member.id === member?.id)?.answer;
+  }
+);

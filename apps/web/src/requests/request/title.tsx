@@ -1,4 +1,4 @@
-import { Request } from '@sel/shared';
+import { Request, RequestStatus as RequestStatusEnum } from '@sel/shared';
 import { Icon } from 'solid-heroicons';
 import { pencil } from 'solid-heroicons/solid';
 import { Show } from 'solid-js';
@@ -7,7 +7,7 @@ import { LinkButton } from '../../components/button';
 import { FormattedDate } from '../../intl/formatted';
 import { Translate } from '../../intl/translate';
 import { routes } from '../../routes';
-import { select, selectCanEditRequest } from '../../store/app-store';
+import { select, selectCanEditRequest, selectNumberOfPositiveRequestAnswers } from '../../store/app-store';
 import { RequestStatus } from '../request-status';
 
 const T = Translate.prefix('requests');
@@ -18,6 +18,7 @@ type TitleProps = {
 
 export function Title(props: TitleProps) {
   const canEdit = select(selectCanEditRequest);
+  const positiveAnswers = select(selectNumberOfPositiveRequestAnswers);
 
   return (
     <div class="col md:row mb-6 items-start justify-between gap-4">
@@ -33,6 +34,10 @@ export function Title(props: TitleProps) {
           <span>&bullet;</span>
 
           <RequestStatus status={props.request?.status} />
+
+          <Show when={props.request?.status === RequestStatusEnum.pending && (positiveAnswers() ?? 0) > 0}>
+            <T id="numberOfPositiveAnswers" values={{ count: positiveAnswers() }} />
+          </Show>
         </div>
       </div>
 

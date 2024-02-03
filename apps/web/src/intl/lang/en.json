@@ -156,6 +156,7 @@
       "fulfilled": "Fulfilled",
       "canceled": "Canceled"
     },
+    "numberOfPositiveAnswers": "({count} positive {{count, plural, =1 {answer} other {answers}}})",
     "create": {
       "title": "Create a new request",
       "titleLabel": "Request title",
@@ -176,6 +177,11 @@
     },
     "date": "The {date}",
     "contact": "Contact {author}",
+    "answer": {
+      "title": "My answer",
+      "positive": "OK",
+      "negative": "I can't"
+    },
     "comments": {
       "title": "Comments",
       "placeholder": "Write a comment...",
