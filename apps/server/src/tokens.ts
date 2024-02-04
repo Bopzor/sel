@@ -64,6 +64,7 @@ import { SetRequestAnswer } from './requests/commands/set-request-answer.command
 import { CreateRequestSubscription } from './requests/event-handlers/create-request-subscriptions.event-handler';
 import { NotifyRequestCommentCreated } from './requests/event-handlers/notify-request-comment-created.event-handler';
 import { NotifyRequestCreated } from './requests/event-handlers/notify-request-created.event-handler';
+import { NotifyRequestStatusChanged } from './requests/event-handlers/notify-request-status-changed.event-handler';
 import { GetRequest } from './requests/queries/get-request.query';
 import { ListRequests } from './requests/queries/list-requests.query';
 import { RequestController } from './requests/request.controller';
@@ -147,6 +148,7 @@ export const EVENT_HANDLERS = {
   createRequestSubscription: token<CreateRequestSubscription>('createRequestSubscription'),
   notifyRequestCreated: token<NotifyRequestCreated>('notifyRequestCreated'),
   notifyRequestCommentCreated: token<NotifyRequestCommentCreated>('notifyRequestCommentCreated'),
+  notifyRequestStatusChanged: token<NotifyRequestStatusChanged>('notifyRequestStatusChanged'),
   createMemberSubscription: token<CreateMemberSubscription>('createMemberSubscription'),
   deliverNotification: token<DeliverNotification>('deliverNotification'),
 };

@@ -1,5 +1,7 @@
+import { JSX } from 'solid-js';
+
 type HeadProps = {
-  preview: string;
+  preview: JSX.Element;
 };
 
 export function Head(props: HeadProps) {

@@ -7,7 +7,12 @@ import { PushNotificationPort } from './infrastructure/push-notification/push-no
 import { AuthenticationLinkRequested, MemberCreated } from './members/member-events';
 import { NotificationCreated } from './notifications/notification-events';
 import { Database } from './persistence/database';
-import { RequestCommentCreated, RequestCreated } from './requests/request-events';
+import {
+  RequestCanceled,
+  RequestCommentCreated,
+  RequestCreated,
+  RequestFulfilled,
+} from './requests/request-events';
 import { COMMANDS, EVENT_HANDLERS, TOKENS } from './tokens';
 
 export class Application {
@@ -43,6 +48,8 @@ export class Application {
     eventBus.bind(RequestCreated, EVENT_HANDLERS.notifyRequestCreated);
     eventBus.bind(RequestCommentCreated, EVENT_HANDLERS.createRequestSubscription);
     eventBus.bind(RequestCommentCreated, EVENT_HANDLERS.notifyRequestCommentCreated);
+    eventBus.bind(RequestFulfilled, EVENT_HANDLERS.notifyRequestStatusChanged);
+    eventBus.bind(RequestCanceled, EVENT_HANDLERS.notifyRequestStatusChanged);
 
     eventBus.bind(MemberCreated, EVENT_HANDLERS.createMemberSubscription);
 

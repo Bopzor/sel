@@ -1,3 +1,5 @@
+import util from 'node:util';
+
 import { Bus } from '@sel/cqs';
 import { Container, Token, injectableClass } from 'ditox';
 
@@ -34,7 +36,7 @@ export class CommandBus extends Bus {
   async executeCommand<Command>(token: Token<CommandHandler<Command>>, command: Command): Promise<void> {
     const handler = this.container.resolve(token);
 
-    this.logger.info(`Executing command ${token.symbol.description}`, command);
+    this.logger.info(`Executing command ${token.symbol.description}`, util.inspect(command));
 
     try {
       await this.execute(handler.handle.bind(handler), command);

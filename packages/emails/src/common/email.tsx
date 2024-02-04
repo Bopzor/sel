@@ -5,7 +5,7 @@ import { Head } from './head';
 
 type EmailProps = {
   appBaseUrl: string;
-  preview: string;
+  preview: JSX.Element;
   children: JSX.Element;
 };
 

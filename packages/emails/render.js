@@ -71,6 +71,21 @@ const variables = {
       },
     },
   },
+
+  requestStatusChanged: {
+    appBaseUrl,
+    firstName,
+    request: {
+      id: 'requestId',
+      title: 'Accorder un piano',
+      status: 'canceled',
+      requester: {
+        id: 'requesterId',
+        firstName: 'Maxence',
+        lastName: 'Duparc',
+      },
+    },
+  },
 };
 
 await fs.mkdir('outputs', { recursive: true });

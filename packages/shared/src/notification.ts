@@ -1,4 +1,12 @@
-const notificationTypes = ['NewAppVersion', 'RequestCreated', 'RequestCommentCreated'] as const;
+import { RequestStatus } from './request';
+
+const notificationTypes = [
+  'NewAppVersion',
+  'RequestCreated',
+  'RequestCommentCreated',
+  'RequestStatusChanged',
+] as const;
+
 export type NotificationType = (typeof notificationTypes)[number];
 
 export function isNotificationType(type: string): type is NotificationType {
@@ -55,6 +63,19 @@ export type NotificationData = {
       id: string;
       message: string;
       author: {
+        id: string;
+        firstName: string;
+        lastName: string;
+      };
+    };
+  };
+
+  RequestStatusChanged: {
+    request: {
+      id: string;
+      title: string;
+      status: RequestStatus;
+      requester: {
         id: string;
         firstName: string;
         lastName: string;

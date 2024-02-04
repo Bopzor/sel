@@ -64,6 +64,7 @@ import { SetRequestAnswer } from './requests/commands/set-request-answer.command
 import { CreateRequestSubscription } from './requests/event-handlers/create-request-subscriptions.event-handler';
 import { NotifyRequestCommentCreated } from './requests/event-handlers/notify-request-comment-created.event-handler';
 import { NotifyRequestCreated } from './requests/event-handlers/notify-request-created.event-handler';
+import { NotifyRequestStatusChanged } from './requests/event-handlers/notify-request-status-changed.event-handler';
 import { GetRequest } from './requests/queries/get-request.query';
 import { ListRequests } from './requests/queries/list-requests.query';
 import { RequestController } from './requests/request.controller';
@@ -152,5 +153,6 @@ container.bindFactory(EVENT_HANDLERS.sendAuthenticationEmail, SendAuthentication
 container.bindFactory(EVENT_HANDLERS.createRequestSubscription, CreateRequestSubscription.inject);
 container.bindFactory(EVENT_HANDLERS.notifyRequestCreated, NotifyRequestCreated.inject);
 container.bindFactory(EVENT_HANDLERS.notifyRequestCommentCreated, NotifyRequestCommentCreated.inject);
+container.bindFactory(EVENT_HANDLERS.notifyRequestStatusChanged, NotifyRequestStatusChanged.inject);
 container.bindFactory(EVENT_HANDLERS.createMemberSubscription, CreateMemberSubscription.inject);
 container.bindFactory(EVENT_HANDLERS.deliverNotification, DeliverNotification.inject);

@@ -4,5 +4,7 @@
   "newAppVersion.content": "Une nouvelle version de l'app est disponible.",
   "requestCreated.title": "Demande de {requester}",
   "requestCommentCreated.title": "Nouveau commentaire sur la demande \"{title}\"",
-  "requestCommentCreated.content": "{author} : {message}"
+  "requestCommentCreated.content": "{author} : {message}",
+  "requestStatusChanged.title": "La demande de {requester} a été annulée",
+  "requestStatusChanged.content": "{requester} a annulé sa demande \"{title}\""
 }

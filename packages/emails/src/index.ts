@@ -6,6 +6,7 @@ import * as authentication from './emails/authentication';
 import * as newAppVersion from './emails/new-app-version';
 import * as requestCreated from './emails/request-created';
 import * as requestCommentCreated from './emails/request-comment-created';
+import * as requestStatusChanged from './emails/request-status-changed';
 import * as test from './emails/test';
 
 export default {
@@ -13,6 +14,7 @@ export default {
   newAppVersion: renderer(newAppVersion),
   requestCreated: renderer(requestCreated),
   requestCommentCreated: renderer(requestCommentCreated),
+  requestStatusChanged: renderer(requestStatusChanged),
   test: renderer(test),
 };
 

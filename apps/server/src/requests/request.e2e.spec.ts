@@ -145,4 +145,25 @@ describe('[E2E] Request', () => {
       shared.RequestStatus.fulfilled
     );
   });
+
+  it('sends a notification when the request status changed', async () => {
+    const request = await test.create.request({ requesterId: test.requester.id });
+
+    await test.fetch(`/requests/${request.id}/comment`, {
+      token: test.memberToken,
+      method: 'POST',
+      body: { body: '' },
+    });
+
+    await test.fetch(`/requests/${request.id}/fulfill`, { token, method: 'PUT' });
+    await test.waitForEventHandlers();
+
+    const { body: memberNotifications } = await test.fetch('/session/notifications', {
+      token: test.memberToken,
+    });
+
+    expect(memberNotifications).toHaveLength(2);
+    expect(memberNotifications).toHaveProperty('0.type', 'RequestStatusChanged');
+    expect(memberNotifications).toHaveProperty('0.data.request.status', 'fulfilled');
+  });
 });
