@@ -7,7 +7,7 @@ type LinkProps = ComponentProps<typeof A> & {
 };
 
 export const Link: Component<LinkProps> = (props) => {
-  const [unstyled, rest] = splitProps(props, ['unstyled']);
+  const [{ unstyled }, rest] = splitProps(props, ['unstyled']);
 
   return <A {...rest} class={clsx(props.class, unstyled && 'unstyled')} />;
 };

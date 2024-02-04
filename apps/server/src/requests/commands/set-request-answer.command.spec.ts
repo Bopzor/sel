@@ -79,7 +79,7 @@ describe('[Unit] SetRequestAnswer', () => {
       await test.execute();
 
       expect(test.eventPublisher).toHaveEmitted(
-        new RequestAnswerCreated('requestId', 'generatedId', 'positive')
+        new RequestAnswerCreated('requestId', 'generatedId', 'memberId', 'positive')
       );
     });
 

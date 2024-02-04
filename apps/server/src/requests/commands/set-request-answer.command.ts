@@ -70,7 +70,7 @@ export class SetRequestAnswer implements CommandHandler<SetRequestAnswerCommand>
       if (requestAnswer) {
         this.eventPublisher.publish(new RequestAnswerChanged(request.id, requestAnswerId, answer));
       } else {
-        this.eventPublisher.publish(new RequestAnswerCreated(request.id, requestAnswerId, answer));
+        this.eventPublisher.publish(new RequestAnswerCreated(request.id, requestAnswerId, memberId, answer));
       }
     }
 

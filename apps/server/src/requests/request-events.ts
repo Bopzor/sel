@@ -28,6 +28,7 @@ export class RequestAnswerCreated extends RequestEvent {
   constructor(
     requestId: string,
     public readonly requestAnswerId: string,
+    public readonly memberId: string,
     public readonly answer: RequestAnswer['answer']
   ) {
     super(requestId);

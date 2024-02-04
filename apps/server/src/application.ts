@@ -8,6 +8,7 @@ import { AuthenticationLinkRequested, MemberCreated } from './members/member-eve
 import { NotificationCreated } from './notifications/notification-events';
 import { Database } from './persistence/database';
 import {
+  RequestAnswerCreated,
   RequestCanceled,
   RequestCommentCreated,
   RequestCreated,
@@ -46,6 +47,7 @@ export class Application {
 
     eventBus.bind(RequestCreated, EVENT_HANDLERS.createRequestSubscription);
     eventBus.bind(RequestCreated, EVENT_HANDLERS.notifyRequestCreated);
+    eventBus.bind(RequestAnswerCreated, EVENT_HANDLERS.createRequestSubscription);
     eventBus.bind(RequestCommentCreated, EVENT_HANDLERS.createRequestSubscription);
     eventBus.bind(RequestCommentCreated, EVENT_HANDLERS.notifyRequestCommentCreated);
     eventBus.bind(RequestFulfilled, EVENT_HANDLERS.notifyRequestStatusChanged);

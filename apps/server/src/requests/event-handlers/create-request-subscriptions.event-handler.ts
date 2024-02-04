@@ -3,14 +3,16 @@ import { injectableClass } from 'ditox';
 import { CommandBus } from '../../infrastructure/cqs/command-bus';
 import { EventHandler } from '../../infrastructure/cqs/event-handler';
 import { COMMANDS, TOKENS } from '../../tokens';
-import { RequestCommentCreated, RequestCreated } from '../request-events';
+import { RequestAnswerCreated, RequestCommentCreated, RequestCreated } from '../request-events';
 
-export class CreateRequestSubscription implements EventHandler<RequestCreated | RequestCommentCreated> {
+export class CreateRequestSubscription
+  implements EventHandler<RequestCreated | RequestAnswerCreated | RequestCommentCreated>
+{
   static inject = injectableClass(this, TOKENS.commandBus);
 
   constructor(private readonly commandBus: CommandBus) {}
 
-  async handle(event: RequestCreated | RequestCommentCreated): Promise<void> {
+  async handle(event: RequestCreated | RequestAnswerCreated | RequestCommentCreated): Promise<void> {
     await this.commandBus.executeCommand(COMMANDS.createSubscription, {
       type: 'RequestEvent',
       memberId: this.memberId(event),
@@ -18,9 +20,13 @@ export class CreateRequestSubscription implements EventHandler<RequestCreated | 
     });
   }
 
-  private memberId(event: RequestCreated | RequestCommentCreated): string {
+  private memberId(event: RequestCreated | RequestAnswerCreated | RequestCommentCreated): string {
     if (event instanceof RequestCreated) {
       return event.requesterId;
+    }
+
+    if (event instanceof RequestAnswerCreated) {
+      return event.memberId;
     }
 
     return event.authorId;
