@@ -10,7 +10,6 @@ import { RequestStatus } from '../request.entity';
 
 export type ChangeRequestStatusCommand = {
   requestId: string;
-  // eslint-disable-next-line @typescript-eslint/no-redundant-type-constituents
   status: RequestStatus.fulfilled | RequestStatus.canceled;
 };
 

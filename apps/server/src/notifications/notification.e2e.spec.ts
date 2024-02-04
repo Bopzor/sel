@@ -5,7 +5,6 @@ import { NotificationDeliveryType } from '../common/notification-delivery-type';
 import { E2ETest } from '../e2e-test';
 import { ChangeNotificationDeliveryTypeCommand } from '../members/commands/change-notification-delivery-type.command';
 import { Member } from '../members/member.entity';
-import { COMMANDS } from '../tokens';
 
 class Test extends E2ETest {
   member!: Member;
