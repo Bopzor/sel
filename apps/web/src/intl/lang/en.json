@@ -181,7 +181,8 @@
     "answer": {
       "title": "My answer",
       "positive": "OK",
-      "negative": "I can't"
+      "negative": "I can't",
+      "requestIsNotPending": "This request is not pending."
     },
     "comments": {
       "title": "Comments",

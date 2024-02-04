@@ -8,9 +8,9 @@ import { InMemoryRequestRepository } from '../../persistence/repositories/reques
 import { InMemoryRequestAnswerRepository } from '../../persistence/repositories/request-answer/in-memory-request-answer.repository';
 import { UnitTest } from '../../unit-test';
 import { RequestAnswer, createRequestAnswer } from '../request-answer.entity';
-import { CannotAnswerOwnRequest } from '../request-errors';
+import { CannotAnswerOwnRequest, RequestIsNotPending } from '../request-errors';
 import { RequestAnswerChanged, RequestAnswerCreated, RequestAnswerDeleted } from '../request-events';
-import { createRequest } from '../request.entity';
+import { RequestStatus, createRequest } from '../request.entity';
 
 import { SetRequestAnswer, SetRequestAnswerCommand } from './set-request-answer.command';
 
@@ -95,6 +95,17 @@ describe('[Unit] SetRequestAnswer', () => {
       test.command.memberId = 'requesterId';
 
       await expect(test.execute()).rejects.toThrow(CannotAnswerOwnRequest);
+    });
+
+    it('prevents to set an answer on a request that is not pending', async () => {
+      test.requestRepository.add(
+        createRequest({
+          id: 'requestId',
+          status: RequestStatus.canceled,
+        })
+      );
+
+      await expect(test.execute()).rejects.toThrow(RequestIsNotPending);
     });
   });
 

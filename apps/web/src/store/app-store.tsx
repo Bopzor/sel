@@ -14,6 +14,7 @@ import { SetStoreFunction, createStore } from 'solid-js/store';
 
 import { FetchError } from '../fetcher';
 import { container } from '../infrastructure/container';
+import { NotificationType } from '../infrastructure/notifications/notifications.port';
 import { useSearchParam } from '../infrastructure/router/use-search-param';
 import { useTranslation } from '../intl/translate';
 import { routes } from '../routes';
@@ -367,6 +368,11 @@ function requestsState() {
     },
 
     setRequestAnswer: async (requestId: string, answer: 'positive' | 'negative' | null) => {
+      if (request()?.status !== RequestStatus.pending) {
+        notify(NotificationType.info, translate('requests.answer.requestIsNotPending'));
+        return;
+      }
+
       await fetcher.post<{ answer: 'positive' | 'negative' | null }, void>(
         `/api/requests/${requestId}/answer`,
         { answer }

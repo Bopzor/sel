@@ -1,3 +1,4 @@
+import { RequestStatus } from '@sel/shared';
 import { injectableClass } from 'ditox';
 
 import { CommandHandler } from '../../infrastructure/cqs/command-handler';
@@ -7,7 +8,7 @@ import { GeneratorPort } from '../../infrastructure/generator/generator.port';
 import { RequestRepository } from '../../persistence/repositories/request/request.repository';
 import { RequestAnswerRepository } from '../../persistence/repositories/request-answer/request-answer.repository';
 import { TOKENS } from '../../tokens';
-import { CannotAnswerOwnRequest, RequestNotFound } from '../request-errors';
+import { CannotAnswerOwnRequest, RequestIsNotPending, RequestNotFound } from '../request-errors';
 import { RequestAnswerChanged, RequestAnswerCreated, RequestAnswerDeleted } from '../request-events';
 
 export type SetRequestAnswerCommand = {
@@ -39,6 +40,10 @@ export class SetRequestAnswer implements CommandHandler<SetRequestAnswerCommand>
 
     if (!request) {
       throw new RequestNotFound(requestId);
+    }
+
+    if (request.status !== RequestStatus.pending) {
+      throw new RequestIsNotPending(requestId, request.status);
     }
 
     if (memberId === request.requesterId) {

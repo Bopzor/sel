@@ -181,7 +181,8 @@
     "answer": {
       "title": "Ma réponse",
       "positive": "OK",
-      "negative": "Je ne peux pas"
+      "negative": "Je ne peux pas",
+      "requestIsNotPending": "Cette demande n'est pas en cours."
     },
     "comments": {
       "title": "Commentaires",
