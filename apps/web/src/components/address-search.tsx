@@ -38,7 +38,7 @@ export const AddressSearch: Component<AddressSearchProps> = (props) => {
         placeholder={props.placeholder}
         value={props.value ? formatAddressInline(props.value) : undefined}
         onInput={(event) => setQuery(event.currentTarget.value)}
-        end={results.loading && <Spinner class="h-4 w-4 text-dim" />}
+        end={results.loading && <Spinner class="size-4 text-dim" />}
       />
 
       <Suspense>

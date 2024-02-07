@@ -2,10 +2,8 @@ import { Member } from '@sel/shared';
 import clsx from 'clsx';
 import { Component, Show } from 'solid-js';
 
-const params = new URLSearchParams({
-  default: 'mp',
-  size: '80',
-});
+import { container } from '../infrastructure/container';
+import { TOKENS } from '../tokens';
 
 type MemberAvatarProps = {
   member?: Pick<Member, 'id'>;
@@ -13,11 +11,11 @@ type MemberAvatarProps = {
 };
 
 export const MemberAvatar: Component<MemberAvatarProps> = (props) => {
-  const url = () => {
-    const memberId = props.member?.id;
+  const avatarAdapter = container.resolve(TOKENS.memberAvatar);
 
-    if (memberId) {
-      return `/api/members/${memberId}/avatar?${params}`;
+  const url = () => {
+    if (props.member) {
+      return avatarAdapter.getAvatarUrl(props.member);
     }
   };
 

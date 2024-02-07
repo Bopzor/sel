@@ -32,6 +32,7 @@
   ::before,
   ::after {
     border-color: rgb(var(--color-border));
+    @apply outline-offset-4;
   }
 
   @media screen and (max-width: 640px) {
@@ -91,7 +92,7 @@
   }
 
   .typo-h2 {
-    @apply text-2xl font-semibold;
+    @apply text-xl font-semibold;
   }
 
   .text-green {

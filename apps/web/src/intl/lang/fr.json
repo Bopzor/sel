@@ -22,6 +22,7 @@
       "unknownErrorMessage": "🫨<nbsp></nbsp>Il s'est passé quelque chose qui n'était pas prévu...<nbsp></nbsp>🥲",
       "unknownErrorDescription": "C'est probablement un bug, la personne responsable sera privée de dessert.",
       "errorMessage": "Message d'erreur : {message}",
+      "error": "Erreur : {message}",
       "unexpectedError": "Une erreur s'est produite.",
       "resetToHome": "Retour",
       "reset": "Réessayer"
@@ -176,8 +177,8 @@
       "bodyPlaceholder": "J'ai besoin d'un coup de main pour...",
       "edited": "Votre demande a bien été mise à jour."
     },
-    "date": "Le {date}",
-    "contact": "Contacter {author}",
+    "date": "Le {date, date, medium} à {date, time, short}",
+    "contact": "Contacter {requester}",
     "answer": {
       "title": "Ma réponse",
       "positive": "OK",

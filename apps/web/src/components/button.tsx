@@ -31,7 +31,7 @@ export const Button: Component<ButtonProps> = (props1) => {
     >
       {buttonProps.children}
       <Show when={loading()}>
-        <Spinner class="h-4 w-4" />
+        <Spinner class="size-4" />
       </Show>
     </button>
   );
@@ -57,7 +57,7 @@ export const LinkButton: Component<LinkButtonProps> = (props1) => {
       }}
     >
       {props.children}
-      {props.loading && <Spinner class="h-4 w-4" />}
+      {props.loading && <Spinner class="size-4" />}
     </Link>
   );
 };

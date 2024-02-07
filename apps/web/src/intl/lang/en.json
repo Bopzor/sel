@@ -21,8 +21,9 @@
     "error": {
       "unknownErrorMessage": "🫨<nbsp></nbsp>Something unexpected just happened...<nbsp></nbsp>🥲",
       "unknownErrorDescription": "It's probably a bug, the person responsible won't get any dessert.",
+      "error": "Error: {message}",
       "errorMessage": "Error message: {message}",
-      "unexpectedError": "An error happened.",
+      "unexpectedError": "An unexpected error happened.",
       "resetToHome": "Back",
       "reset": "Reset"
     }
@@ -176,8 +177,8 @@
       "bodyPlaceholder": "I need a hand with...",
       "edited": "Your request was edited successfully."
     },
-    "date": "The {date}",
-    "contact": "Contact {author}",
+    "date": "The {date, date, medium} at {date, time, short}",
+    "contact": "Contact {requester}",
     "answer": {
       "title": "My answer",
       "positive": "OK",

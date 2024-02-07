@@ -14,7 +14,6 @@ import { SetStoreFunction, createStore } from 'solid-js/store';
 
 import { FetchError } from '../fetcher';
 import { container } from '../infrastructure/container';
-import { NotificationType } from '../infrastructure/notifications/notifications.port';
 import { useSearchParam } from '../infrastructure/router/use-search-param';
 import { useTranslation } from '../intl/translate';
 import { routes } from '../routes';
@@ -351,34 +350,6 @@ function requestsState() {
       await refetchRequest();
       router.navigate(routes.requests.request(requestId));
       notify.success(translate('requests.edit.edited'));
-    },
-
-    createRequestComment: async (requestId: string, body: string) => {
-      await fetcher.post<{ body: string }, void>(`/api/requests/${requestId}/comment`, { body });
-
-      await refetchRequest();
-      notify.success(translate('requests.comments.created'));
-    },
-
-    cancelRequest: async (requestId: string) => {
-      await fetcher.put<unknown, void>(`/api/requests/${requestId}/cancel`);
-
-      await refetchRequest();
-      notify.success(translate('requests.canceled'));
-    },
-
-    setRequestAnswer: async (requestId: string, answer: 'positive' | 'negative' | null) => {
-      if (request()?.status !== RequestStatus.pending) {
-        notify(NotificationType.info, translate('requests.answer.requestIsNotPending'));
-        return;
-      }
-
-      await fetcher.post<{ answer: 'positive' | 'negative' | null }, void>(
-        `/api/requests/${requestId}/answer`,
-        { answer }
-      );
-
-      await refetchRequest();
     },
   };
 }

@@ -29,7 +29,7 @@ const MemberPage = lazyImport(() => import('./members/member.page'), 'MemberPage
 const RequestsPage = lazyImport(() => import('./requests/requests.page'), 'RequestsPage');
 // prettier-ignore
 const CreateRequestPage = lazyImport(() => import('./requests/create-request/create-request.page'), 'CreateRequestPage');
-const RequestPage = lazyImport(() => import('./requests/request/request.page'), 'RequestPage');
+const RequestPage = lazy(() => import('./modules/requests/request-details/request-details.page'));
 const MiscPage = lazyImport(() => import('./misc.page'), 'MiscPage');
 const ProfileLayout = lazyImport(() => import('./profile/profile.layout'), 'ProfileLayout');
 const ProfileEditionPage = lazyImport(() => import('./profile/profile-edition.page'), 'ProfileEditionPage');

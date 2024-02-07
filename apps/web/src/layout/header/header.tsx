@@ -48,7 +48,7 @@ export const HeaderMember = () => {
         href={routes.profile.profileEdition}
         class="col relative items-center gap-1 font-semibold"
       >
-        <MemberAvatar member={state.authenticatedMember} class="relative h-10 w-10 rounded-full" />
+        <MemberAvatar member={state.authenticatedMember} class="relative size-10 rounded-full" />
 
         <span
           class="row absolute -right-1 -top-1 size-5 scale-0 items-center justify-center rounded-full bg-green-600 text-sm transition-transform"

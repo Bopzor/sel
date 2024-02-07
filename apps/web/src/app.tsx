@@ -1,5 +1,6 @@
 import { JSX, ErrorBoundary as SolidErrorBoundary, onMount } from 'solid-js';
 
+import { AppContextProvider } from './app-context';
 import { SuspenseLoader } from './components/loader';
 import { MatomoScript } from './infrastructure/analytics/matomo-script';
 import { TrackPageView } from './infrastructure/analytics/track-page-view';
@@ -37,7 +38,9 @@ export function App(props: AppProps) {
           <TrackPageView />
           <NotificationsContainer />
           <SuspenseLoader>
-            <Layout>{props.children}</Layout>
+            <AppContextProvider>
+              <Layout>{props.children}</Layout>
+            </AppContextProvider>
           </SuspenseLoader>
         </AppStoreProvider>
       </IntlProvider>
