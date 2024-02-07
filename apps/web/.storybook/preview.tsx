@@ -23,6 +23,12 @@ export default {
   },
   decorators: [
     (Story) => (
+      <div class="max-w-7xl">
+        <Story />
+      </div>
+    ),
+
+    (Story) => (
       <AppContextProvider>
         <Story />
       </AppContextProvider>
@@ -41,7 +47,7 @@ export default {
         return <Story />;
       }
 
-      const { path, location } = parameters.router;
+      const { path = '/', location = '/' } = parameters.router;
 
       return (
         <MemoryRouter>

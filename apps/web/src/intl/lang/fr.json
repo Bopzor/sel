@@ -159,22 +159,20 @@
       "canceled": "Annulée"
     },
     "numberOfPositiveAnswers": "({count} {count, plural, =1 {réponse positive} other {réponses positives}})",
-    "create": {
-      "title": "Créer une nouvelle demande",
+    "form": {
       "titleLabel": "Titre de la demande",
       "titlePlaceholder": "Monter un meuble Ikea",
       "bodyLabel": "Message",
-      "bodyPlaceholder": "J'ai besoin d'un coup de main pour...",
+      "bodyPlaceholder": "J'ai besoin d'un coup de main pour..."
+    },
+    "create": {
+      "title": "Créer une nouvelle demande",
       "submit": "Créer la demande",
       "created": "Votre demande a bien été envoyée."
     },
     "editRequest": "Modifier la demande",
     "edit": {
       "title": "Edition de la demande « {requestTitle} »",
-      "titleLabel": "Titre de la demande",
-      "titlePlaceholder": "Monter un meuble Ikea",
-      "bodyLabel": "Message",
-      "bodyPlaceholder": "J'ai besoin d'un coup de main pour...",
       "edited": "Votre demande a bien été mise à jour."
     },
     "date": "Le {date, date, medium} à {date, time, short}",

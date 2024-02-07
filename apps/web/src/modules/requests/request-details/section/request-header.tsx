@@ -7,8 +7,8 @@ import { Show } from 'solid-js';
 import { isAuthenticatedMember } from '../../../../app-context';
 import { LinkButton } from '../../../../components/button';
 import { Translate } from '../../../../intl/translate';
-import { RequestStatus } from '../../../../requests/request-status';
 import { routes } from '../../../../routes';
+import { RequestStatus } from '../../components/request-status';
 
 const T = Translate.prefix('requests');
 

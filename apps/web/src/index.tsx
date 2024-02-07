@@ -6,13 +6,12 @@ import { Route, Router } from '@solidjs/router';
 import { lazy } from 'solid-js';
 import { render } from 'solid-js/web';
 
-import '@fontsource-variable/inter/index.css';
+import '@fontsource-variable/inter';
 
 import { App } from './app';
 import { BackLink } from './components/back-link';
 import { Translate } from './intl/translate';
 import { NotificationsPage } from './profile/notifications.page';
-import { EditRequestPage } from './requests/edit-request.page';
 import { routes } from './routes';
 
 import './index.css';
@@ -26,10 +25,10 @@ const HomePage = lazyImport(() => import('./home.page'), 'HomePage');
 const OnboardingPage = lazyImport(() => import('./onboarding/onboarding.page'), 'OnboardingPage');
 const MembersPage = lazyImport(() => import('./members/members.page'), 'MembersPage');
 const MemberPage = lazyImport(() => import('./members/member.page'), 'MemberPage');
-const RequestsPage = lazyImport(() => import('./requests/requests.page'), 'RequestsPage');
-// prettier-ignore
-const CreateRequestPage = lazyImport(() => import('./requests/create-request/create-request.page'), 'CreateRequestPage');
-const RequestPage = lazy(() => import('./modules/requests/request-details/request-details.page'));
+const RequestsListPage = lazy(() => import('./modules/requests/requests-list/requests-list.page'));
+const CreateRequestPage = lazy(() => import('./modules/requests/create-request/create-request.page'));
+const RequestDetailsPage = lazy(() => import('./modules/requests/request-details/request-details.page'));
+const EditRequestPage = lazy(() => import('./modules/requests/edit-request/edit-request.page'));
 const MiscPage = lazyImport(() => import('./misc.page'), 'MiscPage');
 const ProfileLayout = lazyImport(() => import('./profile/profile.layout'), 'ProfileLayout');
 const ProfileEditionPage = lazyImport(() => import('./profile/profile-edition.page'), 'ProfileEditionPage');
@@ -58,9 +57,9 @@ function Routing() {
       <Route path="/onboarding" component={OnboardingPage} />
       <Route path="/members" component={MembersPage} />
       <Route path="/members/:memberId" component={MemberPage} />
-      <Route path="/requests" component={RequestsPage} />
+      <Route path="/requests" component={RequestsListPage} />
       <Route path="/requests/create" component={CreateRequestPage} />
-      <Route path="/requests/:requestId" component={RequestPage} />
+      <Route path="/requests/:requestId" component={RequestDetailsPage} />
       <Route path="/requests/:requestId/edit" component={EditRequestPage} />
       <Route path="/events" component={EventsPage} />
       <Route path="/activities" component={ActivitiesPage} />

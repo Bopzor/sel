@@ -1,7 +1,7 @@
 import { RequestStatus as RequestStatusEnum } from '@sel/shared';
 import { Show } from 'solid-js';
 
-import { Translate } from '../intl/translate';
+import { Translate } from '../../../intl/translate';
 
 const TranslateRequestStatus = Translate.enum('requests.status');
 

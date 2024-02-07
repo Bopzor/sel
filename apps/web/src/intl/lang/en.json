@@ -159,22 +159,20 @@
       "canceled": "Canceled"
     },
     "numberOfPositiveAnswers": "({count} positive {{count, plural, =1 {answer} other {answers}}})",
-    "create": {
-      "title": "Create a new request",
+    "form": {
       "titleLabel": "Request title",
       "titlePlaceholder": "Assembling Ikea furniture",
       "bodyLabel": "Message",
-      "bodyPlaceholder": "I need a hand with...",
+      "bodyPlaceholder": "I need a hand with..."
+    },
+    "create": {
+      "title": "Create a new request",
       "submit": "Create request",
       "created": "Your request was sent successfully."
     },
     "editRequest": "Edit request",
     "edit": {
       "title": "Edit a request",
-      "titleLabel": "Request title",
-      "titlePlaceholder": "Assembling Ikea furniture",
-      "bodyLabel": "Message",
-      "bodyPlaceholder": "I need a hand with...",
       "edited": "Your request was edited successfully."
     },
     "date": "The {date, date, medium} at {date, time, short}",

@@ -1,13 +1,4 @@
-import { createCombine, createPipe } from '@nilscox/selektor';
-import {
-  AuthenticatedMember,
-  Member,
-  MembersSort,
-  Notification,
-  Request,
-  RequestStatus,
-  UpdateMemberProfileData,
-} from '@sel/shared';
+import { AuthenticatedMember, Member, MembersSort, Notification, UpdateMemberProfileData } from '@sel/shared';
 import { defined, isEnumValue } from '@sel/utils';
 import { JSX, createContext, createEffect, createResource, createSignal, useContext } from 'solid-js';
 import { SetStoreFunction, createStore } from 'solid-js/store';
@@ -21,10 +12,6 @@ import { TOKENS } from '../tokens';
 import { detectDevice } from '../utils/detect-device';
 import { notify } from '../utils/notify';
 
-const identity = <T,>(value: T): T => value;
-const pipe = createPipe(identity);
-const combine = createCombine(identity);
-
 const none = Symbol('none');
 type None = typeof none;
 
@@ -37,8 +24,6 @@ type AppState = {
   notifications: Notification[] | undefined;
   unreadNotificationsCount: number | undefined;
   member: Member | undefined;
-  requests: Request[] | undefined;
-  request: Request | undefined;
 };
 
 type SetAppState = SetStoreFunction<AppState>;
@@ -65,12 +50,6 @@ function createAppStore() {
     get member() {
       return member();
     },
-    get requests() {
-      return requests();
-    },
-    get request() {
-      return request();
-    },
   });
 
   const {
@@ -82,14 +61,11 @@ function createAppStore() {
 
   const { members, loadingMembers, member, ...membersActions } = membersState();
 
-  const { requests, request, ...requestsActions } = requestsState();
-
   return [
     state,
     {
       ...authenticatedMemberActions,
       ...membersActions,
-      ...requestsActions,
     },
   ] satisfies [unknown, unknown];
 }
@@ -293,109 +269,3 @@ function membersState() {
     },
   };
 }
-
-function requestsState() {
-  const fetcher = container.resolve(TOKENS.fetcher);
-  const router = container.resolve(TOKENS.router);
-  const translate = useTranslation();
-
-  const [loadRequests, setLoadRequests] = createSignal<boolean>();
-
-  const [requests, { refetch: refetchRequestsList }] = createResource(
-    loadRequests,
-    async (): Promise<Request[]> => {
-      return fetcher.get<Request[]>('/api/requests').body();
-    }
-  );
-
-  const [requestId, setRequestId] = createSignal<string>();
-
-  const [request, { refetch: refetchRequest }] = createResource(
-    requestId,
-    async (requestId): Promise<Request> => {
-      return fetcher.get<Request>(`/api/requests/${requestId}`).body();
-    }
-  );
-
-  return {
-    requests,
-    request,
-
-    loadRequests: () => {
-      setLoadRequests(true);
-    },
-
-    loadRequest: (requestId: string) => {
-      setRequestId(requestId);
-    },
-
-    createRequest: async (title: string, body: string) => {
-      const requestId = await fetcher
-        .post<{ title: string; body: string }, string>('/api/requests', { title, body })
-        .body();
-
-      await refetchRequestsList();
-      router.navigate(routes.requests.request(requestId));
-      notify.success(translate('requests.create.created'));
-    },
-
-    editRequest: async (title: string, body: string) => {
-      const requestId = defined(request()?.id);
-
-      await fetcher.put<{ title: string; body: string }, void>(`/api/requests/${requestId}`, {
-        title,
-        body,
-      });
-
-      await refetchRequest();
-      router.navigate(routes.requests.request(requestId));
-      notify.success(translate('requests.edit.edited'));
-    },
-  };
-}
-
-export const selectRequests = (state: AppState) => state.requests;
-
-export const selectPendingRequests = pipe(selectRequests, (requests) => {
-  return requests?.filter((request) => request.status === RequestStatus.pending);
-});
-
-export const selectNotPendingRequests = pipe(selectRequests, (requests) => {
-  return requests?.filter((request) => request.status !== RequestStatus.pending);
-});
-
-export const selectRequest = (state: AppState) => {
-  return state.request;
-};
-
-export const selectRequester = pipe(selectRequest, (request) => request?.requester);
-
-export const selectIsRequester = combine(
-  selectAuthenticatedMember,
-  selectRequester,
-  (authenticatedMember, requester) => {
-    return authenticatedMember?.id === requester?.id;
-  }
-);
-
-export const selectCanEditRequest = selectIsRequester;
-
-export const selectCanCreateRequestExchange = pipe(selectRequest, (request) => {
-  return request?.status === RequestStatus.pending;
-});
-
-export const selectCanCancelRequest = combine(selectIsRequester, selectRequest, (isRequester, request) => {
-  return isRequester && request?.status === RequestStatus.pending;
-});
-
-export const selectNumberOfPositiveRequestAnswers = pipe(selectRequest, (request) => {
-  return request?.answers.filter((answer) => answer.answer === 'positive')?.length;
-});
-
-export const selectRequestMemberAnswer = combine(
-  selectAuthenticatedMember,
-  selectRequest,
-  (member, request) => {
-    return request?.answers.find((answer) => answer.member.id === member?.id)?.answer;
-  }
-);
