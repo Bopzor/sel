@@ -3,7 +3,7 @@ import { AuthenticatedMember, createAuthenticatedMember } from '@sel/shared';
 import { createId } from '@sel/utils';
 import { injectableClass } from 'ditox';
 
-import { FetcherPort, FetchError } from './fetcher';
+import { FetcherPort, FetchError } from './infrastructure/fetcher';
 import { TOKENS } from './tokens';
 
 export interface SessionApi {

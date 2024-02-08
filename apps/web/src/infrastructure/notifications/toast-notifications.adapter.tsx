@@ -2,8 +2,8 @@ import { injectableClass } from 'ditox';
 import { JSX } from 'solid-js';
 import { toast, Toaster } from 'solid-toast';
 
-import { FetchResult } from '../../fetcher';
 import { Translate } from '../../intl/translate';
+import { FetchResult } from '../fetcher';
 
 import { NotificationsPort, NotificationType } from './notifications.port';
 

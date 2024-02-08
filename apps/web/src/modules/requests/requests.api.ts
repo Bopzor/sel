@@ -4,8 +4,8 @@ import { assert, createFactory, createId, wait } from '@sel/utils';
 import { injectableClass } from 'ditox';
 import { produce } from 'immer';
 
-import { FetcherPort } from '../../fetcher';
 import { container } from '../../infrastructure/container';
+import { FetcherPort } from '../../infrastructure/fetcher';
 import { StubSessionApi } from '../../session.api';
 import { TOKENS } from '../../tokens';
 

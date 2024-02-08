@@ -1,6 +1,5 @@
 import { createContainer } from 'ditox';
 
-import { Fetcher } from '../fetcher';
 import { FetchMemberApi } from '../modules/members/members.api';
 import { FetchRequestApi } from '../modules/requests/requests.api';
 import { FetchSessionApi } from '../session.api';
@@ -8,6 +7,7 @@ import { TOKENS } from '../tokens';
 
 import { MatomoAnalyticsAdapter } from './analytics/matomo-analytics.adapter';
 import { EnvConfigAdapter } from './config/env-config.adapter';
+import { Fetcher } from './fetcher';
 import { GeoapifyGeocodeAdapter } from './geocode/geocode-geoapify.adapter';
 import { ApiMemberAvatarAdapter } from './member-avatar/api-member-avatar.adapter';
 import { ToastNotificationsAdapter } from './notifications/toast-notifications.adapter';

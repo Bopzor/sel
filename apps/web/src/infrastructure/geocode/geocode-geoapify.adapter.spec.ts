@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
-import { StubFetcher } from '../../fetcher';
 import { StubConfigAdapter } from '../config/stub-config.adapter';
+import { StubFetcher } from '../fetcher';
 
 import { GeoapifyGeocodeAdapter } from './geocode-geoapify.adapter';
 

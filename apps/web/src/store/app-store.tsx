@@ -3,8 +3,8 @@ import { defined } from '@sel/utils';
 import { JSX, createContext, createEffect, createResource, useContext } from 'solid-js';
 import { SetStoreFunction, createStore } from 'solid-js/store';
 
-import { FetchError } from '../fetcher';
 import { container } from '../infrastructure/container';
+import { FetchError } from '../infrastructure/fetcher';
 import { useSearchParam } from '../infrastructure/router/use-search-param';
 import { useTranslation } from '../intl/translate';
 import { routes } from '../routes';

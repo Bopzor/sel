@@ -1,8 +1,8 @@
 import { token } from 'ditox';
 
-import { FetcherPort } from './fetcher';
 import { AnalyticsPort } from './infrastructure/analytics/analytics.port';
 import { ConfigPort } from './infrastructure/config/config.port';
+import { FetcherPort } from './infrastructure/fetcher';
 import { GeocodePort } from './infrastructure/geocode/geocode.port';
 import { MemberAvatarPort } from './infrastructure/member-avatar/member-avatar.port';
 import { NotificationsPort } from './infrastructure/notifications/notifications.port';
