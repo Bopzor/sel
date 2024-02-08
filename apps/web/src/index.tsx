@@ -29,7 +29,7 @@ const RequestsListPage = lazy(() => import('./modules/requests/requests-list/req
 const CreateRequestPage = lazy(() => import('./modules/requests/create-request/create-request.page'));
 const RequestDetailsPage = lazy(() => import('./modules/requests/request-details/request-details.page'));
 const EditRequestPage = lazy(() => import('./modules/requests/edit-request/edit-request.page'));
-const MiscPage = lazyImport(() => import('./misc.page'), 'MiscPage');
+const MiscPage = lazy(() => import('./modules/misc/misc.page'));
 const ProfileLayout = lazyImport(() => import('./profile/profile.layout'), 'ProfileLayout');
 const ProfileEditionPage = lazyImport(() => import('./profile/profile-edition.page'), 'ProfileEditionPage');
 const AddressPage = lazyImport(() => import('./profile/address.page'), 'AddressPage');
