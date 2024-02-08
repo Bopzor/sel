@@ -1,13 +1,13 @@
 import clsx from 'clsx';
-import { Component, Index, JSX } from 'solid-js';
+import { Index, JSX } from 'solid-js';
 
-import { Link } from './components/link';
-import { Translate } from './intl/translate';
-import { routes } from './routes';
+import { Link } from '../../components/link';
+import { Translate } from '../../intl/translate';
+import { routes } from '../../routes';
 
 const T = Translate.prefix('home');
 
-export const HomePage = () => {
+export default function HomePage() {
   return (
     <div>
       <div class="grid grid-cols-1 gap-8 py-8 sm:grid-cols-2 md:grid-cols-3">
@@ -58,7 +58,7 @@ export const HomePage = () => {
       <News />
     </div>
   );
-};
+}
 
 type LinkCardProps = {
   href: string;
@@ -67,18 +67,18 @@ type LinkCardProps = {
   class: string;
 };
 
-const LinkCard: Component<LinkCardProps> = (props) => {
+function LinkCard(props: LinkCardProps) {
   return (
     <Link
       unstyled
       href={props.href}
-      class={clsx('rounded-lg border  bg-gradient-to-tl p-8 transition-shadow hover:shadow-lg', props.class)}
+      class={clsx('rounded-lg border bg-gradient-to-tl p-8 transition-shadow hover:shadow-lg', props.class)}
     >
       <div class="text-xl font-semibold">{props.label}</div>
       <div class="mt-1">{props.description}</div>
     </Link>
   );
-};
+}
 
 function News() {
   return (
@@ -92,10 +92,7 @@ function News() {
       </p>
 
       <div class="col mt-6 gap-6">
-        <Index each={Array(3).fill(null)}>
-          {/* eslint-disable-next-line tailwindcss/no-arbitrary-value */}
-          {() => <div class="min-h-[12rem] w-full rounded-lg bg-dim/5" />}
-        </Index>
+        <Index each={Array(3).fill(null)}>{() => <div class="min-h-48 w-full rounded-lg bg-dim/5" />}</Index>
       </div>
     </>
   );
