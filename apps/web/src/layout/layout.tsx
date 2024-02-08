@@ -1,27 +1,23 @@
-import { Component, JSX, Show } from 'solid-js';
+import { Component, JSX, Show, lazy } from 'solid-js';
 
-import { Authentication } from '../authentication/authentication';
+import { authenticatedMember } from '../app-context';
 import { redirectToOnboardingWhenNotCompleted } from '../onboarding/redirect-to-onboarding';
-import { getAppState } from '../store/app-store';
 
 import { ErrorBoundary } from './error-boundary';
 import { Header, HeaderMember } from './header/header';
+
+const AuthenticationPage = lazy(() => import('../modules/authentication/authentication.page'));
 
 type LayoutProps = {
   children: JSX.Element;
 };
 
 export const Layout: Component<LayoutProps> = (props) => {
-  const state = getAppState();
-
   redirectToOnboardingWhenNotCompleted();
 
   return (
     <>
-      {/* trigger suspend */}
-      {state.verifyAuthenticationTokenResult}
-
-      <Show when={state.authenticatedMember} fallback={<Authentication />}>
+      <Show when={authenticatedMember()} fallback={<AuthenticationPage />}>
         <Header>
           <HeaderMember />
         </Header>

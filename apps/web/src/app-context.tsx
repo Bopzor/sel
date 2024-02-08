@@ -4,6 +4,7 @@ import { JSX, createContext, createResource, useContext } from 'solid-js';
 import { createStore } from 'solid-js/store';
 
 import { container } from './infrastructure/container';
+import { useSearchParam } from './infrastructure/router/use-search-param';
 import { TOKENS } from './tokens';
 
 type AppContext = {
@@ -15,7 +16,12 @@ const appContext = createContext<AppContext>();
 export function AppContextProvider(props: { children: JSX.Element }) {
   const sessionApi = container.resolve(TOKENS.sessionApi);
 
-  const [authenticatedMember] = createResource(() => sessionApi.getAuthenticatedMember());
+  const [token] = useSearchParam('auth-token');
+
+  const [authenticatedMember] = createResource(
+    () => !token(),
+    async () => sessionApi.getAuthenticatedMember()
+  );
 
   const [context] = createStore<AppContext>({
     get authenticatedMember() {

@@ -8,27 +8,29 @@ import { notify } from './notify';
 type AsyncCallEffects<Result> = {
   onSuccess?: (result: Result) => void;
   onError?: (error: unknown) => void;
+  onSettled?: () => void;
 };
 
 export const createAsyncCall = <Args extends unknown[], Result>(
   fn: (...args: Args) => Promise<Result>,
-  { onSuccess, onError }: AsyncCallEffects<Result> = {}
+  { onSuccess, onError, onSettled }: AsyncCallEffects<Result> = {}
 ) => {
-  const defaultErrorHandler = createDefaultErrorHandler();
+  const errorHandler = createErrorHandler();
   const [pending, setPending] = createSignal(false);
 
   const trigger = (...args: Args) => {
     setPending(true);
 
     void fn(...args)
-      .then(onSuccess, onError ?? defaultErrorHandler)
-      .finally(() => setPending(false));
+      .then(onSuccess, onError ?? errorHandler)
+      .finally(() => setPending(false))
+      .then(onSettled);
   };
 
   return [trigger, pending] satisfies [unknown, unknown];
 };
 
-function createDefaultErrorHandler() {
+function createErrorHandler() {
   const translate = useTranslation();
 
   // todo: report
