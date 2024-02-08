@@ -19,7 +19,7 @@ import { RequestHeader } from './section/request-header';
 import { RequesterInfo } from './section/requester-info';
 
 export default function RequestDetailsPage() {
-  const requestApi = container.resolve(TOKENS.requestsApi);
+  const requestApi = container.resolve(TOKENS.requestApi);
   const { requestId } = useParams<{ requestId: string }>();
 
   const [request, { refetch }] = createResource(requestId, async (requestId) => {

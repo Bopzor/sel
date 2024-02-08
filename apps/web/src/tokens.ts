@@ -7,7 +7,7 @@ import { GeocodePort } from './infrastructure/geocode/geocode.port';
 import { MemberAvatarPort } from './infrastructure/member-avatar/member-avatar.port';
 import { NotificationsPort } from './infrastructure/notifications/notifications.port';
 import { RouterPort } from './infrastructure/router/router.port';
-import { MembersApi } from './modules/members/members.api';
+import { MemberApi } from './modules/members/members.api';
 import { RequestsApi } from './modules/requests/requests.api';
 import { SessionApi } from './session.api';
 
@@ -20,6 +20,6 @@ export const TOKENS = {
   notifications: token<NotificationsPort>('notifications'),
   memberAvatar: token<MemberAvatarPort>('memberAvatar'),
   sessionApi: token<SessionApi>('sessionApi'),
-  requestsApi: token<RequestsApi>('requestsApi'),
-  membersApi: token<MembersApi>('membersApi'),
+  requestApi: token<RequestsApi>('requestApi'),
+  memberApi: token<MemberApi>('memberApi'),
 };

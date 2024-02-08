@@ -17,9 +17,9 @@ import { RequestStatus as RequestStatusComponent } from '../components/request-s
 const T = Translate.prefix('requests');
 
 export default function RequestsListPage() {
-  const requestsApi = container.resolve(TOKENS.requestsApi);
+  const requestApi = container.resolve(TOKENS.requestApi);
 
-  const [requests] = createResource(requestsApi.listRequests.bind(requestsApi));
+  const [requests] = createResource(requestApi.listRequests.bind(requestApi));
 
   return (
     <>

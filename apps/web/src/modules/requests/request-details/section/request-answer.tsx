@@ -44,7 +44,7 @@ type AnswerButtonProps = {
 };
 
 function AnswerButton(props: AnswerButtonProps) {
-  const requestApi = container.resolve(TOKENS.requestsApi);
+  const requestApi = container.resolve(TOKENS.requestApi);
 
   const memberAnswer = createMemo(() => {
     return props.request.answers.find((answer) => isAuthenticatedMember(answer.member))?.answer;

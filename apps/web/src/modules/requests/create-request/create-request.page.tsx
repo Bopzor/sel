@@ -33,7 +33,7 @@ export default function CreateRequestPage() {
 }
 
 function CreateRequestForm(props: { onCreated: (requestId: string) => void }) {
-  const requestApi = container.resolve(TOKENS.requestsApi);
+  const requestApi = container.resolve(TOKENS.requestApi);
 
   return (
     <RequestForm

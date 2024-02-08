@@ -12,7 +12,7 @@ import { notify } from '../../../../utils/notify';
 const T = Translate.prefix('requests');
 
 export function RequestActions(props: { request: Request; onCanceled: () => void }) {
-  const requestApi = container.resolve(TOKENS.requestsApi);
+  const requestApi = container.resolve(TOKENS.requestApi);
 
   const t = T.useTranslation();
 

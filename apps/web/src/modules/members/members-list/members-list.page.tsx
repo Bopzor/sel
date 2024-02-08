@@ -14,13 +14,13 @@ import { MembersMap } from './members-map';
 const defaultSort = Symbol();
 
 export default function MembersListPage() {
-  const membersApi = container.resolve(TOKENS.membersApi);
+  const memberApi = container.resolve(TOKENS.memberApi);
   const [sort, setSort] = useSearchParam('sort', parseEnumValue(MembersSort));
 
   const [members] = createResource(
     () => sort() ?? defaultSort,
     async (sort) => {
-      return membersApi.listMembers(sort === defaultSort ? undefined : sort);
+      return memberApi.listMembers(sort === defaultSort ? undefined : sort);
     }
   );
 

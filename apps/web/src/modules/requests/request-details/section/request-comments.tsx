@@ -60,7 +60,7 @@ function Comment(props: { comment: Comment }) {
 }
 
 function CreateCommentForm(props: { requestId: string; onCreated: () => void }) {
-  const requestsApi = container.resolve(TOKENS.requestsApi);
+  const requestApi = container.resolve(TOKENS.requestApi);
   const t = T.useTranslation();
 
   const { form, setData, reset, isSubmitting } = createForm({
@@ -68,7 +68,7 @@ function CreateCommentForm(props: { requestId: string; onCreated: () => void }) 
       html: '',
     },
     async onSubmit(values) {
-      await requestsApi.createComment(props.requestId, values.html);
+      await requestApi.createComment(props.requestId, values.html);
     },
     onSuccess() {
       reset();

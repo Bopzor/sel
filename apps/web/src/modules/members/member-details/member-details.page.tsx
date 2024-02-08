@@ -13,11 +13,11 @@ import { MemberMap } from './member-map';
 import { MemberNotFound } from './member-not-found';
 
 export default function MemberDetailsPage() {
-  const membersApi = container.resolve(TOKENS.membersApi);
+  const memberApi = container.resolve(TOKENS.memberApi);
   const { memberId } = useParams<{ memberId: string }>();
 
   const [member] = createResource(memberId, async (memberId) => {
-    return membersApi.getMember(memberId);
+    return memberApi.getMember(memberId);
   });
 
   return (

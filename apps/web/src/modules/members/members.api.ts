@@ -6,12 +6,12 @@ import { injectableClass } from 'ditox';
 import { FetchError, FetcherPort } from '../../fetcher';
 import { TOKENS } from '../../tokens';
 
-export interface MembersApi {
+export interface MemberApi {
   listMembers(sort?: MembersSort): Promise<Member[]>;
   getMember(memberId: string): Promise<Member | undefined>;
 }
 
-export class FetchMembersApi implements MembersApi {
+export class FetchMemberApi implements MemberApi {
   static inject = injectableClass(this, TOKENS.fetcher);
 
   constructor(private readonly fetcher: FetcherPort) {}
@@ -45,7 +45,7 @@ export class FetchMembersApi implements MembersApi {
   }
 }
 
-export class StubMembersApi implements MembersApi {
+export class StubMemberApi implements MemberApi {
   members = new Array<Member>();
   member: Member | undefined;
 
@@ -58,7 +58,7 @@ export class StubMembersApi implements MembersApi {
   }
 }
 
-export class FakeMembersApi extends StubMembersApi {
+export class FakeMemberApi extends StubMemberApi {
   constructor() {
     super();
 

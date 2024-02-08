@@ -13,7 +13,7 @@ import { RequestForm } from '../components/request-form';
 const T = Translate.prefix('requests.edit');
 
 export default function EditRequestPage() {
-  const requestApi = container.resolve(TOKENS.requestsApi);
+  const requestApi = container.resolve(TOKENS.requestApi);
   const { requestId } = useParams<{ requestId: string }>();
   const t = T.useTranslation();
   const navigate = useNavigate();
@@ -48,7 +48,7 @@ export default function EditRequestPage() {
 }
 
 function EditRequestForm(props: { request: Request; onEdited: () => void }) {
-  const requestApi = container.resolve(TOKENS.requestsApi);
+  const requestApi = container.resolve(TOKENS.requestApi);
 
   return (
     <RequestForm
