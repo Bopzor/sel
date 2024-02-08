@@ -2,7 +2,7 @@ import type { Config } from 'tailwindcss';
 import colors from 'tailwindcss/colors';
 
 export default {
-  content: ['index.html', 'src/**/*.tsx'],
+  content: ['index.html', '.storybook/preview.tsx', 'src/**/*.tsx'],
   darkMode: 'class',
   theme: {
     colors: {
@@ -29,6 +29,12 @@ export default {
     extend: {
       spacing: {
         em: '1em',
+      },
+      minHeight: {
+        sm: '24rem',
+      },
+      maxHeight: {
+        md: '32rem',
       },
       aspectRatio: {
         '4/3': '4/3',

@@ -23,8 +23,8 @@ function lazyImport(module: () => Promise<any>, name: string) {
 
 const HomePage = lazyImport(() => import('./home.page'), 'HomePage');
 const OnboardingPage = lazyImport(() => import('./onboarding/onboarding.page'), 'OnboardingPage');
-const MembersPage = lazyImport(() => import('./members/members.page'), 'MembersPage');
-const MemberPage = lazyImport(() => import('./members/member.page'), 'MemberPage');
+const MembersListPage = lazy(() => import('./modules/members/members-list/members-list.page'));
+const MemberDetailsPage = lazy(() => import('./modules/members/member-details/member-details.page'));
 const RequestsListPage = lazy(() => import('./modules/requests/requests-list/requests-list.page'));
 const CreateRequestPage = lazy(() => import('./modules/requests/create-request/create-request.page'));
 const RequestDetailsPage = lazy(() => import('./modules/requests/request-details/request-details.page'));
@@ -54,17 +54,17 @@ function Routing() {
   return (
     <>
       <Route path="/" component={HomePage} />
+
       <Route path="/onboarding" component={OnboardingPage} />
-      <Route path="/members" component={MembersPage} />
-      <Route path="/members/:memberId" component={MemberPage} />
+
+      <Route path="/members" component={MembersListPage} />
+      <Route path="/members/:memberId" component={MemberDetailsPage} />
+
       <Route path="/requests" component={RequestsListPage} />
       <Route path="/requests/create" component={CreateRequestPage} />
       <Route path="/requests/:requestId" component={RequestDetailsPage} />
       <Route path="/requests/:requestId/edit" component={EditRequestPage} />
-      <Route path="/events" component={EventsPage} />
-      <Route path="/activities" component={ActivitiesPage} />
-      <Route path="/assets" component={AssetsPage} />
-      <Route path="/misc" component={MiscPage} />
+
       <Route path="/profile" component={ProfileLayout}>
         <Route path="/" component={ProfileEditionPage} />
         <Route path="/address" component={AddressPage} />
@@ -72,6 +72,12 @@ function Routing() {
         <Route path="/settings" component={SettingsPage} />
         <Route path="/sign-out" component={SignOutPage} />
       </Route>
+
+      <Route path="/events" component={EventsPage} />
+      <Route path="/activities" component={ActivitiesPage} />
+      <Route path="/assets" component={AssetsPage} />
+      <Route path="/misc" component={MiscPage} />
+
       <Route path="/__error" component={ErrorTestPage} />
     </>
   );

@@ -10,9 +10,12 @@ import '@fontsource-variable/inter';
 import '../src/index.css';
 import { FakeSessionApi } from '../src/session.api';
 import { StubMemberAvatarAdapter } from '../src/infrastructure/member-avatar/stub-member-avatar.adapter';
+import { FakeMemberApi } from '../src/modules/members/members.api';
 
 export default {
   parameters: {
+    // remove padding on body
+    layout: 'fullscreen',
     actions: { argTypesRegex: '^on[A-Z].*' },
     controls: {
       matchers: {
@@ -23,7 +26,7 @@ export default {
   },
   decorators: [
     (Story) => (
-      <div class="max-w-7xl">
+      <div class="max-w-7xl min-h-screen col p-6">
         <Story />
       </div>
     ),
@@ -37,7 +40,8 @@ export default {
     (Story) => {
       container.bindValue(TOKENS.memberAvatar, new StubMemberAvatarAdapter());
       container.bindValue(TOKENS.sessionApi, new FakeSessionApi());
-      container.bindValue(TOKENS.requestsApi, new FakeRequestsApi());
+      container.bindValue(TOKENS.memberApi, new FakeMemberApi());
+      container.bindValue(TOKENS.requestApi, new FakeRequestsApi());
 
       return <Story />;
     },

@@ -1,6 +1,6 @@
-import { AuthenticatedMember, Member, MembersSort, Notification, UpdateMemberProfileData } from '@sel/shared';
-import { defined, isEnumValue } from '@sel/utils';
-import { JSX, createContext, createEffect, createResource, createSignal, useContext } from 'solid-js';
+import { AuthenticatedMember, Notification, UpdateMemberProfileData } from '@sel/shared';
+import { defined } from '@sel/utils';
+import { JSX, createContext, createEffect, createResource, useContext } from 'solid-js';
 import { SetStoreFunction, createStore } from 'solid-js/store';
 
 import { FetchError } from '../fetcher';
@@ -12,18 +12,12 @@ import { TOKENS } from '../tokens';
 import { detectDevice } from '../utils/detect-device';
 import { notify } from '../utils/notify';
 
-const none = Symbol('none');
-type None = typeof none;
-
 type AppState = {
   authenticatedMember: AuthenticatedMember | undefined;
   authenticationLinkRequested: boolean;
   verifyAuthenticationTokenResult: undefined;
-  loadingMembers: boolean;
-  members: Member[] | undefined;
   notifications: Notification[] | undefined;
   unreadNotificationsCount: number | undefined;
-  member: Member | undefined;
 };
 
 type SetAppState = SetStoreFunction<AppState>;
@@ -37,19 +31,10 @@ function createAppStore() {
     get verifyAuthenticationTokenResult() {
       return verifyAuthenticationTokenResult();
     },
-    get loadingMembers() {
-      return loadingMembers();
-    },
-    get members() {
-      return members();
-    },
     get notifications() {
       return notifications();
     },
     unreadNotificationsCount: undefined,
-    get member() {
-      return member();
-    },
   });
 
   const {
@@ -59,13 +44,10 @@ function createAppStore() {
     ...authenticatedMemberActions
   } = authenticatedMemberState(state, setState);
 
-  const { members, loadingMembers, member, ...membersActions } = membersState();
-
   return [
     state,
     {
       ...authenticatedMemberActions,
-      ...membersActions,
     },
   ] satisfies [unknown, unknown];
 }
@@ -224,48 +206,3 @@ function authenticatedMemberState(state: AppState, setState: SetAppState) {
 export const selectAuthenticatedMember = (state: AppState) => {
   return state.authenticatedMember;
 };
-
-function membersState() {
-  const fetcher = container.resolve(TOKENS.fetcher);
-
-  const [membersSort, setMembersSort] = createSignal<MembersSort | None>();
-
-  const [members] = createResource(membersSort, async (sort) => {
-    let endpoint = '/api/members';
-    const search = new URLSearchParams();
-
-    if (isEnumValue(MembersSort)(sort)) {
-      search.set('sort', sort);
-    }
-
-    if (search.size > 0) {
-      endpoint += `?${search}`;
-    }
-
-    return fetcher.get<Member[]>(endpoint).body();
-  });
-
-  const [memberId, setMemberId] = createSignal<string>();
-
-  const [member, { mutate: setMember }] = createResource(memberId, async (memberId) => {
-    return fetcher.get<Member>(`/api/members/${memberId}`).body();
-  });
-
-  return {
-    loadingMembers: () => members.loading,
-    members: () => members.latest,
-    member,
-
-    loadMembers: (sort: MembersSort | undefined) => {
-      setMembersSort(sort ?? none);
-    },
-
-    loadMember: (memberId: string | undefined) => {
-      setMemberId(memberId);
-
-      if (!memberId) {
-        setMember(undefined);
-      }
-    },
-  };
-}

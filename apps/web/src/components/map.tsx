@@ -46,7 +46,7 @@ export const Map: Component<MapProps> = (props) => {
       viewport={viewport()}
       onViewportChange={(viewport) => setViewport(viewport)}
       // eslint-disable-next-line tailwindcss/no-arbitrary-value
-      class={clsx(props.class, 'map h-full w-full rounded-lg shadow [&_canvas]:outline-none')}
+      class={clsx(props.class, 'map size-full rounded-lg shadow [&_canvas]:outline-none')}
     >
       <Source
         source={{

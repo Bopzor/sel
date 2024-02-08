@@ -129,22 +129,25 @@
     }
   },
   "members": {
+    "list": {
+      "showOnMap": "Voir sur la carte",
+      "sortBy": "Trier par :",
+      "membersSortEnum": {
+        "firstName": "Prénom",
+        "lastName": "Nom",
+        "membershipDate": "Date d'adhésion"
+      }
+    },
     "notFound": {
       "title": "Membre non trouvé.",
       "description": "Cette page fait référence à un membre qui n'existe pas."
     },
-    "showOnMap": "Voir sur la carte",
     "phoneNumber": "Numéro de téléphone",
     "emailAddress": "Adresse email",
     "mailingAddress": "Adresse postale",
     "membershipDate": "Date d'adhésion",
     "membershipDateFormatted": "{date, date, long} <dim>(il y a {relative})</dim>",
-    "bio": "À propos de moi",
-    "membersSortEnum": {
-      "firstName": "Prénom",
-      "lastName": "Nom",
-      "membershipDate": "Date d'adhésion"
-    }
+    "bio": "À propos de moi"
   },
   "requests": {
     "title": "Demandes",

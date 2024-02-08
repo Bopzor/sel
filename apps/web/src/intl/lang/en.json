@@ -129,22 +129,25 @@
     }
   },
   "members": {
+    "list": {
+      "showOnMap": "Show on map",
+      "sortBy": "Sort by:",
+      "membersSortEnum": {
+        "firstName": "First name",
+        "lastName": "Last name",
+        "membershipDate": "Membership date"
+      }
+    },
     "notFound": {
       "title": "Member not found",
       "description": "This page refers to a member who does not exist."
     },
-    "showOnMap": "Show on map",
     "phoneNumber": "Phone number",
     "emailAddress": "Email address",
     "mailingAddress": "Mailing address",
     "membershipDate": "Membership date",
     "membershipDateFormatted": "{date, date, long} <dim>({relative} ago)</dim>",
-    "bio": "Bio",
-    "membersSortEnum": {
-      "firstName": "First name",
-      "lastName": "Last name",
-      "membershipDate": "Membership date"
-    }
+    "bio": "Bio"
   },
   "requests": {
     "title": "Requests",

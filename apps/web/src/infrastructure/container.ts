@@ -1,6 +1,7 @@
 import { createContainer } from 'ditox';
 
 import { Fetcher } from '../fetcher';
+import { FetchMembersApi } from '../modules/members/members.api';
 import { FetchRequestApi } from '../modules/requests/requests.api';
 import { FetchSessionApi } from '../session.api';
 import { TOKENS } from '../tokens';
@@ -22,4 +23,5 @@ container.bindValue(TOKENS.fetcher, new Fetcher());
 container.bindFactory(TOKENS.notifications, ToastNotificationsAdapter.inject);
 container.bindFactory(TOKENS.memberAvatar, ApiMemberAvatarAdapter.inject);
 container.bindFactory(TOKENS.sessionApi, FetchSessionApi.inject);
+container.bindFactory(TOKENS.membersApi, FetchMembersApi.inject);
 container.bindFactory(TOKENS.requestsApi, FetchRequestApi.inject);
