@@ -1,14 +1,12 @@
-import { Component } from 'solid-js';
-
-import { Feature, hasFeatureFlag, setFeatureFlag } from '../components/feature-flag';
-import { Switch } from '../components/switch';
-import { Translate } from '../intl/translate';
+import { Feature, hasFeatureFlag, setFeatureFlag } from '../../../components/feature-flag';
+import { Switch } from '../../../components/switch';
+import { Translate } from '../../../intl/translate';
 
 const T = Translate.prefix('profile.settings');
 
 const TranslateFeatureFlag = Translate.enum('profile.settings.featureFlags');
 
-export const SettingsPage: Component = () => {
+export default function SettingsPage() {
   const isDarkMode = () => localStorage.getItem('dark') === 'true';
 
   const toggleDarkMode = () => {
@@ -43,4 +41,4 @@ export const SettingsPage: Component = () => {
       </p>
     </>
   );
-};
+}

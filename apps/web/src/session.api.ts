@@ -8,6 +8,7 @@ import { TOKENS } from './tokens';
 
 export interface SessionApi {
   getAuthenticatedMember(): Promise<AuthenticatedMember | undefined>;
+  signOut(): Promise<void>;
 }
 
 export class FetchSessionApi implements SessionApi {
@@ -27,6 +28,10 @@ export class FetchSessionApi implements SessionApi {
         throw error;
       });
   }
+
+  async signOut(): Promise<void> {
+    await this.fetcher.delete('/api/session');
+  }
 }
 
 export class StubSessionApi implements SessionApi {
@@ -34,6 +39,10 @@ export class StubSessionApi implements SessionApi {
 
   async getAuthenticatedMember(): Promise<AuthenticatedMember | undefined> {
     return this.authenticatedMember;
+  }
+
+  async signOut(): Promise<void> {
+    this.authenticatedMember = undefined;
   }
 }
 

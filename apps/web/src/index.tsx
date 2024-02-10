@@ -11,7 +11,6 @@ import '@fontsource-variable/inter';
 import { App } from './app';
 import { BackLink } from './components/back-link';
 import { Translate } from './intl/translate';
-import { NotificationsPage } from './profile/notifications.page';
 import { routes } from './routes';
 
 import './index.css';
@@ -30,11 +29,12 @@ const CreateRequestPage = lazy(() => import('./modules/requests/create-request/c
 const RequestDetailsPage = lazy(() => import('./modules/requests/request-details/request-details.page'));
 const EditRequestPage = lazy(() => import('./modules/requests/edit-request/edit-request.page'));
 const MiscPage = lazy(() => import('./modules/misc/misc.page'));
-const ProfileLayout = lazyImport(() => import('./profile/profile.layout'), 'ProfileLayout');
-const ProfileEditionPage = lazyImport(() => import('./profile/profile-edition.page'), 'ProfileEditionPage');
-const AddressPage = lazyImport(() => import('./profile/address.page'), 'AddressPage');
-const SettingsPage = lazyImport(() => import('./profile/settings.page'), 'SettingsPage');
-const SignOutPage = lazyImport(() => import('./profile/sign-out.page'), 'SignOutPage');
+const ProfileLayout = lazy(() => import('./modules/profile/profile.layout'));
+const ProfileEditionPage = lazy(() => import('./modules/profile/profile-edition/profile-edition.page'));
+const AddressPage = lazy(() => import('./modules/profile/address/address.page'));
+const NotificationsPage = lazy(() => import('./modules/profile/notifications/notifications.page'));
+const SettingsPage = lazy(() => import('./modules/profile/settings/settings.page'));
+const SignOutPage = lazy(() => import('./modules/profile/sign-out/sign-out.page'));
 const ErrorTestPage = lazyImport(() => import('./utils/error-test.page'), 'TestErrorPage');
 
 Error.stackTraceLimit = 1 << 8;

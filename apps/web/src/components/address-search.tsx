@@ -30,7 +30,7 @@ export const AddressSearch: Component<AddressSearchProps> = (props) => {
   });
 
   return (
-    <div class="col gap-4">
+    <div class="col grow gap-4">
       <Input
         name="address"
         variant={props.variant}
@@ -48,7 +48,7 @@ export const AddressSearch: Component<AddressSearchProps> = (props) => {
       <Map
         center={props.value?.position ?? [5.042, 43.836]}
         zoom={props.value?.position ? 14 : 11}
-        class="!h-96 rounded-lg shadow"
+        class="max-h-md min-h-sm grow rounded-lg shadow"
         markers={props.value?.position ? [{ isPopupOpen: false, position: props.value.position }] : undefined}
       />
     </div>

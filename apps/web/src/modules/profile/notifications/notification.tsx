@@ -1,43 +1,20 @@
-import { Notification, isNotificationOfType } from '@sel/shared';
+import { type Notification, isNotificationOfType } from '@sel/shared';
 import clsx from 'clsx';
 import { Icon } from 'solid-heroicons';
 import { xMark } from 'solid-heroicons/solid';
-import { Component, For, Show } from 'solid-js';
+import { Show } from 'solid-js';
 
-import { Link } from '../components/link';
-import { FormattedRelativeDate } from '../intl/formatted';
-import { Translate } from '../intl/translate';
-import { routes } from '../routes';
-import { getAppActions, getAppState } from '../store/app-store';
+import { Link } from '../../../components/link';
+import { FormattedRelativeDate } from '../../../intl/formatted';
+import { Translate } from '../../../intl/translate';
+import { routes } from '../../../routes';
 
 const T = Translate.prefix('profile.notifications');
 
-export const NotificationsPage: Component = () => {
-  const state = getAppState();
-
-  return (
-    <>
-      <h1>
-        <T id="title" />
-      </h1>
-
-      <For each={state.notifications}>
-        {(notification) => <NotificationComponent notification={notification} />}
-      </For>
-    </>
-  );
-};
-
-type NotificationComponentProps = {
-  notification: Notification;
-};
-
-const NotificationComponent = (props: NotificationComponentProps) => {
-  const { markNotificationAsRead } = getAppActions();
-
+export function Notification(props: { notification: Notification; markAsRead: () => void }) {
   return (
     <div
-      class={clsx('col max-w-xl gap-2 rounded-lg border-primary bg-neutral p-4 shadow')}
+      class={clsx('col card max-w-xl gap-2 border-primary p-4')}
       classList={{ border: !props.notification.read, 'opacity-50': props.notification.read }}
     >
       <div class="row items-start justify-between gap-4">
@@ -45,7 +22,7 @@ const NotificationComponent = (props: NotificationComponentProps) => {
         <button
           type="button"
           classList={{ hidden: props.notification.read }}
-          onClick={() => void markNotificationAsRead(props.notification.id)}
+          onClick={() => props.markAsRead()}
         >
           <Icon path={xMark} class="size-5" />
         </button>
@@ -67,13 +44,9 @@ const NotificationComponent = (props: NotificationComponentProps) => {
       </div>
     </div>
   );
-};
+}
 
-type NotificationLinkProps = {
-  notification: Notification;
-};
-
-const NotificationLink = (props: NotificationLinkProps) => {
+function NotificationLink(props: { notification: Notification }) {
   return (
     <>
       {isNotificationOfType(props.notification, 'RequestCreated') && (
@@ -81,10 +54,16 @@ const NotificationLink = (props: NotificationLinkProps) => {
           <T id="viewRequest" />
         </Link>
       )}
+
+      {isNotificationOfType(props.notification, 'RequestCommentCreated') && (
+        <Link href={routes.requests.request(props.notification.data.request.id)}>
+          <T id="viewRequest" />
+        </Link>
+      )}
     </>
   );
-};
+}
 
-const hasLink = (notification: Notification) => {
-  return ['RequestCreated'].includes(notification.type);
-};
+function hasLink(notification: Notification) {
+  return ['RequestCreated', 'RequestCommentCreated'].includes(notification.type);
+}

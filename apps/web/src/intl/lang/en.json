@@ -5,6 +5,8 @@
     "loading": "Loading...",
     "save": "Save",
     "cancel": "Cancel",
+    "visible": "Visible",
+    "notVisible": "Not visible",
     "validation": {
       "min": "This field is too short (min: {min} characters).",
       "max": "This field is too long (max: {max} characters)."
@@ -46,8 +48,6 @@
   },
   "onboarding": {
     "title": "Welcome on the LETS's app!",
-    "visible": "Visible",
-    "notVisible": "Not visible",
     "navigation": {
       "start": "Start",
       "next": "Next",
@@ -240,7 +240,6 @@
       "saved": "Your profile information have been updated."
     },
     "address": {
-      "title": "Address",
       "description": "Search for your address and select a result to update it on your profile. If you can't find it, contact us so we can update it manually.",
       "placeholder": "Search for an address...",
       "saved": "Your address has been saved."

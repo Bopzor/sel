@@ -33,6 +33,7 @@ export default {
       },
       minHeight: {
         sm: '24rem',
+        md: '32rem',
       },
       maxHeight: {
         md: '32rem',

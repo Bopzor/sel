@@ -1,15 +1,14 @@
 import { Address } from '@sel/shared';
 import { defined } from '@sel/utils';
-import { Component } from 'solid-js';
 
-import { AddressSearch } from '../components/address-search';
-import { Translate } from '../intl/translate';
-import { getAppState, getAppActions } from '../store/app-store';
-import { createAsyncCall } from '../utils/async-call';
+import { AddressSearch } from '../../../components/address-search';
+import { Translate } from '../../../intl/translate';
+import { getAppActions, getAppState } from '../../../store/app-store';
+import { createAsyncCall } from '../../../utils/async-call';
 
 const T = Translate.prefix('profile.address');
 
-export const AddressPage: Component = () => {
+export default function AddressPage() {
   const t = T.useTranslation();
   const state = getAppState();
 
@@ -30,10 +29,6 @@ export const AddressPage: Component = () => {
 
   return (
     <>
-      <h1>
-        <T id="title" />
-      </h1>
-
       <p>
         <T id="description" />
       </p>
@@ -45,4 +40,4 @@ export const AddressPage: Component = () => {
       />
     </>
   );
-};
+}

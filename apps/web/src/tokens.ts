@@ -9,6 +9,7 @@ import { NotificationsPort } from './infrastructure/notifications/notifications.
 import { RouterPort } from './infrastructure/router/router.port';
 import { AuthenticationApi } from './modules/authentication/authentication.api';
 import { MemberApi } from './modules/members/members.api';
+import { ProfileApi } from './modules/profile/profile.api';
 import { RequestsApi } from './modules/requests/requests.api';
 import { SessionApi } from './session.api';
 
@@ -22,6 +23,7 @@ export const TOKENS = {
   memberAvatar: token<MemberAvatarPort>('memberAvatar'),
   sessionApi: token<SessionApi>('sessionApi'),
   authenticationApi: token<AuthenticationApi>('authenticationApi'),
+  profileApi: token<ProfileApi>('profileApi'),
   requestApi: token<RequestsApi>('requestApi'),
   memberApi: token<MemberApi>('memberApi'),
 };

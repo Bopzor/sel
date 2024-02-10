@@ -1,11 +1,11 @@
 import { Component, JSX, Show, Suspense } from 'solid-js';
 
+import { authenticatedMember, unreadNotificationsCount } from '../../app-context';
 import { Link } from '../../components/link';
 import { MemberAvatar } from '../../components/member-avatar';
 import { Row } from '../../components/row';
 import { Translate } from '../../intl/translate';
 import { routes } from '../../routes';
-import { getAppState } from '../../store/app-store';
 
 import Logo from './logo.svg';
 
@@ -38,29 +38,20 @@ export const Header: Component<HeaderProps> = (props) => {
 };
 
 export const HeaderMember = () => {
-  const state = getAppState();
-  const count = () => state.unreadNotificationsCount ?? 0;
-
   return (
-    <Suspense>
-      <Link
-        unstyled
-        href={routes.profile.profileEdition}
-        class="col relative items-center gap-1 font-semibold"
+    <Link unstyled href={routes.profile.profileEdition} class="col relative items-center gap-1 font-semibold">
+      <MemberAvatar member={authenticatedMember()} class="relative size-10 rounded-full" />
+
+      <span
+        class="row absolute -right-1 -top-1 size-5 scale-0 items-center justify-center rounded-full bg-yellow-600 text-sm transition-transform"
+        classList={{ 'scale-100': unreadNotificationsCount() > 0 }}
       >
-        <MemberAvatar member={state.authenticatedMember} class="relative size-10 rounded-full" />
+        <Show when={unreadNotificationsCount() < 10} fallback={<T id="notificationsCountGreaterThan9" />}>
+          {unreadNotificationsCount()}
+        </Show>
+      </span>
 
-        <span
-          class="row absolute -right-1 -top-1 size-5 scale-0 items-center justify-center rounded-full bg-green-600 text-sm transition-transform"
-          classList={{ 'scale-100': count() > 0 }}
-        >
-          <Show when={count() < 10} fallback={<T id="notificationsCountGreaterThan9" />}>
-            {count()}
-          </Show>
-        </span>
-
-        <div class="leading-1">{state.authenticatedMember?.firstName}</div>
-      </Link>
-    </Suspense>
+      <div class="leading-1">{authenticatedMember()?.firstName}</div>
+    </Link>
   );
 };
