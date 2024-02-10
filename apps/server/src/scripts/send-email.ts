@@ -4,7 +4,7 @@ import { container } from '../container';
 import { TOKENS } from '../tokens';
 
 // eslint-disable-next-line no-console
-main(process.argv).catch(console.error);
+main(process.argv.slice(2)).catch(console.error);
 
 async function main(argv: string[]) {
   const logger = container.resolve(TOKENS.logger);
