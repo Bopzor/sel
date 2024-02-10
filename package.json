@@ -11,9 +11,5 @@
   },
   "devDependencies": {
     "typescript": "^5.3.3"
-  },
-  "resolutions": {
-    "vite": "4.5.1",
-    "vitest": "0.34.6"
   }
 }

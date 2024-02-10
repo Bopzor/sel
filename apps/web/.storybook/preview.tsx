@@ -47,11 +47,7 @@ export default {
     },
 
     (Story, { parameters }) => {
-      if (!parameters.router) {
-        return <Story />;
-      }
-
-      const { path = '/', location = '/' } = parameters.router;
+      const { path = '/', location = '/' } = parameters.router ?? {};
 
       return (
         <MemoryRouter>

@@ -14,13 +14,14 @@ type ButtonProps = ComponentProps<'button'> & {
 
 export const Button: Component<ButtonProps> = (props1) => {
   const props2 = mergeProps({ type: 'button', variant: 'primary' } satisfies ButtonProps, props1);
-  const [props, buttonProps] = splitProps(props2, ['variant', 'loading', 'disabled', 'classList']);
+  const [props, buttonProps] = splitProps(props2, ['variant', 'loading', 'disabled', 'class', 'classList']);
 
   const loading = createDebouncedValue(() => props.loading, 200);
 
   return (
     <button
       disabled={props.disabled ?? loading()}
+      class={props.class}
       classList={{
         button: true,
         'button-primary': props.variant === 'primary',

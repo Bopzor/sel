@@ -10,7 +10,7 @@ export function MemberMap(props: { member: Member }) {
         <Map
           center={position()}
           zoom={13}
-          class="min-h-sm flex-1"
+          class="max-h-md min-h-sm flex-1"
           markers={[{ position: position(), isPopupOpen: false }]}
         />
       )}
