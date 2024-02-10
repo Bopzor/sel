@@ -5,15 +5,29 @@ app_url=
 analytics_url=
 analytics_site_id=
 
-koyeb secret create "$app_name-db-url" --value ''
-koyeb secret create "$app_name-session-secret" --value ''
-koyeb secret create "$app_name-email-host" --value ''
-koyeb secret create "$app_name-email-from" --value ''
-koyeb secret create "$app_name-email-password" --value ''
-koyeb secret create "$app_name-slack-webhook-url" --value ''
-koyeb secret create "$app_name-web-push-public-key" --value ''
-koyeb secret create "$app_name-web-push-private-key" --value ''
-koyeb secret create "$app_name-geoapify-key" --value ''
+db_url=
+session_secret=
+email_host=
+email_from=
+email_password=
+slack_webhook_url=
+web_push_public_key=
+web_push_private_key=
+geoapify_key=
+
+# for name in db-url session-secret email-host email-from email-password slack-webhook-url web-push-public-key web-push-private-key geoapify-key; do
+#   koyeb secret delete $app_name-$name
+# done
+
+koyeb secret create "$app_name-db-url" --value "$db_url"
+koyeb secret create "$app_name-session-secret" --value "$session_secret"
+koyeb secret create "$app_name-email-host" --value "$email_host"
+koyeb secret create "$app_name-email-from" --value "$email_from"
+koyeb secret create "$app_name-email-password" --value "$email_password"
+koyeb secret create "$app_name-slack-webhook-url" --value "$slack_webhook_url"
+koyeb secret create "$app_name-web-push-public-key" --value "$web_push_public_key"
+koyeb secret create "$app_name-web-push-private-key" --value "$web_push_private_key"
+koyeb secret create "$app_name-geoapify-key" --value "$geoapify_key"
 
 koyeb app create "$app_name"
 
@@ -39,8 +53,8 @@ koyeb service create server \
   --env EMAIL_PASSWORD="@$app_name-email-password" \
   --env SLACK_WEBHOOK_URL="@$app_name-slack-webhook-url" \
   --env WEB_PUSH_SUBJECT="$app_url" \
-  --env WEB_PUSH_PUBLIC_KEY="$app_name-web-push-public-key" \
-  --env WEB_PUSH_PRIVATE_KEY="$app_name-web-push-public-key" \
+  --env WEB_PUSH_PUBLIC_KEY="@$app_name-web-push-public-key" \
+  --env WEB_PUSH_PRIVATE_KEY="@$app_name-web-push-public-key" \
   --ports 3000:http \
   --routes /api:3000 \
   --checks 3000:http:/health \

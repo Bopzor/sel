@@ -9,12 +9,7 @@ import { createAsyncCall } from '../../utils/create-async-call';
 import { formatPhoneNumber } from '../../utils/format-phone-number';
 
 import { Stepper } from './components/stepper';
-import {
-  OnboardingForm,
-  OnboardingStep,
-  OnboardingStepProps,
-  OnboardingStepStates,
-} from './onboarding-types';
+import { OnboardingStep, OnboardingStepProps, OnboardingStepStates } from './onboarding-types';
 import { WelcomeStep } from './steps/00-welcome-step';
 import { NameStep } from './steps/01-name-step';
 import { ContactStep } from './steps/02-contact-step';
@@ -22,7 +17,7 @@ import { BioStep } from './steps/03-bio-step';
 import { AddressStep } from './steps/04-address-step';
 import { EndStep } from './steps/05-end-step';
 
-const getInitialValues = (member: AuthenticatedMember | undefined): OnboardingForm => ({
+const getInitialValues = (member: AuthenticatedMember | undefined) => ({
   firstName: member?.firstName ?? '',
   lastName: member?.lastName ?? '',
   email: member?.email ?? '',
@@ -78,9 +73,9 @@ export default function OnboardingPage() {
 
     if (step() === OnboardingStep.end) {
       refreshAuthenticatedMember();
+    } else {
+      setStep((step) => step + 1);
     }
-
-    setStep((step) => step + 1);
   });
 
   return (

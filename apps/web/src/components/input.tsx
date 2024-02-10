@@ -31,7 +31,7 @@ export function Input(props1: InputProps) {
 
       <input
         ref={inputProps.ref ?? undefined}
-        class={clsx('w-full self-stretch bg-neutral px-4 py-3 outline-none', props.start && 'pl-0')}
+        class={clsx('w-full self-stretch bg-transparent px-4 py-3 outline-none', props.start && 'pl-0')}
         {...inputProps}
       />
 
@@ -57,7 +57,7 @@ export function TextArea(props1: TextAreaProps) {
         ref={textareaProps.ref ?? undefined}
         class={clsx(
           'w-full rounded-lg border-2 px-4 py-3 outline-none',
-          'bg-transparent transition-colors focus-within:border-primary/50',
+          'bg-neutral transition-colors focus-within:border-primary/50',
           props.class,
         )}
         classList={{

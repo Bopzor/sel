@@ -16,10 +16,10 @@ export default function SettingsPage() {
     document.documentElement.classList.add(isDarkMode() ? 'dark' : 'light');
   };
 
-  const hasRequestsFlag = hasFeatureFlag(Feature.events);
+  const hasEventsFlag = hasFeatureFlag(Feature.events);
 
   const toggleEventsFlag = () => {
-    setFeatureFlag(Feature.events, !hasRequestsFlag());
+    setFeatureFlag(Feature.events, !hasEventsFlag());
   };
 
   return (
@@ -35,7 +35,7 @@ export default function SettingsPage() {
       </p>
 
       <p>
-        <Switch checked={hasRequestsFlag()} onChange={() => toggleEventsFlag()}>
+        <Switch checked={hasEventsFlag()} onChange={() => toggleEventsFlag()}>
           <TranslateFeatureFlag value={Feature.events} />
         </Switch>
       </p>

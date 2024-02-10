@@ -37,7 +37,7 @@ export function EndStep(props: OnboardingStepProps<OnboardingStep.end>) {
               id="contact.email"
               values={{
                 email: 'selons-nous@nilscox.dev',
-                link: (children) => <a href="selons-nous@nilscox.dev">{children}</a>,
+                link: (children) => <a href="mailto:selons-nous@nilscox.dev">{children}</a>,
               }}
             />
           </li>

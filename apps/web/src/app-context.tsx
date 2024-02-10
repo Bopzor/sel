@@ -33,7 +33,7 @@ export function AppContextProvider(props: { children: JSX.Element }) {
   );
 
   const [notifications, { refetch: refetchNotifications }] = createResource(
-    () => Boolean(authenticatedMember()),
+    () => Boolean(authenticatedMember.latest),
     async () => {
       return profileApi.getNotifications();
     },

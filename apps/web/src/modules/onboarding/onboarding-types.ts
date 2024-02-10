@@ -39,14 +39,3 @@ export type OnboardingStepProps<S extends OnboardingStep> = {
   submitting: boolean;
   onSubmit: (data: OnboardingStepState<S>) => void;
 };
-
-export type OnboardingForm = {
-  firstName: string;
-  lastName: string;
-  email: string;
-  emailVisible: boolean;
-  phoneNumber: string;
-  phoneNumberVisible: boolean;
-  bio: string;
-  address?: Address;
-};

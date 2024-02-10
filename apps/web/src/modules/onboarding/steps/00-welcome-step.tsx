@@ -29,7 +29,7 @@ export function WelcomeStep(props: OnboardingStepProps<OnboardingStep.welcome>) 
             id="sentence2"
             values={{
               link: (children) => (
-                <a href="https://selonnous.communityforge.net/user/167/contact">{children}</a>
+                <a href="https://selonnous.communityforge.net/user/152/contact">{children}</a>
               ),
             }}
           />
