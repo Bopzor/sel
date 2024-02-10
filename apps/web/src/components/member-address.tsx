@@ -1,13 +1,12 @@
 import { Address } from '@sel/shared';
-import { Component } from 'solid-js';
 
 type MemberAddressProps = {
   address: Address;
 };
 
-export const MemberAddress: Component<MemberAddressProps> = (props) => {
+export function MemberAddress(props: MemberAddressProps) {
   return <div class="whitespace-pre-wrap">{formatAddress(props.address)}</div>;
-};
+}
 
 export const formatAddress = (address: Address) => {
   return [

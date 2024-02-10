@@ -9,7 +9,7 @@ type RequestStatusProps = {
   status?: RequestStatusEnum;
 };
 
-export const RequestStatus = (props: RequestStatusProps) => {
+export function RequestStatus(props: RequestStatusProps) {
   return (
     <Show when={props.status}>
       <span
@@ -23,4 +23,4 @@ export const RequestStatus = (props: RequestStatusProps) => {
       </span>
     </Show>
   );
-};
+}

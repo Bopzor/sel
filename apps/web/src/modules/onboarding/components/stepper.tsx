@@ -1,6 +1,6 @@
 import { Icon } from 'solid-heroicons';
 import { check } from 'solid-heroicons/outline';
-import { Component, For, Show } from 'solid-js';
+import { For, Show } from 'solid-js';
 import { Dynamic } from 'solid-js/web';
 
 import { Translate } from '../../../intl/translate';
@@ -8,12 +8,12 @@ import { OnboardingStep } from '../onboarding-types';
 
 const T = Translate.prefix('onboarding.steps');
 
-type StepsProps = {
+type StepperProps = {
   step: OnboardingStep;
   setStep: (step: number) => void;
 };
 
-export const Stepper: Component<StepsProps> = (props) => {
+export function Stepper(props: StepperProps) {
   return (
     <ol class="grid list-inside list-decimal grid-cols-2 gap-x-4 gap-y-2 sm:grid-cols-4">
       <For
@@ -25,7 +25,7 @@ export const Stepper: Component<StepsProps> = (props) => {
       </For>
     </ol>
   );
-};
+}
 
 type StepProps = {
   step: OnboardingStep;
@@ -33,7 +33,7 @@ type StepProps = {
   setStep: (step: number) => void;
 };
 
-const Step: Component<StepProps> = (props) => {
+function Step(props: StepProps) {
   const label = {
     [OnboardingStep.welcome]: '',
     [OnboardingStep.name]: <T id="name.title" />,
@@ -65,4 +65,4 @@ const Step: Component<StepProps> = (props) => {
       </button>
     </li>
   );
-};
+}

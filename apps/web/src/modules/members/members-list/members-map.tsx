@@ -1,6 +1,5 @@
 import { Member } from '@sel/shared';
 import { defined } from '@sel/utils';
-import { Component } from 'solid-js';
 
 import { Link } from '../../../components/link';
 import { Map } from '../../../components/map';
@@ -41,7 +40,7 @@ type PopupProps = {
   member: Member;
 };
 
-const Popup: Component<PopupProps> = (props) => {
+function Popup(props: PopupProps) {
   return (
     <Link unstyled href={routes.members.member(props.member.id)} class="col min-w-48 gap-2 outline-none">
       <div class="row items-center gap-2 text-base font-medium">
@@ -53,4 +52,4 @@ const Popup: Component<PopupProps> = (props) => {
       <MemberAddress address={defined(props.member.address)} />
     </Link>
   );
-};
+}

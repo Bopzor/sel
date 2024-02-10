@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { Component, JSX, Show, mergeProps, splitProps } from 'solid-js';
+import { JSX, Show, mergeProps, splitProps } from 'solid-js';
 
 type InputProps = JSX.InputHTMLAttributes<HTMLInputElement> & {
   variant?: 'solid' | 'outlined';
@@ -8,7 +8,7 @@ type InputProps = JSX.InputHTMLAttributes<HTMLInputElement> & {
   end?: JSX.Element;
 };
 
-export const Input: Component<InputProps> = (props1) => {
+export function Input(props1: InputProps) {
   const props2 = mergeProps({ variant: 'solid', width: 'full' } satisfies InputProps, props1);
   const [props, inputProps] = splitProps(props2, ['variant', 'width', 'class', 'start', 'end']);
 
@@ -40,14 +40,14 @@ export const Input: Component<InputProps> = (props1) => {
       </Show>
     </div>
   );
-};
+}
 
 type TextAreaProps = JSX.TextareaHTMLAttributes<HTMLTextAreaElement> & {
   variant?: 'solid' | 'outlined';
   width?: 'medium' | 'full';
 };
 
-export const TextArea: Component<TextAreaProps> = (props1) => {
+export function TextArea(props1: TextAreaProps) {
   const props2 = mergeProps({ variant: 'solid', width: 'full' } satisfies TextAreaProps, props1);
   const [props, textareaProps] = splitProps(props2, ['variant', 'class']);
 
@@ -69,4 +69,4 @@ export const TextArea: Component<TextAreaProps> = (props1) => {
       />
     </div>
   );
-};
+}

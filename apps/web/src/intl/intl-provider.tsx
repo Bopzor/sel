@@ -8,7 +8,7 @@ type IntlProviderProps = {
   children: JSX.Element;
 };
 
-export const IntlProvider = (props: IntlProviderProps) => {
+export function IntlProvider(props: IntlProviderProps) {
   const [language] = createSignal<Language>('fr');
 
   const [translations] = createResource(language, getTranslations, {
@@ -20,7 +20,7 @@ export const IntlProvider = (props: IntlProviderProps) => {
       {props.children}
     </SolidIntlProvider>
   );
-};
+}
 
 async function getTranslations(language: Language): Promise<Record<string, string>> {
   return flattenTranslations(await fetchTranslations(language));

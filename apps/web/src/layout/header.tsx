@@ -1,4 +1,4 @@
-import { Component, JSX } from 'solid-js';
+import { JSX } from 'solid-js';
 
 import { Link } from '../components/link';
 import { Translate } from '../intl/translate';
@@ -11,7 +11,7 @@ type HeaderProps = {
   children?: JSX.Element;
 };
 
-export const Header: Component<HeaderProps> = (props) => {
+export function Header(props: HeaderProps) {
   return (
     <header class="bg-primary text-white">
       <div class="row mx-auto max-w-7xl items-center justify-between p-2 md:p-4">
@@ -31,4 +31,4 @@ export const Header: Component<HeaderProps> = (props) => {
       </div>
     </header>
   );
-};
+}

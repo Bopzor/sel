@@ -1,4 +1,4 @@
-import { Component, ComponentProps, Show, mergeProps, splitProps } from 'solid-js';
+import { ComponentProps, Show, mergeProps, splitProps } from 'solid-js';
 
 import { createDebouncedValue } from '../utils/debounce';
 
@@ -12,7 +12,7 @@ type ButtonProps = ComponentProps<'button'> & {
   loading?: boolean;
 };
 
-export const Button: Component<ButtonProps> = (props1) => {
+export function Button(props1: ButtonProps) {
   const props2 = mergeProps({ type: 'button', variant: 'primary' } satisfies ButtonProps, props1);
   const [props, buttonProps] = splitProps(props2, ['variant', 'loading', 'disabled', 'class', 'classList']);
 
@@ -36,14 +36,14 @@ export const Button: Component<ButtonProps> = (props1) => {
       </Show>
     </button>
   );
-};
+}
 
 type LinkButtonProps = ComponentProps<typeof Link> & {
   variant?: ButtonVariant;
   loading?: boolean;
 };
 
-export const LinkButton: Component<LinkButtonProps> = (props1) => {
+export function LinkButton(props1: LinkButtonProps) {
   const props = mergeProps({ variant: 'primary' } satisfies Omit<LinkButtonProps, 'href'>, props1);
 
   return (
@@ -61,4 +61,4 @@ export const LinkButton: Component<LinkButtonProps> = (props1) => {
       {props.loading && <Spinner class="size-4" />}
     </Link>
   );
-};
+}

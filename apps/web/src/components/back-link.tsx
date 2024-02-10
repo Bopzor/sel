@@ -9,11 +9,13 @@ type BackLinkProps = {
   href: string;
 };
 
-export const BackLink = (props: BackLinkProps) => (
-  <Link unstyled href={props.href} class="my-8 inline-flex flex-row items-center gap-2 self-start text-dim">
-    <Icon path={arrowLeft} class="h-5" />
-    <span class="font-medium">
-      <Translate id="common.back" />
-    </span>
-  </Link>
-);
+export function BackLink(props: BackLinkProps) {
+  return (
+    <Link unstyled href={props.href} class="my-8 inline-flex flex-row items-center gap-2 self-start text-dim">
+      <Icon path={arrowLeft} class="h-5" />
+      <span class="font-medium">
+        <Translate id="common.back" />
+      </span>
+    </Link>
+  );
+}

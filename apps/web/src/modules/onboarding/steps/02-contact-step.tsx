@@ -84,7 +84,7 @@ export function ContactStep(props: OnboardingStepProps<OnboardingStep.contact>) 
   );
 }
 
-export const FieldVisibility = (props: { name: string; checked: boolean }) => {
+export function FieldVisibility(props: { name: string; checked: boolean }) {
   return (
     <Switch name={props.name}>
       <span class={clsx(!props.checked && 'hidden')}>
@@ -95,4 +95,4 @@ export const FieldVisibility = (props: { name: string; checked: boolean }) => {
       </span>
     </Switch>
   );
-};
+}

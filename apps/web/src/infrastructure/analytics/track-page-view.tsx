@@ -1,10 +1,10 @@
 import { useLocation } from '@solidjs/router';
-import { Component, createEffect } from 'solid-js';
+import { createEffect } from 'solid-js';
 
 import { TOKENS } from '../../tokens';
 import { container } from '../container';
 
-export const TrackPageView: Component = () => {
+export function TrackPageView() {
   const location = useLocation();
   const client = container.resolve(TOKENS.analytics);
 
@@ -15,4 +15,4 @@ export const TrackPageView: Component = () => {
   });
 
   return null;
-};
+}

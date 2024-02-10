@@ -1,4 +1,4 @@
-import { Component, JSX, Show, lazy } from 'solid-js';
+import { JSX, Show, lazy } from 'solid-js';
 
 import { authenticatedMember, unreadNotificationsCount } from '../app-context';
 import { Link } from '../components/link';
@@ -17,7 +17,7 @@ type LayoutProps = {
   children: JSX.Element;
 };
 
-export const Layout: Component<LayoutProps> = (props) => {
+export function Layout(props: LayoutProps) {
   const router = container.resolve(TOKENS.router);
   const pathname = () => router.location.pathname;
 
@@ -34,7 +34,7 @@ export const Layout: Component<LayoutProps> = (props) => {
       </ErrorBoundary>
     </Show>
   );
-};
+}
 
 export const HeaderMember = () => {
   return (

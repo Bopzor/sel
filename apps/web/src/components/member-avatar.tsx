@@ -1,6 +1,6 @@
 import { Member } from '@sel/shared';
 import clsx from 'clsx';
-import { Component, Show } from 'solid-js';
+import { Show } from 'solid-js';
 
 import { container } from '../infrastructure/container';
 import { TOKENS } from '../tokens';
@@ -10,7 +10,7 @@ type MemberAvatarProps = {
   class?: string;
 };
 
-export const MemberAvatar: Component<MemberAvatarProps> = (props) => {
+export function MemberAvatar(props: MemberAvatarProps) {
   const avatarAdapter = container.resolve(TOKENS.memberAvatar);
 
   const url = () => {
@@ -20,4 +20,4 @@ export const MemberAvatar: Component<MemberAvatarProps> = (props) => {
   };
 
   return <Show when={url()}>{(url) => <img src={url()} class={clsx(props.class, 'shadow')} />}</Show>;
-};
+}

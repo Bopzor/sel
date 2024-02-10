@@ -1,11 +1,11 @@
-import { Component, onCleanup, onMount } from 'solid-js';
+import { onCleanup, onMount } from 'solid-js';
 
 import { TOKENS } from '../../tokens';
 import { container } from '../container';
 
 import { MatomoAnalyticsAdapter } from './matomo-analytics.adapter';
 
-export const MatomoScript: Component = () => {
+export function MatomoScript() {
   const client = container.resolve(TOKENS.analytics);
 
   onMount(() => {
@@ -27,4 +27,4 @@ export const MatomoScript: Component = () => {
   });
 
   return null;
-};
+}

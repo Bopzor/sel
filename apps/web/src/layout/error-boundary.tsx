@@ -1,4 +1,4 @@
-import { Component, JSX, ErrorBoundary as SolidErrorBoundary, createEffect } from 'solid-js';
+import { JSX, ErrorBoundary as SolidErrorBoundary, createEffect } from 'solid-js';
 
 import { Button } from '../components/button';
 import { container } from '../infrastructure/container';
@@ -12,7 +12,7 @@ type ErrorBoundaryProps = {
   children: JSX.Element;
 };
 
-export const ErrorBoundary = (props: ErrorBoundaryProps) => {
+export function ErrorBoundary(props: ErrorBoundaryProps) {
   const router = container.resolve(TOKENS.router);
 
   return (
@@ -32,14 +32,14 @@ export const ErrorBoundary = (props: ErrorBoundaryProps) => {
       {...props}
     />
   );
-};
+}
 
 type ErrorFallbackProps = {
   error: unknown;
   reset: (redirect?: string) => void;
 };
 
-const ErrorFallback: Component<ErrorFallbackProps> = (props) => {
+function ErrorFallback(props: ErrorFallbackProps) {
   createEffect(() => {
     // todo: report
     // eslint-disable-next-line no-console
@@ -71,4 +71,4 @@ const ErrorFallback: Component<ErrorFallbackProps> = (props) => {
       </div>
     </div>
   );
-};
+}

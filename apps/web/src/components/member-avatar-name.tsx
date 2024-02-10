@@ -1,6 +1,5 @@
 import { Member } from '@sel/shared';
 import clsx from 'clsx';
-import { Component } from 'solid-js';
 
 import { MemberAvatar } from './member-avatar';
 
@@ -12,7 +11,7 @@ type MemberAvatarNameProps = {
   }>;
 };
 
-export const MemberAvatarName: Component<MemberAvatarNameProps> = (props) => {
+export function MemberAvatarName(props: MemberAvatarNameProps) {
   return (
     <>
       <MemberAvatar member={props.member} class={clsx(props.classes?.avatar, 'size-8 rounded-full')} />
@@ -22,4 +21,4 @@ export const MemberAvatarName: Component<MemberAvatarNameProps> = (props) => {
       </span>
     </>
   );
-};
+}

@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import * as maplibre from 'maplibre-gl';
-import { Component, For, JSX, createEffect, createSignal, onMount } from 'solid-js';
+import { For, JSX, createEffect, createSignal, onMount } from 'solid-js';
 import MapGL, { Layer, Marker, Source, Viewport } from 'solid-map-gl';
 
 import 'maplibre-gl/dist/maplibre-gl.css';
@@ -20,7 +20,7 @@ type MapProps = {
   class?: string;
 };
 
-export const Map: Component<MapProps> = (props) => {
+export function Map(props: MapProps) {
   const [viewport, setViewport] = createSignal<Viewport>({
     center: props.center,
     zoom: props.zoom,
@@ -70,4 +70,4 @@ export const Map: Component<MapProps> = (props) => {
       </For>
     </MapGL>
   );
-};
+}
