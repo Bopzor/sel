@@ -1,7 +1,6 @@
 import { Component, JSX, ErrorBoundary as SolidErrorBoundary, createEffect } from 'solid-js';
 
 import { Button } from '../components/button';
-import { Row } from '../components/row';
 import { container } from '../infrastructure/container';
 import { Translate } from '../intl/translate';
 import { routes } from '../routes';
@@ -62,14 +61,14 @@ const ErrorFallback: Component<ErrorFallbackProps> = (props) => {
         </p>
       </div>
 
-      <Row gap={4}>
+      <div class="row items-center gap-4">
         <Button variant="secondary" onClick={() => props.reset(routes.home)}>
           <T id="resetToHome" />
         </Button>
         <Button onClick={() => props.reset()}>
           <T id="reset" />
         </Button>
-      </Row>
+      </div>
     </div>
   );
 };

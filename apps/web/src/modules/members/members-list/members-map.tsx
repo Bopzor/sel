@@ -6,7 +6,6 @@ import { Link } from '../../../components/link';
 import { Map } from '../../../components/map';
 import { MemberAddress } from '../../../components/member-address';
 import { MemberAvatarName } from '../../../components/member-avatar-name';
-import { Row } from '../../../components/row';
 import { routes } from '../../../routes';
 
 type MemberMapProps = {
@@ -45,9 +44,9 @@ type PopupProps = {
 const Popup: Component<PopupProps> = (props) => {
   return (
     <Link unstyled href={routes.members.member(props.member.id)} class="col min-w-48 gap-2 outline-none">
-      <Row gap={2} class="text-base font-medium">
+      <div class="row items-center gap-2 text-base font-medium">
         <MemberAvatarName member={props.member} />
-      </Row>
+      </div>
 
       <hr />
 
