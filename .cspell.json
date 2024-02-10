@@ -22,6 +22,8 @@
     "solidjs",
     "tailwindcss",
     "tiptap",
+    "felte",
+    "immer",
     "trimmable"
   ]
 }

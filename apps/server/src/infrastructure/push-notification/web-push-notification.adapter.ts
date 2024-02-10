@@ -6,6 +6,8 @@ import { ConfigPort } from '../config/config.port';
 
 import { PushNotificationPort, PushDeviceSubscription } from './push-notification.port';
 
+// cspell:word webpush
+
 export class WebPushNotificationAdapter implements PushNotificationPort {
   static inject = injectableClass(this, TOKENS.config);
 

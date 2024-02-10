@@ -1,4 +1,5 @@
 /// <reference lib="webworker" />
+// cspell:words precache precaching
 
 import { precacheAndRoute } from 'workbox-precaching';
 

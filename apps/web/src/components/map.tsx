@@ -54,7 +54,7 @@ export function Map(props: MapProps) {
           tiles: ['https://a.tile.openstreetmap.org/{z}/{x}/{y}.png'],
           tileSize: 256,
           attribution: '&copy; OpenStreetMap',
-          maxzoom: 19,
+          maxzoom: 19, // cspell:disable-line
         }}
       >
         {/* eslint-disable-next-line solid/style-prop */}
