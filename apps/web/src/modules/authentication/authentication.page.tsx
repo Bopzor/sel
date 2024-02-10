@@ -7,7 +7,7 @@ import { container } from '../../infrastructure/container';
 import { FetchError } from '../../infrastructure/fetcher';
 import { useSearchParam } from '../../infrastructure/router/use-search-param';
 import { Translate } from '../../intl/translate';
-import { Header } from '../../layout/header/header';
+import { Header } from '../../layout/header';
 import { TOKENS } from '../../tokens';
 import { createErrorHandler } from '../../utils/create-error-handler';
 import { notify } from '../../utils/notify';

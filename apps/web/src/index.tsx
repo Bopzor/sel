@@ -21,7 +21,7 @@ function lazyImport(module: () => Promise<any>, name: string) {
 }
 
 const HomePage = lazy(() => import('./modules/home/home.page'));
-const OnboardingPage = lazyImport(() => import('./onboarding/onboarding.page'), 'OnboardingPage');
+const OnboardingPage = lazy(() => import('./modules/onboarding/onboarding.page'));
 const MembersListPage = lazy(() => import('./modules/members/members-list/members-list.page'));
 const MemberDetailsPage = lazy(() => import('./modules/members/member-details/member-details.page'));
 const RequestsListPage = lazy(() => import('./modules/requests/requests-list/requests-list.page'));

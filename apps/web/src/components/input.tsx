@@ -59,7 +59,7 @@ export const TextArea: Component<TextAreaProps> = (props1) => {
         ref={textareaProps.ref ?? undefined}
         class={clsx(
           'w-full rounded-lg border-2 px-4 py-3 outline-none',
-          'transition-colors focus-within:border-primary/50',
+          'bg-transparent transition-colors focus-within:border-primary/50',
           props.class,
         )}
         classList={{

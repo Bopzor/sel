@@ -42,6 +42,7 @@ type ErrorFallbackProps = {
 
 const ErrorFallback: Component<ErrorFallbackProps> = (props) => {
   createEffect(() => {
+    // todo: report
     // eslint-disable-next-line no-console
     console.error(props.error);
   });

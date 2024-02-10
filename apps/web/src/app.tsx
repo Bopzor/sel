@@ -8,7 +8,7 @@ import { container } from './infrastructure/container';
 import { NotificationsContainer } from './infrastructure/notifications/toast-notifications.adapter';
 import { IntlProvider } from './intl';
 import { Layout } from './layout/layout';
-import { AppStoreProvider } from './store/app-store';
+import { routes } from './routes';
 import { TOKENS } from './tokens';
 import { detectDevice } from './utils/detect-device';
 
@@ -41,15 +41,33 @@ export function App(props: AppProps) {
         <NotificationsContainer />
         <SuspenseLoader>
           <AppContextProvider>
-            <AppStoreProvider>
-              <RegisterDeviceSubscription />
-              <Layout>{props.children}</Layout>
-            </AppStoreProvider>
+            <OnboardingRedirections />
+            <RegisterDeviceSubscription />
+            <Layout>{props.children}</Layout>
           </AppContextProvider>
         </SuspenseLoader>
       </IntlProvider>
     </SolidErrorBoundary>
   );
+}
+
+function OnboardingRedirections() {
+  const router = container.resolve(TOKENS.router);
+
+  createEffect(() => {
+    const { pathname } = router.location;
+    const { onboardingCompleted } = authenticatedMember() ?? {};
+
+    if (onboardingCompleted === false && pathname !== '/onboarding') {
+      router.navigate(routes.onboarding);
+    }
+
+    if (onboardingCompleted === true && pathname === '/onboarding') {
+      router.navigate(routes.home);
+    }
+  });
+
+  return null;
 }
 
 function RegisterDeviceSubscription() {

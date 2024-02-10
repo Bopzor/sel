@@ -7,6 +7,7 @@ type FormFieldProps = {
   children: JSX.Element;
 };
 
+// todo: aria-errormessage
 export const FormField = (props: FormFieldProps) => (
   <div class={props.class}>
     <Show when={props.label !== undefined}>

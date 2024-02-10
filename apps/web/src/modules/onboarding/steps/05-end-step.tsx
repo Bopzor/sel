@@ -1,18 +1,21 @@
-import { Component } from 'solid-js';
+import { createForm } from '@felte/solid';
 
-import { Translate } from '../../intl/translate';
+import { Translate } from '../../../intl/translate';
+import { createErrorHandler } from '../../../utils/create-error-handler';
 import { NextButton } from '../components/next-button';
+import { OnboardingStepProps, OnboardingStep } from '../onboarding-types';
 
 const T = Translate.prefix('onboarding.steps.end');
 
-type EndStepProps = {
-  loading: boolean;
-  onNext: () => void;
-};
+export function EndStep(props: OnboardingStepProps<OnboardingStep.end>) {
+  const { form } = createForm({
+    initialValues: props.initialValues,
+    onSubmit: props.onSubmit,
+    onError: createErrorHandler(),
+  });
 
-export const EndStep: Component<EndStepProps> = (props) => {
   return (
-    <>
+    <form use:form class="col gap-4">
       <div class="col gap-1">
         <p>
           <T id="sentence1" />
@@ -41,9 +44,9 @@ export const EndStep: Component<EndStepProps> = (props) => {
         </ul>
       </div>
 
-      <NextButton class="self-center" loading={props.loading} onClick={props.onNext}>
+      <NextButton class="self-center">
         <Translate id="onboarding.navigation.end" />
       </NextButton>
-    </>
+    </form>
   );
-};
+}

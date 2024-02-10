@@ -1,24 +1,28 @@
 import { Address } from '@sel/shared';
 import { defined } from '@sel/utils';
 
+import { authenticatedMember, getAppActions } from '../../../app-context';
 import { AddressSearch } from '../../../components/address-search';
+import { container } from '../../../infrastructure/container';
 import { Translate } from '../../../intl/translate';
-import { getAppActions, getAppState } from '../../../store/app-store';
+import { TOKENS } from '../../../tokens';
 import { createAsyncCall } from '../../../utils/create-async-call';
 
 const T = Translate.prefix('profile.address');
 
 export default function AddressPage() {
+  const profileApi = container.resolve(TOKENS.profileApi);
+  const { refreshAuthenticatedMember } = getAppActions();
   const t = T.useTranslation();
-  const state = getAppState();
 
-  const actions = getAppActions();
-  const [updateMemberProfile] = createAsyncCall(actions.updateMemberProfile);
+  const [updateMemberProfile] = createAsyncCall(profileApi.updateMemberProfile.bind(profileApi), {
+    onSuccess: refreshAuthenticatedMember,
+  });
+
+  const member = defined(authenticatedMember());
 
   const handleSelected = (address: Address) => {
-    const member = defined(state.authenticatedMember);
-
-    updateMemberProfile({
+    updateMemberProfile(member.id, {
       firstName: member.firstName,
       lastName: member.lastName,
       emailVisible: member.emailVisible,
@@ -35,7 +39,7 @@ export default function AddressPage() {
 
       <AddressSearch
         placeholder={t('placeholder')}
-        value={state.authenticatedMember?.address}
+        value={authenticatedMember()?.address}
         onSelected={(address) => handleSelected(address)}
       />
     </>

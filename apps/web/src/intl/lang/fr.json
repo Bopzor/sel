@@ -47,7 +47,6 @@
     "authenticationLinkExpired": "Le lien de connexion que vous avez utilisé a expiré, veuillez en demander un nouveau."
   },
   "onboarding": {
-    "title": "Bienvenue sur l'app du SEL !",
     "navigation": {
       "start": "Commencer",
       "next": "Suivant",
@@ -55,8 +54,9 @@
     },
     "steps": {
       "welcome": {
-        "sentence1": "Votre compte utilisateur a bien été activé ! 😊",
-        "sentence2": "Il ne vous reste plus qu'à vérifier et mettre à jour les informations de votre profil."
+        "title": "Bienvenue sur l'app du SEL !",
+        "sentence1": "Pour commencer, prenez 2 minutes pour vérifier les informations de votre profil.",
+        "sentence2": "Ces informations seront visible par les autres membres du SEL. En revanche, elles ne seront pas accessible à l'extérieur de l'app. Si vous avez des questions, n'hésitez pas à <link>nous contacter</link>."
       },
       "name": {
         "sentence1": "Votre nom et prénom seront visibles par tous les membres. En revanche, ils ne seront pas rendus publics à l'extérieur de l'app.",
@@ -66,7 +66,6 @@
       },
       "contact": {
         "sentence1": "Vérifiez vos informations de contact. Vous pouvez également indiquer si vous souhaitez rendre ces informations publiques pour les autres membres du SEL. Lorsqu'un champ est rendu visible, il sera affiché sur votre page de membre.",
-        "sentence2": "Dans tous les cas, aucune information ne sera visible à l'extérieur de l'app.",
         "title": "Contact",
         "emailAddress": "Adresse email",
         "emailReadOnly": "Vous ne pouvez pas modifier votre adresse email",

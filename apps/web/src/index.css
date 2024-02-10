@@ -95,6 +95,10 @@
     @apply text-xl font-semibold;
   }
 
+  .border-strong {
+    @apply border-gray-500 dark:border-gray-400;
+  }
+
   .text-green {
     @apply text-green-700 dark:text-green-300;
   }

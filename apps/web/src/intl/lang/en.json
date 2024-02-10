@@ -47,7 +47,6 @@
     "authenticationLinkExpired": "The link you used to sign in has expired, try requesting a new one."
   },
   "onboarding": {
-    "title": "Welcome on the LETS's app!",
     "navigation": {
       "start": "Start",
       "next": "Next",
@@ -55,6 +54,7 @@
     },
     "steps": {
       "welcome": {
+        "title": "Welcome on the LETS's app!",
         "sentence1": "Your user account was activated! 😊",
         "sentence2": "Please take a moment to check and update your profile information."
       },
@@ -66,7 +66,6 @@
       },
       "contact": {
         "sentence1": "Check your contact information. You can also indicate whether you want to make these information public to other LETS members. When a field is made visible, it will be displayed on your member page.",
-        "sentence2": "In any case, no information will be visible outside the app.",
         "title": "Contact",
         "emailAddress": "Email address",
         "emailReadOnly": "You can't edit your email address",
