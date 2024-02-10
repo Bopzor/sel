@@ -10,7 +10,10 @@ import { EventHandler } from './event-handler';
 export class EventBus extends BaseEventBus {
   static inject = injectableClass(this, TOKENS.container, TOKENS.errorReporter);
 
-  constructor(private readonly container: Container, errorReporter: ErrorReporterPort) {
+  constructor(
+    private readonly container: Container,
+    errorReporter: ErrorReporterPort,
+  ) {
     super((error) => errorReporter.report(error));
   }
 

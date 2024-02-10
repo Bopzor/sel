@@ -17,7 +17,7 @@ export class FormatJsTranslationAdapter implements TranslationPort {
         locale: 'fr-FR',
         messages: fr,
       },
-      createIntlCache()
+      createIntlCache(),
     );
   }
 

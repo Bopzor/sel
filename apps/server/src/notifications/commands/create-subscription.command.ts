@@ -22,13 +22,13 @@ export class CreateSubscription implements CommandHandler<CreateSubscriptionComm
     this,
     TOKENS.generator,
     TOKENS.eventPublisher,
-    TOKENS.subscriptionRepository
+    TOKENS.subscriptionRepository,
   );
 
   constructor(
     private readonly generator: GeneratorPort,
     private readonly eventPublisher: EventPublisherPort,
-    private readonly subscriptionRepository: SubscriptionRepository
+    private readonly subscriptionRepository: SubscriptionRepository,
   ) {}
 
   async handle({

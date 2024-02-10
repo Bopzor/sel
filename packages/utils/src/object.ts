@@ -13,13 +13,13 @@ export function hasProperty<T, K extends keyof T>(property: K, value: T[K]) {
 export function toObject<T, K extends PropertyKey, V>(
   array: T[],
   getKey: (item: T) => K,
-  getValue: (item: T) => V
+  getValue: (item: T) => V,
 ): Record<K, V> {
   return array.reduce(
     (obj, item) => ({
       ...obj,
       [getKey(item)]: getValue(item),
     }),
-    {} as Record<K, V>
+    {} as Record<K, V>,
   );
 }

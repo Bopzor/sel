@@ -18,7 +18,7 @@ export class SessionController {
   constructor(
     private readonly sessionProvider: SessionProvider,
     private readonly commandBus: CommandBus,
-    private readonly queryBus: QueryBus
+    private readonly queryBus: QueryBus,
   ) {
     this.router.delete('/', this.deleteCurrentSession);
     this.router.get('/member', this.getCurrentMember);

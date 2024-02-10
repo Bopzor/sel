@@ -21,14 +21,14 @@ export class CreateRequest implements CommandHandler<CreateRequestCommand> {
     TOKENS.date,
     TOKENS.eventPublisher,
     TOKENS.htmlParser,
-    TOKENS.requestRepository
+    TOKENS.requestRepository,
   );
 
   constructor(
     private readonly dateAdapter: DatePort,
     private readonly eventPublisher: EventPublisherPort,
     private readonly htmlParser: HtmlParserPort,
-    private readonly requestRepository: RequestRepository
+    private readonly requestRepository: RequestRepository,
   ) {}
 
   async handle({ requestId, requesterId, title, body }: CreateRequestCommand): Promise<void> {

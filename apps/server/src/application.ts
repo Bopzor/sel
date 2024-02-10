@@ -22,14 +22,14 @@ export class Application {
     TOKENS.commandBus,
     TOKENS.eventBus,
     TOKENS.database,
-    TOKENS.pushNotification
+    TOKENS.pushNotification,
   );
 
   constructor(
     private readonly commandBus: CommandBus,
     private readonly eventBus: EventBus,
     private readonly database: Database,
-    private readonly pushNotification: PushNotificationPort
+    private readonly pushNotification: PushNotificationPort,
   ) {
     this.commandBus.init();
     this.pushNotification.init?.();

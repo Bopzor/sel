@@ -13,7 +13,10 @@ import { InsertRequestModel, RequestRepository, UpdateRequestModel } from './req
 export class SqlRequestRepository implements RequestRepository {
   static inject = injectableClass(this, TOKENS.database, TOKENS.date);
 
-  constructor(private database: Database, private readonly dateAdapter: DatePort) {}
+  constructor(
+    private database: Database,
+    private readonly dateAdapter: DatePort,
+  ) {}
 
   private get db() {
     return this.database.db;
@@ -74,7 +77,7 @@ export class SqlRequestRepository implements RequestRepository {
       requester: typeof members.$inferSelect;
       comments: Array<typeof comments.$inferSelect & { author: typeof members.$inferSelect }>;
       answers: Array<typeof requestAnswers.$inferSelect & { member: typeof members.$inferSelect }>;
-    }
+    },
   ): shared.Request {
     const { requester, comments, answers } = request;
 

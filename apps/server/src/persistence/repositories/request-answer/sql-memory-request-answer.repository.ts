@@ -12,7 +12,10 @@ import { RequestAnswerRepository, UpsertRequestAnswerModel } from './request-ans
 export class SqlRequestAnswerRepository implements RequestAnswerRepository {
   static inject = injectableClass(this, TOKENS.database, TOKENS.date);
 
-  constructor(private database: Database, private readonly dateAdapter: DatePort) {}
+  constructor(
+    private database: Database,
+    private readonly dateAdapter: DatePort,
+  ) {}
 
   private get db() {
     return this.database.db;

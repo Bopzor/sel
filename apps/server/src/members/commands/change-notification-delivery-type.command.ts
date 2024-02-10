@@ -18,7 +18,7 @@ export class ChangeNotificationDeliveryType implements CommandHandler<ChangeNoti
 
   constructor(
     private readonly eventPublisher: EventPublisherPort,
-    private readonly memberRepository: MemberRepository
+    private readonly memberRepository: MemberRepository,
   ) {}
 
   async handle(command: ChangeNotificationDeliveryTypeCommand): Promise<void> {
@@ -31,7 +31,7 @@ export class ChangeNotificationDeliveryType implements CommandHandler<ChangeNoti
     await this.memberRepository.setNotificationDelivery(member.id, command.notificationDeliveryType);
 
     this.eventPublisher.publish(
-      new NotificationDeliveryTypeChanged(member.id, command.notificationDeliveryType)
+      new NotificationDeliveryTypeChanged(member.id, command.notificationDeliveryType),
     );
   }
 }

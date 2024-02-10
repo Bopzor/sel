@@ -14,7 +14,7 @@ export class CommentService {
   constructor(
     private readonly dateAdapter: DatePort,
     private readonly eventPublisher: EventPublisherPort,
-    private readonly commentsRepository: CommentRepository
+    private readonly commentsRepository: CommentRepository,
   ) {}
 
   async createComment(
@@ -22,7 +22,7 @@ export class CommentService {
     entity: CommentParentType,
     entityId: string,
     authorId: string,
-    text: string
+    text: string,
   ): Promise<string> {
     const comment: Comment = {
       id: commentId,

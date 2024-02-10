@@ -24,7 +24,7 @@ export interface NotificationCreator {
 export function getNotificationCreator(
   translation: TranslationPort,
   type: NotificationType,
-  data: unknown
+  data: unknown,
 ): NotificationCreator {
   const NotificationCreator = notificationCreators[type];
 

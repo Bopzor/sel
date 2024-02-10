@@ -22,14 +22,14 @@ export class AuthenticationController {
     private readonly config: ConfigPort,
     private readonly generator: GeneratorPort,
     private readonly commandBus: CommandBus,
-    private readonly queryBus: QueryBus
+    private readonly queryBus: QueryBus,
   ) {
     this.router.post('/request-authentication-link', this.requestAuthenticationLink);
 
     this.router.get(
       '/verify-authentication-token',
       this.verifyAuthenticationToken,
-      this.verifyAuthenticationTokenErrorHandler
+      this.verifyAuthenticationTokenErrorHandler,
     );
   }
 

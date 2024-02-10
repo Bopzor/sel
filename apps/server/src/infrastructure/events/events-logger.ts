@@ -9,7 +9,10 @@ import { LoggerPort } from '../logger/logger.port';
 export class EventsLogger implements EventHandler<DomainEvent> {
   static inject = injectableClass(this, TOKENS.date, TOKENS.logger);
 
-  constructor(private readonly dateAdapter: DatePort, private readonly logger: LoggerPort) {}
+  constructor(
+    private readonly dateAdapter: DatePort,
+    private readonly logger: LoggerPort,
+  ) {}
 
   async handle(event: DomainEvent): Promise<void> {
     const now = this.dateAdapter.now().toISOString();

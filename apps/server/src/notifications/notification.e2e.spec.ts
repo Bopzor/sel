@@ -20,7 +20,7 @@ class Test extends E2ETest {
   }
 
   async changeNotificationDeliveryType(
-    notificationDeliveryType: ChangeNotificationDeliveryTypeCommand['notificationDeliveryType']
+    notificationDeliveryType: ChangeNotificationDeliveryTypeCommand['notificationDeliveryType'],
   ) {
     await this.application.changeNotificationDeliveryType({
       memberId: this.member.id,

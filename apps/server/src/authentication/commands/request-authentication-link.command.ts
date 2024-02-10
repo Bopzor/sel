@@ -23,7 +23,7 @@ export class RequestAuthenticationLink implements CommandHandler<RequestAuthenti
     TOKENS.eventPublisher,
     TOKENS.memberRepository,
     TOKENS.tokenRepository,
-    TOKENS.authenticationService
+    TOKENS.authenticationService,
   );
 
   constructor(
@@ -32,7 +32,7 @@ export class RequestAuthenticationLink implements CommandHandler<RequestAuthenti
     private readonly eventPublisher: EventPublisherPort,
     private readonly memberRepository: MemberRepository,
     private readonly tokenRepository: TokenRepository,
-    private readonly authenticationService: AuthenticationService
+    private readonly authenticationService: AuthenticationService,
   ) {}
 
   async handle({ email }: RequestAuthenticationLinkCommand): Promise<void> {
@@ -51,7 +51,7 @@ export class RequestAuthenticationLink implements CommandHandler<RequestAuthenti
     const token = await this.authenticationService.generateToken(
       TokenType.authentication,
       this.generator.id(),
-      member.id
+      member.id,
     );
 
     const authenticationUrl = new URL(this.config.app.baseUrl);

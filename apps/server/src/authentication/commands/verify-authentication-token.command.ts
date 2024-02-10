@@ -22,14 +22,14 @@ export class VerifyAuthenticationToken implements CommandHandler<VerifyAuthentic
     TOKENS.date,
     TOKENS.eventPublisher,
     TOKENS.tokenRepository,
-    TOKENS.authenticationService
+    TOKENS.authenticationService,
   );
 
   constructor(
     private readonly dateAdapter: DatePort,
     private readonly eventPublisher: EventPublisherPort,
     private readonly tokenRepository: TokenRepository,
-    private readonly authenticationService: AuthenticationService
+    private readonly authenticationService: AuthenticationService,
   ) {}
 
   async handle({ tokenValue, sessionTokenId }: VerifyAuthenticationTokenCommand): Promise<void> {

@@ -18,7 +18,7 @@ export class CreateRequestComment implements CommandHandler<CreateRequestComment
 
   constructor(
     private readonly eventPublisher: EventPublisherPort,
-    private readonly commentService: CommentService
+    private readonly commentService: CommentService,
   ) {}
 
   async handle({ commentId, requestId, authorId, text }: CreateRequestCommentCommand): Promise<void> {

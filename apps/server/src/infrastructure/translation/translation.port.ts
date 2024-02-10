@@ -10,6 +10,6 @@ export interface TranslationPort {
   notificationTitle<K extends string>(
     key: keyof typeof fr,
     trimmableKey: K,
-    values: Record<K, string | number>
+    values: Record<K, string | number>,
   ): string;
 }

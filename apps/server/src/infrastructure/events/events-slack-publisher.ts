@@ -12,7 +12,7 @@ export class EventsSlackPublisher implements EventHandler<DomainEvent> {
 
   constructor(
     private readonly slackClient: SlackClientPort,
-    private readonly memberRepository: MemberRepository
+    private readonly memberRepository: MemberRepository,
   ) {}
 
   async handle(event: DomainEvent) {

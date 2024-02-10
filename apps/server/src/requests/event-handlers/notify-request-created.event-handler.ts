@@ -15,7 +15,7 @@ export class NotifyRequestCreated implements EventHandler<RequestCreated> {
   constructor(
     private readonly commandBus: CommandBus,
     private readonly memberRepository: MemberRepository,
-    private readonly requestRepository: RequestRepository
+    private readonly requestRepository: RequestRepository,
   ) {}
 
   async handle(event: RequestCreated): Promise<void> {

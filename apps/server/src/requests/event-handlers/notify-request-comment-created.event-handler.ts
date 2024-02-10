@@ -16,14 +16,14 @@ export class NotifyRequestCommentCreated implements EventHandler<RequestCommentC
     TOKENS.commandBus,
     TOKENS.memberRepository,
     TOKENS.commentRepository,
-    TOKENS.requestRepository
+    TOKENS.requestRepository,
   );
 
   constructor(
     private readonly commandBus: CommandBus,
     private readonly memberRepository: MemberRepository,
     private readonly commentRepository: CommentRepository,
-    private readonly requestRepository: RequestRepository
+    private readonly requestRepository: RequestRepository,
   ) {}
 
   async handle(event: RequestCommentCreated): Promise<void> {

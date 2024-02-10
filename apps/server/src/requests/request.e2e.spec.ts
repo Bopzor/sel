@@ -108,7 +108,7 @@ describe('[E2E] Request', () => {
         id: request.id,
         title: 'new title',
         body: '<p>new body</p>',
-      })
+      }),
     );
   });
 
@@ -121,7 +121,7 @@ describe('[E2E] Request', () => {
         method: 'PUT',
         body: { title: '', body: '' },
         assertStatus: false,
-      })
+      }),
     ).toHaveProperty('response.status', HttpStatus.forbidden);
   });
 
@@ -142,7 +142,7 @@ describe('[E2E] Request', () => {
 
     expect(await test.fetch(`/requests/${request.id}`, { token })).toHaveProperty(
       'body.status',
-      shared.RequestStatus.fulfilled
+      shared.RequestStatus.fulfilled,
     );
   });
 

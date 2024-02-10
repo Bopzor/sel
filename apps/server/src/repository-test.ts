@@ -45,7 +45,10 @@ export class RepositoryTest {
 export class Persistor {
   static inject = injectableClass(this, TOKENS.database, TOKENS.date);
 
-  constructor(private readonly database: Database, private readonly dateAdapter: DatePort) {}
+  constructor(
+    private readonly database: Database,
+    private readonly dateAdapter: DatePort,
+  ) {}
 
   private get db() {
     return this.database.db;

@@ -9,7 +9,7 @@ import { NotificationCreator } from './notification-creator';
 export class RequestCreatedNotification implements NotificationCreator {
   constructor(
     private readonly translation: TranslationPort,
-    private readonly data: NotificationData['RequestCreated']
+    private readonly data: NotificationData['RequestCreated'],
   ) {}
 
   shouldSend(memberId: string) {

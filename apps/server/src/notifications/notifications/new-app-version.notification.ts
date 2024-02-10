@@ -9,7 +9,7 @@ import { NotificationCreator } from './notification-creator';
 export class NewAppVersionNotification implements NotificationCreator {
   constructor(
     private readonly translation: TranslationPort,
-    private readonly data: NotificationData['NewAppVersion']
+    private readonly data: NotificationData['NewAppVersion'],
   ) {}
 
   shouldSend() {

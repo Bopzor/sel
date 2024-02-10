@@ -15,7 +15,10 @@ import { InsertNotificationModel, NotificationRepository } from './notification.
 export class SqlNotificationRepository implements NotificationRepository {
   static inject = injectableClass(this, TOKENS.database, TOKENS.date);
 
-  constructor(private readonly database: Database, private readonly dateAdapter: DatePort) {}
+  constructor(
+    private readonly database: Database,
+    private readonly dateAdapter: DatePort,
+  ) {}
 
   async query_countNotificationsForMember(memberId: string, read?: boolean): Promise<number> {
     let where: SQL<unknown> | undefined = eq(subscriptions.memberId, memberId);
@@ -50,7 +53,7 @@ export class SqlNotificationRepository implements NotificationRepository {
         title: notifications.title,
         content: notifications.content,
         data: notifications.data as shared.Notification['data'],
-      })
+      }),
     );
   }
 
@@ -76,14 +79,14 @@ export class SqlNotificationRepository implements NotificationRepository {
       .where(eq(subscriptions.memberId, memberId));
 
     return sqlNotifications.map(({ notifications, subscriptions }) =>
-      this.toNotification(subscriptions, notifications)
+      this.toNotification(subscriptions, notifications),
     );
   }
 
   private toNotification(
     this: void,
     sqlSubscription: typeof subscriptions.$inferSelect,
-    sqlNotification: typeof notifications.$inferSelect
+    sqlNotification: typeof notifications.$inferSelect,
   ): Notification {
     return {
       id: sqlNotification.id,
@@ -91,7 +94,7 @@ export class SqlNotificationRepository implements NotificationRepository {
       type: sqlNotification.type as shared.NotificationType,
       memberId: sqlSubscription.memberId,
       deliveryType: toObject(Object.values(NotificationDeliveryType), identity, (type) =>
-        sqlNotification.deliveryType.includes(type)
+        sqlNotification.deliveryType.includes(type),
       ),
       date: sqlNotification.date,
       content: sqlNotification.content,
@@ -123,7 +126,7 @@ export class SqlNotificationRepository implements NotificationRepository {
         data: model.data,
         createdAt: now,
         updatedAt: now,
-      }))
+      })),
     );
   }
 

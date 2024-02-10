@@ -39,6 +39,6 @@ export function text(props: NewAppVersionEmailProps) {
   const messages = fr;
 
   return [translate(messages.greeting, { firstName: props.firstName }), translate(messages.newVersion)].join(
-    '\n\n'
+    '\n\n',
   );
 }

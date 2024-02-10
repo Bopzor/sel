@@ -23,7 +23,7 @@ export class RequestController {
     TOKENS.sessionProvider,
     TOKENS.commandBus,
     TOKENS.queryBus,
-    TOKENS.requestRepository
+    TOKENS.requestRepository,
   );
 
   constructor(
@@ -31,7 +31,7 @@ export class RequestController {
     private readonly sessionProvider: SessionProvider,
     private readonly commandBus: CommandBus,
     private readonly queryBus: QueryBus,
-    private readonly requestRepository: RequestRepository
+    private readonly requestRepository: RequestRepository,
   ) {
     this.router.use(this.authenticated);
 

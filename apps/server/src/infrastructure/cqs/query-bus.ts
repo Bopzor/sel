@@ -14,7 +14,7 @@ export class QueryBus extends Bus {
 
   async executeQuery<Query, Result>(
     token: Token<QueryHandler<Query, Result>>,
-    query: Query
+    query: Query,
   ): Promise<Result> {
     const handler = this.container.resolve(token);
 

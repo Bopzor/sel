@@ -49,7 +49,7 @@ describe('[Intg] SqlNotificationRepository', () => {
       const member = await test.persist.member(createMember({ id: 'memberId' }));
       const subscription = await test.persist.subscription(createSubscription({ memberId: member.id }));
       await test.persist.notification(
-        createNotification({ id: 'notificationId', subscriptionId: subscription.id })
+        createNotification({ id: 'notificationId', subscriptionId: subscription.id }),
       );
 
       const notifications = await test.repository.getNotificationsForMember(member.id);
@@ -65,7 +65,7 @@ describe('[Intg] SqlNotificationRepository', () => {
       const subscription = await test.persist.subscription(createSubscription({ memberId: member.id }));
 
       const notification = await test.persist.notification(
-        createNotification({ subscriptionId: subscription.id })
+        createNotification({ subscriptionId: subscription.id }),
       );
 
       const found = await test.repository.getNotification(notification.id);
@@ -117,7 +117,7 @@ describe('[Intg] SqlNotificationRepository', () => {
       const subscription = await test.persist.subscription(createSubscription({ memberId: member.id }));
 
       const notification = await test.persist.notification(
-        createNotification({ subscriptionId: subscription.id, readAt: undefined })
+        createNotification({ subscriptionId: subscription.id, readAt: undefined }),
       );
 
       await test.repository.markAsRead(notification.id);

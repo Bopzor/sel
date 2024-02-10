@@ -15,7 +15,10 @@ import { InsertMemberModel, MemberRepository, UpdateMemberModel } from './member
 export class SqlMemberRepository implements MemberRepository {
   static inject = injectableClass(this, TOKENS.database, TOKENS.date);
 
-  constructor(private database: Database, private readonly dateAdapter: DatePort) {}
+  constructor(
+    private database: Database,
+    private readonly dateAdapter: DatePort,
+  ) {}
 
   private get db() {
     return this.database.db;
@@ -75,7 +78,7 @@ export class SqlMemberRepository implements MemberRepository {
 
   private toAuthenticatedMemberQuery(
     this: void,
-    result: typeof members.$inferSelect
+    result: typeof members.$inferSelect,
   ): shared.AuthenticatedMember {
     return {
       id: result.id,
@@ -170,7 +173,7 @@ export class SqlMemberRepository implements MemberRepository {
 
   async setNotificationDelivery(
     memberId: string,
-    delivery: Partial<Record<NotificationDeliveryType, boolean>>
+    delivery: Partial<Record<NotificationDeliveryType, boolean>>,
   ): Promise<void> {
     const now = this.dateAdapter.now();
 
@@ -198,7 +201,7 @@ export class SqlMemberRepository implements MemberRepository {
       address: (result.address as Address | null) ?? undefined,
       membershipStartDate: result.membershipStartDate,
       notificationDelivery: toObject(Object.values(NotificationDeliveryType), identity, (type) =>
-        result.notificationDelivery.includes(type)
+        result.notificationDelivery.includes(type),
       ),
     };
   }

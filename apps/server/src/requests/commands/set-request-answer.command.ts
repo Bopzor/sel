@@ -24,7 +24,7 @@ export class SetRequestAnswer implements CommandHandler<SetRequestAnswerCommand>
     TOKENS.date,
     TOKENS.eventPublisher,
     TOKENS.requestRepository,
-    TOKENS.requestAnswerRepository
+    TOKENS.requestAnswerRepository,
   );
 
   constructor(
@@ -32,7 +32,7 @@ export class SetRequestAnswer implements CommandHandler<SetRequestAnswerCommand>
     private readonly dateAdapter: DatePort,
     private readonly eventPublisher: EventPublisherPort,
     private readonly requestRepository: RequestRepository,
-    private readonly requestAnswerRepository: RequestAnswerRepository
+    private readonly requestAnswerRepository: RequestAnswerRepository,
   ) {}
 
   async handle({ requestId, memberId, answer }: SetRequestAnswerCommand): Promise<void> {

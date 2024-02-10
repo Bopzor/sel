@@ -16,12 +16,15 @@ import {
 export class SqlSubscriptionRepository implements SubscriptionRepository {
   static inject = injectableClass(this, TOKENS.database, TOKENS.date);
 
-  constructor(private readonly database: Database, private readonly dateAdapter: DatePort) {}
+  constructor(
+    private readonly database: Database,
+    private readonly dateAdapter: DatePort,
+  ) {}
 
   async hasSubscription(
     type: string,
     memberId: string,
-    entity?: { type: 'request'; id: string } | undefined
+    entity?: { type: 'request'; id: string } | undefined,
   ): Promise<boolean> {
     let where: SQL<unknown> | undefined = eq(subscriptions.type, type);
 

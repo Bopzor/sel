@@ -18,7 +18,7 @@ export class ChangeRequestStatus implements CommandHandler<ChangeRequestStatusCo
 
   constructor(
     private readonly eventPublisher: EventPublisherPort,
-    private readonly requestRepository: RequestRepository
+    private readonly requestRepository: RequestRepository,
   ) {}
 
   async handle(command: ChangeRequestStatusCommand): Promise<void> {

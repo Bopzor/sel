@@ -16,14 +16,14 @@ export class AuthenticationService {
     TOKENS.generator,
     TOKENS.date,
     TOKENS.eventPublisher,
-    TOKENS.tokenRepository
+    TOKENS.tokenRepository,
   );
 
   constructor(
     private readonly generator: GeneratorPort,
     private readonly dateAdapter: DatePort,
     private readonly eventPublisher: EventPublisherPort,
-    private readonly tokenRepository: TokenRepository
+    private readonly tokenRepository: TokenRepository,
   ) {}
 
   private static expirationDurations: Record<TokenType, Duration> = {
@@ -34,7 +34,7 @@ export class AuthenticationService {
   async generateToken(type: TokenType, tokenId: string, memberId: string): Promise<Token> {
     const expirationDate = addDuration(
       this.dateAdapter.now(),
-      AuthenticationService.expirationDurations[type]
+      AuthenticationService.expirationDurations[type],
     );
 
     const token: Token = {

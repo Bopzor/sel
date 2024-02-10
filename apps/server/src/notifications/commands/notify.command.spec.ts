@@ -32,7 +32,7 @@ class Test extends UnitTest {
     this.eventPublisher,
     this.memberRepository,
     this.subscriptionRepository,
-    this.notificationRepository
+    this.notificationRepository,
   );
 
   command: NotifyCommand = {
@@ -67,7 +67,7 @@ describe('[Unit] Notify', () => {
       createMember({
         id: 'memberId',
         notificationDelivery,
-      })
+      }),
     );
 
     test.subscriptionRepository.add(
@@ -75,7 +75,7 @@ describe('[Unit] Notify', () => {
         id: 'subscriptionId',
         memberId: 'memberId',
         type: 'NewAppVersion',
-      })
+      }),
     );
 
     await test.execute();
@@ -100,7 +100,7 @@ describe('[Unit] Notify', () => {
         memberId: 'memberId',
         type: 'NewAppVersion',
         active: false,
-      })
+      }),
     );
 
     await test.execute();
@@ -115,7 +115,7 @@ describe('[Unit] Notify', () => {
       test.memberRepository.add(createMember({ id: `memberId${i}` }));
 
       test.subscriptionRepository.add(
-        createSubscription({ id: `subscriptionId${i}`, memberId: `memberId${i}`, type: 'RequestCreated' })
+        createSubscription({ id: `subscriptionId${i}`, memberId: `memberId${i}`, type: 'RequestCreated' }),
       );
     }
 
@@ -149,7 +149,7 @@ describe('[Unit] Notify', () => {
         type: 'RequestEvent',
         entity: { type: 'request', id: 'requestId1' },
         memberId: 'memberId',
-      })
+      }),
     );
 
     test.subscriptionRepository.add(
@@ -158,7 +158,7 @@ describe('[Unit] Notify', () => {
         type: 'RequestEvent',
         entity: { type: 'request', id: 'requestId2' },
         memberId: 'memberId',
-      })
+      }),
     );
 
     test.command = {

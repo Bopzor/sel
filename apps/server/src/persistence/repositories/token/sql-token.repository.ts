@@ -12,7 +12,10 @@ import { TokenQueryResult, TokenRepository } from './token.repository';
 export class SqlTokenRepository implements TokenRepository {
   static inject = injectableClass(this, TOKENS.database, TOKENS.date);
 
-  constructor(private readonly database: Database, private readonly dateAdapter: DatePort) {}
+  constructor(
+    private readonly database: Database,
+    private readonly dateAdapter: DatePort,
+  ) {}
 
   private get db() {
     return this.database.db;

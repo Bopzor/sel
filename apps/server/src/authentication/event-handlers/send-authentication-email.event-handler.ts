@@ -12,7 +12,7 @@ export class SendAuthenticationEmail implements EventHandler<AuthenticationLinkR
 
   constructor(
     private readonly emailSender: EmailSenderPort,
-    private readonly memberRepository: MemberRepository
+    private readonly memberRepository: MemberRepository,
   ) {}
 
   async handle(event: AuthenticationLinkRequested): Promise<void> {

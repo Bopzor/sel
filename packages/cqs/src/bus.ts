@@ -20,7 +20,7 @@ export class Bus {
       },
       async () => {
         result = await fn(...params);
-      }
+      },
     );
 
     await chain();

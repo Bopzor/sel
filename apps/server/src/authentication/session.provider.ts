@@ -16,7 +16,7 @@ export class SessionProvider {
 
   constructor(
     private readonly tokenRepository: TokenRepository,
-    private readonly memberRepository: MemberRepository
+    private readonly memberRepository: MemberRepository,
   ) {}
 
   private storage = new AsyncLocalStorage<Member>();

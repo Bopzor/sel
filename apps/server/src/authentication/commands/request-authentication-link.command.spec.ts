@@ -29,7 +29,7 @@ class Test extends UnitTest {
     this.generator,
     this.dateAdapter,
     this.eventPublisher,
-    this.tokenRepository
+    this.tokenRepository,
   );
 
   handler = new RequestAuthenticationLink(
@@ -38,7 +38,7 @@ class Test extends UnitTest {
     this.eventPublisher,
     this.memberRepository,
     this.tokenRepository,
-    this.authenticationService
+    this.authenticationService,
   );
 
   member = createMember({
@@ -76,7 +76,7 @@ describe('[Unit] RequestAuthenticationLink', () => {
     await test.execute();
 
     expect(test.eventPublisher).toHaveEmitted(
-      new AuthenticationLinkRequested('memberId', 'https://app.url/?auth-token=authToken')
+      new AuthenticationLinkRequested('memberId', 'https://app.url/?auth-token=authToken'),
     );
   });
 
@@ -94,7 +94,7 @@ describe('[Unit] RequestAuthenticationLink', () => {
         memberId: 'memberId',
         type: TokenType.authentication,
         revoked: false,
-      })
+      }),
     );
 
     await test.execute();

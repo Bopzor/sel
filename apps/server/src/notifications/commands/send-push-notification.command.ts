@@ -16,7 +16,7 @@ export class SendPushNotification implements CommandHandler<SendPushNotification
 
   constructor(
     private readonly pushNotification: PushNotificationPort,
-    private readonly memberDeviceRepository: MemberDeviceRepository
+    private readonly memberDeviceRepository: MemberDeviceRepository,
   ) {}
 
   async handle({ memberId, title, content }: SendPushNotificationCommand) {
@@ -25,7 +25,7 @@ export class SendPushNotification implements CommandHandler<SendPushNotification
     await Promise.all(
       subscriptions.map(async (subscription) => {
         await this.pushNotification.send(subscription, title, content);
-      })
+      }),
     );
   }
 }

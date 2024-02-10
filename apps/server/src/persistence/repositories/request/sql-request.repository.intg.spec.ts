@@ -41,14 +41,14 @@ describe('[Intg] SqlRequestRepository', () => {
     await test.database.db.insert(members).values(
       createSqlMember({
         id: 'requesterId',
-      })
+      }),
     );
 
     await test.database.db.insert(requests).values(
       createSqlRequest({
         id: 'requestId',
         requesterId: 'requesterId',
-      })
+      }),
     );
 
     const result = await test.repository.query_listRequests();
@@ -75,7 +75,7 @@ describe('[Intg] SqlRequestRepository', () => {
           { number: 'number', visible: true },
           { number: 'private', visible: false },
         ],
-      })
+      }),
     );
 
     await test.database.db.insert(requests).values(
@@ -86,7 +86,7 @@ describe('[Intg] SqlRequestRepository', () => {
         date: test.now,
         title: 'title',
         html: 'html',
-      })
+      }),
     );
 
     const result = await test.repository.query_getRequest('requestId');
@@ -125,7 +125,7 @@ describe('[Intg] SqlRequestRepository', () => {
       createSqlRequest({
         id: 'requestId',
         requesterId: 'requesterId',
-      })
+      }),
     );
 
     await test.database.db.insert(requestAnswers).values(
@@ -134,7 +134,7 @@ describe('[Intg] SqlRequestRepository', () => {
         requestId: 'requestId',
         memberId: 'memberId',
         answer: 'positive',
-      })
+      }),
     );
 
     const result = await test.repository.query_getRequest('requestId');
@@ -159,14 +159,14 @@ describe('[Intg] SqlRequestRepository', () => {
         firstName: 'firstName',
         lastName: 'lastName',
         emailVisible: false,
-      })
+      }),
     );
 
     await test.database.db.insert(requests).values(
       createSqlRequest({
         id: 'requestId',
         requesterId: 'memberId',
-      })
+      }),
     );
 
     await test.database.db.insert(comments).values(
@@ -177,7 +177,7 @@ describe('[Intg] SqlRequestRepository', () => {
         date: test.now,
         html: 'html',
         text: 'text',
-      })
+      }),
     );
 
     const result = await test.repository.query_getRequest('requestId');

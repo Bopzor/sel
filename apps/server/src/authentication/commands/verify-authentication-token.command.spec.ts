@@ -25,14 +25,14 @@ class Test extends UnitTest {
     this.generator,
     this.dateAdapter,
     this.eventPublisher,
-    this.tokenRepository
+    this.tokenRepository,
   );
 
   handler = new VerifyAuthenticationToken(
     this.dateAdapter,
     this.eventPublisher,
     this.tokenRepository,
-    this.authenticationService
+    this.authenticationService,
   );
 
   authToken = createToken({

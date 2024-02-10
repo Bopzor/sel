@@ -83,7 +83,7 @@ export function text(props: RequestStatusChangedEmailProps) {
         requester: MemberName.text(props.request.requester),
         title: props.request.title,
         link: `${props.appBaseUrl}/requests/${props.request.id}`,
-      }
+      },
     ),
   ].join('\n\n');
 }

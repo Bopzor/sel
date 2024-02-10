@@ -78,7 +78,7 @@ describe('[Unit] NodemailerEmailSenderAdapter', () => {
         text: expect.stringContaining('value'),
         html: expect.stringContaining('value'),
       },
-      expect.any(Function)
+      expect.any(Function),
     );
   });
 });

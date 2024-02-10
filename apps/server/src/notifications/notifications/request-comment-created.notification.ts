@@ -10,7 +10,7 @@ import { NotificationCreator } from './notification-creator';
 export class RequestCommentCreatedNotification implements NotificationCreator {
   constructor(
     private readonly translation: TranslationPort,
-    private readonly data: NotificationData['RequestCommentCreated']
+    private readonly data: NotificationData['RequestCommentCreated'],
   ) {}
 
   entity(): SubscriptionEntity {

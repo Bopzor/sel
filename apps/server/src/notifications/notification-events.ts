@@ -8,7 +8,10 @@ class NotificationEvent extends DomainEvent {
 export class NotificationCreated extends NotificationEvent {}
 
 export class NotificationDelivered extends NotificationEvent {
-  constructor(notificationId: string, public readonly deliveryType: NotificationDeliveryType) {
+  constructor(
+    notificationId: string,
+    public readonly deliveryType: NotificationDeliveryType,
+  ) {
     super(notificationId);
   }
 }
@@ -17,7 +20,7 @@ export class NotificationDeliveryFailed extends NotificationEvent {
   constructor(
     notificationId: string,
     public readonly deliveryType: NotificationDeliveryType,
-    public readonly error: unknown
+    public readonly error: unknown,
   ) {
     super(notificationId);
   }

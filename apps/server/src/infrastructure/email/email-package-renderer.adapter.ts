@@ -14,7 +14,7 @@ export class EmailPackageRendererAdapter implements EmailRendererPort {
 
   render<Kind extends EmailKind>(
     kind: EmailKind,
-    variables: EmailVariables[Kind]
+    variables: EmailVariables[Kind],
   ): { subject: string; text: string; html: string } {
     const renderer = emails[kind] as (variables: object) => {
       subject: string;

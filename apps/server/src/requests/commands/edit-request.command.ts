@@ -19,7 +19,7 @@ export class EditRequest implements CommandHandler<EditRequestCommand> {
   constructor(
     private readonly eventPublisher: EventPublisherPort,
     private readonly htmlParser: HtmlParserPort,
-    private readonly requestRepository: RequestRepository
+    private readonly requestRepository: RequestRepository,
   ) {}
 
   async handle({ requestId, title, body }: EditRequestCommand): Promise<void> {

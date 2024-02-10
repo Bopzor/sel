@@ -35,7 +35,7 @@ export class Notify implements CommandHandler<NotifyCommand> {
     TOKENS.eventPublisher,
     TOKENS.memberRepository,
     TOKENS.subscriptionRepository,
-    TOKENS.notificationRepository
+    TOKENS.notificationRepository,
   );
 
   constructor(
@@ -45,7 +45,7 @@ export class Notify implements CommandHandler<NotifyCommand> {
     private readonly eventPublisher: EventPublisherPort,
     private readonly memberRepository: MemberRepository,
     private readonly subscriptionRepository: SubscriptionRepository,
-    private readonly notificationRepository: NotificationRepository
+    private readonly notificationRepository: NotificationRepository,
   ) {}
 
   async handle({ subscriptionType, notificationType, data }: NotifyCommand): Promise<void> {
@@ -59,7 +59,7 @@ export class Notify implements CommandHandler<NotifyCommand> {
     const notifications = new Array<InsertNotificationModel>();
 
     const members = await this.memberRepository.getMembers(
-      subscriptions.map((subscription) => subscription.memberId)
+      subscriptions.map((subscription) => subscription.memberId),
     );
 
     for (const subscription of subscriptions) {

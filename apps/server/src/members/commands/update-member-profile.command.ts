@@ -19,7 +19,7 @@ export class UpdateMemberProfile implements CommandHandler<UpdateMemberProfileCo
 
   constructor(
     private readonly memberRepository: MemberRepository,
-    private readonly eventPublisher: EventPublisherPort
+    private readonly eventPublisher: EventPublisherPort,
   ) {}
 
   async handle({ memberId, data }: UpdateMemberProfileCommand): Promise<void> {
@@ -39,7 +39,7 @@ export class UpdateMemberProfile implements CommandHandler<UpdateMemberProfileCo
   private async setOnboardingCompleted(memberId: string, completed: boolean): Promise<void> {
     await this.memberRepository.setStatus(
       memberId,
-      completed ? MemberStatus.active : MemberStatus.onboarding
+      completed ? MemberStatus.active : MemberStatus.onboarding,
     );
 
     if (completed) {

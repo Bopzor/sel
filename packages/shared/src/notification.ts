@@ -15,7 +15,7 @@ export function isNotificationType(type: string): type is NotificationType {
 
 export function isNotificationOfType<Type extends NotificationType>(
   notification: Notification,
-  type: Type
+  type: Type,
 ): notification is Notification<Type> {
   return notification.type === type;
 }

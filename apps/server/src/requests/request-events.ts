@@ -7,7 +7,10 @@ export class RequestEvent extends DomainEvent {
 }
 
 export class RequestCreated extends RequestEvent {
-  constructor(requestId: string, public readonly requesterId: string) {
+  constructor(
+    requestId: string,
+    public readonly requesterId: string,
+  ) {
     super(requestId);
   }
 }
@@ -15,7 +18,11 @@ export class RequestCreated extends RequestEvent {
 export class RequestEdited extends RequestEvent {}
 
 export class RequestCommentCreated extends RequestEvent {
-  constructor(requestId: string, public readonly commentId: string, public readonly authorId: string) {
+  constructor(
+    requestId: string,
+    public readonly commentId: string,
+    public readonly authorId: string,
+  ) {
     super(requestId);
   }
 }
@@ -29,7 +36,7 @@ export class RequestAnswerCreated extends RequestEvent {
     requestId: string,
     public readonly requestAnswerId: string,
     public readonly memberId: string,
-    public readonly answer: RequestAnswer['answer']
+    public readonly answer: RequestAnswer['answer'],
   ) {
     super(requestId);
   }
@@ -39,14 +46,17 @@ export class RequestAnswerChanged extends RequestEvent {
   constructor(
     requestId: string,
     public readonly requestAnswerId: string,
-    public readonly answer: RequestAnswer['answer'] | null
+    public readonly answer: RequestAnswer['answer'] | null,
   ) {
     super(requestId);
   }
 }
 
 export class RequestAnswerDeleted extends RequestEvent {
-  constructor(requestId: string, public readonly requestAnswerId: string) {
+  constructor(
+    requestId: string,
+    public readonly requestAnswerId: string,
+  ) {
     super(requestId);
   }
 }

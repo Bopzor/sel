@@ -8,7 +8,10 @@ class MemberEvent extends DomainEvent {
 export class MemberCreated extends MemberEvent {}
 
 export class AuthenticationLinkRequested extends MemberEvent {
-  constructor(memberId: string, public readonly link: string) {
+  constructor(
+    memberId: string,
+    public readonly link: string,
+  ) {
     super(memberId);
   }
 }
@@ -22,7 +25,7 @@ export class OnboardingCompleted extends MemberEvent {}
 export class NotificationDeliveryTypeChanged extends MemberEvent {
   constructor(
     memberId: string,
-    public readonly deliveryType: Partial<Record<NotificationDeliveryType, boolean>>
+    public readonly deliveryType: Partial<Record<NotificationDeliveryType, boolean>>,
   ) {
     super(memberId);
   }

@@ -4,7 +4,7 @@ import { EmailKind, EmailVariables } from './email.types';
 export class StubEmailRendererAdapter implements EmailRendererPort {
   render<Kind extends EmailKind>(
     kind: EmailKind,
-    variables: EmailVariables[Kind]
+    variables: EmailVariables[Kind],
   ): { subject: string; text: string; html: string } {
     return {
       subject: 'subject',

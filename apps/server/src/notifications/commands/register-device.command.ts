@@ -20,7 +20,7 @@ export class RegisterDevice implements CommandHandler<RegisterDeviceCommand> {
 
   constructor(
     private readonly generator: GeneratorPort,
-    private readonly memberDeviceRepository: MemberDeviceRepository
+    private readonly memberDeviceRepository: MemberDeviceRepository,
   ) {}
 
   async handle({ memberId, deviceSubscription, deviceType }: RegisterDeviceCommand): Promise<void> {

@@ -19,14 +19,14 @@ export class SendEmailNotification implements CommandHandler<SendEmailNotificati
     TOKENS.translation,
     TOKENS.emailSender,
     TOKENS.memberRepository,
-    TOKENS.notificationRepository
+    TOKENS.notificationRepository,
   );
 
   constructor(
     private readonly translation: TranslationPort,
     private readonly emailSender: EmailSenderPort,
     private readonly memberRepository: MemberRepository,
-    private readonly notificationRepository: NotificationRepository
+    private readonly notificationRepository: NotificationRepository,
   ) {}
 
   async handle({ notificationId }: SendEmailNotificationCommand) {

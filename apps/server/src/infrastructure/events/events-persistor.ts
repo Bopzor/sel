@@ -14,7 +14,7 @@ export class EventsPersistor implements EventHandler<DomainEvent> {
   constructor(
     private readonly generator: GeneratorPort,
     private readonly dateAdapter: DatePort,
-    private readonly database: Database
+    private readonly database: Database,
   ) {}
 
   async handle(event: DomainEvent) {

@@ -21,14 +21,14 @@ export class MembersController {
     TOKENS.queryBus,
     TOKENS.commandBus,
     TOKENS.sessionProvider,
-    TOKENS.memberRepository
+    TOKENS.memberRepository,
   );
 
   constructor(
     private readonly queryBus: QueryBus,
     private readonly commandBus: CommandBus,
     private readonly sessionProvider: SessionProvider,
-    private readonly membersRepository: MemberRepository
+    private readonly membersRepository: MemberRepository,
   ) {
     this.router.use(this.authenticated);
     this.router.get('/', this.listMembers);

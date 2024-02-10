@@ -31,7 +31,7 @@ describe('[Unit] MarkNotificationAsRead', () => {
   describe('markAsRead', () => {
     it('marks a notification as read', async () => {
       test.notificationRepository.add(
-        createNotification({ id: 'notificationId', memberId: 'memberId', readAt: undefined })
+        createNotification({ id: 'notificationId', memberId: 'memberId', readAt: undefined }),
       );
 
       await test.handler.handle({ notificationId: 'notificationId', memberId: 'memberId' });
@@ -41,17 +41,17 @@ describe('[Unit] MarkNotificationAsRead', () => {
 
     it('fails when the notification does not exist', async () => {
       await expect(
-        test.handler.handle({ notificationId: 'notificationId', memberId: 'memberId' })
+        test.handler.handle({ notificationId: 'notificationId', memberId: 'memberId' }),
       ).rejects.toThrow(NotificationNotFound);
     });
 
     it('fails when the member is not the recipient of the notification', async () => {
       test.notificationRepository.add(
-        createNotification({ id: 'notificationId', memberId: 'memberId', readAt: undefined })
+        createNotification({ id: 'notificationId', memberId: 'memberId', readAt: undefined }),
       );
 
       await expect(
-        test.handler.handle({ notificationId: 'notificationId', memberId: 'notMemberId' })
+        test.handler.handle({ notificationId: 'notificationId', memberId: 'notMemberId' }),
       ).rejects.toThrow(MemberIsNotNotificationRecipient);
     });
   });

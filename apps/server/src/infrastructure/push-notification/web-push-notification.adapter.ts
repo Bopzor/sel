@@ -20,7 +20,7 @@ export class WebPushNotificationAdapter implements PushNotificationPort {
   async send(subscription: PushDeviceSubscription, title: string, content: string): Promise<void> {
     await webpush.sendNotification(
       subscription as webpush.PushSubscription,
-      JSON.stringify({ title, content })
+      JSON.stringify({ title, content }),
     );
   }
 }

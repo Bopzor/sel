@@ -106,7 +106,7 @@ export class InMemoryMemberRepository extends InMemoryRepository<Member> impleme
 
   async setNotificationDelivery(
     memberId: string,
-    delivery: Partial<Record<NotificationDeliveryType, boolean>>
+    delivery: Partial<Record<NotificationDeliveryType, boolean>>,
   ): Promise<void> {
     const member = defined(this.get(memberId));
 

@@ -19,7 +19,7 @@ class Test extends UnitTest {
     this.generator,
     this.dateAdapter,
     this.eventPublisher,
-    this.tokenRepository
+    this.tokenRepository,
   );
 
   sessionToken = createToken({ value: 'session-token', memberId: 'memberId', type: TokenType.session });

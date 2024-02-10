@@ -15,7 +15,7 @@ export class NotifyRequestStatusChanged implements EventHandler<RequestFulfilled
   constructor(
     private readonly commandBus: CommandBus,
     private readonly memberRepository: MemberRepository,
-    private readonly requestRepository: RequestRepository
+    private readonly requestRepository: RequestRepository,
   ) {}
 
   async handle(event: RequestFulfilled | RequestCanceled): Promise<void> {

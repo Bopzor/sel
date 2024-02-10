@@ -20,7 +20,7 @@ const enumValues = <Values extends string>(enumType: Record<string, Values>) => 
 
 export const notificationDeliveryTypeEnum = pgEnum(
   'notification_delivery_type',
-  enumValues(NotificationDeliveryType)
+  enumValues(NotificationDeliveryType),
 );
 
 export const memberStatusEnum = pgEnum('member_status', enumValues(MemberStatus));
@@ -194,5 +194,5 @@ export const memberDevices = pgTable(
   },
   (table) => ({
     unique: unique().on(table.memberId, table.deviceSubscription),
-  })
+  }),
 );

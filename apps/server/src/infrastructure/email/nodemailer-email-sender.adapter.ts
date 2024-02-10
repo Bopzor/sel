@@ -40,7 +40,11 @@ export class NodemailerEmailSenderAdapter implements EmailSenderPort {
   private transporter: Transporter;
   private from: string;
 
-  constructor(config: ConfigPort, nodemailer: Nodemailer, private readonly renderer: EmailRendererPort) {
+  constructor(
+    config: ConfigPort,
+    nodemailer: Nodemailer,
+    private readonly renderer: EmailRendererPort,
+  ) {
     this.from = config.email.sender;
 
     this.transporter = nodemailer.createTransport({

@@ -16,14 +16,14 @@ export class CommandBus extends Bus {
     TOKENS.container,
     TOKENS.logger,
     TOKENS.database,
-    TOKENS.eventPublisher
+    TOKENS.eventPublisher,
   );
 
   constructor(
     private readonly container: Container,
     private readonly logger: LoggerPort,
     private readonly database: Database,
-    private readonly eventPublisher: EventPublisher
+    private readonly eventPublisher: EventPublisher,
   ) {
     super();
   }

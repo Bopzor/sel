@@ -19,7 +19,7 @@ export class CreateMember implements CommandHandler<CreateMemberCommand> {
 
   constructor(
     private readonly memberRepository: MemberRepository,
-    private readonly eventPublisher: EventPublisherPort
+    private readonly eventPublisher: EventPublisherPort,
   ) {}
 
   async handle({ memberId, firstName, lastName, email }: CreateMemberCommand): Promise<void> {

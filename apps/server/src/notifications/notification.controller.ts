@@ -17,7 +17,7 @@ export class NotificationController {
   constructor(
     private readonly queryBus: QueryBus,
     private readonly commandBud: CommandBus,
-    private readonly sessionProvider: SessionProvider
+    private readonly sessionProvider: SessionProvider,
   ) {
     this.router.get('/', this.getMemberNotifications);
     this.router.put('/:notificationId/read', this.markNotificationAsRead);

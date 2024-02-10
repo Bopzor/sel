@@ -57,7 +57,7 @@ describe('[Intg] SqlTokenRepository', () => {
           value: 'value',
           memberId: 'memberId',
           revoked: true,
-        })
+        }),
       );
 
       const token = await test.repository.findByValue('value');
@@ -97,7 +97,7 @@ describe('[Intg] SqlTokenRepository', () => {
     await test.database.db.insert(members).values(
       createSqlMember({
         id: 'memberId',
-      })
+      }),
     );
 
     await test.repository.insert(token);

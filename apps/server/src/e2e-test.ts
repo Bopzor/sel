@@ -81,7 +81,7 @@ export class E2ETest {
       container.resolve(TOKENS.memberRepository),
       container.resolve(TOKENS.authenticationService),
       container.resolve(TOKENS.requestRepository),
-      container.resolve(TOKENS.commandBus)
+      container.resolve(TOKENS.commandBus),
     );
 
     await this.mailServer.listen();
@@ -110,7 +110,7 @@ export class E2ETest {
 
   async fetch(
     path: string,
-    options: { method?: string; token?: string; assertStatus?: boolean; body?: unknown } = {}
+    options: { method?: string; token?: string; assertStatus?: boolean; body?: unknown } = {},
   ) {
     const { method = 'GET', token, assertStatus = true, body: requestBody } = options;
 
@@ -160,7 +160,7 @@ class EntityCreator {
     private readonly memberRepository: MemberRepository,
     private readonly authenticationService: AuthenticationService,
     private readonly requestRepository: RequestRepository,
-    private readonly commandBus: CommandBus
+    private readonly commandBus: CommandBus,
   ) {}
 
   // prettier-ignore

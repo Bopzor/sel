@@ -51,7 +51,7 @@ describe('[Intg] SqlMemberRepository', () => {
           position: [0, 1],
         },
         membershipStartDate: test.now,
-      })
+      }),
     );
   });
 

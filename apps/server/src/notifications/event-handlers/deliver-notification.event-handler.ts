@@ -12,7 +12,7 @@ export class DeliverNotification implements EventHandler<NotificationCreated> {
 
   constructor(
     private readonly commandBus: CommandBus,
-    private readonly notificationRepository: NotificationRepository
+    private readonly notificationRepository: NotificationRepository,
   ) {}
 
   async handle(event: NotificationCreated): Promise<void> {

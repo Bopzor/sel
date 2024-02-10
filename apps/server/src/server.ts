@@ -23,7 +23,7 @@ export class Server {
     TOKENS.application,
     TOKENS.config,
     TOKENS.logger,
-    TOKENS.errorReporter
+    TOKENS.errorReporter,
   );
 
   private app = express();
@@ -34,7 +34,7 @@ export class Server {
     private readonly application: Application,
     private readonly config: ConfigPort,
     private readonly logger: LoggerPort,
-    private readonly errorReporter: ErrorReporterPort
+    private readonly errorReporter: ErrorReporterPort,
   ) {
     this.app.use(cookieParser(config.session.secret));
     this.app.use(bodyParser.json());

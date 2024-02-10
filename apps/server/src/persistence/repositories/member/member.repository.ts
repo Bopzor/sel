@@ -33,6 +33,6 @@ export interface MemberRepository {
   setStatus(memberId: string, status: MemberStatus): Promise<void>;
   setNotificationDelivery(
     memberId: string,
-    delivery: Partial<Record<NotificationDeliveryType, boolean>>
+    delivery: Partial<Record<NotificationDeliveryType, boolean>>,
   ): Promise<void>;
 }

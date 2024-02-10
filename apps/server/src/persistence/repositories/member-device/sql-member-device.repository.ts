@@ -11,7 +11,10 @@ import { InsertMemberDeviceModel, MemberDeviceRepository } from './member-device
 export class SqlMemberDeviceRepository implements MemberDeviceRepository {
   static inject = injectableClass(this, TOKENS.database, TOKENS.date);
 
-  constructor(private readonly database: Database, private readonly dateAdapter: DatePort) {}
+  constructor(
+    private readonly database: Database,
+    private readonly dateAdapter: DatePort,
+  ) {}
 
   private get db() {
     return this.database.db;

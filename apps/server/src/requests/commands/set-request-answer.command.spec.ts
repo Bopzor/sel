@@ -26,7 +26,7 @@ class Test extends UnitTest {
     this.dateAdapter,
     this.eventPublisher,
     this.requestRepository,
-    this.requestAnswerRepository
+    this.requestAnswerRepository,
   );
 
   request = createRequest({
@@ -79,7 +79,7 @@ describe('[Unit] SetRequestAnswer', () => {
       await test.execute();
 
       expect(test.eventPublisher).toHaveEmitted(
-        new RequestAnswerCreated('requestId', 'generatedId', 'memberId', 'positive')
+        new RequestAnswerCreated('requestId', 'generatedId', 'memberId', 'positive'),
       );
     });
 
@@ -102,7 +102,7 @@ describe('[Unit] SetRequestAnswer', () => {
         createRequest({
           id: 'requestId',
           status: RequestStatus.canceled,
-        })
+        }),
       );
 
       await expect(test.execute()).rejects.toThrow(RequestIsNotPending);
@@ -118,7 +118,7 @@ describe('[Unit] SetRequestAnswer', () => {
           memberId: 'memberId',
           answer: 'positive',
           date: createDate('2023-01-01'),
-        })
+        }),
       );
 
       test.command.answer = 'negative';
@@ -140,7 +140,7 @@ describe('[Unit] SetRequestAnswer', () => {
       await test.execute();
 
       expect(test.eventPublisher).toHaveEmitted(
-        new RequestAnswerChanged('requestId', 'requestAnswerId', 'negative')
+        new RequestAnswerChanged('requestId', 'requestAnswerId', 'negative'),
       );
     });
 
@@ -162,7 +162,7 @@ describe('[Unit] SetRequestAnswer', () => {
           memberId: 'memberId',
           answer: 'positive',
           date: createDate('2023-01-01'),
-        })
+        }),
       );
 
       test.command.answer = null;

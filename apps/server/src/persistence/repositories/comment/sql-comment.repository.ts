@@ -16,7 +16,7 @@ export class SqlCommentRepository implements CommentRepository {
   constructor(
     private readonly database: Database,
     private readonly dateAdapter: DatePort,
-    private readonly htmlParser: HtmlParserPort
+    private readonly htmlParser: HtmlParserPort,
   ) {}
 
   async getComment(commentId: string): Promise<Comment | undefined> {

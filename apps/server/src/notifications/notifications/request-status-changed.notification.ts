@@ -10,7 +10,7 @@ import { NotificationCreator } from './notification-creator';
 export class RequestStatusChangedNotification implements NotificationCreator {
   constructor(
     private readonly translation: TranslationPort,
-    private readonly data: NotificationData['RequestStatusChanged']
+    private readonly data: NotificationData['RequestStatusChanged'],
   ) {}
 
   entity(): SubscriptionEntity {
