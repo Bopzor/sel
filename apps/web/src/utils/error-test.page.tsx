@@ -3,7 +3,7 @@ import { createEffect, createResource, createSignal } from 'solid-js';
 import { Button } from '../components/button';
 import { useSearchParam } from '../infrastructure/router/use-search-param';
 
-export function ErrorTestPage() {
+export default function ErrorTestPage() {
   return (
     <div class="col my-4 items-start gap-4">
       <h1>Test errors</h1>

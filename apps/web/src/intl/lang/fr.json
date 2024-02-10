@@ -251,7 +251,8 @@
       "title": "Paramètres",
       "darkMode": "Mode sombre",
       "featureFlags": {
-        "requests": "Demandes"
+        "requests": "Demandes",
+        "events": "Événements"
       }
     },
     "signOut": {

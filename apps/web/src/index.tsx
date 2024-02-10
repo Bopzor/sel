@@ -15,10 +15,7 @@ import { routes } from './routes';
 
 import './index.css';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function lazyImport(module: () => Promise<any>, name: string) {
-  return lazy(() => module().then((module) => ({ default: module[name] })));
-}
+Error.stackTraceLimit = 1 << 8;
 
 const HomePage = lazy(() => import('./modules/home/home.page'));
 const OnboardingPage = lazy(() => import('./modules/onboarding/onboarding.page'));
@@ -35,11 +32,7 @@ const AddressPage = lazy(() => import('./modules/profile/address/address.page'))
 const NotificationsPage = lazy(() => import('./modules/profile/notifications/notifications.page'));
 const SettingsPage = lazy(() => import('./modules/profile/settings/settings.page'));
 const SignOutPage = lazy(() => import('./modules/profile/sign-out/sign-out.page'));
-const ErrorTestPage = lazyImport(() => import('./utils/error-test.page'), 'TestErrorPage');
-
-Error.stackTraceLimit = 1 << 8;
-
-const root = document.getElementById('root');
+const ErrorTestPage = lazy(() => import('./utils/error-test.page'));
 
 render(
   () => (
@@ -47,7 +40,7 @@ render(
       <Routing />
     </Router>
   ),
-  root as HTMLElement,
+  document.getElementById('root') as HTMLElement,
 );
 
 function Routing() {

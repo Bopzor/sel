@@ -3,6 +3,7 @@ import { createStore, unwrap } from 'solid-js/store';
 
 export enum Feature {
   none = 'none',
+  events = 'events',
   requests = 'requests',
 }
 
