@@ -77,7 +77,7 @@ function RichEditor(props: RichEditorProps) {
         'col min-h-[10rem] resize-y overflow-auto',
         'rounded-lg border-2',
         'border-transparent bg-neutral shadow',
-        'transition-colors focus-within:border-primary/50'
+        'transition-colors focus-within:border-primary/50',
       )}
     >
       <div ref={ref} class="col grow overflow-y-auto px-4 py-3" />

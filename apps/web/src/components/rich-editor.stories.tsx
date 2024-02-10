@@ -22,7 +22,7 @@ export const richEditor: StoryFn = () => {
 
   return (
     <>
-      <RichEditor ref={ref} class="min-h-[8rem] border p-2" />
+      <RichEditor ref={ref} class="min-h-32 border p-2" />
       <RichEditorToolbar editor={editor()} />
     </>
   );

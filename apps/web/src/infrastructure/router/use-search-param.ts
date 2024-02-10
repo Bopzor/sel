@@ -7,12 +7,12 @@ export function useSearchParam(name: string): UseSearchParamResult<string | unde
 
 export function useSearchParam<Value>(
   name: string,
-  parse: (value: string | undefined) => Value
+  parse: (value: string | undefined) => Value,
 ): UseSearchParamResult<Value>;
 
 export function useSearchParam<Value>(
   name: string,
-  parse?: (value: string | undefined) => Value
+  parse?: (value: string | undefined) => Value,
 ): UseSearchParamResult<Value> {
   const [params, setParams] = useSearchParams();
 

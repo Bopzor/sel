@@ -20,7 +20,7 @@ export function AppContextProvider(props: { children: JSX.Element }) {
 
   const [authenticatedMember] = createResource(
     () => !token(),
-    async () => sessionApi.getAuthenticatedMember()
+    async () => sessionApi.getAuthenticatedMember(),
   );
 
   const [context] = createStore<AppContext>({

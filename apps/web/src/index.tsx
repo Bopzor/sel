@@ -47,7 +47,7 @@ render(
       <Routing />
     </Router>
   ),
-  root as HTMLElement
+  root as HTMLElement,
 );
 
 function Routing() {

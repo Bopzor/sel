@@ -38,7 +38,7 @@ export class ToastNotificationsAdapter implements NotificationsPort {
             <T id="errorMessage" values={{ message: error.message }} />
           </p>
         )}
-      </div>
+      </div>,
     );
   }
 }

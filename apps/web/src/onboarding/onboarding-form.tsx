@@ -11,9 +11,9 @@ export type OnboardingForm = {
 };
 
 export type OnFieldChange = (
-  field: keyof OnboardingForm
+  field: keyof OnboardingForm,
 ) => (event: { currentTarget: HTMLInputElement | HTMLTextAreaElement }) => void;
 
 export type OnFieldVisibilityChange = (
-  field: 'email' | 'phoneNumber' | 'bio' | 'address'
+  field: 'email' | 'phoneNumber' | 'bio' | 'address',
 ) => (visible: boolean) => void;

@@ -47,7 +47,7 @@ const NotificationComponent = (props: NotificationComponentProps) => {
           classList={{ hidden: props.notification.read }}
           onClick={() => void markNotificationAsRead(props.notification.id)}
         >
-          <Icon path={xMark} class="h-5 w-5" />
+          <Icon path={xMark} class="size-5" />
         </button>
       </div>
 

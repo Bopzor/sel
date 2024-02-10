@@ -27,7 +27,10 @@ type QueryResult = {
 export class GeoapifyGeocodeAdapter implements GeocodePort {
   static inject = injectable((config) => new GeoapifyGeocodeAdapter(config, new Fetcher()), TOKENS.config);
 
-  constructor(private readonly config: ConfigPort, private readonly fetcher: FetcherPort) {}
+  constructor(
+    private readonly config: ConfigPort,
+    private readonly fetcher: FetcherPort,
+  ) {}
 
   async search(query: string): Promise<Array<[formatted: string, address: Address]>> {
     const { body } = await this.fetcher.get<QueryResult>(this.url(query));

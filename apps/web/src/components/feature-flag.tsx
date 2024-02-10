@@ -7,7 +7,7 @@ export enum Feature {
 }
 
 const [features, setFeatures] = createStore<Partial<Record<Feature, boolean>>>(
-  JSON.parse(localStorage.getItem('features') ?? '{}')
+  JSON.parse(localStorage.getItem('features') ?? '{}'),
 );
 
 type FeatureFlagProps = {

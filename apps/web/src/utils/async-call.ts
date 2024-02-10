@@ -13,7 +13,7 @@ type AsyncCallEffects<Result> = {
 
 export const createAsyncCall = <Args extends unknown[], Result>(
   fn: (...args: Args) => Promise<Result>,
-  { onSuccess, onError, onSettled }: AsyncCallEffects<Result> = {}
+  { onSuccess, onError, onSettled }: AsyncCallEffects<Result> = {},
 ) => {
   const errorHandler = createErrorHandler();
   const [pending, setPending] = createSignal(false);

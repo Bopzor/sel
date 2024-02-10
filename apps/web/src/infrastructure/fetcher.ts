@@ -2,7 +2,10 @@ import { assert } from '@sel/utils';
 import { z } from 'zod';
 
 export class FetchResult<Body> {
-  constructor(public readonly response: Response, public readonly body: Body) {}
+  constructor(
+    public readonly response: Response,
+    public readonly body: Body,
+  ) {}
 
   get status() {
     return this.response.status;
@@ -17,7 +20,7 @@ export class FetchError extends Error {
   constructor(
     public readonly path: string,
     public readonly request: RequestInit,
-    public readonly result: FetchResult<unknown>
+    public readonly result: FetchResult<unknown>,
   ) {
     super(`${request.method} ${path}: ${result.status} ${result.response.statusText}`);
   }

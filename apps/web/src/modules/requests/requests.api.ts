@@ -54,7 +54,7 @@ export class FetchRequestApi implements RequestsApi {
   async setAnswer(requestId: string, answer: 'positive' | 'negative' | null) {
     await this.fetcher.post<{ answer: 'positive' | 'negative' | null }, void>(
       `/api/requests/${requestId}/answer`,
-      { answer }
+      { answer },
     );
   }
 

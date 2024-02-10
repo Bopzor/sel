@@ -15,7 +15,7 @@ export function Loader() {
   return (
     <Show when={showLoader()}>
       <div class="row mx-auto flex-1 items-center gap-4">
-        <Spinner class="h-12 w-12" />
+        <Spinner class="size-12" />
         <p class="typo-h1">
           <Translate id="common.loading" />
         </p>

@@ -80,8 +80,8 @@ export function RichEditorToolbar(props: ToolbarProps) {
   ].map((mark) =>
     createEditorTransaction(
       () => props.editor,
-      (editor) => editor?.isActive(mark) ?? false
-    )
+      (editor) => editor?.isActive(mark) ?? false,
+    ),
   );
 
   const setLink = () => {
@@ -160,7 +160,7 @@ function ToolbarItem(props: ToolbarItemProps) {
         'fill-primary bg-dim/10': props.isActive,
       }}
     >
-      <Dynamic component={props.icon} class="inline h-6 w-6" />
+      <Dynamic component={props.icon} class="inline size-6" />
     </button>
   );
 }

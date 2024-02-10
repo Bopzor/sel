@@ -55,7 +55,7 @@ const Step: Component<StepProps> = (props) => {
       class={clsx(
         props.currentStep > props.stepNumber && 'text-green-700',
         props.currentStep === props.stepNumber && 'font-semibold',
-        props.currentStep < props.stepNumber && 'text-dim'
+        props.currentStep < props.stepNumber && 'text-dim',
       )}
     >
       <div class="inline-flex flex-row items-center gap-2">

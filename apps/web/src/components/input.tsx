@@ -19,7 +19,7 @@ export const Input: Component<InputProps> = (props1) => {
       class={clsx(
         'w-full overflow-hidden rounded-lg border-2',
         'transition-colors focus-within:border-primary/50',
-        props.class
+        props.class,
       )}
       classList={{
         'max-w-md': props.width === 'medium',
@@ -60,7 +60,7 @@ export const TextArea: Component<TextAreaProps> = (props1) => {
         class={clsx(
           'w-full rounded-lg border-2 px-4 py-3 outline-none',
           'transition-colors focus-within:border-primary/50',
-          props.class
+          props.class,
         )}
         classList={{
           'max-w-md': textareaProps.width === 'medium',

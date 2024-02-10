@@ -21,7 +21,7 @@ export default function MembersListPage() {
     () => sort() ?? defaultSort,
     async (sort) => {
       return memberApi.listMembers(sort === defaultSort ? undefined : sort);
-    }
+    },
   );
 
   return (
@@ -47,8 +47,8 @@ function MembersListContent(props: MembersListContentProps) {
   const filteredMembers = () => {
     return props.members.filter((member) =>
       [member.firstName, member.lastName].some((value) =>
-        value.toLowerCase().includes(search().toLowerCase())
-      )
+        value.toLowerCase().includes(search().toLowerCase()),
+      ),
     );
   };
 

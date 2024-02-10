@@ -8,6 +8,7 @@ export default {
     colors: {
       primary: '#005F7E',
       transparent: colors.transparent,
+      white: colors.white,
       green: colors.emerald,
       blue: colors.blue,
       red: colors.red,

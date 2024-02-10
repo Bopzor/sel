@@ -68,7 +68,7 @@ const NavigationLink: Component<NavigationLinkProps> = (props) => (
     inactiveClass="hover:bg-primary/5 dark:hover:bg-primary/10"
     activeClass="!border-primary bg-primary/10 dark:bg-primary/20"
   >
-    <Icon path={props.icon} class="h-5 w-5 fill-primary/75 dark:fill-primary" />
+    <Icon path={props.icon} class="size-5 fill-primary/75 dark:fill-primary" />
     {props.children}
   </Link>
 );

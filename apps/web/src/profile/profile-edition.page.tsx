@@ -154,7 +154,7 @@ export const ProfileEditionPage: Component = () => {
 
         <FormField label={t('profilePicture')}>
           <Row gap={2}>
-            <MemberAvatar member={state.authenticatedMember} class="h-12 w-12 rounded-full" />
+            <MemberAvatar member={state.authenticatedMember} class="size-12 rounded-full" />
             <p>
               <T
                 id="profilePictureMessage"
