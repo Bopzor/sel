@@ -6,7 +6,7 @@ import { Button } from '../../../../components/button';
 import { container } from '../../../../infrastructure/container';
 import { Translate } from '../../../../intl/translate';
 import { TOKENS } from '../../../../tokens';
-import { createAsyncCall } from '../../../../utils/async-call';
+import { createAsyncCall } from '../../../../utils/create-async-call';
 import { notify } from '../../../../utils/notify';
 
 const T = Translate.prefix('requests');

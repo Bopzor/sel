@@ -1,4 +1,4 @@
-import { Component, JSX, Show, Suspense } from 'solid-js';
+import { Component, JSX, Show } from 'solid-js';
 
 import { authenticatedMember, unreadNotificationsCount } from '../../app-context';
 import { Link } from '../../components/link';

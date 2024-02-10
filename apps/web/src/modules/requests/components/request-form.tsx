@@ -8,6 +8,7 @@ import { FormField } from '../../../components/form-field';
 import { Input } from '../../../components/input';
 import { createRichEditor, RichEditorToolbar } from '../../../components/rich-editor';
 import { Translate } from '../../../intl/translate';
+import { createErrorHandler } from '../../../utils/create-error-handler';
 
 const T = Translate.prefix('requests.form');
 
@@ -32,6 +33,7 @@ export function RequestForm(props: RequestFormProps) {
     onSuccess(result) {
       props.onSubmitted(result);
     },
+    onError: createErrorHandler(),
   });
 
   return (

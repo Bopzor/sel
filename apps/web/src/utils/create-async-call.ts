@@ -1,9 +1,6 @@
 import { createSignal } from 'solid-js';
 
-import { NotificationType } from '../infrastructure/notifications/notifications.port';
-import { useTranslation } from '../intl/translate';
-
-import { notify } from './notify';
+import { createErrorHandler } from './create-error-handler';
 
 type AsyncCallEffects<Result> = {
   onSuccess?: (result: Result) => void;
@@ -29,16 +26,3 @@ export const createAsyncCall = <Args extends unknown[], Result>(
 
   return [trigger, pending] satisfies [unknown, unknown];
 };
-
-function createErrorHandler() {
-  const translate = useTranslation();
-
-  // todo: report
-  return (error: unknown) => {
-    if (error instanceof Error) {
-      notify(NotificationType.error, translate('common.error.error', { message: error.message }));
-    } else {
-      notify(NotificationType.error, translate('common.error.unexpectedError'));
-    }
-  };
-}

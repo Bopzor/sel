@@ -5,9 +5,9 @@ import { FormField } from '../../../components/form-field';
 import { Input, TextArea } from '../../../components/input';
 import { MemberAvatar } from '../../../components/member-avatar';
 import { Translate } from '../../../intl/translate';
-import { ProfileFieldVisibility } from './profile-field-visibility';
 
 import { type ProfileEditionForm } from './profile-edition.page';
+import { ProfileFieldVisibility } from './profile-field-visibility';
 
 const T = Translate.prefix('profile.profile');
 

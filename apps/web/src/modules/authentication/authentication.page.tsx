@@ -9,6 +9,7 @@ import { useSearchParam } from '../../infrastructure/router/use-search-param';
 import { Translate } from '../../intl/translate';
 import { Header } from '../../layout/header/header';
 import { TOKENS } from '../../tokens';
+import { createErrorHandler } from '../../utils/create-error-handler';
 import { notify } from '../../utils/notify';
 
 const T = Translate.prefix('authentication');
@@ -78,6 +79,7 @@ function AuthenticationForm(props: { onSubmitted: (email: string) => void }) {
     onSuccess() {
       props.onSubmitted(data((data) => data.email));
     },
+    onError: createErrorHandler(),
   });
 
   return (

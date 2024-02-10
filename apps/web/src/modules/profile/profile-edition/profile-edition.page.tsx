@@ -7,6 +7,7 @@ import { getAppActions, authenticatedMember } from '../../../app-context';
 import { container } from '../../../infrastructure/container';
 import { Translate } from '../../../intl/translate';
 import { TOKENS } from '../../../tokens';
+import { createErrorHandler } from '../../../utils/create-error-handler';
 import { formatPhoneNumber } from '../../../utils/format-phone-number';
 import { notify } from '../../../utils/notify';
 
@@ -59,6 +60,7 @@ function createProfileEditionForm() {
       notify.success(t('saved'));
       refreshAuthenticatedMember();
     },
+    onError: createErrorHandler(),
   });
 
   createEffect(() => {

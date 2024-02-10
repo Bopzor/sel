@@ -4,7 +4,7 @@ import { defined } from '@sel/utils';
 import { AddressSearch } from '../../../components/address-search';
 import { Translate } from '../../../intl/translate';
 import { getAppActions, getAppState } from '../../../store/app-store';
-import { createAsyncCall } from '../../../utils/async-call';
+import { createAsyncCall } from '../../../utils/create-async-call';
 
 const T = Translate.prefix('profile.address');
 

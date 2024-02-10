@@ -11,6 +11,7 @@ import { container } from '../../../../infrastructure/container';
 import { FormattedDate } from '../../../../intl/formatted';
 import { Translate } from '../../../../intl/translate';
 import { TOKENS } from '../../../../tokens';
+import { createErrorHandler } from '../../../../utils/create-error-handler';
 
 const T = Translate.prefix('requests.comments');
 
@@ -75,6 +76,7 @@ function CreateCommentForm(props: { requestId: string; onCreated: () => void }) 
       editor()?.chain().clearContent().run();
       props.onCreated();
     },
+    onError: createErrorHandler(),
   });
 
   let ref!: HTMLDivElement;

@@ -4,7 +4,7 @@ import { createStore } from 'solid-js/store';
 
 import { Translate } from '../intl/translate';
 import { getAppActions, getAppState } from '../store/app-store';
-import { createAsyncCall } from '../utils/async-call';
+import { createAsyncCall } from '../utils/create-async-call';
 import { formatPhoneNumber } from '../utils/format-phone-number';
 
 import { Stepper } from './components/stepper';

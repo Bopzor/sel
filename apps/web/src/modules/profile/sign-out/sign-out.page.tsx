@@ -6,7 +6,7 @@ import { container } from '../../../infrastructure/container';
 import { Translate } from '../../../intl/translate';
 import { routes } from '../../../routes';
 import { TOKENS } from '../../../tokens';
-import { createAsyncCall } from '../../../utils/async-call';
+import { createAsyncCall } from '../../../utils/create-async-call';
 
 const T = Translate.prefix('profile.signOut');
 
