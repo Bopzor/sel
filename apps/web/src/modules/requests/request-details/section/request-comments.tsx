@@ -92,8 +92,8 @@ function CreateCommentForm(props: { requestId: string; onCreated: () => void }) 
         <MemberAvatarName member={authenticatedMember()} />
       </div>
 
-      <div class="col min-h-[10rem] resize-y overflow-auto">
-        <div ref={ref} class="col ml-[3.5rem] grow overflow-y-auto" />
+      <div class="col min-h-40 resize-y overflow-auto">
+        <div ref={ref} class="col ml-14 grow overflow-y-auto" />
 
         <div class="row items-end justify-between p-2">
           <RichEditorToolbar editor={editor()} />
