@@ -4,7 +4,7 @@ import { CommandBus } from './infrastructure/cqs/command-bus';
 import { CommandHandler } from './infrastructure/cqs/command-handler';
 import { EventBus } from './infrastructure/cqs/event-bus';
 import { PushNotificationPort } from './infrastructure/push-notification/push-notification.port';
-import { AuthenticationLinkRequested, MemberCreated } from './members/member-events';
+import { AuthenticationLinkRequested, MemberCreated, OnboardingCompleted } from './members/member-events';
 import { NotificationCreated } from './notifications/notification-events';
 import { Database } from './persistence/database';
 import {
@@ -54,6 +54,7 @@ export class Application {
     eventBus.bind(RequestCanceled, EVENT_HANDLERS.notifyRequestStatusChanged);
 
     eventBus.bind(MemberCreated, EVENT_HANDLERS.createMemberSubscription);
+    eventBus.bind(OnboardingCompleted, EVENT_HANDLERS.enableSubscriptions);
 
     eventBus.bind(NotificationCreated, EVENT_HANDLERS.deliverNotification);
   }

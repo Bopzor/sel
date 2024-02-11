@@ -16,11 +16,13 @@ export class CreateMemberSubscription implements EventHandler<MemberCreated> {
     await this.commandBus.executeCommand(COMMANDS.createSubscription, {
       type: 'NewAppVersion',
       memberId,
+      active: false,
     });
 
     await this.commandBus.executeCommand(COMMANDS.createSubscription, {
       type: 'RequestCreated',
       memberId,
+      active: false,
     });
   }
 }

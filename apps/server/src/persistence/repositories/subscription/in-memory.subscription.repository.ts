@@ -15,7 +15,7 @@ export class InMemorySubscriptionRepository
     throw new Error('Method not implemented.');
   }
 
-  async getSubscriptions({ type, entity }: GetSubscriptionsFilters): Promise<Subscription[]> {
+  async getSubscriptions({ type, entity, memberId }: GetSubscriptionsFilters): Promise<Subscription[]> {
     return this.filter((subscription) => {
       if (type !== undefined && subscription.type !== type) {
         return false;
@@ -25,6 +25,10 @@ export class InMemorySubscriptionRepository
         entity !== undefined &&
         (entity.type !== subscription.entity?.type || entity.id !== subscription.entity?.id)
       ) {
+        return false;
+      }
+
+      if (memberId && subscription.memberId !== memberId) {
         return false;
       }
 

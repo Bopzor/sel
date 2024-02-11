@@ -1,5 +1,5 @@
 import { injectableClass } from 'ditox';
-import { SQL, and, eq } from 'drizzle-orm';
+import { SQL, and, eq, inArray } from 'drizzle-orm';
 
 import { DatePort } from '../../../infrastructure/date/date.port';
 import { Subscription, SubscriptionType } from '../../../notifications/subscription.entity';
@@ -39,7 +39,7 @@ export class SqlSubscriptionRepository implements SubscriptionRepository {
     return subscription !== undefined;
   }
 
-  async getSubscriptions({ type, entity }: GetSubscriptionsFilters): Promise<Subscription[]> {
+  async getSubscriptions({ type, entity, memberId }: GetSubscriptionsFilters): Promise<Subscription[]> {
     let where: SQL<unknown> | undefined = undefined;
 
     if (type) {
@@ -48,6 +48,10 @@ export class SqlSubscriptionRepository implements SubscriptionRepository {
 
     if (entity?.type === 'request') {
       where = and(where, eq(subscriptions.requestId, entity.id));
+    }
+
+    if (memberId) {
+      where = and(where, eq(subscriptions.memberId, memberId));
     }
 
     const sqlSubscriptions = await this.database.db.select().from(subscriptions).where(where);
@@ -67,6 +71,13 @@ export class SqlSubscriptionRepository implements SubscriptionRepository {
       createdAt: now,
       updatedAt: now,
     });
+  }
+
+  async enable(subscriptionIds: string[]): Promise<void> {
+    await this.database.db
+      .update(subscriptions)
+      .set({ active: true })
+      .where(inArray(subscriptions.id, subscriptionIds));
   }
 
   private toSubscription(this: void, sqlSubscription: typeof subscriptions.$inferSelect): Subscription {

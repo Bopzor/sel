@@ -13,6 +13,7 @@ export type InsertSubscriptionModel = {
 export type GetSubscriptionsFilters = {
   type?: SubscriptionType;
   entity?: SubscriptionEntity;
+  memberId?: string;
 };
 
 export interface SubscriptionRepository {
@@ -21,4 +22,6 @@ export interface SubscriptionRepository {
   getSubscriptions(filters: GetSubscriptionsFilters): Promise<Subscription[]>;
 
   insert(model: InsertSubscriptionModel): Promise<void>;
+
+  enable(subscriptionIds: string[]): Promise<void>;
 }

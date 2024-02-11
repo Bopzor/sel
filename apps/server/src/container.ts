@@ -35,6 +35,7 @@ import { ChangeNotificationDeliveryType } from './members/commands/change-notifi
 import { CreateMember } from './members/commands/create-member.command';
 import { UpdateMemberProfile } from './members/commands/update-member-profile.command';
 import { CreateMemberSubscription } from './members/event-handlers/create-member-subscription.event-handler';
+import { EnableSubscriptions } from './members/event-handlers/enable-subscriptions.event-handler';
 import { MembersController } from './members/members.controller';
 import { GetMember } from './members/queries/get-member.query';
 import { ListMembers } from './members/queries/list-members.query';
@@ -155,4 +156,5 @@ container.bindFactory(EVENT_HANDLERS.notifyRequestCreated, NotifyRequestCreated.
 container.bindFactory(EVENT_HANDLERS.notifyRequestCommentCreated, NotifyRequestCommentCreated.inject);
 container.bindFactory(EVENT_HANDLERS.notifyRequestStatusChanged, NotifyRequestStatusChanged.inject);
 container.bindFactory(EVENT_HANDLERS.createMemberSubscription, CreateMemberSubscription.inject);
+container.bindFactory(EVENT_HANDLERS.enableSubscriptions, EnableSubscriptions.inject);
 container.bindFactory(EVENT_HANDLERS.deliverNotification, DeliverNotification.inject);

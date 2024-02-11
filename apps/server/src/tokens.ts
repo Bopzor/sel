@@ -35,6 +35,7 @@ import { ChangeNotificationDeliveryType } from './members/commands/change-notifi
 import { CreateMember } from './members/commands/create-member.command';
 import { UpdateMemberProfile } from './members/commands/update-member-profile.command';
 import { CreateMemberSubscription } from './members/event-handlers/create-member-subscription.event-handler';
+import { EnableSubscriptions } from './members/event-handlers/enable-subscriptions.event-handler';
 import { MembersController } from './members/members.controller';
 import { GetMember } from './members/queries/get-member.query';
 import { ListMembers } from './members/queries/list-members.query';
@@ -150,5 +151,6 @@ export const EVENT_HANDLERS = {
   notifyRequestCommentCreated: token<NotifyRequestCommentCreated>('notifyRequestCommentCreated'),
   notifyRequestStatusChanged: token<NotifyRequestStatusChanged>('notifyRequestStatusChanged'),
   createMemberSubscription: token<CreateMemberSubscription>('createMemberSubscription'),
+  enableSubscriptions: token<EnableSubscriptions>('enableSubscriptions'),
   deliverNotification: token<DeliverNotification>('deliverNotification'),
 };
