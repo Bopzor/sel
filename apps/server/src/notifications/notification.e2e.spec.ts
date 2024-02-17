@@ -28,6 +28,14 @@ class Test extends E2ETest {
     });
   }
 
+  async onboardingCompleted() {
+    await this.application.updateMemberProfile({
+      memberId: this.member.id,
+      data: this.member,
+      onboardingCompleted: true,
+    });
+  }
+
   async notify() {
     await this.application.notify({
       subscriptionType: 'NewAppVersion',
@@ -61,6 +69,8 @@ describe('[E2E] Notification', () => {
 
   it('sends a push notification', async () => {
     await test.changeNotificationDeliveryType({ [NotificationDeliveryType.push]: true });
+    await test.onboardingCompleted();
+    await test.waitForEventHandlers();
 
     await test.notify();
 
@@ -74,6 +84,8 @@ describe('[E2E] Notification', () => {
 
   it('sends an email notification', async () => {
     await test.changeNotificationDeliveryType({ [NotificationDeliveryType.email]: true });
+    await test.onboardingCompleted();
+    await test.waitForEventHandlers();
 
     await test.application.registerDevice({
       memberId: test.member.id,

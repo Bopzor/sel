@@ -21,6 +21,17 @@ class Test extends E2ETest {
     this.member = await this.create.member({ email: 'member' });
     const memberToken = await this.create.token(TokenType.session, this.member.id);
     this.memberToken = memberToken.value;
+
+    await this.application.changeNotificationDeliveryType({
+      memberId: this.member.id,
+      notificationDeliveryType: { push: true },
+    });
+
+    await this.application.updateMemberProfile({
+      memberId: this.member.id,
+      data: this.member,
+      onboardingCompleted: true,
+    });
   }
 }
 

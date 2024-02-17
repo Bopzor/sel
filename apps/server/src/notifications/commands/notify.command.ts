@@ -56,6 +56,7 @@ export class Notify implements CommandHandler<NotifyCommand> {
       type: subscriptionType,
       entity: creator.entity?.(),
     });
+
     const notifications = new Array<InsertNotificationModel>();
 
     const members = await this.memberRepository.getMembers(

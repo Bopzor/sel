@@ -69,6 +69,7 @@ export class Application {
   }
 
   createMember = this.createCommandMethod(COMMANDS.createMember);
+  updateMemberProfile = this.createCommandMethod(COMMANDS.updateMemberProfile);
   createSubscription = this.createCommandMethod(COMMANDS.createSubscription);
   notify = this.createCommandMethod(COMMANDS.notify);
   sendPushNotification = this.createCommandMethod(COMMANDS.sendPushNotification);
