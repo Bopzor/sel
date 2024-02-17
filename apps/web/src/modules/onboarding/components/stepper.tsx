@@ -15,9 +15,9 @@ type StepperProps = {
 
 export function Stepper(props: StepperProps) {
   return (
-    <ol class="grid list-inside list-decimal grid-cols-2 gap-x-4 gap-y-2 sm:grid-cols-4">
+    <ol class="grid list-inside list-decimal grid-cols-2 gap-x-4 gap-y-2 md:grid-cols-5">
       <For
-        each={Array(4)
+        each={Array(5)
           .fill(null)
           .map((_, step) => step + 1)}
       >
@@ -40,6 +40,7 @@ function Step(props: StepProps) {
     [OnboardingStep.contact]: <T id="contact.title" />,
     [OnboardingStep.address]: <T id="address.title" />,
     [OnboardingStep.bio]: <T id="bio.title" />,
+    [OnboardingStep.notifications]: <T id="notifications.title" />,
     [OnboardingStep.end]: '',
   };
 

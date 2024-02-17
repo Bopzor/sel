@@ -8,6 +8,8 @@ export function createErrorHandler() {
 
   // todo: report
   return (error: unknown) => {
+    console.error(error);
+
     if (error instanceof Error) {
       notify(NotificationType.error, translate('common.error.error', { message: error.message }));
     } else {

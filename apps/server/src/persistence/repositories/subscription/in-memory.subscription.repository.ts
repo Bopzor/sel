@@ -42,4 +42,8 @@ export class InMemorySubscriptionRepository
       ...model,
     });
   }
+
+  enable(): Promise<void> {
+    throw new Error('Method not implemented.');
+  }
 }

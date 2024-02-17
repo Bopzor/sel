@@ -59,14 +59,14 @@
         "sentence2": "Please take a moment to check and update your profile information."
       },
       "name": {
-        "sentence1": "Your first and last name will be visible to all members. However, they will not be made public outside the app.",
         "title": "Name",
+        "sentence1": "Your first and last name will be visible to all members. However, they will not be made public outside the app.",
         "firstName": "First name",
         "lastName": "Last name"
       },
       "contact": {
-        "sentence1": "Check your contact information. You can also indicate whether you want to make these information public to other LETS members. When a field is made visible, it will be displayed on your member page.",
         "title": "Contact",
+        "sentence1": "Check your contact information. You can also indicate whether you want to make these information public to other LETS members. When a field is made visible, it will be displayed on your member page.",
         "emailAddress": "Email address",
         "emailReadOnly": "You can't edit your email address",
         "phoneNumber": "Phone number",
@@ -74,15 +74,23 @@
         "phoneNumberInvalid": "Invalid phone number"
       },
       "bio": {
+        "title": "About",
         "sentence1": "Write a few words introduce yourself. What are your interests? What kind of help can you provide? What type of activities are you interested in?",
         "sentence2": "You can change your presentation at any time from your profile page.",
-        "title": "About",
         "bio": "About you"
       },
       "address": {
         "sentence": "Enter your address to add it to your profile page and locate you on the map showing all members.",
         "title": "Address",
         "address": "Address"
+      },
+      "notifications": {
+        "title": "Notifications",
+        "sentence1": "",
+        "sentence2": "",
+        "email": "By email",
+        "push": "On your smartphone",
+        "pushPermissionDenied": "You have blocked access to notifications on this device, please change your choice in your browser settings."
       },
       "end": {
         "sentence1": "Your information has been saved! 😁",

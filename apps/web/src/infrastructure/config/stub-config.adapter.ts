@@ -17,4 +17,11 @@ export class StubConfigAdapter implements ConfigPort {
       ...this.overrides.geoapify,
     };
   }
+
+  get push() {
+    return {
+      publicKey: '',
+      ...this.overrides.push,
+    };
+  }
 }

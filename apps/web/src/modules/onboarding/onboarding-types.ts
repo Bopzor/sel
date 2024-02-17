@@ -6,7 +6,8 @@ export enum OnboardingStep {
   contact = 2,
   address = 3,
   bio = 4,
-  end = 5,
+  notifications = 5,
+  end = 6,
 }
 
 export type OnboardingStepStates = {
@@ -26,6 +27,12 @@ export type OnboardingStepStates = {
   };
   [OnboardingStep.bio]: {
     bio: string;
+  };
+  [OnboardingStep.notifications]: {
+    notifications: {
+      email: boolean;
+      push: boolean;
+    };
   };
   [OnboardingStep.end]: never;
 };

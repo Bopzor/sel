@@ -34,7 +34,8 @@ export class MembersController {
     this.router.get('/', this.listMembers);
     this.router.get('/:memberId', this.getMember);
     this.router.get('/:memberId/avatar', this.getMemberAvatar);
-    this.router.put('/:memberId/profile', this.canUpdateMemberProfile, this.updateMemberProfile);
+    this.router.put('/:memberId/profile', this.isAuthenticatedMember, this.updateMemberProfile);
+    this.router.post('/:memberId/onboarding', this.isAuthenticatedMember, this.completeOnboarding);
   }
 
   authenticated: RequestHandler = (req, res, next) => {
@@ -79,7 +80,7 @@ export class MembersController {
     res.status(HttpStatus.permanentRedirect).header('Location', url).end();
   };
 
-  canUpdateMemberProfile: RequestHandler<{ memberId: string }> = (req, res, next) => {
+  isAuthenticatedMember: RequestHandler<{ memberId: string }> = (req, res, next) => {
     const authenticatedMember = this.sessionProvider.getMember();
     const memberId = req.params.memberId;
 
@@ -106,14 +107,42 @@ export class MembersController {
         position: z.tuple([z.number(), z.number()]).optional(),
       })
       .optional(),
-    onboardingCompleted: z.boolean().optional(),
   });
 
   updateMemberProfile: RequestHandler<{ memberId: string }> = async (req, res) => {
     const { memberId } = req.params;
     const data = MembersController.updateMemberProfileSchema.parse(req.body);
 
-    await this.commandBus.executeCommand(COMMANDS.updateMemberProfile, { memberId, data });
+    await this.commandBus.executeCommand(COMMANDS.updateMemberProfile, {
+      memberId,
+      data,
+    });
+
+    res.status(HttpStatus.noContent).end();
+  };
+
+  private static completeOnboardingSchema = z.object({
+    profile: MembersController.updateMemberProfileSchema,
+    notificationDelivery: z.object({
+      email: z.boolean(),
+      push: z.boolean(),
+    }),
+  });
+
+  completeOnboarding: RequestHandler<{ memberId: string }> = async (req, res) => {
+    const { memberId } = req.params;
+    const data = MembersController.completeOnboardingSchema.parse(req.body);
+
+    await this.commandBus.executeCommand(COMMANDS.updateMemberProfile, {
+      memberId,
+      data: data.profile,
+      onboardingCompleted: true,
+    });
+
+    await this.commandBus.executeCommand(COMMANDS.changeNotificationDeliveryType, {
+      memberId,
+      notificationDeliveryType: data.notificationDelivery,
+    });
 
     res.status(HttpStatus.noContent).end();
   };

@@ -7,5 +7,4 @@ export type UpdateMemberProfileData = {
   phoneNumbers: Array<{ number: string; visible: boolean }>;
   bio?: string;
   address?: Address;
-  onboardingCompleted?: boolean;
 };

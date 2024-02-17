@@ -7,4 +7,8 @@ export interface ConfigPort {
   geoapify: {
     apiKey: string;
   };
+
+  push: {
+    publicKey: string;
+  };
 }

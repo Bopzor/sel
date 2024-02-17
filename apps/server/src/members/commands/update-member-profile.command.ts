@@ -12,6 +12,7 @@ import { MemberStatus } from '../member.entity';
 export type UpdateMemberProfileCommand = {
   memberId: string;
   data: shared.UpdateMemberProfileData;
+  onboardingCompleted?: boolean;
 };
 
 export class UpdateMemberProfile implements CommandHandler<UpdateMemberProfileCommand> {
@@ -22,7 +23,7 @@ export class UpdateMemberProfile implements CommandHandler<UpdateMemberProfileCo
     private readonly eventPublisher: EventPublisherPort,
   ) {}
 
-  async handle({ memberId, data }: UpdateMemberProfileCommand): Promise<void> {
+  async handle({ memberId, data, onboardingCompleted }: UpdateMemberProfileCommand): Promise<void> {
     const member = await this.memberRepository.getMember(memberId);
 
     if (!member) {
@@ -31,8 +32,8 @@ export class UpdateMemberProfile implements CommandHandler<UpdateMemberProfileCo
 
     await this.memberRepository.update(member.id, data);
 
-    if (data.onboardingCompleted !== undefined) {
-      await this.setOnboardingCompleted(member.id, data.onboardingCompleted);
+    if (onboardingCompleted !== undefined) {
+      await this.setOnboardingCompleted(member.id, onboardingCompleted);
     }
   }
 

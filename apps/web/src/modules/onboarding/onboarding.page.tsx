@@ -1,4 +1,4 @@
-import { AuthenticatedMember, UpdateMemberProfileData } from '@sel/shared';
+import { AuthenticatedMember, OnboardingData, UpdateMemberProfileData } from '@sel/shared';
 import { Component, Show, createSignal } from 'solid-js';
 import { Dynamic } from 'solid-js/web';
 
@@ -15,7 +15,8 @@ import { NameStep } from './steps/01-name-step';
 import { ContactStep } from './steps/02-contact-step';
 import { BioStep } from './steps/03-bio-step';
 import { AddressStep } from './steps/04-address-step';
-import { EndStep } from './steps/05-end-step';
+import { NotificationsStep } from './steps/05-notifications-step';
+import { EndStep } from './steps/06-end-step';
 
 const getInitialValues = (member: AuthenticatedMember | undefined) => ({
   firstName: member?.firstName ?? '',
@@ -25,6 +26,10 @@ const getInitialValues = (member: AuthenticatedMember | undefined) => ({
   phoneNumber:
     member && member.phoneNumbers.length > 0 ? formatPhoneNumber(member.phoneNumbers[0].number) : '',
   phoneNumberVisible: true,
+  notifications: {
+    email: true,
+    push: false,
+  },
   bio: member?.bio ?? '',
 });
 
@@ -34,6 +39,7 @@ const Steps: { [S in OnboardingStep]: Component<OnboardingStepProps<S>> } = {
   [OnboardingStep.contact]: ContactStep,
   [OnboardingStep.address]: AddressStep,
   [OnboardingStep.bio]: BioStep,
+  [OnboardingStep.notifications]: NotificationsStep,
   [OnboardingStep.end]: EndStep,
 };
 
@@ -50,10 +56,10 @@ export default function OnboardingPage() {
   const [onSubmit, submitting] = createAsyncCall(async (data: unknown) => {
     setStepStates((state) => ({ ...state, [step()]: data }));
 
-    if (step() === OnboardingStep.bio) {
+    if (step() === OnboardingStep.notifications) {
       const state = stepStates() as OnboardingStepStates;
 
-      const data: UpdateMemberProfileData = {
+      const profile: UpdateMemberProfileData = {
         firstName: state[OnboardingStep.name].firstName,
         lastName: state[OnboardingStep.name].lastName,
         emailVisible: state[OnboardingStep.contact].emailVisible,
@@ -65,10 +71,14 @@ export default function OnboardingPage() {
         ],
         address: state[OnboardingStep.address].address || undefined,
         bio: state[OnboardingStep.bio].bio || undefined,
-        onboardingCompleted: true,
       };
 
-      await profileApi.updateMemberProfile(member?.id as string, data);
+      const onboarding: OnboardingData = {
+        profile,
+        notificationDelivery: state[OnboardingStep.notifications].notifications,
+      };
+
+      await profileApi.completeOnboarding(member?.id as string, onboarding);
     }
 
     if (step() === OnboardingStep.end) {
@@ -79,7 +89,7 @@ export default function OnboardingPage() {
   });
 
   return (
-    <div class="col card mx-auto my-16 w-full max-w-4xl gap-4 rounded-xl p-8">
+    <div class="col card mx-auto my-16 w-full max-w-4xl gap-8 rounded-xl p-8">
       <Show when={step() > OnboardingStep.welcome && step() < OnboardingStep.end}>
         <Stepper step={step()} setStep={setStep} />
       </Show>

@@ -9,6 +9,7 @@ export class EnvConfigAdapter implements ConfigPort {
     ANALYTICS_URL: parse(import.meta.env.VITE_ANALYTICS_URL),
     ANALYTICS_SITE_ID: parse(import.meta.env.VITE_ANALYTICS_SITE_ID),
     GEOAPIFY_API_KEY: parse(import.meta.env.VITE_GEOAPIFY_API_KEY),
+    WEB_PUSH_PUBLIC_KEY: parse(import.meta.env.VITE_WEB_PUSH_PUBLIC_KEY),
   };
 
   get analytics() {
@@ -21,6 +22,12 @@ export class EnvConfigAdapter implements ConfigPort {
   get geoapify() {
     return {
       apiKey: String(EnvConfigAdapter.env.GEOAPIFY_API_KEY),
+    };
+  }
+
+  get push() {
+    return {
+      publicKey: String(EnvConfigAdapter.env.WEB_PUSH_PUBLIC_KEY),
     };
   }
 }

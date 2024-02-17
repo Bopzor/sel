@@ -10,7 +10,6 @@ import { IntlProvider } from './intl';
 import { Layout } from './layout/layout';
 import { routes } from './routes';
 import { TOKENS } from './tokens';
-import { detectDevice } from './utils/detect-device';
 
 type AppProps = {
   children?: JSX.Element;
@@ -42,7 +41,6 @@ export function App(props: AppProps) {
         <SuspenseLoader>
           <AppContextProvider>
             <OnboardingRedirections />
-            <RegisterDeviceSubscription />
             <Layout>{props.children}</Layout>
           </AppContextProvider>
         </SuspenseLoader>
@@ -68,38 +66,4 @@ function OnboardingRedirections() {
   });
 
   return null;
-}
-
-function RegisterDeviceSubscription() {
-  createEffect(() => {
-    if (authenticatedMember()) {
-      // eslint-disable-next-line no-console
-      void registerDeviceSubscription().catch(console.error);
-    }
-  });
-
-  return null;
-}
-
-async function registerDeviceSubscription() {
-  const fetcher = container.resolve(TOKENS.fetcher);
-
-  if (!navigator.serviceWorker) {
-    return;
-  }
-
-  const registration = await navigator.serviceWorker.ready;
-  let subscription = await registration.pushManager.getSubscription();
-
-  if (!subscription) {
-    subscription = await registration.pushManager.subscribe({
-      userVisibleOnly: true,
-      applicationServerKey: import.meta.env.VITE_WEB_PUSH_PUBLIC_KEY,
-    });
-  }
-
-  await fetcher.post('/api/session/notifications/register-device', {
-    deviceType: detectDevice(),
-    subscription,
-  });
 }

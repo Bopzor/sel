@@ -7,6 +7,7 @@ import { GeocodePort } from './infrastructure/geocode/geocode.port';
 import { MemberAvatarPort } from './infrastructure/member-avatar/member-avatar.port';
 import { NotificationsPort } from './infrastructure/notifications/notifications.port';
 import { RouterPort } from './infrastructure/router/router.port';
+import { PushSubscriptionPort } from './infrastructure/subscription/push-subscription.port';
 import { AuthenticationApi } from './modules/authentication/authentication.api';
 import { MemberApi } from './modules/members/members.api';
 import { ProfileApi } from './modules/profile/profile.api';
@@ -20,6 +21,7 @@ export const TOKENS = {
   fetcher: token<FetcherPort>('fetcher'),
   router: token<RouterPort>('router'),
   notifications: token<NotificationsPort>('notifications'),
+  pushSubscription: token<PushSubscriptionPort>('subscription'),
   memberAvatar: token<MemberAvatarPort>('memberAvatar'),
   sessionApi: token<SessionApi>('sessionApi'),
   authenticationApi: token<AuthenticationApi>('authenticationApi'),

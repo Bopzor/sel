@@ -55,18 +55,18 @@
     "steps": {
       "welcome": {
         "title": "Bienvenue sur l'app du SEL !",
-        "sentence1": "Pour commencer, prenez 2 minutes pour vérifier les informations de votre profil.",
+        "sentence1": "Pour commencer, prenez 3 minutes pour vérifier les informations de votre profil.",
         "sentence2": "Ces informations seront visible par les autres membres du SEL. En revanche, elles ne seront pas accessible à l'extérieur de l'app. Si vous avez des questions, n'hésitez pas à <link>nous contacter</link>."
       },
       "name": {
-        "sentence1": "Votre nom et prénom seront visibles par tous les membres. En revanche, ils ne seront pas rendus publics à l'extérieur de l'app.",
         "title": "Nom",
+        "sentence1": "Votre nom et prénom seront visibles par tous les membres. En revanche, ils ne seront pas rendus publics à l'extérieur de l'app.",
         "firstName": "Prénom",
         "lastName": "Nom de famille"
       },
       "contact": {
-        "sentence1": "Vérifiez vos informations de contact. Vous pouvez également indiquer si vous souhaitez rendre ces informations publiques pour les autres membres du SEL. Lorsqu'un champ est rendu visible, il sera affiché sur votre page de membre.",
         "title": "Contact",
+        "sentence1": "Vérifiez vos informations de contact. Vous pouvez également indiquer si vous souhaitez rendre ces informations publiques pour les autres membres du SEL. Lorsqu'un champ est rendu visible, il sera affiché sur votre page de membre.",
         "emailAddress": "Adresse email",
         "emailReadOnly": "Vous ne pouvez pas modifier votre adresse email",
         "phoneNumber": "Numéro de téléphone",
@@ -74,15 +74,23 @@
         "phoneNumberInvalid": "Numéro de téléphone non valide"
       },
       "bio": {
+        "title": "À propos",
         "sentence1": "Rédigez quelques mots à propos de vous pour vous présenter. Quels sont vos centres d'intérêts ? Quel genre de coups de mains pouvez-vous donner ? Quels types d'activités vous intéressent ?",
         "sentence2": "Vous pourrez changer votre présentation à tout moment depuis votre page de profil.",
-        "title": "À propos",
         "bio": "A propos de vous"
       },
       "address": {
-        "sentence": "Renseignez votre adresse afin de l'ajouter à votre page de profil et de vous situer sur la carte affichant tous les membres.",
         "title": "Adresse",
+        "sentence": "Renseignez votre adresse afin de l'ajouter à votre page de profil et de vous situer sur la carte affichant tous les membres.",
         "address": "Adresse"
+      },
+      "notifications": {
+        "title": "Notifications",
+        "sentence1": "Comment souhaitez-vous recevoir les notifications ?",
+        "sentence2": "Les notifications \"web\" sont gérées par votre appareil. Sur un smartphone, ce sont les notifications classiques des applications.",
+        "email": "Email",
+        "push": "Web",
+        "pushPermissionDenied": "Vous avez bloqué l'accès aux notifications sur cet appareil, veuillez modifier votre choix dans les paramètres de votre navigateur."
       },
       "end": {
         "sentence1": "Vos informations on bien été enregistrées ! 😁",

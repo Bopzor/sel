@@ -14,6 +14,7 @@ import { GeoapifyGeocodeAdapter } from './geocode/geocode-geoapify.adapter';
 import { ApiMemberAvatarAdapter } from './member-avatar/api-member-avatar.adapter';
 import { ToastNotificationsAdapter } from './notifications/toast-notifications.adapter';
 import { SolidRouterAdapter } from './router/solid-router.adapter';
+import { WebPushSubscriptionAdapter } from './subscription/web-push-subscription.adapter';
 
 export const container = createContainer();
 
@@ -23,6 +24,7 @@ container.bindFactory(TOKENS.geocode, GeoapifyGeocodeAdapter.inject);
 container.bindFactory(TOKENS.router, SolidRouterAdapter.inject);
 container.bindValue(TOKENS.fetcher, new Fetcher());
 container.bindFactory(TOKENS.notifications, ToastNotificationsAdapter.inject);
+container.bindFactory(TOKENS.pushSubscription, WebPushSubscriptionAdapter.inject);
 container.bindFactory(TOKENS.memberAvatar, ApiMemberAvatarAdapter.inject);
 container.bindFactory(TOKENS.sessionApi, FetchSessionApi.inject);
 container.bindFactory(TOKENS.authenticationApi, FetchAuthenticationApi.inject);
