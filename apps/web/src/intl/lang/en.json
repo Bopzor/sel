@@ -36,7 +36,8 @@
       "subtitle": "of Cavaillon and its surroundings",
       "sign-in": "Sign in",
       "notificationsCountGreaterThan9": "9+"
-    }
+    },
+    "registerDevice": "Would you like to receive notifications on this device? Activate them in <link>your settings</link>."
   },
   "authentication": {
     "description": "Enter the email address of your LETS account to access the app.",
@@ -261,7 +262,12 @@
       "featureFlags": {
         "requests": "Requests",
         "events": "Events"
-      }
+      },
+      "notificationSettings": "Notifications",
+      "registerDevice": "This device is not configured to receive notifications.",
+      "deviceRegistered": "Activate",
+      "deviceNotRegistered": "This device is configured to receive notifications.",
+      "notificationPermissionDenied": "You have denied access to notifications on this device. To change this choice, update the notification permissions in your browser settings."
     },
     "signOut": {
       "description": "To sign out of the app, click the button below.",

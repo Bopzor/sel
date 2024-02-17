@@ -1,3 +1,4 @@
 export interface PushSubscriptionPort {
-  registerDevice(): Promise<void>;
+  registerDevice(): Promise<boolean>;
+  getRegistrationState(): Promise<'prompt' | 'granted' | 'denied'>;
 }

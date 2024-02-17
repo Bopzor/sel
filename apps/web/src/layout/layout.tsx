@@ -1,4 +1,4 @@
-import { JSX, Show, lazy } from 'solid-js';
+import { JSX, Show, createEffect, createResource, lazy } from 'solid-js';
 
 import { authenticatedMember, unreadNotificationsCount } from '../app-context';
 import { Link } from '../components/link';
@@ -7,6 +7,7 @@ import { container } from '../infrastructure/container';
 import { Translate } from '../intl/translate';
 import { routes } from '../routes';
 import { TOKENS } from '../tokens';
+import { notify } from '../utils/notify';
 
 import { ErrorBoundary } from './error-boundary';
 import { Header } from './header';
@@ -30,13 +31,14 @@ export function Layout(props: LayoutProps) {
       <ErrorBoundary>
         <Show when={authenticatedMember()?.onboardingCompleted || pathname() === '/onboarding'}>
           <main class="col mx-auto w-full max-w-7xl flex-1 px-4 pb-4">{props.children}</main>
+          <CheckDeviceRegistration />
         </Show>
       </ErrorBoundary>
     </Show>
   );
 }
 
-export const HeaderMember = () => {
+function HeaderMember() {
   return (
     <Link unstyled href={routes.profile.profileEdition} class="col relative items-center gap-1 font-semibold">
       <MemberAvatar member={authenticatedMember()} class="relative size-10 rounded-full" />
@@ -44,7 +46,7 @@ export const HeaderMember = () => {
       <div class="leading-1">{authenticatedMember()?.firstName}</div>
     </Link>
   );
-};
+}
 
 function UnreadNotificationsCount() {
   return (
@@ -60,4 +62,34 @@ function UnreadNotificationsCount() {
       </Show>
     </span>
   );
+}
+
+function CheckDeviceRegistration() {
+  const subscription = container.resolve(TOKENS.pushSubscription);
+  const [registrationState] = createResource(() => subscription.getRegistrationState());
+
+  createEffect(() => {
+    if (!authenticatedMember()?.notificationDelivery.push) {
+      return;
+    }
+
+    if (registrationState() !== 'prompt') {
+      return;
+    }
+
+    if (localStorage.getItem('asked-device-registration') === 'true') {
+      return;
+    }
+
+    localStorage.setItem('asked-device-registration', 'true');
+
+    notify.info(
+      <Translate
+        id="layout.registerDevice"
+        values={{ link: (children) => <Link href={routes.profile.settings}>{children}</Link> }}
+      />,
+    );
+  });
+
+  return null;
 }

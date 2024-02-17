@@ -14,9 +14,9 @@ export class ToastNotificationsAdapter implements NotificationsPort {
 
   notify(type: NotificationType, message: JSX.Element): void {
     if (type === NotificationType.info) {
-      toast(message);
+      toast(<p>{message}</p>);
     } else {
-      toast[type](message);
+      toast[type](<p>{message}</p>);
     }
   }
 

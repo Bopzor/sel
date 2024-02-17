@@ -6,6 +6,7 @@ import { container } from '../../../infrastructure/container';
 import { NotificationType } from '../../../infrastructure/notifications/notifications.port';
 import { Translate } from '../../../intl/translate';
 import { TOKENS } from '../../../tokens';
+import { createAsyncCall } from '../../../utils/create-async-call';
 import { createErrorHandler } from '../../../utils/create-error-handler';
 import { notify } from '../../../utils/notify';
 import { NextButton } from '../components/next-button';
@@ -22,19 +23,19 @@ export function NotificationsStep(props: OnboardingStepProps<OnboardingStep.noti
 
   const t = T.useTranslation();
   const subscription = container.resolve(TOKENS.pushSubscription);
-  const onError = createErrorHandler();
+
+  const [registerDevice] = createAsyncCall(() => subscription.registerDevice(), {
+    onSuccess(granted) {
+      if (!granted) {
+        notify(NotificationType.error, t('pushPermissionDenied'));
+        setFields('notifications.push', false);
+      }
+    },
+  });
 
   createEffect(() => {
     if (data('notifications.push')) {
-      // eslint-disable-next-line no-console
-      subscription.registerDevice().catch((error) => {
-        if (error instanceof Error && error.message === 'permission denied') {
-          notify(NotificationType.error, t('pushPermissionDenied'));
-          setFields('notifications.push', false);
-        } else {
-          onError(error);
-        }
-      });
+      registerDevice();
     }
   });
 

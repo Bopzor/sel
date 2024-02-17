@@ -36,7 +36,8 @@
       "subtitle": "de Cavaillon et ses environs",
       "sign-in": "Connexion",
       "notificationsCountGreaterThan9": "9+"
-    }
+    },
+    "registerDevice": "Vous souhaitez recevoir les notifications sur cet appareil ? Activez-les dans <link>vos paramètres</link>."
   },
   "authentication": {
     "description": "Entrez l'adresse email de votre compte du SEL pour accéder à l'app.",
@@ -261,7 +262,12 @@
       "featureFlags": {
         "requests": "Demandes",
         "events": "Événements"
-      }
+      },
+      "notificationSettings": "Notifications",
+      "deviceNotRegistered": "Cet appareil n'est pas configuré pour recevoir les notifications.",
+      "registerDevice": "Activer",
+      "deviceRegistered": "Cet appareil est configuré pour recevoir les notifications.",
+      "notificationPermissionDenied": "Vous avez refusé l'envoi des notifications sur cet appareil. Pour revenir sur ce choix, modifiez les permissions des notifications dans les paramètres de votre navigateur."
     },
     "signOut": {
       "description": "Pour vous déconnecter de l'app, cliquez sur le bouton ci-dessous.",

@@ -15,7 +15,7 @@ export class WebPushSubscriptionAdapter implements PushSubscriptionPort {
     private readonly fetcher: FetcherPort,
   ) {}
 
-  async registerDevice(): Promise<void> {
+  async registerDevice(): Promise<boolean> {
     if (!navigator.serviceWorker) {
       throw new Error('no service worker');
     }
@@ -31,14 +31,16 @@ export class WebPushSubscriptionAdapter implements PushSubscriptionPort {
       //
     }
 
-    if ((await pushManager.permissionState(this.options)) === 'denied') {
-      throw new Error('permission denied');
+    if ((await pushManager.permissionState(this.options)) !== 'granted') {
+      return false;
     }
 
     await this.fetcher.post('/api/session/notifications/register-device', {
       deviceType: detectDevice(),
       subscription,
     });
+
+    return true;
   }
 
   private get options(): PushSubscriptionOptionsInit {
@@ -51,5 +53,10 @@ export class WebPushSubscriptionAdapter implements PushSubscriptionPort {
   private async pushManager() {
     const registration = await navigator.serviceWorker.ready;
     return registration.pushManager;
+  }
+
+  async getRegistrationState(): Promise<'prompt' | 'granted' | 'denied'> {
+    const pushManager = await this.pushManager();
+    return pushManager.permissionState(this.options);
   }
 }
