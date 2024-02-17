@@ -6,6 +6,10 @@ export type AuthenticatedMember = Member & {
   email: string;
   emailVisible: boolean;
   onboardingCompleted: boolean;
+  notificationDelivery: {
+    email: boolean;
+    push: boolean;
+  };
 };
 
 export const createAuthenticatedMember = createFactory<AuthenticatedMember>(() => ({
@@ -17,4 +21,8 @@ export const createAuthenticatedMember = createFactory<AuthenticatedMember>(() =
   phoneNumbers: [],
   onboardingCompleted: false,
   membershipStartDate: createDate().toISOString(),
+  notificationDelivery: {
+    email: false,
+    push: false,
+  },
 }));

@@ -91,6 +91,10 @@ export class SqlMemberRepository implements MemberRepository {
       address: (result.address as shared.Address | null) ?? undefined,
       onboardingCompleted: result.status !== MemberStatus.onboarding,
       membershipStartDate: result.membershipStartDate.toISOString(),
+      notificationDelivery: {
+        email: result.notificationDelivery.includes(NotificationDeliveryType.email),
+        push: result.notificationDelivery.includes(NotificationDeliveryType.push),
+      },
     };
   }
 

@@ -53,6 +53,7 @@ export class InMemoryMemberRepository extends InMemoryRepository<Member> impleme
       address: member.address,
       onboardingCompleted: member.status !== MemberStatus.onboarding,
       membershipStartDate: member.membershipStartDate.toISOString(),
+      notificationDelivery: member.notificationDelivery,
     };
   }
 
