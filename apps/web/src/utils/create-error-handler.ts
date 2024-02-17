@@ -8,6 +8,7 @@ export function createErrorHandler() {
 
   // todo: report
   return (error: unknown) => {
+    // eslint-disable-next-line no-console
     console.error(error);
 
     if (error instanceof Error) {
