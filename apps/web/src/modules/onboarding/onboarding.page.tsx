@@ -89,7 +89,7 @@ export default function OnboardingPage() {
   });
 
   return (
-    <div class="col card mx-auto my-16 w-full max-w-4xl gap-8 rounded-xl p-8">
+    <div class="col card mx-auto my-16 w-full max-w-4xl gap-8 rounded-xl p-4 sm:p-8">
       <Show when={step() > OnboardingStep.welcome && step() < OnboardingStep.end}>
         <Stepper step={step()} setStep={setStep} />
       </Show>

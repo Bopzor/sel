@@ -258,16 +258,23 @@
     },
     "settings": {
       "title": "Settings",
+      "appearance": "Appearance",
       "darkMode": "Dark mode",
+      "featureFlagsTitle": "Feature flags",
       "featureFlags": {
         "requests": "Requests",
         "events": "Events"
       },
-      "notificationSettings": "Notifications",
-      "registerDevice": "This device is not configured to receive notifications.",
-      "deviceRegistered": "Activate",
-      "deviceNotRegistered": "This device is configured to receive notifications.",
-      "notificationPermissionDenied": "You have denied access to notifications on this device. To change this choice, update the notification permissions in your browser settings."
+      "notifications": {
+        "title": "Notifications",
+        "description": "How would you like to receive notifications?",
+        "deviceNotRegistered": "<register>Click here</register> to authorize this smartphone to receive notifications.",
+        "notificationPermissionDenied": "You have denied access to notifications on this device. To change this choice, update the notification permissions in your browser settings.",
+        "email": "Email",
+        "emailDescription": "Notifications are sent by email to {email}.",
+        "push": "Phone",
+        "pushDescription": "Notifications are sent to your smartphone (after installing the app)."
+      }
     },
     "signOut": {
       "description": "To sign out of the app, click the button below.",

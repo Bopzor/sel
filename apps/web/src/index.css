@@ -144,7 +144,7 @@
 
     @apply transition-all;
 
-    &:hover {
+    &:not(:disabled):hover {
       box-shadow: theme('boxShadow.md');
     }
 

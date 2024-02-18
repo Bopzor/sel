@@ -1,18 +1,27 @@
-import { Match, Switch as SolidSwitch, createResource } from 'solid-js';
-
-import { Button } from '../../../components/button';
 import { Feature, hasFeatureFlag, setFeatureFlag } from '../../../components/feature-flag';
 import { Switch } from '../../../components/switch';
-import { container } from '../../../infrastructure/container';
 import { Translate } from '../../../intl/translate';
-import { TOKENS } from '../../../tokens';
-import { createAsyncCall } from '../../../utils/create-async-call';
+
+import { NotificationSettings } from './notification-settings';
 
 const T = Translate.prefix('profile.settings');
 
 const TranslateFeatureFlag = Translate.enum('profile.settings.featureFlags');
 
 export default function SettingsPage() {
+  return (
+    <div class="col gap-6">
+      <h1>
+        <T id="title" />
+      </h1>
+
+      <GeneralSettings />
+      <NotificationSettings />
+    </div>
+  );
+}
+
+function GeneralSettings() {
   const isDarkMode = () => localStorage.getItem('dark') === 'true';
 
   const toggleDarkMode = () => {
@@ -29,62 +38,22 @@ export default function SettingsPage() {
   };
 
   return (
-    <>
-      <h1>
-        <T id="title" />
-      </h1>
-
-      <p>
-        <Switch checked={isDarkMode()} onChange={() => toggleDarkMode()}>
-          <T id="darkMode" />
-        </Switch>
-      </p>
-
-      <p>
-        <Switch checked={hasEventsFlag()} onChange={() => toggleEventsFlag()}>
-          <TranslateFeatureFlag value={Feature.events} />
-        </Switch>
-      </p>
-
-      <NotificationSettings />
-    </>
-  );
-}
-
-function NotificationSettings() {
-  const push = container.resolve(TOKENS.pushSubscription);
-  const [registration, { refetch }] = createResource(() => push.getRegistrationState());
-
-  const [registerDevice] = createAsyncCall(() => push.registerDevice(), {
-    onSettled() {
-      void refetch();
-    },
-  });
-
-  return (
-    <>
+    <div class="card col gap-4 p-4">
       <h2>
-        <T id="notificationSettings" />
+        <T id="appearance" />
       </h2>
 
-      <SolidSwitch>
-        <Match when={registration() === 'prompt'}>
-          <p>
-            <T id="deviceNotRegistered" />
-          </p>
-          <Button onClick={registerDevice} class="self-start">
-            <T id="registerDevice" />
-          </Button>
-        </Match>
+      <Switch checked={isDarkMode()} onChange={() => toggleDarkMode()}>
+        <T id="darkMode" />
+      </Switch>
 
-        <Match when={registration() === 'granted'}>
-          <T id="deviceRegistered" />
-        </Match>
+      <h2>
+        <T id="featureFlagsTitle" />
+      </h2>
 
-        <Match when={registration() === 'denied'}>
-          <T id="notificationPermissionDenied" />
-        </Match>
-      </SolidSwitch>
-    </>
+      <Switch checked={hasEventsFlag()} onChange={() => toggleEventsFlag()}>
+        <TranslateFeatureFlag value={Feature.events} />
+      </Switch>
+    </div>
   );
 }

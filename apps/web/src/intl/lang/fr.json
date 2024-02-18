@@ -258,16 +258,23 @@
     },
     "settings": {
       "title": "Paramètres",
+      "appearance": "Apparence",
       "darkMode": "Mode sombre",
+      "featureFlagsTitle": "Fonctionnalités anticipées",
       "featureFlags": {
         "requests": "Demandes",
         "events": "Événements"
       },
-      "notificationSettings": "Notifications",
-      "deviceNotRegistered": "Cet appareil n'est pas configuré pour recevoir les notifications.",
-      "registerDevice": "Activer",
-      "deviceRegistered": "Cet appareil est configuré pour recevoir les notifications.",
-      "notificationPermissionDenied": "Vous avez refusé l'envoi des notifications sur cet appareil. Pour revenir sur ce choix, modifiez les permissions des notifications dans les paramètres de votre navigateur."
+      "notifications": {
+        "title": "Notifications",
+        "description": "Comment souhaitez-vous recevoir les notifications du SEL ?",
+        "deviceNotRegistered": "<register>Cliquez ici</register> pour autoriser ce smartphone à recevoir les notifications.",
+        "notificationPermissionDenied": "Vous avez refusé l'envoi des notifications sur ce smartphone. Pour modifier ce choix, autorisez les notifications dans les paramètres de votre navigateur.",
+        "email": "Email",
+        "emailDescription": "Vous recevez les notifications par email à l'adresse {email}.",
+        "push": "Mobile",
+        "pushDescription": "Vous recevez les notifications sur votre smartphone (après installation de l'application)."
+      }
     },
     "signOut": {
       "description": "Pour vous déconnecter de l'app, cliquez sur le bouton ci-dessous.",

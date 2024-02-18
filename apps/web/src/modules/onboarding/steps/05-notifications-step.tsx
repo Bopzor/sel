@@ -1,42 +1,18 @@
 import { createForm } from '@felte/solid';
-import { createEffect } from 'solid-js';
 
-import { Switch } from '../../../components/switch';
-import { container } from '../../../infrastructure/container';
-import { NotificationType } from '../../../infrastructure/notifications/notifications.port';
 import { Translate } from '../../../intl/translate';
-import { TOKENS } from '../../../tokens';
-import { createAsyncCall } from '../../../utils/create-async-call';
 import { createErrorHandler } from '../../../utils/create-error-handler';
-import { notify } from '../../../utils/notify';
+import { NotificationDeliveryOptions } from '../../profile/settings/notification-settings';
 import { NextButton } from '../components/next-button';
 import { OnboardingStep, OnboardingStepProps } from '../onboarding-types';
 
 const T = Translate.prefix('onboarding.steps.notifications');
 
 export function NotificationsStep(props: OnboardingStepProps<OnboardingStep.notifications>) {
-  const { form, data, setFields } = createForm({
-    initialValues: props.initialValues,
-    onSubmit: props.onSubmit,
+  const { form, data } = createForm({
+    initialValues: props.initialValues.notifications,
+    onSubmit: (notifications) => props.onSubmit({ notifications }),
     onError: createErrorHandler(),
-  });
-
-  const t = T.useTranslation();
-  const subscription = container.resolve(TOKENS.pushSubscription);
-
-  const [registerDevice] = createAsyncCall(() => subscription.registerDevice(), {
-    onSuccess(granted) {
-      if (!granted) {
-        notify(NotificationType.error, t('pushPermissionDenied'));
-        setFields('notifications.push', false);
-      }
-    },
-  });
-
-  createEffect(() => {
-    if (data('notifications.push')) {
-      registerDevice();
-    }
   });
 
   return (
@@ -45,18 +21,9 @@ export function NotificationsStep(props: OnboardingStepProps<OnboardingStep.noti
         <p>
           <T id="sentence1" />
         </p>
-        <p>
-          <T id="sentence2" />
-        </p>
       </div>
 
-      <Switch name="notifications.email">
-        <T id="email" />
-      </Switch>
-
-      <Switch name="notifications.push">
-        <T id="push" />
-      </Switch>
+      <NotificationDeliveryOptions pushEnabled={data('push')} />
 
       <NextButton class="self-start">
         <Translate id="onboarding.navigation.next" />
