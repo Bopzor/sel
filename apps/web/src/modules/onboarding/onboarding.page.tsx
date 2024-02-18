@@ -1,4 +1,4 @@
-import { AuthenticatedMember, OnboardingData, UpdateMemberProfileData } from '@sel/shared';
+import { AuthenticatedMember } from '@sel/shared';
 import { Component, Show, createSignal } from 'solid-js';
 import { Dynamic } from 'solid-js/web';
 
@@ -59,7 +59,12 @@ export default function OnboardingPage() {
     if (step() === OnboardingStep.notifications) {
       const state = stepStates() as OnboardingStepStates;
 
-      const profile: UpdateMemberProfileData = {
+      await profileApi.updateNotificationDelivery(
+        member?.id as string,
+        state[OnboardingStep.notifications].notifications,
+      );
+
+      await profileApi.updateMemberProfile(member?.id as string, {
         firstName: state[OnboardingStep.name].firstName,
         lastName: state[OnboardingStep.name].lastName,
         emailVisible: state[OnboardingStep.contact].emailVisible,
@@ -71,14 +76,8 @@ export default function OnboardingPage() {
         ],
         address: state[OnboardingStep.address].address || undefined,
         bio: state[OnboardingStep.bio].bio || undefined,
-      };
-
-      const onboarding: OnboardingData = {
-        profile,
-        notificationDelivery: state[OnboardingStep.notifications].notifications,
-      };
-
-      await profileApi.completeOnboarding(member?.id as string, onboarding);
+        onboardingCompleted: true,
+      });
     }
 
     if (step() === OnboardingStep.end) {

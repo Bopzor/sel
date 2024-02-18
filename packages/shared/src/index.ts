@@ -4,7 +4,7 @@ export * from './comment';
 export * from './member';
 export * from './members-sort';
 export * from './notification';
-export * from './onboarding-data';
 export * from './phone-number';
 export * from './request';
 export * from './update-member-profile-data';
+export * from './update-notification-delivery-data';

@@ -13,9 +13,14 @@ import { detectDevice } from '../../../utils/detect-device';
 const T = Translate.prefix('profile.settings.notifications');
 
 export function NotificationSettings() {
+  const profileApi = container.resolve(TOKENS.profileApi);
+  const member = authenticatedMember();
+
   const { form, data, isDirty, isSubmitting } = createForm({
     initialValues: authenticatedMember()?.notificationDelivery,
-    onSubmit: console.log,
+    async onSubmit(data) {
+      await profileApi.updateNotificationDelivery(member?.id as string, data);
+    },
     onError: createErrorHandler(),
   });
 

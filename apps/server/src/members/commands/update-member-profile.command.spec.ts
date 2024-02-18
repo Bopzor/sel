@@ -54,7 +54,7 @@ describe('[Unit] UpdateMemberProfile', () => {
   it("sets a member's onboarding as completed", async () => {
     test.membersRepository.add(createMember({ id: 'memberId', status: MemberStatus.onboarding }));
 
-    test.command.onboardingCompleted = true;
+    test.command.data.onboardingCompleted = true;
     await test.execute();
 
     const member = test.membersRepository.get('memberId');
@@ -65,7 +65,7 @@ describe('[Unit] UpdateMemberProfile', () => {
   it('triggers an OnboardingCompleted domain event', async () => {
     test.membersRepository.add(createMember({ id: 'memberId', status: MemberStatus.onboarding }));
 
-    test.command.onboardingCompleted = true;
+    test.command.data.onboardingCompleted = true;
     await test.execute();
 
     expect(test.eventPublisher).toHaveEmitted(new OnboardingCompleted('memberId'));
@@ -74,7 +74,7 @@ describe('[Unit] UpdateMemberProfile', () => {
   it("set a member's onboarding as not completed", async () => {
     test.membersRepository.add(createMember({ id: 'memberId', status: MemberStatus.active }));
 
-    test.command.onboardingCompleted = false;
+    test.command.data.onboardingCompleted = false;
     await test.execute();
 
     const member = test.membersRepository.get('memberId');

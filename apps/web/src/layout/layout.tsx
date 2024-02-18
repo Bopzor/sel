@@ -7,6 +7,7 @@ import { container } from '../infrastructure/container';
 import { Translate } from '../intl/translate';
 import { routes } from '../routes';
 import { TOKENS } from '../tokens';
+import { detectDevice } from '../utils/detect-device';
 import { notify } from '../utils/notify';
 
 import { ErrorBoundary } from './error-boundary';
@@ -70,6 +71,10 @@ function CheckDeviceRegistration() {
 
   createEffect(() => {
     if (!authenticatedMember()?.notificationDelivery.push) {
+      return;
+    }
+
+    if (detectDevice() !== 'mobile') {
       return;
     }
 

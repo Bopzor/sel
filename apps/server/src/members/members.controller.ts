@@ -35,7 +35,12 @@ export class MembersController {
     this.router.get('/:memberId', this.getMember);
     this.router.get('/:memberId/avatar', this.getMemberAvatar);
     this.router.put('/:memberId/profile', this.isAuthenticatedMember, this.updateMemberProfile);
-    this.router.post('/:memberId/onboarding', this.isAuthenticatedMember, this.completeOnboarding);
+
+    this.router.put(
+      '/:memberId/notification-delivery',
+      this.isAuthenticatedMember,
+      this.changeNotificationDelivery,
+    );
   }
 
   authenticated: RequestHandler = (req, res, next) => {
@@ -107,6 +112,7 @@ export class MembersController {
         position: z.tuple([z.number(), z.number()]).optional(),
       })
       .optional(),
+    onboardingCompleted: z.boolean().optional(),
   });
 
   updateMemberProfile: RequestHandler<{ memberId: string }> = async (req, res) => {
@@ -121,27 +127,18 @@ export class MembersController {
     res.status(HttpStatus.noContent).end();
   };
 
-  private static completeOnboardingSchema = z.object({
-    profile: MembersController.updateMemberProfileSchema,
-    notificationDelivery: z.object({
-      email: z.boolean(),
-      push: z.boolean(),
-    }),
+  private static notificationDeliverySchema = z.object({
+    email: z.boolean(),
+    push: z.boolean(),
   });
 
-  completeOnboarding: RequestHandler<{ memberId: string }> = async (req, res) => {
+  changeNotificationDelivery: RequestHandler<{ memberId: string }> = async (req, res) => {
     const { memberId } = req.params;
-    const data = MembersController.completeOnboardingSchema.parse(req.body);
-
-    await this.commandBus.executeCommand(COMMANDS.updateMemberProfile, {
-      memberId,
-      data: data.profile,
-      onboardingCompleted: true,
-    });
+    const data = MembersController.notificationDeliverySchema.parse(req.body);
 
     await this.commandBus.executeCommand(COMMANDS.changeNotificationDeliveryType, {
       memberId,
-      notificationDeliveryType: data.notificationDelivery,
+      notificationDeliveryType: data,
     });
 
     res.status(HttpStatus.noContent).end();

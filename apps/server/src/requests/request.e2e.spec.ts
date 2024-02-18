@@ -29,8 +29,10 @@ class Test extends E2ETest {
 
     await this.application.updateMemberProfile({
       memberId: this.member.id,
-      data: this.member,
-      onboardingCompleted: true,
+      data: {
+        ...this.member,
+        onboardingCompleted: true,
+      },
     });
   }
 }
