@@ -74,9 +74,8 @@ function RichEditor(props: RichEditorProps) {
 
   return (
     <div
-      // eslint-disable-next-line tailwindcss/no-arbitrary-value
       class={clsx(
-        'col min-h-[10rem] resize-y overflow-auto',
+        'col min-h-64 resize-y overflow-auto',
         'rounded-lg border-2',
         'border-transparent bg-neutral shadow',
         'transition-colors focus-within:border-primary/50',

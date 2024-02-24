@@ -28,7 +28,7 @@ export function Notification(props: { notification: Notification; markAsRead: ()
         </button>
       </div>
 
-      <div>{props.notification.content}</div>
+      <div class="line-clamp-4">{props.notification.content}</div>
 
       <div class="row gap-2 text-sm text-dim">
         <div>

@@ -177,7 +177,7 @@
       "bodyPlaceholder": "J'ai besoin d'un coup de main pour..."
     },
     "create": {
-      "title": "Créer une nouvelle demande",
+      "title": "Nouvelle demande",
       "submit": "Créer la demande",
       "created": "Votre demande a bien été envoyée."
     },
