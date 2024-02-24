@@ -13,10 +13,10 @@ import { RequestStatusChangedNotification } from './request-status-changed.notif
 
 export interface NotificationCreator {
   entity?(): { type: SubscriptionEntityType; id: string };
-  shouldSend(memberId: string): boolean;
-  title(): string;
-  titleTrimmed(): string;
-  content(): string;
+  shouldSend(member: Member): boolean;
+  title(member: Member): string;
+  titleTrimmed(member: Member): string;
+  content(member: Member): string;
   emailKind(): EmailKind;
   emailVariables(member: Member): EmailVariables[EmailKind];
 }

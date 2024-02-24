@@ -12,8 +12,8 @@ export class RequestCreatedNotification implements NotificationCreator {
     private readonly data: NotificationData['RequestCreated'],
   ) {}
 
-  shouldSend(memberId: string) {
-    return memberId !== this.data.request.requester.id;
+  shouldSend(member: Member) {
+    return member.id !== this.data.request.requester.id;
   }
 
   title() {

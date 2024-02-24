@@ -21,7 +21,7 @@ export class FormatJsTranslationAdapter implements TranslationPort {
     );
   }
 
-  translate(key: string, values?: Record<string, string | number>): string {
+  translate(key: string, values?: Record<string, string | number | boolean>): string {
     return this.intl.formatMessage({ id: key }, values);
   }
 
@@ -32,7 +32,7 @@ export class FormatJsTranslationAdapter implements TranslationPort {
     });
   }
 
-  notificationTitle(key: string, trimmableKey: string, values: Record<string, string | number>) {
+  notificationTitle(key: string, trimmableKey: string, values: Record<string, string | number | boolean>) {
     const length = this.translate(key, { ...values, [trimmableKey]: '' }).length;
     const maxLength = 65 - length;
 

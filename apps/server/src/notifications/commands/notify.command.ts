@@ -66,7 +66,7 @@ export class Notify implements CommandHandler<NotifyCommand> {
     for (const subscription of subscriptions) {
       const member = defined(members.find(hasId(subscription.memberId)));
 
-      if (!subscription.active || !creator.shouldSend(member.id)) {
+      if (!subscription.active || !creator.shouldSend(member)) {
         continue;
       }
 
@@ -77,9 +77,9 @@ export class Notify implements CommandHandler<NotifyCommand> {
         type: notificationType,
         date: now,
         deliveryType: member.notificationDelivery,
-        title: creator.title(),
-        titleTrimmed: creator.titleTrimmed(),
-        content: creator.content(),
+        title: creator.title(member),
+        titleTrimmed: creator.titleTrimmed(member),
+        content: creator.content(member),
         data,
       };
 

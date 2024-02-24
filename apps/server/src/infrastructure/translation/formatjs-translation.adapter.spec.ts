@@ -12,6 +12,7 @@ describe('[Unit] FormatJsTranslationAdapter', () => {
   it('formats a notification title that is below 65 characters', () => {
     const result = adapter.notificationTitle('requestCommentCreated.title', 'title', {
       title: 'Accorder un piano',
+      isRequester: false,
     });
 
     expect(result).toEqual('Nouveau commentaire sur la demande "Accorder un piano"');
@@ -20,6 +21,7 @@ describe('[Unit] FormatJsTranslationAdapter', () => {
   it('formats a notification title that is exactly 65 characters', () => {
     const result = adapter.notificationTitle('requestCommentCreated.title', 'title', {
       title: 'Accorder un très vieux piano',
+      isRequester: false,
     });
 
     expect(result).toEqual('Nouveau commentaire sur la demande "Accorder un très vieux piano"');
@@ -28,6 +30,7 @@ describe('[Unit] FormatJsTranslationAdapter', () => {
   it('formats a notification title that is above 65 characters', () => {
     const result = adapter.notificationTitle('requestCommentCreated.title', 'title', {
       title: 'Accorder un très vieux piano qui sonne faux',
+      isRequester: false,
     });
 
     expect(result).toEqual('Nouveau commentaire sur la demande "Accorder un très vieux pian…"');

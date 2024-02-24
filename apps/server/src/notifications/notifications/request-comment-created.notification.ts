@@ -20,19 +20,21 @@ export class RequestCommentCreatedNotification implements NotificationCreator {
     };
   }
 
-  shouldSend(memberId: string) {
-    return memberId !== this.data.comment.author.id;
+  shouldSend(member: Member) {
+    return member.id !== this.data.comment.author.id;
   }
 
-  title() {
+  title(member: Member) {
     return this.translation.translate('requestCommentCreated.title', {
       title: this.data.request.title,
+      isRequester: this.data.request.requester.id === member.id,
     });
   }
 
-  titleTrimmed() {
+  titleTrimmed(member: Member) {
     return this.translation.notificationTitle('requestCommentCreated.title', 'title', {
       title: this.data.request.title,
+      isRequester: this.data.request.requester.id === member.id,
     });
   }
 

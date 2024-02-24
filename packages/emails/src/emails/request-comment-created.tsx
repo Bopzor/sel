@@ -6,8 +6,14 @@ import { Translate, translate } from '../intl/intl';
 const fr = {
   greeting: 'Bonjour {firstName},',
   commentCreated: {
-    html: '<strong>{commentAuthor}</strong> a écrit un commentaire en réponse à la demande de <strong>{requester}</strong> :',
-    text: '{commentAuthor} a écrit un commentaire en réponse à la demande de {requester} :',
+    isRequester: {
+      html: '<strong>{commentAuthor}</strong> a écrit un commentaire sur sa demande :',
+      text: '{commentAuthor} a écrit un commentaire sur sa demande :',
+    },
+    isNotRequester: {
+      html: '<strong>{commentAuthor}</strong> a écrit un commentaire en réponse à la demande de <strong>{requester}</strong> :',
+      text: '{commentAuthor} a écrit un commentaire en réponse à la demande de {requester} :',
+    },
   },
   requestConcerned: {
     html: 'Demande concernée : <link>{title}</link>',
@@ -54,7 +60,11 @@ export function html(props: RequestCommentCreatedEmailProps) {
 
         <mj-text padding="8px 0">
           <Translate
-            message={messages.commentCreated.html}
+            message={
+              props.comment.author.id === props.request.requester.id
+                ? messages.commentCreated.isRequester.html
+                : messages.commentCreated.isNotRequester.html
+            }
             values={{
               commentAuthor: <MemberName member={props.comment.author} />,
               requester: <MemberName member={props.request.requester} />,
@@ -89,10 +99,15 @@ export function text(props: RequestCommentCreatedEmailProps) {
 
   return [
     translate(messages.greeting, { firstName: props.firstName }),
-    translate(messages.commentCreated.text, {
-      commentAuthor: MemberName.text(props.comment.author),
-      requester: MemberName.text(props.request.requester),
-    }),
+    translate(
+      props.comment.author.id === props.request.requester.id
+        ? messages.commentCreated.isRequester.text
+        : messages.commentCreated.isNotRequester.text,
+      {
+        commentAuthor: MemberName.text(props.comment.author),
+        requester: MemberName.text(props.request.requester),
+      },
+    ),
     '-',
     translate(messages.requestConcerned.text, {
       title: props.request.title,
