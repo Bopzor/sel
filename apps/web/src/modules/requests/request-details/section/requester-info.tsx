@@ -26,7 +26,7 @@ export function RequesterInfo(props: { requester: Requester }) {
       </ul>
 
       <Show when={!isAuthenticatedMember(props.requester)}>
-        <Button variant="secondary" class="self-start">
+        <Button variant="secondary" class="hidden self-start">
           <T id="contact" values={{ requester: props.requester.firstName }} />
         </Button>
       </Show>
