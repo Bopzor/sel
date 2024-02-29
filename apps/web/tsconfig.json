@@ -1,13 +1,13 @@
 {
   "extends": "@sel/typescript-config/tsconfig.base.json",
   "include": ["src/**/*"],
-  "files": ["tailwind.config.ts", ".storybook/preview.tsx"],
+  "files": ["tailwind.config.ts"],
   "references": [{ "path": "../../packages/shared" }, { "path": "../../packages/utils" }],
   "compilerOptions": {
     "jsx": "preserve",
     "skipLibCheck": true,
     "jsxImportSource": "solid-js",
-    "types": ["vite-plugin-solid-svg/types-component-solid", "vite/client"],
+    "types": ["vite-plugin-solid-svg/types-component-solid", "vite-plugin-pwa/solid", "vite/client"],
     "noEmit": true,
     "isolatedModules": true
   }

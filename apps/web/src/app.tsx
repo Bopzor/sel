@@ -1,4 +1,5 @@
 import { JSX, ErrorBoundary as SolidErrorBoundary, createEffect, onMount } from 'solid-js';
+import { useRegisterSW } from 'virtual:pwa-register/solid';
 
 import { AppContextProvider, authenticatedMember } from './app-context';
 import { SuspenseLoader } from './components/loader';
@@ -16,6 +17,17 @@ type AppProps = {
 };
 
 export function App(props: AppProps) {
+  const {
+    needRefresh: [needRefresh],
+    updateServiceWorker,
+  } = useRegisterSW();
+
+  createEffect(() => {
+    if (needRefresh()) {
+      updateServiceWorker(true);
+    }
+  });
+
   onMount(() => {
     if (localStorage.getItem('dark') === null) {
       localStorage.setItem('dark', String(window.matchMedia('(prefers-color-scheme: dark)').matches));
