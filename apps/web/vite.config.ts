@@ -1,3 +1,4 @@
+import { exec } from 'node:child_process';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 
@@ -7,6 +8,12 @@ import { VitePWA } from 'vite-plugin-pwa';
 import solidPlugin from 'vite-plugin-solid';
 import solidSvg from 'vite-plugin-solid-svg';
 import { defineConfig } from 'vitest/config';
+
+const getVersion = () => {
+  return new Promise<string>((resolve) => {
+    exec('git rev-parse HEAD', (error, stdout) => resolve(stdout));
+  });
+};
 
 export default defineConfig({
   plugins: [
@@ -27,7 +34,7 @@ export default defineConfig({
         type: 'module',
       },
     }),
-    version(process.env.KOYEB_GIT_SHA),
+    version(getVersion),
   ],
   server: {
     port: 8000,
@@ -70,7 +77,7 @@ export default defineConfig({
   },
 });
 
-function version(version: string): Plugin {
+function version(getVersion: () => Promise<string>): Plugin {
   let dist = '';
 
   return {
@@ -79,7 +86,7 @@ function version(version: string): Plugin {
       dist = path.resolve(config.root, config.build.outDir);
     },
     async closeBundle() {
-      await fs.writeFile(path.join(dist, 'version.txt'), version);
+      await fs.writeFile(path.join(dist, 'version.txt'), await getVersion());
     },
   };
 }
