@@ -268,7 +268,8 @@
       "notifications": {
         "title": "Notifications",
         "description": "Comment souhaitez-vous recevoir les notifications du SEL ?",
-        "deviceNotRegistered": "<register>Cliquez ici</register> pour autoriser ce smartphone à recevoir les notifications.",
+        "deviceNotRegisteredTitle": "Activer les notifications sur ce smartphone.",
+        "deviceNotRegisteredDescription": "Pour recevoir des notifications, vous devez donner votre accord. <register>Cliquez ici</register> pour autoriser ce smartphone à recevoir les notifications.",
         "notificationPermissionDenied": "Vous avez refusé l'envoi des notifications sur ce smartphone. Pour modifier ce choix, autorisez les notifications dans les paramètres de votre navigateur.",
         "email": "Email",
         "emailDescription": "Vous recevez les notifications par email à l'adresse {email}.",

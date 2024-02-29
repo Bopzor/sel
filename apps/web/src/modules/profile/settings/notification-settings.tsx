@@ -34,7 +34,9 @@ export function NotificationSettings() {
         <T id="description" />
       </p>
 
-      <NotificationDeliveryOptions pushEnabled={data('push')} />
+      <NotificationDeliveryOptions />
+
+      <DeviceRegistration pushEnabled={data('push')} />
 
       <div class="row gap-4">
         <Button variant="secondary" type="reset" disabled={!isDirty()}>
@@ -49,7 +51,7 @@ export function NotificationSettings() {
   );
 }
 
-export function NotificationDeliveryOptions(props: { pushEnabled: boolean }) {
+export function NotificationDeliveryOptions() {
   return (
     <>
       <div role="radiogroup" class="my-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -61,8 +63,6 @@ export function NotificationDeliveryOptions(props: { pushEnabled: boolean }) {
           <T id="pushDescription" />
         </NotificationDeliveryOption>
       </div>
-
-      <DeviceRegistration pushEnabled={props.pushEnabled} />
     </>
   );
 }
@@ -95,18 +95,24 @@ function DeviceRegistration(props: { pushEnabled: boolean }) {
   return (
     <Show when={props.pushEnabled && detectDevice() === 'mobile'}>
       <Show when={registration.latest === 'prompt'}>
-        <p>
-          <T
-            id="deviceNotRegistered"
-            values={{
-              register: (children) => (
-                <button type="button" class="font-semibold text-primary" onClick={registerDevice}>
-                  {children}
-                </button>
-              ),
-            }}
-          />
-        </p>
+        <div class="rounded border border-yellow-600 p-4">
+          <p class="text-lg font-semibold text-yellow-800">
+            <T id="deviceNotRegisteredTitle" />
+          </p>
+
+          <p>
+            <T
+              id="deviceNotRegisteredDescription"
+              values={{
+                register: (children) => (
+                  <button type="button" class="font-semibold text-primary" onClick={registerDevice}>
+                    {children}
+                  </button>
+                ),
+              }}
+            />
+          </p>
+        </div>
       </Show>
 
       <Show when={registration.latest === 'denied'}>

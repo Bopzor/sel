@@ -268,7 +268,8 @@
       "notifications": {
         "title": "Notifications",
         "description": "How would you like to receive notifications?",
-        "deviceNotRegistered": "<register>Click here</register> to authorize this smartphone to receive notifications.",
+        "deviceNotRegisteredTitle": "Enable notifications on this smartphone.",
+        "deviceNotRegisteredDescription": "<register>Click here</register> to authorize this smartphone to receive notifications.",
         "notificationPermissionDenied": "You have denied access to notifications on this device. To change this choice, update the notification permissions in your browser settings.",
         "email": "Email",
         "emailDescription": "Notifications are sent by email to {email}.",
