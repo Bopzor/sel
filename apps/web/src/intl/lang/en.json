@@ -271,10 +271,13 @@
         "deviceNotRegisteredTitle": "Enable notifications on this smartphone.",
         "deviceNotRegisteredDescription": "<register>Click here</register> to authorize this smartphone to receive notifications.",
         "notificationPermissionDenied": "You have denied access to notifications on this device. To change this choice, update the notification permissions in your browser settings.",
+        "deviceRegistered": "Your smartphone is correctly configured to receive notifications",
+        "deviceRegistrationFailed": "Your smartphone won't be able to receive notifications.",
         "email": "Email",
         "emailDescription": "Notifications are sent by email to {email}.",
         "push": "Phone",
-        "pushDescription": "Notifications are sent to your smartphone (after installing the app)."
+        "pushDescription": "Notifications are sent to your smartphone (after installing the app).",
+        "saved": "Your notification settings have been saved."
       }
     },
     "signOut": {

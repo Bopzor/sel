@@ -271,10 +271,13 @@
         "deviceNotRegisteredTitle": "Activer les notifications sur ce smartphone.",
         "deviceNotRegisteredDescription": "Pour recevoir des notifications, vous devez donner votre accord. <register>Cliquez ici</register> pour autoriser ce smartphone à recevoir les notifications.",
         "notificationPermissionDenied": "Vous avez refusé l'envoi des notifications sur ce smartphone. Pour modifier ce choix, autorisez les notifications dans les paramètres de votre navigateur.",
+        "deviceRegistered": "Votre smartphone est correctement configuré pour recevoir les notifications.",
+        "deviceRegistrationFailed": "Votre smartphone ne pourra par recevoir de notifications.",
         "email": "Email",
         "emailDescription": "Vous recevez les notifications par email à l'adresse {email}.",
         "push": "Mobile",
-        "pushDescription": "Vous recevez les notifications sur votre smartphone (après installation de l'application)."
+        "pushDescription": "Vous recevez les notifications sur votre smartphone (après installation de l'application).",
+        "saved": "Vos paramètres de notifications ont été enregistrés."
       }
     },
     "signOut": {

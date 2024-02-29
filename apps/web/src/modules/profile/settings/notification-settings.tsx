@@ -1,7 +1,7 @@
 import { createForm } from '@felte/solid';
-import { JSX, Show, createResource } from 'solid-js';
+import { JSX, Show, createEffect, createResource } from 'solid-js';
 
-import { authenticatedMember } from '../../../app-context';
+import { authenticatedMember, getAppActions } from '../../../app-context';
 import { Button } from '../../../components/button';
 import { container } from '../../../infrastructure/container';
 import { Translate } from '../../../intl/translate';
@@ -9,19 +9,35 @@ import { TOKENS } from '../../../tokens';
 import { createAsyncCall } from '../../../utils/create-async-call';
 import { createErrorHandler } from '../../../utils/create-error-handler';
 import { detectDevice } from '../../../utils/detect-device';
+import { notify } from '../../../utils/notify';
 
 const T = Translate.prefix('profile.settings.notifications');
 
 export function NotificationSettings() {
   const profileApi = container.resolve(TOKENS.profileApi);
   const member = authenticatedMember();
+  const { refreshAuthenticatedMember } = getAppActions();
+  const t = T.useTranslation();
 
-  const { form, data, isDirty, isSubmitting } = createForm({
+  const { form, setInitialValues, reset, data, isDirty, isSubmitting } = createForm({
     initialValues: authenticatedMember()?.notificationDelivery,
     async onSubmit(data) {
       await profileApi.updateNotificationDelivery(member?.id as string, data);
     },
+    onSuccess() {
+      refreshAuthenticatedMember();
+      notify.success(t('saved'));
+    },
     onError: createErrorHandler(),
+  });
+
+  createEffect(() => {
+    const member = authenticatedMember();
+
+    if (member) {
+      setInitialValues(member.notificationDelivery);
+      reset();
+    }
   });
 
   return (
@@ -34,9 +50,7 @@ export function NotificationSettings() {
         <T id="description" />
       </p>
 
-      <NotificationDeliveryOptions />
-
-      <DeviceRegistration pushEnabled={data('push')} />
+      <NotificationDeliveryOptions pushEnabled={data('push')} />
 
       <div class="row gap-4">
         <Button variant="secondary" type="reset" disabled={!isDirty()}>
@@ -51,7 +65,7 @@ export function NotificationSettings() {
   );
 }
 
-export function NotificationDeliveryOptions() {
+export function NotificationDeliveryOptions(props: { pushEnabled: boolean }) {
   return (
     <>
       <div role="radiogroup" class="my-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -63,6 +77,8 @@ export function NotificationDeliveryOptions() {
           <T id="pushDescription" />
         </NotificationDeliveryOption>
       </div>
+
+      <DeviceRegistration pushEnabled={props.pushEnabled} />
     </>
   );
 }
@@ -87,9 +103,17 @@ function NotificationDeliveryOption(props: { type: 'email' | 'push'; children: J
 function DeviceRegistration(props: { pushEnabled: boolean }) {
   const push = container.resolve(TOKENS.pushSubscription);
   const [registration, { refetch }] = createResource(() => push.getRegistrationState());
+  const t = T.useTranslation();
 
   const [registerDevice] = createAsyncCall(() => push.registerDevice(), {
     onSettled: () => void refetch(),
+    onSuccess(result) {
+      if (result) {
+        notify.success(t('deviceRegistered'));
+      } else {
+        notify.error(t('deviceRegistrationFailed'));
+      }
+    },
   });
 
   return (
