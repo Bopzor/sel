@@ -27,7 +27,7 @@ export default defineConfig({
         type: 'module',
       },
     }),
-    version(require('../../package.json').version),
+    version(process.env.KOYEB_GIT_SHA),
   ],
   server: {
     port: 8000,
