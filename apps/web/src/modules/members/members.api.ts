@@ -1,6 +1,4 @@
-import { fakerFR as faker } from '@faker-js/faker';
 import { Member, MembersSort } from '@sel/shared';
-import { createId } from '@sel/utils';
 import { injectableClass } from 'ditox';
 
 import { FetchError, FetcherPort } from '../../infrastructure/fetcher';
@@ -55,26 +53,5 @@ export class StubMemberApi implements MemberApi {
 
   async getMember(): Promise<Member | undefined> {
     return this.member;
-  }
-}
-
-export class FakeMemberApi extends StubMemberApi {
-  constructor() {
-    super();
-
-    this.members = [this.fakeMember(), this.fakeMember(), this.fakeMember()];
-    this.member = this.fakeMember();
-  }
-
-  private fakeMember(): Member {
-    return {
-      id: createId(),
-      firstName: faker.person.firstName(),
-      lastName: faker.person.lastName(),
-      email: faker.internet.email(),
-      membershipStartDate: faker.date.past().toISOString(),
-      phoneNumbers: [],
-      bio: faker.lorem.paragraphs(),
-    };
   }
 }

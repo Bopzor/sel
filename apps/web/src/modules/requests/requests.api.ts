@@ -1,6 +1,5 @@
-import { fakerFR as faker } from '@faker-js/faker';
 import { Request, RequestAnswer, RequestStatus } from '@sel/shared';
-import { assert, createFactory, createId, wait } from '@sel/utils';
+import { assert, createId, wait } from '@sel/utils';
 import { injectableClass } from 'ditox';
 import { produce } from 'immer';
 
@@ -146,64 +145,3 @@ export class StubRequestsApi implements RequestsApi {
     return wait(1000);
   }
 }
-
-export class FakeRequestsApi extends StubRequestsApi {
-  constructor() {
-    super();
-
-    this.requests = [
-      this.createFakeRequest({ status: RequestStatus.pending }),
-      this.createFakeRequest({ status: RequestStatus.fulfilled }),
-      this.createFakeRequest({ status: RequestStatus.canceled }),
-    ];
-
-    this.request = this.createFakeRequest();
-  }
-
-  private createFakeRequest = createFactory<Request>(() => ({
-    id: 'requestId',
-    status: RequestStatus.pending,
-    date: faker.date.past().toISOString(),
-    requester: {
-      ...fakeMember(),
-      phoneNumbers: [{ number: faker.string.numeric({ length: 10 }), visible: true }],
-      email: faker.internet.email(),
-    },
-    title: faker.word.words({ count: { min: 1, max: 10 } }),
-    body: lorem(),
-    answers: [
-      {
-        id: createId(),
-        answer: 'positive',
-        member: fakeMember(),
-      },
-      {
-        id: createId(),
-        answer: 'negative',
-        member: fakeMember(),
-      },
-    ],
-    comments: [
-      {
-        id: createId(),
-        author: fakeMember(),
-        date: faker.date.past().toISOString(),
-        body: lorem(),
-      },
-    ],
-  }));
-}
-
-const fakeMember = () => ({
-  id: createId(),
-  firstName: faker.person.firstName(),
-  lastName: faker.person.lastName(),
-});
-
-const lorem = () => {
-  return faker.lorem
-    .paragraphs({ min: 1, max: 7 })
-    .split('\n')
-    .map((par) => `<p>${par}</p>`)
-    .join('\n');
-};

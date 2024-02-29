@@ -1,6 +1,4 @@
-import { fakerFR as faker } from '@faker-js/faker';
-import { AuthenticatedMember, createAuthenticatedMember } from '@sel/shared';
-import { createId } from '@sel/utils';
+import { AuthenticatedMember } from '@sel/shared';
 import { injectableClass } from 'ditox';
 
 import { FetcherPort, FetchError } from './infrastructure/fetcher';
@@ -43,17 +41,5 @@ export class StubSessionApi implements SessionApi {
 
   async signOut(): Promise<void> {
     this.authenticatedMember = undefined;
-  }
-}
-
-export class FakeSessionApi extends StubSessionApi {
-  constructor() {
-    super();
-
-    this.authenticatedMember = createAuthenticatedMember({
-      id: createId(),
-      firstName: faker.person.firstName(),
-      lastName: faker.person.lastName(),
-    });
   }
 }

@@ -1,16 +1,14 @@
-import { Preview } from 'storybook-solidjs';
 import { MemoryRouter, Navigate, Route } from '@solidjs/router';
+import { Preview } from 'storybook-solidjs';
 import { AppContextProvider } from '../src/app-context';
 import { container } from '../src/infrastructure/container';
+import { StubMemberAvatarAdapter } from '../src/infrastructure/member-avatar/stub-member-avatar.adapter';
 import { IntlProvider } from '../src/intl/intl-provider';
-import { FakeRequestsApi } from '../src/modules/requests/requests.api';
 import { TOKENS } from '../src/tokens';
+import { FakeMemberApi, FakeRequestsApi, FakeSessionApi } from './fake-api';
 
 import '@fontsource-variable/inter';
 import '../src/index.css';
-import { FakeSessionApi } from '../src/session.api';
-import { StubMemberAvatarAdapter } from '../src/infrastructure/member-avatar/stub-member-avatar.adapter';
-import { FakeMemberApi } from '../src/modules/members/members.api';
 
 export default {
   parameters: {
