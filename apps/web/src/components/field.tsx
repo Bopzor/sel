@@ -1,32 +1,32 @@
 import clsx from 'clsx';
-import { JSX } from 'solid-js';
+import { ComponentProps, splitProps } from 'solid-js';
 
 export type FieldVariant = 'solid' | 'outlined';
 export type FieldWidth = 'small' | 'medium' | 'full';
 
-type FieldProps = {
+type FieldProps = ComponentProps<'div'> & {
   variant?: FieldVariant;
   width?: FieldWidth;
-  class?: string;
-  children: JSX.Element;
 };
 
-export function Field(props: FieldProps) {
+export function Field(props1: FieldProps) {
+  const [fieldProps, props] = splitProps(props1, ['variant', 'width', 'class', 'classList']);
+
   return (
     <div
       class={clsx(
         'row w-full items-center overflow-hidden rounded-lg border-2',
         'transition-colors focus-within:border-primary/50',
-        props.class,
+        fieldProps.class,
       )}
       classList={{
-        'max-w-64': props.width === 'small',
-        'max-w-md': props.width === 'medium',
-        'border-transparent bg-neutral shadow': props.variant === 'solid',
-        'border-inverted/20': props.variant === 'outlined',
+        'max-w-64': fieldProps.width === 'small',
+        'max-w-md': fieldProps.width === 'medium',
+        'border-transparent bg-neutral shadow': fieldProps.variant === 'solid',
+        'border-inverted/20': fieldProps.variant === 'outlined',
+        ...fieldProps.classList,
       }}
-    >
-      {props.children}
-    </div>
+      {...props}
+    />
   );
 }

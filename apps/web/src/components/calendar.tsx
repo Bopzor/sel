@@ -1,5 +1,6 @@
 import {
   addDuration,
+  assert,
   createArray,
   endOfWeek,
   getDay,
@@ -57,6 +58,9 @@ export function Calendar(props: CalendarProps) {
 }
 
 function createCalendarDays(year: number, month: number) {
+  assert(typeof year === 'number', `year is ${typeof year}`);
+  assert(typeof month === 'number', `month is ${typeof month}`);
+
   const first = new Date(year, month - 1);
   const last = lastDayOfMonth(first);
 
