@@ -3,7 +3,7 @@ import { JSX, Show, mergeProps, splitProps } from 'solid-js';
 
 type InputProps = JSX.InputHTMLAttributes<HTMLInputElement> & {
   variant?: 'solid' | 'outlined';
-  width?: 'medium' | 'full';
+  width?: 'small' | 'medium' | 'full';
   start?: JSX.Element;
   end?: JSX.Element;
 };
@@ -20,6 +20,7 @@ export function Input(props1: InputProps) {
         props.class,
       )}
       classList={{
+        'max-w-64': props.width === 'small',
         'max-w-md': props.width === 'medium',
         'border-transparent bg-neutral shadow': props.variant === 'solid',
         'border-inverted/20': props.variant === 'outlined',

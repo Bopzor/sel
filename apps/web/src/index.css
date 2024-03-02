@@ -118,6 +118,10 @@
   .fallback {
     @apply text-dim font-medium row justify-center items-center;
   }
+
+  .shadow-current-day {
+    box-shadow: inset 0 0 theme('spacing.1') theme('colors.primary');
+  }
 }
 
 @layer components {

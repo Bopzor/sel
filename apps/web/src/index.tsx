@@ -25,6 +25,7 @@ const RequestsListPage = lazy(() => import('./modules/requests/requests-list/req
 const CreateRequestPage = lazy(() => import('./modules/requests/create-request/create-request.page'));
 const RequestDetailsPage = lazy(() => import('./modules/requests/request-details/request-details.page'));
 const EditRequestPage = lazy(() => import('./modules/requests/edit-request/edit-request.page'));
+const EventsPage = lazy(() => import('./modules/events/events.page'));
 const MiscPage = lazy(() => import('./modules/misc/misc.page'));
 const ProfileLayout = lazy(() => import('./modules/profile/profile.layout'));
 const ProfileEditionPage = lazy(() => import('./modules/profile/profile-edition/profile-edition.page'));
@@ -58,6 +59,8 @@ function Routing() {
       <Route path="/requests/:requestId" component={RequestDetailsPage} />
       <Route path="/requests/:requestId/edit" component={EditRequestPage} />
 
+      <Route path="/events" component={EventsPage} />
+
       <Route path="/profile" component={ProfileLayout}>
         <Route path="/" component={ProfileEditionPage} />
         <Route path="/address" component={AddressPage} />
@@ -66,33 +69,12 @@ function Routing() {
         <Route path="/sign-out" component={SignOutPage} />
       </Route>
 
-      <Route path="/events" component={EventsPage} />
       <Route path="/activities" component={ActivitiesPage} />
       <Route path="/assets" component={AssetsPage} />
       <Route path="/misc" component={MiscPage} />
 
       <Route path="/__error" component={ErrorTestPage} />
     </>
-  );
-}
-
-export function EventsPage() {
-  return (
-    <div>
-      <BackLink href={routes.home} />
-
-      <h1>
-        <Translate id="events.title" />
-      </h1>
-
-      <p class="font-semibold">
-        <Translate id="events.sentence1" />
-      </p>
-
-      <p>
-        <Translate id="events.sentence2" />
-      </p>
-    </div>
   );
 }
 
