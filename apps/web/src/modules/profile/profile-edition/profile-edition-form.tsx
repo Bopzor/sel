@@ -2,7 +2,8 @@ import { Show, createSignal } from 'solid-js';
 
 import { authenticatedMember } from '../../../app-context';
 import { FormField } from '../../../components/form-field';
-import { Input, TextArea } from '../../../components/input';
+import { Input } from '../../../components/input';
+import { TextArea } from '../../../components/text-area';
 import { MemberAvatar } from '../../../components/member-avatar';
 import { Translate } from '../../../intl/translate';
 

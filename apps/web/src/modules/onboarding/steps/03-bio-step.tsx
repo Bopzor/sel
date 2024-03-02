@@ -1,7 +1,7 @@
 import { createForm } from '@felte/solid';
 
 import { FormField } from '../../../components/form-field';
-import { TextArea } from '../../../components/input';
+import { TextArea } from '../../../components/text-area';
 import { Translate } from '../../../intl/translate';
 import { createErrorHandler } from '../../../utils/create-error-handler';
 import { NextButton } from '../components/next-button';
