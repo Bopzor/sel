@@ -29,6 +29,7 @@ export function ContactStep(props: OnboardingStepProps<OnboardingStep.contact>) 
   const t = T.useTranslation();
   const [showEmailReadonlyMessage, setShowEmailReadonlyMessage] = createSignal(false);
 
+  // @ts-expect-error solidjs directive
   const { form, data, errors } = createForm({
     initialValues: props.initialValues,
     extend: validator({ schema: schema() }),

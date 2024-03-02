@@ -64,6 +64,7 @@ function CreateCommentForm(props: { requestId: string; onCreated: () => void }) 
   const requestApi = container.resolve(TOKENS.requestApi);
   const t = T.useTranslation();
 
+  // @ts-expect-error solidjs directive
   const { form, setData, reset, isSubmitting } = createForm({
     initialValues: {
       html: '',

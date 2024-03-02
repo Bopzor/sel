@@ -8,6 +8,7 @@ import { OnboardingStepProps, OnboardingStep } from '../onboarding-types';
 const T = Translate.prefix('onboarding.steps.welcome');
 
 export function WelcomeStep(props: OnboardingStepProps<OnboardingStep.welcome>) {
+  // @ts-expect-error solidjs directive
   const { form } = createForm({
     initialValues: props.initialValues,
     onSubmit: props.onSubmit,

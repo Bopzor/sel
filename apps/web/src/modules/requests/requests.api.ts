@@ -89,7 +89,7 @@ export class StubRequestsApi implements RequestsApi {
     });
   }
 
-  async setAnswer(requestId: string, value: RequestAnswer['answer'] | null): Promise<void> {
+  async setAnswer(_requestId: string, value: RequestAnswer['answer'] | null): Promise<void> {
     const member = this.member;
 
     assert(this.request);
@@ -112,7 +112,7 @@ export class StubRequestsApi implements RequestsApi {
     });
   }
 
-  async createComment(requestId: string, body: string): Promise<void> {
+  async createComment(_requestId: string, body: string): Promise<void> {
     const member = this.member;
 
     assert(this.request);

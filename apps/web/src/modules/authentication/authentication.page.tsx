@@ -69,6 +69,7 @@ function AuthenticationForm(props: { onSubmitted: (email: string) => void }) {
   const authenticationApi = container.resolve(TOKENS.authenticationApi);
   const t = T.useTranslation();
 
+  // @ts-expect-error solidjs directive
   const { form, data, isSubmitting } = createForm({
     initialValues: {
       email: '',

@@ -10,6 +10,7 @@ import { OnboardingStepProps, OnboardingStep } from '../onboarding-types';
 const T = Translate.prefix('onboarding.steps.name');
 
 export function NameStep(props: OnboardingStepProps<OnboardingStep.name>) {
+  // @ts-expect-error solidjs directive
   const { form } = createForm({
     initialValues: props.initialValues,
     onSubmit: props.onSubmit,

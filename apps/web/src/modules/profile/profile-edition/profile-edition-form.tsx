@@ -12,6 +12,7 @@ import { ProfileFieldVisibility } from './profile-field-visibility';
 const T = Translate.prefix('profile.profile');
 
 export function ProfileEditionForm(props: Pick<ProfileEditionForm, 'form' | 'data' | 'errors'>) {
+  // @ts-expect-error solidjs directive
   // eslint-disable-next-line solid/reactivity
   const { form } = props;
 

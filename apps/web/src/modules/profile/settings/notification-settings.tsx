@@ -19,6 +19,7 @@ export function NotificationSettings() {
   const { refreshAuthenticatedMember } = getAppActions();
   const t = T.useTranslation();
 
+  // @ts-expect-error solidjs directive
   const { form, setInitialValues, reset, data, isDirty, isSubmitting } = createForm({
     initialValues: authenticatedMember()?.notificationDelivery,
     async onSubmit(data) {

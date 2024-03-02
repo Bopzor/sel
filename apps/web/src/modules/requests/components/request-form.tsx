@@ -22,6 +22,7 @@ type RequestFormProps = {
 export function RequestForm(props: RequestFormProps) {
   const t = T.useTranslation();
 
+  // @ts-expect-error solidjs directive
   const { form, setData, isSubmitting } = createForm({
     initialValues: {
       title: props.request?.title ?? '',
