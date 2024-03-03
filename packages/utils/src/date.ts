@@ -10,6 +10,7 @@ export { getDay } from 'date-fns/getDay';
 export { isSameWeek } from 'date-fns/isSameWeek';
 export { isSameMonth } from 'date-fns/isSameMonth';
 export { lastDayOfMonth } from 'date-fns/lastDayOfMonth';
+export { startOfDay } from 'date-fns/startOfDay';
 
 export function createDate(date?: string) {
   return new Date(date ?? Date.now());

@@ -2,7 +2,7 @@ import { injectableClass } from 'ditox';
 
 import { DomainEvent } from '../../domain-event';
 import { Database } from '../../persistence/database';
-import { events } from '../../persistence/schema';
+import { domainEvents } from '../../persistence/schema';
 import { TOKENS } from '../../tokens';
 import { EventHandler } from '../cqs/event-handler';
 import { DatePort } from '../date/date.port';
@@ -22,7 +22,7 @@ export class EventsPersistor implements EventHandler<DomainEvent> {
 
     const { entity, entityId, type, ...payload } = event;
 
-    await this.database.db.insert(events).values({
+    await this.database.db.insert(domainEvents).values({
       id: this.generator.id(),
       entity,
       entityId,

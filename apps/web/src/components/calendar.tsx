@@ -9,19 +9,43 @@ import {
   isSameWeek,
   last,
   lastDayOfMonth,
+  startOfDay,
   startOfWeek,
 } from '@sel/utils';
 import { For, createMemo } from 'solid-js';
 
 import { FormattedDate } from '../intl/formatted';
 
+export type CalendarEvent = {
+  date: Date;
+  title: string;
+  class: string;
+};
+
 type CalendarProps = {
   year: number;
   month: number;
+  events?: CalendarEvent[];
 };
 
 export function Calendar(props: CalendarProps) {
   const days = createMemo(() => createCalendarDays(props.year, props.month));
+
+  const events = createMemo(() => {
+    const events: Record<string, Array<CalendarEvent>> = {};
+
+    for (const event of props.events ?? []) {
+      const day = startOfDay(event.date).toISOString();
+
+      if (!events[day]) {
+        events[day] = [];
+      }
+
+      events[day].push(event);
+    }
+
+    return events;
+  });
 
   return (
     <div class="grid grid-cols-7">
@@ -36,7 +60,7 @@ export function Calendar(props: CalendarProps) {
       <For each={days()}>
         {(day) => (
           <div
-            class="h-32 border-l border-t"
+            class="h-32 border-l border-t p-2 text-sm"
             classList={{
               'border-r': day.isEndOfWeek,
               'border-b': day.isLastWeek,
@@ -44,12 +68,15 @@ export function Calendar(props: CalendarProps) {
               'rounded-tr': day.isLastDayOfFirstWeek,
               'rounded-bl': day.isFirstDayOfLastWeek,
               'rounded-br': day.isLast,
-              'bg-gray-50 text-gray-500': !day.isMonth,
+              'bg-neutral/50 text-gray-500': !day.isMonth,
               'bg-neutral': day.isMonth,
               'shadow-current-day': day.isMonth && day.isToday,
             }}
           >
-            <div class="p-2 font-medium">{day.date.getDate()}</div>
+            <div class="mb-2 font-medium">{day.date.getDate()}</div>
+            <For each={events()[day.date.toISOString()]}>
+              {(event) => <div class={event.class}>{event.title}</div>}
+            </For>
           </div>
         )}
       </For>

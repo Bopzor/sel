@@ -13,6 +13,7 @@ import { GetToken } from './authentication/queries/get-session-token.query';
 import { SessionController } from './authentication/session.controller';
 import { SessionProvider } from './authentication/session.provider';
 import { CommentService } from './comments/comment.service';
+import { EventController } from './events/event.controller';
 import { EnvConfigAdapter } from './infrastructure/config/env-config.adapter';
 import { CommandBus } from './infrastructure/cqs/command-bus';
 import { EventBus } from './infrastructure/cqs/event-bus';
@@ -99,6 +100,8 @@ container.bindFactory(TOKENS.memberRepository, SqlMemberRepository.inject);
 container.bindFactory(TOKENS.requestController, RequestController.inject);
 container.bindFactory(TOKENS.requestRepository, SqlRequestRepository.inject);
 container.bindFactory(TOKENS.requestAnswerRepository, SqlRequestAnswerRepository.inject);
+
+container.bindFactory(TOKENS.eventController, EventController.inject);
 
 container.bindFactory(TOKENS.authenticationController, AuthenticationController.inject);
 container.bindFactory(TOKENS.sessionController, SessionController.inject);

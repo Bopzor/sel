@@ -12,6 +12,7 @@ import { GetToken } from './authentication/queries/get-session-token.query';
 import { SessionController } from './authentication/session.controller';
 import { SessionProvider } from './authentication/session.provider';
 import { CommentService } from './comments/comment.service';
+import { EventController } from './events/event.controller';
 import { ConfigPort } from './infrastructure/config/config.port';
 import { CommandBus } from './infrastructure/cqs/command-bus';
 import { EventBus } from './infrastructure/cqs/event-bus';
@@ -98,6 +99,7 @@ export const TOKENS = {
   requestController: token<RequestController>('requestController'),
   requestRepository: token<RequestRepository>('requestRepository'),
   requestAnswerRepository: token<RequestAnswerRepository>('requestAnswerRepository'),
+  eventController: token<EventController>('eventController'),
   commentService: token<CommentService>('commentService'),
   commentRepository: token<CommentRepository>('commentRepository'),
   subscriptionRepository: token<SubscriptionRepository>('subscriptionRepository'),

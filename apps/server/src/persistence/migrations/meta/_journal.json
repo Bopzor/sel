@@ -64,6 +64,20 @@
       "when": 1706973187436,
       "tag": "0008_high_supernaut",
       "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "5",
+      "when": 1709487234657,
+      "tag": "0009_regular_firebird",
+      "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "5",
+      "when": 1709494012411,
+      "tag": "0010_awesome_hawkeye",
+      "breakpoints": true
     }
   ]
 }

@@ -14,5 +14,8 @@
     "@sel/typescript-config": "workspace:*",
     "@sel/utils": "workspace:*",
     "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "zod": "^3.22.4"
   }
 }

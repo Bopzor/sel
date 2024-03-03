@@ -1,6 +1,7 @@
 import { createContainer } from 'ditox';
 
 import { FetchAuthenticationApi } from '../modules/authentication/authentication.api';
+import { FetchEventApi } from '../modules/events/events.api';
 import { FetchMemberApi } from '../modules/members/members.api';
 import { FetchProfileApi } from '../modules/profile/profile.api';
 import { FetchRequestApi } from '../modules/requests/requests.api';
@@ -31,3 +32,4 @@ container.bindFactory(TOKENS.authenticationApi, FetchAuthenticationApi.inject);
 container.bindFactory(TOKENS.profileApi, FetchProfileApi.inject);
 container.bindFactory(TOKENS.memberApi, FetchMemberApi.inject);
 container.bindFactory(TOKENS.requestApi, FetchRequestApi.inject);
+container.bindFactory(TOKENS.eventApi, FetchEventApi.inject);

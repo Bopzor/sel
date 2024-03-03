@@ -65,7 +65,7 @@ export const tokensRelation = relations(tokens, ({ one }) => ({
   }),
 }));
 
-export const events = pgTable('events', {
+export const domainEvents = pgTable('domain_events', {
   id: primaryKey(),
   entity: varchar('entity', { length: 256 }).notNull(),
   entityId: id('entity_id').notNull(),
@@ -167,7 +167,7 @@ export const notifications = pgTable('notifications', {
   subscriptionId: id('subscription_id')
     .references(() => subscriptions.id)
     .notNull(),
-  eventId: id('event_id').references(() => events.id),
+  eventId: id('event_id').references(() => domainEvents.id),
   type: varchar('type', { length: 32 }).notNull(),
   date: date('date').notNull(),
   deliveryType: notificationDeliveryTypeEnum('delivery_type').array().notNull(),
@@ -196,3 +196,60 @@ export const memberDevices = pgTable(
     unique: unique().on(table.memberId, table.deviceSubscription),
   }),
 );
+
+export const eventKindEnum = pgEnum('event_kind', ['internal', 'external']);
+
+export const events = pgTable('events', {
+  id: primaryKey(),
+  organizerId: id('organizer_id')
+    .references(() => members.id)
+    .notNull(),
+  title: varchar('title', { length: 256 }).notNull(),
+  text: text('text').notNull(),
+  html: text('html').notNull(),
+  date: date('date'),
+  location: varchar('location', { length: 256 }),
+  kind: eventKindEnum('kind').notNull(),
+  createdAt: createdAt(),
+  updatedAt: updatedAt(),
+});
+
+export const eventsRelations = relations(events, ({ one, many }) => ({
+  organizer: one(members, {
+    fields: [events.organizerId],
+    references: [members.id],
+  }),
+  participants: many(eventParticipations),
+}));
+
+export const eventParticipation = pgEnum('event_participation', ['yes', 'no']);
+
+export const eventParticipations = pgTable(
+  'event_participations',
+  {
+    id: primaryKey(),
+    eventId: id('event_id')
+      .references(() => events.id)
+      .notNull(),
+    participantId: id('participant_id')
+      .references(() => members.id)
+      .notNull(),
+    participation: eventParticipation('participation').notNull(),
+    createdAt: createdAt(),
+    updatedAt: updatedAt(),
+  },
+  (table) => ({
+    unique: unique().on(table.eventId, table.participantId),
+  }),
+);
+
+export const eventParticipationsRelations = relations(eventParticipations, ({ one }) => ({
+  event: one(events, {
+    fields: [eventParticipations.eventId],
+    references: [events.id],
+  }),
+  member: one(members, {
+    fields: [eventParticipations.participantId],
+    references: [members.id],
+  }),
+}));

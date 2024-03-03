@@ -1,19 +1,37 @@
 import { createForm } from '@felte/solid';
-import { createArray } from '@sel/utils';
+import { Event, EventKind } from '@sel/shared';
+import { createArray, not } from '@sel/utils';
+import { createMemo, createResource } from 'solid-js';
 
 import { BackLink } from '../../components/back-link';
-import { Calendar } from '../../components/calendar';
+import { Calendar, CalendarEvent } from '../../components/calendar';
 import { Input } from '../../components/input';
 import { Select } from '../../components/select';
+import { container } from '../../infrastructure/container';
 import { FormattedDate } from '../../intl/formatted';
 import { routes } from '../../routes';
+import { TOKENS } from '../../tokens';
+
+type EventWithDate = Event & {
+  date: string;
+};
 
 export default function EventsPage() {
+  const eventsApi = container.resolve(TOKENS.eventApi);
+
+  const [events] = createResource(async () => {
+    return eventsApi.listEvents();
+  });
+
+  const eventsWithDate = () => {
+    return events()?.filter(hasDate);
+  };
+
   // @ts-expect-error solidjs directive
   const { form, data, setFields } = createForm({
     initialValues: {
       year: new Date().getFullYear(),
-      month: new Date().getMonth(),
+      month: new Date().getMonth() + 1,
     },
   });
 
@@ -37,7 +55,19 @@ export default function EventsPage() {
         <Input name="year" type="number" width="small" />
       </form>
 
-      <Calendar year={data('year')} month={data('month')} />
+      <Calendar year={data('year')} month={data('month')} events={eventsWithDate()?.map(eventToCalendar)} />
     </div>
   );
+}
+
+function hasDate(value: Event): value is EventWithDate {
+  return 'date' in value;
+}
+
+function eventToCalendar(event: Event & { date: string }): CalendarEvent {
+  return {
+    date: new Date(event.date),
+    title: event.title,
+    class: event.kind === EventKind.internal ? 'text-blue-500' : 'text-yellow-600',
+  };
 }
