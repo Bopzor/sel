@@ -28,6 +28,9 @@
       "unexpectedError": "An unexpected error happened.",
       "resetToHome": "Back",
       "reset": "Reset"
+    },
+    "memberCard": {
+      "contact": "Contact {member}"
     }
   },
   "layout": {
@@ -195,7 +198,6 @@
       "edited": "Your request was edited successfully."
     },
     "date": "The {date, date, medium} at {date, time, short}",
-    "contact": "Contact {requester}",
     "answer": {
       "title": "My answer",
       "positive": "OK",

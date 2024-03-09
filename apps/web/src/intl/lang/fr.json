@@ -28,6 +28,9 @@
       "unexpectedError": "Une erreur s'est produite.",
       "resetToHome": "Retour",
       "reset": "Réessayer"
+    },
+    "memberCard": {
+      "contact": "Contact {member}"
     }
   },
   "layout": {
@@ -195,7 +198,6 @@
       "edited": "Votre demande a bien été mise à jour."
     },
     "date": "Le {date, date, medium} à {date, time, short}",
-    "contact": "Contacter {requester}",
     "answer": {
       "title": "Ma réponse",
       "positive": "OK",

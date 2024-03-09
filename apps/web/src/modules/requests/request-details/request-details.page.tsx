@@ -6,6 +6,7 @@ import { isAuthenticatedMember } from '../../../app-context';
 import { Breadcrumb, breadcrumb } from '../../../components/breadcrumb';
 import { Link } from '../../../components/link';
 import { MemberAvatarName } from '../../../components/member-avatar-name';
+import { MemberCard } from '../../../components/member-card';
 import { RichText } from '../../../components/rich-text';
 import { container } from '../../../infrastructure/container';
 import { routes } from '../../../routes';
@@ -16,7 +17,6 @@ import { RequestAnswer } from './section/request-answer';
 import { RequestAnswersList } from './section/request-answers-list';
 import { RequestComments } from './section/request-comments';
 import { RequestHeader } from './section/request-header';
-import { RequesterInfo } from './section/requester-info';
 
 export default function RequestDetailsPage() {
   const requestApi = container.resolve(TOKENS.requestApi);
@@ -65,7 +65,7 @@ export function RequestDetails(props: { request: Request; refetch: () => void })
 
         <div class="col flex-1 gap-4">
           <div class="hidden sm:block">
-            <RequesterInfo requester={props.request.requester} />
+            <MemberCard member={props.request.requester} class="pt-8" />
           </div>
 
           <RequestActions request={props.request} onCanceled={props.refetch} />
