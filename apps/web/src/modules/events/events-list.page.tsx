@@ -1,7 +1,7 @@
 import { createForm } from '@felte/solid';
 import { Event, EventKind } from '@sel/shared';
-import { createArray, not } from '@sel/utils';
-import { createMemo, createResource } from 'solid-js';
+import { createArray } from '@sel/utils';
+import { createResource } from 'solid-js';
 
 import { BackLink } from '../../components/back-link';
 import { Calendar, CalendarEvent } from '../../components/calendar';
@@ -16,7 +16,7 @@ type EventWithDate = Event & {
   date: string;
 };
 
-export default function EventsPage() {
+export default function EventsListPage() {
   const eventsApi = container.resolve(TOKENS.eventApi);
 
   const [events] = createResource(async () => {
@@ -69,5 +69,6 @@ function eventToCalendar(event: Event & { date: string }): CalendarEvent {
     date: new Date(event.date),
     title: event.title,
     class: event.kind === EventKind.internal ? 'text-blue-500' : 'text-yellow-600',
+    link: routes.events.details(event.id),
   };
 }

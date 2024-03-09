@@ -19,20 +19,27 @@ Error.stackTraceLimit = 1 << 8;
 
 const HomePage = lazy(() => import('./modules/home/home.page'));
 const OnboardingPage = lazy(() => import('./modules/onboarding/onboarding.page'));
+
 const MembersListPage = lazy(() => import('./modules/members/members-list/members-list.page'));
 const MemberDetailsPage = lazy(() => import('./modules/members/member-details/member-details.page'));
+
 const RequestsListPage = lazy(() => import('./modules/requests/requests-list/requests-list.page'));
 const CreateRequestPage = lazy(() => import('./modules/requests/create-request/create-request.page'));
 const RequestDetailsPage = lazy(() => import('./modules/requests/request-details/request-details.page'));
 const EditRequestPage = lazy(() => import('./modules/requests/edit-request/edit-request.page'));
-const EventsPage = lazy(() => import('./modules/events/events.page'));
+
+const EventsPage = lazy(() => import('./modules/events/events-list.page'));
+const EventDetailsPage = lazy(() => import('./modules/events/event-details.page'));
+
 const MiscPage = lazy(() => import('./modules/misc/misc.page'));
+
 const ProfileLayout = lazy(() => import('./modules/profile/profile.layout'));
 const ProfileEditionPage = lazy(() => import('./modules/profile/profile-edition/profile-edition.page'));
 const AddressPage = lazy(() => import('./modules/profile/address/address.page'));
 const NotificationsPage = lazy(() => import('./modules/profile/notifications/notifications.page'));
 const SettingsPage = lazy(() => import('./modules/profile/settings/settings.page'));
 const SignOutPage = lazy(() => import('./modules/profile/sign-out/sign-out.page'));
+
 const ErrorTestPage = lazy(() => import('./utils/error-test.page'));
 
 render(
@@ -60,6 +67,7 @@ function Routing() {
       <Route path="/requests/:requestId/edit" component={EditRequestPage} />
 
       <Route path="/events" component={EventsPage} />
+      <Route path="/events/:eventId" component={EventDetailsPage} />
 
       <Route path="/profile" component={ProfileLayout}>
         <Route path="/" component={ProfileEditionPage} />

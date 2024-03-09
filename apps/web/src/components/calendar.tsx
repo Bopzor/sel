@@ -16,10 +16,13 @@ import { For, createMemo } from 'solid-js';
 
 import { FormattedDate } from '../intl/formatted';
 
+import { Link } from './link';
+
 export type CalendarEvent = {
   date: Date;
   title: string;
   class: string;
+  link: string;
 };
 
 type CalendarProps = {
@@ -74,8 +77,13 @@ export function Calendar(props: CalendarProps) {
             }}
           >
             <div class="mb-2 font-medium">{day.date.getDate()}</div>
+
             <For each={events()[day.date.toISOString()]}>
-              {(event) => <div class={event.class}>{event.title}</div>}
+              {(event) => (
+                <Link unstyled href={event.link} class={event.class}>
+                  {event.title}
+                </Link>
+              )}
             </For>
           </div>
         )}

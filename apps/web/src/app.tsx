@@ -24,7 +24,7 @@ export function App(props: AppProps) {
 
   createEffect(() => {
     if (needRefresh()) {
-      updateServiceWorker(true);
+      void updateServiceWorker(true);
     }
   });
 
