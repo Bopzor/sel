@@ -3,7 +3,7 @@ import { useParams } from '@solidjs/router';
 import { Show, createResource } from 'solid-js';
 
 import { isAuthenticatedMember } from '../../../app-context';
-import { BackLink } from '../../../components/back-link';
+import { Breadcrumb, breadcrumb } from '../../../components/breadcrumb';
 import { Link } from '../../../components/link';
 import { MemberAvatarName } from '../../../components/member-avatar-name';
 import { RichText } from '../../../components/rich-text';
@@ -28,7 +28,7 @@ export default function RequestDetailsPage() {
 
   return (
     <>
-      <BackLink href={routes.requests.list} />
+      <Breadcrumb items={[breadcrumb.requests(), request.latest && breadcrumb.request(request.latest)]} />
 
       <Show when={request.latest}>
         {(request) => <RequestDetails request={request()} refetch={() => void refetch()} />}

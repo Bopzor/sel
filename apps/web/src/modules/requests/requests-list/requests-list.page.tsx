@@ -2,7 +2,7 @@ import { Request, RequestStatus } from '@sel/shared';
 import { hasProperty, not } from '@sel/utils';
 import { For, Show, createResource } from 'solid-js';
 
-import { BackLink } from '../../../components/back-link';
+import { Breadcrumb, breadcrumb } from '../../../components/breadcrumb';
 import { LinkButton } from '../../../components/button';
 import { Link } from '../../../components/link';
 import { MemberAvatarName } from '../../../components/member-avatar-name';
@@ -23,7 +23,8 @@ export default function RequestsListPage() {
 
   return (
     <>
-      <BackLink href={routes.home} />
+      <Breadcrumb items={[breadcrumb.requests()]} />
+
       <Header />
       <Show when={requests()}>{(requests) => <RequestsList requests={requests()} />}</Show>
     </>

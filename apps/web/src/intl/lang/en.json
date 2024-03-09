@@ -37,6 +37,14 @@
       "sign-in": "Sign in",
       "notificationsCountGreaterThan9": "9+"
     },
+    "breadcrumb": {
+      "home": "Home",
+      "members": "Members",
+      "requests": "Requests",
+      "createRequest": "New request",
+      "editRequest": "Edit",
+      "events": "Events"
+    },
     "registerDevice": "Would you like to receive notifications on this device? Activate them in <link>your settings</link>."
   },
   "authentication": {

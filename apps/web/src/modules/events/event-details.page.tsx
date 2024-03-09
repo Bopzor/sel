@@ -2,9 +2,8 @@ import { Event } from '@sel/shared';
 import { useParams } from '@solidjs/router';
 import { createResource, Show } from 'solid-js';
 
-import { BackLink } from '../../components/back-link';
+import { breadcrumb, Breadcrumb } from '../../components/breadcrumb';
 import { container } from '../../infrastructure/container';
-import { routes } from '../../routes';
 import { TOKENS } from '../../tokens';
 
 export default function EventDetailsPage() {
@@ -17,7 +16,7 @@ export default function EventDetailsPage() {
 
   return (
     <>
-      <BackLink href={routes.events.list} />
+      <Breadcrumb items={[breadcrumb.events(), event.latest && breadcrumb.event(event.latest)]} />
 
       <Show when={event.latest}>
         {(event) => <EventDetails event={event()} refetch={() => void refetch()} />}

@@ -3,7 +3,7 @@ import { Event, EventKind } from '@sel/shared';
 import { createArray } from '@sel/utils';
 import { createResource } from 'solid-js';
 
-import { BackLink } from '../../components/back-link';
+import { Breadcrumb, breadcrumb } from '../../components/breadcrumb';
 import { Calendar, CalendarEvent } from '../../components/calendar';
 import { Input } from '../../components/input';
 import { Select } from '../../components/select';
@@ -37,7 +37,7 @@ export default function EventsListPage() {
 
   return (
     <div>
-      <BackLink href={routes.home} />
+      <Breadcrumb items={[breadcrumb.events()]} />
 
       <form use:form class="row mb-6 items-center justify-center gap-4">
         <Select

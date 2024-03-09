@@ -2,10 +2,9 @@ import { Member } from '@sel/shared';
 import { useParams } from '@solidjs/router';
 import { createResource, Show } from 'solid-js';
 
-import { BackLink } from '../../../components/back-link';
+import { breadcrumb, Breadcrumb } from '../../../components/breadcrumb';
 import { MemberAvatarName } from '../../../components/member-avatar-name';
 import { container } from '../../../infrastructure/container';
-import { routes } from '../../../routes';
 import { TOKENS } from '../../../tokens';
 
 import { MemberInformation } from './member-information';
@@ -22,7 +21,7 @@ export default function MemberDetailsPage() {
 
   return (
     <>
-      <BackLink href={routes.members.list} />
+      <Breadcrumb items={[breadcrumb.members(), member.latest && breadcrumb.member(member.latest)]} />
 
       <Show when={member()}>{(member) => <MemberDetails member={member()} />}</Show>
 

@@ -2,7 +2,7 @@ import { Request } from '@sel/shared';
 import { useNavigate, useParams } from '@solidjs/router';
 import { Show, createResource } from 'solid-js';
 
-import { BackLink } from '../../../components/back-link';
+import { Breadcrumb, breadcrumb } from '../../../components/breadcrumb';
 import { container } from '../../../infrastructure/container';
 import { Translate } from '../../../intl/translate';
 import { routes } from '../../../routes';
@@ -24,7 +24,13 @@ export default function EditRequestPage() {
 
   return (
     <>
-      <BackLink href={routes.requests.request(requestId)} />
+      <Breadcrumb
+        items={[
+          breadcrumb.requests(),
+          request.latest && breadcrumb.request(request.latest),
+          request.latest && breadcrumb.editRequest(request.latest),
+        ]}
+      />
 
       <Show when={request()}>
         {(request) => (

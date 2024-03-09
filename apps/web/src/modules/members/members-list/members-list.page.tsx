@@ -2,10 +2,9 @@ import { Member, MembersSort } from '@sel/shared';
 import { parseEnumValue } from '@sel/utils';
 import { Show, createResource, createSignal } from 'solid-js';
 
-import { BackLink } from '../../../components/back-link';
+import { Breadcrumb, breadcrumb } from '../../../components/breadcrumb';
 import { container } from '../../../infrastructure/container';
 import { useSearchParam } from '../../../infrastructure/router/use-search-param';
-import { routes } from '../../../routes';
 import { TOKENS } from '../../../tokens';
 
 import { MembersList } from './members-list';
@@ -26,7 +25,8 @@ export default function MembersListPage() {
 
   return (
     <>
-      <BackLink href={routes.home} />
+      <Breadcrumb items={[breadcrumb.members()]} />
+
       <Show when={members()}>
         {(members) => <MembersListContent members={members()} sort={sort()} setSort={setSort} />}
       </Show>

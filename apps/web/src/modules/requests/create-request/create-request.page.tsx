@@ -1,6 +1,6 @@
 import { useNavigate } from '@solidjs/router';
 
-import { BackLink } from '../../../components/back-link';
+import { Breadcrumb, breadcrumb } from '../../../components/breadcrumb';
 import { container } from '../../../infrastructure/container';
 import { Translate } from '../../../intl/translate';
 import { routes } from '../../../routes';
@@ -16,7 +16,7 @@ export default function CreateRequestPage() {
 
   return (
     <>
-      <BackLink href={routes.requests.list} />
+      <Breadcrumb items={[breadcrumb.requests(), breadcrumb.createRequest()]} />
 
       <h1>
         <T id="title" />

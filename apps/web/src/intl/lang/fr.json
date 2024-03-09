@@ -37,7 +37,15 @@
       "sign-in": "Connexion",
       "notificationsCountGreaterThan9": "9+"
     },
-    "registerDevice": "Vous souhaitez recevoir les notifications sur cet appareil ? Activez-les dans <link>vos paramètres</link>."
+    "registerDevice": "Vous souhaitez recevoir les notifications sur cet appareil ? Activez-les dans <link>vos paramètres</link>.",
+    "breadcrumb": {
+      "home": "Accueil",
+      "members": "Membres",
+      "requests": "Demandes",
+      "createRequest": "Nouvelle demande",
+      "editRequest": "Édition",
+      "events": "Événements"
+    }
   },
   "authentication": {
     "description": "Entrez l'adresse email de votre compte du SEL pour accéder à l'app.",
