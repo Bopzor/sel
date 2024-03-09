@@ -29,6 +29,10 @@
       "resetToHome": "Back",
       "reset": "Reset"
     },
+    "commentsSection": {
+      "placeholder": "Write a comment...",
+      "submit": "Submit"
+    },
     "memberCard": {
       "contact": "Contact {member}"
     }
@@ -206,8 +210,6 @@
     },
     "comments": {
       "title": "Comments",
-      "placeholder": "Write a comment...",
-      "submit": "Submit",
       "created": "Your comment was created successfully."
     },
     "answersList": {

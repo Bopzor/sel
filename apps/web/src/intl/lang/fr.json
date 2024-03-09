@@ -29,6 +29,10 @@
       "resetToHome": "Retour",
       "reset": "Réessayer"
     },
+    "commentsSection": {
+      "placeholder": "Écrire un commentaire...",
+      "submit": "Envoyer"
+    },
     "memberCard": {
       "contact": "Contact {member}"
     }
@@ -206,8 +210,6 @@
     },
     "comments": {
       "title": "Commentaires",
-      "placeholder": "Écrire un commentaire...",
-      "submit": "Envoyer",
       "created": "Votre commentaire a bien été créé."
     },
     "answersList": {

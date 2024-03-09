@@ -1,109 +1,26 @@
-import { createForm } from '@felte/solid';
-import { Request, type Comment } from '@sel/shared';
-import { For, Show } from 'solid-js';
+import { Request } from '@sel/shared';
 
-import { authenticatedMember } from '../../../../app-context';
-import { Button } from '../../../../components/button';
-import { MemberAvatarName } from '../../../../components/member-avatar-name';
-import { RichEditorToolbar, createRichEditor } from '../../../../components/rich-editor';
-import { RichText } from '../../../../components/rich-text';
+import { CommentsSection } from '../../../../components/comments-section';
 import { container } from '../../../../infrastructure/container';
-import { FormattedDate } from '../../../../intl/formatted';
 import { Translate } from '../../../../intl/translate';
 import { TOKENS } from '../../../../tokens';
-import { createErrorHandler } from '../../../../utils/create-error-handler';
 
 const T = Translate.prefix('requests.comments');
 
 export function RequestComments(props: { request: Request; onCreated: () => void }) {
+  const requestApi = container.resolve(TOKENS.requestApi);
+
   return (
     <div>
-      <h2 class="mb-2">
+      <h2 class="mb-4">
         <T id="title" />
       </h2>
 
-      <div class="card">
-        <Show when={props.request.comments.length}>
-          <CommentsList comments={props.request.comments} />
-          <hr />
-        </Show>
-
-        <CreateCommentForm requestId={props.request.id} onCreated={props.onCreated} />
-      </div>
+      <CommentsSection
+        comments={props.request.comments}
+        onCreate={(html) => requestApi.createComment(props.request.id, html)}
+        onCreated={props.onCreated}
+      />
     </div>
-  );
-}
-
-function CommentsList(props: { comments: Comment[] }) {
-  return (
-    <ul class="col gap-4 p-4">
-      <For each={props.comments}>{(comment) => <Comment comment={comment} />}</For>
-    </ul>
-  );
-}
-
-function Comment(props: { comment: Comment }) {
-  return (
-    <li>
-      <div class="row items-center justify-between pb-2">
-        <div class="row items-center gap-2">
-          <MemberAvatarName member={props.comment.author} />
-        </div>
-
-        <div class="text-xs text-dim">
-          <FormattedDate date={props.comment.date} dateStyle="short" timeStyle="short" />
-        </div>
-      </div>
-
-      <RichText class="prose ml-8 pl-2">{props.comment.body}</RichText>
-    </li>
-  );
-}
-
-function CreateCommentForm(props: { requestId: string; onCreated: () => void }) {
-  const requestApi = container.resolve(TOKENS.requestApi);
-  const t = T.useTranslation();
-
-  // @ts-expect-error solidjs directive
-  const { form, setData, reset, isSubmitting } = createForm({
-    initialValues: {
-      html: '',
-    },
-    async onSubmit(values) {
-      await requestApi.createComment(props.requestId, values.html);
-    },
-    onSuccess() {
-      reset();
-      editor()?.chain().clearContent().run();
-      props.onCreated();
-    },
-    onError: createErrorHandler(),
-  });
-
-  let ref!: HTMLDivElement;
-
-  const editor = createRichEditor(() => ref, {
-    placeholder: t('placeholder'),
-    onChange: (html) => setData('html', html),
-  });
-
-  return (
-    <form use:form>
-      <div class="row items-center gap-2 p-4 pb-2">
-        <MemberAvatarName member={authenticatedMember()} />
-      </div>
-
-      <div class="col min-h-40 resize-y overflow-auto">
-        <div ref={ref} class="col ml-14 grow overflow-y-auto" />
-
-        <div class="row items-end justify-between p-2">
-          <RichEditorToolbar editor={editor()} />
-
-          <Button type="submit" variant="secondary" loading={isSubmitting()}>
-            <T id="submit" />
-          </Button>
-        </div>
-      </div>
-    </form>
   );
 }
