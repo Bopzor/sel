@@ -1,5 +1,7 @@
 import { z } from 'zod';
 
+import { PhoneNumber } from './phone-number';
+
 export enum EventKind {
   internal = 'internal',
   external = 'external',
@@ -28,7 +30,7 @@ type EventOrganizer = {
   firstName: string;
   lastName: string;
   email?: string;
-  phoneNumbers: string[];
+  phoneNumbers: PhoneNumber[];
 };
 
 type EventParticipant = {

@@ -110,9 +110,7 @@ export class EventController {
         firstName: event.organizer.firstName,
         lastName: event.organizer.lastName,
         email: event.organizer.emailVisible ? event.organizer.email : undefined,
-        phoneNumbers: (event.organizer.phoneNumbers as PhoneNumber[])
-          .filter(({ visible }) => visible)
-          .map(({ number }) => number),
+        phoneNumbers: (event.organizer.phoneNumbers as PhoneNumber[]).filter(({ visible }) => visible),
       },
       participants: event.participants.map(({ member, participation }) => ({
         id: member.id,

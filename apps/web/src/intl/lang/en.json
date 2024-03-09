@@ -227,7 +227,9 @@
   "events": {
     "title": "Events",
     "sentence1": "",
-    "sentence2": ""
+    "sentence2": "",
+    "organizerTitle": "Organized by",
+    "commentsTitle": "Comments"
   },
   "activities": {
     "title": "Centres d'intérêts",

@@ -29,7 +29,7 @@ const RequestDetailsPage = lazy(() => import('./modules/requests/request-details
 const EditRequestPage = lazy(() => import('./modules/requests/edit-request/edit-request.page'));
 
 const EventsPage = lazy(() => import('./modules/events/events-list.page'));
-const EventDetailsPage = lazy(() => import('./modules/events/event-details.page'));
+const EventDetailsPage = lazy(() => import('./modules/events/event-details/event-details.page'));
 
 const MiscPage = lazy(() => import('./modules/misc/misc.page'));
 
