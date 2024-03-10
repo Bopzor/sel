@@ -228,8 +228,12 @@
     "title": "Événements",
     "sentence1": "La partie événements n'est pas encore disponible !",
     "sentence2": "L'atelier de conception est prévu le jeudi 8 février 2024, de 19h à 20h. Cette partie devrait être disponible courant avril 2024.",
+    "commentsTitle": "Commentaires",
+    "participationTitle": "Ma réponse",
+    "participates": "Je participe",
+    "dontParticipate": "Je ne participe pas",
     "organizerTitle": "Organisé par",
-    "commentsTitle": "Commentaires"
+    "participantsTitle": "{count, plural, =0 {Aucun(e) participant(e)} =1 {{count} participant(e)} other {{count} participant(e)s}}"
   },
   "activities": {
     "title": "Centres d'intérêts",

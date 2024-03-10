@@ -74,14 +74,14 @@ function AnswerButton(props: AnswerButtonProps) {
   return (
     <Button
       variant="secondary"
-      class="row items-center gap-1 bg-neutral"
       onClick={onClick}
+      loading={loading()}
+      class="row items-center gap-1 bg-neutral"
       classList={{
         'border-green': isMemberAnswer() && props.answer === 'positive',
         'border-red': isMemberAnswer() && props.answer === 'negative',
         'grayscale opacity-75': memberAnswer() && !isMemberAnswer(),
       }}
-      loading={loading()}
     >
       {props.children}
     </Button>

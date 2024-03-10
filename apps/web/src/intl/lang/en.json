@@ -228,8 +228,12 @@
     "title": "Events",
     "sentence1": "",
     "sentence2": "",
+    "commentsTitle": "Comments",
+    "participationTitle": "My answer",
+    "participates": "I participate",
+    "dontParticipate": "I don't participate",
     "organizerTitle": "Organized by",
-    "commentsTitle": "Comments"
+    "participantsTitle": "{count, plural, =0 {No participant} =1 {{count} participant} other {{count} participants}}"
   },
   "activities": {
     "title": "Centres d'intérêts",

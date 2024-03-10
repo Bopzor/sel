@@ -1,4 +1,4 @@
-import { Event } from '@sel/shared';
+import { Event, EventParticipation } from '@sel/shared';
 import { injectableClass } from 'ditox';
 
 import { FetchError, FetcherPort } from '../../infrastructure/fetcher';
@@ -7,6 +7,7 @@ import { TOKENS } from '../../tokens';
 export interface EventApi {
   listEvents(): Promise<Event[]>;
   getEvent(eventId: string): Promise<Event | undefined>;
+  setParticipation(eventId: string, participation: EventParticipation | null): Promise<void>;
 }
 
 export class FetchEventApi implements EventApi {
@@ -30,6 +31,20 @@ export class FetchEventApi implements EventApi {
         throw error;
       });
   }
+
+  async setParticipation(eventId: string, participation: EventParticipation | null): Promise<void> {
+    await this.fetcher
+      .put<{ participation: EventParticipation | null }, undefined>(`/api/events/${eventId}/participation`, {
+        participation,
+      })
+      .catch((error) => {
+        if (FetchError.is(error) && error.status === 404) {
+          return undefined;
+        }
+
+        throw error;
+      });
+  }
 }
 
 export class StubEventApi implements EventApi {
@@ -43,4 +58,6 @@ export class StubEventApi implements EventApi {
   async getEvent(): Promise<Event | undefined> {
     return this.event;
   }
+
+  async setParticipation(): Promise<void> {}
 }

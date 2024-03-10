@@ -12,6 +12,8 @@ import { TOKENS } from '../../../tokens';
 import { EventComments } from './sections/event-comments';
 import { EventDate } from './sections/event-date';
 import { EventLocation } from './sections/event-location';
+import { EventParticipants } from './sections/event-participants';
+import { EventParticipation } from './sections/event-participation';
 
 const T = Translate.prefix('events');
 
@@ -55,10 +57,16 @@ function EventDetails(props: { event: Event; refetch: () => void }) {
             </h2>
             <MemberCard inline member={props.event.organizer} />
           </div>
+
+          <EventParticipants event={props.event} />
         </div>
 
         <div class="flex-2 col gap-6">
           <Message event={props.event} />
+
+          <hr />
+
+          <EventParticipation event={props.event} onParticipationChanged={props.refetch} />
 
           <hr />
 

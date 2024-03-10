@@ -145,9 +145,9 @@ export class EventController {
       });
 
       this.eventBus.emit(new EventCreated(id));
-
-      res.status(201).end();
     });
+
+    res.status(201).end();
   };
 
   updateEvent: RequestHandler<{ eventId: string }> = async (req, res): Promise<void> => {
@@ -170,9 +170,9 @@ export class EventController {
         .where(eq(schema.events.id, eventId));
 
       this.eventBus.emit(new EventUpdated(eventId));
-
-      res.status(204).end();
     });
+
+    res.status(204).end();
   };
 
   setParticipation: RequestHandler<{ eventId: string }> = async (req, res): Promise<void> => {
@@ -201,8 +201,8 @@ export class EventController {
         });
 
       this.eventBus.emit(new EventParticipationSet(eventId, body.participation));
-
-      res.status(204).end();
     });
+
+    res.status(204).end();
   };
 }
