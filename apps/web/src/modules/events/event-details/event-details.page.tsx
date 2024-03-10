@@ -39,10 +39,6 @@ export default function EventDetailsPage() {
 function EventDetails(props: { event: Event; refetch: () => void }) {
   return (
     <>
-      <div class="mb-6">
-        <h1>{props.event.title}</h1>
-      </div>
-
       <div class="col lg:row gap-6">
         <div class="col flex-1 gap-4">
           <EventDate event={props.event} />
@@ -62,6 +58,8 @@ function EventDetails(props: { event: Event; refetch: () => void }) {
         </div>
 
         <div class="flex-2 col gap-6">
+          <h1>{props.event.title}</h1>
+
           <Message event={props.event} />
 
           <hr />
