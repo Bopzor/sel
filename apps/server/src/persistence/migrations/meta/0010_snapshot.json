@@ -1,5 +1,5 @@
 {
-  "id": "cebc020d-a3a5-45e9-88e4-1851d0ed8459",
+  "id": "fc20a082-763e-4006-ad62-16f4111bd27c",
   "prevId": "be5843fe-18bc-49d8-8e4d-e4d0b8b4e9a3",
   "version": "5",
   "dialect": "pg",
@@ -259,7 +259,7 @@
         },
         "location": {
           "name": "location",
-          "type": "varchar(256)",
+          "type": "json",
           "primaryKey": false,
           "notNull": false
         },

@@ -4,7 +4,7 @@ import { Icon } from 'solid-heroicons';
 import { clock, envelope, home, phone, user } from 'solid-heroicons/solid';
 import { ComponentProps, For, JSX, Show } from 'solid-js';
 
-import { MemberAddress } from '../../../components/member-address';
+import { FormattedAddress } from '../../../components/formatted-address';
 import { Translate } from '../../../intl/translate';
 import { formatPhoneNumber } from '../../../utils/format-phone-number';
 
@@ -57,7 +57,7 @@ function Email(props: { member: Member }) {
 function Address(props: { member: Member }) {
   return (
     <MemberData when={props.member.address} label={<T id="mailingAddress" />} icon={home}>
-      <MemberAddress address={defined(props.member.address)} />
+      <FormattedAddress address={defined(props.member.address)} />
     </MemberData>
   );
 }

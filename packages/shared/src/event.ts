@@ -1,5 +1,6 @@
 import { z } from 'zod';
 
+import { Address, addressSchema } from './address';
 import { PhoneNumber } from './phone-number';
 
 export enum EventKind {
@@ -20,7 +21,7 @@ export type Event = {
   body: string;
   kind: EventKind;
   date?: string;
-  location?: string;
+  location?: Address;
   organizer: EventOrganizer;
   participants: EventParticipant[];
 };
@@ -44,7 +45,7 @@ export const createEventBodySchema = z.object({
   title: z.string().trim(),
   body: z.string().trim(),
   date: z.string().datetime().optional(),
-  location: z.string().trim().optional(),
+  location: addressSchema.optional(),
   kind: z.enum(['internal', 'external']),
 });
 
@@ -54,7 +55,7 @@ export const updateEventBodySchema = z.object({
   title: z.string().trim(),
   body: z.string().trim(),
   date: z.string().datetime().optional(),
-  location: z.string().trim().optional(),
+  location: addressSchema.optional(),
   kind: z.enum(['internal', 'external']),
 });
 

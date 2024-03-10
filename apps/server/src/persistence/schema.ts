@@ -1,3 +1,4 @@
+import { Address } from '@sel/shared';
 import { relations, sql } from 'drizzle-orm';
 import { boolean, json, pgEnum, pgTable, text, timestamp, unique, varchar } from 'drizzle-orm/pg-core';
 
@@ -34,7 +35,7 @@ export const members = pgTable('members', {
   emailVisible: boolean('email_visible').notNull(),
   phoneNumbers: json('phone_numbers').notNull().default('[]'),
   bio: text('bio'),
-  address: json('address'),
+  address: json('address').$type<Address>(),
   membershipStartDate: date('membership_start_date')
     .notNull()
     .default(sql`CURRENT_DATE`),
@@ -208,7 +209,7 @@ export const events = pgTable('events', {
   text: text('text').notNull(),
   html: text('html').notNull(),
   date: date('date'),
-  location: varchar('location', { length: 256 }),
+  location: json('location').$type<Address>(),
   kind: eventKindEnum('kind').notNull(),
   createdAt: createdAt(),
   updatedAt: updatedAt(),

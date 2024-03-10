@@ -1,10 +1,10 @@
 import { Address } from '@sel/shared';
 
-type MemberAddressProps = {
+type FormattedAddressProps = {
   address: Address;
 };
 
-export function MemberAddress(props: MemberAddressProps) {
+export function FormattedAddress(props: FormattedAddressProps) {
   return <div class="whitespace-pre-wrap">{formatAddress(props.address)}</div>;
 }
 

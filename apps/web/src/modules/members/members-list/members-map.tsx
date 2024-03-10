@@ -3,7 +3,7 @@ import { defined } from '@sel/utils';
 
 import { Link } from '../../../components/link';
 import { Map } from '../../../components/map';
-import { MemberAddress } from '../../../components/member-address';
+import { FormattedAddress } from '../../../components/formatted-address';
 import { MemberAvatarName } from '../../../components/member-avatar-name';
 import { routes } from '../../../routes';
 
@@ -49,7 +49,7 @@ function Popup(props: PopupProps) {
 
       <hr />
 
-      <MemberAddress address={defined(props.member.address)} />
+      <FormattedAddress address={defined(props.member.address)} />
     </Link>
   );
 }

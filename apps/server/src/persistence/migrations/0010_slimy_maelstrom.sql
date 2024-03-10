@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS "events" (
 	"text" text NOT NULL,
 	"html" text NOT NULL,
 	"date" timestamp (3),
-	"location" varchar(256),
+	"location" json,
 	"kind" "event_kind" NOT NULL,
 	"created_at" timestamp (3) NOT NULL,
 	"updated_at" timestamp (3) NOT NULL

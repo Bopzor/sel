@@ -1,6 +1,7 @@
 import { Event } from '@sel/shared';
 import { Show } from 'solid-js';
 
+import { FormattedAddress } from '../../../../components/formatted-address';
 import { Map } from '../../../../components/map';
 import { Translate } from '../../../../intl/translate';
 
@@ -10,14 +11,24 @@ export function EventLocation(props: { event: Event }) {
   return (
     <div class="card p-4">
       <Show when={props.event.location} fallback={<NoLocation />}>
-        <Map
-          zoom={13}
-          class="h-48 flex-1"
-          markers={[{ position: [5.042, 43.836], isPopupOpen: false }]}
-          center={[5.042, 43.836]}
-        />
+        {(location) => (
+          <>
+            <Show when={location().position}>
+              {(position) => (
+                <Map
+                  zoom={12}
+                  class="h-48"
+                  markers={[{ position: position(), isPopupOpen: false }]}
+                  center={position()}
+                />
+              )}
+            </Show>
 
-        <div class="mt-4">{props.event.location}</div>
+            <div class="mt-4">
+              <FormattedAddress address={location()} />
+            </div>
+          </>
+        )}
       </Show>
     </div>
   );
