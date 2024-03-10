@@ -41,6 +41,13 @@ export default {
       aspectRatio: {
         '4/3': '4/3',
       },
+      typography: {
+        DEFAULT: {
+          css: {
+            color: `rgb(var(--color-text) / <alpha-value>)`,
+          },
+        },
+      },
     },
   },
   plugins: [require('@tailwindcss/typography')],
