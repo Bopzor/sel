@@ -1,4 +1,4 @@
-import { Event, EventParticipation } from '@sel/shared';
+import { Event, EventParticipation, SetEventParticipationBody } from '@sel/shared';
 import { injectableClass } from 'ditox';
 
 import { FetchError, FetcherPort } from '../../infrastructure/fetcher';
@@ -34,7 +34,7 @@ export class FetchEventApi implements EventApi {
 
   async setParticipation(eventId: string, participation: EventParticipation | null): Promise<void> {
     await this.fetcher
-      .put<{ participation: EventParticipation | null }, undefined>(`/api/events/${eventId}/participation`, {
+      .put<SetEventParticipationBody, undefined>(`/api/events/${eventId}/participation`, {
         participation,
       })
       .catch((error) => {

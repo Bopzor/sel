@@ -64,7 +64,7 @@ const eventParticipationSchema = z.enum(['yes', 'no']);
 export type EventParticipation = z.infer<typeof eventParticipationSchema>;
 
 export const setEventParticipationBodySchema = z.object({
-  participation: eventParticipationSchema,
+  participation: eventParticipationSchema.nullable(),
 });
 
 export type SetEventParticipationBody = z.infer<typeof setEventParticipationBodySchema>;

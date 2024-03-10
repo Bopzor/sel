@@ -9,7 +9,7 @@ import {
   updateEventBodySchema,
 } from '@sel/shared';
 import { injectableClass } from 'ditox';
-import { eq } from 'drizzle-orm';
+import { and, eq } from 'drizzle-orm';
 import { RequestHandler, Router } from 'express';
 
 import { container } from '../container';
@@ -32,6 +32,8 @@ class EventParticipationSet extends EventEvent {
     super(eventId);
   }
 }
+
+class EventParticipationDeleted extends EventEvent {}
 
 export class EventController {
   static inject = injectableClass(
@@ -182,25 +184,44 @@ export class EventController {
     const now = this.dateAdapter.now();
 
     await this.db.db.transaction(async (tx) => {
-      await tx
-        .insert(schema.eventParticipations)
-        .values({
-          id: this.generator.id(),
-          eventId,
-          participantId: member.id,
-          participation: body.participation,
-          createdAt: now,
-          updatedAt: now,
-        })
-        .onConflictDoUpdate({
-          target: [schema.eventParticipations.eventId, schema.eventParticipations.participantId],
-          set: {
+      if (body.participation !== null) {
+        await tx
+          .insert(schema.eventParticipations)
+          .values({
+            id: this.generator.id(),
+            eventId,
+            participantId: member.id,
             participation: body.participation,
+            createdAt: now,
             updatedAt: now,
-          },
+          })
+          .onConflictDoUpdate({
+            target: [schema.eventParticipations.eventId, schema.eventParticipations.participantId],
+            set: {
+              participation: body.participation,
+              updatedAt: now,
+            },
+          });
+
+        this.eventBus.emit(new EventParticipationSet(eventId, body.participation));
+      }
+
+      if (body.participation === null) {
+        const participation = await tx.query.eventParticipations.findFirst({
+          where: and(
+            eq(schema.eventParticipations.eventId, eventId),
+            eq(schema.eventParticipations.participantId, member.id),
+          ),
         });
 
-      this.eventBus.emit(new EventParticipationSet(eventId, body.participation));
+        if (participation) {
+          await tx
+            .delete(schema.eventParticipations)
+            .where(eq(schema.eventParticipations.id, participation.id));
+
+          this.eventBus.emit(new EventParticipationDeleted(eventId));
+        }
+      }
     });
 
     res.status(204).end();
