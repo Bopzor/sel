@@ -30,6 +30,7 @@ export default [
     rules: {
       'tailwindcss/no-arbitrary-value': 'warn',
       'storybook/prefer-pascal-case': 'off',
+      'solid/self-closing-comp': 'off',
     },
   },
   {

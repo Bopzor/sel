@@ -50,7 +50,8 @@
       "requests": "Requests",
       "createRequest": "New request",
       "editRequest": "Edit",
-      "events": "Events"
+      "events": "Events",
+      "createEvent": "New event"
     },
     "registerDevice": "Would you like to receive notifications on this device? Activate them in <link>your settings</link>."
   },
@@ -225,17 +226,35 @@
     "canceled": "Your request was canceled"
   },
   "events": {
-    "title": "Events",
     "sentence1": "",
     "sentence2": "",
-    "dateToBeDefined": "Date to be defined",
-    "locationToBeDefined": "Location to be defined",
-    "commentsTitle": "Comments",
-    "participationTitle": "My answer",
-    "participates": "I participate",
-    "dontParticipate": "I don't participate",
-    "organizerTitle": "Organized by",
-    "participantsTitle": "{count, plural, =0 {No participant} =1 {{count} participant} other {{count} participants}}"
+    "list": {
+      "create": "Create event"
+    },
+    "details": {
+      "title": "Events",
+      "dateToBeDefined": "Date to be defined",
+      "locationToBeDefined": "Location to be defined",
+      "commentsTitle": "Comments",
+      "participationTitle": "My answer",
+      "participates": "I participate",
+      "dontParticipate": "I don't participate",
+      "organizerTitle": "Organized by",
+      "participantsTitle": "{count, plural, =0 {No participant} =1 {{count} participant} other {{count} participants}}"
+    },
+    "form": {
+      "dateLabel": "Date",
+      "locationLabel": "Location",
+      "titleLabel": "Event title",
+      "titlePlaceholder": "Board games night",
+      "bodyLabel": "Description",
+      "bodyPlaceholder": "I'm organizing a game night..."
+    },
+    "create": {
+      "title": "New event",
+      "create": "Create event",
+      "created": "Your event was created successfully."
+    }
   },
   "activities": {
     "title": "Centres d'intérêts",

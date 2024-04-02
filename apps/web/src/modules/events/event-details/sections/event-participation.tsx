@@ -11,7 +11,7 @@ import { Translate } from '../../../../intl/translate';
 import { TOKENS } from '../../../../tokens';
 import { createAsyncCall } from '../../../../utils/create-async-call';
 
-const T = Translate.prefix('events');
+const T = Translate.prefix('events.details');
 
 export function EventParticipation(props: { event: Event; onParticipationChanged: () => void }) {
   return (

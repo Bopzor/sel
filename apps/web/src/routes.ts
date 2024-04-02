@@ -13,6 +13,7 @@ export const routes = {
   },
   events: {
     list: '/events',
+    create: `/events/create`,
     details: (eventId: string) => `/events/${eventId}`,
   },
   activities: {

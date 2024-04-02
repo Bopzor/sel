@@ -4,7 +4,7 @@ import { Show } from 'solid-js';
 import { FormattedDate } from '../../../../intl/formatted';
 import { Translate } from '../../../../intl/translate';
 
-const T = Translate.prefix('events');
+const T = Translate.prefix('events.details');
 
 export function EventDate(props: { event: Event }) {
   return (

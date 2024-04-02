@@ -5,7 +5,7 @@ import { FormattedAddress } from '../../../../components/formatted-address';
 import { Map } from '../../../../components/map';
 import { Translate } from '../../../../intl/translate';
 
-const T = Translate.prefix('events');
+const T = Translate.prefix('events.details');
 
 export function EventLocation(props: { event: Event }) {
   return (

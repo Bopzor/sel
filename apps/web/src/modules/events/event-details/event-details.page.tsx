@@ -15,7 +15,7 @@ import { EventLocation } from './sections/event-location';
 import { EventParticipants } from './sections/event-participants';
 import { EventParticipation } from './sections/event-participation';
 
-const T = Translate.prefix('events');
+const T = Translate.prefix('events.details');
 
 export default function EventDetailsPage() {
   const eventApi = container.resolve(TOKENS.eventApi);

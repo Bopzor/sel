@@ -51,7 +51,8 @@
       "requests": "Demandes",
       "createRequest": "Nouvelle demande",
       "editRequest": "Édition",
-      "events": "Événements"
+      "events": "Événements",
+      "createEvent": "Nouvel événement"
     }
   },
   "authentication": {
@@ -225,17 +226,35 @@
     "canceled": "Votre demande a été annulée"
   },
   "events": {
-    "title": "Événements",
     "sentence1": "La partie événements n'est pas encore disponible !",
     "sentence2": "L'atelier de conception est prévu le jeudi 8 février 2024, de 19h à 20h. Cette partie devrait être disponible courant avril 2024.",
-    "dateToBeDefined": "Date à définir",
-    "locationToBeDefined": "Lieu à définir",
-    "commentsTitle": "Commentaires",
-    "participationTitle": "Ma réponse",
-    "participates": "Je participe",
-    "dontParticipate": "Je ne participe pas",
-    "organizerTitle": "Organisé par",
-    "participantsTitle": "{count, plural, =0 {Aucun(e) participant(e)} =1 {{count} participant(e)} other {{count} participant(e)s}}"
+    "list": {
+      "create": "Créer un événement"
+    },
+    "details": {
+      "title": "Événements",
+      "dateToBeDefined": "Date à définir",
+      "locationToBeDefined": "Lieu à définir",
+      "commentsTitle": "Commentaires",
+      "participationTitle": "Ma réponse",
+      "participates": "Je participe",
+      "dontParticipate": "Je ne participe pas",
+      "organizerTitle": "Organisé par",
+      "participantsTitle": "{count, plural, =0 {Aucun(e) participant(e)} =1 {{count} participant(e)} other {{count} participant(e)s}}"
+    },
+    "form": {
+      "dateLabel": "Date",
+      "locationLabel": "Location",
+      "titleLabel": "Titre de l'événement",
+      "titlePlaceholder": "Soirée jeux de société",
+      "bodyLabel": "Description",
+      "bodyPlaceholder": "J'organise une soirée..."
+    },
+    "create": {
+      "title": "Créer un événement",
+      "create": "Créer l'événement",
+      "created": "Votre événement a bien été créé."
+    }
   },
   "activities": {
     "title": "Centres d'intérêts",

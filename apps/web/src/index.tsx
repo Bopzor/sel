@@ -28,7 +28,8 @@ const CreateRequestPage = lazy(() => import('./modules/requests/create-request/c
 const RequestDetailsPage = lazy(() => import('./modules/requests/request-details/request-details.page'));
 const EditRequestPage = lazy(() => import('./modules/requests/edit-request/edit-request.page'));
 
-const EventsPage = lazy(() => import('./modules/events/events-list.page'));
+const EventsListPage = lazy(() => import('./modules/events/events-list.page'));
+const CreateEventPage = lazy(() => import('./modules/events/create-event/create-event.page'));
 const EventDetailsPage = lazy(() => import('./modules/events/event-details/event-details.page'));
 
 const MiscPage = lazy(() => import('./modules/misc/misc.page'));
@@ -66,8 +67,11 @@ function Routing() {
       <Route path="/requests/:requestId" component={RequestDetailsPage} />
       <Route path="/requests/:requestId/edit" component={EditRequestPage} />
 
-      <Route path="/events" component={EventsPage} />
-      <Route path="/events/:eventId" component={EventDetailsPage} />
+      <Route path="/events">
+        <Route path="/" component={EventsListPage} />
+        <Route path="/create" component={CreateEventPage} />
+        <Route path="/:eventId" component={EventDetailsPage} />
+      </Route>
 
       <Route path="/profile" component={ProfileLayout}>
         <Route path="/" component={ProfileEditionPage} />

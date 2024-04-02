@@ -7,7 +7,7 @@ import { MemberAvatarName } from '../../../../components/member-avatar-name';
 import { Translate } from '../../../../intl/translate';
 import { routes } from '../../../../routes';
 
-const T = Translate.prefix('events');
+const T = Translate.prefix('events.details');
 
 export function EventParticipants(props: { event: Event }) {
   const participants = () => props.event.participants.filter(hasProperty('participation', 'yes'));

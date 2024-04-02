@@ -129,12 +129,11 @@ export class EventController {
     const body = createEventBodySchema.parse(req.body);
     const member = this.sessionProvider.getMember();
     const now = this.dateAdapter.now();
+    const eventId = this.generator.id();
 
     await this.db.db.transaction(async (tx) => {
-      const id = this.generator.id();
-
       await tx.insert(schema.events).values({
-        id,
+        id: eventId,
         organizerId: member.id,
         title: body.title,
         text: this.htmlParser.getTextContent(body.body),
@@ -146,10 +145,10 @@ export class EventController {
         updatedAt: now,
       });
 
-      this.eventBus.emit(new EventCreated(id));
+      this.eventBus.emit(new EventCreated(eventId));
     });
 
-    res.status(201).end();
+    res.status(201).send(eventId);
   };
 
   updateEvent: RequestHandler<{ eventId: string }> = async (req, res): Promise<void> => {

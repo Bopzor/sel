@@ -97,4 +97,9 @@ export const breadcrumb = {
     href: routes.events.details(event.id),
     truncate: true,
   }),
+
+  createEvent: (): BreadcrumbItem => ({
+    label: <T id="createEvent" />,
+    href: routes.events.create,
+  }),
 };

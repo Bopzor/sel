@@ -4,13 +4,17 @@ import { createArray } from '@sel/utils';
 import { createResource } from 'solid-js';
 
 import { Breadcrumb, breadcrumb } from '../../components/breadcrumb';
+import { LinkButton } from '../../components/button';
 import { Calendar, CalendarEvent } from '../../components/calendar';
 import { Input } from '../../components/input';
 import { Select } from '../../components/select';
 import { container } from '../../infrastructure/container';
 import { FormattedDate } from '../../intl/formatted';
+import { Translate } from '../../intl/translate';
 import { routes } from '../../routes';
 import { TOKENS } from '../../tokens';
+
+const T = Translate.prefix('events.list');
 
 type EventWithDate = Event & {
   date: string;
@@ -39,21 +43,31 @@ export default function EventsListPage() {
     <div>
       <Breadcrumb items={[breadcrumb.events()]} />
 
-      <form use:form class="row mb-6 items-center justify-center gap-4">
-        <Select
-          width="small"
-          items={createArray(12, (index) => index + 1)}
-          itemToString={(date) => String(date)}
-          renderItem={(month) => (
-            <div class="capitalize">
-              <FormattedDate date={new Date(2024, month - 1)} month="long" />
-            </div>
-          )}
-          selectedItem={data('month')}
-          onSelect={(month) => setFields('month', month)}
-        />
-        <Input name="year" type="number" width="small" />
-      </form>
+      <div class="mb-6 grid grid-cols-3">
+        <div />
+
+        <form use:form class="row items-center justify-center gap-4">
+          <Select
+            width="small"
+            items={createArray(12, (index) => index + 1)}
+            itemToString={(date) => String(date)}
+            renderItem={(month) => (
+              <div class="capitalize">
+                <FormattedDate date={new Date(2024, month - 1)} month="long" />
+              </div>
+            )}
+            selectedItem={data('month')}
+            onSelect={(month) => setFields('month', month)}
+          />
+          <Input name="year" type="number" width="small" />
+        </form>
+
+        <div class="row items-start justify-end">
+          <LinkButton href={routes.events.create}>
+            <T id="create" />
+          </LinkButton>
+        </div>
+      </div>
 
       <Calendar year={data('year')} month={data('month')} events={eventsWithDate()?.map(eventToCalendar)} />
     </div>
