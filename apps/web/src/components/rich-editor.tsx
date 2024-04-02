@@ -4,7 +4,7 @@ import Placeholder from '@tiptap/extension-placeholder';
 import Underline from '@tiptap/extension-underline';
 import StarterKit from '@tiptap/starter-kit';
 import clsx from 'clsx';
-import { JSX, ValidComponent } from 'solid-js';
+import { ValidComponent } from 'solid-js';
 import { Dynamic } from 'solid-js/web';
 import { createEditorTransaction, createTiptapEditor } from 'solid-tiptap';
 
@@ -48,16 +48,34 @@ export function createRichEditor(element: () => HTMLElement, props: CreateRichEd
 }
 
 type RichEditorProps = {
-  ref?: HTMLDivElement;
-  class?: string;
-  children?: JSX.Element;
+  placeholder?: string;
+  initialValue?: string;
+  onChange?: (html: string) => void;
 };
 
 export function RichEditor(props: RichEditorProps) {
+  let ref!: HTMLDivElement;
+
+  const editor = createRichEditor(() => ref, {
+    placeholder: props.placeholder,
+    initialValue: props.initialValue,
+    onChange: props.onChange,
+  });
+
   return (
-    <div class={clsx('col resize-y overflow-auto', props.class)}>
-      <div ref={props.ref} class="col grow overflow-y-auto" />
-      {props.children}
+    <div
+      class={clsx(
+        'col min-h-64 resize-y overflow-auto',
+        'rounded-lg border-2',
+        'border-transparent bg-neutral shadow',
+        'transition-colors focus-within:border-primary/50',
+      )}
+    >
+      <div ref={ref} class="col grow overflow-y-auto px-4 py-3" />
+
+      <div class="row items-end justify-between p-1">
+        <RichEditorToolbar editor={editor()} />
+      </div>
     </div>
   );
 }

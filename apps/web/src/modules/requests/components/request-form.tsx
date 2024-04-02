@@ -1,12 +1,11 @@
 import { createForm } from '@felte/solid';
 import { Request } from '@sel/shared';
-import clsx from 'clsx';
 import { JSX } from 'solid-js';
 
 import { Button } from '../../../components/button';
 import { FormField } from '../../../components/form-field';
 import { Input } from '../../../components/input';
-import { createRichEditor, RichEditorToolbar } from '../../../components/rich-editor';
+import { RichEditor } from '../../../components/rich-editor';
 import { Translate } from '../../../intl/translate';
 import { createErrorHandler } from '../../../utils/create-error-handler';
 
@@ -55,38 +54,5 @@ export function RequestForm(props: RequestFormProps) {
         {props.submit}
       </Button>
     </form>
-  );
-}
-
-type RichEditorProps = {
-  placeholder?: string;
-  initialValue?: string;
-  onChange?: (html: string) => void;
-};
-
-function RichEditor(props: RichEditorProps) {
-  let ref!: HTMLDivElement;
-
-  const editor = createRichEditor(() => ref, {
-    placeholder: props.placeholder,
-    initialValue: props.initialValue,
-    onChange: props.onChange,
-  });
-
-  return (
-    <div
-      class={clsx(
-        'col min-h-64 resize-y overflow-auto',
-        'rounded-lg border-2',
-        'border-transparent bg-neutral shadow',
-        'transition-colors focus-within:border-primary/50',
-      )}
-    >
-      <div ref={ref} class="col grow overflow-y-auto px-4 py-3" />
-
-      <div class="row items-end justify-between p-1">
-        <RichEditorToolbar editor={editor()} />
-      </div>
-    </div>
   );
 }
