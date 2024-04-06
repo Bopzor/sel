@@ -1,15 +1,20 @@
 {
-  "ignorePaths": ["**/*.svg"],
+  "ignorePaths": [
+    "**/*.svg"
+  ],
   "language": "en, fr",
   "words": [
     "clonedeep",
     "datefns",
+    "datetime",
     "dequal",
     "ditox",
+    "felte",
     "fontsource",
     "formatjs",
     "geoapify",
     "github",
+    "immer",
     "innerhtml",
     "intg",
     "koyeb",
@@ -22,8 +27,6 @@
     "solidjs",
     "tailwindcss",
     "tiptap",
-    "felte",
-    "immer",
     "trimmable"
   ]
 }

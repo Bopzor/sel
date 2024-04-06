@@ -71,7 +71,7 @@ export class SqlMemberRepository implements MemberRepository {
       email: result.emailVisible ? result.email : undefined,
       phoneNumbers: (result.phoneNumbers as shared.PhoneNumber[]).filter(({ visible }) => visible),
       bio: result.bio ?? undefined,
-      address: (result.address as shared.Address | null) ?? undefined,
+      address: result.address ?? undefined,
       membershipStartDate: result.membershipStartDate.toISOString(),
     };
   }
@@ -88,7 +88,7 @@ export class SqlMemberRepository implements MemberRepository {
       emailVisible: result.emailVisible,
       phoneNumbers: result.phoneNumbers as shared.PhoneNumber[],
       bio: result.bio ?? undefined,
-      address: (result.address as shared.Address | null) ?? undefined,
+      address: result.address ?? undefined,
       onboardingCompleted: result.status !== MemberStatus.onboarding,
       membershipStartDate: result.membershipStartDate.toISOString(),
       notificationDelivery: {

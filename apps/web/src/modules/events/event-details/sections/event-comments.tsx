@@ -14,8 +14,7 @@ export function EventComments(props: { event: Event; onCreated: () => void }) {
 
       <CommentsSection
         comments={[]}
-        onCreate={(html) => {
-          console.log(html);
+        onCreate={() => {
           return Promise.resolve();
         }}
         onCreated={props.onCreated}

@@ -1,9 +1,9 @@
 import { Member } from '@sel/shared';
 import { defined } from '@sel/utils';
 
+import { FormattedAddress } from '../../../components/formatted-address';
 import { Link } from '../../../components/link';
 import { Map } from '../../../components/map';
-import { FormattedAddress } from '../../../components/formatted-address';
 import { MemberAvatarName } from '../../../components/member-avatar-name';
 import { routes } from '../../../routes';
 
