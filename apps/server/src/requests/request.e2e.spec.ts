@@ -22,6 +22,8 @@ class Test extends E2ETest {
     const memberToken = await this.create.token(TokenType.session, this.member.id);
     this.memberToken = memberToken.value;
 
+    await this.waitForEventHandlers();
+
     await this.application.changeNotificationDeliveryType({
       memberId: this.member.id,
       notificationDeliveryType: { push: true },
