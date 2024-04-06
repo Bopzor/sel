@@ -1,6 +1,7 @@
 import {
   Event,
   EventKind,
+  EventOrganizer,
   EventParticipation,
   EventsListItem,
   PhoneNumber,
@@ -69,14 +70,29 @@ export class EventController {
     next();
   };
 
+  private serializeOrganizer(organizer: typeof schema.members.$inferSelect): EventOrganizer {
+    return {
+      id: organizer.id,
+      firstName: organizer.firstName,
+      lastName: organizer.lastName,
+      email: organizer.emailVisible ? organizer.email : undefined,
+      phoneNumbers: (organizer.phoneNumbers as PhoneNumber[]).filter(({ visible }) => visible),
+    };
+  }
+
   listEvents: RequestHandler = async (req, res): Promise<void> => {
-    const events = await this.db.db.query.events.findMany();
+    const events = await this.db.db.query.events.findMany({
+      with: {
+        organizer: true,
+      },
+    });
 
     const results: EventsListItem[] = events.map((event) => ({
       id: event.id,
       title: event.title,
       date: event.date?.toISOString() ?? undefined,
       kind: event.kind as EventKind,
+      organizer: this.serializeOrganizer(event.organizer),
     }));
 
     res.json(results);
@@ -107,13 +123,7 @@ export class EventController {
       kind: event.kind as EventKind,
       date: event.date?.toISOString() ?? undefined,
       location: event.location ?? undefined,
-      organizer: {
-        id: event.organizer.id,
-        firstName: event.organizer.firstName,
-        lastName: event.organizer.lastName,
-        email: event.organizer.emailVisible ? event.organizer.email : undefined,
-        phoneNumbers: (event.organizer.phoneNumbers as PhoneNumber[]).filter(({ visible }) => visible),
-      },
+      organizer: this.serializeOrganizer(event.organizer),
       participants: event.participants.map(({ member, participation }) => ({
         id: member.id,
         firstName: member.firstName,

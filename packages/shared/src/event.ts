@@ -12,6 +12,7 @@ export type EventsListItem = {
   id: string;
   title: string;
   kind: EventKind;
+  organizer: EventOrganizer;
   date?: string;
 };
 
@@ -26,7 +27,7 @@ export type Event = {
   participants: EventParticipant[];
 };
 
-type EventOrganizer = {
+export type EventOrganizer = {
   id: string;
   firstName: string;
   lastName: string;

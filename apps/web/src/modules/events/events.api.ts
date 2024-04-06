@@ -2,6 +2,7 @@ import {
   CreateEventBody,
   Event,
   EventParticipation,
+  EventsListItem,
   SetEventParticipationBody,
   UpdateEventBody,
 } from '@sel/shared';
@@ -11,7 +12,7 @@ import { FetchError, FetcherPort } from '../../infrastructure/fetcher';
 import { TOKENS } from '../../tokens';
 
 export interface EventApi {
-  listEvents(): Promise<Event[]>;
+  listEvents(): Promise<EventsListItem[]>;
   getEvent(eventId: string): Promise<Event | undefined>;
   createEvent(data: CreateEventBody): Promise<string>;
   updateEvent(eventId: string, body: UpdateEventBody): Promise<void>;
@@ -23,8 +24,8 @@ export class FetchEventApi implements EventApi {
 
   constructor(private readonly fetcher: FetcherPort) {}
 
-  async listEvents(): Promise<Event[]> {
-    return this.fetcher.get<Event[]>('/api/events').body();
+  async listEvents(): Promise<EventsListItem[]> {
+    return this.fetcher.get<EventsListItem[]>('/api/events').body();
   }
 
   async getEvent(eventId: string): Promise<Event | undefined> {

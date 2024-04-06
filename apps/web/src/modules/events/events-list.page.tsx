@@ -1,19 +1,19 @@
 import { createForm } from '@felte/solid';
-import { Event, EventKind } from '@sel/shared';
-import { createArray, isSameDay } from '@sel/utils';
-import { For, createResource } from 'solid-js';
+import { EventKind, EventsListItem } from '@sel/shared';
+import { isSameDay } from '@sel/utils';
+import { For, Show, createResource } from 'solid-js';
 
 import { Breadcrumb, breadcrumb } from '../../components/breadcrumb';
 import { LinkButton } from '../../components/button';
 import { Calendar } from '../../components/calendar';
-import { Input } from '../../components/input';
 import { Link } from '../../components/link';
-import { Select } from '../../components/select';
+import { MonthYearPicker } from '../../components/month-year-picker';
 import { container } from '../../infrastructure/container';
-import { FormattedDate } from '../../intl/formatted';
 import { Translate } from '../../intl/translate';
 import { routes } from '../../routes';
 import { TOKENS } from '../../tokens';
+
+import { EventsList } from './components/events-list';
 
 const T = Translate.prefix('events.list');
 
@@ -33,50 +33,59 @@ export default function EventsListPage() {
   });
 
   return (
-    <div>
+    <>
       <Breadcrumb items={[breadcrumb.events()]} />
 
-      <div class="mb-6 grid grid-cols-3">
-        <div />
+      <div class="mb-8 hidden md:block">
+        <div class="mb-6 grid grid-cols-3">
+          <div />
 
-        <form use:form class="row items-center justify-center gap-4">
-          <Select
-            width="small"
-            items={createArray(12, (index) => index + 1)}
-            itemToString={(date) => String(date)}
-            renderItem={(month) => (
-              <div class="capitalize">
-                <FormattedDate date={new Date(2024, month - 1)} month="long" />
-              </div>
-            )}
-            selectedItem={data('month')}
-            onSelect={(month) => setFields('month', month)}
-          />
-          <Input name="year" type="number" width="small" />
-        </form>
+          <form use:form class="row items-center justify-center gap-4">
+            <MonthYearPicker
+              month={data('month')}
+              onMonthChange={(month) => setFields('month', month)}
+              year={data('year')}
+              onYearChange={(year) => setFields('year', year)}
+            />
+          </form>
 
-        <div class="row items-start justify-end">
-          <LinkButton href={routes.events.create}>
+          <div class="row items-start justify-end">
+            <LinkButton href={routes.events.create}>
+              <T id="create" />
+            </LinkButton>
+          </div>
+        </div>
+
+        <Calendar
+          year={data('year')}
+          month={data('month')}
+          renderDay={(date) => (
+            <CalendarDay
+              date={date}
+              events={events()?.filter((event) => event.date !== undefined && isSameDay(date, event.date))}
+            />
+          )}
+        />
+      </div>
+
+      <div class="col gap-8">
+        <div class="row items-start justify-between">
+          <h1>
+            <T id="title" />
+          </h1>
+
+          <LinkButton href={routes.events.create} class="md:hidden">
             <T id="create" />
           </LinkButton>
         </div>
-      </div>
 
-      <Calendar
-        year={data('year')}
-        month={data('month')}
-        renderDay={(date) => (
-          <CalendarDay
-            date={date}
-            events={events()?.filter((event) => event.date !== undefined && isSameDay(date, event.date))}
-          />
-        )}
-      />
-    </div>
+        <Show when={events()}>{(events) => <EventsList events={events()} />}</Show>
+      </div>
+    </>
   );
 }
 
-function CalendarDay(props: { date: Date; events?: Event[] }) {
+function CalendarDay(props: { date: Date; events?: EventsListItem[] }) {
   return (
     <div class="h-32 p-2 text-sm">
       <div class="mb-2 font-medium">{props.date.getDate()}</div>

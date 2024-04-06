@@ -6,6 +6,7 @@ import { TOKENS } from '../tokens';
 import { createDebouncedSignal } from '../utils/debounce';
 import { deepTrack } from '../utils/deep-track';
 
+import { formatAddressInline } from './formatted-address';
 import { Input } from './input';
 import { Map } from './map';
 import { Spinner } from './spinner';
@@ -61,10 +62,6 @@ async function searchAddress(query: string) {
   }
 
   return container.resolve(TOKENS.geocode).search(query);
-}
-
-function formatAddressInline(address: Address) {
-  return [address.line1, address.line2, `${address.postalCode} ${address.city}`].filter(Boolean).join(', ');
 }
 
 type AddressListProps = {

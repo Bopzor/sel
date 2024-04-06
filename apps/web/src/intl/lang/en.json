@@ -230,7 +230,11 @@
     "sentence1": "",
     "sentence2": "",
     "list": {
-      "create": "Create event"
+      "title": "Events",
+      "create": "Create event",
+      "empty": "No events",
+      "organizerLabel": "Organized by:",
+      "noDateFallback": "Date to be defined"
     },
     "details": {
       "editEvent": "Edit event",
