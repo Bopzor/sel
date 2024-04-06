@@ -13,6 +13,7 @@ import { GetToken } from './authentication/queries/get-session-token.query';
 import { SessionController } from './authentication/session.controller';
 import { SessionProvider } from './authentication/session.provider';
 import { CommentService } from './comments/comment.service';
+import { CreateEventComment } from './events/commands/create-event-comment.command';
 import { EventController } from './events/event.controller';
 import { EnvConfigAdapter } from './infrastructure/config/env-config.adapter';
 import { CommandBus } from './infrastructure/cqs/command-bus';
@@ -141,6 +142,7 @@ container.bindFactory(COMMANDS.registerDevice, RegisterDevice.inject);
 container.bindFactory(COMMANDS.notify, Notify.inject);
 container.bindFactory(COMMANDS.sendPushNotification, SendPushNotification.inject);
 container.bindFactory(COMMANDS.sendEmailNotification, SendEmailNotification.inject);
+container.bindFactory(COMMANDS.createEventComment, CreateEventComment.inject);
 
 container.bindFactory(QUERIES.getToken, GetToken.inject);
 container.bindFactory(QUERIES.getAuthenticatedMember, GetAuthenticatedMember.inject);

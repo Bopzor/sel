@@ -12,6 +12,7 @@ import { GetToken } from './authentication/queries/get-session-token.query';
 import { SessionController } from './authentication/session.controller';
 import { SessionProvider } from './authentication/session.provider';
 import { CommentService } from './comments/comment.service';
+import { CreateEventComment } from './events/commands/create-event-comment.command';
 import { EventController } from './events/event.controller';
 import { ConfigPort } from './infrastructure/config/config.port';
 import { CommandBus } from './infrastructure/cqs/command-bus';
@@ -131,6 +132,7 @@ export const COMMANDS = {
   notify: token<Notify>('notify'),
   sendPushNotification: token<SendPushNotification>('sendPushNotification'),
   sendEmailNotification: token<SendEmailNotification>('sendEmailNotification'),
+  createEventComment: token<CreateEventComment>('createEventComment'),
 };
 
 export const QUERIES = {

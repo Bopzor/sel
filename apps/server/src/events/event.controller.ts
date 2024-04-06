@@ -2,9 +2,9 @@ import {
   Event,
   EventKind,
   EventOrganizer,
-  EventParticipation,
   EventsListItem,
   PhoneNumber,
+  createEventCommentBodySchema,
   createEventBodySchema,
   setEventParticipationBodySchema,
   updateEventBodySchema,
@@ -14,27 +14,10 @@ import { and, eq } from 'drizzle-orm';
 import { RequestHandler, Router } from 'express';
 
 import { container } from '../container';
-import { DomainEvent } from '../domain-event';
 import * as schema from '../persistence/schema';
-import { TOKENS } from '../tokens';
+import { COMMANDS, TOKENS } from '../tokens';
 
-class EventEvent extends DomainEvent {
-  entity = 'event';
-}
-
-class EventCreated extends EventEvent {}
-class EventUpdated extends EventEvent {}
-
-class EventParticipationSet extends EventEvent {
-  constructor(
-    eventId: string,
-    public readonly participation: EventParticipation,
-  ) {
-    super(eventId);
-  }
-}
-
-class EventParticipationDeleted extends EventEvent {}
+import { EventCreated, EventUpdated, EventParticipationSet, EventParticipationDeleted } from './event-events';
 
 export class EventController {
   static inject = injectableClass(
@@ -45,6 +28,7 @@ export class EventController {
     TOKENS.sessionProvider,
     TOKENS.htmlParser,
     TOKENS.database,
+    TOKENS.commandBus,
   );
 
   router = Router();
@@ -56,6 +40,7 @@ export class EventController {
     private readonly sessionProvider = container.resolve(TOKENS.sessionProvider),
     private readonly htmlParser = container.resolve(TOKENS.htmlParser),
     private readonly db = container.resolve(TOKENS.database),
+    private readonly commandBus = container.resolve(TOKENS.commandBus),
   ) {
     this.router.use(this.isAuthenticated);
     this.router.get('/', this.listEvents);
@@ -63,6 +48,7 @@ export class EventController {
     this.router.post('/', this.createEvent);
     this.router.put('/:eventId', this.updateEvent);
     this.router.put('/:eventId/participation', this.setParticipation);
+    this.router.post('/:eventId/comment', this.createComment);
   }
 
   private isAuthenticated: RequestHandler = (req, res, next) => {
@@ -108,6 +94,11 @@ export class EventController {
             member: true,
           },
         },
+        comments: {
+          with: {
+            author: true,
+          },
+        },
       },
     });
 
@@ -129,6 +120,16 @@ export class EventController {
         firstName: member.firstName,
         lastName: member.lastName,
         participation,
+      })),
+      comments: event.comments.map((comment) => ({
+        id: comment.id,
+        date: comment.date.toISOString(),
+        author: {
+          id: comment.author.id,
+          firstName: comment.author.firstName,
+          lastName: comment.author.lastName,
+        },
+        body: comment.html,
       })),
     };
 
@@ -235,5 +236,21 @@ export class EventController {
     });
 
     res.status(204).end();
+  };
+
+  createComment: RequestHandler<{ eventId: string }> = async (req, res): Promise<void> => {
+    const eventId = req.params.eventId;
+    const member = this.sessionProvider.getMember();
+    const data = createEventCommentBodySchema.parse(req.body);
+    const commentId = this.generator.id();
+
+    await this.commandBus.executeCommand(COMMANDS.createEventComment, {
+      commentId,
+      eventId,
+      authorId: member.id,
+      text: data.body,
+    });
+
+    res.status(201).send(commentId);
   };
 }

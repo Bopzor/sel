@@ -53,6 +53,7 @@ describe('[Intg] SQLCommentRepository', () => {
         id: 'commentId',
         authorId: 'memberId',
         requestId: 'requestId',
+        eventId: null,
         date: createDate('2023-01-01'),
         html: 'body',
         text: 'text content of body',

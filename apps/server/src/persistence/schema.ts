@@ -133,6 +133,7 @@ export const comments = pgTable('comments', {
     .references(() => members.id)
     .notNull(),
   requestId: id('request_id').references(() => requests.id),
+  eventId: id('event_id').references(() => events.id),
   date: date('date').notNull(),
   text: text('text').notNull(),
   html: text('html').notNull(),
@@ -148,6 +149,10 @@ export const commentsRelations = relations(comments, ({ one }) => ({
   request: one(requests, {
     fields: [comments.requestId],
     references: [requests.id],
+  }),
+  event: one(events, {
+    fields: [comments.eventId],
+    references: [events.id],
   }),
 }));
 
@@ -221,6 +226,7 @@ export const eventsRelations = relations(events, ({ one, many }) => ({
     references: [members.id],
   }),
   participants: many(eventParticipations),
+  comments: many(comments),
 }));
 
 export const eventParticipation = pgEnum('event_participation', ['yes', 'no']);

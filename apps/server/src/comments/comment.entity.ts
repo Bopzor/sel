@@ -1,4 +1,4 @@
-export type CommentParentType = 'request';
+export type CommentParentType = 'request' | 'event';
 
 export type Comment = {
   id: string;

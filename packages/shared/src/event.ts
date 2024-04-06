@@ -1,6 +1,7 @@
 import { z } from 'zod';
 
 import { Address, addressSchema } from './address';
+import { Comment } from './comment';
 import { PhoneNumber } from './phone-number';
 
 export enum EventKind {
@@ -25,6 +26,7 @@ export type Event = {
   location?: Address;
   organizer: EventOrganizer;
   participants: EventParticipant[];
+  comments: Comment[];
 };
 
 export type EventOrganizer = {
@@ -70,3 +72,9 @@ export const setEventParticipationBodySchema = z.object({
 });
 
 export type SetEventParticipationBody = z.infer<typeof setEventParticipationBodySchema>;
+
+export const createEventCommentBodySchema = z.object({
+  body: z.string().trim(),
+});
+
+export type CreateEventCommentBody = z.infer<typeof createEventCommentBodySchema>;

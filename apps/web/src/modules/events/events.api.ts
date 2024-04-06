@@ -1,5 +1,6 @@
 import {
   CreateEventBody,
+  CreateEventCommentBody,
   Event,
   EventParticipation,
   EventsListItem,
@@ -17,6 +18,7 @@ export interface EventApi {
   createEvent(data: CreateEventBody): Promise<string>;
   updateEvent(eventId: string, body: UpdateEventBody): Promise<void>;
   setParticipation(eventId: string, participation: EventParticipation | null): Promise<void>;
+  createComment(eventId: string, body: string): Promise<void>;
 }
 
 export class FetchEventApi implements EventApi {
@@ -62,6 +64,12 @@ export class FetchEventApi implements EventApi {
         throw error;
       });
   }
+
+  async createComment(eventId: string, body: string): Promise<void> {
+    await this.fetcher
+      .post<CreateEventCommentBody, string>(`/api/events/${eventId}/comment`, { body })
+      .body();
+  }
 }
 
 export class StubEventApi implements EventApi {
@@ -83,4 +91,6 @@ export class StubEventApi implements EventApi {
   async updateEvent(): Promise<void> {}
 
   async setParticipation(): Promise<void> {}
+
+  async createComment(): Promise<void> {}
 }

@@ -78,6 +78,13 @@
       "when": 1710078624698,
       "tag": "0010_slimy_maelstrom",
       "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "5",
+      "when": 1712428571718,
+      "tag": "0011_melted_blizzard",
+      "breakpoints": true
     }
   ]
 }
