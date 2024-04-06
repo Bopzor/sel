@@ -1,6 +1,6 @@
 import { createForm } from '@felte/solid';
 import { validator } from '@felte/validator-zod';
-import { CreateEventBody, Event, EventKind } from '@sel/shared';
+import { CreateEventBody, Event, EventKind, UpdateEventBody } from '@sel/shared';
 import { isPast, isToday } from '@sel/utils';
 import { JSX } from 'solid-js';
 
@@ -26,7 +26,7 @@ const schema = () => {
       .nullable()
       .refine((date) => (date ? !isPast(date) || isToday(date) : true), t('dateIsPast')),
     time: z.date().nullable(),
-    location: z.string().optional(),
+    location: z.object({}).passthrough().optional(),
     title: z.string().min(3).max(256),
     body: z.string().min(3).max(8192),
     kind: z.nativeEnum(EventKind),
@@ -36,8 +36,8 @@ const schema = () => {
 export function EventForm(props: {
   event?: Event;
   submit: JSX.Element;
-  onSubmit: (event: CreateEventBody) => Promise<string>;
-  onSubmitted: (eventId: string) => void;
+  onSubmit: (event: CreateEventBody | UpdateEventBody) => Promise<unknown>;
+  onSubmitted: (eventId: unknown) => void;
 }) {
   const t = T.useTranslation();
 
@@ -61,7 +61,7 @@ export function EventForm(props: {
         ...data,
       });
     },
-    onSuccess: (eventId) => props.onSubmitted(eventId as string),
+    onSuccess: (eventId) => props.onSubmitted(eventId),
     onError: createErrorHandler(),
     extend: validator({ schema: schema() }),
     validate: (values) => {

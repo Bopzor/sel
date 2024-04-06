@@ -51,7 +51,8 @@
       "createRequest": "New request",
       "editRequest": "Edit",
       "events": "Events",
-      "createEvent": "New event"
+      "createEvent": "New event",
+      "editEvent": "Edit"
     },
     "registerDevice": "Would you like to receive notifications on this device? Activate them in <link>your settings</link>."
   },
@@ -232,7 +233,7 @@
       "create": "Create event"
     },
     "details": {
-      "title": "Events",
+      "editEvent": "Edit event",
       "dateToBeDefined": "Date to be defined",
       "locationToBeDefined": "Location to be defined",
       "commentsTitle": "Comments",
@@ -261,6 +262,11 @@
       "title": "New event",
       "create": "Create event",
       "created": "Your event was created successfully."
+    },
+    "edit": {
+      "title": "New event",
+      "create": "Create event",
+      "edited": "Your event was edited successfully."
     }
   },
   "activities": {

@@ -102,4 +102,9 @@ export const breadcrumb = {
     label: <T id="createEvent" />,
     href: routes.events.create,
   }),
+
+  editEvent: (event: Event): BreadcrumbItem => ({
+    label: <T id="editEvent" />,
+    href: routes.events.edit(event.id),
+  }),
 };

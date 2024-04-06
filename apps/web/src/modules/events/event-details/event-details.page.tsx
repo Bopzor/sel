@@ -1,12 +1,17 @@
 import { Event } from '@sel/shared';
 import { useParams } from '@solidjs/router';
+import { Icon } from 'solid-heroicons';
+import { pencil } from 'solid-heroicons/solid';
 import { createResource, Show } from 'solid-js';
 
+import { authenticatedMember } from '../../../app-context';
 import { breadcrumb, Breadcrumb } from '../../../components/breadcrumb';
+import { LinkButton } from '../../../components/button';
 import { MemberCard } from '../../../components/member-card';
 import { RichText } from '../../../components/rich-text';
 import { container } from '../../../infrastructure/container';
 import { Translate } from '../../../intl/translate';
+import { routes } from '../../../routes';
 import { TOKENS } from '../../../tokens';
 
 import { EventComments } from './sections/event-comments';
@@ -37,6 +42,10 @@ export default function EventDetailsPage() {
 }
 
 function EventDetails(props: { event: Event; refetch: () => void }) {
+  const isOrganizer = () => {
+    return authenticatedMember()?.id === props.event.organizer.id;
+  };
+
   return (
     <>
       <div class="col lg:row gap-6">
@@ -58,7 +67,13 @@ function EventDetails(props: { event: Event; refetch: () => void }) {
         </div>
 
         <div class="flex-2 col gap-6">
-          <h1>{props.event.title}</h1>
+          <div class="row justify-between gap-4">
+            <h1>{props.event.title}</h1>
+
+            <Show when={isOrganizer()}>
+              <EditButton event={props.event} />
+            </Show>
+          </div>
 
           <Message event={props.event} />
 
@@ -72,6 +87,15 @@ function EventDetails(props: { event: Event; refetch: () => void }) {
         </div>
       </div>
     </>
+  );
+}
+
+function EditButton(props: { event: Event }) {
+  return (
+    <LinkButton variant="secondary" href={routes.events.edit(props.event.id)}>
+      <Icon path={pencil} class="size-em text-icon" />
+      <T id="editEvent" />
+    </LinkButton>
   );
 }
 

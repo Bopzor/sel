@@ -52,7 +52,8 @@
       "createRequest": "Nouvelle demande",
       "editRequest": "Édition",
       "events": "Événements",
-      "createEvent": "Nouvel événement"
+      "createEvent": "Nouvel événement",
+      "editEvent": "Edit"
     }
   },
   "authentication": {
@@ -232,7 +233,7 @@
       "create": "Créer un événement"
     },
     "details": {
-      "title": "Événements",
+      "editEvent": "Modifier l'événement",
       "dateToBeDefined": "Date à définir",
       "locationToBeDefined": "Lieu à définir",
       "commentsTitle": "Commentaires",
@@ -261,6 +262,10 @@
       "title": "Créer un événement",
       "create": "Créer l'événement",
       "created": "Votre événement a bien été créé."
+    },
+    "edit": {
+      "title": "Edition de l'événement « {eventTitle} »",
+      "edited": "Votre événement a bien été mis à jour."
     }
   },
   "activities": {

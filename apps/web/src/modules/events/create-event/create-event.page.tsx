@@ -39,7 +39,7 @@ export function CreateEventForm(props: { onCreated: (eventId: string) => void })
     <EventForm
       submit={<T id="create" />}
       onSubmit={(event) => eventApi.createEvent(event)}
-      onSubmitted={props.onCreated}
+      onSubmitted={(eventId) => props.onCreated(eventId as string)}
     />
   );
 }

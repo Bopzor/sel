@@ -31,6 +31,7 @@ const EditRequestPage = lazy(() => import('./modules/requests/edit-request/edit-
 const EventsListPage = lazy(() => import('./modules/events/events-list.page'));
 const CreateEventPage = lazy(() => import('./modules/events/create-event/create-event.page'));
 const EventDetailsPage = lazy(() => import('./modules/events/event-details/event-details.page'));
+const EditEventPage = lazy(() => import('./modules/events/edit-event/edit-event.page'));
 
 const MiscPage = lazy(() => import('./modules/misc/misc.page'));
 
@@ -71,6 +72,7 @@ function Routing() {
         <Route path="/" component={EventsListPage} />
         <Route path="/create" component={CreateEventPage} />
         <Route path="/:eventId" component={EventDetailsPage} />
+        <Route path="/:eventId/edit" component={EditEventPage} />
       </Route>
 
       <Route path="/profile" component={ProfileLayout}>

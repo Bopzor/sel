@@ -15,6 +15,7 @@ export const routes = {
     list: '/events',
     create: `/events/create`,
     details: (eventId: string) => `/events/${eventId}`,
+    edit: (eventId: string) => `/events/${eventId}/edit`,
   },
   activities: {
     home: '/activities',

@@ -151,6 +151,7 @@ export class EventController {
     res.status(201).send(eventId);
   };
 
+  // todo: check is author
   updateEvent: RequestHandler<{ eventId: string }> = async (req, res): Promise<void> => {
     const eventId = req.params.eventId;
     const body = updateEventBodySchema.parse(req.body);

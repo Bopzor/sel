@@ -1,4 +1,10 @@
-import { CreateEventBody, Event, EventParticipation, SetEventParticipationBody } from '@sel/shared';
+import {
+  CreateEventBody,
+  Event,
+  EventParticipation,
+  SetEventParticipationBody,
+  UpdateEventBody,
+} from '@sel/shared';
 import { injectableClass } from 'ditox';
 
 import { FetchError, FetcherPort } from '../../infrastructure/fetcher';
@@ -7,7 +13,8 @@ import { TOKENS } from '../../tokens';
 export interface EventApi {
   listEvents(): Promise<Event[]>;
   getEvent(eventId: string): Promise<Event | undefined>;
-  createEvent(event: Event): Promise<string>;
+  createEvent(data: CreateEventBody): Promise<string>;
+  updateEvent(eventId: string, body: UpdateEventBody): Promise<void>;
   setParticipation(eventId: string, participation: EventParticipation | null): Promise<void>;
 }
 
@@ -33,8 +40,12 @@ export class FetchEventApi implements EventApi {
       });
   }
 
-  async createEvent(event: CreateEventBody): Promise<string> {
-    return this.fetcher.post<CreateEventBody, string>('/api/events', event).body();
+  async createEvent(data: CreateEventBody): Promise<string> {
+    return this.fetcher.post<CreateEventBody, string>('/api/events', data).body();
+  }
+
+  async updateEvent(eventId: string, data: CreateEventBody): Promise<void> {
+    await this.fetcher.put<CreateEventBody, void>(`/api/events/${eventId}`, data);
   }
 
   async setParticipation(eventId: string, participation: EventParticipation | null): Promise<void> {
@@ -67,6 +78,8 @@ export class StubEventApi implements EventApi {
   async createEvent(): Promise<string> {
     return '';
   }
+
+  async updateEvent(): Promise<void> {}
 
   async setParticipation(): Promise<void> {}
 }
