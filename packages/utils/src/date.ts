@@ -3,14 +3,17 @@ import { formatDistanceToNowStrict } from 'date-fns/formatDistanceToNowStrict';
 import { fr } from 'date-fns/locale/fr';
 
 export { endOfWeek } from 'date-fns/endOfWeek';
-export { isAfter } from 'date-fns/isAfter';
-export { isSameDay } from 'date-fns/isSameDay';
-export { startOfWeek } from 'date-fns/startOfWeek';
 export { getDay } from 'date-fns/getDay';
-export { isSameWeek } from 'date-fns/isSameWeek';
+export { isAfter } from 'date-fns/isAfter';
+export { isPast } from 'date-fns/isPast';
+export { isSameDay } from 'date-fns/isSameDay';
 export { isSameMonth } from 'date-fns/isSameMonth';
+export { isSameWeek } from 'date-fns/isSameWeek';
+export { isToday } from 'date-fns/isToday';
 export { lastDayOfMonth } from 'date-fns/lastDayOfMonth';
 export { startOfDay } from 'date-fns/startOfDay';
+export { startOfMonth } from 'date-fns/startOfMonth';
+export { startOfWeek } from 'date-fns/startOfWeek';
 
 export function createDate(date?: string) {
   return new Date(date ?? Date.now());

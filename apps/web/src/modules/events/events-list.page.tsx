@@ -1,12 +1,13 @@
 import { createForm } from '@felte/solid';
 import { Event, EventKind } from '@sel/shared';
-import { createArray } from '@sel/utils';
-import { createResource } from 'solid-js';
+import { createArray, isSameDay } from '@sel/utils';
+import { For, createResource } from 'solid-js';
 
 import { Breadcrumb, breadcrumb } from '../../components/breadcrumb';
 import { LinkButton } from '../../components/button';
-import { Calendar, CalendarEvent } from '../../components/calendar';
+import { Calendar } from '../../components/calendar';
 import { Input } from '../../components/input';
+import { Link } from '../../components/link';
 import { Select } from '../../components/select';
 import { container } from '../../infrastructure/container';
 import { FormattedDate } from '../../intl/formatted';
@@ -16,20 +17,12 @@ import { TOKENS } from '../../tokens';
 
 const T = Translate.prefix('events.list');
 
-type EventWithDate = Event & {
-  date: string;
-};
-
 export default function EventsListPage() {
   const eventsApi = container.resolve(TOKENS.eventApi);
 
   const [events] = createResource(async () => {
     return eventsApi.listEvents();
   });
-
-  const eventsWithDate = () => {
-    return events()?.filter(hasDate);
-  };
 
   // @ts-expect-error solidjs directive
   const { form, data, setFields } = createForm({
@@ -69,20 +62,36 @@ export default function EventsListPage() {
         </div>
       </div>
 
-      <Calendar year={data('year')} month={data('month')} events={eventsWithDate()?.map(eventToCalendar)} />
+      <Calendar
+        year={data('year')}
+        month={data('month')}
+        renderDay={(date) => (
+          <CalendarDay
+            date={date}
+            events={events()?.filter((event) => event.date !== undefined && isSameDay(date, event.date))}
+          />
+        )}
+      />
     </div>
   );
 }
 
-function hasDate(value: Event): value is EventWithDate {
-  return 'date' in value;
-}
+function CalendarDay(props: { date: Date; events?: Event[] }) {
+  return (
+    <div class="h-32 p-2 text-sm">
+      <div class="mb-2 font-medium">{props.date.getDate()}</div>
 
-function eventToCalendar(event: Event & { date: string }): CalendarEvent {
-  return {
-    date: new Date(event.date),
-    title: event.title,
-    class: event.kind === EventKind.internal ? 'text-blue-500' : 'text-yellow-600',
-    link: routes.events.details(event.id),
-  };
+      <For each={props.events}>
+        {(event) => (
+          <Link
+            unstyled
+            href={routes.events.details(event.id)}
+            class={event.kind === EventKind.internal ? 'text-blue-500' : 'text-yellow-600'}
+          >
+            {event.title}
+          </Link>
+        )}
+      </For>
+    </div>
+  );
 }
