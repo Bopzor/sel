@@ -14,6 +14,7 @@ import { SessionController } from './authentication/session.controller';
 import { SessionProvider } from './authentication/session.provider';
 import { CommentService } from './comments/comment.service';
 import { CreateEventComment } from './events/commands/create-event-comment.command';
+import { NotifyEventCreated } from './events/event-handlers/notify-event-created.event-handler';
 import { EventController } from './events/event.controller';
 import { EnvConfigAdapter } from './infrastructure/config/env-config.adapter';
 import { CommandBus } from './infrastructure/cqs/command-bus';
@@ -160,6 +161,7 @@ container.bindFactory(EVENT_HANDLERS.createRequestSubscription, CreateRequestSub
 container.bindFactory(EVENT_HANDLERS.notifyRequestCreated, NotifyRequestCreated.inject);
 container.bindFactory(EVENT_HANDLERS.notifyRequestCommentCreated, NotifyRequestCommentCreated.inject);
 container.bindFactory(EVENT_HANDLERS.notifyRequestStatusChanged, NotifyRequestStatusChanged.inject);
+container.bindFactory(EVENT_HANDLERS.notifyEventCreated, NotifyEventCreated.inject);
 container.bindFactory(EVENT_HANDLERS.createMemberSubscription, CreateMemberSubscription.inject);
 container.bindFactory(EVENT_HANDLERS.enableSubscriptions, EnableSubscriptions.inject);
 container.bindFactory(EVENT_HANDLERS.deliverNotification, DeliverNotification.inject);

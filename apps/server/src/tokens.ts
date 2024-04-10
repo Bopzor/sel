@@ -13,6 +13,7 @@ import { SessionController } from './authentication/session.controller';
 import { SessionProvider } from './authentication/session.provider';
 import { CommentService } from './comments/comment.service';
 import { CreateEventComment } from './events/commands/create-event-comment.command';
+import { NotifyEventCreated } from './events/event-handlers/notify-event-created.event-handler';
 import { EventController } from './events/event.controller';
 import { ConfigPort } from './infrastructure/config/config.port';
 import { CommandBus } from './infrastructure/cqs/command-bus';
@@ -154,6 +155,7 @@ export const EVENT_HANDLERS = {
   notifyRequestCreated: token<NotifyRequestCreated>('notifyRequestCreated'),
   notifyRequestCommentCreated: token<NotifyRequestCommentCreated>('notifyRequestCommentCreated'),
   notifyRequestStatusChanged: token<NotifyRequestStatusChanged>('notifyRequestStatusChanged'),
+  notifyEventCreated: token<NotifyEventCreated>('notifyEventCreated'),
   createMemberSubscription: token<CreateMemberSubscription>('createMemberSubscription'),
   enableSubscriptions: token<EnableSubscriptions>('enableSubscriptions'),
   deliverNotification: token<DeliverNotification>('deliverNotification'),

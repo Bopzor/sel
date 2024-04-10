@@ -6,6 +6,7 @@ import { TranslationPort } from '../../infrastructure/translation/translation.po
 import { Member } from '../../members/member.entity';
 import { SubscriptionEntityType } from '../subscription.entity';
 
+import { EventCreatedNotification } from './event-created.notification';
 import { NewAppVersionNotification } from './new-app-version.notification';
 import { RequestCommentCreatedNotification } from './request-comment-created.notification';
 import { RequestCreatedNotification } from './request-created.notification';
@@ -40,4 +41,5 @@ const notificationCreators: Record<
   RequestCreated: RequestCreatedNotification,
   RequestCommentCreated: RequestCommentCreatedNotification,
   RequestStatusChanged: RequestStatusChangedNotification,
+  EventCreated: EventCreatedNotification,
 };

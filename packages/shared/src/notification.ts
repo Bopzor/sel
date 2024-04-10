@@ -5,6 +5,7 @@ const notificationTypes = [
   'RequestCreated',
   'RequestCommentCreated',
   'RequestStatusChanged',
+  'EventCreated',
 ] as const;
 
 export type NotificationType = (typeof notificationTypes)[number];
@@ -80,6 +81,19 @@ export type NotificationData = {
         firstName: string;
         lastName: string;
       };
+    };
+  };
+
+  EventCreated: {
+    event: {
+      id: string;
+      title: string;
+      organizer: {
+        id: string;
+        firstName: string;
+        lastName: string;
+      };
+      message: string;
     };
   };
 };
