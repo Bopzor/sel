@@ -28,10 +28,7 @@ export class NotifyRequestStatusChanged implements EventHandler<RequestFulfilled
     await this.commandBus.executeCommand(COMMANDS.notify, {
       subscriptionType: 'RequestEvent',
       notificationType: 'RequestStatusChanged',
-      entity: {
-        type: 'request',
-        id: request.id,
-      },
+      entityId: request.id,
       data: {
         request: {
           id: request.id,

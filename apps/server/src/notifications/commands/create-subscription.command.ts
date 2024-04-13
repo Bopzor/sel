@@ -6,14 +6,13 @@ import { GeneratorPort } from '../../infrastructure/generator/generator.port';
 import { SubscriptionRepository } from '../../persistence/repositories/subscription/subscription.repository';
 import { TOKENS } from '../../tokens';
 import { SubscriptionCreated } from '../subscription-events';
-import { SubscriptionEntityType } from '../subscription.entity';
 import { SubscriptionType } from '../subscription.entity';
 
 export type CreateSubscriptionCommand = {
   subscriptionId?: string;
   type: SubscriptionType;
   memberId: string;
-  entity?: { type: SubscriptionEntityType; id: string };
+  entityId?: string;
   active?: boolean;
 };
 
@@ -35,10 +34,10 @@ export class CreateSubscription implements CommandHandler<CreateSubscriptionComm
     subscriptionId = this.generator.id(),
     type,
     memberId,
-    entity,
+    entityId,
     active,
   }: CreateSubscriptionCommand): Promise<void> {
-    if (await this.subscriptionRepository.hasSubscription(type, memberId, entity)) {
+    if (await this.subscriptionRepository.hasSubscription(type, memberId, entityId)) {
       return;
     }
 
@@ -46,8 +45,7 @@ export class CreateSubscription implements CommandHandler<CreateSubscriptionComm
       id: subscriptionId,
       type,
       memberId,
-      entityType: entity?.type,
-      entityId: entity?.id,
+      entityId,
       active,
     });
 

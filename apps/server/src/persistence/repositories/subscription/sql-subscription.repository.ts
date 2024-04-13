@@ -21,17 +21,13 @@ export class SqlSubscriptionRepository implements SubscriptionRepository {
     private readonly dateAdapter: DatePort,
   ) {}
 
-  async hasSubscription(
-    type: string,
-    memberId: string,
-    entity?: { type: 'request'; id: string } | undefined,
-  ): Promise<boolean> {
+  async hasSubscription(type: string, memberId: string, entityId?: string): Promise<boolean> {
     let where: SQL<unknown> | undefined = eq(subscriptions.type, type);
 
     where = and(where, eq(subscriptions.memberId, memberId));
 
-    if (entity && entity.type === 'request') {
-      where = and(where, eq(subscriptions.requestId, entity.id));
+    if (entityId) {
+      where = and(where, eq(subscriptions.entityId, entityId));
     }
 
     const [subscription] = await this.database.db.select().from(subscriptions).where(where);
@@ -39,15 +35,15 @@ export class SqlSubscriptionRepository implements SubscriptionRepository {
     return subscription !== undefined;
   }
 
-  async getSubscriptions({ type, entity, memberId }: GetSubscriptionsFilters): Promise<Subscription[]> {
+  async getSubscriptions({ type, entityId, memberId }: GetSubscriptionsFilters): Promise<Subscription[]> {
     let where: SQL<unknown> | undefined = undefined;
 
     if (type) {
       where = and(where, eq(subscriptions.type, type));
     }
 
-    if (entity?.type === 'request') {
-      where = and(where, eq(subscriptions.requestId, entity.id));
+    if (entityId) {
+      where = and(where, eq(subscriptions.entityId, entityId));
     }
 
     if (memberId) {
@@ -67,7 +63,7 @@ export class SqlSubscriptionRepository implements SubscriptionRepository {
       active: model.active ?? true,
       type: model.type,
       memberId: model.memberId,
-      [`${model.entityType}Id`]: model.entityId,
+      entityId: model.entityId,
       createdAt: now,
       updatedAt: now,
     });

@@ -42,10 +42,7 @@ export class NotifyRequestCommentCreated implements EventHandler<RequestCommentC
     await this.commandBus.executeCommand(COMMANDS.notify, {
       subscriptionType: 'RequestEvent',
       notificationType: 'RequestCommentCreated',
-      entity: {
-        type: 'request',
-        id: request.id,
-      },
+      entityId: request.id,
       data: {
         request: {
           id: request.id,

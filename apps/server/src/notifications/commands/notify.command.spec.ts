@@ -147,7 +147,7 @@ describe('[Unit] Notify', () => {
       createSubscription({
         id: 'subscriptionId1',
         type: 'RequestEvent',
-        entity: { type: 'request', id: 'requestId1' },
+        entityId: 'requestId1',
         memberId: 'memberId',
       }),
     );
@@ -156,7 +156,7 @@ describe('[Unit] Notify', () => {
       createSubscription({
         id: 'subscriptionId2',
         type: 'RequestEvent',
-        entity: { type: 'request', id: 'requestId2' },
+        entityId: 'requestId2',
         memberId: 'memberId',
       }),
     );
@@ -164,6 +164,7 @@ describe('[Unit] Notify', () => {
     test.command = {
       subscriptionType: 'RequestEvent',
       notificationType: 'RequestCommentCreated',
+      entityId: 'requestId1',
       data: {
         request: { id: 'requestId1', title: '', requester: { id: '', firstName: '', lastName: '' } },
         comment: { id: '', author: { id: '', firstName: '', lastName: '' }, message: '' },

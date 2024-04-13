@@ -163,7 +163,7 @@ export const subscriptions = pgTable('subscriptions', {
   memberId: id('member_id')
     .references(() => members.id)
     .notNull(),
-  requestId: id('request_id').references(() => requests.id),
+  entityId: id('entity_id'),
   createdAt: createdAt(),
   updatedAt: updatedAt(),
 });

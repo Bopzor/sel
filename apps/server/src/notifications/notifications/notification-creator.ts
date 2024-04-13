@@ -4,7 +4,6 @@ import { ClassType } from '@sel/utils';
 import { EmailKind, EmailVariables } from '../../infrastructure/email/email.types';
 import { TranslationPort } from '../../infrastructure/translation/translation.port';
 import { Member } from '../../members/member.entity';
-import { SubscriptionEntityType } from '../subscription.entity';
 
 import { EventCommentCreatedNotification } from './event-comment-created.notification';
 import { EventCreatedNotification } from './event-created.notification';
@@ -15,7 +14,6 @@ import { RequestCreatedNotification } from './request-created.notification';
 import { RequestStatusChangedNotification } from './request-status-changed.notification';
 
 export interface NotificationCreator {
-  entity?(): { type: SubscriptionEntityType; id: string };
   shouldSend(member: Member): boolean;
   title(member: Member): string;
   titleTrimmed(member: Member): string;

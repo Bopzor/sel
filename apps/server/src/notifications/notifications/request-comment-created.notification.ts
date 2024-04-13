@@ -3,7 +3,6 @@ import { NotificationData } from '@sel/shared';
 import { EmailKind, EmailVariables } from '../../infrastructure/email/email.types';
 import { TranslationPort } from '../../infrastructure/translation/translation.port';
 import { Member } from '../../members/member.entity';
-import { SubscriptionEntity } from '../subscription.entity';
 
 import { NotificationCreator } from './notification-creator';
 
@@ -12,13 +11,6 @@ export class RequestCommentCreatedNotification implements NotificationCreator {
     private readonly translation: TranslationPort,
     private readonly data: NotificationData['RequestCommentCreated'],
   ) {}
-
-  entity(): SubscriptionEntity {
-    return {
-      type: 'request',
-      id: this.data.request.id,
-    };
-  }
 
   shouldSend(member: Member) {
     return member.id !== this.data.comment.author.id;

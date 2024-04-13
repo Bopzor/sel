@@ -17,12 +17,12 @@ import { TOKENS } from '../../tokens';
 import { NotificationCreated } from '../notification-events';
 import { Notification } from '../notification.entity';
 import { getNotificationCreator } from '../notifications/notification-creator';
-import { SubscriptionEntity, SubscriptionType } from '../subscription.entity';
+import { SubscriptionType } from '../subscription.entity';
 
 export type NotifyCommand = {
   subscriptionType: SubscriptionType;
   notificationType: NotificationType;
-  entity?: SubscriptionEntity;
+  entityId?: string;
   data: NotificationData[NotificationType];
 };
 
@@ -48,13 +48,13 @@ export class Notify implements CommandHandler<NotifyCommand> {
     private readonly notificationRepository: NotificationRepository,
   ) {}
 
-  async handle({ subscriptionType, notificationType, data }: NotifyCommand): Promise<void> {
+  async handle({ subscriptionType, notificationType, entityId, data }: NotifyCommand): Promise<void> {
     const now = this.dateAdapter.now();
     const creator = getNotificationCreator(this.translation, notificationType, data);
 
     const subscriptions = await this.subscriptionRepository.getSubscriptions({
       type: subscriptionType,
-      entity: creator.entity?.(),
+      entityId,
     });
 
     const notifications = new Array<InsertNotificationModel>();

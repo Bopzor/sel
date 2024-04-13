@@ -16,17 +16,12 @@ export const isSubscriptionType = (type: string): type is SubscriptionType => {
 
 export type SubscriptionEntityType = 'request' | 'event';
 
-export type SubscriptionEntity = {
-  type: SubscriptionEntityType;
-  id: string;
-};
-
 export type Subscription = {
   id: string;
   type: SubscriptionType;
   active: boolean;
   memberId: string;
-  entity?: SubscriptionEntity;
+  entityId?: string;
 };
 
 export const createSubscription = createFactory<Subscription>(() => ({

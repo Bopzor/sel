@@ -16,7 +16,7 @@ export class CreateRequestSubscription
     await this.commandBus.executeCommand(COMMANDS.createSubscription, {
       type: 'RequestEvent',
       memberId: this.memberId(event),
-      entity: { type: 'request', id: event.entityId },
+      entityId: event.entityId,
     });
   }
 

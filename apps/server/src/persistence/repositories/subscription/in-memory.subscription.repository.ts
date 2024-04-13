@@ -15,16 +15,13 @@ export class InMemorySubscriptionRepository
     throw new Error('Method not implemented.');
   }
 
-  async getSubscriptions({ type, entity, memberId }: GetSubscriptionsFilters): Promise<Subscription[]> {
+  async getSubscriptions({ type, entityId, memberId }: GetSubscriptionsFilters): Promise<Subscription[]> {
     return this.filter((subscription) => {
       if (type !== undefined && subscription.type !== type) {
         return false;
       }
 
-      if (
-        entity !== undefined &&
-        (entity.type !== subscription.entity?.type || entity.id !== subscription.entity?.id)
-      ) {
+      if (entityId !== undefined && entityId !== subscription.entityId) {
         return false;
       }
 
