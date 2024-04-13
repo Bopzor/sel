@@ -3,6 +3,7 @@ import { expect } from 'vitest';
 
 import { AuthenticationService } from './authentication/authentication.service';
 import { Token, TokenType } from './authentication/token.entity';
+import { NotificationDeliveryType } from './common/notification-delivery-type';
 import { container } from './container';
 import { StubConfigAdapter } from './infrastructure/config/stub-config.adapter';
 import { CommandBus } from './infrastructure/cqs/command-bus';
@@ -11,9 +12,11 @@ import { TestErrorReporterAdapter } from './infrastructure/error-reporter/test-e
 import { GeneratorPort } from './infrastructure/generator/generator.port';
 import { StubLogger } from './infrastructure/logger/stub-logger.adapter';
 import { StubPushNotificationAdapter } from './infrastructure/push-notification/stub-push-notification.adapter';
+import { CreateMemberCommand } from './members/commands/create-member.command';
 import { Member } from './members/member.entity';
 import { MemberRepository } from './persistence/repositories/member/member.repository';
 import { RequestRepository } from './persistence/repositories/request/request.repository';
+import { CreateRequestCommand } from './requests/commands/create-request.command';
 import { Request } from './requests/request.entity';
 import { COMMANDS, TOKENS } from './tokens';
 
@@ -108,6 +111,25 @@ export class E2ETest {
     await container.resolve(TOKENS.eventBus).waitForPromises();
   }
 
+  async createAuthenticatedMember(command?: Partial<CreateMemberCommand>): Promise<[Member, string]> {
+    const member = await this.create.member(command);
+    const token = await this.create.token(TokenType.session, member.id);
+
+    await this.waitForEventHandlers();
+
+    await this.application.changeNotificationDeliveryType({
+      memberId: member.id,
+      notificationDeliveryType: { [NotificationDeliveryType.push]: true },
+    });
+
+    await this.application.updateMemberProfile({
+      memberId: member.id,
+      data: { ...member, onboardingCompleted: true },
+    });
+
+    return [member, token.value];
+  }
+
   async fetch(
     path: string,
     options: { method?: string; token?: string; assertStatus?: boolean; body?: unknown } = {},
@@ -163,10 +185,17 @@ class EntityCreator {
     private readonly commandBus: CommandBus,
   ) {}
 
-  // prettier-ignore
-  async member({ firstName = '', lastName = '', email = '' }: { firstName?: string; lastName?: string; email?: string } = {}): Promise<Member> {
-    const memberId = this.generator.id();
-    await this.commandBus.executeCommand(COMMANDS.createMember,{ memberId, firstName, lastName, email });
+  async member(command: Partial<CreateMemberCommand> = {}): Promise<Member> {
+    const memberId = command.memberId ?? this.generator.id();
+
+    await this.commandBus.executeCommand(COMMANDS.createMember, {
+      memberId,
+      firstName: '',
+      lastName: '',
+      email: '',
+      ...command,
+    });
+
     return defined(await this.memberRepository.getMember(memberId));
   }
 
@@ -174,10 +203,17 @@ class EntityCreator {
     return this.authenticationService.generateToken(type, this.generator.id(), memberId);
   }
 
-  // prettier-ignore
-  async request({ requesterId = '', title = '', body = '' }: { requesterId?: string, title?: string, body?: string } = {}): Promise<Request> {
-    const requestId = this.generator.id();
-    await this.commandBus.executeCommand(COMMANDS.createRequest, { requestId, requesterId, title, body });
+  async request(command: Partial<CreateRequestCommand> = {}): Promise<Request> {
+    const requestId = command.requestId ?? this.generator.id();
+
+    await this.commandBus.executeCommand(COMMANDS.createRequest, {
+      requestId,
+      requesterId: '',
+      title: '',
+      body: '',
+      ...command,
+    });
+
     return defined(await this.requestRepository.getRequest(requestId));
   }
 }

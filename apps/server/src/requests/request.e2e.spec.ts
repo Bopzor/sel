@@ -1,7 +1,6 @@
 import * as shared from '@sel/shared';
 import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it } from 'vitest';
 
-import { TokenType } from '../authentication/token.entity';
 import { E2ETest } from '../e2e-test';
 import { HttpStatus } from '../http-status';
 import { Member } from '../members/member.entity';
@@ -14,27 +13,14 @@ class Test extends E2ETest {
   memberToken!: string;
 
   async setup(): Promise<void> {
-    this.requester = await this.create.member({ firstName: 'Foo', lastName: 'Bar', email: 'requester' });
-    const requesterToken = await this.create.token(TokenType.session, this.requester.id);
-    this.requesterToken = requesterToken.value;
-
-    this.member = await this.create.member({ email: 'member' });
-    const memberToken = await this.create.token(TokenType.session, this.member.id);
-    this.memberToken = memberToken.value;
-
-    await this.waitForEventHandlers();
-
-    await this.application.changeNotificationDeliveryType({
-      memberId: this.member.id,
-      notificationDeliveryType: { push: true },
+    [this.requester, this.requesterToken] = await this.createAuthenticatedMember({
+      firstName: 'Foo',
+      lastName: 'Bar',
+      email: 'requester',
     });
 
-    await this.application.updateMemberProfile({
-      memberId: this.member.id,
-      data: {
-        ...this.member,
-        onboardingCompleted: true,
-      },
+    [this.member, this.memberToken] = await this.createAuthenticatedMember({
+      email: 'member',
     });
   }
 }

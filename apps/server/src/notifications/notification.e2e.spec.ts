@@ -3,38 +3,18 @@ import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it } from
 
 import { NotificationDeliveryType } from '../common/notification-delivery-type';
 import { E2ETest } from '../e2e-test';
-import { ChangeNotificationDeliveryTypeCommand } from '../members/commands/change-notification-delivery-type.command';
 import { Member } from '../members/member.entity';
 
 class Test extends E2ETest {
   member!: Member;
 
   async setup() {
-    this.member = await this.create.member({ email: 'member@localhost' });
+    [this.member] = await this.createAuthenticatedMember({ email: 'member@localhost' });
 
     await this.application.registerDevice({
       memberId: this.member.id,
       deviceSubscription: 'subscription',
       deviceType: 'mobile',
-    });
-  }
-
-  async changeNotificationDeliveryType(
-    notificationDeliveryType: ChangeNotificationDeliveryTypeCommand['notificationDeliveryType'],
-  ) {
-    await this.application.changeNotificationDeliveryType({
-      memberId: this.member.id,
-      notificationDeliveryType,
-    });
-  }
-
-  async onboardingCompleted() {
-    await this.application.updateMemberProfile({
-      memberId: this.member.id,
-      data: {
-        ...this.member,
-        onboardingCompleted: true,
-      },
     });
   }
 
@@ -70,10 +50,6 @@ describe('[E2E] Notification', () => {
   afterEach(() => test?.waitForEventHandlers());
 
   it('sends a push notification', async () => {
-    await test.changeNotificationDeliveryType({ [NotificationDeliveryType.push]: true });
-    await test.onboardingCompleted();
-    await test.waitForEventHandlers();
-
     await test.notify();
 
     expect(test.getPushNotification()).toEqual({
@@ -85,9 +61,10 @@ describe('[E2E] Notification', () => {
   });
 
   it('sends an email notification', async () => {
-    await test.changeNotificationDeliveryType({ [NotificationDeliveryType.email]: true });
-    await test.onboardingCompleted();
-    await test.waitForEventHandlers();
+    await test.application.changeNotificationDeliveryType({
+      memberId: test.member.id,
+      notificationDeliveryType: { [NotificationDeliveryType.email]: true },
+    });
 
     await test.application.registerDevice({
       memberId: test.member.id,
@@ -101,6 +78,7 @@ describe('[E2E] Notification', () => {
     await waitFor(() => {
       const [email] = test.getEmails();
 
+      expect(email, 'email notification was not sent').toBeDefined();
       expect(email).toHaveProperty('envelope.to.0.address', 'member@localhost');
       expect(email).toHaveProperty('subject', "SEL'ons-nous - Nouvelle version de l'app");
     });
