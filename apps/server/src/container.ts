@@ -14,8 +14,13 @@ import { SessionController } from './authentication/session.controller';
 import { SessionProvider } from './authentication/session.provider';
 import { CommentService } from './comments/comment.service';
 import { CreateEventComment } from './events/commands/create-event-comment.command';
+import { CreateEvent } from './events/commands/create-event.command';
+import { SetEventParticipation } from './events/commands/set-event-participation.command';
+import { UpdateEvent } from './events/commands/update-event.command';
 import { NotifyEventCreated } from './events/event-handlers/notify-event-created.event-handler';
 import { EventController } from './events/event.controller';
+import { GetEvent } from './events/queries/get-event.query';
+import { ListEvents } from './events/queries/list-events.query';
 import { EnvConfigAdapter } from './infrastructure/config/env-config.adapter';
 import { CommandBus } from './infrastructure/cqs/command-bus';
 import { EventBus } from './infrastructure/cqs/event-bus';
@@ -77,6 +82,8 @@ import { COMMANDS, EVENT_HANDLERS, QUERIES, TOKENS } from './tokens';
 
 export const container = createContainer();
 
+// tokens
+
 container.bindValue(TOKENS.container, container);
 
 container.bindFactory(TOKENS.application, Application.inject);
@@ -126,32 +133,47 @@ container.bindFactory(TOKENS.queryBus, QueryBus.inject);
 container.bindFactory(TOKENS.eventBus, EventBus.inject);
 container.bindFactory(TOKENS.eventPublisher, EventPublisher.inject);
 
+// commands
+
 container.bindFactory(COMMANDS.requestAuthenticationLink, RequestAuthenticationLink.inject);
 container.bindFactory(COMMANDS.verifyAuthenticationToken, VerifyAuthenticationToken.inject);
 container.bindFactory(COMMANDS.revokeSessionToken, RevokeSessionToken.inject);
+
 container.bindFactory(COMMANDS.createRequest, CreateRequest.inject);
 container.bindFactory(COMMANDS.editRequest, EditRequest.inject);
 container.bindFactory(COMMANDS.createRequestComment, CreateRequestComment.inject);
 container.bindFactory(COMMANDS.changeRequestStatus, ChangeRequestStatus.inject);
 container.bindFactory(COMMANDS.setRequestAnswer, SetRequestAnswer.inject);
+
+container.bindFactory(COMMANDS.createEvent, CreateEvent.inject);
+container.bindFactory(COMMANDS.updateEvent, UpdateEvent.inject);
+container.bindFactory(COMMANDS.setEventParticipation, SetEventParticipation.inject);
+container.bindFactory(COMMANDS.createEventComment, CreateEventComment.inject);
+
 container.bindFactory(COMMANDS.createMember, CreateMember.inject);
 container.bindFactory(COMMANDS.updateMemberProfile, UpdateMemberProfile.inject);
 container.bindFactory(COMMANDS.changeNotificationDeliveryType, ChangeNotificationDeliveryType.inject);
+
 container.bindFactory(COMMANDS.createSubscription, CreateSubscription.inject);
 container.bindFactory(COMMANDS.markNotificationAsRead, MarkNotificationAsRead.inject);
 container.bindFactory(COMMANDS.registerDevice, RegisterDevice.inject);
 container.bindFactory(COMMANDS.notify, Notify.inject);
 container.bindFactory(COMMANDS.sendPushNotification, SendPushNotification.inject);
 container.bindFactory(COMMANDS.sendEmailNotification, SendEmailNotification.inject);
-container.bindFactory(COMMANDS.createEventComment, CreateEventComment.inject);
+
+// queries
 
 container.bindFactory(QUERIES.getToken, GetToken.inject);
 container.bindFactory(QUERIES.getAuthenticatedMember, GetAuthenticatedMember.inject);
 container.bindFactory(QUERIES.listRequests, ListRequests.inject);
 container.bindFactory(QUERIES.getRequest, GetRequest.inject);
+container.bindFactory(QUERIES.listEvents, ListEvents.inject);
+container.bindFactory(QUERIES.getEvent, GetEvent.inject);
 container.bindFactory(QUERIES.listMembers, ListMembers.inject);
 container.bindFactory(QUERIES.getMember, GetMember.inject);
 container.bindFactory(QUERIES.getMemberNotifications, GetMemberNotifications.inject);
+
+// event handlers
 
 container.bindFactory(EVENT_HANDLERS.eventsLogger, EventsLogger.inject);
 container.bindFactory(EVENT_HANDLERS.eventsPersistor, EventsPersistor.inject);

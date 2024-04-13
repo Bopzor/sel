@@ -1,3 +1,4 @@
+import { EventKind } from '@sel/shared';
 import { defined } from '@sel/utils';
 import { expect } from 'vitest';
 
@@ -5,6 +6,7 @@ import { AuthenticationService } from './authentication/authentication.service';
 import { Token, TokenType } from './authentication/token.entity';
 import { NotificationDeliveryType } from './common/notification-delivery-type';
 import { container } from './container';
+import { CreateEventCommand } from './events/commands/create-event.command';
 import { StubConfigAdapter } from './infrastructure/config/stub-config.adapter';
 import { CommandBus } from './infrastructure/cqs/command-bus';
 import { TestMailSever } from './infrastructure/email/test-mail-server';
@@ -215,5 +217,18 @@ class EntityCreator {
     });
 
     return defined(await this.requestRepository.getRequest(requestId));
+  }
+
+  async event(command: Partial<CreateEventCommand> = {}): Promise<void> {
+    const eventId = command.eventId ?? this.generator.id();
+
+    await this.commandBus.executeCommand(COMMANDS.createEvent, {
+      eventId,
+      organizerId: '',
+      title: '',
+      body: '',
+      kind: EventKind.internal,
+      ...command,
+    });
   }
 }

@@ -13,8 +13,13 @@ import { SessionController } from './authentication/session.controller';
 import { SessionProvider } from './authentication/session.provider';
 import { CommentService } from './comments/comment.service';
 import { CreateEventComment } from './events/commands/create-event-comment.command';
+import { CreateEvent } from './events/commands/create-event.command';
+import { SetEventParticipation } from './events/commands/set-event-participation.command';
+import { UpdateEvent } from './events/commands/update-event.command';
 import { NotifyEventCreated } from './events/event-handlers/notify-event-created.event-handler';
 import { EventController } from './events/event.controller';
+import { GetEvent } from './events/queries/get-event.query';
+import { ListEvents } from './events/queries/list-events.query';
 import { ConfigPort } from './infrastructure/config/config.port';
 import { CommandBus } from './infrastructure/cqs/command-bus';
 import { EventBus } from './infrastructure/cqs/event-bus';
@@ -124,6 +129,9 @@ export const COMMANDS = {
   createRequestComment: token<CreateRequestComment>('createRequestComment'),
   changeRequestStatus: token<ChangeRequestStatus>('changeRequestStatus'),
   setRequestAnswer: token<SetRequestAnswer>('setRequestAnswer'),
+  createEvent: token<CreateEvent>('createEvent'),
+  updateEvent: token<UpdateEvent>('updateEvent'),
+  setEventParticipation: token<SetEventParticipation>('setEventParticipation'),
   createMember: token<CreateMember>('createMember'),
   updateMemberProfile: token<UpdateMemberProfile>('updateMemberProfile'),
   changeNotificationDeliveryType: token<ChangeNotificationDeliveryType>('changeNotificationDeliveryType'),
@@ -141,6 +149,8 @@ export const QUERIES = {
   getAuthenticatedMember: token<GetAuthenticatedMember>('getAuthenticatedMember'),
   listRequests: token<ListRequests>('listRequests'),
   getRequest: token<GetRequest>('getRequest'),
+  getEvent: token<GetEvent>('getEvent'),
+  listEvents: token<ListEvents>('listEvents'),
   listMembers: token<ListMembers>('listMembers'),
   getMember: token<GetMember>('getMember'),
   getMemberNotifications: token<GetMemberNotifications>('getMemberNotifications'),

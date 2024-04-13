@@ -49,7 +49,7 @@ export const createEventBodySchema = z.object({
   body: z.string().trim(),
   date: z.string().datetime().optional(),
   location: addressSchema.optional(),
-  kind: z.enum(['internal', 'external']),
+  kind: z.nativeEnum(EventKind),
 });
 
 export type CreateEventBody = z.infer<typeof createEventBodySchema>;
@@ -59,7 +59,7 @@ export const updateEventBodySchema = z.object({
   body: z.string().trim(),
   date: z.string().datetime().optional(),
   location: addressSchema.optional(),
-  kind: z.enum(['internal', 'external']),
+  kind: z.nativeEnum(EventKind).optional(),
 });
 
 export type UpdateEventBody = z.infer<typeof updateEventBodySchema>;

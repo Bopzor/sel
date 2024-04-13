@@ -33,22 +33,33 @@ const schema = () => {
   });
 };
 
-export function EventForm(props: {
-  event?: Event;
+type CreateEventFormProps = {
   submit: JSX.Element;
-  onSubmit: (event: CreateEventBody | UpdateEventBody) => Promise<unknown>;
-  onSubmitted: (eventId: unknown) => void;
-}) {
+  onSubmit: (event: CreateEventBody) => Promise<string>;
+  onSubmitted: (eventId: string) => void;
+};
+
+type UpdateEventFormProps = {
+  event: Event;
+  submit: JSX.Element;
+  onSubmit: (event: UpdateEventBody) => Promise<void>;
+  onSubmitted: () => void;
+};
+
+export function EventForm(props: CreateEventFormProps | UpdateEventFormProps) {
   const t = T.useTranslation();
+
+  // eslint-disable-next-line solid/reactivity
+  const event = 'event' in props ? props.event : undefined;
 
   const { form, data, setData, errors } = createForm({
     initialValues: {
-      date: props.event?.date ? new Date(props.event.date) : null,
-      time: props.event?.date ? new Date(props.event.date) : null,
-      location: props.event?.location,
-      title: props.event?.title ?? '',
-      body: props.event?.body ?? '',
-      kind: props.event?.kind ?? EventKind.internal,
+      date: event?.date ? new Date(event.date) : null,
+      time: event?.date ? new Date(event.date) : null,
+      location: event?.location,
+      title: event?.title ?? '',
+      body: event?.body ?? '',
+      kind: event?.kind ?? EventKind.internal,
     },
     onSubmit: async ({ date, time, ...data }) => {
       if (date && time) {
@@ -61,7 +72,7 @@ export function EventForm(props: {
         ...data,
       });
     },
-    onSuccess: (eventId) => props.onSubmitted(eventId),
+    onSuccess: (eventId) => props.onSubmitted(eventId as string),
     onError: createErrorHandler(),
     extend: validator({ schema: schema() }),
     validate: (values) => {

@@ -1,4 +1,4 @@
-import { Event } from '@sel/shared';
+import { Event, UpdateEventBody } from '@sel/shared';
 import { useNavigate, useParams } from '@solidjs/router';
 import { createResource, Show } from 'solid-js';
 
@@ -60,7 +60,7 @@ function EditEventForm(props: { event: Event; onEdited: () => void }) {
     <EventForm
       event={props.event}
       submit={<Translate id="common.save" />}
-      onSubmit={(data) => eventApi.updateEvent(props.event.id, data)}
+      onSubmit={(data: UpdateEventBody) => eventApi.updateEvent(props.event.id, data)}
       onSubmitted={props.onEdited}
     />
   );

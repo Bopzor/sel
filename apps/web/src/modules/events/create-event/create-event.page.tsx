@@ -1,3 +1,4 @@
+import { CreateEventBody } from '@sel/shared';
 import { useNavigate } from '@solidjs/router';
 
 import { Breadcrumb, breadcrumb } from '../../../components/breadcrumb';
@@ -38,8 +39,8 @@ export function CreateEventForm(props: { onCreated: (eventId: string) => void })
   return (
     <EventForm
       submit={<T id="create" />}
-      onSubmit={(event) => eventApi.createEvent(event)}
-      onSubmitted={(eventId) => props.onCreated(eventId as string)}
+      onSubmit={(event: CreateEventBody) => eventApi.createEvent(event)}
+      onSubmitted={(eventId) => props.onCreated(eventId)}
     />
   );
 }
