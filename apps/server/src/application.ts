@@ -1,9 +1,11 @@
 import { Token, injectableClass } from 'ditox';
 
-import { EventCreated } from './events/event-events';
+import { EventCommentCreated, EventCreated } from './events/event-events';
 import { CommandBus } from './infrastructure/cqs/command-bus';
 import { CommandHandler } from './infrastructure/cqs/command-handler';
 import { EventBus } from './infrastructure/cqs/event-bus';
+import { QueryBus } from './infrastructure/cqs/query-bus';
+import { QueryHandler } from './infrastructure/cqs/query-handler';
 import { PushNotificationPort } from './infrastructure/push-notification/push-notification.port';
 import { AuthenticationLinkRequested, MemberCreated, OnboardingCompleted } from './members/member-events';
 import { NotificationCreated } from './notifications/notification-events';
@@ -15,12 +17,13 @@ import {
   RequestCreated,
   RequestFulfilled,
 } from './requests/request-events';
-import { COMMANDS, EVENT_HANDLERS, TOKENS } from './tokens';
+import { COMMANDS, EVENT_HANDLERS, QUERIES, TOKENS } from './tokens';
 
 export class Application {
   static inject = injectableClass(
     this,
     TOKENS.commandBus,
+    TOKENS.queryBus,
     TOKENS.eventBus,
     TOKENS.database,
     TOKENS.pushNotification,
@@ -28,6 +31,7 @@ export class Application {
 
   constructor(
     private readonly commandBus: CommandBus,
+    private readonly queryBus: QueryBus,
     private readonly eventBus: EventBus,
     private readonly database: Database,
     private readonly pushNotification: PushNotificationPort,
@@ -55,6 +59,9 @@ export class Application {
     eventBus.bind(RequestCanceled, EVENT_HANDLERS.notifyRequestStatusChanged);
 
     eventBus.bind(EventCreated, EVENT_HANDLERS.notifyEventCreated);
+    eventBus.bind(EventCreated, EVENT_HANDLERS.createEventSubscription);
+    eventBus.bind(EventCommentCreated, EVENT_HANDLERS.createEventSubscription);
+    eventBus.bind(EventCommentCreated, EVENT_HANDLERS.notifyEventCommentCreated);
 
     eventBus.bind(MemberCreated, EVENT_HANDLERS.createMemberSubscription);
     eventBus.bind(OnboardingCompleted, EVENT_HANDLERS.enableSubscriptions);
@@ -78,4 +85,10 @@ export class Application {
   sendPushNotification = this.createCommandMethod(COMMANDS.sendPushNotification);
   registerDevice = this.createCommandMethod(COMMANDS.registerDevice);
   changeNotificationDeliveryType = this.createCommandMethod(COMMANDS.changeNotificationDeliveryType);
+
+  private createQueryMethod<Query, Result>(token: Token<QueryHandler<Query, Result>>) {
+    return (query: Query) => this.queryBus.executeQuery(token, query);
+  }
+
+  getMemberNotifications = this.createQueryMethod(QUERIES.getMemberNotifications);
 }

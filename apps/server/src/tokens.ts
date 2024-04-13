@@ -16,6 +16,8 @@ import { CreateEventComment } from './events/commands/create-event-comment.comma
 import { CreateEvent } from './events/commands/create-event.command';
 import { SetEventParticipation } from './events/commands/set-event-participation.command';
 import { UpdateEvent } from './events/commands/update-event.command';
+import { CreateEventSubscription } from './events/event-handlers/create-event-subscription.event-handler';
+import { NotifyEventCommentCreated } from './events/event-handlers/notify-event-comment-created.handler';
 import { NotifyEventCreated } from './events/event-handlers/notify-event-created.event-handler';
 import { EventController } from './events/event.controller';
 import { GetEvent } from './events/queries/get-event.query';
@@ -166,6 +168,8 @@ export const EVENT_HANDLERS = {
   notifyRequestCommentCreated: token<NotifyRequestCommentCreated>('notifyRequestCommentCreated'),
   notifyRequestStatusChanged: token<NotifyRequestStatusChanged>('notifyRequestStatusChanged'),
   notifyEventCreated: token<NotifyEventCreated>('notifyEventCreated'),
+  createEventSubscription: token<CreateEventSubscription>('createEventSubscription'),
+  notifyEventCommentCreated: token<NotifyEventCommentCreated>('notifyEventCommentCreated'),
   createMemberSubscription: token<CreateMemberSubscription>('createMemberSubscription'),
   enableSubscriptions: token<EnableSubscriptions>('enableSubscriptions'),
   deliverNotification: token<DeliverNotification>('deliverNotification'),

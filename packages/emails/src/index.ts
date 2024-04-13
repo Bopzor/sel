@@ -8,6 +8,7 @@ import * as requestCreated from './emails/request-created';
 import * as requestCommentCreated from './emails/request-comment-created';
 import * as requestStatusChanged from './emails/request-status-changed';
 import * as eventCreated from './emails/event-created';
+import * as eventCommentCreated from './emails/event-comment-created';
 import * as test from './emails/test';
 
 export default {
@@ -17,6 +18,7 @@ export default {
   requestCommentCreated: renderer(requestCommentCreated),
   requestStatusChanged: renderer(requestStatusChanged),
   eventCreated: renderer(eventCreated),
+  eventCommentCreated: renderer(eventCommentCreated),
   test: renderer(test),
 };
 

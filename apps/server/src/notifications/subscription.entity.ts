@@ -1,13 +1,20 @@
 import { createFactory, createId } from '@sel/utils';
 
-const subscriptionType = ['NewAppVersion', 'RequestCreated', 'RequestEvent', 'EventCreated'] as const;
+const subscriptionType = [
+  'NewAppVersion',
+  'RequestCreated',
+  'RequestEvent',
+  'EventCreated',
+  'EventEvent',
+] as const;
+
 export type SubscriptionType = (typeof subscriptionType)[number];
 
 export const isSubscriptionType = (type: string): type is SubscriptionType => {
   return subscriptionType.includes(type as SubscriptionType);
 };
 
-export type SubscriptionEntityType = 'request';
+export type SubscriptionEntityType = 'request' | 'event';
 
 export type SubscriptionEntity = {
   type: SubscriptionEntityType;

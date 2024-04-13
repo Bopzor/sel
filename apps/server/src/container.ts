@@ -17,6 +17,8 @@ import { CreateEventComment } from './events/commands/create-event-comment.comma
 import { CreateEvent } from './events/commands/create-event.command';
 import { SetEventParticipation } from './events/commands/set-event-participation.command';
 import { UpdateEvent } from './events/commands/update-event.command';
+import { CreateEventSubscription } from './events/event-handlers/create-event-subscription.event-handler';
+import { NotifyEventCommentCreated } from './events/event-handlers/notify-event-comment-created.handler';
 import { NotifyEventCreated } from './events/event-handlers/notify-event-created.event-handler';
 import { EventController } from './events/event.controller';
 import { GetEvent } from './events/queries/get-event.query';
@@ -183,7 +185,9 @@ container.bindFactory(EVENT_HANDLERS.createRequestSubscription, CreateRequestSub
 container.bindFactory(EVENT_HANDLERS.notifyRequestCreated, NotifyRequestCreated.inject);
 container.bindFactory(EVENT_HANDLERS.notifyRequestCommentCreated, NotifyRequestCommentCreated.inject);
 container.bindFactory(EVENT_HANDLERS.notifyRequestStatusChanged, NotifyRequestStatusChanged.inject);
+container.bindFactory(EVENT_HANDLERS.createEventSubscription, CreateEventSubscription.inject);
 container.bindFactory(EVENT_HANDLERS.notifyEventCreated, NotifyEventCreated.inject);
+container.bindFactory(EVENT_HANDLERS.notifyEventCommentCreated, NotifyEventCommentCreated.inject);
 container.bindFactory(EVENT_HANDLERS.createMemberSubscription, CreateMemberSubscription.inject);
 container.bindFactory(EVENT_HANDLERS.enableSubscriptions, EnableSubscriptions.inject);
 container.bindFactory(EVENT_HANDLERS.deliverNotification, DeliverNotification.inject);

@@ -6,5 +6,8 @@
   "requestCommentCreated.title": "Nouveau commentaire sur {isRequester, select, true {votre} other {la}} demande \"{title}\"",
   "requestCommentCreated.content": "{author} : {message}",
   "requestStatusChanged.title": "La demande de {requester} a été annulée",
-  "requestStatusChanged.content": "{requester} a annulé sa demande \"{title}\""
+  "requestStatusChanged.content": "{requester} a annulé sa demande \"{title}\"",
+  "eventCreated.title": "Nouvel événement",
+  "eventCommentCreated.title": "Nouveau commentaire sur {isOrganizer, select, true {votre événement} other {l'événement}} \"{title}\"",
+  "eventCommentCreated.content": "{author} : {message}"
 }

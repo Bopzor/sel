@@ -6,7 +6,14 @@ class EventEvent extends DomainEvent {
   entity = 'event';
 }
 
-export class EventCreated extends EventEvent {}
+export class EventCreated extends EventEvent {
+  constructor(
+    eventId: string,
+    public readonly organizerId: string,
+  ) {
+    super(eventId);
+  }
+}
 
 export class EventUpdated extends EventEvent {}
 

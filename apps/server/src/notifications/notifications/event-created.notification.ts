@@ -17,15 +17,11 @@ export class EventCreatedNotification implements NotificationCreator {
   }
 
   title() {
-    return this.translation.translate('requestCreated.title', {
-      organizer: this.translation.memberName(this.data.event.organizer),
-    });
+    return this.translation.translate('eventCreated.title');
   }
 
   titleTrimmed() {
-    return this.translation.notificationTitle('requestCreated.title', 'organizer', {
-      requester: this.translation.memberName(this.data.event.organizer),
-    });
+    return this.translation.translate('eventCreated.title');
   }
 
   content() {

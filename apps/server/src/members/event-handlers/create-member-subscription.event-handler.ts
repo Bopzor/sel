@@ -24,5 +24,11 @@ export class CreateMemberSubscription implements EventHandler<MemberCreated> {
       memberId,
       active: false,
     });
+
+    await this.commandBus.executeCommand(COMMANDS.createSubscription, {
+      type: 'EventCreated',
+      memberId,
+      active: false,
+    });
   }
 }

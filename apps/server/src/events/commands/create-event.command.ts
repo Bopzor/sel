@@ -37,21 +37,22 @@ export class CreateEvent implements CommandHandler<CreateEventCommand> {
   ) {}
 
   async handle(command: CreateEventCommand): Promise<void> {
+    const { eventId, organizerId, title, body, kind, date, location } = command;
     const now = this.dateAdapter.now();
 
     await this.database.db.insert(schema.events).values({
-      id: command.eventId,
-      organizerId: command.organizerId,
-      title: command.title,
-      text: this.htmlParser.getTextContent(command.body),
-      html: command.body,
-      date: command.date ? new Date(command.date) : undefined,
-      location: command.location,
-      kind: command.kind,
+      id: eventId,
+      organizerId: organizerId,
+      title: title,
+      text: this.htmlParser.getTextContent(body),
+      html: body,
+      date: date ? new Date(date) : undefined,
+      location: location,
+      kind: kind,
       createdAt: now,
       updatedAt: now,
     });
 
-    this.eventPublisher.publish(new EventCreated(command.eventId));
+    this.eventPublisher.publish(new EventCreated(eventId, organizerId));
   }
 }
