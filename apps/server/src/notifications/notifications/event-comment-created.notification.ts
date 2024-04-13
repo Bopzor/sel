@@ -31,7 +31,10 @@ export class EventCommentCreatedNotification implements NotificationCreator {
   }
 
   content() {
-    return this.data.event.title;
+    return this.translation.translate('eventCommentCreated.content', {
+      author: this.translation.memberName(this.data.comment.author),
+      message: this.data.comment.message,
+    });
   }
 
   emailKind(): EmailKind {

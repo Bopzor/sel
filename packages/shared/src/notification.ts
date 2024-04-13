@@ -123,6 +123,8 @@ export type NotificationData = {
       title: string;
       organizer: {
         id: string;
+        firstName: string;
+        lastName: string;
       };
     };
     comment: {

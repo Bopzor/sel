@@ -29,6 +29,8 @@ type EventCommentCreatedEmailProps = {
     title: string;
     organizer: {
       id: string;
+      firstName: string;
+      lastName: string;
     };
   };
   comment: {
@@ -63,7 +65,10 @@ export function html(props: EventCommentCreatedEmailProps) {
                 ? messages.commentCreated.isOrganizer.html
                 : messages.commentCreated.isNotOrganizer.html
             }
-            values={{ commentAuthor: <MemberName member={props.comment.author} /> }}
+            values={{
+              commentAuthor: <MemberName member={props.comment.author} />,
+              organizer: <MemberName member={props.event.organizer} />,
+            }}
           />
         </mj-text>
       </Section>

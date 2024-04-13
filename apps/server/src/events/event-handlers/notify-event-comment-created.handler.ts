@@ -54,6 +54,8 @@ export class NotifyEventCommentCreated implements EventHandler<EventCommentCreat
           title: event.title,
           organizer: {
             id: event.organizerId,
+            firstName: author.firstName,
+            lastName: author.lastName,
           },
         },
         comment: {

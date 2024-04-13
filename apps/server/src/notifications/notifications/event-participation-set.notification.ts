@@ -13,7 +13,10 @@ export class EventParticipationSetNotification implements NotificationCreator {
   ) {}
 
   shouldSend(member: Member) {
-    if (member.id !== this.data.event.organizer.id) {
+    if (
+      member.id !== this.data.event.organizer.id ||
+      this.data.participant.id === this.data.event.organizer.id
+    ) {
       return false;
     }
 
