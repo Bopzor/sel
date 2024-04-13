@@ -20,6 +20,8 @@ class Test extends E2ETest {
 
     [this.member, this.memberToken] = await this.createAuthenticatedMember({
       email: 'member',
+      firstName: 'Machin',
+      lastName: 'Truc',
     });
   }
 }
@@ -98,6 +100,26 @@ describe('[E2E] Request', () => {
     expect(await test.fetch('/events/eventId', { token })).toHaveProperty('body.participants', [
       expect.objectContaining({ id: test.member.id }),
     ]);
+
+    await test.waitForEventHandlers();
+
+    expect(await test.application.getMemberNotifications({ memberId: test.organizer.id })).toHaveProperty(
+      'notifications.0.title',
+      'Machin T. participe à votre événement',
+    );
+
+    await test.fetch('/events/eventId/participation', {
+      token: test.memberToken,
+      method: 'PUT',
+      body: { participation: null },
+    });
+
+    await test.waitForEventHandlers();
+
+    expect(await test.application.getMemberNotifications({ memberId: test.organizer.id })).toHaveProperty(
+      'notifications.0.title',
+      'Machin T. ne participe plus à votre événement',
+    );
   });
 
   it('creates a comment on an event', async () => {

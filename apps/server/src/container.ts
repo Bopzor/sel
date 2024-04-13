@@ -20,6 +20,7 @@ import { UpdateEvent } from './events/commands/update-event.command';
 import { CreateEventSubscription } from './events/event-handlers/create-event-subscription.event-handler';
 import { NotifyEventCommentCreated } from './events/event-handlers/notify-event-comment-created.handler';
 import { NotifyEventCreated } from './events/event-handlers/notify-event-created.event-handler';
+import { NotifyEventParticipationSet } from './events/event-handlers/notify-event-participant-set.event-handler';
 import { EventController } from './events/event.controller';
 import { GetEvent } from './events/queries/get-event.query';
 import { ListEvents } from './events/queries/list-events.query';
@@ -187,6 +188,7 @@ container.bindFactory(EVENT_HANDLERS.notifyRequestCommentCreated, NotifyRequestC
 container.bindFactory(EVENT_HANDLERS.notifyRequestStatusChanged, NotifyRequestStatusChanged.inject);
 container.bindFactory(EVENT_HANDLERS.createEventSubscription, CreateEventSubscription.inject);
 container.bindFactory(EVENT_HANDLERS.notifyEventCreated, NotifyEventCreated.inject);
+container.bindFactory(EVENT_HANDLERS.notifyEventParticipationSet, NotifyEventParticipationSet.inject);
 container.bindFactory(EVENT_HANDLERS.notifyEventCommentCreated, NotifyEventCommentCreated.inject);
 container.bindFactory(EVENT_HANDLERS.createMemberSubscription, CreateMemberSubscription.inject);
 container.bindFactory(EVENT_HANDLERS.enableSubscriptions, EnableSubscriptions.inject);

@@ -20,13 +20,13 @@ export class EventUpdated extends EventEvent {}
 export class EventParticipationSet extends EventEvent {
   constructor(
     eventId: string,
-    public readonly participation: EventParticipation,
+    public readonly participantId: string,
+    public readonly previousParticipation: EventParticipation | null,
+    public readonly participation: EventParticipation | null,
   ) {
     super(eventId);
   }
 }
-
-export class EventParticipationDeleted extends EventEvent {}
 
 export class EventCommentCreated extends EventEvent {
   constructor(

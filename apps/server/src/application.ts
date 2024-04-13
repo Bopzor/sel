@@ -1,6 +1,6 @@
 import { Token, injectableClass } from 'ditox';
 
-import { EventCommentCreated, EventCreated } from './events/event-events';
+import { EventCommentCreated, EventCreated, EventParticipationSet } from './events/event-events';
 import { CommandBus } from './infrastructure/cqs/command-bus';
 import { CommandHandler } from './infrastructure/cqs/command-handler';
 import { EventBus } from './infrastructure/cqs/event-bus';
@@ -58,8 +58,10 @@ export class Application {
     eventBus.bind(RequestFulfilled, EVENT_HANDLERS.notifyRequestStatusChanged);
     eventBus.bind(RequestCanceled, EVENT_HANDLERS.notifyRequestStatusChanged);
 
-    eventBus.bind(EventCreated, EVENT_HANDLERS.notifyEventCreated);
     eventBus.bind(EventCreated, EVENT_HANDLERS.createEventSubscription);
+    eventBus.bind(EventCreated, EVENT_HANDLERS.notifyEventCreated);
+    eventBus.bind(EventParticipationSet, EVENT_HANDLERS.createEventSubscription);
+    eventBus.bind(EventParticipationSet, EVENT_HANDLERS.notifyEventParticipationSet);
     eventBus.bind(EventCommentCreated, EVENT_HANDLERS.createEventSubscription);
     eventBus.bind(EventCommentCreated, EVENT_HANDLERS.notifyEventCommentCreated);
 

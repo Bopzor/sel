@@ -8,6 +8,8 @@
   "requestStatusChanged.title": "La demande de {requester} a été annulée",
   "requestStatusChanged.content": "{requester} a annulé sa demande \"{title}\"",
   "eventCreated.title": "Nouvel événement",
+  "eventParticipationAdded.title": "{participant} participe à votre événement",
+  "eventParticipationRemoved.title": "{participant} ne participe plus à votre événement",
   "eventCommentCreated.title": "Nouveau commentaire sur {isOrganizer, select, true {votre événement} other {l'événement}} \"{title}\"",
   "eventCommentCreated.content": "{author} : {message}"
 }

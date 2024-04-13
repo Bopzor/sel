@@ -1,3 +1,4 @@
+import { EventParticipation } from './event';
 import { RequestStatus } from './request';
 
 const notificationTypes = [
@@ -6,6 +7,7 @@ const notificationTypes = [
   'RequestCommentCreated',
   'RequestStatusChanged',
   'EventCreated',
+  'EventParticipationSet',
   'EventCommentCreated',
 ] as const;
 
@@ -96,6 +98,23 @@ export type NotificationData = {
       };
       message: string;
     };
+  };
+
+  EventParticipationSet: {
+    event: {
+      id: string;
+      title: string;
+      organizer: {
+        id: string;
+      };
+    };
+    participant: {
+      id: string;
+      firstName: string;
+      lastName: string;
+    };
+    previousParticipation: EventParticipation | null;
+    participation: EventParticipation | null;
   };
 
   EventCommentCreated: {

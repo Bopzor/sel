@@ -19,6 +19,7 @@ import { UpdateEvent } from './events/commands/update-event.command';
 import { CreateEventSubscription } from './events/event-handlers/create-event-subscription.event-handler';
 import { NotifyEventCommentCreated } from './events/event-handlers/notify-event-comment-created.handler';
 import { NotifyEventCreated } from './events/event-handlers/notify-event-created.event-handler';
+import { NotifyEventParticipationSet } from './events/event-handlers/notify-event-participant-set.event-handler';
 import { EventController } from './events/event.controller';
 import { GetEvent } from './events/queries/get-event.query';
 import { ListEvents } from './events/queries/list-events.query';
@@ -167,8 +168,9 @@ export const EVENT_HANDLERS = {
   notifyRequestCreated: token<NotifyRequestCreated>('notifyRequestCreated'),
   notifyRequestCommentCreated: token<NotifyRequestCommentCreated>('notifyRequestCommentCreated'),
   notifyRequestStatusChanged: token<NotifyRequestStatusChanged>('notifyRequestStatusChanged'),
-  notifyEventCreated: token<NotifyEventCreated>('notifyEventCreated'),
   createEventSubscription: token<CreateEventSubscription>('createEventSubscription'),
+  notifyEventCreated: token<NotifyEventCreated>('notifyEventCreated'),
+  notifyEventParticipationSet: token<NotifyEventParticipationSet>('notifyEventParticipationSet'),
   notifyEventCommentCreated: token<NotifyEventCommentCreated>('notifyEventCommentCreated'),
   createMemberSubscription: token<CreateMemberSubscription>('createMemberSubscription'),
   enableSubscriptions: token<EnableSubscriptions>('enableSubscriptions'),

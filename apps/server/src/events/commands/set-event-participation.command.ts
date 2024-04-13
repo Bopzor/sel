@@ -9,7 +9,7 @@ import { GeneratorPort } from '../../infrastructure/generator/generator.port';
 import { Database } from '../../persistence/database';
 import * as schema from '../../persistence/schema';
 import { TOKENS } from '../../tokens';
-import { EventParticipationDeleted, EventParticipationSet } from '../event-events';
+import { EventParticipationSet } from '../event-events';
 
 export type SetEventParticipationCommand = {
   eventId: string;
@@ -37,6 +37,13 @@ export class SetEventParticipation implements CommandHandler<SetEventParticipati
     const { eventId, memberId, participation } = command;
     const now = this.dateAdapter.now();
 
+    const currentParticipation = await this.database.db.query.eventParticipations.findFirst({
+      where: and(
+        eq(schema.eventParticipations.eventId, eventId),
+        eq(schema.eventParticipations.participantId, memberId),
+      ),
+    });
+
     if (participation !== null) {
       await this.database.db
         .insert(schema.eventParticipations)
@@ -56,7 +63,14 @@ export class SetEventParticipation implements CommandHandler<SetEventParticipati
           },
         });
 
-      this.eventPublisher.publish(new EventParticipationSet(eventId, participation));
+      this.eventPublisher.publish(
+        new EventParticipationSet(
+          eventId,
+          memberId,
+          currentParticipation?.participation ?? null,
+          participation,
+        ),
+      );
     }
 
     if (participation === null) {
@@ -72,7 +86,9 @@ export class SetEventParticipation implements CommandHandler<SetEventParticipati
           .delete(schema.eventParticipations)
           .where(eq(schema.eventParticipations.id, participation.id));
 
-        this.eventPublisher.publish(new EventParticipationDeleted(eventId));
+        this.eventPublisher.publish(
+          new EventParticipationSet(eventId, memberId, currentParticipation?.participation ?? null, null),
+        );
       }
     }
   }
