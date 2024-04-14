@@ -2,8 +2,12 @@ import { waitFor } from '@sel/utils';
 import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it } from 'vitest';
 
 import { NotificationDeliveryType } from '../common/notification-delivery-type';
+import { container } from '../container';
 import { E2ETest } from '../e2e-test';
 import { Member } from '../members/member.entity';
+import { TOKENS } from '../tokens';
+
+import { Notification } from './notification.entity';
 
 class Test extends E2ETest {
   member!: Member;
@@ -18,11 +22,19 @@ class Test extends E2ETest {
     });
   }
 
-  async notify() {
-    await this.application.notify({
+  async notify(values: { push?: Notification['push']; email?: Notification['email'] }) {
+    const subscriptionService = container.resolve(TOKENS.subscriptionService);
+
+    await subscriptionService.notify({
       subscriptionType: 'NewAppVersion',
       notificationType: 'NewAppVersion',
-      data: { version: '' },
+      data: () => ({
+        shouldSend: true,
+        title: '',
+        push: { title: '', content: '' },
+        email: { subject: '', html: '', text: '' },
+        ...values,
+      }),
     });
 
     await this.waitForEventHandlers();
@@ -50,12 +62,16 @@ describe('[E2E] Notification', () => {
   afterEach(() => test?.waitForEventHandlers());
 
   it('sends a push notification', async () => {
-    await test.notify();
-
-    expect(test.getPushNotification()).toEqual({
-      title: "Nouvelle version de l'app",
-      content: "Une nouvelle version de l'app est disponible.",
+    await test.notify({
+      push: { title: 'title', content: 'content' },
     });
+
+    expect(test.getPushNotification()).toEqual([
+      {
+        title: 'title',
+        content: 'content',
+      },
+    ]);
 
     expect(test.getEmails()).toHaveLength(0);
   });
@@ -72,7 +88,9 @@ describe('[E2E] Notification', () => {
       deviceType: 'mobile',
     });
 
-    await test.notify();
+    await test.notify({
+      email: { subject: 'subject', html: '', text: '' },
+    });
 
     // email is sent asynchronously
     await waitFor(() => {
@@ -80,7 +98,7 @@ describe('[E2E] Notification', () => {
 
       expect(email, 'email notification was not sent').toBeDefined();
       expect(email).toHaveProperty('envelope.to.0.address', 'member@localhost');
-      expect(email).toHaveProperty('subject', "SEL'ons-nous - Nouvelle version de l'app");
+      expect(email).toHaveProperty('subject', 'subject');
     });
 
     expect(test.pushNotification.notifications.get('subscription')).toBeUndefined();

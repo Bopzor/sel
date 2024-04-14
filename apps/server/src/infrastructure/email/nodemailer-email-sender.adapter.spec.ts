@@ -5,7 +5,6 @@ import { StubConfigAdapter } from '../config/stub-config.adapter';
 
 import { Email } from './email.types';
 import { Nodemailer, NodemailerEmailSenderAdapter, Transporter } from './nodemailer-email-sender.adapter';
-import { StubEmailRendererAdapter } from './stub-email-renderer.adapter';
 
 describe('[Unit] NodemailerEmailSenderAdapter', () => {
   let config: ConfigPort;
@@ -31,9 +30,7 @@ describe('[Unit] NodemailerEmailSenderAdapter', () => {
       createTransport,
     };
 
-    const renderer = new StubEmailRendererAdapter();
-
-    new NodemailerEmailSenderAdapter(config, nodemailer, renderer);
+    new NodemailerEmailSenderAdapter(config, nodemailer);
 
     expect(createTransport).toHaveBeenCalledWith({
       port: 25,
@@ -58,14 +55,13 @@ describe('[Unit] NodemailerEmailSenderAdapter', () => {
       })),
     };
 
-    const renderer = new StubEmailRendererAdapter();
+    const adapter = new NodemailerEmailSenderAdapter(config, nodemailer);
 
-    const adapter = new NodemailerEmailSenderAdapter(config, nodemailer, renderer);
-
-    const email: Email<'test'> = {
+    const email: Email = {
       to: 'to',
-      kind: 'test',
-      variables: { variable: 'value' },
+      subject: 'subject',
+      html: 'html',
+      text: 'text',
     };
 
     await expect(adapter.send(email)).resolves.toBeUndefined();
@@ -75,8 +71,8 @@ describe('[Unit] NodemailerEmailSenderAdapter', () => {
         from: 'sender',
         to: 'to',
         subject: 'subject',
-        text: expect.stringContaining('value'),
-        html: expect.stringContaining('value'),
+        html: 'html',
+        text: 'text',
       },
       expect.any(Function),
     );

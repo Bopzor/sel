@@ -83,10 +83,11 @@ export class Application {
   createMember = this.createCommandMethod(COMMANDS.createMember);
   updateMemberProfile = this.createCommandMethod(COMMANDS.updateMemberProfile);
   createSubscription = this.createCommandMethod(COMMANDS.createSubscription);
-  notify = this.createCommandMethod(COMMANDS.notify);
   sendPushNotification = this.createCommandMethod(COMMANDS.sendPushNotification);
   registerDevice = this.createCommandMethod(COMMANDS.registerDevice);
   changeNotificationDeliveryType = this.createCommandMethod(COMMANDS.changeNotificationDeliveryType);
+
+  createRequestComment = this.createCommandMethod(COMMANDS.createRequestComment);
 
   private createQueryMethod<Query, Result>(token: Token<QueryHandler<Query, Result>>) {
     return (query: Query) => this.queryBus.executeQuery(token, query);

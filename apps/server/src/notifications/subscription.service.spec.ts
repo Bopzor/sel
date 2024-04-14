@@ -1,56 +1,67 @@
-import { NotificationData } from '@sel/shared';
+import { EventBus } from '@sel/cqs';
+import { createDate } from '@sel/utils';
 import { beforeEach, describe, expect, it } from 'vitest';
 
-import { NotificationDeliveryType } from '../../common/notification-delivery-type';
-import { StubDate } from '../../infrastructure/date/stub-date.adapter';
-import { StubEventPublisher } from '../../infrastructure/events/stub-event-publisher';
-import { StubGenerator } from '../../infrastructure/generator/stub-generator.adapter';
-import { FormatJsTranslationAdapter } from '../../infrastructure/translation/formatjs-translation.adapter';
-import { createMember } from '../../members/member.entity';
-import { InMemoryMemberRepository } from '../../persistence/repositories/member/in-memory-member.repository';
-import { InMemoryNotificationRepository } from '../../persistence/repositories/notification/in-memory-notification.repository';
-import { InMemorySubscriptionRepository } from '../../persistence/repositories/subscription/in-memory.subscription.repository';
-import { UnitTest } from '../../unit-test';
-import { NotificationCreated } from '../notification-events';
-import { createSubscription } from '../subscription.entity';
+import { NotificationDeliveryType } from '../common/notification-delivery-type';
+import { StubDate } from '../infrastructure/date/stub-date.adapter';
+import { StubGenerator } from '../infrastructure/generator/stub-generator.adapter';
+import { createMember } from '../members/member.entity';
+import { InMemoryMemberRepository } from '../persistence/repositories/member/in-memory-member.repository';
+import { InMemoryNotificationRepository } from '../persistence/repositories/notification/in-memory-notification.repository';
+import { InMemorySubscriptionRepository } from '../persistence/repositories/subscription/in-memory.subscription.repository';
+import { UnitTest } from '../unit-test';
 
-import { Notify, NotifyCommand } from './notify.command';
+import { NotificationCreated } from './notification-events';
+import { createSubscription } from './subscription.entity';
+import { NotificationCreator, SubscriptionService } from './subscription.service';
 
 class Test extends UnitTest {
+  now = createDate();
+
   generator = new StubGenerator();
   dateAdapter = new StubDate();
-  translation = new FormatJsTranslationAdapter();
-  eventPublisher = new StubEventPublisher();
+  eventBus = new EventBus();
   memberRepository = new InMemoryMemberRepository();
   subscriptionRepository = new InMemorySubscriptionRepository();
   notificationRepository = new InMemoryNotificationRepository(this.dateAdapter);
 
-  handler = new Notify(
+  subscriptionService = new SubscriptionService(
     this.generator,
     this.dateAdapter,
-    this.translation,
-    this.eventPublisher,
+    this.eventBus,
     this.memberRepository,
     this.subscriptionRepository,
     this.notificationRepository,
   );
 
-  command: NotifyCommand = {
-    subscriptionType: 'NewAppVersion',
-    notificationType: 'NewAppVersion',
-    data: { version: '1.2.3' },
-  };
-
   setup(): void {
     this.generator.nextId = 'notificationId';
+    this.dateAdapter.date = this.now;
   }
 
-  async execute() {
-    await this.handler.handle(this.command);
+  async notify(overrides?: Partial<NotificationCreator>): Promise<void> {
+    await this.subscriptionService.notify({
+      subscriptionType: 'NewAppVersion',
+      notificationType: 'NewAppVersion',
+      data: () => ({
+        shouldSend: true,
+        title: 'title',
+        push: {
+          title: 'title',
+          content: 'content',
+        },
+        email: {
+          subject: 'subject',
+          html: 'html',
+          text: 'text',
+        },
+      }),
+      ...overrides,
+    });
   }
 }
 
-describe('[Unit] Notify', () => {
+describe('[Unit] SubscriptionService', () => {
   let test: Test;
 
   beforeEach(() => {
@@ -78,17 +89,18 @@ describe('[Unit] Notify', () => {
       }),
     );
 
-    await test.execute();
+    await test.notify();
 
     const notification = test.notificationRepository.get('notificationId');
 
     expect(notification).toHaveProperty('id', 'notificationId');
-    expect(notification).toHaveProperty('title', "Nouvelle version de l'app");
-    expect(notification).toHaveProperty('content', "Une nouvelle version de l'app est disponible.");
-    expect(notification).toHaveProperty('data', { version: '1.2.3' });
+    expect(notification).toHaveProperty('title', 'title');
     expect(notification).toHaveProperty('deliveryType', notificationDelivery);
-
-    expect(test.eventPublisher).toHaveEmitted(new NotificationCreated('notificationId'));
+    expect(notification).toHaveProperty('push.title', 'title');
+    expect(notification).toHaveProperty('push.content', 'content');
+    expect(notification).toHaveProperty('email.subject', 'subject');
+    expect(notification).toHaveProperty('email.html', 'html');
+    expect(notification).toHaveProperty('email.text', 'text');
   });
 
   it('does not send a notification when the subscription is not active', async () => {
@@ -103,7 +115,7 @@ describe('[Unit] Notify', () => {
       }),
     );
 
-    await test.execute();
+    await test.notify();
 
     const notifications = test.notificationRepository.all();
 
@@ -115,24 +127,23 @@ describe('[Unit] Notify', () => {
       test.memberRepository.add(createMember({ id: `memberId${i}` }));
 
       test.subscriptionRepository.add(
-        createSubscription({ id: `subscriptionId${i}`, memberId: `memberId${i}`, type: 'RequestCreated' }),
+        createSubscription({
+          id: `subscriptionId${i}`,
+          memberId: `memberId${i}`,
+          type: 'NewAppVersion',
+          active: true,
+        }),
       );
     }
 
-    test.command = {
-      subscriptionType: 'RequestCreated',
-      notificationType: 'RequestCreated',
-      data: {
-        request: {
-          id: '',
-          title: '',
-          requester: { id: 'memberId2', firstName: '', lastName: '' },
-          message: '',
-        },
-      } satisfies NotificationData['RequestCreated'],
-    };
-
-    await test.execute();
+    await test.notify({
+      data: (member) => ({
+        shouldSend: member.id === 'memberId1',
+        title: '',
+        push: { title: '', content: '' },
+        email: { subject: '', html: '', text: '' },
+      }),
+    });
 
     const notifications = test.notificationRepository.all();
 
@@ -161,17 +172,12 @@ describe('[Unit] Notify', () => {
       }),
     );
 
-    test.command = {
+    await test.notify({
       subscriptionType: 'RequestEvent',
+      subscriptionEntityId: 'requestId1',
       notificationType: 'RequestCommentCreated',
-      entityId: 'requestId1',
-      data: {
-        request: { id: 'requestId1', title: '', requester: { id: '', firstName: '', lastName: '' } },
-        comment: { id: '', author: { id: '', firstName: '', lastName: '' }, message: '' },
-      } satisfies NotificationData['RequestCommentCreated'],
-    };
-
-    await test.execute();
+      notificationEntityId: 'requestId1',
+    });
 
     const notifications = test.notificationRepository.all();
 

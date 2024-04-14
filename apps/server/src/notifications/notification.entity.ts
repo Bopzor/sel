@@ -7,14 +7,21 @@ export type Notification = {
   id: string;
   subscriptionId: string;
   memberId: string;
+  entityId?: string;
   type: shared.NotificationType;
   date: Date;
   deliveryType: Record<NotificationDeliveryType, boolean>;
   readAt?: Date;
   title: string;
-  titleTrimmed: string;
-  content: string;
-  data: unknown;
+  push: {
+    title: string;
+    content: string;
+  };
+  email: {
+    subject: string;
+    html: string;
+    text: string;
+  };
 };
 
 export const createNotification = createFactory<Notification>(() => ({
@@ -28,7 +35,13 @@ export const createNotification = createFactory<Notification>(() => ({
     [NotificationDeliveryType.push]: false,
   },
   title: '',
-  titleTrimmed: '',
-  content: '',
-  data: {},
+  push: {
+    title: '',
+    content: '',
+  },
+  email: {
+    subject: '',
+    html: '',
+    text: '',
+  },
 }));

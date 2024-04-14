@@ -94,9 +94,15 @@ describe('[Intg] SqlNotificationRepository', () => {
           date: createDate(),
           deliveryType: notificationDelivery,
           title: '',
-          titleTrimmed: '',
-          content: '',
-          data: { version: '' },
+          push: {
+            title: '',
+            content: '',
+          },
+          email: {
+            subject: '',
+            html: '',
+            text: '',
+          },
         },
       ]);
 

@@ -29,7 +29,7 @@ import { CommandBus } from './infrastructure/cqs/command-bus';
 import { EventBus } from './infrastructure/cqs/event-bus';
 import { QueryBus } from './infrastructure/cqs/query-bus';
 import { NativeDateAdapter } from './infrastructure/date/native-date.adapter';
-import { EmailPackageRendererAdapter } from './infrastructure/email/email-package-renderer.adapter';
+import { MjmlEmailRendererAdapter } from './infrastructure/email/mjml-email-renderer.adapter';
 import { NodemailerEmailSenderAdapter } from './infrastructure/email/nodemailer-email-sender.adapter';
 import { SlackErrorReporterAdapter } from './infrastructure/error-reporter/slack-error-reporter.adapter';
 import { EventPublisher } from './infrastructure/events/event-publisher';
@@ -52,15 +52,16 @@ import { GetMember } from './members/queries/get-member.query';
 import { ListMembers } from './members/queries/list-members.query';
 import { CreateSubscription } from './notifications/commands/create-subscription.command';
 import { MarkNotificationAsRead } from './notifications/commands/mark-notification-as-read.command';
-import { Notify } from './notifications/commands/notify.command';
 import { RegisterDevice } from './notifications/commands/register-device.command';
 import { SendEmailNotification } from './notifications/commands/send-email-notification.command';
 import { SendPushNotification } from './notifications/commands/send-push-notification.command';
 import { DeliverNotification } from './notifications/event-handlers/deliver-notification.event-handler';
 import { NotificationController } from './notifications/notification.controller';
 import { GetMemberNotifications } from './notifications/queries/get-member-notifications.query';
+import { SubscriptionService } from './notifications/subscription.service';
 import { Database } from './persistence/database';
 import { SqlCommentRepository } from './persistence/repositories/comment/sql-comment.repository';
+import { SqlEventRepository } from './persistence/repositories/event/sql-memory-event.repository';
 import { SqlMemberRepository } from './persistence/repositories/member/sql-member.repository';
 import { SqlMemberDeviceRepository } from './persistence/repositories/member-device/sql-member-device.repository';
 import { SqlNotificationRepository } from './persistence/repositories/notification/sql-notification.repository';
@@ -102,7 +103,7 @@ container.bindFactory(TOKENS.pushNotification, WebPushNotificationAdapter.inject
 
 container.bindFactory(TOKENS.server, Server.inject);
 container.bindFactory(TOKENS.database, Database.inject);
-container.bindFactory(TOKENS.emailRenderer, EmailPackageRendererAdapter.inject);
+container.bindFactory(TOKENS.emailRenderer, MjmlEmailRendererAdapter.inject);
 container.bindValue(TOKENS.nodemailer, nodemailer);
 container.bindFactory(TOKENS.emailSender, NodemailerEmailSenderAdapter.inject);
 
@@ -114,6 +115,7 @@ container.bindFactory(TOKENS.requestRepository, SqlRequestRepository.inject);
 container.bindFactory(TOKENS.requestAnswerRepository, SqlRequestAnswerRepository.inject);
 
 container.bindFactory(TOKENS.eventController, EventController.inject);
+container.bindFactory(TOKENS.eventRepository, SqlEventRepository.inject);
 
 container.bindFactory(TOKENS.authenticationController, AuthenticationController.inject);
 container.bindFactory(TOKENS.sessionController, SessionController.inject);
@@ -124,6 +126,7 @@ container.bindFactory(TOKENS.tokenRepository, SqlTokenRepository.inject);
 container.bindFactory(TOKENS.commentService, CommentService.inject);
 container.bindFactory(TOKENS.commentRepository, SqlCommentRepository.inject);
 
+container.bindFactory(TOKENS.subscriptionService, SubscriptionService.inject);
 container.bindFactory(TOKENS.subscriptionRepository, SqlSubscriptionRepository.inject);
 
 container.bindFactory(TOKENS.notificationController, NotificationController.inject);
@@ -160,7 +163,6 @@ container.bindFactory(COMMANDS.changeNotificationDeliveryType, ChangeNotificatio
 container.bindFactory(COMMANDS.createSubscription, CreateSubscription.inject);
 container.bindFactory(COMMANDS.markNotificationAsRead, MarkNotificationAsRead.inject);
 container.bindFactory(COMMANDS.registerDevice, RegisterDevice.inject);
-container.bindFactory(COMMANDS.notify, Notify.inject);
 container.bindFactory(COMMANDS.sendPushNotification, SendPushNotification.inject);
 container.bindFactory(COMMANDS.sendEmailNotification, SendEmailNotification.inject);
 

@@ -4,8 +4,8 @@ import { InMemoryRepository } from '../../../in-memory.repository';
 import { CommentRepository } from './comment.repository';
 
 export class InMemoryCommentRepository extends InMemoryRepository<Comment> implements CommentRepository {
-  getComment(): Promise<Comment | undefined> {
-    throw new Error('Method not implemented.');
+  async getComment(commentId: string): Promise<Comment | undefined> {
+    return this.get(commentId);
   }
 
   async insert(parentType: CommentParentType, parentId: string, comment: Comment): Promise<void> {

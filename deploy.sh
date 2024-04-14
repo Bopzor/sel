@@ -36,7 +36,7 @@ koyeb service create server \
   --type web \
   --git "$repository" \
   --git-branch "$branch" \
-  --git-build-command 'pnpm exec tsc -b && pnpm run --filter @sel/emails build && pnpm run --filter @sel/server build' \
+  --git-build-command 'pnpm exec tsc -b' \
   --git-run-command 'pnpm run --filter @sel/server start' \
   --instance-type micro \
   --regions fra \

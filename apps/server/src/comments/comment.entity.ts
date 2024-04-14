@@ -1,3 +1,5 @@
+import { createDate, createFactory, createId } from '@sel/utils';
+
 export type CommentParentType = 'request' | 'event';
 
 export type Comment = {
@@ -7,3 +9,11 @@ export type Comment = {
   date: Date;
   text: string;
 };
+
+export const createComment = createFactory<Comment>(() => ({
+  id: createId(),
+  authorId: '',
+  entityId: '',
+  date: createDate(),
+  text: '',
+}));

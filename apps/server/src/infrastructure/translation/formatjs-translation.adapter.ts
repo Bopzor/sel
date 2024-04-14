@@ -4,7 +4,7 @@ import { injectableClass } from 'ditox';
 import { Member } from '../../members/member.entity';
 
 import fr from './lang/fr.json';
-import { TranslationPort } from './translation.port';
+import { TranslationPort, Values } from './translation.port';
 
 export class FormatJsTranslationAdapter implements TranslationPort {
   static inject = injectableClass(this);
@@ -21,8 +21,12 @@ export class FormatJsTranslationAdapter implements TranslationPort {
     );
   }
 
-  translate(key: string, values?: Record<string, string | number | boolean>): string {
-    return this.intl.formatMessage({ id: key }, values);
+  translate(key: string, values?: Values): string {
+    return this.intl.formatMessage({ id: key }, { ...this.commonValues, ...values });
+  }
+
+  link(target: string): (children: string[]) => string {
+    return (children) => `<a href="${target}">${children}</a>`;
   }
 
   memberName(member: Pick<Member, 'firstName' | 'lastName'>): string {
@@ -32,7 +36,7 @@ export class FormatJsTranslationAdapter implements TranslationPort {
     });
   }
 
-  notificationTitle(key: string, trimmableKey: string, values: Record<string, string | number | boolean>) {
+  notificationTitle(key: string, trimmableKey: string, values: Values) {
     const length = this.translate(key, { ...values, [trimmableKey]: '' }).length;
     const maxLength = 65 - length;
 
@@ -47,4 +51,8 @@ export class FormatJsTranslationAdapter implements TranslationPort {
       [trimmableKey]: trimmableValue,
     });
   }
+
+  private commonValues: Values = {
+    strong: (children) => `<span class="strong">${children}</span>`,
+  };
 }

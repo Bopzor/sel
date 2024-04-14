@@ -48,11 +48,11 @@ export class SqlNotificationRepository implements NotificationRepository {
       ({ notifications }): shared.Notification => ({
         id: notifications.id,
         type: notifications.type as shared.NotificationType,
+        entityId: notifications.entityId ?? undefined,
         date: notifications.date.toISOString(),
         read: notifications.readAt !== null,
         title: notifications.title,
-        content: notifications.content,
-        data: notifications.data as shared.Notification['data'],
+        content: notifications.push.content,
       }),
     );
   }
@@ -91,16 +91,16 @@ export class SqlNotificationRepository implements NotificationRepository {
     return {
       id: sqlNotification.id,
       subscriptionId: sqlSubscription.id,
+      entityId: sqlNotification.entityId ?? undefined,
       type: sqlNotification.type as shared.NotificationType,
       memberId: sqlSubscription.memberId,
       deliveryType: toObject(Object.values(NotificationDeliveryType), identity, (type) =>
         sqlNotification.deliveryType.includes(type),
       ),
       date: sqlNotification.date,
-      content: sqlNotification.content,
       title: sqlNotification.title,
-      titleTrimmed: sqlNotification.titleTrimmed,
-      data: sqlNotification.data,
+      push: sqlNotification.push,
+      email: sqlNotification.email,
     };
   }
 
@@ -115,15 +115,15 @@ export class SqlNotificationRepository implements NotificationRepository {
       models.map((model) => ({
         id: model.id,
         subscriptionId: model.subscriptionId,
+        entityId: model.entityId,
         type: model.type,
         date: model.date,
         deliveryType: entries(model.deliveryType)
           .filter(([, value]) => value)
           .map(([key]) => key),
         title: model.title,
-        titleTrimmed: model.titleTrimmed,
-        content: model.content,
-        data: model.data,
+        push: model.push,
+        email: model.email,
         createdAt: now,
         updatedAt: now,
       })),

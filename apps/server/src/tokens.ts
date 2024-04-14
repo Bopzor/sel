@@ -52,15 +52,16 @@ import { GetMember } from './members/queries/get-member.query';
 import { ListMembers } from './members/queries/list-members.query';
 import { CreateSubscription } from './notifications/commands/create-subscription.command';
 import { MarkNotificationAsRead } from './notifications/commands/mark-notification-as-read.command';
-import { Notify } from './notifications/commands/notify.command';
 import { RegisterDevice } from './notifications/commands/register-device.command';
 import { SendEmailNotification } from './notifications/commands/send-email-notification.command';
 import { SendPushNotification } from './notifications/commands/send-push-notification.command';
 import { DeliverNotification } from './notifications/event-handlers/deliver-notification.event-handler';
 import { NotificationController } from './notifications/notification.controller';
 import { GetMemberNotifications } from './notifications/queries/get-member-notifications.query';
+import { SubscriptionService } from './notifications/subscription.service';
 import { Database } from './persistence/database';
 import { CommentRepository } from './persistence/repositories/comment/comment.repository';
+import { EventRepository } from './persistence/repositories/event/event.repository';
 import { MemberRepository } from './persistence/repositories/member/member.repository';
 import { MemberDeviceRepository } from './persistence/repositories/member-device/member-device.repository';
 import { NotificationRepository } from './persistence/repositories/notification/notification.repository';
@@ -110,8 +111,10 @@ export const TOKENS = {
   requestRepository: token<RequestRepository>('requestRepository'),
   requestAnswerRepository: token<RequestAnswerRepository>('requestAnswerRepository'),
   eventController: token<EventController>('eventController'),
+  eventRepository: token<EventRepository>('eventRepository'),
   commentService: token<CommentService>('commentService'),
   commentRepository: token<CommentRepository>('commentRepository'),
+  subscriptionService: token<SubscriptionService>('subscriptionService'),
   subscriptionRepository: token<SubscriptionRepository>('subscriptionRepository'),
   notificationController: token<NotificationController>('notificationController'),
   notificationRepository: token<NotificationRepository>('notificationRepository'),
@@ -141,7 +144,6 @@ export const COMMANDS = {
   createSubscription: token<CreateSubscription>('createSubscription'),
   markNotificationAsRead: token<MarkNotificationAsRead>('markNotificationAsRead'),
   registerDevice: token<RegisterDevice>('registerDevice'),
-  notify: token<Notify>('notify'),
   sendPushNotification: token<SendPushNotification>('sendPushNotification'),
   sendEmailNotification: token<SendEmailNotification>('sendEmailNotification'),
   createEventComment: token<CreateEventComment>('createEventComment'),

@@ -3,9 +3,8 @@ import { injectableClass } from 'ditox';
 import { TOKENS } from '../../tokens';
 import { ConfigPort } from '../config/config.port';
 
-import { EmailRendererPort } from './email-renderer.port';
 import { EmailSenderPort } from './email-sender.port';
-import { Email, EmailKind } from './email.types';
+import { Email } from './email.types';
 
 export type TransportOptions = {
   port: number;
@@ -35,16 +34,12 @@ export interface Nodemailer {
 }
 
 export class NodemailerEmailSenderAdapter implements EmailSenderPort {
-  static inject = injectableClass(this, TOKENS.config, TOKENS.nodemailer, TOKENS.emailRenderer);
+  static inject = injectableClass(this, TOKENS.config, TOKENS.nodemailer);
 
   private transporter: Transporter;
   private from: string;
 
-  constructor(
-    config: ConfigPort,
-    nodemailer: Nodemailer,
-    private readonly renderer: EmailRendererPort,
-  ) {
+  constructor(config: ConfigPort, nodemailer: Nodemailer) {
     this.from = config.email.sender;
 
     this.transporter = nodemailer.createTransport({
@@ -59,12 +54,10 @@ export class NodemailerEmailSenderAdapter implements EmailSenderPort {
     });
   }
 
-  async send<Kind extends EmailKind>(email: Email<Kind>): Promise<void> {
-    const { subject, text, html } = this.renderer.render(email.kind, email.variables);
-
+  async send({ to, subject, text, html }: Email): Promise<void> {
     const message: MessageConfiguration = {
       from: this.from,
-      to: email.to,
+      to,
       subject,
       text,
       html,

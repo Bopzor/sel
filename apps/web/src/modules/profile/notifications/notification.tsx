@@ -50,13 +50,13 @@ function NotificationLink(props: { notification: Notification }) {
   return (
     <>
       {isNotificationOfType(props.notification, 'RequestCreated') && (
-        <Link href={routes.requests.request(props.notification.data.request.id)}>
+        <Link href={routes.requests.request(props.notification.entityId as string)}>
           <T id="viewRequest" />
         </Link>
       )}
 
       {isNotificationOfType(props.notification, 'RequestCommentCreated') && (
-        <Link href={routes.requests.request(props.notification.data.request.id)}>
+        <Link href={routes.requests.request(props.notification.entityId as string)}>
           <T id="viewRequest" />
         </Link>
       )}

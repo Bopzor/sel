@@ -12,16 +12,35 @@ main(app, process.argv.slice(2))
   .finally(() => void app.close());
 
 async function main(app: Application, args: string[]) {
+  const subscriptionService = container.resolve(TOKENS.subscriptionService);
+  const emailRenderer = container.resolve(TOKENS.emailRenderer);
+  const translation = container.resolve(TOKENS.translation);
+  const config = container.resolve(TOKENS.config);
   const [version, content] = args;
 
   assert(version, 'missing version');
 
-  await app.notify({
+  await subscriptionService.notify({
     subscriptionType: 'NewAppVersion',
     notificationType: 'NewAppVersion',
-    data: {
-      version,
-      content,
-    },
+    data: () => ({
+      shouldSend: true,
+      title: translation.translate('newAppVersion.title'),
+      push: {
+        title: translation.translate('newAppVersion.push.title'),
+        content: content ?? translation.translate('newAppVersion.push.content'),
+      },
+      email: emailRenderer.render({
+        subject: translation.translate('newAppVersion.email.subject'),
+        html: [
+          translation.translate('newAppVersion.email.line1'),
+          translation.translate('newAppVersion.email.line2', { appBaseUrl: config.app.baseUrl }),
+        ],
+        text: [
+          translation.translate('newAppVersion.email.line1'),
+          translation.translate('newAppVersion.email.line2', { appBaseUrl: config.app.baseUrl }),
+        ],
+      }),
+    }),
   });
 }

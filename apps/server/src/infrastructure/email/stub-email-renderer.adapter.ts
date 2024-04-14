@@ -1,15 +1,12 @@
 import { EmailRendererPort } from './email-renderer.port';
-import { EmailKind, EmailVariables } from './email.types';
+import { Email } from './email.types';
 
 export class StubEmailRendererAdapter implements EmailRendererPort {
-  render<Kind extends EmailKind>(
-    kind: EmailKind,
-    variables: EmailVariables[Kind],
-  ): { subject: string; text: string; html: string } {
+  render(props: { subject: string; html: string[]; text: string[] }): Omit<Email, 'to'> {
     return {
-      subject: 'subject',
-      text: JSON.stringify({ type: 'text', kind, variables }),
-      html: JSON.stringify({ type: 'html', kind, variables }),
+      subject: props.subject,
+      html: props.html.join('\n'),
+      text: props.text.join('\n'),
     };
   }
 }

@@ -165,6 +165,5 @@ describe('[E2E] Request', () => {
 
     expect(memberNotifications).toHaveLength(2);
     expect(memberNotifications).toHaveProperty('0.type', 'RequestStatusChanged');
-    expect(memberNotifications).toHaveProperty('0.data.request.status', 'fulfilled');
   });
 });

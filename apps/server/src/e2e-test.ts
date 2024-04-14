@@ -62,6 +62,10 @@ export class E2ETest {
     return container.resolve(TOKENS.application);
   }
 
+  get eventBus() {
+    return container.resolve(TOKENS.eventBus);
+  }
+
   create!: EntityCreator;
 
   static async create<Test extends E2ETest>(TestClass: { new (): Test }) {

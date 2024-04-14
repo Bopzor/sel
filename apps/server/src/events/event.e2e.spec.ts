@@ -89,7 +89,7 @@ describe('[E2E] Request', () => {
   });
 
   it("sets an event's participation", async () => {
-    await test.create.event({ eventId: 'eventId', organizerId: test.organizer.id });
+    await test.create.event({ eventId: 'eventId', organizerId: test.organizer.id, title: 'title' });
 
     await test.fetch('/events/eventId/participation', {
       token: test.memberToken,
@@ -105,20 +105,7 @@ describe('[E2E] Request', () => {
 
     expect(await test.application.getMemberNotifications({ memberId: test.organizer.id })).toHaveProperty(
       'notifications.0.title',
-      'Machin T. participe à votre événement',
-    );
-
-    await test.fetch('/events/eventId/participation', {
-      token: test.memberToken,
-      method: 'PUT',
-      body: { participation: null },
-    });
-
-    await test.waitForEventHandlers();
-
-    expect(await test.application.getMemberNotifications({ memberId: test.organizer.id })).toHaveProperty(
-      'notifications.0.title',
-      'Machin T. ne participe plus à votre événement',
+      'Participation à votre événement title',
     );
   });
 

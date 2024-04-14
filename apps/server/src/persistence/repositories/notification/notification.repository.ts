@@ -6,21 +6,27 @@ import { Notification } from '../../../notifications/notification.entity';
 export type InsertNotificationModel = {
   id: string;
   subscriptionId: string;
-  eventId?: string;
+  entityId?: string;
   type: shared.NotificationType;
   date: Date;
   deliveryType: Record<NotificationDeliveryType, boolean>;
   title: string;
-  titleTrimmed: string;
-  content: string;
-  data: unknown;
+  push: {
+    title: string;
+    content: string;
+  };
+  email: {
+    subject: string;
+    text: string;
+    html: string;
+  };
 };
 
 export interface NotificationRepository {
   query_countNotificationsForMember(memberId: string, read?: boolean): Promise<number>;
   query_getNotificationsForMember(memberId: string): Promise<Array<shared.Notification>>;
 
-  insertAll(models: InsertNotificationModel[]): Promise<void>;
+  insertAll(models: Array<InsertNotificationModel>): Promise<void>;
   getNotification(notificationId: string): Promise<Notification | undefined>;
   getNotificationsForMember(memberId: string): Promise<Array<Notification>>;
   markAsRead(notificationId: string): Promise<void>;

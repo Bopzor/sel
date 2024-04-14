@@ -5,6 +5,7 @@ import { boolean, json, pgEnum, pgTable, text, timestamp, unique, varchar } from
 import { TokenType } from '../authentication/token.entity';
 import { NotificationDeliveryType } from '../common/notification-delivery-type';
 import { MemberStatus } from '../members/member.entity';
+import { Notification } from '../notifications/notification.entity';
 import { RequestStatus } from '../requests/request.entity';
 
 const id = (name = 'id') => varchar(name, { length: 16 });
@@ -173,15 +174,14 @@ export const notifications = pgTable('notifications', {
   subscriptionId: id('subscription_id')
     .references(() => subscriptions.id)
     .notNull(),
-  eventId: id('event_id').references(() => domainEvents.id),
+  entityId: id('entity_id'),
   type: varchar('type', { length: 32 }).notNull(),
   date: date('date').notNull(),
   deliveryType: notificationDeliveryTypeEnum('delivery_type').array().notNull(),
   readAt: date('read_at'),
   title: text('title').notNull(),
-  titleTrimmed: varchar('title_trimmed', { length: 65 }).notNull(),
-  content: text('content').notNull(),
-  data: json('data').notNull(),
+  push: json('push').$type<Notification['push']>().notNull(),
+  email: json('email').$type<Notification['email']>().notNull(),
   createdAt: createdAt(),
   updatedAt: updatedAt(),
 });

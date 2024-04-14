@@ -21,8 +21,7 @@ export class DeliverNotification implements EventHandler<NotificationCreated> {
     if (notification.deliveryType.push) {
       await this.commandBus.executeCommand(COMMANDS.sendPushNotification, {
         memberId: notification.memberId,
-        title: notification.titleTrimmed,
-        content: notification.content,
+        ...notification.push,
       });
     }
 
