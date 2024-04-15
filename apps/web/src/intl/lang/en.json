@@ -310,7 +310,8 @@
     },
     "notifications": {
       "title": "Notifications",
-      "viewRequest": "View request"
+      "viewRequest": "View request",
+      "viewEvent": "View event"
     },
     "settings": {
       "title": "Settings",
