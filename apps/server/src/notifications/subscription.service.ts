@@ -78,6 +78,7 @@ export class SubscriptionService {
       const notification: InsertNotificationModel = {
         id: this.generator.id(),
         subscriptionId: subscription.id,
+        entityId: creator.notificationEntityId,
         type: creator.notificationType as NotificationType,
         date: now,
         deliveryType: member.notificationDelivery,

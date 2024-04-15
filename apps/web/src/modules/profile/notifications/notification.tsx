@@ -2,7 +2,7 @@ import { type Notification, isNotificationOfType } from '@sel/shared';
 import clsx from 'clsx';
 import { Icon } from 'solid-heroicons';
 import { xMark } from 'solid-heroicons/solid';
-import { Show } from 'solid-js';
+import { Match, Show, Switch } from 'solid-js';
 
 import { Link } from '../../../components/link';
 import { FormattedRelativeDate } from '../../../intl/formatted';
@@ -49,21 +49,37 @@ export function Notification(props: { notification: Notification; markAsRead: ()
 function NotificationLink(props: { notification: Notification }) {
   return (
     <>
-      {isNotificationOfType(props.notification, 'RequestCreated') && (
-        <Link href={routes.requests.request(props.notification.entityId as string)}>
-          <T id="viewRequest" />
-        </Link>
-      )}
+      <Switch>
+        <Match
+          when={(['RequestCreated', 'RequestCommentCreated'] as const).some((notificationType) =>
+            isNotificationOfType(props.notification, notificationType),
+          )}
+        >
+          <Link href={routes.requests.request(props.notification.entityId as string)}>
+            <T id="viewRequest" />
+          </Link>
+        </Match>
 
-      {isNotificationOfType(props.notification, 'RequestCommentCreated') && (
-        <Link href={routes.requests.request(props.notification.entityId as string)}>
-          <T id="viewRequest" />
-        </Link>
-      )}
+        <Match
+          when={(['EventCreated', 'EventCommentCreated', 'EventParticipationSet'] as const).some(
+            (notificationType) => isNotificationOfType(props.notification, notificationType),
+          )}
+        >
+          <Link href={routes.events.details(props.notification.entityId as string)}>
+            <T id="viewEvent" />
+          </Link>
+        </Match>
+      </Switch>
     </>
   );
 }
 
 function hasLink(notification: Notification) {
-  return ['RequestCreated', 'RequestCommentCreated'].includes(notification.type);
+  return [
+    'RequestCreated',
+    'RequestCommentCreated',
+    'EventCreated',
+    'EventCommentCreated',
+    'EventParticipationSet',
+  ].includes(notification.type);
 }

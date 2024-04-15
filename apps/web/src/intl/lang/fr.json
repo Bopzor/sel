@@ -309,7 +309,8 @@
     },
     "notifications": {
       "title": "Notifications",
-      "viewRequest": "Voir la demande"
+      "viewRequest": "Voir la demande",
+      "viewEvent": "Voir l'événement"
     },
     "settings": {
       "title": "Paramètres",

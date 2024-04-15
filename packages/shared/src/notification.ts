@@ -7,6 +7,7 @@ const notificationTypes = [
   'RequestCommentCreated',
   'RequestStatusChanged',
   'EventCreated',
+  'EventCommentCreated',
   'EventParticipationSet',
 ] as const;
 
