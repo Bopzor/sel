@@ -13,6 +13,7 @@ import { container } from '../../../infrastructure/container';
 import { Translate } from '../../../intl/translate';
 import { routes } from '../../../routes';
 import { TOKENS } from '../../../tokens';
+import { matchBreakpoint } from '../../../utils/match-breakpoint';
 
 import { EventComments } from './sections/event-comments';
 import { EventDate } from './sections/event-date';
@@ -42,19 +43,35 @@ export default function EventDetailsPage() {
 }
 
 function EventDetails(props: { event: Event; refetch: () => void }) {
-  const isOrganizer = () => {
-    return authenticatedMember()?.id === props.event.organizer.id;
-  };
+  const isDesktop = matchBreakpoint(1024);
+  const isMobile = () => !isDesktop();
 
   return (
     <>
       <div class="col lg:row gap-6">
+        <div class="flex-2 col gap-6 lg:order-2">
+          <Header event={props.event} />
+
+          <Message event={props.event} />
+
+          <Show when={isMobile()}>
+            <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-4">
+              <EventDate event={props.event} />
+              <EventLocation event={props.event} />
+            </div>
+          </Show>
+
+          <EventParticipation event={props.event} onParticipationChanged={props.refetch} />
+
+          <EventComments event={props.event} onCreated={props.refetch} />
+        </div>
+
         <div class="col flex-1 gap-4">
-          <EventDate event={props.event} />
-
-          <EventLocation event={props.event} />
-
-          <hr />
+          <Show when={!isMobile()}>
+            <EventDate event={props.event} />
+            <EventLocation event={props.event} />
+            <hr />
+          </Show>
 
           <div>
             <h2 class="mb-4">
@@ -65,28 +82,24 @@ function EventDetails(props: { event: Event; refetch: () => void }) {
 
           <EventParticipants event={props.event} />
         </div>
-
-        <div class="flex-2 col gap-6">
-          <div class="row items-start justify-between gap-4">
-            <h1>{props.event.title}</h1>
-
-            <Show when={isOrganizer()}>
-              <EditButton event={props.event} />
-            </Show>
-          </div>
-
-          <Message event={props.event} />
-
-          <hr />
-
-          <EventParticipation event={props.event} onParticipationChanged={props.refetch} />
-
-          <hr />
-
-          <EventComments event={props.event} onCreated={props.refetch} />
-        </div>
       </div>
     </>
+  );
+}
+
+function Header(props: { event: Event }) {
+  const isOrganizer = () => {
+    return authenticatedMember()?.id === props.event.organizer.id;
+  };
+
+  return (
+    <div class="sm:row col items-start justify-between gap-4">
+      <h1>{props.event.title}</h1>
+
+      <Show when={isOrganizer()}>
+        <EditButton event={props.event} />
+      </Show>
+    </div>
   );
 }
 

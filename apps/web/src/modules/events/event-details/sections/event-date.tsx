@@ -8,13 +8,13 @@ const T = Translate.prefix('events.details');
 
 export function EventDate(props: { event: Event }) {
   return (
-    <div class="card px-4 py-8">
+    <div class="col card items-center justify-center px-4 py-8 text-center">
       <Show when={props.event.date} fallback={<NoDate />}>
-        <div class="text-center text-xl font-semibold">
+        <div class="text-xl font-semibold">
           <FormattedDate date={props.event.date} dateStyle="full" />
         </div>
 
-        <div class="text-center text-lg">
+        <div class="text-lg">
           <FormattedDate date={props.event.date} timeStyle="short" />
         </div>
       </Show>
@@ -24,7 +24,7 @@ export function EventDate(props: { event: Event }) {
 
 function NoDate() {
   return (
-    <div class="text-center text-lg font-semibold text-dim">
+    <div class="text-lg font-semibold text-dim">
       <T id="dateToBeDefined" />
     </div>
   );
