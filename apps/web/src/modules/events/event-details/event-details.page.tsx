@@ -67,7 +67,7 @@ function EventDetails(props: { event: Event; refetch: () => void }) {
         </div>
 
         <div class="flex-2 col gap-6">
-          <div class="row justify-between gap-4">
+          <div class="row items-start justify-between gap-4">
             <h1>{props.event.title}</h1>
 
             <Show when={isOrganizer()}>
