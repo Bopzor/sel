@@ -31,6 +31,10 @@ export class MjmlEmailRendererAdapter implements EmailRendererPort {
     };
   }
 
+  public userContent(children: string) {
+    return `<div style="padding: 8px 16px; border: 1px solid #CCC; border-radius: 4px; background: #fafafc">${children}</div>`;
+  }
+
   private renderEmail(preview: string, sections: string[]) {
     return `
       <mjml>
@@ -70,11 +74,11 @@ export class MjmlEmailRendererAdapter implements EmailRendererPort {
       <mj-body>
         ${this.renderHeader()}
 
-        ${this.renderSection('<mj-spacer height="30px" />')}
+        ${this.renderSection('<mj-spacer height="30px" />', '0')}
 
         ${sections.map((section) => this.renderSection(`<mj-text>${section}</mj-text>`))}
 
-        ${this.renderSection('<mj-divider border-color="#005f7e"></mj-divider>', '30px 0')}
+        ${this.renderSection('<mj-divider border-color="#005f7e"></mj-divider>', '24px 0')}
       </mj-body>
     `;
   }
@@ -110,7 +114,7 @@ export class MjmlEmailRendererAdapter implements EmailRendererPort {
     `;
   }
 
-  private renderSection(content: string, padding = '0 16px') {
+  private renderSection(content: string, padding = '8px 0') {
     return `
       <mj-section padding="${padding}">
         <mj-column>

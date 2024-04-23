@@ -66,7 +66,7 @@ export class NotifyEventCreated implements EventHandler<EventCreated> {
               title: event.title,
               link: (children) => `<a href="${link}">${children}</a>`,
             }),
-            event.html,
+            this.emailRenderer.userContent(event.html),
           ],
           text: [
             this.translation.translate('greeting', { firstName: member.firstName }),

@@ -9,4 +9,8 @@ export class StubEmailRendererAdapter implements EmailRendererPort {
       text: props.text.join('\n'),
     };
   }
+
+  userContent(children: string): string {
+    return children;
+  }
 }

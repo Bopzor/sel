@@ -67,7 +67,7 @@ export class NotifyRequestCreated implements EventHandler<RequestCreated> {
             html: [
               t.translate('greeting', { firstName: member.firstName }),
               t.translate('requestCreated.email.html.line1', { requesterName, title, link: t.link(link) }),
-              request.body.html,
+              this.emailRenderer.userContent(request.body.html),
             ],
             text: [
               t.translate('greeting', { firstName: member.firstName }),

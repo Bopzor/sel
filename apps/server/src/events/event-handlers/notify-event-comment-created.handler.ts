@@ -98,7 +98,8 @@ export class NotifyEventCommentCreated implements EventHandler<EventCommentCreat
                 link: (children) => `<a href="${link}">${children}</a>`,
                 title,
               }),
-              comment.text,
+              // todo: comment.html
+              this.emailRenderer.userContent(comment.text),
             ],
             text: [
               this.translation.translate('greeting', { firstName: member.firstName }),
