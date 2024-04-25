@@ -15,7 +15,7 @@ export function Field(props1: FieldProps) {
   return (
     <div
       class={clsx(
-        'row w-full items-center overflow-hidden rounded-lg border-2',
+        'row h-12 min-h-12 w-full items-center overflow-hidden rounded-lg border-2',
         'transition-colors focus-within:border-primary/50',
         fieldProps.class,
       )}

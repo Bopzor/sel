@@ -22,7 +22,7 @@ export function Input(props1: InputProps) {
 
       <input
         ref={inputProps.ref ?? undefined}
-        class={clsx('w-full self-stretch bg-transparent px-4 py-3 outline-none', props.start && 'pl-0')}
+        class={clsx('size-full self-stretch bg-transparent px-4 outline-none', props.start && 'pl-0')}
         {...inputProps}
       />
 

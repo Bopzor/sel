@@ -93,7 +93,7 @@ function Header(props: { event: Event }) {
   };
 
   return (
-    <div class="sm:row col justify-between gap-4">
+    <div class="sm:row col items-start justify-between gap-4">
       <h1>{props.event.title}</h1>
 
       <Show when={isOrganizer()}>
