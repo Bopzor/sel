@@ -4,6 +4,7 @@ import { injectableClass } from 'ditox';
 import { QueryHandler } from '../../infrastructure/cqs/query-handler';
 import { Database } from '../../persistence/database';
 import * as schema from '../../persistence/schema';
+import { asc } from '../../persistence/utils';
 import { TOKENS } from '../../tokens';
 
 export type ListEventsQuery = {
@@ -19,6 +20,7 @@ export class ListEvents implements QueryHandler<ListEventsQuery, ListEventsQuery
 
   async handle(): Promise<ListEventsQueryResult> {
     const events = await this.database.db.query.events.findMany({
+      orderBy: [asc(schema.events.date, { nulls: 'first' })],
       with: {
         organizer: true,
       },
