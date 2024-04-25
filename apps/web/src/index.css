@@ -169,7 +169,8 @@
 }
 
 :root.dark .map {
-  filter: brightness(0.6) invert(1) contrast(3) hue-rotate(200deg) saturate(0.1) brightness(0.7);
+  filter: brightness(60%) contrast(140%) grayscale(25%);
+  color: #666;
 }
 
 /* https://tiptap.dev/api/extensions/placeholder */
