@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import { JSX, mergeProps, splitProps } from 'solid-js';
 
 import { Field, FieldVariant, FieldWidth } from './field';
@@ -12,7 +13,7 @@ export function TextArea(props1: TextAreaProps) {
   const [fieldProps, textareaProps] = splitProps(props2, ['variant', 'class']);
 
   return (
-    <Field {...fieldProps}>
+    <Field {...fieldProps} class={clsx('h-auto', fieldProps.class)}>
       <textarea ref={textareaProps.ref ?? undefined} class="w-full bg-neutral px-4 py-3" {...textareaProps} />
     </Field>
   );

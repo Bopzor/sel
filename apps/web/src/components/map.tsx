@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import * as maplibre from 'maplibre-gl';
-import { For, JSX, createEffect, createSignal, onMount } from 'solid-js';
+import { For, JSX, createEffect, createSignal, createUniqueId, onMount } from 'solid-js';
 import MapGL, { Layer, Marker, Source, Viewport } from 'solid-map-gl';
 
 import 'maplibre-gl/dist/maplibre-gl.css';
@@ -21,15 +21,19 @@ type MapProps = {
 };
 
 export function Map(props: MapProps) {
+  const id = createUniqueId();
+
   const [viewport, setViewport] = createSignal<Viewport>({
     center: props.center,
     zoom: props.zoom,
+    id,
   });
 
   createEffect(() => {
     setViewport({
       center: props.center,
       zoom: props.zoom,
+      id,
     });
   });
 
@@ -43,6 +47,7 @@ export function Map(props: MapProps) {
   return (
     <MapGL
       mapLib={maplibre}
+      id={id}
       viewport={viewport()}
       onViewportChange={(viewport) => setViewport(viewport)}
       // eslint-disable-next-line tailwindcss/no-arbitrary-value

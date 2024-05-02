@@ -30,6 +30,7 @@ export function AddressStep(props: OnboardingStepProps<OnboardingStep.address>) 
           variant="outlined"
           value={data((data) => data.address)}
           onSelected={(address) => setFields({ address })}
+          mapClass="min-h-sm"
         />
       </FormField>
 

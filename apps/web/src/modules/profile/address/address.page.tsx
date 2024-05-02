@@ -41,6 +41,7 @@ export default function AddressPage() {
         placeholder={t('placeholder')}
         value={authenticatedMember()?.address}
         onSelected={(address) => handleSelected(address)}
+        mapClass="max-h-md"
       />
     </>
   );

@@ -1,92 +1,81 @@
 import { Address } from '@sel/shared';
-import { ComponentProps, For, Show, Suspense, createEffect, createResource } from 'solid-js';
+import clsx from 'clsx';
+import { ComponentProps, createSignal } from 'solid-js';
 
 import { container } from '../infrastructure/container';
+import { Translate } from '../intl/translate';
 import { TOKENS } from '../tokens';
-import { createDebouncedSignal } from '../utils/debounce';
-import { deepTrack } from '../utils/deep-track';
+import { createAsyncCall } from '../utils/create-async-call';
 
+import { Autocomplete } from './autocomplete';
 import { formatAddressInline } from './formatted-address';
 import { Input } from './input';
 import { Map } from './map';
-import { Spinner } from './spinner';
+
+const T = Translate.prefix('common.addressSearch');
 
 type AddressSearchProps = Pick<ComponentProps<typeof Input>, 'variant' | 'width'> & {
   placeholder?: string;
   value?: Address;
   onSelected: (address: Address) => void;
+  mapClass?: string;
 };
 
 export function AddressSearch(props: AddressSearchProps) {
-  const [query, setQuery] = createDebouncedSignal('', 1000);
+  const [inputValue, setInputValue] = createSignal<string>(
+    // eslint-disable-next-line solid/reactivity
+    props.value ? formatAddressInline(props.value) : '',
+  );
 
-  const [results, { mutate }] = createResource(query, searchAddress);
+  const [addresses, setAddresses] = createSignal<Array<[string, Address]>>([]);
 
-  createEffect(() => {
-    deepTrack(props.value);
+  const [search, pending] = createAsyncCall(
+    (query: string) => {
+      if (query.length <= 3) {
+        return Promise.resolve([]);
+      }
 
-    if (props.value !== undefined) {
-      mutate(undefined);
-    }
-  });
+      return container.resolve(TOKENS.geocode).search(query);
+    },
+    { onSuccess: setAddresses },
+    { debounce: 1000 },
+  );
 
   return (
     <div class="col grow gap-4">
-      <Input
-        name="address"
+      <Autocomplete
         variant={props.variant}
         width={props.width}
-        placeholder={props.placeholder}
-        value={props.value ? formatAddressInline(props.value) : undefined}
-        onInput={(event) => setQuery(event.currentTarget.value)}
-        end={results.loading && <Spinner class="size-4 text-dim" />}
+        loading={pending()}
+        items={addresses}
+        itemToString={(result) => result?.[0] ?? ''}
+        onItemSelected={([formatted, address]) => {
+          setInputValue(formatted);
+          props.onSelected(address);
+        }}
+        inputValue={inputValue}
+        onSearch={(query) => {
+          if (query !== inputValue()) {
+            void search(query);
+          }
+        }}
+        renderItem={([formatted]) => formatted}
+        renderNoItems={({ inputValue }) =>
+          inputValue &&
+          !pending() && (
+            <button type="button" class="w-full py-6 text-center text-dim">
+              <T id="noResults" />
+            </button>
+          )
+        }
       />
-
-      <Suspense>
-        <AddressList addresses={results() ?? []} onSelected={(address) => props.onSelected(address)} />
-      </Suspense>
 
       <Map
         center={props.value?.position ?? [5.042, 43.836]}
         zoom={props.value?.position ? 14 : 11}
-        class="max-h-md min-h-56 grow rounded-lg shadow"
+        class={clsx('grow rounded-lg shadow', props.mapClass)}
         markers={props.value?.position ? [{ isPopupOpen: false, position: props.value.position }] : undefined}
       />
     </div>
   );
 }
-
-async function searchAddress(query: string) {
-  if (query.length <= 3) {
-    return;
-  }
-
-  return container.resolve(TOKENS.geocode).search(query);
-}
-
-type AddressListProps = {
-  addresses: Array<[formatted: string, address: Address]>;
-  onSelected: (address: Address) => void;
-};
-
-const AddressList = (props: AddressListProps) => {
-  return (
-    <Show when={props.addresses.length > 0}>
-      <ul role="listbox" class="divide-y rounded border bg-neutral">
-        <For each={props.addresses}>
-          {([formatted, address]) => (
-            <li role="option">
-              <button
-                type="button"
-                class="w-full p-2 text-left hover:bg-primary/5"
-                onClick={() => props.onSelected(address)}
-              >
-                {formatted}
-              </button>
-            </li>
-          )}
-        </For>
-      </ul>
-    </Show>
-  );
-};

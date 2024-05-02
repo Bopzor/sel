@@ -144,6 +144,7 @@ export function EventForm(props: CreateEventFormProps | UpdateEventFormProps) {
             placeholder={t('locationPlaceholder')}
             value={data('location')}
             onSelected={(address) => setData('location', address)}
+            mapClass="min-h-48"
           />
         </FormField>
       </div>

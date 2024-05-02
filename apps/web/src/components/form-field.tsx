@@ -1,7 +1,9 @@
-import { JSX, Show } from 'solid-js';
+import clsx from 'clsx';
+import { ComponentProps, JSX, Show } from 'solid-js';
 
 type FormFieldProps = {
   label?: JSX.Element;
+  labelProps?: ComponentProps<'label'>;
   error?: JSX.Element;
   class?: string;
   children: JSX.Element;
@@ -12,7 +14,12 @@ export function FormField(props: FormFieldProps) {
   return (
     <div class={props.class}>
       <Show when={props.label !== undefined}>
-        <label class="mb-1 inline-block select-none font-medium text-dim">{props.label}</label>
+        <label
+          {...props.labelProps}
+          class={clsx('mb-1 inline-block select-none font-medium text-dim', props.labelProps?.class)}
+        >
+          {props.label}
+        </label>
       </Show>
 
       {props.children}

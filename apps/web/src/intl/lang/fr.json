@@ -29,6 +29,9 @@
       "resetToHome": "Retour",
       "reset": "Réessayer"
     },
+    "addressSearch": {
+      "noResults": "Aucun résultat trouvé."
+    },
     "commentsSection": {
       "placeholder": "Écrire un commentaire...",
       "submit": "Envoyer"
@@ -95,7 +98,8 @@
         "title": "À propos",
         "sentence1": "Rédigez quelques mots à propos de vous pour vous présenter. Quels sont vos centres d'intérêts ? Quel genre de coups de mains pouvez-vous donner ? Quels types d'activités vous intéressent ?",
         "sentence2": "Vous pourrez changer votre présentation à tout moment depuis votre page de profil.",
-        "bio": "A propos de vous"
+        "bio": "A propos de vous",
+        "placeholder": "J'ai un potager, je fais du vélo, ..."
       },
       "address": {
         "title": "Adresse",

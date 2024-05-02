@@ -29,6 +29,9 @@
       "resetToHome": "Back",
       "reset": "Reset"
     },
+    "addressSearch": {
+      "noResults": "No results found."
+    },
     "commentsSection": {
       "placeholder": "Write a comment...",
       "submit": "Submit"
@@ -95,7 +98,8 @@
         "title": "About",
         "sentence1": "Write a few words introduce yourself. What are your interests? What kind of help can you provide? What type of activities are you interested in?",
         "sentence2": "You can change your presentation at any time from your profile page.",
-        "bio": "About you"
+        "bio": "About you",
+        "placeholder": "I grow vegetables, I bike, ..."
       },
       "address": {
         "sentence": "Enter your address to add it to your profile page and locate you on the map showing all members.",

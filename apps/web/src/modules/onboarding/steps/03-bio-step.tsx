@@ -10,6 +10,8 @@ import { OnboardingStepProps, OnboardingStep } from '../onboarding-types';
 const T = Translate.prefix('onboarding.steps.bio');
 
 export function BioStep(props: OnboardingStepProps<OnboardingStep.bio>) {
+  const t = T.useTranslation();
+
   // @ts-expect-error solidjs directive
   const { form } = createForm({
     initialValues: props.initialValues,
@@ -29,7 +31,14 @@ export function BioStep(props: OnboardingStepProps<OnboardingStep.bio>) {
       </div>
 
       <FormField label={<T id="bio" />}>
-        <TextArea name="bio" variant="outlined" width="full" rows={6} maxLength={4096} />
+        <TextArea
+          name="bio"
+          variant="outlined"
+          placeholder={t('placeholder')}
+          width="full"
+          rows={6}
+          maxLength={4096}
+        />
       </FormField>
 
       <NextButton type="submit" loading={props.submitting}>

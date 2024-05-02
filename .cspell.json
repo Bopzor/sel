@@ -1,10 +1,9 @@
 {
-  "ignorePaths": [
-    "**/*.svg"
-  ],
+  "ignorePaths": ["**/*.svg"],
   "language": "en, fr",
   "words": [
     "clonedeep",
+    "clsx",
     "datefns",
     "datetime",
     "dequal",
@@ -13,6 +12,7 @@
     "fontsource",
     "formatjs",
     "geoapify",
+    "geocode",
     "github",
     "immer",
     "innerhtml",

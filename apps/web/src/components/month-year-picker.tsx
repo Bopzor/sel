@@ -22,8 +22,8 @@ export function MonthYearPicker(props: {
             <FormattedDate date={new Date(2024, month - 1)} month="long" />
           </div>
         )}
-        selectedItem={props.month}
-        onSelect={(month) => props.onMonthChange(month)}
+        selectedItem={() => props.month}
+        onItemSelected={(month) => props.onMonthChange(month)}
       />
 
       <Input

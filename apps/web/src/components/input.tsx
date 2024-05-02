@@ -4,6 +4,7 @@ import { JSX, Show, mergeProps, splitProps } from 'solid-js';
 import { Field, FieldVariant, FieldWidth } from './field';
 
 type InputProps = JSX.InputHTMLAttributes<HTMLInputElement> & {
+  fieldRef?: HTMLDivElement | ((ref: HTMLDivElement) => void);
   variant?: FieldVariant;
   width?: FieldWidth;
   start?: JSX.Element;
@@ -12,12 +13,18 @@ type InputProps = JSX.InputHTMLAttributes<HTMLInputElement> & {
 
 export function Input(props1: InputProps) {
   const props2 = mergeProps({ variant: 'solid', width: 'full' } satisfies InputProps, props1);
-  const [props, fieldProps, inputProps] = splitProps(props2, ['start', 'end'], ['variant', 'width', 'class']);
+
+  const [props, fieldRef, fieldProps, inputProps] = splitProps(
+    props2,
+    ['start', 'end'],
+    ['fieldRef'],
+    ['variant', 'width', 'class'],
+  );
 
   return (
-    <Field {...fieldProps}>
+    <Field ref={fieldRef.fieldRef} {...fieldProps}>
       <Show when={props.start}>
-        <div class="mx-4">{props.start}</div>
+        <div class="mx-4 leading-0">{props.start}</div>
       </Show>
 
       <input
@@ -27,7 +34,7 @@ export function Input(props1: InputProps) {
       />
 
       <Show when={props.end}>
-        <div class="mx-4">{props.end}</div>
+        <div class="mx-4 leading-0">{props.end}</div>
       </Show>
     </Field>
   );
