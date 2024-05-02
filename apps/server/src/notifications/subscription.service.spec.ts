@@ -11,7 +11,6 @@ import { InMemoryNotificationRepository } from '../persistence/repositories/noti
 import { InMemorySubscriptionRepository } from '../persistence/repositories/subscription/in-memory.subscription.repository';
 import { UnitTest } from '../unit-test';
 
-import { NotificationCreated } from './notification-events';
 import { createSubscription } from './subscription.entity';
 import { NotificationCreator, SubscriptionService } from './subscription.service';
 

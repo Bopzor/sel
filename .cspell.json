@@ -27,6 +27,7 @@
     "solidjs",
     "tailwindcss",
     "tiptap",
-    "trimmable"
+    "trimmable",
+    "upop"
   ]
 }

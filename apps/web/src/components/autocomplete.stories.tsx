@@ -47,6 +47,7 @@ export const autocomplete = () => {
       itemToString={(item) => item?.text ?? ''}
       renderItem={(item) => item.text}
       renderNoItems={() => <span class="text-center text-dim">No items found</span>}
+      // eslint-disable-next-line no-console
       onItemSelected={console.log}
       onSearch={search}
     />
