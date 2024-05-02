@@ -1,4 +1,6 @@
 import clsx from 'clsx';
+import { Icon } from 'solid-heroicons';
+import { exclamationTriangle } from 'solid-heroicons/solid';
 import { Index, JSX } from 'solid-js';
 
 import { Link } from '../../components/link';
@@ -10,6 +12,8 @@ const T = Translate.prefix('home');
 export default function HomePage() {
   return (
     <div>
+      <PreviewBanner />
+
       <div class="grid grid-cols-1 gap-8 py-8 sm:grid-cols-2 md:grid-cols-3">
         <LinkCard
           href={routes.members.list}
@@ -56,6 +60,28 @@ export default function HomePage() {
       </div>
 
       <News />
+    </div>
+  );
+}
+
+function PreviewBanner() {
+  return (
+    <div class="mt-4 rounded border border-yellow-600 p-4">
+      <h2 class="row items-center gap-2">
+        <Icon path={exclamationTriangle} class="inline-block size-6 text-yellow-600" />
+        Attention
+      </h2>
+
+      <p>
+        Ce site est en cours de développement, les demandes, événements, et toutes autres informations sont
+        des <strong>données de test</strong>. Vous pouvez bien sûr tester en créant des annonces et
+        commentaires fictifs.
+      </p>
+
+      <p>
+        Pour les annonces réelles du SEL, nous continuons à utiliser{' '}
+        <a href="https://selonnous.communityforge.net">https://selonnous.communityforge.net</a>.
+      </p>
     </div>
   );
 }
