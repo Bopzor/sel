@@ -231,8 +231,6 @@
     "canceled": "Votre demande a été annulée"
   },
   "events": {
-    "sentence1": "La partie événements n'est pas encore disponible !",
-    "sentence2": "L'atelier de conception est prévu le jeudi 8 février 2024, de 19h à 20h. Cette partie devrait être disponible courant avril 2024.",
     "list": {
       "title": "Événements",
       "create": "Créer un événement",
@@ -284,7 +282,7 @@
   "assets": {
     "title": "Biens",
     "sentence1": "La partie échanges de biens n'est pas encore disponible !",
-    "sentence2": "Cette partie devrait être disponible courant avril 2024."
+    "sentence2": "Cette partie devrait être disponible courant mai 2024."
   },
   "profile": {
     "navigation": {

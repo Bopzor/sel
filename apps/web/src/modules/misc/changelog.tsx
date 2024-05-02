@@ -21,6 +21,10 @@ export function Changelog() {
 
 const changelog: Array<ChangelogEntryProps> = [
   {
+    date: '2024-05-02',
+    description: 'Première version des événements.',
+  },
+  {
     date: '2024-02-03',
     description: 'Ajout des statuts et des réponses aux demandes.',
   },
