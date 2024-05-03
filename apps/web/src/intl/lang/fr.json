@@ -204,7 +204,7 @@
     },
     "editRequest": "Modifier la demande",
     "edit": {
-      "title": "Edition de la demande « {requestTitle} »",
+      "title": "Édition de la demande « {requestTitle} »",
       "edited": "Votre demande a bien été mise à jour."
     },
     "date": "Le {date, date, medium} à {date, time, short}",
@@ -270,7 +270,7 @@
       "created": "Votre événement a bien été créé."
     },
     "edit": {
-      "title": "Edition de l'événement « {eventTitle} »",
+      "title": "Édition de l'événement « {eventTitle} »",
       "edited": "Votre événement a bien été mis à jour."
     }
   },
