@@ -6,6 +6,7 @@ export class DomainError<Payload = never> extends Error {
 
   constructor(message: string, ...args: Payload extends never ? [] : [Payload]) {
     super(message);
+    Object.setPrototypeOf(this, new.target.prototype);
     this.payload = args[0] as Payload;
   }
 }

@@ -4,7 +4,8 @@ import webpush from 'web-push';
 import { TOKENS } from '../../tokens';
 import { ConfigPort } from '../config/config.port';
 
-import { PushNotificationPort, PushDeviceSubscription } from './push-notification.port';
+import { PushNotificationDeliveryError } from './push-notification-delivery-error';
+import { PushDeviceSubscription, PushNotificationPort } from './push-notification.port';
 
 // cspell:word webpush
 
@@ -25,9 +26,13 @@ export class WebPushNotificationAdapter implements PushNotificationPort {
     content: string,
     link: string,
   ): Promise<void> {
-    await webpush.sendNotification(
-      subscription as webpush.PushSubscription,
-      JSON.stringify({ title, content, link }),
-    );
+    try {
+      await webpush.sendNotification(
+        subscription as webpush.PushSubscription,
+        JSON.stringify({ title, content, link }),
+      );
+    } catch (error) {
+      throw new PushNotificationDeliveryError(subscription, error);
+    }
   }
 }
