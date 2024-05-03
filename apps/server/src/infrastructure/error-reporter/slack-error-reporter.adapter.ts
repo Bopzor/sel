@@ -2,6 +2,7 @@ import { inspect } from 'node:util';
 
 import { injectableClass } from 'ditox';
 
+import { DomainError } from '../../domain-error';
 import { TOKENS } from '../../tokens';
 import { SlackClientPort } from '../slack/slack-client.port';
 
@@ -21,10 +22,14 @@ export class SlackErrorReporterAdapter implements ErrorReporterPort {
   }
 
   private stringify(this: void, value: unknown) {
-    if (value instanceof Error) {
+    const code = (value: string) => `\`\`\`${value}\`\`\``;
+
+    if (value instanceof DomainError) {
+      return [value.stack, code(inspect({ payload: value.payload }))].join('\n');
+    } else if (value instanceof Error) {
       return value.stack;
     } else if (typeof value === 'object') {
-      return inspect(value);
+      return code(inspect(value));
     } else {
       return String(value);
     }

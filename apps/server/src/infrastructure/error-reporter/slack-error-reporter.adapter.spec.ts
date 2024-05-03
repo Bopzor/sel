@@ -29,7 +29,7 @@ describe('SlackErrorReporterAdapter', () => {
     await test.reporter.report('Oh no', { abc: 42 }, test.error);
 
     expect(test.slackClient.messages).toContainEqual(
-      expect.stringMatching(/^Oh no\n{ abc: 42 }\nError: Oops\n/),
+      expect.stringMatching(/^Oh no\n```{ abc: 42 }```\nError: Oops\n/),
     );
   });
 });
