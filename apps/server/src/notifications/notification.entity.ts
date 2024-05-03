@@ -16,6 +16,7 @@ export type Notification = {
   push: {
     title: string;
     content: string;
+    link: string;
   };
   email: {
     subject: string;
@@ -38,6 +39,7 @@ export const createNotification = createFactory<Notification>(() => ({
   push: {
     title: '',
     content: '',
+    link: '',
   },
   email: {
     subject: '',

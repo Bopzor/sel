@@ -82,6 +82,7 @@ export class NotifyEventCommentCreated implements EventHandler<EventCommentCreat
               authorName,
               message,
             }),
+            link,
           },
 
           email: this.emailRenderer.render({

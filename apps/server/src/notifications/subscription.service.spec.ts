@@ -48,6 +48,7 @@ class Test extends UnitTest {
         push: {
           title: 'title',
           content: 'content',
+          link: 'link',
         },
         email: {
           subject: 'subject',
@@ -139,7 +140,7 @@ describe('[Unit] SubscriptionService', () => {
       data: (member) => ({
         shouldSend: member.id === 'memberId1',
         title: '',
-        push: { title: '', content: '' },
+        push: { title: '', content: '', link: '' },
         email: { subject: '', html: '', text: '' },
       }),
     });

@@ -62,6 +62,7 @@ export class NotifyRequestStatusChanged implements EventHandler<RequestFulfilled
           push: {
             title: t.translate('requestStatusChanged.push.title', { requesterName }),
             content: title,
+            link,
           },
           email: this.emailRenderer.render({
             subject: t.translate('requestStatusChanged.email.subject', { requesterName, title }),

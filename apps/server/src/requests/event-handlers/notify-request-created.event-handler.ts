@@ -61,6 +61,7 @@ export class NotifyRequestCreated implements EventHandler<RequestCreated> {
           push: {
             title: t.translate('requestCreated.push.title', { requesterName }),
             content: title,
+            link,
           },
           email: this.emailRenderer.render({
             subject: t.translate('requestCreated.email.subject', { requesterName, title }),

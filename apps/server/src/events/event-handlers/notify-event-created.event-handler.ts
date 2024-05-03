@@ -56,6 +56,7 @@ export class NotifyEventCreated implements EventHandler<EventCreated> {
         push: {
           title: this.translation.translate('eventCreated.push.title'),
           content: event.title,
+          link,
         },
         email: this.emailRenderer.render({
           subject: this.translation.translate('eventCreated.email.subject', { title: event.title }),

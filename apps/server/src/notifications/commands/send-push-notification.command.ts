@@ -9,6 +9,7 @@ export type SendPushNotificationCommand = {
   memberId: string;
   title: string;
   content: string;
+  link: string;
 };
 
 export class SendPushNotification implements CommandHandler<SendPushNotificationCommand> {
@@ -19,12 +20,12 @@ export class SendPushNotification implements CommandHandler<SendPushNotification
     private readonly memberDeviceRepository: MemberDeviceRepository,
   ) {}
 
-  async handle({ memberId, title, content }: SendPushNotificationCommand) {
+  async handle({ memberId, title, content, link }: SendPushNotificationCommand) {
     const subscriptions = await this.memberDeviceRepository.getMemberDeviceSubscriptions(memberId);
 
     await Promise.all(
       subscriptions.map(async (subscription) => {
-        await this.pushNotification.send(subscription, title, content);
+        await this.pushNotification.send(subscription, title, content, link);
       }),
     );
   }

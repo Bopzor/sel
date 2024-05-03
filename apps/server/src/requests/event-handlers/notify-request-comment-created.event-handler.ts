@@ -81,6 +81,7 @@ export class NotifyRequestCommentCreated implements EventHandler<RequestCommentC
               authorName,
               message: comment.text,
             }),
+            link,
           },
 
           email: this.emailRenderer.render({

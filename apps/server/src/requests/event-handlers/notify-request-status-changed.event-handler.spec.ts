@@ -90,6 +90,7 @@ describe('[Unit] NotifyRequestStatusCreated', () => {
     expect(notifications).toHaveProperty<Notification['push']>('0.push', {
       title: 'Requester R. a annulé sa demande',
       content: 'title',
+      link: 'https://app.url/requests/requestId',
     });
 
     expect(notifications).toHaveProperty<Notification['email']>('0.email', {

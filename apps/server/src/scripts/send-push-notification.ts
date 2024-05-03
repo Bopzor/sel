@@ -6,6 +6,7 @@ import { TOKENS } from '../tokens';
 
 const app = container.resolve(TOKENS.application);
 const logger = container.resolve(TOKENS.logger);
+const config = container.resolve(TOKENS.config);
 
 main(app, process.argv.slice(2))
   .catch((error) => logger.error(error))
@@ -22,5 +23,6 @@ async function main(app: Application, args: string[]) {
     memberId,
     title,
     content,
+    link: config.app.baseUrl,
   });
 }

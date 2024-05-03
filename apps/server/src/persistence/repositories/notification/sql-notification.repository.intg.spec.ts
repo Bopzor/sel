@@ -97,6 +97,7 @@ describe('[Intg] SqlNotificationRepository', () => {
           push: {
             title: '',
             content: '',
+            link: '',
           },
           email: {
             subject: '',

@@ -77,6 +77,7 @@ export class NotifyEventParticipationSet implements EventHandler<EventParticipat
           push: {
             title: t.translate('eventParticipationSet.push.title', { title }),
             content: t.translate(`eventParticipationSet.push.content.${addedOrRemoved}`, { participantName }),
+            link,
           },
           email: this.emailRenderer.render({
             subject: t.translate('eventParticipationSet.email.subject', { participantName, title }),

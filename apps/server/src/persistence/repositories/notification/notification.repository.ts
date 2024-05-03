@@ -14,6 +14,7 @@ export type InsertNotificationModel = {
   push: {
     title: string;
     content: string;
+    link: string;
   };
   email: {
     subject: string;

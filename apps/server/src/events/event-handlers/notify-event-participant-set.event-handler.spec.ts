@@ -89,6 +89,7 @@ describe('[Unit] NotifyEventParticipationSet', () => {
     expect(notifications).toHaveProperty<Notification['push']>('0.push', {
       title: 'Participation à votre événement title',
       content: 'Participant P. participera à votre événement.',
+      link: 'https://app.url/events/eventId',
     });
 
     expect(notifications).toHaveProperty<Notification['email']>('0.email', {
@@ -118,6 +119,7 @@ describe('[Unit] NotifyEventParticipationSet', () => {
     expect(notifications).toHaveProperty<Notification['push']>('0.push', {
       title: 'Participation à votre événement title',
       content: 'Participant P. ne participera finalement pas à votre événement.',
+      link: 'https://app.url/events/eventId',
     });
 
     expect(notifications).toHaveProperty<Notification['email']>('0.email', {

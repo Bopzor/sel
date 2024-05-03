@@ -87,6 +87,7 @@ describe('NotifyEventCreated', () => {
     expect(notifications).toHaveProperty<Notification['push']>('0.push', {
       title: 'Nouvel événement',
       content: 'title',
+      link: 'https://app.url/events/eventId',
     });
 
     expect(notifications).toHaveProperty<Notification['email']>('0.email', {

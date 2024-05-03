@@ -90,6 +90,7 @@ describe('NotifyRequestCommentCreated', () => {
     expect(notifications).toHaveProperty<Notification['push']>('0.push', {
       title: 'Nouveau commentaire sur la demande "title"',
       content: 'Author A. : comment',
+      link: 'https://app.url/requests/requestId',
     });
 
     expect(notifications).toHaveProperty<Notification['email']>('0.email', {
@@ -122,6 +123,7 @@ describe('NotifyRequestCommentCreated', () => {
     expect(notifications).toHaveProperty<Notification['push']>('0.push', {
       title: 'Nouveau commentaire sur votre demande "title"',
       content: 'Author A. : comment',
+      link: 'https://app.url/requests/requestId',
     });
 
     expect(notifications).toHaveProperty<Notification['email']>('0.email', {

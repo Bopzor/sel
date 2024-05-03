@@ -31,7 +31,7 @@ class Test extends E2ETest {
       data: () => ({
         shouldSend: true,
         title: '',
-        push: { title: '', content: '' },
+        push: { title: '', content: '', link: '' },
         email: { subject: '', html: '', text: '' },
         ...values,
       }),
@@ -63,13 +63,14 @@ describe('[E2E] Notification', () => {
 
   it('sends a push notification', async () => {
     await test.notify({
-      push: { title: 'title', content: 'content' },
+      push: { title: 'title', content: 'content', link: 'link' },
     });
 
     expect(test.getPushNotification()).toEqual([
       {
         title: 'title',
         content: 'content',
+        link: 'link',
       },
     ]);
 

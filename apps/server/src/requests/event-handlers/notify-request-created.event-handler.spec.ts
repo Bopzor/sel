@@ -89,6 +89,7 @@ describe('[Unit] NotifyRequestCreated', () => {
     expect(notifications).toHaveProperty<Notification['push']>('0.push', {
       title: 'Demande de Requester R.',
       content: 'title',
+      link: 'https://app.url/requests/requestId',
     });
 
     expect(notifications).toHaveProperty<Notification['email']>('0.email', {

@@ -20,6 +20,8 @@ async function main(app: Application, args: string[]) {
 
   assert(version, 'missing version');
 
+  const appBaseUrl = config.app.baseUrl;
+
   await subscriptionService.notify({
     subscriptionType: 'NewAppVersion',
     notificationType: 'NewAppVersion',
@@ -29,16 +31,17 @@ async function main(app: Application, args: string[]) {
       push: {
         title: translation.translate('newAppVersion.push.title'),
         content: content ?? translation.translate('newAppVersion.push.content'),
+        link: appBaseUrl,
       },
       email: emailRenderer.render({
         subject: translation.translate('newAppVersion.email.subject'),
         html: [
           translation.translate('newAppVersion.email.line1'),
-          translation.translate('newAppVersion.email.line2', { appBaseUrl: config.app.baseUrl }),
+          translation.translate('newAppVersion.email.line2', { appBaseUrl }),
         ],
         text: [
           translation.translate('newAppVersion.email.line1'),
-          translation.translate('newAppVersion.email.line2', { appBaseUrl: config.app.baseUrl }),
+          translation.translate('newAppVersion.email.line2', { appBaseUrl }),
         ],
       }),
     }),
