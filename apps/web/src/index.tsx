@@ -33,6 +33,8 @@ const CreateEventPage = lazy(() => import('./modules/events/create-event/create-
 const EventDetailsPage = lazy(() => import('./modules/events/event-details/event-details.page'));
 const EditEventPage = lazy(() => import('./modules/events/edit-event/edit-event.page'));
 
+const InterestsPage = lazy(() => import('./modules/interests/interests.page'));
+
 const MiscPage = lazy(() => import('./modules/misc/misc.page'));
 
 const ProfileLayout = lazy(() => import('./modules/profile/profile.layout'));
@@ -83,32 +85,13 @@ function Routing() {
         <Route path="/sign-out" component={SignOutPage} />
       </Route>
 
-      <Route path="/activities" component={ActivitiesPage} />
+      <Route path="/interests" component={InterestsPage} />
+
       <Route path="/assets" component={AssetsPage} />
       <Route path="/misc" component={MiscPage} />
 
       <Route path="/__error" component={ErrorTestPage} />
     </>
-  );
-}
-
-export function ActivitiesPage() {
-  return (
-    <div>
-      <BackLink href={routes.home} />
-
-      <h1>
-        <Translate id="activities.title" />
-      </h1>
-
-      <p class="font-semibold">
-        <Translate id="activities.sentence1" />
-      </p>
-
-      <p>
-        <Translate id="activities.sentence2" />
-      </p>
-    </div>
   );
 }
 

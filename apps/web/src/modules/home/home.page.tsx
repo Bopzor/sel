@@ -38,9 +38,9 @@ export default function HomePage() {
         />
 
         <LinkCard
-          href={routes.activities.home}
-          label={<T id="activities.label" />}
-          description={<T id="activities.description" />}
+          href={routes.interests}
+          label={<T id="interests.label" />}
+          description={<T id="interests.description" />}
           class="border-red-400 from-red-400/10 to-red-400/20"
         />
 

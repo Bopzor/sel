@@ -55,7 +55,8 @@
       "editRequest": "Edit",
       "events": "Events",
       "createEvent": "New event",
-      "editEvent": "Edit"
+      "editEvent": "Edit",
+      "interests": "Interests"
     },
     "registerDevice": "Would you like to receive notifications on this device? Activate them in <link>your settings</link>."
   },
@@ -137,8 +138,8 @@
       "label": "Events",
       "description": "..."
     },
-    "activities": {
-      "label": "Activities",
+    "interests": {
+      "label": "Interests",
       "description": "..."
     },
     "assets": {

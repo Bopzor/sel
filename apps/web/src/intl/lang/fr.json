@@ -56,7 +56,8 @@
       "editRequest": "Édition",
       "events": "Événements",
       "createEvent": "Nouvel événement",
-      "editEvent": "Edit"
+      "editEvent": "Edit",
+      "interests": "Centres d'intérêts"
     }
   },
   "authentication": {
@@ -137,7 +138,7 @@
       "label": "Événements",
       "description": "Planifier un événement."
     },
-    "activities": {
+    "interests": {
       "label": "Centres d'intérêts",
       "description": "Voir les centres d'intérêts des members."
     },
@@ -273,11 +274,6 @@
       "title": "Édition de l'événement « {eventTitle} »",
       "edited": "Votre événement a bien été mis à jour."
     }
-  },
-  "activities": {
-    "title": "Centres d'intérêts",
-    "sentence1": "La partie centres d'intérêts n'est pas encore disponible !",
-    "sentence2": "Cette partie devrait être disponible courant juin 2024."
   },
   "assets": {
     "title": "Biens",

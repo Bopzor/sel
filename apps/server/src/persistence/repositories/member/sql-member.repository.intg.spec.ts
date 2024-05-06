@@ -76,6 +76,7 @@ describe('[Intg] SqlMemberRepository', () => {
             position: [0, 1],
           },
           membershipStartDate: test.now.toISOString(),
+          interests: [],
         },
       ]);
     });
@@ -122,6 +123,7 @@ describe('[Intg] SqlMemberRepository', () => {
           position: [0, 1],
         },
         membershipStartDate: test.now.toISOString(),
+        interests: [],
       });
     });
 

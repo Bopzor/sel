@@ -73,6 +73,7 @@ export class SqlMemberRepository implements MemberRepository {
       bio: result.bio ?? undefined,
       address: result.address ?? undefined,
       membershipStartDate: result.membershipStartDate.toISOString(),
+      interests: [],
     };
   }
 
@@ -95,6 +96,7 @@ export class SqlMemberRepository implements MemberRepository {
         email: result.notificationDelivery.includes(NotificationDeliveryType.email),
         push: result.notificationDelivery.includes(NotificationDeliveryType.push),
       },
+      interests: [],
     };
   }
 
