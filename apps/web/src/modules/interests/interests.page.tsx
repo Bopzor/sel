@@ -31,7 +31,9 @@ export default function InterestsPage() {
     }
 
     const matchInterest = (interest: Interest) => {
-      return removeDiacriticCharacters(interest.label).toLowerCase().includes(search);
+      return [interest.label, interest.description]
+        .map((string) => removeDiacriticCharacters(string).toLowerCase())
+        .some((string) => string.includes(search));
     };
 
     return interests()?.filter(matchInterest);

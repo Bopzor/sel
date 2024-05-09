@@ -45,6 +45,7 @@ export class Server {
     this.app.use('/members', container.resolve(TOKENS.membersController).router);
     this.app.use('/events', container.resolve(TOKENS.eventController).router);
     this.app.use('/requests', container.resolve(TOKENS.requestController).router);
+    this.app.use('/interests', container.resolve(TOKENS.interestController).router);
     this.app.use('/authentication', container.resolve(TOKENS.authenticationController).router);
     this.app.use('/session', container.resolve(TOKENS.sessionController).router);
     this.app.use('/session/notifications', container.resolve(TOKENS.notificationController).router);

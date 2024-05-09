@@ -92,18 +92,29 @@ export class FakeInterestApi extends StubInterestApi {
     super();
 
     this.interests = [
-      this.createFakeInterest({ label: 'Randonnée' }),
-      this.createFakeInterest({ label: 'Musique' }),
-      this.createFakeInterest({ label: 'Informatique' }),
-      this.createFakeInterest({ label: 'Jeux de société' }),
+      this.createFakeInterest({ label: 'Randonnée', description: 'Balades à pieds.' }),
+      this.createFakeInterest({ label: 'Musique', description: "Concerts, pratique d'un instrument." }),
+      this.createFakeInterest({
+        label: 'Informatique',
+        description: 'Logiciel libre, développement informatique.',
+      }),
+      this.createFakeInterest({ label: 'Jeux de société', description: 'Après midi jeux de société.' }),
       this.createFakeInterest({ label: 'Cuisine' }),
-      this.createFakeInterest({ label: 'Bricolage' }),
+      this.createFakeInterest({
+        label: 'Bricolage',
+        description: "Travaux, réparations, construction à partir de récup'.",
+      }),
+      this.createFakeInterest({
+        label: 'Jardin',
+        description: 'Potager, plantes.',
+      }),
     ];
   }
 
   private createFakeInterest = createFactory<Interest>(() => ({
     id: createId(),
     label: '',
+    description: '',
     members: [],
   }));
 }

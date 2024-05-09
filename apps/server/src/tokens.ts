@@ -42,6 +42,9 @@ import { LoggerPort } from './infrastructure/logger/logger.port';
 import { PushNotificationPort } from './infrastructure/push-notification/push-notification.port';
 import { SlackClientPort } from './infrastructure/slack/slack-client.port';
 import { TranslationPort } from './infrastructure/translation/translation.port';
+import { CreateInterest } from './interests/commands/create-interest/create-interest';
+import { InterestController } from './interests/interest.controller';
+import { ListInterests } from './interests/queries/list-interests.query';
 import { ChangeNotificationDeliveryType } from './members/commands/change-notification-delivery-type.command';
 import { CreateMember } from './members/commands/create-member.command';
 import { UpdateMemberProfile } from './members/commands/update-member-profile.command';
@@ -112,6 +115,7 @@ export const TOKENS = {
   requestAnswerRepository: token<RequestAnswerRepository>('requestAnswerRepository'),
   eventController: token<EventController>('eventController'),
   eventRepository: token<EventRepository>('eventRepository'),
+  interestController: token<InterestController>('interestController'),
   commentService: token<CommentService>('commentService'),
   commentRepository: token<CommentRepository>('commentRepository'),
   subscriptionService: token<SubscriptionService>('subscriptionService'),
@@ -138,6 +142,7 @@ export const COMMANDS = {
   createEvent: token<CreateEvent>('createEvent'),
   updateEvent: token<UpdateEvent>('updateEvent'),
   setEventParticipation: token<SetEventParticipation>('setEventParticipation'),
+  createInterest: token<CreateInterest>('createInterest'),
   createMember: token<CreateMember>('createMember'),
   updateMemberProfile: token<UpdateMemberProfile>('updateMemberProfile'),
   changeNotificationDeliveryType: token<ChangeNotificationDeliveryType>('changeNotificationDeliveryType'),
@@ -154,8 +159,9 @@ export const QUERIES = {
   getAuthenticatedMember: token<GetAuthenticatedMember>('getAuthenticatedMember'),
   listRequests: token<ListRequests>('listRequests'),
   getRequest: token<GetRequest>('getRequest'),
-  getEvent: token<GetEvent>('getEvent'),
   listEvents: token<ListEvents>('listEvents'),
+  getEvent: token<GetEvent>('getEvent'),
+  listInterests: token<ListInterests>('listInterests'),
   listMembers: token<ListMembers>('listMembers'),
   getMember: token<GetMember>('getMember'),
   getMemberNotifications: token<GetMemberNotifications>('getMemberNotifications'),

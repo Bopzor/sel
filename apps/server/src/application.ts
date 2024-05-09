@@ -86,8 +86,8 @@ export class Application {
   sendPushNotification = this.createCommandMethod(COMMANDS.sendPushNotification);
   registerDevice = this.createCommandMethod(COMMANDS.registerDevice);
   changeNotificationDeliveryType = this.createCommandMethod(COMMANDS.changeNotificationDeliveryType);
-
   createRequestComment = this.createCommandMethod(COMMANDS.createRequestComment);
+  createInterest = this.createCommandMethod(COMMANDS.createInterest);
 
   private createQueryMethod<Query, Result>(token: Token<QueryHandler<Query, Result>>) {
     return (query: Query) => this.queryBus.executeQuery(token, query);

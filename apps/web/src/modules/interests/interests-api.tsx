@@ -1,15 +1,20 @@
 import { Interest } from '@sel/shared';
 import { injectableClass } from 'ditox';
 
+import { FetcherPort } from '../../infrastructure/fetcher';
+import { TOKENS } from '../../tokens';
+
 export interface InterestApi {
   listInterests(): Promise<Interest[]>;
 }
 
 export class FetchInterestApi implements InterestApi {
-  static inject = injectableClass(this);
+  static inject = injectableClass(this, TOKENS.fetcher);
+
+  constructor(private readonly fetcher: FetcherPort) {}
 
   listInterests(): Promise<Interest[]> {
-    throw new Error('Method not implemented.');
+    return this.fetcher.get<Interest[]>('/api/interests').body();
   }
 }
 
