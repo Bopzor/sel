@@ -2,6 +2,7 @@ export * from './address';
 export * from './authenticated-member';
 export * from './comment';
 export * from './event';
+export * from './interest';
 export * from './member';
 export * from './members-sort';
 export * from './notification';

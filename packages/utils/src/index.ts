@@ -7,5 +7,6 @@ export * from './function';
 export * from './generic';
 export * from './id';
 export * from './object';
+export * from './string';
 export * from './types';
 export * from './wait';

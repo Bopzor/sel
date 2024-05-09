@@ -10,6 +10,7 @@ import { RouterPort } from './infrastructure/router/router.port';
 import { PushSubscriptionPort } from './infrastructure/subscription/push-subscription.port';
 import { AuthenticationApi } from './modules/authentication/authentication.api';
 import { EventApi } from './modules/events/events.api';
+import { InterestApi } from './modules/interests/interests-api';
 import { MemberApi } from './modules/members/members.api';
 import { ProfileApi } from './modules/profile/profile.api';
 import { RequestsApi } from './modules/requests/requests.api';
@@ -29,5 +30,6 @@ export const TOKENS = {
   profileApi: token<ProfileApi>('profileApi'),
   requestApi: token<RequestsApi>('requestApi'),
   eventApi: token<EventApi>('eventApi'),
+  interestApi: token<InterestApi>('interestApi'),
   memberApi: token<MemberApi>('memberApi'),
 };

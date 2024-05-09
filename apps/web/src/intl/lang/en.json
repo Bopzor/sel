@@ -278,10 +278,13 @@
       "edited": "Your event was edited successfully."
     }
   },
-  "activities": {
-    "title": "Centres d'intérêts",
-    "sentence1": "",
-    "sentence2": ""
+  "interests": {
+    "noInterests": "No center of interest was created.",
+    "noSearchResults": "No center of interest match this search query.",
+    "searchPlaceholder": "Search through the centers of interests.",
+    "noMembers": "This center of interest has no members.",
+    "membersCount": "({count, plural, =1 {{count} member} other {{count} members})",
+    "add": "Add"
   },
   "assets": {
     "title": "Biens",

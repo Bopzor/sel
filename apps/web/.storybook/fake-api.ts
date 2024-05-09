@@ -1,9 +1,10 @@
 import { fakerFR as faker } from '@faker-js/faker';
-import { Member, Request, RequestStatus, createAuthenticatedMember } from '@sel/shared';
+import { Interest, Member, Request, RequestStatus, createAuthenticatedMember } from '@sel/shared';
 import { createFactory, createId } from '@sel/utils';
 import { StubSessionApi } from '../src/session.api';
 import { StubMemberApi } from '../src/modules/members/members.api';
 import { StubRequestsApi } from '../src/modules/requests/requests.api';
+import { StubInterestApi } from '../src/modules/interests/interests-api';
 
 export class FakeSessionApi extends StubSessionApi {
   constructor() {
@@ -34,6 +35,7 @@ export class FakeMemberApi extends StubMemberApi {
       membershipStartDate: faker.date.past().toISOString(),
       phoneNumbers: [],
       bio: faker.lorem.paragraphs(),
+      interests: [],
     };
   }
 }
@@ -82,6 +84,27 @@ export class FakeRequestsApi extends StubRequestsApi {
         body: lorem(),
       },
     ],
+  }));
+}
+
+export class FakeInterestApi extends StubInterestApi {
+  constructor() {
+    super();
+
+    this.interests = [
+      this.createFakeInterest({ label: 'Randonnée' }),
+      this.createFakeInterest({ label: 'Musique' }),
+      this.createFakeInterest({ label: 'Informatique' }),
+      this.createFakeInterest({ label: 'Jeux de société' }),
+      this.createFakeInterest({ label: 'Cuisine' }),
+      this.createFakeInterest({ label: 'Bricolage' }),
+    ];
+  }
+
+  private createFakeInterest = createFactory<Interest>(() => ({
+    id: createId(),
+    label: '',
+    members: [],
   }));
 }
 
