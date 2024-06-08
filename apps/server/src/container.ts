@@ -42,7 +42,9 @@ import { ConsoleLogger } from './infrastructure/logger/console-logger.adapter';
 import { WebPushNotificationAdapter } from './infrastructure/push-notification/web-push-notification.adapter';
 import { WebSlackClientAdapter } from './infrastructure/slack/web-slack-client.adapter';
 import { FormatJsTranslationAdapter } from './infrastructure/translation/formatjs-translation.adapter';
+import { AddInterestMember } from './interests/commands/add-interest-member/add-interest-member';
 import { CreateInterest } from './interests/commands/create-interest/create-interest';
+import { RemoveInterestMember } from './interests/commands/remove-interest-member/remove-interest-member';
 import { InterestController } from './interests/interest.controller';
 import { ListInterests } from './interests/queries/list-interests.query';
 import { ChangeNotificationDeliveryType } from './members/commands/change-notification-delivery-type.command';
@@ -163,6 +165,8 @@ container.bindFactory(COMMANDS.setEventParticipation, SetEventParticipation.inje
 container.bindFactory(COMMANDS.createEventComment, CreateEventComment.inject);
 
 container.bindFactory(COMMANDS.createInterest, CreateInterest.inject);
+container.bindFactory(COMMANDS.addInterestMember, AddInterestMember.inject);
+container.bindFactory(COMMANDS.removeInterestMember, RemoveInterestMember.inject);
 
 container.bindFactory(COMMANDS.createMember, CreateMember.inject);
 container.bindFactory(COMMANDS.updateMemberProfile, UpdateMemberProfile.inject);

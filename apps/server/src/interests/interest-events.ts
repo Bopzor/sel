@@ -5,3 +5,16 @@ export class InterestEvent extends DomainEvent {
 }
 
 export class InterestCreated extends InterestEvent {}
+
+export class InterestMemberEvent extends InterestEvent {
+  constructor(
+    interestId: string,
+    public readonly memberId: string,
+  ) {
+    super(interestId);
+  }
+}
+
+export class InterestMemberAdded extends InterestMemberEvent {}
+
+export class InterestMemberRemoved extends InterestMemberEvent {}

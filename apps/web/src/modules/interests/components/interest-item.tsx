@@ -1,19 +1,23 @@
 import { Interest } from '@sel/shared';
 import { Icon } from 'solid-heroicons';
-import { chevronRight, plus } from 'solid-heroicons/solid';
-import { Show, For, createSignal } from 'solid-js';
+import { chevronRight, plus, minus } from 'solid-heroicons/solid';
+import { For, Show, createSignal } from 'solid-js';
 
 import { isAuthenticatedMember } from '../../../app-context';
 import { Button } from '../../../components/button';
 import { Collapse } from '../../../components/collapse';
 import { Link } from '../../../components/link';
 import { MemberAvatarName } from '../../../components/member-avatar-name';
+import { container } from '../../../infrastructure/container';
 import { Translate } from '../../../intl/translate';
 import { routes } from '../../../routes';
+import { TOKENS } from '../../../tokens';
+import { createAsyncCall } from '../../../utils/create-async-call';
+import { notify } from '../../../utils/notify';
 
 const T = Translate.prefix('interests');
 
-export function InterestItem(props: { interest: Interest }) {
+export function InterestItem(props: { interest: Interest; refetch: () => void }) {
   const [expanded, setExpanded] = createSignal(false);
 
   return (
@@ -22,6 +26,7 @@ export function InterestItem(props: { interest: Interest }) {
         interest={props.interest}
         expanded={expanded()}
         toggleExpanded={() => setExpanded(!expanded())}
+        refetch={props.refetch}
       />
 
       <Collapse open={expanded()}>
@@ -29,7 +34,7 @@ export function InterestItem(props: { interest: Interest }) {
           <For
             each={props.interest.members}
             fallback={
-              <span class="text-center text-dim">
+              <span class="py-6 text-center font-medium text-dim">
                 <T id="noMembers" />
               </span>
             }
@@ -54,23 +59,61 @@ export function InterestItem(props: { interest: Interest }) {
   );
 }
 
-function Header(props: { interest: Interest; expanded: boolean; toggleExpanded: () => void }) {
+type HeaderProps = {
+  interest: Interest;
+  expanded: boolean;
+  toggleExpanded: () => void;
+  refetch: () => void;
+};
+
+function Header(props: HeaderProps) {
+  const t = T.useTranslation();
+  const interestApi = container.resolve(TOKENS.interestApi);
+
+  const [join, joining] = createAsyncCall(() => interestApi.joinInterest(props.interest.id), {
+    onSuccess() {
+      notify.success(
+        t('joined', {
+          label: props.interest.label,
+          strong: (children) => <strong>{children}</strong>,
+        }),
+      );
+
+      props.refetch();
+    },
+  });
+
+  const [leave, leaving] = createAsyncCall(() => interestApi.leaveInterest(props.interest.id), {
+    onSuccess() {
+      notify.success(
+        t('left', {
+          label: props.interest.label,
+          strong: (children) => <strong>{children}</strong>,
+        }),
+      );
+
+      props.refetch();
+    },
+  });
+
   const hasJoined = () => {
     return props.interest.members.some(isAuthenticatedMember);
   };
 
   return (
-    <div class="row items-center justify-between gap-2">
+    <div class="col sm:row justify-between gap-2 py-6 sm:items-center">
       <div
         role="button"
-        class="row flex-1 cursor-pointer items-center gap-4 py-6"
+        class="row flex-1 cursor-pointer items-center gap-4"
         onClick={() => props.toggleExpanded()}
       >
-        <Icon
-          path={chevronRight}
-          class="size-6 transition-transform"
-          classList={{ 'rotate-90': props.expanded }}
-        />
+        <div>
+          <Icon
+            path={chevronRight}
+            class="size-6 transition-transform"
+            classList={{ 'rotate-90': props.expanded }}
+          />
+        </div>
 
         <div class="col gap-1">
           <div class="row items-center gap-2">
@@ -85,10 +128,17 @@ function Header(props: { interest: Interest; expanded: boolean; toggleExpanded: 
         </div>
       </div>
 
-      <Show when={!hasJoined()} fallback={<div />}>
-        <Button variant="secondary">
+      <Show when={!hasJoined()}>
+        <Button variant="secondary" loading={joining()} onClick={join} class="self-end sm:self-center">
           <Icon path={plus} class="size-em" />
-          <T id="add" />
+          <T id="join" />
+        </Button>
+      </Show>
+
+      <Show when={hasJoined()}>
+        <Button variant="secondary" loading={leaving()} onClick={leave} class="self-end sm:self-center">
+          <Icon path={minus} class="size-em" />
+          <T id="leave" />
         </Button>
       </Show>
     </div>

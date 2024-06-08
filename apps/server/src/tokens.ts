@@ -42,7 +42,9 @@ import { LoggerPort } from './infrastructure/logger/logger.port';
 import { PushNotificationPort } from './infrastructure/push-notification/push-notification.port';
 import { SlackClientPort } from './infrastructure/slack/slack-client.port';
 import { TranslationPort } from './infrastructure/translation/translation.port';
+import { AddInterestMember } from './interests/commands/add-interest-member/add-interest-member';
 import { CreateInterest } from './interests/commands/create-interest/create-interest';
+import { RemoveInterestMember } from './interests/commands/remove-interest-member/remove-interest-member';
 import { InterestController } from './interests/interest.controller';
 import { ListInterests } from './interests/queries/list-interests.query';
 import { ChangeNotificationDeliveryType } from './members/commands/change-notification-delivery-type.command';
@@ -143,6 +145,8 @@ export const COMMANDS = {
   updateEvent: token<UpdateEvent>('updateEvent'),
   setEventParticipation: token<SetEventParticipation>('setEventParticipation'),
   createInterest: token<CreateInterest>('createInterest'),
+  addInterestMember: token<AddInterestMember>('addInterestMember'),
+  removeInterestMember: token<RemoveInterestMember>('removeInterestMember'),
   createMember: token<CreateMember>('createMember'),
   updateMemberProfile: token<UpdateMemberProfile>('updateMemberProfile'),
   changeNotificationDeliveryType: token<ChangeNotificationDeliveryType>('changeNotificationDeliveryType'),

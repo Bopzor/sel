@@ -281,10 +281,13 @@
   "interests": {
     "noInterests": "No center of interest was created.",
     "noSearchResults": "No center of interest match this search query.",
-    "searchPlaceholder": "Search through the centers of interests.",
+    "searchPlaceholder": "Search through the centers of interests",
     "noMembers": "This center of interest has no members.",
     "membersCount": "({count, plural, =1 {{count} member} other {{count} members})",
-    "add": "Add"
+    "join": "Join",
+    "joined": "You are now part of the <strong>{label}</strong> center of interest.",
+    "leave": "Leave",
+    "left": "You are not part of the <strong>{label}</strong> center of interest anymore."
   },
   "assets": {
     "title": "Biens",

@@ -19,7 +19,7 @@ export default function InterestsPage() {
   const t = T.useTranslation();
 
   const interestApi = container.resolve(TOKENS.interestApi);
-  const [interests] = createResource(() => interestApi.listInterests());
+  const [interests, { refetch }] = createResource(() => interestApi.listInterests());
 
   const { form, data } = createForm<{ search: string }>();
 
@@ -27,7 +27,7 @@ export default function InterestsPage() {
     const search = removeDiacriticCharacters(data('search') ?? '').toLowerCase();
 
     if (search === '') {
-      return interests();
+      return interests.latest;
     }
 
     const matchInterest = (interest: Interest) => {
@@ -36,7 +36,7 @@ export default function InterestsPage() {
         .some((string) => string.includes(search));
     };
 
-    return interests()?.filter(matchInterest);
+    return interests.latest?.filter(matchInterest);
   };
 
   return (
@@ -53,7 +53,7 @@ export default function InterestsPage() {
         />
       </form>
 
-      <ul class="card divide-y px-8 py-4">
+      <ul class="card divide-y px-8 py-2">
         <For
           each={filteredInterests()}
           fallback={
@@ -66,7 +66,7 @@ export default function InterestsPage() {
         >
           {(interest) => (
             <li>
-              <InterestItem interest={interest} />
+              <InterestItem interest={interest} refetch={() => void refetch()} />
             </li>
           )}
         </For>
