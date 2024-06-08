@@ -279,15 +279,23 @@
     }
   },
   "interests": {
-    "noInterests": "No center of interest was created.",
-    "noSearchResults": "No center of interest match this search query.",
+    "noInterests": "No point of interest was created.",
+    "noSearchResults": "No point of interest match this search query.",
+    "createInterest": "Create interest \"{label}\"",
     "searchPlaceholder": "Search through the centers of interests",
-    "noMembers": "This center of interest has no members.",
+    "noMembers": "This point of interest has no members.",
     "membersCount": "({count, plural, =1 {{count} member} other {{count} members})",
     "join": "Join",
-    "joined": "You are now part of the <strong>{label}</strong> center of interest.",
+    "joined": "You are now part of the <strong>{label}</strong> point of interest.",
     "leave": "Leave",
-    "left": "You are not part of the <strong>{label}</strong> center of interest anymore."
+    "left": "You are not part of the <strong>{label}</strong> point of interest anymore.",
+    "createForm": {
+      "title": "Add point of interest",
+      "labelLabel": "Name",
+      "descriptionLabel": "Description",
+      "descriptionPlaceholder": "Example of activities related to this point of interest",
+      "interestCreated": "Point of interest <strong>{label}</strong> created"
+    }
   },
   "assets": {
     "title": "Biens",

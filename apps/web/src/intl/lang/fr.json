@@ -278,13 +278,21 @@
   "interests": {
     "noInterests": "Aucun centre d'intérêt n'a été enregistré.",
     "noSearchResults": "Aucun centre d'intérêt ne correspond à cette recherche.",
+    "createInterest": "Ajouter le centre d'intérêt \"{label}\"",
     "searchPlaceholder": "Rechercher parmi les centres d'intérêts",
     "noMembers": "Ce centre d'intérêt ne compte aucun membre.",
     "membersCount": "({count} {count, plural, =1 {membre} other {membres}})",
     "join": "Ajouter",
     "joined": "Vous faites maintenant parti du centre d'intérêt <strong>{label}</strong>.",
     "leave": "Retirer",
-    "left": "Vous ne faites plus parti du centre d'intérêt <strong>{label}</strong>."
+    "left": "Vous ne faites plus parti du centre d'intérêt <strong>{label}</strong>.",
+    "createForm": {
+      "title": "Ajouter un centre d'intérêt",
+      "labelLabel": "Nom du centre d'intérêt",
+      "descriptionLabel": "Description",
+      "descriptionPlaceholder": "Examples d'activités liées à ce centre d'intérêt",
+      "interestCreated": "Le centre d'intérêt <strong>{label}</strong> a été ajouté"
+    }
   },
   "assets": {
     "title": "Biens",

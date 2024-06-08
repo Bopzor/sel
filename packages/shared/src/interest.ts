@@ -25,3 +25,10 @@ export const addInterestMemberBodySchema = z.object({
 });
 
 export type AddInterestMemberBody = z.infer<typeof addInterestMemberBodySchema>;
+
+export const createInterestBodySchema = z.object({
+  label: z.string().trim().min(3).max(50),
+  description: z.string().trim().max(400),
+});
+
+export type CreateInterestBodySchema = z.infer<typeof createInterestBodySchema>;
