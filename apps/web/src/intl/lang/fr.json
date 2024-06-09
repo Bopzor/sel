@@ -177,7 +177,12 @@
     "mailingAddress": "Adresse postale",
     "membershipDate": "Date d'adhésion",
     "membershipDateFormatted": "{date, date, long} <dim>(il y a {relative})</dim>",
-    "bio": "À propos de moi"
+    "bio": "À propos de moi",
+    "interests": {
+      "title": "Centres d'intérêts",
+      "interest": "Centre d'intérêt",
+      "description": "Description"
+    }
   },
   "requests": {
     "title": "Demandes",

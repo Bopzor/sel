@@ -5,11 +5,16 @@ import { createResource, Show } from 'solid-js';
 import { breadcrumb, Breadcrumb } from '../../../components/breadcrumb';
 import { MemberAvatarName } from '../../../components/member-avatar-name';
 import { container } from '../../../infrastructure/container';
+import { Translate } from '../../../intl/translate';
 import { TOKENS } from '../../../tokens';
 
-import { MemberInformation } from './member-information';
+import { ContactInformation } from './contact-information';
+import { MemberBio } from './member-bio';
+import { MemberInterests } from './member-interests';
 import { MemberMap } from './member-map';
 import { MemberNotFound } from './member-not-found';
+
+const T = Translate.prefix('members');
 
 export default function MemberDetailsPage() {
   const memberApi = container.resolve(TOKENS.memberApi);
@@ -34,20 +39,40 @@ export default function MemberDetailsPage() {
 
 function MemberDetails(props: { member: Member }) {
   return (
-    <div class="card p-4 md:p-8">
-      <div class="row items-center gap-6">
-        <MemberAvatarName
-          member={props.member}
-          classes={{ avatar: '!size-16', name: 'text-xl font-semibold' }}
-        />
+    <div class="col gap-8">
+      <div class="card p-4 md:p-8">
+        <div class="row items-center gap-6">
+          <MemberAvatarName
+            member={props.member}
+            classes={{ avatar: '!size-16', name: 'text-xl font-semibold' }}
+          />
+        </div>
+
+        <hr class="my-4 md:my-6" />
+
+        <div class="grid grid-cols-1 gap-8 md:grid-cols-2">
+          <ContactInformation member={props.member} />
+          <MemberMap member={props.member} />
+        </div>
       </div>
 
-      <hr class="my-4 md:my-6" />
+      <Show when={props.member.bio !== undefined}>
+        <div class="max-w-4xl">
+          <h2 class="mb-4">
+            <T id="bio" />
+          </h2>
+          <MemberBio member={props.member} />
+        </div>
+      </Show>
 
-      <div class="grid grid-cols-1 gap-8 md:grid-cols-2">
-        <MemberInformation member={props.member} />
-        <MemberMap member={props.member} />
-      </div>
+      <Show when={props.member.interests.length > 0}>
+        <div class="max-w-4xl">
+          <h2 class="mb-4">
+            <T id="interests.title" />
+          </h2>
+          <MemberInterests member={props.member} />
+        </div>
+      </Show>
     </div>
   );
 }

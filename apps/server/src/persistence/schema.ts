@@ -45,6 +45,10 @@ export const members = pgTable('members', {
   updatedAt: updatedAt(),
 });
 
+export const memberRelations = relations(members, ({ many }) => ({
+  memberInterests: many(membersInterests),
+}));
+
 export const tokenType = pgEnum('token_type', enumValues(TokenType));
 
 export const tokens = pgTable('tokens', {

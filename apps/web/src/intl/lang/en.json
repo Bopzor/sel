@@ -177,7 +177,12 @@
     "mailingAddress": "Mailing address",
     "membershipDate": "Membership date",
     "membershipDateFormatted": "{date, date, long} <dim>({relative} ago)</dim>",
-    "bio": "Bio"
+    "bio": "Bio",
+    "interests": {
+      "title": "Points of interests",
+      "interest": "Point of interest",
+      "description": "Description"
+    }
   },
   "requests": {
     "title": "Requests",

@@ -1,7 +1,7 @@
 import { Member } from '@sel/shared';
 import { defined, formatDateRelative } from '@sel/utils';
 import { Icon } from 'solid-heroicons';
-import { clock, envelope, home, phone, user } from 'solid-heroicons/solid';
+import { clock, envelope, home, phone } from 'solid-heroicons/solid';
 import { ComponentProps, For, JSX, Show } from 'solid-js';
 
 import { FormattedAddress } from '../../../components/formatted-address';
@@ -10,14 +10,13 @@ import { formatPhoneNumber } from '../../../utils/format-phone-number';
 
 const T = Translate.prefix('members');
 
-export function MemberInformation(props: { member: Member }) {
+export function ContactInformation(props: { member: Member }) {
   return (
     <div class="col gap-4">
       <PhoneNumbers member={props.member} />
       <Email member={props.member} />
       <Address member={props.member} />
       <MembershipDate member={props.member} />
-      <Bio member={props.member} />
     </div>
   );
 }
@@ -75,14 +74,6 @@ function MembershipDate(props: { member: Member }) {
           }}
         />
       </p>
-    </MemberData>
-  );
-}
-
-function Bio(props: { member: Member }) {
-  return (
-    <MemberData when={props.member.bio} label={<T id="bio" />} icon={user}>
-      <p>{props.member.bio}</p>
     </MemberData>
   );
 }

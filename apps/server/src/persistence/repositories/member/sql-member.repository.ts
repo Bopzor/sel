@@ -8,9 +8,17 @@ import { DatePort } from '../../../infrastructure/date/date.port';
 import { Address, Member, MemberStatus, PhoneNumber } from '../../../members/member.entity';
 import { TOKENS } from '../../../tokens';
 import { Database } from '../../database';
-import { members } from '../../schema';
+import { interests, members, membersInterests } from '../../schema';
 
 import { InsertMemberModel, MemberRepository, UpdateMemberModel } from './member.repository';
+
+type MemberWithInterests = typeof members.$inferSelect & {
+  memberInterests: Array<
+    typeof membersInterests.$inferSelect & {
+      interest: typeof interests.$inferSelect;
+    }
+  >;
+};
 
 export class SqlMemberRepository implements MemberRepository {
   static inject = injectableClass(this, TOKENS.database, TOKENS.date);
@@ -35,20 +43,32 @@ export class SqlMemberRepository implements MemberRepository {
       [shared.MembersSort.membershipDate]: desc(members.membershipStartDate),
     };
 
-    const results = await this.db
-      .select()
-      .from(members)
-      .where(eq(members.status, MemberStatus.active))
-      .orderBy(orderBy[sort]);
+    const results = await this.db.query.members.findMany({
+      where: eq(members.status, MemberStatus.active),
+      orderBy: orderBy[sort],
+      with: {
+        memberInterests: {
+          with: {
+            interest: true,
+          },
+        },
+      },
+    });
 
     return results.map(this.toMemberQuery);
   }
 
   async query_getMember(memberId: string): Promise<shared.Member | undefined> {
-    const [result] = await this.db
-      .select()
-      .from(members)
-      .where(and(eq(members.id, memberId), eq(members.status, MemberStatus.active)));
+    const result = await this.db.query.members.findFirst({
+      where: and(eq(members.id, memberId), eq(members.status, MemberStatus.active)),
+      with: {
+        memberInterests: {
+          with: {
+            interest: true,
+          },
+        },
+      },
+    });
 
     if (result) {
       return this.toMemberQuery(result);
@@ -63,7 +83,7 @@ export class SqlMemberRepository implements MemberRepository {
     }
   }
 
-  private toMemberQuery(this: void, result: typeof members.$inferSelect): shared.Member {
+  private toMemberQuery(this: void, result: MemberWithInterests): shared.Member {
     return {
       id: result.id,
       firstName: result.firstName,
@@ -73,7 +93,13 @@ export class SqlMemberRepository implements MemberRepository {
       bio: result.bio ?? undefined,
       address: result.address ?? undefined,
       membershipStartDate: result.membershipStartDate.toISOString(),
-      interests: [],
+      interests: result.memberInterests.map(
+        (interest): shared.MemberInterest => ({
+          id: interest.id,
+          label: interest.interest.label,
+          description: interest.description ?? undefined,
+        }),
+      ),
     };
   }
 
