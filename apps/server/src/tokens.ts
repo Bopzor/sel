@@ -44,6 +44,7 @@ import { SlackClientPort } from './infrastructure/slack/slack-client.port';
 import { TranslationPort } from './infrastructure/translation/translation.port';
 import { AddInterestMember } from './interests/commands/add-interest-member/add-interest-member';
 import { CreateInterest } from './interests/commands/create-interest/create-interest';
+import { EditInterestMember } from './interests/commands/edit-interest-member/edit-interest-member';
 import { RemoveInterestMember } from './interests/commands/remove-interest-member/remove-interest-member';
 import { InterestController } from './interests/interest.controller';
 import { ListInterests } from './interests/queries/list-interests.query';
@@ -146,6 +147,7 @@ export const COMMANDS = {
   setEventParticipation: token<SetEventParticipation>('setEventParticipation'),
   createInterest: token<CreateInterest>('createInterest'),
   addInterestMember: token<AddInterestMember>('addInterestMember'),
+  editInterestMember: token<EditInterestMember>('editInterestMember'),
   removeInterestMember: token<RemoveInterestMember>('removeInterestMember'),
   createMember: token<CreateMember>('createMember'),
   updateMemberProfile: token<UpdateMemberProfile>('updateMemberProfile'),

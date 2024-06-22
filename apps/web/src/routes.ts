@@ -25,6 +25,7 @@ export const routes = {
   profile: {
     profileEdition: '/profile',
     address: '/profile/address',
+    interests: '/profile/interests',
     notifications: '/profile/notifications',
     settings: '/profile/settings',
     signOut: '/profile/sign-out',

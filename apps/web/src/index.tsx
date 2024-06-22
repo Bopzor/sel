@@ -40,6 +40,7 @@ const MiscPage = lazy(() => import('./modules/misc/misc.page'));
 const ProfileLayout = lazy(() => import('./modules/profile/profile.layout'));
 const ProfileEditionPage = lazy(() => import('./modules/profile/profile-edition/profile-edition.page'));
 const AddressPage = lazy(() => import('./modules/profile/address/address.page'));
+const ProfileInterestsPage = lazy(() => import('./modules/profile/interests/profile-interests.page'));
 const NotificationsPage = lazy(() => import('./modules/profile/notifications/notifications.page'));
 const SettingsPage = lazy(() => import('./modules/profile/settings/settings.page'));
 const SignOutPage = lazy(() => import('./modules/profile/sign-out/sign-out.page'));
@@ -80,6 +81,7 @@ function Routing() {
       <Route path="/profile" component={ProfileLayout}>
         <Route path="/" component={ProfileEditionPage} />
         <Route path="/address" component={AddressPage} />
+        <Route path="/interests" component={ProfileInterestsPage} />
         <Route path="/notifications" component={NotificationsPage} />
         <Route path="/settings" component={SettingsPage} />
         <Route path="/sign-out" component={SignOutPage} />

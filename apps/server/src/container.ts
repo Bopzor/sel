@@ -44,6 +44,7 @@ import { WebSlackClientAdapter } from './infrastructure/slack/web-slack-client.a
 import { FormatJsTranslationAdapter } from './infrastructure/translation/formatjs-translation.adapter';
 import { AddInterestMember } from './interests/commands/add-interest-member/add-interest-member';
 import { CreateInterest } from './interests/commands/create-interest/create-interest';
+import { EditInterestMember } from './interests/commands/edit-interest-member/edit-interest-member';
 import { RemoveInterestMember } from './interests/commands/remove-interest-member/remove-interest-member';
 import { InterestController } from './interests/interest.controller';
 import { ListInterests } from './interests/queries/list-interests.query';
@@ -166,6 +167,7 @@ container.bindFactory(COMMANDS.createEventComment, CreateEventComment.inject);
 
 container.bindFactory(COMMANDS.createInterest, CreateInterest.inject);
 container.bindFactory(COMMANDS.addInterestMember, AddInterestMember.inject);
+container.bindFactory(COMMANDS.editInterestMember, EditInterestMember.inject);
 container.bindFactory(COMMANDS.removeInterestMember, RemoveInterestMember.inject);
 
 container.bindFactory(COMMANDS.createMember, CreateMember.inject);

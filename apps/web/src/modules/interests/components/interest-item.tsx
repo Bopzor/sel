@@ -3,7 +3,7 @@ import { Icon } from 'solid-heroicons';
 import { chevronRight, plus, minus } from 'solid-heroicons/solid';
 import { For, Show, createSignal } from 'solid-js';
 
-import { isAuthenticatedMember } from '../../../app-context';
+import { getAppActions, isAuthenticatedMember } from '../../../app-context';
 import { Button } from '../../../components/button';
 import { Collapse } from '../../../components/collapse';
 import { Link } from '../../../components/link';
@@ -69,6 +69,7 @@ type HeaderProps = {
 function Header(props: HeaderProps) {
   const t = T.useTranslation();
   const interestApi = container.resolve(TOKENS.interestApi);
+  const { refreshAuthenticatedMember } = getAppActions();
 
   const [join, joining] = createAsyncCall(() => interestApi.joinInterest(props.interest.id), {
     onSuccess() {
@@ -79,6 +80,7 @@ function Header(props: HeaderProps) {
         }),
       );
 
+      refreshAuthenticatedMember();
       props.refetch();
     },
   });
@@ -92,6 +94,7 @@ function Header(props: HeaderProps) {
         }),
       );
 
+      refreshAuthenticatedMember();
       props.refetch();
     },
   });

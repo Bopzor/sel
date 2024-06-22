@@ -13,11 +13,11 @@ import { interests, members, membersInterests } from '../../schema';
 import { InsertMemberModel, MemberRepository, UpdateMemberModel } from './member.repository';
 
 type MemberWithInterests = typeof members.$inferSelect & {
-  memberInterests: Array<
-    typeof membersInterests.$inferSelect & {
-      interest: typeof interests.$inferSelect;
-    }
-  >;
+  memberInterests: Array<MemberInterestWithInterest>;
+};
+
+type MemberInterestWithInterest = typeof membersInterests.$inferSelect & {
+  interest: typeof interests.$inferSelect;
 };
 
 export class SqlMemberRepository implements MemberRepository {
@@ -76,14 +76,23 @@ export class SqlMemberRepository implements MemberRepository {
   }
 
   async query_getAuthenticatedMember(memberId: string): Promise<shared.AuthenticatedMember | undefined> {
-    const [result] = await this.db.select().from(members).where(eq(members.id, memberId));
+    const result = await this.db.query.members.findFirst({
+      where: and(eq(members.id, memberId)),
+      with: {
+        memberInterests: {
+          with: {
+            interest: true,
+          },
+        },
+      },
+    });
 
     if (result) {
       return this.toAuthenticatedMemberQuery(result);
     }
   }
 
-  private toMemberQuery(this: void, result: MemberWithInterests): shared.Member {
+  private toMemberQuery = (result: MemberWithInterests): shared.Member => {
     return {
       id: result.id,
       firstName: result.firstName,
@@ -93,20 +102,11 @@ export class SqlMemberRepository implements MemberRepository {
       bio: result.bio ?? undefined,
       address: result.address ?? undefined,
       membershipStartDate: result.membershipStartDate.toISOString(),
-      interests: result.memberInterests.map(
-        (interest): shared.MemberInterest => ({
-          id: interest.id,
-          label: interest.interest.label,
-          description: interest.description ?? undefined,
-        }),
-      ),
+      interests: result.memberInterests.map(this.toMemberInterest).sort(this.compareMemberInterests),
     };
-  }
+  };
 
-  private toAuthenticatedMemberQuery(
-    this: void,
-    result: typeof members.$inferSelect,
-  ): shared.AuthenticatedMember {
+  private toAuthenticatedMemberQuery = (result: MemberWithInterests): shared.AuthenticatedMember => {
     return {
       id: result.id,
       firstName: result.firstName,
@@ -122,9 +122,22 @@ export class SqlMemberRepository implements MemberRepository {
         email: result.notificationDelivery.includes(NotificationDeliveryType.email),
         push: result.notificationDelivery.includes(NotificationDeliveryType.push),
       },
-      interests: [],
+      interests: result.memberInterests.map(this.toMemberInterest).sort(this.compareMemberInterests),
     };
-  }
+  };
+
+  private toMemberInterest = (memberInterest: MemberInterestWithInterest): shared.MemberInterest => {
+    return {
+      id: memberInterest.id,
+      interestId: memberInterest.interestId,
+      label: memberInterest.interest.label,
+      description: memberInterest.description ?? undefined,
+    };
+  };
+
+  private compareMemberInterests = (a: shared.MemberInterest, b: shared.MemberInterest) => {
+    return a.label.localeCompare(b.label);
+  };
 
   async getMember(memberId: string): Promise<Member | undefined> {
     const [result] = await this.tx.select().from(members).where(eq(members.id, memberId));

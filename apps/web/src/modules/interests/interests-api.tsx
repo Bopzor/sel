@@ -1,4 +1,9 @@
-import { AddInterestMemberBody, CreateInterestBodySchema, Interest } from '@sel/shared';
+import {
+  AddInterestMemberBody,
+  CreateInterestBodySchema,
+  EditInterestMemberBody,
+  Interest,
+} from '@sel/shared';
 import { injectableClass } from 'ditox';
 
 import { FetcherPort } from '../../infrastructure/fetcher';
@@ -7,7 +12,8 @@ import { TOKENS } from '../../tokens';
 export interface InterestApi {
   listInterests(): Promise<Interest[]>;
   joinInterest(interestId: string, description?: string): Promise<void>;
-  leaveInterest(interestId: string, description?: string): Promise<void>;
+  leaveInterest(interestId: string): Promise<void>;
+  editMemberInterestDescription(interestId: string, description?: string): Promise<void>;
   createInterest(label: string, description: string): Promise<string>;
 }
 
@@ -30,6 +36,12 @@ export class FetchInterestApi implements InterestApi {
     await this.fetcher.put<void, void>(`/api/interests/${interestId}/leave`);
   }
 
+  async editMemberInterestDescription(interestId: string, description?: string): Promise<void> {
+    await this.fetcher.put<EditInterestMemberBody, void>(`/api/interests/${interestId}/edit`, {
+      description,
+    });
+  }
+
   async createInterest(label: string, description: string): Promise<string> {
     return this.fetcher
       .post<CreateInterestBodySchema, string>('/api/interests', {
@@ -50,6 +62,8 @@ export class StubInterestApi implements InterestApi {
   async joinInterest(): Promise<void> {}
 
   async leaveInterest(): Promise<void> {}
+
+  async editMemberInterestDescription(): Promise<void> {}
 
   async createInterest(): Promise<string> {
     return '';

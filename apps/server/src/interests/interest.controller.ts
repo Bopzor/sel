@@ -32,6 +32,7 @@ export class InterestController {
     this.router.post('/', this.createInterest);
     this.router.put('/:interestId/join', this.join);
     this.router.put('/:interestId/leave', this.leave);
+    this.router.put('/:interestId/edit', this.edit);
   }
 
   private authenticated: RequestHandler = (req, res, next) => {
@@ -78,6 +79,20 @@ export class InterestController {
     await this.commandBus.executeCommand(COMMANDS.removeInterestMember, {
       interestId,
       memberId,
+    });
+
+    res.end();
+  };
+
+  public edit: RequestHandler<{ interestId: string }, shared.Interest[]> = async (req, res) => {
+    const interestId = req.params.interestId;
+    const { id: memberId } = this.sessionProvider.getMember();
+    const { description } = shared.editInterestMemberBodySchema.parse(req.body);
+
+    await this.commandBus.executeCommand(COMMANDS.editInterestMember, {
+      interestId,
+      memberId,
+      description,
     });
 
     res.end();

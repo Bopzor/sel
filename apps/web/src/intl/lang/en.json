@@ -311,6 +311,7 @@
     "navigation": {
       "profile": "Profile",
       "address": "Address",
+      "interests": "Points of interests",
       "notifications": "Notifications",
       "settings": "Settings",
       "signOut": "Sign out"
@@ -331,6 +332,17 @@
       "description": "Search for your address and select a result to update it on your profile. If you can't find it, contact us so we can update it manually.",
       "placeholder": "Search for an address...",
       "saved": "Your address has been saved."
+    },
+    "interests": {
+      "title": "Points of interests",
+      "noInterests": {
+        "line1": "You didn't add any points of interests to your profile.",
+        "line2": "Go to the <link>points of interests page</link> to add some."
+      },
+      "noDescription": "No details.",
+      "addDescription": "Add",
+      "updateDescription": "Update",
+      "edited": "Your point of interest's description was edited successfully."
     },
     "notifications": {
       "title": "Notifications",

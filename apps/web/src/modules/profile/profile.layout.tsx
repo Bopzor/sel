@@ -1,5 +1,5 @@
 import { Icon } from 'solid-heroicons';
-import { arrowRightOnRectangle, bell, cog_6Tooth, mapPin, user } from 'solid-heroicons/solid';
+import { arrowRightOnRectangle, bell, cog_6Tooth, mapPin, sparkles, user } from 'solid-heroicons/solid';
 import { ComponentProps, JSX } from 'solid-js';
 
 import { BackLink } from '../../components/back-link';
@@ -34,6 +34,10 @@ function Navigation() {
 
       <NavigationLink href={routes.profile.address} icon={mapPin}>
         <T id="address" />
+      </NavigationLink>
+
+      <NavigationLink href={routes.profile.interests} icon={sparkles}>
+        <T id="interests" />
       </NavigationLink>
 
       <NavigationLink href={routes.profile.notifications} icon={bell}>

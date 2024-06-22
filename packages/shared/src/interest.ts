@@ -16,6 +16,7 @@ export type InterestMember = {
 
 export type MemberInterest = {
   id: string;
+  interestId: string;
   label: string;
   description?: string;
 };
@@ -25,6 +26,12 @@ export const addInterestMemberBodySchema = z.object({
 });
 
 export type AddInterestMemberBody = z.infer<typeof addInterestMemberBodySchema>;
+
+export const editInterestMemberBodySchema = z.object({
+  description: z.string().min(1).optional(),
+});
+
+export type EditInterestMemberBody = z.infer<typeof addInterestMemberBodySchema>;
 
 export const createInterestBodySchema = z.object({
   label: z.string().trim().min(3).max(50),

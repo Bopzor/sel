@@ -17,4 +17,6 @@ export class InterestMemberEvent extends InterestEvent {
 
 export class InterestMemberAdded extends InterestMemberEvent {}
 
+export class InterestMemberEdited extends InterestMemberEvent {}
+
 export class InterestMemberRemoved extends InterestMemberEvent {}
