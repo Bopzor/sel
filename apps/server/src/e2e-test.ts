@@ -25,7 +25,7 @@ import { COMMANDS, TOKENS } from './tokens';
 export class E2ETest {
   config = new StubConfigAdapter({
     server: {
-      host: 'localhost',
+      host: '127.0.0.1',
       port: 3030,
     },
     session: {
