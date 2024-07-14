@@ -40,7 +40,7 @@ export function InterestItem(props: { interest: Interest; refetch: () => void })
             }
           >
             {(member) => (
-              <li class="row items-start gap-4">
+              <li class="col sm:row items-start gap-x-4 gap-y-2">
                 <Link
                   unstyled
                   class="row min-w-48 items-center gap-2 whitespace-nowrap"
@@ -49,7 +49,7 @@ export function InterestItem(props: { interest: Interest; refetch: () => void })
                   <MemberAvatarName member={member} />
                 </Link>
 
-                <p class="flex-1 italic">{member.description}</p>
+                <p class="mt-0.5 flex-1 italic">{member.description}</p>
               </li>
             )}
           </For>
@@ -68,7 +68,7 @@ type HeaderProps = {
 
 function Header(props: HeaderProps) {
   return (
-    <div class="col sm:row justify-between gap-2 py-6 sm:items-center">
+    <div class="col sm:row gap-2 py-6 sm:items-center">
       <div
         role="button"
         class="row flex-1 cursor-pointer items-center gap-4"
@@ -83,10 +83,10 @@ function Header(props: HeaderProps) {
         </div>
 
         <div class="col gap-1">
-          <div class="row items-center gap-2">
+          <div class="row flex-wrap items-center gap-x-2">
             <div class="text-xl font-semibold">{props.interest.label}</div>
 
-            <div class="text-sm text-dim">
+            <div class="whitespace-nowrap text-sm text-dim">
               <T id="membersCount" values={{ count: props.interest.members.length }} />
             </div>
           </div>
@@ -133,7 +133,7 @@ function JoinSwitch(props: { interest: Interest; refetch: () => void }) {
   });
 
   return (
-    <form use:form>
+    <form use:form class="ml-auto">
       <Switch name="joined" onChange={() => setTimeout(() => handleSubmit(), 0)} />
     </form>
   );

@@ -281,11 +281,15 @@
     }
   },
   "interests": {
+    "intro": {
+      "sentence1": "Retrouvez ici la liste des centres d'intérêts que partagent les membres de SEL'ons-nous. N'hésitez pas à rejoindre les centres d'intérêts qui vous concernent ou vous intéressent, via le bouton à droite.",
+      "sentence2": "Depuis <link>votre page de profil</link>, vous pouvez ajouter des précisions par rapport aux centres d'intérêts que vous avez rejoint, pour apporter un peu de contexte aux autres membres."
+    },
     "noInterests": "Aucun centre d'intérêt n'a été enregistré.",
     "noSearchResults": "Aucun centre d'intérêt ne correspond à cette recherche.",
     "createInterest": "Ajouter le centre d'intérêt \"{label}\"",
     "searchPlaceholder": "Rechercher parmi les centres d'intérêts",
-    "noMembers": "Ce centre d'intérêt ne compte aucun membre.",
+    "noMembers": "Ce centre d'intérêt ne compte aucun membre pour le moment.",
     "membersCount": "({count} {count, plural, =1 {membre} other {membres}})",
     "join": "Ajouter",
     "joined": "Vous faites maintenant parti du centre d'intérêt <strong>{label}</strong>.",

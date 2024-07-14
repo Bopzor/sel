@@ -8,8 +8,10 @@ import { For, Show, createResource, createSignal } from 'solid-js';
 import { Breadcrumb, breadcrumb } from '../../components/breadcrumb';
 import { Button } from '../../components/button';
 import { Input } from '../../components/input';
+import { Link } from '../../components/link';
 import { container } from '../../infrastructure/container';
 import { Translate } from '../../intl/translate';
+import { routes } from '../../routes';
 import { TOKENS } from '../../tokens';
 
 import { CreateInterestForm } from './components/create-interest-form';
@@ -58,6 +60,17 @@ export default function InterestsPage() {
   return (
     <>
       <Breadcrumb items={[breadcrumb.interests()]} />
+
+      <p class="my-1 max-w-3xl">
+        <T id="intro.sentence1" />
+      </p>
+
+      <p class="my-1 max-w-3xl">
+        <T
+          id="intro.sentence2"
+          values={{ link: (children) => <Link href={routes.profile.interests}>{children}</Link> }}
+        />
+      </p>
 
       <form use:form>
         <Input

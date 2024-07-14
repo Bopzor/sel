@@ -284,11 +284,15 @@
     }
   },
   "interests": {
+    "intro": {
+      "sentence1": "Here is the list of points of interests shared by the members of SEL'ons-nous. Feel free to join the points of interest that concern you using the button on the right.",
+      "sentence2": "From <link>your profile page</link>, you can add details about the points of interests you have joined, to give a some context to other members."
+    },
     "noInterests": "No point of interest was created.",
     "noSearchResults": "No point of interest match this search query.",
     "createInterest": "Create interest \"{label}\"",
     "searchPlaceholder": "Search through the centers of interests",
-    "noMembers": "This point of interest has no members.",
+    "noMembers": "This point of interest has no members yet.",
     "membersCount": "({count, plural, =1 {{count} member} other {{count} members})",
     "join": "Join",
     "joined": "You are now part of the <strong>{label}</strong> point of interest.",
