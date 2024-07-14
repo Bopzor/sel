@@ -1,18 +1,18 @@
+import { createForm } from '@felte/solid';
 import { Interest } from '@sel/shared';
 import { Icon } from 'solid-heroicons';
-import { chevronRight, plus, minus } from 'solid-heroicons/solid';
-import { For, Show, createSignal } from 'solid-js';
+import { chevronRight } from 'solid-heroicons/solid';
+import { For, createSignal } from 'solid-js';
 
 import { getAppActions, isAuthenticatedMember } from '../../../app-context';
-import { Button } from '../../../components/button';
 import { Collapse } from '../../../components/collapse';
 import { Link } from '../../../components/link';
 import { MemberAvatarName } from '../../../components/member-avatar-name';
+import { Switch } from '../../../components/switch';
 import { container } from '../../../infrastructure/container';
 import { Translate } from '../../../intl/translate';
 import { routes } from '../../../routes';
 import { TOKENS } from '../../../tokens';
-import { createAsyncCall } from '../../../utils/create-async-call';
 import { notify } from '../../../utils/notify';
 
 const T = Translate.prefix('interests');
@@ -67,42 +67,6 @@ type HeaderProps = {
 };
 
 function Header(props: HeaderProps) {
-  const t = T.useTranslation();
-  const interestApi = container.resolve(TOKENS.interestApi);
-  const { refreshAuthenticatedMember } = getAppActions();
-
-  const [join, joining] = createAsyncCall(() => interestApi.joinInterest(props.interest.id), {
-    onSuccess() {
-      notify.success(
-        t('joined', {
-          label: props.interest.label,
-          strong: (children) => <strong>{children}</strong>,
-        }),
-      );
-
-      refreshAuthenticatedMember();
-      props.refetch();
-    },
-  });
-
-  const [leave, leaving] = createAsyncCall(() => interestApi.leaveInterest(props.interest.id), {
-    onSuccess() {
-      notify.success(
-        t('left', {
-          label: props.interest.label,
-          strong: (children) => <strong>{children}</strong>,
-        }),
-      );
-
-      refreshAuthenticatedMember();
-      props.refetch();
-    },
-  });
-
-  const hasJoined = () => {
-    return props.interest.members.some(isAuthenticatedMember);
-  };
-
   return (
     <div class="col sm:row justify-between gap-2 py-6 sm:items-center">
       <div
@@ -131,19 +95,46 @@ function Header(props: HeaderProps) {
         </div>
       </div>
 
-      <Show when={!hasJoined()}>
-        <Button variant="secondary" loading={joining()} onClick={join} class="self-end sm:self-center">
-          <Icon path={plus} class="size-em" />
-          <T id="join" />
-        </Button>
-      </Show>
-
-      <Show when={hasJoined()}>
-        <Button variant="secondary" loading={leaving()} onClick={leave} class="self-end sm:self-center">
-          <Icon path={minus} class="size-em" />
-          <T id="leave" />
-        </Button>
-      </Show>
+      <JoinSwitch interest={props.interest} refetch={props.refetch} />
     </div>
+  );
+}
+
+function JoinSwitch(props: { interest: Interest; refetch: () => void }) {
+  const t = T.useTranslation();
+  const interestApi = container.resolve(TOKENS.interestApi);
+  const { refreshAuthenticatedMember } = getAppActions();
+
+  // @ts-expect-error solidjs directive
+  const { form, handleSubmit } = createForm({
+    initialValues: {
+      joined: props.interest.members.some(isAuthenticatedMember),
+    },
+    async onSubmit({ joined }) {
+      if (joined) {
+        await interestApi.joinInterest(props.interest.id);
+      } else {
+        await interestApi.leaveInterest(props.interest.id);
+      }
+
+      return joined;
+    },
+    onSuccess(hasJoined) {
+      refreshAuthenticatedMember();
+      props.refetch();
+
+      notify.success(
+        t((hasJoined as boolean) ? 'joined' : 'left', {
+          label: props.interest.label,
+          strong: (children) => <strong>{children}</strong>,
+        }),
+      );
+    },
+  });
+
+  return (
+    <form use:form>
+      <Switch name="joined" onChange={() => setTimeout(() => handleSubmit(), 0)} />
+    </form>
   );
 }
