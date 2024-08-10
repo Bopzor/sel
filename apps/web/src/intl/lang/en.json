@@ -182,6 +182,10 @@
       "title": "Points of interests",
       "interest": "Point of interest",
       "description": "Description"
+    },
+    "transactions": {
+      "title": "Transactions",
+      "balance": "Balance: {balance} {balance, plural, =1 {credit} other {credits}}"
     }
   },
   "requests": {

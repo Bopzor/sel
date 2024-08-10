@@ -1,6 +1,16 @@
 import { Address } from '@sel/shared';
 import { relations, sql } from 'drizzle-orm';
-import { boolean, json, pgEnum, pgTable, text, timestamp, unique, varchar } from 'drizzle-orm/pg-core';
+import {
+  boolean,
+  integer,
+  json,
+  pgEnum,
+  pgTable,
+  text,
+  timestamp,
+  unique,
+  varchar,
+} from 'drizzle-orm/pg-core';
 
 import { TokenType } from '../authentication/token.entity';
 import { NotificationDeliveryType } from '../common/notification-delivery-type';
@@ -41,6 +51,7 @@ export const members = pgTable('members', {
     .notNull()
     .default(sql`CURRENT_DATE`),
   notificationDelivery: notificationDeliveryTypeEnum('notification_delivery').array().notNull().default([]),
+  balance: integer('balance').notNull().default(0),
   createdAt: createdAt(),
   updatedAt: updatedAt(),
 });

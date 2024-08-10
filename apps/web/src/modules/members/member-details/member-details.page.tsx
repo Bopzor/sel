@@ -13,6 +13,7 @@ import { MemberBio } from './member-bio';
 import { MemberInterests } from './member-interests';
 import { MemberMap } from './member-map';
 import { MemberNotFound } from './member-not-found';
+import { MemberTransactions } from './member-transactions';
 
 const T = Translate.prefix('members');
 
@@ -73,6 +74,13 @@ function MemberDetails(props: { member: Member }) {
           <MemberInterests member={props.member} />
         </div>
       </Show>
+
+      <div class="max-w-4xl">
+        <h2 class="mb-4">
+          <T id="transactions.title" />
+        </h2>
+        <MemberTransactions member={props.member} />
+      </div>
     </div>
   );
 }

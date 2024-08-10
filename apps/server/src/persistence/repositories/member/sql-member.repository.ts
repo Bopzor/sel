@@ -102,6 +102,7 @@ export class SqlMemberRepository implements MemberRepository {
       bio: result.bio ?? undefined,
       address: result.address ?? undefined,
       membershipStartDate: result.membershipStartDate.toISOString(),
+      balance: result.balance,
       interests: result.memberInterests.map(this.toMemberInterest).sort(this.compareMemberInterests),
     };
   };
@@ -122,6 +123,7 @@ export class SqlMemberRepository implements MemberRepository {
         email: result.notificationDelivery.includes(NotificationDeliveryType.email),
         push: result.notificationDelivery.includes(NotificationDeliveryType.push),
       },
+      balance: result.balance,
       interests: result.memberInterests.map(this.toMemberInterest).sort(this.compareMemberInterests),
     };
   };

@@ -182,6 +182,10 @@
       "title": "Centres d'intérêts",
       "interest": "Centre d'intérêt",
       "description": "Description"
+    },
+    "transactions": {
+      "title": "Échanges",
+      "balance": "Solde: {balance} {balance, plural, =1 {crédit} other {crédits}}"
     }
   },
   "requests": {

@@ -42,6 +42,7 @@ describe('[Intg] SqlMemberRepository', () => {
         emailVisible: true,
         phoneNumbers: [],
         bio: 'bio',
+        balance: 1,
         address: {
           line1: 'line1',
           line2: 'line2',
@@ -76,6 +77,7 @@ describe('[Intg] SqlMemberRepository', () => {
             position: [0, 1],
           },
           membershipStartDate: test.now.toISOString(),
+          balance: 1,
           interests: [],
         },
       ]);
@@ -123,6 +125,7 @@ describe('[Intg] SqlMemberRepository', () => {
           position: [0, 1],
         },
         membershipStartDate: test.now.toISOString(),
+        balance: 1,
         interests: [],
       });
     });

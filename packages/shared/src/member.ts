@@ -13,6 +13,7 @@ export type Member = {
   bio?: string;
   address?: Address;
   membershipStartDate: string;
+  balance: number;
   interests: MemberInterest[];
 };
 
@@ -22,5 +23,6 @@ export const createMember = createFactory<Member>(() => ({
   lastName: '',
   phoneNumbers: [],
   membershipStartDate: createDate().toISOString(),
+  balance: 0,
   interests: [],
 }));
