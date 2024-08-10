@@ -5,7 +5,6 @@ import { CommandHandler } from '../../infrastructure/cqs/command-handler';
 import { EventPublisherPort } from '../../infrastructure/events/event-publisher.port';
 import { MemberRepository } from '../../persistence/repositories/member/member.repository';
 import { TOKENS } from '../../tokens';
-import { MemberNotFound } from '../member-errors';
 import { NotificationDeliveryTypeChanged } from '../member-events';
 
 export type ChangeNotificationDeliveryTypeCommand = {
@@ -22,11 +21,7 @@ export class ChangeNotificationDeliveryType implements CommandHandler<ChangeNoti
   ) {}
 
   async handle(command: ChangeNotificationDeliveryTypeCommand): Promise<void> {
-    const member = await this.memberRepository.getMember(command.memberId);
-
-    if (!member) {
-      throw new MemberNotFound(command.memberId);
-    }
+    const member = await this.memberRepository.getMemberOrFail(command.memberId);
 
     await this.memberRepository.setNotificationDelivery(member.id, command.notificationDeliveryType);
 

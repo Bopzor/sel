@@ -5,6 +5,7 @@ import { and, asc, desc, eq, inArray } from 'drizzle-orm';
 
 import { NotificationDeliveryType } from '../../../common/notification-delivery-type';
 import { DatePort } from '../../../infrastructure/date/date.port';
+import { MemberNotFound } from '../../../members/member-errors';
 import { Address, Member, MemberStatus, PhoneNumber } from '../../../members/member.entity';
 import { TOKENS } from '../../../tokens';
 import { Database } from '../../database';
@@ -147,6 +148,16 @@ export class SqlMemberRepository implements MemberRepository {
     if (result) {
       return this.toMember(result);
     }
+  }
+
+  async getMemberOrFail(memberId: string): Promise<Member> {
+    const member = await this.getMember(memberId);
+
+    if (!member) {
+      throw new MemberNotFound(memberId);
+    }
+
+    return member;
   }
 
   async getMembers(memberIds: string[]): Promise<Member[]> {

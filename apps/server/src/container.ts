@@ -89,6 +89,8 @@ import { ListRequests } from './requests/queries/list-requests.query';
 import { RequestController } from './requests/request.controller';
 import { Server } from './server';
 import { COMMANDS, EVENT_HANDLERS, QUERIES, TOKENS } from './tokens';
+import { CreateTransaction } from './transactions/commands/create-transaction';
+import { TransactionController } from './transactions/transaction.controller';
 
 export const container = createContainer();
 
@@ -125,6 +127,8 @@ container.bindFactory(TOKENS.eventRepository, SqlEventRepository.inject);
 
 container.bindFactory(TOKENS.interestController, InterestController.inject);
 container.bindFactory(TOKENS.interestController, InterestController.inject);
+
+container.bindFactory(TOKENS.transactionController, TransactionController.inject);
 
 container.bindFactory(TOKENS.authenticationController, AuthenticationController.inject);
 container.bindFactory(TOKENS.sessionController, SessionController.inject);
@@ -169,6 +173,8 @@ container.bindFactory(COMMANDS.createInterest, CreateInterest.inject);
 container.bindFactory(COMMANDS.addInterestMember, AddInterestMember.inject);
 container.bindFactory(COMMANDS.editInterestMember, EditInterestMember.inject);
 container.bindFactory(COMMANDS.removeInterestMember, RemoveInterestMember.inject);
+
+container.bindFactory(COMMANDS.createTransaction, CreateTransaction.inject);
 
 container.bindFactory(COMMANDS.createMember, CreateMember.inject);
 container.bindFactory(COMMANDS.updateMemberProfile, UpdateMemberProfile.inject);

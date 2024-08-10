@@ -23,6 +23,7 @@ const {
   requests,
   requestAnswers,
   tokens,
+  transactions,
   subscriptions,
   notifications,
 } = schema;
@@ -86,6 +87,7 @@ export class Database {
     await this.db.delete(requests);
     await this.db.delete(eventParticipations);
     await this.db.delete(events);
+    await this.db.delete(transactions);
     await this.db.delete(tokens);
     await this.db.delete(memberDevices);
     await this.db.delete(members);

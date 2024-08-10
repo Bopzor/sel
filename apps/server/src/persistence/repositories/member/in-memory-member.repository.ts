@@ -3,6 +3,7 @@ import { assert, createDate, defined } from '@sel/utils';
 
 import { NotificationDeliveryType } from '../../../common/notification-delivery-type';
 import { InMemoryRepository } from '../../../in-memory.repository';
+import { MemberNotFound } from '../../../members/member-errors';
 import { Member, MemberStatus } from '../../../members/member.entity';
 
 import { InsertMemberModel, MemberRepository, UpdateMemberModel } from './member.repository';
@@ -67,6 +68,16 @@ export class InMemoryMemberRepository extends InMemoryRepository<Member> impleme
 
   async getMember(memberId: string): Promise<Member | undefined> {
     return this.get(memberId);
+  }
+
+  async getMemberOrFail(memberId: string): Promise<Member> {
+    const member = await this.getMember(memberId);
+
+    if (!member) {
+      throw new MemberNotFound(memberId);
+    }
+
+    return member;
   }
 
   async getMembers(memberIds: string[]): Promise<Member[]> {

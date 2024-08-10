@@ -312,10 +312,47 @@ export const membersInterestsRelations = relations(membersInterests, ({ one }) =
   }),
 }));
 
+export const transactionStatus = pgEnum('transaction_status', ['pending', 'completed', 'canceled']);
+
+export const transactions = pgTable('transactions', {
+  id: primaryKey(),
+  status: transactionStatus('status').notNull(),
+  description: text('description').notNull(),
+  amount: integer('amount').notNull(),
+  payerId: id('payer_id')
+    .references(() => members.id)
+    .notNull(),
+  recipientId: id('recipient_id')
+    .references(() => members.id)
+    .notNull(),
+  payerComment: text('payer_comment'),
+  recipientComment: text('recipient_comment'),
+  creatorId: id('creator_id')
+    .references(() => members.id)
+    .notNull(),
+  createdAt: createdAt(),
+  updatedAt: updatedAt(),
+});
+
+export const transactionsRelations = relations(transactions, ({ one }) => ({
+  payer: one(members, {
+    fields: [transactions.payerId],
+    references: [members.id],
+  }),
+  recipient: one(members, {
+    fields: [transactions.recipientId],
+    references: [members.id],
+  }),
+  creator: one(members, {
+    fields: [transactions.creatorId],
+    references: [members.id],
+  }),
+}));
+
 export const config = pgTable('config', {
   id: primaryKey(),
   currency: varchar('currency', { length: 256 }).notNull(),
-  currency_plural: varchar('currency_plural', { length: 256 }).notNull(),
+  currencyPlural: varchar('currency_plural', { length: 256 }).notNull(),
   createdAt: createdAt(),
   updatedAt: updatedAt(),
 });
