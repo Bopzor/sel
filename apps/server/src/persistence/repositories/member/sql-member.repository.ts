@@ -195,6 +195,7 @@ export class SqlMemberRepository implements MemberRepository {
       notificationDelivery: entries(model.notificationDelivery)
         .filter(([, value]) => value)
         .map(([key]) => key),
+      balance: model.balance,
       createdAt: now,
       updatedAt: now,
     });
@@ -261,6 +262,7 @@ export class SqlMemberRepository implements MemberRepository {
       notificationDelivery: toObject(Object.values(NotificationDeliveryType), identity, (type) =>
         result.notificationDelivery.includes(type),
       ),
+      balance: result.balance,
     };
   }
 }

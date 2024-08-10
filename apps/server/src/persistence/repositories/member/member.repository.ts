@@ -9,6 +9,7 @@ export type InsertMemberModel = {
   lastName: string;
   email: string;
   notificationDelivery: Record<NotificationDeliveryType, boolean>;
+  balance?: number;
 };
 
 export type UpdateMemberModel = {

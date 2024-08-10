@@ -1,7 +1,14 @@
 import { z } from 'zod';
 
+export enum TransactionStatus {
+  pending = 'pending',
+  completed = 'completed',
+  canceled = 'canceled',
+}
+
 export type Transaction = {
   id: string;
+  status: TransactionStatus;
   amount: number;
   description: string;
   payerId: string;

@@ -34,6 +34,7 @@ export class TransactionController {
 
     this.router.get('/:transactionId', this.getTransaction);
     this.router.post('/', this.createTransaction);
+    this.router.put('/:transactionId/accept', this.acceptTransaction);
   }
 
   authenticated: RequestHandler = (req, res, next) => {
@@ -54,6 +55,7 @@ export class TransactionController {
 
     res.send({
       id: transaction.id,
+      status: transaction.status,
       amount: transaction.amount,
       description: transaction.description,
       payerId: transaction.payerId,
@@ -77,5 +79,17 @@ export class TransactionController {
     });
 
     res.status(HttpStatus.created).send(transactionId);
+  };
+
+  acceptTransaction: RequestHandler<{ transactionId: string }> = async (req, res) => {
+    const { transactionId } = req.params;
+    const member = this.sessionProvider.getMember();
+
+    await this.commandBus.executeCommand(COMMANDS.acceptTransaction, {
+      transactionId,
+      memberId: member.id,
+    });
+
+    res.end();
   };
 }

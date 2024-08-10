@@ -12,6 +12,7 @@ export type CreateMemberCommand = {
   firstName: string;
   lastName: string;
   email: string;
+  balance?: number;
 };
 
 export class CreateMember implements CommandHandler<CreateMemberCommand> {
@@ -22,7 +23,7 @@ export class CreateMember implements CommandHandler<CreateMemberCommand> {
     private readonly eventPublisher: EventPublisherPort,
   ) {}
 
-  async handle({ memberId, firstName, lastName, email }: CreateMemberCommand): Promise<void> {
+  async handle({ memberId, firstName, lastName, email, balance }: CreateMemberCommand): Promise<void> {
     await this.memberRepository.insert({
       id: memberId,
       firstName,
@@ -32,6 +33,7 @@ export class CreateMember implements CommandHandler<CreateMemberCommand> {
         [NotificationDeliveryType.email]: false,
         [NotificationDeliveryType.push]: false,
       },
+      balance,
     });
 
     this.eventPublisher.publish(new MemberCreated(memberId));

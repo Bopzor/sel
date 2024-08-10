@@ -91,6 +91,7 @@ export class InMemoryMemberRepository extends InMemoryRepository<Member> impleme
       emailVisible: true,
       phoneNumbers: [],
       membershipStartDate: createDate(),
+      balance: model.balance ?? 0,
     });
   }
 

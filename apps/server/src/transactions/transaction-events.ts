@@ -5,3 +5,4 @@ export class TransactionEvent extends DomainEvent {
 }
 
 export class TransactionCreated extends TransactionEvent {}
+export class TransactionCompleted extends TransactionEvent {}

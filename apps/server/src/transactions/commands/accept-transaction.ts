@@ -7,18 +7,15 @@ import { Database } from '../../persistence/database';
 import { MemberRepository } from '../../persistence/repositories/member/member.repository';
 import * as schema from '../../persistence/schema';
 import { TOKENS } from '../../tokens';
+import { TransactionNotFound } from '../transaction-errors';
 import { TransactionService } from '../transaction.service';
 
-export type CreateTransactionCommand = {
+export type AcceptTransactionCommand = {
   transactionId: string;
-  payerId: string;
-  recipientId: string;
-  creatorId: string;
-  amount: number;
-  description: string;
+  memberId: string;
 };
 
-export class CreateTransaction implements CommandHandler<CreateTransactionCommand> {
+export class AcceptTransaction implements CommandHandler<AcceptTransactionCommand> {
   static inject = injectableClass(
     this,
     TOKENS.date,
@@ -34,25 +31,33 @@ export class CreateTransaction implements CommandHandler<CreateTransactionComman
     private readonly transactionService: TransactionService,
   ) {}
 
-  async handle(command: CreateTransactionCommand): Promise<void> {
-    const { transactionId, payerId, recipientId, creatorId, amount, description } = command;
+  async handle(command: AcceptTransactionCommand): Promise<void> {
+    const { transactionId, memberId } = command;
 
-    const payer = await this.memberRepository.getMemberOrFail(payerId);
-    const recipient = await this.memberRepository.getMemberOrFail(recipientId);
-    const creator = creatorId === payerId ? payer : recipient;
-    const now = this.dateAdapter.now();
-
-    const transaction = this.transactionService.createTransaction({
-      transactionId,
-      payer,
-      recipient,
-      creator,
-      amount,
-      description,
-      now,
+    const transaction = await this.database.db.query.transactions.findFirst({
+      where: eq(schema.transactions.id, transactionId),
     });
 
-    await this.database.db.insert(schema.transactions).values(transaction);
+    if (!transaction) {
+      throw new TransactionNotFound(transactionId);
+    }
+
+    const payer = await this.memberRepository.getMemberOrFail(transaction.payerId);
+    const recipient = await this.memberRepository.getMemberOrFail(transaction.recipientId);
+    const now = this.dateAdapter.now();
+
+    this.transactionService.checkCanAcceptTransaction({ transaction, memberId });
+
+    this.transactionService.completeTransaction({
+      transaction,
+      payer,
+      recipient,
+    });
+
+    await this.database.db
+      .update(schema.transactions)
+      .set({ ...transaction, updatedAt: now })
+      .where(eq(schema.transactions.id, transaction.id));
 
     for (const { id, balance } of [payer, recipient]) {
       await this.database.db

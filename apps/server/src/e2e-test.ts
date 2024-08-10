@@ -136,7 +136,7 @@ export class E2ETest {
     return [member, token.value];
   }
 
-  async fetch(
+  async fetch<ResBody>(
     path: string,
     options: { method?: string; token?: string; assertStatus?: boolean; body?: unknown } = {},
   ) {
@@ -170,7 +170,7 @@ export class E2ETest {
         expect(response.ok, `status = ${response.status}`).toBe(true);
       }
 
-      return { response, body };
+      return { response, body: body as ResBody };
     } catch (error) {
       if (body) {
         // eslint-disable-next-line no-console

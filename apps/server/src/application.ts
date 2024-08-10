@@ -88,6 +88,7 @@ export class Application {
   changeNotificationDeliveryType = this.createCommandMethod(COMMANDS.changeNotificationDeliveryType);
   createRequestComment = this.createCommandMethod(COMMANDS.createRequestComment);
   createInterest = this.createCommandMethod(COMMANDS.createInterest);
+  createTransaction = this.createCommandMethod(COMMANDS.createTransaction);
 
   private createQueryMethod<Query, Result>(token: Token<QueryHandler<Query, Result>>) {
     return (query: Query) => this.queryBus.executeQuery(token, query);

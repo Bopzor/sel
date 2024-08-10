@@ -88,8 +88,10 @@ import { GetRequest } from './requests/queries/get-request.query';
 import { ListRequests } from './requests/queries/list-requests.query';
 import { RequestController } from './requests/request.controller';
 import { Server } from './server';
+import { AcceptTransaction } from './transactions/commands/accept-transaction';
 import { CreateTransaction } from './transactions/commands/create-transaction';
 import { TransactionController } from './transactions/transaction.controller';
+import { TransactionService } from './transactions/transaction.service';
 
 export const TOKENS = {
   container: token<Container>('container'),
@@ -122,6 +124,7 @@ export const TOKENS = {
   eventRepository: token<EventRepository>('eventRepository'),
   interestController: token<InterestController>('interestController'),
   transactionController: token<TransactionController>('transactionController'),
+  transactionService: token<TransactionService>('transactionService'),
   commentService: token<CommentService>('commentService'),
   commentRepository: token<CommentRepository>('commentRepository'),
   subscriptionService: token<SubscriptionService>('subscriptionService'),
@@ -153,6 +156,7 @@ export const COMMANDS = {
   editInterestMember: token<EditInterestMember>('editInterestMember'),
   removeInterestMember: token<RemoveInterestMember>('removeInterestMember'),
   createTransaction: token<CreateTransaction>('createTransaction'),
+  acceptTransaction: token<AcceptTransaction>('acceptTransaction'),
   createMember: token<CreateMember>('createMember'),
   updateMemberProfile: token<UpdateMemberProfile>('updateMemberProfile'),
   changeNotificationDeliveryType: token<ChangeNotificationDeliveryType>('changeNotificationDeliveryType'),

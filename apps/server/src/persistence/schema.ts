@@ -1,4 +1,4 @@
-import { Address } from '@sel/shared';
+import { Address, TransactionStatus } from '@sel/shared';
 import { relations, sql } from 'drizzle-orm';
 import {
   boolean,
@@ -312,7 +312,7 @@ export const membersInterestsRelations = relations(membersInterests, ({ one }) =
   }),
 }));
 
-export const transactionStatus = pgEnum('transaction_status', ['pending', 'completed', 'canceled']);
+export const transactionStatus = pgEnum('transaction_status', enumValues(TransactionStatus));
 
 export const transactions = pgTable('transactions', {
   id: primaryKey(),
