@@ -8,8 +8,11 @@
     "visible": "Visible",
     "notVisible": "Non visible",
     "validation": {
-      "min": "Ce champ trop court (min : {min} caractères).",
-      "max": "Ce champ est trop long (max : {max} caractères)."
+      "required": "Ce champ est requis.",
+      "minLength": "Ce champ est trop court (min : {min} caractères).",
+      "maxLength": "Ce champ est trop long (max : {max} caractères).",
+      "min": "Ce champ est trop petit (min: {min}).",
+      "max": "Ce champ est trop grand (max: {max})."
     },
     "richEditor": {
       "bold": "Gras",
@@ -185,7 +188,22 @@
     },
     "transactions": {
       "title": "Échanges",
-      "balance": "Solde: {balance}"
+      "balance": "Solde: {balance}",
+      "create": {
+        "cta": "Créer un échange",
+        "title": "Créer un échange avec {name}",
+        "exchangeTypeLabel": "Type d'échange",
+        "send": "Envoyer des {currency}",
+        "request": "Demander des {currency}",
+        "amountLabel": "Nombre de {currency}",
+        "amountPlaceholder": "20",
+        "descriptionLabel": "Motif",
+        "descriptionPlaceholder": "Aide pour monter un meuble Ikea",
+        "next": "Continuer",
+        "confirmSend": "Vous êtes sur le point d'envoyer <strong>{amount}</strong> {amount, plural, =1 {{currency}} other {{currencyPlural}}} à <strong>{name}</strong>.{br}Aucune confirmation n'est attendu de sa part, l'échange sera conclu immédiatement.",
+        "confirmRequest": "Vous allez demander <strong>{amount}</strong> {amount, plural, =1 {{currency}} other {{currencyPlural}}} à <strong>{name}</strong>.{br}Une confirmation de sa part sera nécessaire pour conclure l'échange.",
+        "submit": "Créer l'échange"
+      }
     }
   },
   "requests": {

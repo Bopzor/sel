@@ -8,10 +8,10 @@ export const zod = () => {
   const customErrorMap: z.ZodErrorMap = (error, ctx) => {
     switch (error.code) {
       case z.ZodIssueCode.too_small:
-        return { message: t('min', { min: error.minimum as number }) as string };
+        return { message: t('minLength', { min: error.minimum as number }) as string };
 
       case z.ZodIssueCode.too_big:
-        return { message: t('max', { max: error.maximum as number }) as string };
+        return { message: t('maxLength', { max: error.maximum as number }) as string };
     }
 
     return { message: ctx.defaultError };

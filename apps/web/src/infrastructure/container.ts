@@ -8,6 +8,7 @@ import { FetchProfileApi } from '../modules/profile/profile.api';
 import { FetchRequestApi } from '../modules/requests/requests.api';
 import { FetchSessionApi } from '../session.api';
 import { TOKENS } from '../tokens';
+import { FetchTransactionApi } from '../transactions.api';
 
 import { MatomoAnalyticsAdapter } from './analytics/matomo-analytics.adapter';
 import { EnvConfigAdapter } from './config/env-config.adapter';
@@ -35,3 +36,4 @@ container.bindFactory(TOKENS.memberApi, FetchMemberApi.inject);
 container.bindFactory(TOKENS.requestApi, FetchRequestApi.inject);
 container.bindFactory(TOKENS.eventApi, FetchEventApi.inject);
 container.bindFactory(TOKENS.interestApi, FetchInterestApi.inject);
+container.bindFactory(TOKENS.transactionApi, FetchTransactionApi.inject);

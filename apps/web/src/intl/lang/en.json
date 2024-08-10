@@ -8,8 +8,11 @@
     "visible": "Visible",
     "notVisible": "Not visible",
     "validation": {
-      "min": "This field is too short (min: {min} characters).",
-      "max": "This field is too long (max: {max} characters)."
+      "required": "This field is required.",
+      "minLength": "This field is too short (min: {min} characters).",
+      "maxLength": "This field is too long (max: {max} characters).",
+      "min": "This field is too small (min: {min}).",
+      "max": "This field is too big (max: {max})."
     },
     "richEditor": {
       "bold": "Bold",
@@ -185,7 +188,22 @@
     },
     "transactions": {
       "title": "Transactions",
-      "balance": "Balance: {balance}"
+      "balance": "Balance: {balance}",
+      "create": {
+        "cta": "Create exchange",
+        "title": "Create exchange with {name}",
+        "exchangeTypeLabel": "Exchange type",
+        "send": "Send {currency}",
+        "request": "Request {currency}",
+        "amountLabel": "{currency} amount",
+        "amountPlaceholder": "20",
+        "descriptionLabel": "Description",
+        "descriptionPlaceholder": "Help to assemble Ikea furniture",
+        "next": "Next",
+        "confirmSend": "Your are about to send <strong>{amount}</strong> {amount, plural, =1 {{currency}} other {{currencyPlural}}} to <strong>{name}</strong>.{br}No confirmation will be needed from {name}.",
+        "confirmRequest": "Your are about to request <strong>{amount}</strong> {amount, plural, =1 {{currency}} other {{currencyPlural}}} to <strong>{name}</strong>.{br}A confirmation will be required from {name}.",
+        "submit": "Create exchange"
+      }
     }
   },
   "requests": {

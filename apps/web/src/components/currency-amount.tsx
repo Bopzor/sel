@@ -1,25 +1,18 @@
-import { Config } from '@sel/shared';
-import { createResource, Show } from 'solid-js';
+import { Show } from 'solid-js';
+
+import { getLetsConfig } from '../utils/lets-config';
 
 export function CurrencyAmount(props: { amount: number }) {
-  const [data] = createResource(async () => {
-    const response = await fetch('/api/config');
-
-    if (!response.ok) {
-      throw new Error(await response.text());
-    }
-
-    return response.json() as Promise<Config>;
-  });
+  const config = getLetsConfig();
 
   return (
     <>
       <Show when={props.amount === 1}>
-        {props.amount} {data()?.currency}
+        {props.amount} {config()?.currency}
       </Show>
 
       <Show when={props.amount !== 1}>
-        {props.amount} {data()?.currencyPlural}
+        {props.amount} {config()?.currencyPlural}
       </Show>
     </>
   );

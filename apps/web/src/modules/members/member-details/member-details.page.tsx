@@ -1,14 +1,16 @@
 import { Member } from '@sel/shared';
 import { useParams } from '@solidjs/router';
-import { createResource, Show } from 'solid-js';
+import { createResource, createSignal, Show } from 'solid-js';
 
 import { breadcrumb, Breadcrumb } from '../../../components/breadcrumb';
+import { Button } from '../../../components/button';
 import { MemberAvatarName } from '../../../components/member-avatar-name';
 import { container } from '../../../infrastructure/container';
 import { Translate } from '../../../intl/translate';
 import { TOKENS } from '../../../tokens';
 
 import { ContactInformation } from './contact-information';
+import { CreateTransactionDialog } from './create-transaction-dialog';
 import { MemberBio } from './member-bio';
 import { MemberInterests } from './member-interests';
 import { MemberMap } from './member-map';
@@ -42,11 +44,14 @@ function MemberDetails(props: { member: Member }) {
   return (
     <div class="col gap-8">
       <div class="card p-4 md:p-8">
-        <div class="row items-center gap-6">
-          <MemberAvatarName
-            member={props.member}
-            classes={{ avatar: '!size-16', name: 'text-xl font-semibold' }}
-          />
+        <div class="row mb-4 items-center justify-between gap-4">
+          <div class="row items-center gap-6">
+            <MemberAvatarName
+              member={props.member}
+              classes={{ avatar: '!size-16', name: 'text-xl font-semibold' }}
+            />
+          </div>
+          <CreateTransactionButton member={props.member} />
         </div>
 
         <hr class="my-4 md:my-6" />
@@ -82,5 +87,19 @@ function MemberDetails(props: { member: Member }) {
         <MemberTransactions member={props.member} />
       </div>
     </div>
+  );
+}
+
+function CreateTransactionButton(props: { member: Member }) {
+  const [open, setOpen] = createSignal(false);
+
+  return (
+    <>
+      <Button onClick={() => setOpen(true)}>
+        <T id="transactions.create.cta" />
+      </Button>
+
+      <CreateTransactionDialog open={open()} onClose={() => setOpen(false)} member={props.member} />
+    </>
   );
 }

@@ -15,6 +15,7 @@ import { MemberApi } from './modules/members/members.api';
 import { ProfileApi } from './modules/profile/profile.api';
 import { RequestsApi } from './modules/requests/requests.api';
 import { SessionApi } from './session.api';
+import { TransactionsApi } from './transactions.api';
 
 export const TOKENS = {
   config: token<ConfigPort>('config'),
@@ -32,4 +33,5 @@ export const TOKENS = {
   eventApi: token<EventApi>('eventApi'),
   interestApi: token<InterestApi>('interestApi'),
   memberApi: token<MemberApi>('memberApi'),
+  transactionApi: token<TransactionsApi>('transactionApi'),
 };
