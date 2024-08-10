@@ -1,6 +1,7 @@
 export * from './address';
 export * from './authenticated-member';
 export * from './comment';
+export * from './config';
 export * from './event';
 export * from './interest';
 export * from './member';

@@ -25,5 +25,6 @@ export const createAuthenticatedMember = createFactory<AuthenticatedMember>(() =
     email: false,
     push: false,
   },
+  balance: 0,
   interests: [],
 }));

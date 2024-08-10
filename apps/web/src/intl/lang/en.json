@@ -185,7 +185,7 @@
     },
     "transactions": {
       "title": "Transactions",
-      "balance": "Balance: {balance} {balance, plural, =1 {credit} other {credits}}"
+      "balance": "Balance: {balance}"
     }
   },
   "requests": {

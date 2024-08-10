@@ -1,6 +1,8 @@
 import http from 'node:http';
 import util from 'node:util';
 
+import * as shared from '@sel/shared';
+import { assert } from '@sel/utils';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import { Container, injectableClass } from 'ditox';
@@ -14,6 +16,7 @@ import { HttpStatus } from './http-status';
 import { ConfigPort } from './infrastructure/config/config.port';
 import { ErrorReporterPort } from './infrastructure/error-reporter/error-reporter.port';
 import { LoggerPort } from './infrastructure/logger/logger.port';
+import { Database } from './persistence/database';
 import { TOKENS } from './tokens';
 
 export class Server {
@@ -24,6 +27,7 @@ export class Server {
     TOKENS.config,
     TOKENS.logger,
     TOKENS.errorReporter,
+    TOKENS.database,
   );
 
   private app = express();
@@ -35,6 +39,7 @@ export class Server {
     private readonly config: ConfigPort,
     private readonly logger: LoggerPort,
     private readonly errorReporter: ErrorReporterPort,
+    private readonly database: Database,
   ) {
     this.app.use(cookieParser(config.session.secret));
     this.app.use(bodyParser.json());
@@ -42,6 +47,7 @@ export class Server {
     this.app.use(this.authenticationMiddleware);
 
     this.app.use('/health', this.healthCheck);
+    this.app.use('/config', this.configHandler);
     this.app.use('/members', container.resolve(TOKENS.membersController).router);
     this.app.use('/events', container.resolve(TOKENS.eventController).router);
     this.app.use('/requests', container.resolve(TOKENS.requestController).router);
@@ -83,6 +89,17 @@ export class Server {
 
   private healthCheck: RequestHandler = (req, res) => {
     res.end();
+  };
+
+  private configHandler: RequestHandler<never, shared.Config> = async (req, res) => {
+    const config = await this.database.db.query.config.findFirst();
+
+    assert(config !== undefined);
+
+    res.json({
+      currency: config.currency,
+      currencyPlural: config.currency_plural,
+    });
   };
 
   private authenticationMiddleware: RequestHandler = async (req, res, next) => {

@@ -38,6 +38,7 @@ export class InMemoryMemberRepository extends InMemoryRepository<Member> impleme
       bio: member.bio,
       address: member.address,
       membershipStartDate: member.membershipStartDate.toISOString(),
+      balance: 0,
       interests: [],
     };
   }
@@ -55,6 +56,7 @@ export class InMemoryMemberRepository extends InMemoryRepository<Member> impleme
       onboardingCompleted: member.status !== MemberStatus.onboarding,
       membershipStartDate: member.membershipStartDate.toISOString(),
       notificationDelivery: member.notificationDelivery,
+      balance: 0,
       interests: [],
     };
   }

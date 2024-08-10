@@ -311,3 +311,11 @@ export const membersInterestsRelations = relations(membersInterests, ({ one }) =
     references: [interests.id],
   }),
 }));
+
+export const config = pgTable('config', {
+  id: primaryKey(),
+  currency: varchar('currency', { length: 256 }).notNull(),
+  currency_plural: varchar('currency_plural', { length: 256 }).notNull(),
+  createdAt: createdAt(),
+  updatedAt: updatedAt(),
+});
