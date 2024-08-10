@@ -89,6 +89,7 @@ import { ListRequests } from './requests/queries/list-requests.query';
 import { RequestController } from './requests/request.controller';
 import { Server } from './server';
 import { AcceptTransaction } from './transactions/commands/accept-transaction';
+import { CancelTransaction } from './transactions/commands/cancel-transaction';
 import { CreateTransaction } from './transactions/commands/create-transaction';
 import { TransactionController } from './transactions/transaction.controller';
 import { TransactionService } from './transactions/transaction.service';
@@ -157,6 +158,7 @@ export const COMMANDS = {
   removeInterestMember: token<RemoveInterestMember>('removeInterestMember'),
   createTransaction: token<CreateTransaction>('createTransaction'),
   acceptTransaction: token<AcceptTransaction>('acceptTransaction'),
+  cancelTransaction: token<CancelTransaction>('cancelTransaction'),
   createMember: token<CreateMember>('createMember'),
   updateMemberProfile: token<UpdateMemberProfile>('updateMemberProfile'),
   changeNotificationDeliveryType: token<ChangeNotificationDeliveryType>('changeNotificationDeliveryType'),

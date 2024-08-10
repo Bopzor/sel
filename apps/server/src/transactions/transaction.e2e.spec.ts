@@ -136,4 +136,35 @@ describe('[E2E] Transaction', () => {
     expect(test.payer.balance).toEqual(0);
     expect(test.recipient.balance).toEqual(2);
   });
+
+  it('cancels a transaction as a payer', async () => {
+    await test.application.createTransaction({
+      transactionId: 'transactionId',
+      creatorId: recipientId,
+      payerId,
+      recipientId,
+      amount: 1,
+      description: '',
+    });
+
+    expect(
+      await test.fetch(`/transactions/transactionId/cancel`, {
+        token: test.recipientToken,
+        method: 'PUT',
+        assertStatus: false,
+      }),
+    ).toHaveProperty('response.status', HttpStatus.forbidden);
+
+    await test.fetch(`/transactions/transactionId/cancel`, {
+      token: test.payerToken,
+      method: 'PUT',
+    });
+
+    expect(await test.fetch(`/transactions/transactionId`, { token })).toHaveProperty<shared.Transaction>(
+      'body',
+      expect.objectContaining({
+        status: shared.TransactionStatus.canceled,
+      }),
+    );
+  });
 });

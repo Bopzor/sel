@@ -45,7 +45,11 @@ export class MemberIsNotPayerError extends DomainError<{
   status = HttpStatus.forbidden;
 
   constructor(transactionId: string, memberId: string, payerId: string) {
-    super('Member must be the payer to accept the transaction', { transactionId, memberId, payerId });
+    super('Member must be the payer to accept or cancel the transaction', {
+      transactionId,
+      memberId,
+      payerId,
+    });
   }
 }
 
@@ -56,6 +60,6 @@ export class TransactionIsNotPendingError extends DomainError<{
   status = HttpStatus.badRequest;
 
   constructor(transactionId: string, status: TransactionStatus) {
-    super('Member must be the payer to accept the transaction', { transactionId, status });
+    super('Transaction status must be pending', { transactionId, status });
   }
 }

@@ -12,7 +12,7 @@ import {
   PayerIsRecipientError,
   TransactionIsNotPendingError,
 } from './transaction-errors';
-import { TransactionCompleted, TransactionCreated } from './transaction-events';
+import { TransactionCanceled, TransactionCompleted, TransactionCreated } from './transaction-events';
 import { Transaction } from './transaction.entity';
 
 export class TransactionService {
@@ -86,5 +86,25 @@ export class TransactionService {
     recipient.balance += transaction.amount;
 
     this.eventPublisher.publish(new TransactionCompleted(transaction.id));
+  }
+
+  checkCanCancelTransaction(params: { transaction: Transaction; memberId: string }) {
+    const { transaction, memberId } = params;
+
+    if (memberId !== transaction.payerId) {
+      throw new MemberIsNotPayerError(transaction.id, memberId, transaction.payerId);
+    }
+  }
+
+  cancelTransaction(params: { transaction: Transaction }): void {
+    const { transaction } = params;
+
+    if (transaction.status !== TransactionStatus.pending) {
+      throw new TransactionIsNotPendingError(transaction.id, transaction.status);
+    }
+
+    transaction.status = TransactionStatus.canceled;
+
+    this.eventPublisher.publish(new TransactionCanceled(transaction.id));
   }
 }

@@ -11,7 +11,7 @@ import {
   PayerIsRecipientError,
   TransactionIsNotPendingError,
 } from './transaction-errors';
-import { TransactionCompleted, TransactionCreated } from './transaction-events';
+import { TransactionCanceled, TransactionCompleted, TransactionCreated } from './transaction-events';
 import { createTransaction } from './transaction.entity';
 import { TransactionService } from './transaction.service';
 
@@ -99,6 +99,27 @@ describe('[Unit] TransactionService', () => {
     expect(publisher.events).toContainEqual(new TransactionCompleted('transactionId'));
   });
 
+  it('cancels a transaction as a payer', () => {
+    const payer = createMember({ balance: 1 });
+    const recipient = createMember({ balance: 1 });
+
+    const transaction = service.createTransaction({
+      ...defaultTransaction,
+      payer,
+      recipient,
+      creator: recipient,
+      amount: 1,
+    });
+
+    service.cancelTransaction({ transaction });
+
+    expect(transaction.status).toEqual(TransactionStatus.canceled);
+    expect(payer.balance).toEqual(1);
+    expect(recipient.balance).toEqual(1);
+
+    expect(publisher.events).toContainEqual(new TransactionCanceled('transactionId'));
+  });
+
   it('prevents to create a transaction with the payer as recipient', () => {
     const payer = createMember();
 
@@ -161,6 +182,31 @@ describe('[Unit] TransactionService', () => {
         payer: createMember(),
         recipient: createMember(),
       });
+    }).toThrow(new TransactionIsNotPendingError('transactionId', TransactionStatus.completed));
+  });
+
+  it('prevents to cancel a transaction if not payer', () => {
+    const transaction = createTransaction({
+      payerId: 'payerId',
+      recipientId: 'recipientId',
+      creatorId: 'recipientId',
+    });
+
+    expect(() => {
+      service.checkCanCancelTransaction({
+        transaction,
+        memberId: 'recipientId',
+      });
+    }).toThrow(new MemberIsNotPayerError('transactionId', 'recipientId', 'payerId'));
+  });
+
+  it('prevents to cancel a transaction that is not pending', () => {
+    const transaction = createTransaction({
+      status: TransactionStatus.completed,
+    });
+
+    expect(() => {
+      service.cancelTransaction({ transaction });
     }).toThrow(new TransactionIsNotPendingError('transactionId', TransactionStatus.completed));
   });
 });

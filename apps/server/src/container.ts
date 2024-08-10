@@ -90,6 +90,7 @@ import { RequestController } from './requests/request.controller';
 import { Server } from './server';
 import { COMMANDS, EVENT_HANDLERS, QUERIES, TOKENS } from './tokens';
 import { AcceptTransaction } from './transactions/commands/accept-transaction';
+import { CancelTransaction } from './transactions/commands/cancel-transaction';
 import { CreateTransaction } from './transactions/commands/create-transaction';
 import { TransactionController } from './transactions/transaction.controller';
 import { TransactionService } from './transactions/transaction.service';
@@ -179,6 +180,7 @@ container.bindFactory(COMMANDS.removeInterestMember, RemoveInterestMember.inject
 
 container.bindFactory(COMMANDS.createTransaction, CreateTransaction.inject);
 container.bindFactory(COMMANDS.acceptTransaction, AcceptTransaction.inject);
+container.bindFactory(COMMANDS.cancelTransaction, CancelTransaction.inject);
 
 container.bindFactory(COMMANDS.createMember, CreateMember.inject);
 container.bindFactory(COMMANDS.updateMemberProfile, UpdateMemberProfile.inject);
