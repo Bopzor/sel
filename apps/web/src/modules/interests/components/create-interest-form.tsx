@@ -1,5 +1,5 @@
 import { createForm } from '@felte/solid';
-import { validator } from '@felte/validator-zod';
+import { validator } from '@nilscox/felte-validator-zod';
 import { JSX } from 'solid-js';
 
 import { Button } from '../../../components/button';

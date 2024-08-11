@@ -1,5 +1,5 @@
 import { createForm } from '@felte/solid';
-import { validator } from '@felte/validator-zod';
+import { validator } from '@nilscox/felte-validator-zod';
 import clsx from 'clsx';
 import { Show, createSignal } from 'solid-js';
 import { z } from 'zod';

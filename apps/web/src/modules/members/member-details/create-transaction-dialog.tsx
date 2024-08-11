@@ -1,5 +1,5 @@
 import { createForm } from '@felte/solid';
-import { validateSchema } from '@felte/validator-zod';
+import { validateSchema } from '@nilscox/felte-validator-zod';
 import { Member } from '@sel/shared';
 import { assert } from '@sel/utils';
 import { createEffect, createSignal, Show } from 'solid-js';

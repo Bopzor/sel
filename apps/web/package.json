@@ -55,10 +55,10 @@
   "dependencies": {
     "@cookbook/solid-intl": "^0.1.2",
     "@felte/solid": "^1.2.13",
-    "@felte/validator-zod": "^1.0.17",
     "@floating-ui/dom": "^1.6.3",
     "@fontsource-variable/inter": "^5.0.16",
     "@formatjs/intl": "^2.10.0",
+    "@nilscox/felte-validator-zod": "^1.0.17",
     "@solid-primitives/scheduled": "^1.4.2",
     "@solidjs/router": "^0.12.0",
     "@tailwindcss/typography": "^0.5.10",

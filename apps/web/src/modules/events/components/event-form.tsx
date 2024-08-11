@@ -1,5 +1,5 @@
 import { createForm } from '@felte/solid';
-import { validator } from '@felte/validator-zod';
+import { validator } from '@nilscox/felte-validator-zod';
 import { CreateEventBody, Event, EventKind, UpdateEventBody } from '@sel/shared';
 import { isPast, isToday } from '@sel/utils';
 import { JSX } from 'solid-js';
