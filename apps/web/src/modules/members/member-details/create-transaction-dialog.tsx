@@ -56,6 +56,7 @@ export function CreateTransactionDialog(props: {
 
       if (!showConfirmation()) {
         setShowConfirmation(true);
+        return false;
       } else {
         const [payer, recipient] = type === 'send' ? [member, props.member] : [props.member, member];
 
@@ -65,9 +66,15 @@ export function CreateTransactionDialog(props: {
           amount,
           description,
         });
+
+        return true;
       }
     },
-    onSuccess: () => {
+    onSuccess: (created) => {
+      if (!created) {
+        return;
+      }
+
       props.onCreated();
 
       if (data('type') === 'request') {

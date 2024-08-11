@@ -2,6 +2,7 @@ import { z } from 'zod';
 
 import { Address, addressSchema } from './address';
 import { Comment } from './comment';
+import { LightMember } from './member';
 import { PhoneNumber } from './phone-number';
 
 export enum EventKind {
@@ -29,18 +30,12 @@ export type Event = {
   comments: Comment[];
 };
 
-export type EventOrganizer = {
-  id: string;
-  firstName: string;
-  lastName: string;
+export type EventOrganizer = LightMember & {
   email?: string;
   phoneNumbers: PhoneNumber[];
 };
 
-type EventParticipant = {
-  id: string;
-  firstName: string;
-  lastName: string;
+type EventParticipant = LightMember & {
   participation: EventParticipation;
 };
 

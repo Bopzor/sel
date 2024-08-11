@@ -209,7 +209,8 @@
       "date": "Date",
       "payer": "Donneur",
       "recipient": "Receveur",
-      "description": "Motif"
+      "description": "Motif",
+      "amountDescription": "{amount} : {description}"
     }
   },
   "requests": {

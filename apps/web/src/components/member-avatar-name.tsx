@@ -16,7 +16,7 @@ export function MemberAvatarName(props: MemberAvatarNameProps) {
     <>
       <MemberAvatar member={props.member} class={clsx(props.classes?.avatar, 'size-8 rounded-full')} />
 
-      <span class={clsx(props.classes?.name, 'font-medium')}>
+      <span class={clsx(props.classes?.name, 'truncate font-medium')}>
         {props.member?.firstName} {props.member?.lastName}
       </span>
     </>
