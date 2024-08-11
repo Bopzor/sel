@@ -31,11 +31,11 @@ export class TransactionService {
   }): Transaction {
     const { transactionId, payer, recipient, creator, amount, description, now } = params;
 
-    if (payer === recipient) {
+    if (payer.id === recipient.id) {
       throw new PayerIsRecipientError(payer.id);
     }
 
-    if (creator !== payer && creator !== recipient) {
+    if (creator.id !== payer.id && creator.id !== recipient.id) {
       throw new InvalidTransactionCreatorError(creator.id, payer.id, recipient.id);
     }
 
@@ -59,7 +59,7 @@ export class TransactionService {
 
     this.eventPublisher.publish(new TransactionCreated(transactionId));
 
-    if (creator === payer) {
+    if (creator.id === payer.id) {
       this.completeTransaction({ transaction, payer, recipient });
     }
 
