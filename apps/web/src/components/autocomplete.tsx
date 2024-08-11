@@ -11,12 +11,14 @@ import { Spinner } from './spinner';
 
 type AutocompleteProps<Item> = Pick<ComponentProps<typeof Input>, 'variant' | 'width' | 'name'> & {
   label?: JSX.Element;
+  placeholder?: string;
   loading?: boolean;
   items: () => Item[];
   itemToString: (item: Item | null) => string;
   renderItem: (item: Item) => JSX.Element;
   renderNoItems?: (state: { inputValue: string }) => JSX.Element;
   inputValue?: () => string;
+  selectedItem?: () => Item | null;
   onSearch: (query: string) => void;
   onItemSelected: (item: Item) => void;
 };
@@ -26,6 +28,7 @@ export function Autocomplete<Item>(props: AutocompleteProps<Item>) {
     items: props.items,
     itemToString: props.itemToString,
     inputValue: props.inputValue,
+    selectedItem: props.selectedItem,
     onInputValueChange({ inputValue }) {
       props.onSearch(inputValue);
     },
@@ -62,6 +65,7 @@ export function Autocomplete<Item>(props: AutocompleteProps<Item>) {
         {...combobox.getInputProps()}
         fieldRef={setReference}
         variant={props.variant}
+        placeholder={props.placeholder}
         width={props.width}
         name={props.name}
         end={

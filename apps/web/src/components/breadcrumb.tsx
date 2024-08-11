@@ -4,6 +4,7 @@ import { chevronRight } from 'solid-heroicons/outline';
 import { JSX, For, Show } from 'solid-js';
 
 import { Translate } from '../intl/translate';
+import { fullName } from '../modules/members/full-name';
 import { routes } from '../routes';
 
 import { Link } from './link';
@@ -61,7 +62,7 @@ export const breadcrumb = {
   }),
 
   member: (member: Member): BreadcrumbItem => ({
-    label: [member.firstName, member.lastName].join(' '),
+    label: fullName(member),
     href: routes.members.member(member.id),
     truncate: true,
   }),

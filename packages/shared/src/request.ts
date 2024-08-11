@@ -1,4 +1,5 @@
 import { Comment } from './comment';
+import { LightMember } from './member';
 import { PhoneNumber } from './phone-number';
 
 export enum RequestStatus {
@@ -18,10 +19,7 @@ export type Request = {
   comments: Comment[];
 };
 
-export type Requester = {
-  id: string;
-  firstName: string;
-  lastName: string;
+export type Requester = LightMember & {
   email?: string;
   phoneNumbers: PhoneNumber[];
 };

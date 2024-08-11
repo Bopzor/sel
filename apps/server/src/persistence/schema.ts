@@ -330,6 +330,8 @@ export const transactions = pgTable('transactions', {
   creatorId: id('creator_id')
     .references(() => members.id)
     .notNull(),
+  requestId: id('request_id').references(() => requests.id),
+  eventId: id('event_id').references(() => events.id),
   createdAt: createdAt(),
   updatedAt: updatedAt(),
 });
@@ -346,6 +348,14 @@ export const transactionsRelations = relations(transactions, ({ one }) => ({
   creator: one(members, {
     fields: [transactions.creatorId],
     references: [members.id],
+  }),
+  request: one(requests, {
+    fields: [transactions.requestId],
+    references: [requests.id],
+  }),
+  event: one(events, {
+    fields: [transactions.eventId],
+    references: [events.id],
   }),
 }));
 

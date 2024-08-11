@@ -191,10 +191,13 @@
       "balance": "Solde: {balance}",
       "create": {
         "cta": "Créer un échange",
-        "title": "Créer un échange avec {name}",
-        "exchangeTypeLabel": "Type d'échange",
+        "title": "Créer un échange {name, select, undefined {} other {avec {name}}}",
+        "transactionTypeLabel": "Type d'échange",
+        "transactionTypeReadOnly": "Le type d'échange n'est pas modifiable",
         "send": "Envoyer des {currency}",
         "request": "Demander des {currency}",
+        "memberLabel": "Membre",
+        "memberPlaceholder": "Sélectionner un membre",
         "amountLabel": "Nombre de {currency}",
         "amountPlaceholder": "20",
         "descriptionLabel": "Motif",
@@ -261,7 +264,6 @@
       "negative": "non"
     },
     "createExchange": "Créer un échange",
-    "notAvailable": "Les échanges ne sont pas encore disponibles sur l'app.",
     "cancel": "Annuler la demande",
     "canceled": "Votre demande a été annulée"
   },

@@ -17,7 +17,7 @@ export function Dialog(props: DialogProps) {
       <Overlay open={props.open} onClose={() => props.onClose()}>
         <dialog
           open={props.open}
-          class="w-full rounded-md bg-neutral p-4 md:mx-auto md:w-3/4 lg:w-2/3 xl:w-1/2"
+          class="w-full rounded-lg bg-neutral p-4 md:mx-auto md:w-3/4 lg:w-2/3 xl:w-1/2"
           classList={{
             'max-w-xl': props.width === 1,
             'max-w-2xl': props.width === 2,
@@ -40,7 +40,7 @@ export function Dialog(props: DialogProps) {
 function Overlay(props: { open: boolean; onClose: () => void; children: JSX.Element }) {
   return (
     <div
-      class="col fixed inset-0 justify-center bg-inverted/25 backdrop-blur-sm"
+      class="col fixed inset-0 justify-center bg-inverted/25 backdrop-blur-sm dark:bg-inverted/10"
       classList={{ '!hidden': !props.open }}
       onClick={(event) => event.target === event.currentTarget && props.onClose()}
     >

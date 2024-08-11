@@ -4,6 +4,7 @@ import { ComponentProps, JSX, Show } from 'solid-js';
 type FormFieldProps = {
   label?: JSX.Element;
   labelProps?: ComponentProps<'label'>;
+  helperText?: JSX.Element;
   error?: JSX.Element;
   class?: string;
   children: JSX.Element;
@@ -24,8 +25,13 @@ export function FormField(props: FormFieldProps) {
 
       {props.children}
 
-      <Show when={props.error !== undefined}>
-        <div class="ml-4 mt-1 text-sm text-red-700">{props.error}</div>
+      <Show when={props.error !== undefined || props.helperText !== undefined}>
+        <div
+          class="ml-4 mt-1 text-sm"
+          classList={{ '!text-red-700': Boolean(props.error), 'text-dim': Boolean(props.helperText) }}
+        >
+          {props.error ?? props.helperText}
+        </div>
       </Show>
     </div>
   );

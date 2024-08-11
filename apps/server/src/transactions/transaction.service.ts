@@ -27,9 +27,11 @@ export class TransactionService {
     creator: Member;
     amount: number;
     description: string;
+    requestId?: string;
+    eventId?: string;
     now: Date;
   }): Transaction {
-    const { transactionId, payer, recipient, creator, amount, description, now } = params;
+    const { transactionId, payer, recipient, creator, amount, description, requestId, eventId, now } = params;
 
     if (payer.id === recipient.id) {
       throw new PayerIsRecipientError(payer.id);
@@ -53,6 +55,8 @@ export class TransactionService {
       creatorId: creator.id,
       payerComment: null,
       recipientComment: null,
+      requestId: requestId ?? null,
+      eventId: eventId ?? null,
       createdAt: now,
       updatedAt: now,
     };

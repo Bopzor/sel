@@ -1,28 +1,33 @@
 import { createForm } from '@felte/solid';
 import { validateSchema } from '@nilscox/felte-validator-zod';
-import { Member } from '@sel/shared';
-import { assert } from '@sel/utils';
-import { createEffect, createSignal, Show } from 'solid-js';
+import { CreateTransactionBody, LightMember, Member } from '@sel/shared';
+import { assert, defined, hasProperty, not } from '@sel/utils';
+import { createEffect, createResource, createSignal, Show } from 'solid-js';
 import { z } from 'zod';
 
-import { authenticatedMember } from '../../../app-context';
-import { Button } from '../../../components/button';
-import { Dialog } from '../../../components/dialog';
-import { FormField } from '../../../components/form-field';
-import { Input } from '../../../components/input';
-import { Select } from '../../../components/select';
-import { container } from '../../../infrastructure/container';
-import { Translate } from '../../../intl/translate';
-import { TOKENS } from '../../../tokens';
-import { createErrorHandler } from '../../../utils/create-error-handler';
-import { getLetsConfig } from '../../../utils/lets-config';
-import { notify } from '../../../utils/notify';
-import { createErrorMap } from '../../../utils/zod-error-map';
+import { authenticatedMember } from '../../app-context';
+import { Autocomplete } from '../../components/autocomplete';
+import { Button } from '../../components/button';
+import { Dialog } from '../../components/dialog';
+import { FormField } from '../../components/form-field';
+import { Input } from '../../components/input';
+import { MemberAvatarName } from '../../components/member-avatar-name';
+import { Select } from '../../components/select';
+import { container } from '../../infrastructure/container';
+import { Translate } from '../../intl/translate';
+import { TOKENS } from '../../tokens';
+import { createErrorHandler } from '../../utils/create-error-handler';
+import { getLetsConfig } from '../../utils/lets-config';
+import { notify } from '../../utils/notify';
+import { createErrorMap } from '../../utils/zod-error-map';
+import { filteredMemberList } from '../members/filter-member-list';
+import { fullName } from '../members/full-name';
 
 const T = Translate.prefix('members.transactions.create');
 
 const schema = z.object({
   type: z.union([z.literal('send'), z.literal('request')]),
+  memberId: z.string(),
   amount: z.number().min(1).max(1000),
   description: z.string().min(10),
 });
@@ -31,36 +36,42 @@ export function CreateTransactionDialog(props: {
   open: boolean;
   onClose: () => void;
   onCreated: () => void;
-  member: Member;
+  createTransaction: (values: CreateTransactionBody) => Promise<unknown>;
+  member?: LightMember;
+  type?: 'send' | 'request';
+  initialDescription?: string;
 }) {
   const config = getLetsConfig();
   const t = T.useTranslation();
 
   const [showConfirmation, setShowConfirmation] = createSignal(false);
 
-  const transactionApi = container.resolve(TOKENS.transactionApi);
-  const member = authenticatedMember();
+  const currentMember = authenticatedMember();
 
   // @ts-expect-error solidjs directive
   const { form, data, setData, errors, reset } = createForm<z.infer<typeof schema>>({
     initialValues: {
-      type: 'send',
+      type: props.type ?? 'send',
+      memberId: props.member?.id ?? null,
       amount: null,
-      description: '',
+      description: props.initialDescription ?? '',
     },
     validate: validateSchema(schema, {
       errorMap: createErrorMap(),
     }),
     async onSubmit({ type, amount, description }) {
-      assert(member);
+      assert(currentMember);
 
       if (!showConfirmation()) {
         setShowConfirmation(true);
         return false;
       } else {
-        const [payer, recipient] = type === 'send' ? [member, props.member] : [props.member, member];
+        const [payer, recipient] = type === 'send' ? [currentMember, member()] : [member(), currentMember];
 
-        await transactionApi.createTransaction({
+        assert(payer);
+        assert(recipient);
+
+        await props.createTransaction({
           payerId: payer.id,
           recipientId: recipient.id,
           amount,
@@ -70,23 +81,35 @@ export function CreateTransactionDialog(props: {
         return true;
       }
     },
-    onSuccess: (created) => {
+    onSuccess(created) {
       if (!created) {
         return;
       }
 
-      props.onCreated();
-
       if (data('type') === 'request') {
-        notify.success(t('requested', { payer: [props.member.firstName, props.member.lastName].join(' ') }));
+        notify.success(t('requested', { payer: fullName(defined(member())) }));
       } else {
         notify.success(t('created'));
       }
 
       props.onClose();
+      props.onCreated();
     },
     onError: createErrorHandler(),
   });
+
+  const [memberSearch, setMemberSearch] = createSignal('');
+
+  const membersApi = container.resolve(TOKENS.memberApi);
+  const [members] = createResource(() => membersApi.listMembers());
+
+  const member = () => members()?.find(hasProperty('id', data('memberId')));
+
+  const membersList = () => {
+    return filteredMemberList(members() ?? [], memberSearch())
+      .filter(not(hasProperty('id', defined(currentMember).id)))
+      .slice(0, 6);
+  };
 
   createEffect(() => {
     if (!props.open) {
@@ -97,17 +120,22 @@ export function CreateTransactionDialog(props: {
 
   return (
     <Dialog
-      title={<T id="title" values={{ name: props.member.firstName }} />}
+      title={<T id="title" values={{ name: member()?.firstName }} />}
       open={props.open}
       onClose={() => props.onClose()}
       width={1}
     >
       <form use:form class="col gap-4">
         <div class="col gap-4" classList={{ '!hidden': showConfirmation() }}>
-          <FormField label={<T id="exchangeTypeLabel" />} error={errors('type')}>
+          <FormField
+            label={<T id="transactionTypeLabel" />}
+            error={errors('type')}
+            helperText={props.type !== undefined && <T id="transactionTypeReadOnly" />}
+          >
             <Select
               width="full"
               variant="outlined"
+              readOnly={props.type !== undefined}
               items={['send', 'request'] as const}
               itemToString={(item) => item ?? ''}
               renderItem={(item) => <T id={item} values={{ currency: config()?.currencyPlural }} />}
@@ -115,6 +143,26 @@ export function CreateTransactionDialog(props: {
               onItemSelected={(item) => setData('type', item)}
             />
           </FormField>
+
+          <Show when={!props.member}>
+            <FormField label={<T id="memberLabel" />} error={errors('memberId')}>
+              <Autocomplete<Member>
+                width="full"
+                variant="outlined"
+                placeholder={t('memberPlaceholder')}
+                items={membersList}
+                itemToString={(member) => (member ? fullName(member) : '')}
+                renderItem={(member) => (
+                  <div class="row items-center gap-2">
+                    <MemberAvatarName member={member} />
+                  </div>
+                )}
+                selectedItem={() => member() ?? null}
+                onItemSelected={(member) => setData('memberId', member.id)}
+                onSearch={(value) => setMemberSearch(value)}
+              />
+            </FormField>
+          </Show>
 
           <FormField label={<T id="descriptionLabel" />} error={errors('description')}>
             <Input
@@ -157,7 +205,7 @@ export function CreateTransactionDialog(props: {
                 amount: data('amount'),
                 currency: config()?.currency,
                 currencyPlural: config()?.currencyPlural,
-                name: `${props.member?.firstName} ${props.member?.lastName}`,
+                name: fullName(defined(member())),
                 strong: (children) => <strong>{children}</strong>,
                 br: <br />,
               }}

@@ -16,6 +16,8 @@ export type CreateTransactionCommand = {
   creatorId: string;
   amount: number;
   description: string;
+  requestId?: string;
+  eventId?: string;
 };
 
 export class CreateTransaction implements CommandHandler<CreateTransactionCommand> {
@@ -35,7 +37,8 @@ export class CreateTransaction implements CommandHandler<CreateTransactionComman
   ) {}
 
   async handle(command: CreateTransactionCommand): Promise<void> {
-    const { transactionId, payerId, recipientId, creatorId, amount, description } = command;
+    const { transactionId, payerId, recipientId, creatorId, amount, description, requestId, eventId } =
+      command;
 
     const payer = await this.memberRepository.getMemberOrFail(payerId);
     const recipient = await this.memberRepository.getMemberOrFail(recipientId);
@@ -49,6 +52,8 @@ export class CreateTransaction implements CommandHandler<CreateTransactionComman
       creator,
       amount,
       description,
+      requestId,
+      eventId,
       now,
     });
 

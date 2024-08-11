@@ -1,4 +1,4 @@
-import { Request, RequestAnswer, RequestStatus } from '@sel/shared';
+import { CreateRequestTransactionBody, Request, RequestAnswer, RequestStatus } from '@sel/shared';
 import { assert, createId, wait } from '@sel/utils';
 import { injectableClass } from 'ditox';
 import { produce } from 'immer';
@@ -16,6 +16,7 @@ export interface RequestsApi {
   cancelRequest(requestId: string): Promise<void>;
   setAnswer(requestId: string, answer: RequestAnswer['answer'] | null): Promise<void>;
   createComment(requestId: string, body: string): Promise<void>;
+  createTransaction(requestId: string, body: CreateRequestTransactionBody): Promise<void>;
 }
 
 export class FetchRequestApi implements RequestsApi {
@@ -59,6 +60,13 @@ export class FetchRequestApi implements RequestsApi {
 
   async createComment(requestId: string, body: string) {
     await this.fetcher.post<{ body: string }, void>(`/api/requests/${requestId}/comment`, { body });
+  }
+
+  async createTransaction(requestId: string, body: CreateRequestTransactionBody) {
+    await this.fetcher.post<CreateRequestTransactionBody, void>(
+      `/api/requests/${requestId}/transaction`,
+      body,
+    );
   }
 }
 
@@ -128,6 +136,8 @@ export class StubRequestsApi implements RequestsApi {
       });
     });
   }
+
+  async createTransaction(): Promise<void> {}
 
   private get member() {
     const sessionApi = container.resolve(TOKENS.sessionApi);

@@ -191,10 +191,13 @@
       "balance": "Balance: {balance}",
       "create": {
         "cta": "Create exchange",
-        "title": "Create exchange with {name}",
-        "exchangeTypeLabel": "Exchange type",
+        "title": "Create exchange {name, select, undefined {} other {with {name}}}",
+        "transactionTypeLabel": "Exchange type",
+        "transactionTypeReadOnly": "Le type d'échange n'est pas modifiable",
         "send": "Send {currency}",
         "request": "Request {currency}",
+        "memberLabel": "Member",
+        "memberPlaceholder": "Select a member",
         "amountLabel": "{currency} amount",
         "amountPlaceholder": "20",
         "descriptionLabel": "Description",
@@ -261,7 +264,6 @@
       "negative": "no"
     },
     "createExchange": "Create exchange",
-    "notAvailable": "Transactions are not available on the app yet.",
     "cancel": "Cancel request",
     "canceled": "Your request was canceled"
   },

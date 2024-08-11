@@ -11,9 +11,9 @@ import { MemberAvatarName } from '../../../components/member-avatar-name';
 import { container } from '../../../infrastructure/container';
 import { Translate } from '../../../intl/translate';
 import { TOKENS } from '../../../tokens';
+import { CreateTransactionDialog } from '../../transactions/create-transaction-dialog';
 
 import { ContactInformation } from './contact-information';
-import { CreateTransactionDialog } from './create-transaction-dialog';
 import { MemberBio } from './member-bio';
 import { MemberInterests } from './member-interests';
 import { MemberMap } from './member-map';
@@ -115,6 +115,7 @@ function Section(props: {
 }
 
 function CreateTransactionButton(props: { member: Member; onCreated: () => void }) {
+  const transactionApi = container.resolve(TOKENS.transactionApi);
   const [open, setOpen] = createSignal(false);
 
   return (
@@ -126,8 +127,9 @@ function CreateTransactionButton(props: { member: Member; onCreated: () => void 
       <CreateTransactionDialog
         open={open()}
         onClose={() => setOpen(false)}
-        member={props.member}
         onCreated={props.onCreated}
+        createTransaction={(values) => transactionApi.createTransaction(values)}
+        member={props.member}
       />
     </>
   );

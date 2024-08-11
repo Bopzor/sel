@@ -15,6 +15,8 @@ export const createTransaction = createFactory<Transaction>(() => ({
   payerComment: null,
   recipientComment: null,
   creatorId: '',
+  requestId: null,
+  eventId: null,
   createdAt: createDate(),
   updatedAt: createDate(),
 }));

@@ -26,3 +26,11 @@ export const createTransactionBodySchema = z.object({
 });
 
 export type CreateTransactionBody = z.infer<typeof createTransactionBodySchema>;
+
+export const createRequestTransactionBodySchema = z.object({
+  recipientId: z.string(),
+  amount: z.number().min(1).max(1000),
+  description: z.string().min(1),
+});
+
+export type CreateRequestTransactionBody = z.infer<typeof createRequestTransactionBodySchema>;

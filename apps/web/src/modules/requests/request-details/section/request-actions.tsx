@@ -1,5 +1,5 @@
 import { Request, RequestStatus } from '@sel/shared';
-import { Show } from 'solid-js';
+import { createSignal, Show } from 'solid-js';
 
 import { isAuthenticatedMember } from '../../../../app-context';
 import { Button } from '../../../../components/button';
@@ -7,18 +7,14 @@ import { container } from '../../../../infrastructure/container';
 import { Translate } from '../../../../intl/translate';
 import { TOKENS } from '../../../../tokens';
 import { createAsyncCall } from '../../../../utils/create-async-call';
-import { notify } from '../../../../utils/notify';
+import { CreateTransactionDialog } from '../../../transactions/create-transaction-dialog';
 
 const T = Translate.prefix('requests');
 
 export function RequestActions(props: { request: Request; onCanceled: () => void }) {
   const requestApi = container.resolve(TOKENS.requestApi);
 
-  const t = T.useTranslation();
-
   const isRequester = () => isAuthenticatedMember(props.request.requester);
-
-  const canCreateExchange = () => props.request.status === RequestStatus.pending;
   const canCancel = () => isRequester() && props.request.status === RequestStatus.pending;
 
   const [cancelRequest, isCanceling] = createAsyncCall(requestApi.cancelRequest.bind(requestApi), {
@@ -27,11 +23,7 @@ export function RequestActions(props: { request: Request; onCanceled: () => void
 
   return (
     <>
-      <Show when={canCreateExchange()}>
-        <Button variant="primary" onClick={() => notify.info(t('notAvailable'))}>
-          <T id="createExchange" />
-        </Button>
-      </Show>
+      <CreateTransactionButton request={props.request} />
 
       <Show when={canCancel()}>
         <Button variant="secondary" onClick={() => cancelRequest(props.request.id)} loading={isCanceling()}>
@@ -39,5 +31,29 @@ export function RequestActions(props: { request: Request; onCanceled: () => void
         </Button>
       </Show>
     </>
+  );
+}
+
+function CreateTransactionButton(props: { request: Request }) {
+  const canCreateTransaction = () => props.request.status === RequestStatus.pending;
+  const requestApi = container.resolve(TOKENS.requestApi);
+  const [open, setOpen] = createSignal(false);
+
+  return (
+    <Show when={canCreateTransaction()}>
+      <Button variant="primary" onClick={() => setOpen(true)}>
+        <T id="createExchange" />
+      </Button>
+
+      <CreateTransactionDialog
+        open={open()}
+        onClose={() => setOpen(false)}
+        onCreated={() => {}}
+        createTransaction={(values) => requestApi.createTransaction(props.request.id, values)}
+        initialDescription={props.request.title}
+        member={isAuthenticatedMember(props.request.requester) ? undefined : props.request.requester}
+        type={isAuthenticatedMember(props.request.requester) ? 'send' : 'request'}
+      />
+    </Show>
   );
 }

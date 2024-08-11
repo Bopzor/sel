@@ -127,6 +127,13 @@
       "when": 1723298521640,
       "tag": "0017_white_thunderbird",
       "breakpoints": true
+    },
+    {
+      "idx": 18,
+      "version": "5",
+      "when": 1723407111395,
+      "tag": "0018_reflective_jack_power",
+      "breakpoints": true
     }
   ]
 }

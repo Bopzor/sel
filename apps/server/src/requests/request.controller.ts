@@ -43,6 +43,7 @@ export class RequestController {
     this.router.post('/:requestId/answer', this.setRequestAnswer);
     this.router.put('/:requestId/fulfill', this.isRequester, this.setRequestFulfilled);
     this.router.put('/:requestId/cancel', this.isRequester, this.setRequestCanceled);
+    this.router.post('/:requestId/transaction', this.createTransaction);
   }
 
   authenticated: RequestHandler = (req, res, next) => {
@@ -171,5 +172,27 @@ export class RequestController {
     });
 
     res.status(HttpStatus.noContent).end();
+  };
+
+  createTransaction: RequestHandler<{ requestId: string }, string> = async (req, res) => {
+    const member = this.sessionProvider.getMember();
+    const request = await this.requestRepository.getRequest(req.params.requestId);
+    const body = shared.createRequestTransactionBodySchema.parse(req.body);
+
+    if (!request) {
+      throw new RequestNotFound(req.params.requestId);
+    }
+
+    const transactionId = this.generator.id();
+
+    await this.commandBus.executeCommand(COMMANDS.createTransaction, {
+      transactionId,
+      payerId: request.requesterId,
+      creatorId: member.id,
+      requestId: request.id,
+      ...body,
+    });
+
+    res.send(transactionId);
   };
 }

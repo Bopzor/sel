@@ -1,6 +1,5 @@
 import { autoUpdate, flip, offset, shift, size } from '@floating-ui/dom';
 import { createSelect } from '@upop/solid';
-import clsx from 'clsx';
 import { useFloating } from 'solid-floating-ui';
 import { Icon } from 'solid-heroicons';
 import { chevronDown } from 'solid-heroicons/solid';
@@ -18,6 +17,8 @@ type SelectProps<Item> = {
   onItemSelected?: (item: Item) => void;
   width?: FieldWidth;
   variant?: FieldVariant;
+  disabled?: boolean;
+  readOnly?: boolean;
   placeholder?: string;
   class?: string;
 };
@@ -63,9 +64,14 @@ export function Select<Item>(props1: SelectProps<Item>) {
 
   return (
     <>
-      <Field {...fieldProps} ref={setReference} class={clsx(fieldProps.class, 'cursor-pointer')}>
+      <Field
+        {...fieldProps}
+        ref={setReference}
+        classList={{ 'opacity-40': props.disabled, 'pointer-events-none': props.disabled || props.readOnly }}
+      >
         <div
-          class="row w-full items-center justify-between px-4 py-3 outline-none"
+          aria-disabled={props.disabled}
+          class="row w-full cursor-pointer items-center justify-between px-4 py-3 outline-none"
           {...select.getToggleButtonProps()}
         >
           <div>
