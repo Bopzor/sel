@@ -1,5 +1,6 @@
 import * as shared from '@sel/shared';
 import { CreateTransactionBody } from '@sel/shared/src/transaction';
+import { pick } from '@sel/utils';
 import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it } from 'vitest';
 
 import { container } from '../container';
@@ -78,9 +79,9 @@ describe('[E2E] Transaction', () => {
       status: shared.TransactionStatus.completed,
       amount: 1,
       description: 'description',
-      payerId,
-      recipientId,
-      creatorId: payerId,
+      payer: pick(test.payer, ['id', 'firstName', 'lastName']),
+      recipient: pick(test.recipient, ['id', 'firstName', 'lastName']),
+      date: expect.any(String),
     });
 
     await test.refreshMembers();
@@ -106,9 +107,9 @@ describe('[E2E] Transaction', () => {
       status: shared.TransactionStatus.pending,
       amount: 1,
       description: 'description',
-      payerId,
-      recipientId,
-      creatorId: recipientId,
+      payer: pick(test.payer, ['id', 'firstName', 'lastName']),
+      recipient: pick(test.recipient, ['id', 'firstName', 'lastName']),
+      date: expect.any(String),
     });
 
     expect(

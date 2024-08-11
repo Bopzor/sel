@@ -1,7 +1,9 @@
 import crypto from 'node:crypto';
 
 import * as shared from '@sel/shared';
+import { pick } from '@sel/utils';
 import { injectableClass } from 'ditox';
+import { and, eq, or } from 'drizzle-orm';
 import { RequestHandler, Router } from 'express';
 import { z } from 'zod';
 
@@ -10,7 +12,9 @@ import { AuthorizationError } from '../authorization-error';
 import { HttpStatus } from '../http-status';
 import { CommandBus } from '../infrastructure/cqs/command-bus';
 import { QueryBus } from '../infrastructure/cqs/query-bus';
+import { Database } from '../persistence/database';
 import { MemberRepository } from '../persistence/repositories/member/member.repository';
+import * as schema from '../persistence/schema';
 import { COMMANDS, QUERIES, TOKENS } from '../tokens';
 
 export class MembersController {
@@ -21,6 +25,7 @@ export class MembersController {
     TOKENS.queryBus,
     TOKENS.commandBus,
     TOKENS.sessionProvider,
+    TOKENS.database,
     TOKENS.memberRepository,
   );
 
@@ -28,12 +33,14 @@ export class MembersController {
     private readonly queryBus: QueryBus,
     private readonly commandBus: CommandBus,
     private readonly sessionProvider: SessionProvider,
+    private readonly database: Database,
     private readonly membersRepository: MemberRepository,
   ) {
     this.router.use(this.authenticated);
     this.router.get('/', this.listMembers);
     this.router.get('/:memberId', this.getMember);
     this.router.get('/:memberId/avatar', this.getMemberAvatar);
+    this.router.get('/:memberId/transactions', this.getMemberTransactions);
     this.router.put('/:memberId/profile', this.isAuthenticatedMember, this.updateMemberProfile);
 
     this.router.put(
@@ -83,6 +90,37 @@ export class MembersController {
     const url = `https://www.gravatar.com/avatar/${hash}${search}`;
 
     res.status(HttpStatus.permanentRedirect).header('Location', url).end();
+  };
+
+  getMemberTransactions: RequestHandler<{ memberId: string }, shared.Transaction[]> = async (req, res) => {
+    const member = await this.membersRepository.getMember(req.params.memberId);
+
+    if (!member) {
+      return res.status(HttpStatus.notFound).end();
+    }
+
+    const transactions = await this.database.db.query.transactions.findMany({
+      where: and(
+        or(eq(schema.transactions.payerId, member.id), eq(schema.transactions.recipientId, member.id)),
+        eq(schema.transactions.status, shared.TransactionStatus.completed),
+      ),
+      with: {
+        payer: true,
+        recipient: true,
+      },
+    });
+
+    res.json(
+      transactions.map((transaction) => ({
+        id: transaction.id,
+        status: transaction.status,
+        amount: transaction.amount,
+        description: transaction.description,
+        payer: pick(transaction.payer, ['id', 'firstName', 'lastName']),
+        recipient: pick(transaction.recipient, ['id', 'firstName', 'lastName']),
+        date: transaction.createdAt.toISOString(),
+      })),
+    );
   };
 
   isAuthenticatedMember: RequestHandler<{ memberId: string }> = (req, res, next) => {

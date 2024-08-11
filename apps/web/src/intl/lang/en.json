@@ -201,9 +201,15 @@
         "descriptionPlaceholder": "Help to assemble Ikea furniture",
         "next": "Next",
         "confirmSend": "Your are about to send <strong>{amount}</strong> {amount, plural, =1 {{currency}} other {{currencyPlural}}} to <strong>{name}</strong>.{br}No confirmation will be needed from {name}.",
-        "confirmRequest": "Your are about to request <strong>{amount}</strong> {amount, plural, =1 {{currency}} other {{currencyPlural}}} to <strong>{name}</strong>.{br}A confirmation will be required from {name}.",
-        "submit": "Create exchange"
-      }
+        "confirmRequest": "Your are about to request <strong>{amount}</strong> {amount, plural, =1 {{currency}} other {{currencyPlural}}} from <strong>{name}</strong>.{br}A confirmation will be required from {name}.",
+        "submit": "Create exchange",
+        "created": "The exchange was created successfully.",
+        "requested": "The exchange is waiting for {payer} confirmation."
+      },
+      "date": "Date",
+      "payer": "Giver",
+      "recipient": "Recipient",
+      "description": "Description"
     }
   },
   "requests": {

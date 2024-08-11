@@ -15,7 +15,6 @@ export function Dialog(props: DialogProps) {
   return (
     <Portal mount={document.querySelector('#root') as HTMLElement}>
       <Overlay open={props.open} onClose={() => props.onClose()}>
-        {/* eslint-disable-next-line tailwindcss/no-arbitrary-value */}
         <dialog
           open={props.open}
           class="w-full rounded-md bg-neutral p-4 md:mx-auto md:w-3/4 lg:w-2/3 xl:w-1/2"

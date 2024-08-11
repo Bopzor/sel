@@ -2,6 +2,7 @@ import { Member } from '@sel/shared';
 import { useParams } from '@solidjs/router';
 import { createResource, createSignal, Show } from 'solid-js';
 
+import { authenticatedMember } from '../../../app-context';
 import { breadcrumb, Breadcrumb } from '../../../components/breadcrumb';
 import { Button } from '../../../components/button';
 import { MemberAvatarName } from '../../../components/member-avatar-name';
@@ -41,6 +42,15 @@ export default function MemberDetailsPage() {
 }
 
 function MemberDetails(props: { member: Member }) {
+  const memberApi = container.resolve(TOKENS.memberApi);
+
+  const [transactions, { refetch: refetchTransactions }] = createResource(
+    () => props.member.id,
+    async (memberId) => {
+      return memberApi.listMemberTransactions(memberId);
+    },
+  );
+
   return (
     <div class="col gap-8">
       <div class="card p-4 md:p-8">
@@ -51,7 +61,9 @@ function MemberDetails(props: { member: Member }) {
               classes={{ avatar: '!size-16', name: 'text-xl font-semibold' }}
             />
           </div>
-          <CreateTransactionButton member={props.member} />
+          <Show when={props.member.id !== authenticatedMember()?.id}>
+            <CreateTransactionButton member={props.member} onCreated={() => void refetchTransactions()} />
+          </Show>
         </div>
 
         <hr class="my-4 md:my-6" />
@@ -80,17 +92,17 @@ function MemberDetails(props: { member: Member }) {
         </div>
       </Show>
 
-      <div class="max-w-4xl">
+      <div>
         <h2 class="mb-4">
           <T id="transactions.title" />
         </h2>
-        <MemberTransactions member={props.member} />
+        <MemberTransactions member={props.member} transactions={transactions.latest} />
       </div>
     </div>
   );
 }
 
-function CreateTransactionButton(props: { member: Member }) {
+function CreateTransactionButton(props: { member: Member; onCreated: () => void }) {
   const [open, setOpen] = createSignal(false);
 
   return (
@@ -99,7 +111,12 @@ function CreateTransactionButton(props: { member: Member }) {
         <T id="transactions.create.cta" />
       </Button>
 
-      <CreateTransactionDialog open={open()} onClose={() => setOpen(false)} member={props.member} />
+      <CreateTransactionDialog
+        open={open()}
+        onClose={() => setOpen(false)}
+        member={props.member}
+        onCreated={props.onCreated}
+      />
     </>
   );
 }

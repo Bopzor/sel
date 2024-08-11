@@ -1,4 +1,4 @@
-import { Member, MembersSort } from '@sel/shared';
+import { Member, MembersSort, Transaction } from '@sel/shared';
 import { injectableClass } from 'ditox';
 
 import { FetchError, FetcherPort } from '../../infrastructure/fetcher';
@@ -7,6 +7,7 @@ import { TOKENS } from '../../tokens';
 export interface MemberApi {
   listMembers(sort?: MembersSort): Promise<Member[]>;
   getMember(memberId: string): Promise<Member | undefined>;
+  listMemberTransactions(memberId: string): Promise<Transaction[]>;
 }
 
 export class FetchMemberApi implements MemberApi {
@@ -41,6 +42,10 @@ export class FetchMemberApi implements MemberApi {
         throw error;
       });
   }
+
+  async listMemberTransactions(memberId: string): Promise<Transaction[]> {
+    return this.fetcher.get<Transaction[]>(`/api/members/${memberId}/transactions`).body();
+  }
 }
 
 export class StubMemberApi implements MemberApi {
@@ -53,5 +58,9 @@ export class StubMemberApi implements MemberApi {
 
   async getMember(): Promise<Member | undefined> {
     return this.member;
+  }
+
+  async listMemberTransactions(): Promise<Transaction[]> {
+    return [];
   }
 }

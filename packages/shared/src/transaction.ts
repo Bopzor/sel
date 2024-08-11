@@ -1,5 +1,7 @@
 import { z } from 'zod';
 
+import { LightMember } from './member';
+
 export enum TransactionStatus {
   pending = 'pending',
   completed = 'completed',
@@ -11,9 +13,9 @@ export type Transaction = {
   status: TransactionStatus;
   amount: number;
   description: string;
-  payerId: string;
-  recipientId: string;
-  creatorId: string;
+  payer: LightMember;
+  recipient: LightMember;
+  date: string;
 };
 
 export const createTransactionBodySchema = z.object({

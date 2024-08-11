@@ -1,4 +1,5 @@
 import * as shared from '@sel/shared';
+import { pick } from '@sel/utils';
 import { injectableClass } from 'ditox';
 import { eq } from 'drizzle-orm';
 import { RequestHandler, Router } from 'express';
@@ -48,6 +49,10 @@ export class TransactionController {
 
     const transaction = await this.database.db.query.transactions.findFirst({
       where: eq(transactions.id, transactionId),
+      with: {
+        payer: true,
+        recipient: true,
+      },
     });
 
     if (!transaction) {
@@ -59,9 +64,9 @@ export class TransactionController {
       status: transaction.status,
       amount: transaction.amount,
       description: transaction.description,
-      payerId: transaction.payerId,
-      recipientId: transaction.recipientId,
-      creatorId: transaction.creatorId,
+      payer: pick(transaction.payer, ['id', 'firstName', 'lastName']),
+      recipient: pick(transaction.recipient, ['id', 'firstName', 'lastName']),
+      date: transaction.createdAt.toISOString(),
     });
   };
 

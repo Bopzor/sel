@@ -1,3 +1,5 @@
+import { identity } from './generic';
+
 export function keys<T extends object>(obj: T) {
   return Object.keys(obj) as Array<keyof T>;
 }
@@ -22,4 +24,8 @@ export function toObject<T, K extends PropertyKey, V>(
     }),
     {} as Record<K, V>,
   );
+}
+
+export function pick<T, K extends keyof T>(obj: T, keys: K[]): Pick<T, K> {
+  return toObject(keys, identity, (key) => obj[key]) as Pick<T, K>;
 }

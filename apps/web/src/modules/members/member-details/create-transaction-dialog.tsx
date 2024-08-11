@@ -14,7 +14,9 @@ import { Select } from '../../../components/select';
 import { container } from '../../../infrastructure/container';
 import { Translate } from '../../../intl/translate';
 import { TOKENS } from '../../../tokens';
+import { createErrorHandler } from '../../../utils/create-error-handler';
 import { getLetsConfig } from '../../../utils/lets-config';
+import { notify } from '../../../utils/notify';
 import { createErrorMap } from '../../../utils/zod-error-map';
 
 const T = Translate.prefix('members.transactions.create');
@@ -25,7 +27,12 @@ const schema = z.object({
   description: z.string().min(10),
 });
 
-export function CreateTransactionDialog(props: { open: boolean; onClose: () => void; member: Member }) {
+export function CreateTransactionDialog(props: {
+  open: boolean;
+  onClose: () => void;
+  onCreated: () => void;
+  member: Member;
+}) {
   const config = getLetsConfig();
   const t = T.useTranslation();
 
@@ -60,10 +67,22 @@ export function CreateTransactionDialog(props: { open: boolean; onClose: () => v
         });
       }
     },
+    onSuccess: () => {
+      props.onCreated();
+
+      if (data('type') === 'request') {
+        notify.success(t('requested', { payer: [props.member.firstName, props.member.lastName].join(' ') }));
+      } else {
+        notify.success(t('created'));
+      }
+
+      props.onClose();
+    },
+    onError: createErrorHandler(),
   });
 
   createEffect(() => {
-    if (!open()) {
+    if (!props.open) {
       setShowConfirmation(false);
       reset();
     }

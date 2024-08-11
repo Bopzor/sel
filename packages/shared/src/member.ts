@@ -17,6 +17,12 @@ export type Member = {
   interests: MemberInterest[];
 };
 
+export type LightMember = {
+  id: string;
+  firstName: string;
+  lastName: string;
+};
+
 export const createMember = createFactory<Member>(() => ({
   id: createId(),
   firstName: '',
