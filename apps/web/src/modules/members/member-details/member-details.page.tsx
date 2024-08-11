@@ -1,6 +1,8 @@
 import { Member } from '@sel/shared';
 import { useParams } from '@solidjs/router';
-import { createResource, createSignal, Show } from 'solid-js';
+import { Icon } from 'solid-heroicons';
+import { arrowsRightLeft, sparkles, user } from 'solid-heroicons/solid';
+import { ComponentProps, createResource, createSignal, JSX, Show } from 'solid-js';
 
 import { authenticatedMember } from '../../../app-context';
 import { breadcrumb, Breadcrumb } from '../../../components/breadcrumb';
@@ -74,31 +76,41 @@ function MemberDetails(props: { member: Member }) {
         </div>
       </div>
 
-      <Show when={props.member.bio !== undefined}>
-        <div class="max-w-4xl">
-          <h2 class="mb-4">
-            <T id="bio" />
-          </h2>
-          <MemberBio member={props.member} />
-        </div>
-      </Show>
+      <Section show={props.member.bio !== undefined} icon={user} title={<T id="bio" />}>
+        <MemberBio member={props.member} />
+      </Section>
 
-      <Show when={props.member.interests.length > 0}>
-        <div class="max-w-4xl">
-          <h2 class="mb-4">
-            <T id="interests.title" />
-          </h2>
-          <MemberInterests member={props.member} />
-        </div>
-      </Show>
+      <Section show={props.member.interests.length > 0} icon={sparkles} title={<T id="interests.title" />}>
+        <MemberInterests member={props.member} />
+      </Section>
 
-      <div>
-        <h2 class="mb-4">
-          <T id="transactions.title" />
-        </h2>
+      <Section show icon={arrowsRightLeft} title={<T id="transactions.title" />}>
         <MemberTransactions member={props.member} transactions={transactions.latest} />
-      </div>
+      </Section>
     </div>
+  );
+}
+
+function Section(props: {
+  show: boolean;
+  icon: ComponentProps<typeof Icon>['path'];
+  title: JSX.Element;
+  children: JSX.Element;
+}) {
+  return (
+    <Show when={props.show}>
+      <section class="max-w-4xl">
+        <header class="row mb-4 items-center gap-2 text-primary">
+          <div>
+            <Icon path={props.icon} class="size-6" />
+          </div>
+
+          <h2>{props.title}</h2>
+        </header>
+
+        {props.children}
+      </section>
+    </Show>
   );
 }
 

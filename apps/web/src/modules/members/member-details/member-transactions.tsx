@@ -31,7 +31,7 @@ function TransactionListDesktop(props: { member: Member; transactions?: Transact
 
   return (
     /* eslint-disable-next-line tailwindcss/no-arbitrary-value*/
-    <div class="hidden grid-cols-[repeat(4,auto)_1fr] gap-x-6 gap-y-2 lg:grid">
+    <div class="hidden grid-cols-[repeat(4,auto)_1fr] items-start gap-x-6 gap-y-2 lg:grid">
       <div class="my-1 font-medium">
         <T id="date" />
       </div>
@@ -49,6 +49,7 @@ function TransactionListDesktop(props: { member: Member; transactions?: Transact
       <div class="my-1 font-medium">
         <T id="description" />
       </div>
+
       <For each={props.transactions}>
         {(transaction) => (
           <>
@@ -78,7 +79,7 @@ function TransactionListDesktop(props: { member: Member; transactions?: Transact
               />
             </div>
 
-            <div>{transaction.description}</div>
+            <div class="line-clamp-2">{transaction.description}</div>
           </>
         )}
       </For>
