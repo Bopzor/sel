@@ -1,6 +1,7 @@
 {
   "memberName": "{firstName} {lastNameFirstLetter}.",
   "greeting": "Bonjour {firstName},",
+  "currencyAmount": "{amount} {amount, plural, =1 {{currency}} other {{currencyPlural}}}",
 
   "newAppVersion.title": "Nouvelle version de l'app",
   "newAppVersion.push.title": "Nouvelle version de l'app",
@@ -60,5 +61,28 @@
   "eventCommentCreated.email.subject": "Commentaire de {authorName} sur {isOrganizer, select, true {votre événement} other {l'événement}} \"{title}\"",
   "eventCommentCreated.email.html.line1": "<strong>{authorName}</strong> a écrit un commentaire sur {isOrganizer, select, true {votre événement} other {l'événement}} <link>{title}</link> :",
   "eventCommentCreated.email.text.line1": "{authorName} a écrit un commentaire sur {isOrganizer, select, true {votre événement} other {l'événement}} {title} :",
-  "eventCommentCreated.email.text.line2": "Lien de l'événement concerné : {link}"
+  "eventCommentCreated.email.text.line2": "Lien de l'événement concerné : {link}",
+
+  "transactionPending.title": "Échange avec {recipientName}",
+  "transactionPending.push.title": "Échange avec {recipientName}",
+  "transactionPending.push.content": "{recipientName} vous demande {amount} pour l'échange : {description}.",
+  "transactionPending.email.subject": "Demande de {currency} pour l'échange : {description}.",
+  "transactionPending.email.html.line1": "<strong>{recipientName}</strong> vous demande <strong>{amount}</strong> pour l'échange : {description}.",
+  "transactionPending.email.html.line2": "Vous pouvez valider ou refuser cet échange depuis <link>votre page de profil</link>.",
+  "transactionPending.email.text.line1": "{recipientName} vous demande {amount} pour l'échange : {description}",
+  "transactionPending.email.text.line2": "Vous pouvez valider ou refuser cet échange depuis votre page de profil : {linkText}.",
+
+  "transactionCompleted.title": "Échange avec {payerName}",
+  "transactionCompleted.push.title": "Échange avec {payerName}",
+  "transactionCompleted.push.content": "Vous avez reçu {amount} pour l'échange : {description}",
+  "transactionCompleted.email.subject": "Vous avez reçu {amount} pour l'échange : {description}",
+  "transactionCompleted.email.html.line1": "<strong>{payerName}</strong> a accepté votre demande de <strong>{amount}</strong> pour l'échange : {description}.",
+  "transactionCompleted.email.text.line1": "{payerName} a accepté votre demande de {amount} pour l'échange : {description}.",
+
+  "transactionCanceled.title": "Échange avec {payerName}",
+  "transactionCanceled.push.title": "Échange avec {payerName}",
+  "transactionCanceled.push.content": "{payerName} n'a pas accepté votre demande de {currency} pour l'échange : {description}",
+  "transactionCanceled.email.subject": "{payerName} n'a pas accepté votre demande de {currency} pour l'échange : {description}",
+  "transactionCanceled.email.html.line1": "<strong>{payerName}</strong> a annulé l'échange : {description}.",
+  "transactionCanceled.email.text.line1": "{payerName} a annulé l'échange : {description}."
 }

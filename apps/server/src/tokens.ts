@@ -91,6 +91,9 @@ import { Server } from './server';
 import { AcceptTransaction } from './transactions/commands/accept-transaction';
 import { CancelTransaction } from './transactions/commands/cancel-transaction';
 import { CreateTransaction } from './transactions/commands/create-transaction';
+import { NotifyTransactionCanceled } from './transactions/event-handlers/notify-transaction-canceled';
+import { NotifyTransactionCompleted } from './transactions/event-handlers/notify-transaction-completed';
+import { NotifyTransactionPending } from './transactions/event-handlers/notify-transaction-pending';
 import { TransactionController } from './transactions/transaction.controller';
 import { TransactionService } from './transactions/transaction.service';
 
@@ -196,6 +199,9 @@ export const EVENT_HANDLERS = {
   notifyEventCreated: token<NotifyEventCreated>('notifyEventCreated'),
   notifyEventParticipationSet: token<NotifyEventParticipationSet>('notifyEventParticipationSet'),
   notifyEventCommentCreated: token<NotifyEventCommentCreated>('notifyEventCommentCreated'),
+  notifyTransactionPending: token<NotifyTransactionPending>('notifyTransactionPending'),
+  notifyTransactionCompleted: token<NotifyTransactionCompleted>('notifyTransactionCompleted'),
+  notifyTransactionCanceled: token<NotifyTransactionCanceled>('notifyTransactionCanceled'),
   createMemberSubscription: token<CreateMemberSubscription>('createMemberSubscription'),
   enableSubscriptions: token<EnableSubscriptions>('enableSubscriptions'),
   deliverNotification: token<DeliverNotification>('deliverNotification'),

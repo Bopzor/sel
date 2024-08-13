@@ -11,7 +11,12 @@ import {
   PayerIsRecipientError,
   TransactionIsNotPendingError,
 } from './transaction-errors';
-import { TransactionCanceled, TransactionCompleted, TransactionCreated } from './transaction-events';
+import {
+  TransactionCanceled,
+  TransactionCompleted,
+  TransactionCreated,
+  TransactionPending,
+} from './transaction-events';
 import { createTransaction } from './transaction.entity';
 import { TransactionService } from './transaction.service';
 
@@ -72,6 +77,7 @@ describe('[Unit] TransactionService', () => {
     expect(recipient.balance).toEqual(1);
 
     expect(publisher.events).toContainEqual(new TransactionCreated('transactionId'));
+    expect(publisher.events).toContainEqual(new TransactionPending('transactionId'));
   });
 
   it('completes a transaction as a payer', () => {

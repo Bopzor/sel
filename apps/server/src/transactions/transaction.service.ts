@@ -12,7 +12,12 @@ import {
   PayerIsRecipientError,
   TransactionIsNotPendingError,
 } from './transaction-errors';
-import { TransactionCanceled, TransactionCompleted, TransactionCreated } from './transaction-events';
+import {
+  TransactionCanceled,
+  TransactionCompleted,
+  TransactionCreated,
+  TransactionPending,
+} from './transaction-events';
 import { Transaction } from './transaction.entity';
 
 export class TransactionService {
@@ -65,6 +70,8 @@ export class TransactionService {
 
     if (creator.id === payer.id) {
       this.completeTransaction({ transaction, payer, recipient });
+    } else {
+      this.eventPublisher.publish(new TransactionPending(transactionId));
     }
 
     return transaction;

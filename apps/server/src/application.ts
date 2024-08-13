@@ -18,6 +18,11 @@ import {
   RequestFulfilled,
 } from './requests/request-events';
 import { COMMANDS, EVENT_HANDLERS, QUERIES, TOKENS } from './tokens';
+import {
+  TransactionCanceled,
+  TransactionCompleted,
+  TransactionPending,
+} from './transactions/transaction-events';
 
 export class Application {
   static inject = injectableClass(
@@ -64,6 +69,10 @@ export class Application {
     eventBus.bind(EventParticipationSet, EVENT_HANDLERS.notifyEventParticipationSet);
     eventBus.bind(EventCommentCreated, EVENT_HANDLERS.createEventSubscription);
     eventBus.bind(EventCommentCreated, EVENT_HANDLERS.notifyEventCommentCreated);
+
+    eventBus.bind(TransactionPending, EVENT_HANDLERS.notifyTransactionPending);
+    eventBus.bind(TransactionCompleted, EVENT_HANDLERS.notifyTransactionCompleted);
+    eventBus.bind(TransactionCanceled, EVENT_HANDLERS.notifyTransactionCanceled);
 
     eventBus.bind(MemberCreated, EVENT_HANDLERS.createMemberSubscription);
     eventBus.bind(OnboardingCompleted, EVENT_HANDLERS.enableSubscriptions);

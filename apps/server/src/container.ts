@@ -92,6 +92,9 @@ import { COMMANDS, EVENT_HANDLERS, QUERIES, TOKENS } from './tokens';
 import { AcceptTransaction } from './transactions/commands/accept-transaction';
 import { CancelTransaction } from './transactions/commands/cancel-transaction';
 import { CreateTransaction } from './transactions/commands/create-transaction';
+import { NotifyTransactionCanceled } from './transactions/event-handlers/notify-transaction-canceled';
+import { NotifyTransactionCompleted } from './transactions/event-handlers/notify-transaction-completed';
+import { NotifyTransactionPending } from './transactions/event-handlers/notify-transaction-pending';
 import { TransactionController } from './transactions/transaction.controller';
 import { TransactionService } from './transactions/transaction.service';
 
@@ -219,6 +222,9 @@ container.bindFactory(EVENT_HANDLERS.createEventSubscription, CreateEventSubscri
 container.bindFactory(EVENT_HANDLERS.notifyEventCreated, NotifyEventCreated.inject);
 container.bindFactory(EVENT_HANDLERS.notifyEventParticipationSet, NotifyEventParticipationSet.inject);
 container.bindFactory(EVENT_HANDLERS.notifyEventCommentCreated, NotifyEventCommentCreated.inject);
+container.bindFactory(EVENT_HANDLERS.notifyTransactionPending, NotifyTransactionPending.inject);
+container.bindFactory(EVENT_HANDLERS.notifyTransactionCompleted, NotifyTransactionCompleted.inject);
+container.bindFactory(EVENT_HANDLERS.notifyTransactionCanceled, NotifyTransactionCanceled.inject);
 container.bindFactory(EVENT_HANDLERS.createMemberSubscription, CreateMemberSubscription.inject);
 container.bindFactory(EVENT_HANDLERS.enableSubscriptions, EnableSubscriptions.inject);
 container.bindFactory(EVENT_HANDLERS.deliverNotification, DeliverNotification.inject);

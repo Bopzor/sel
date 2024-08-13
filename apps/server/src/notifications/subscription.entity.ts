@@ -6,6 +6,7 @@ const subscriptionType = [
   'RequestEvent',
   'EventCreated',
   'EventEvent',
+  'TransactionEvent',
 ] as const;
 
 export type SubscriptionType = (typeof subscriptionType)[number];
