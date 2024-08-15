@@ -40,8 +40,8 @@ type EventParticipant = LightMember & {
 };
 
 export const createEventBodySchema = z.object({
-  title: z.string().trim(),
-  body: z.string().trim(),
+  title: z.string().trim().min(5).max(200),
+  body: z.string().trim().min(10),
   date: z.string().datetime().optional(),
   location: addressSchema.optional(),
   kind: z.nativeEnum(EventKind),
@@ -50,8 +50,8 @@ export const createEventBodySchema = z.object({
 export type CreateEventBody = z.infer<typeof createEventBodySchema>;
 
 export const updateEventBodySchema = z.object({
-  title: z.string().trim(),
-  body: z.string().trim(),
+  title: z.string().trim().min(5).max(200),
+  body: z.string().trim().min(10),
   date: z.string().datetime().optional(),
   location: addressSchema.optional(),
   kind: z.nativeEnum(EventKind).optional(),
@@ -67,9 +67,3 @@ export const setEventParticipationBodySchema = z.object({
 });
 
 export type SetEventParticipationBody = z.infer<typeof setEventParticipationBodySchema>;
-
-export const createEventCommentBodySchema = z.object({
-  body: z.string().trim(),
-});
-
-export type CreateEventCommentBody = z.infer<typeof createEventCommentBodySchema>;

@@ -1,15 +1,17 @@
 import { createForm } from '@felte/solid';
-import { type Comment } from '@sel/shared';
+import { validateSchema } from '@nilscox/felte-validator-zod';
+import { createCommentBodySchema, type Comment } from '@sel/shared';
 import { For, Show } from 'solid-js';
 
 import { authenticatedMember } from '../app-context';
 import { FormattedDate } from '../intl/formatted';
 import { Translate } from '../intl/translate';
 import { createErrorHandler } from '../utils/create-error-handler';
+import { createErrorMap } from '../utils/zod-error-map';
 
 import { Button } from './button';
 import { MemberAvatarName } from './member-avatar-name';
-import { RichEditorToolbar, createRichEditor } from './rich-editor';
+import { createRichEditor, RichEditorToolbar } from './rich-editor';
 import { RichText } from './rich-text';
 
 const T = Translate.prefix('common.commentsSection');
@@ -63,12 +65,15 @@ function CreateCommentForm(props: { onCreate: (html: string) => Promise<void>; o
   const t = T.useTranslation();
 
   // @ts-expect-error solidjs directive
-  const { form, setData, reset, isSubmitting } = createForm({
+  const { form, setData, reset, isSubmitting, errors } = createForm({
     initialValues: {
-      html: '',
+      body: '',
     },
+    validate: validateSchema(createCommentBodySchema, {
+      errorMap: createErrorMap(),
+    }),
     async onSubmit(values) {
-      await props.onCreate(values.html);
+      await props.onCreate(values.body);
     },
     onSuccess() {
       reset();
@@ -82,7 +87,7 @@ function CreateCommentForm(props: { onCreate: (html: string) => Promise<void>; o
 
   const editor = createRichEditor(() => ref, {
     placeholder: t('placeholder'),
-    onChange: (html) => setData('html', html),
+    onChange: (body) => setData('body', body),
   });
 
   return (
@@ -94,10 +99,12 @@ function CreateCommentForm(props: { onCreate: (html: string) => Promise<void>; o
       <div class="col min-h-40 resize-y overflow-auto">
         <div ref={ref} class="col ml-14 grow overflow-y-auto" />
 
-        <div class="row items-end justify-between p-2">
+        <div class="row items-center gap-4 p-2">
           <RichEditorToolbar editor={editor()} />
 
-          <Button type="submit" variant="secondary" loading={isSubmitting()}>
+          <Show when={errors('body')}>{(error) => <div class="text-sm text-red-700">{error()}</div>}</Show>
+
+          <Button type="submit" variant="secondary" loading={isSubmitting()} class="ml-auto">
             <T id="submit" />
           </Button>
         </div>

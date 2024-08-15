@@ -67,15 +67,10 @@ export class RequestController {
     res.json(request);
   };
 
-  private static requestSchema = z.object({
-    title: z.string().trim().max(256),
-    body: z.string().trim(),
-  });
-
   createRequest: RequestHandler = async (req, res) => {
     const requestId = this.generator.id();
     const member = this.sessionProvider.getMember();
-    const data = RequestController.requestSchema.parse(req.body);
+    const data = shared.createRequestBodySchema.parse(req.body);
 
     await this.commandBus.executeCommand(COMMANDS.createRequest, {
       requestId,
@@ -104,7 +99,7 @@ export class RequestController {
 
   editRequest: RequestHandler<{ requestId: string }> = async (req, res) => {
     const requestId = req.params.requestId;
-    const data = RequestController.requestSchema.parse(req.body);
+    const data = shared.updateRequestBodySchema.parse(req.body);
 
     await this.commandBus.executeCommand(COMMANDS.editRequest, {
       requestId,
@@ -114,15 +109,11 @@ export class RequestController {
     res.end();
   };
 
-  private static createCommentSchema = z.object({
-    body: z.string().trim(),
-  });
-
   createComment: RequestHandler<{ requestId: string }> = async (req, res) => {
     const commentId = this.generator.id();
     const requestId = req.params.requestId;
     const member = this.sessionProvider.getMember();
-    const data = RequestController.createCommentSchema.parse(req.body);
+    const data = shared.createCommentBodySchema.parse(req.body);
 
     await this.commandBus.executeCommand(COMMANDS.createRequestComment, {
       commentId,

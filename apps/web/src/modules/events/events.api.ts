@@ -1,6 +1,6 @@
 import {
+  CreateCommentBody,
   CreateEventBody,
-  CreateEventCommentBody,
   Event,
   EventParticipation,
   EventsListItem,
@@ -66,9 +66,7 @@ export class FetchEventApi implements EventApi {
   }
 
   async createComment(eventId: string, body: string): Promise<void> {
-    await this.fetcher
-      .post<CreateEventCommentBody, string>(`/api/events/${eventId}/comment`, { body })
-      .body();
+    await this.fetcher.post<CreateCommentBody, string>(`/api/events/${eventId}/comment`, { body }).body();
   }
 }
 

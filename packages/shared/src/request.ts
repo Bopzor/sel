@@ -1,3 +1,5 @@
+import { z } from 'zod';
+
 import { Comment } from './comment';
 import { LightMember } from './member';
 import { PhoneNumber } from './phone-number';
@@ -33,3 +35,10 @@ export type RequestAnswer = {
   };
   answer: 'positive' | 'negative';
 };
+
+export const createRequestBodySchema = z.object({
+  title: z.string().trim().min(5).max(200),
+  body: z.string().trim().min(15),
+});
+
+export const updateRequestBodySchema = createRequestBodySchema;

@@ -1,3 +1,5 @@
+import { z } from 'zod';
+
 export type Comment = {
   id: string;
   author: CommentAuthor;
@@ -10,3 +12,9 @@ export type CommentAuthor = {
   firstName: string;
   lastName: string;
 };
+
+export type CreateCommentBody = z.infer<typeof createCommentBodySchema>;
+
+export const createCommentBodySchema = z.object({
+  body: z.string().trim().min(10),
+});

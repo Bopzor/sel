@@ -1,5 +1,6 @@
 import { createForm } from '@felte/solid';
-import { Request } from '@sel/shared';
+import { validateSchema } from '@nilscox/felte-validator-zod';
+import { createRequestBodySchema, Request } from '@sel/shared';
 import { JSX } from 'solid-js';
 
 import { Button } from '../../../components/button';
@@ -8,6 +9,7 @@ import { Input } from '../../../components/input';
 import { RichEditor } from '../../../components/rich-editor';
 import { Translate } from '../../../intl/translate';
 import { createErrorHandler } from '../../../utils/create-error-handler';
+import { createErrorMap } from '../../../utils/zod-error-map';
 
 const T = Translate.prefix('requests.form');
 
@@ -22,11 +24,14 @@ export function RequestForm(props: RequestFormProps) {
   const t = T.useTranslation();
 
   // @ts-expect-error solidjs directive
-  const { form, setData, isSubmitting } = createForm({
+  const { form, setData, isSubmitting, errors } = createForm({
     initialValues: {
       title: props.request?.title ?? '',
       body: props.request?.body ?? '',
     },
+    validate: validateSchema(createRequestBodySchema, {
+      errorMap: createErrorMap(),
+    }),
     async onSubmit(values) {
       return props.onSubmit(values.title, values.body);
     },
@@ -38,11 +43,11 @@ export function RequestForm(props: RequestFormProps) {
 
   return (
     <form use:form class="col my-6 max-w-4xl gap-4">
-      <FormField label={<T id="titleLabel" />}>
+      <FormField label={<T id="titleLabel" />} error={errors('title')}>
         <Input name="title" placeholder={t('titlePlaceholder')} />
       </FormField>
 
-      <FormField label={<T id="bodyLabel" />}>
+      <FormField label={<T id="bodyLabel" />} error={errors('body')}>
         <RichEditor
           placeholder={t('bodyPlaceholder')}
           initialValue={props.request?.body}

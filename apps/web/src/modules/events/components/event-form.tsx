@@ -27,8 +27,8 @@ const schema = () => {
       .refine((date) => (date ? !isPast(date) || isToday(date) : true), t('dateIsPast')),
     time: z.date().nullable(),
     location: z.object({}).passthrough().optional(),
-    title: z.string().min(3).max(256),
-    body: z.string().min(3).max(8192),
+    title: z.string().min(5).max(200),
+    body: z.string().min(15),
     kind: z.nativeEnum(EventKind),
   });
 };

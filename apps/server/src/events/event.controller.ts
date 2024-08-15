@@ -1,6 +1,6 @@
 import {
+  createCommentBodySchema,
   createEventBodySchema,
-  createEventCommentBodySchema,
   setEventParticipationBodySchema,
   updateEventBodySchema,
 } from '@sel/shared';
@@ -107,7 +107,7 @@ export class EventController {
   createComment: RequestHandler<{ eventId: string }> = async (req, res): Promise<void> => {
     const eventId = req.params.eventId;
     const member = this.sessionProvider.getMember();
-    const data = createEventCommentBodySchema.parse(req.body);
+    const data = createCommentBodySchema.parse(req.body);
     const commentId = this.generator.id();
 
     await this.commandBus.executeCommand(COMMANDS.createEventComment, {
