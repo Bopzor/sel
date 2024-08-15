@@ -25,7 +25,7 @@ export function createErrorMap(customErrorMap?: z.ZodErrorMap): z.ZodErrorMap {
 
       case z.ZodIssueCode.too_big:
         if (error.type === 'string') {
-          return { message: t('maxLength', { min: error.maximum as number }) as string };
+          return { message: t('maxLength', { max: error.maximum as number }) as string };
         }
 
         return { message: t('max', { max: error.maximum as number }) as string };

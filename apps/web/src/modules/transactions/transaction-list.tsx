@@ -119,7 +119,9 @@ function TransactionListDesktop(props: {
                 </td>
               </Show>
 
-              <td class="line-clamp-2">{transaction.description}</td>
+              <td>
+                <div class="line-clamp-2">{transaction.description}</div>
+              </td>
             </tr>
           )}
         </For>

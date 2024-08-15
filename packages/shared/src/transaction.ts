@@ -22,7 +22,7 @@ export const createTransactionBodySchema = z.object({
   payerId: z.string(),
   recipientId: z.string(),
   amount: z.number().min(1).max(1000),
-  description: z.string().min(1),
+  description: z.string().min(1).max(80),
 });
 
 export type CreateTransactionBody = z.infer<typeof createTransactionBodySchema>;

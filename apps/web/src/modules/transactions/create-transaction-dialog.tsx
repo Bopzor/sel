@@ -29,7 +29,7 @@ const schema = z.object({
   type: z.union([z.literal('send'), z.literal('request')]),
   memberId: z.string(),
   amount: z.number().min(1).max(1000),
-  description: z.string().min(10),
+  description: z.string().min(10).max(80),
 });
 
 export function CreateTransactionDialog(props: {
