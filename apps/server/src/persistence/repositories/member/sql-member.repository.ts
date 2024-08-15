@@ -211,7 +211,7 @@ export class SqlMemberRepository implements MemberRepository {
         lastName: model.lastName,
         emailVisible: model.emailVisible,
         phoneNumbers: model.phoneNumbers,
-        bio: model.bio ?? null,
+        bio: model.bio || null,
         address: model.address ?? null,
         updatedAt: now,
       })
