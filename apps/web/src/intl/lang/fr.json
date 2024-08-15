@@ -407,7 +407,8 @@
     "notifications": {
       "title": "Notifications",
       "viewRequest": "Voir la demande",
-      "viewEvent": "Voir l'événement"
+      "viewEvent": "Voir l'événement",
+      "viewTransaction": "Voir l'échange"
     },
     "settings": {
       "title": "Paramètres",

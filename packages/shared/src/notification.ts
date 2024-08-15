@@ -9,6 +9,9 @@ const notificationTypes = [
   'EventCreated',
   'EventCommentCreated',
   'EventParticipationSet',
+  'TransactionPending',
+  'TransactionCompleted',
+  'TransactionCanceled',
 ] as const;
 
 export type NotificationType = (typeof notificationTypes)[number];

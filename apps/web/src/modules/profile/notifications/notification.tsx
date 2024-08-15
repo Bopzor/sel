@@ -69,6 +69,18 @@ function NotificationLink(props: { notification: Notification }) {
             <T id="viewEvent" />
           </Link>
         </Match>
+
+        <Match
+          when={(['TransactionPending', 'TransactionCompleted', 'TransactionCanceled'] as const).some(
+            (notificationType) => isNotificationOfType(props.notification, notificationType),
+          )}
+        >
+          <Link
+            href={routes.profile.transactions + `?transactionId=${props.notification.entityId as string}`}
+          >
+            <T id="viewTransaction" />
+          </Link>
+        </Match>
       </Switch>
     </>
   );
@@ -81,5 +93,8 @@ function hasLink(notification: Notification) {
     'EventCreated',
     'EventCommentCreated',
     'EventParticipationSet',
+    'TransactionPending',
+    'TransactionCompleted',
+    'TransactionCanceled',
   ].includes(notification.type);
 }

@@ -410,7 +410,8 @@
     "notifications": {
       "title": "Notifications",
       "viewRequest": "View request",
-      "viewEvent": "View event"
+      "viewEvent": "View event",
+      "viewTransaction": "View exchange"
     },
     "settings": {
       "title": "Settings",
