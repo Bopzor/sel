@@ -1,12 +1,9 @@
-import { Feature, hasFeatureFlag, setFeatureFlag } from '../../../components/feature-flag';
 import { Switch } from '../../../components/switch';
 import { Translate } from '../../../intl/translate';
 
 import { NotificationSettings } from './notification-settings';
 
 const T = Translate.prefix('profile.settings');
-
-const TranslateFeatureFlag = Translate.enum('profile.settings.featureFlags');
 
 export default function SettingsPage() {
   return (
@@ -15,13 +12,13 @@ export default function SettingsPage() {
         <T id="title" />
       </h1>
 
-      <GeneralSettings />
       <NotificationSettings />
+      <UISettings />
     </div>
   );
 }
 
-function GeneralSettings() {
+function UISettings() {
   const isDarkMode = () => localStorage.getItem('dark') === 'true';
 
   const toggleDarkMode = () => {
@@ -29,12 +26,6 @@ function GeneralSettings() {
 
     document.documentElement.classList.remove('light', 'dark');
     document.documentElement.classList.add(isDarkMode() ? 'dark' : 'light');
-  };
-
-  const hasEventsFlag = hasFeatureFlag(Feature.events);
-
-  const toggleEventsFlag = () => {
-    setFeatureFlag(Feature.events, !hasEventsFlag());
   };
 
   return (
@@ -45,14 +36,6 @@ function GeneralSettings() {
 
       <Switch checked={isDarkMode()} onChange={() => toggleDarkMode()}>
         <T id="darkMode" />
-      </Switch>
-
-      <h2>
-        <T id="featureFlagsTitle" />
-      </h2>
-
-      <Switch checked={hasEventsFlag()} onChange={() => toggleEventsFlag()}>
-        <TranslateFeatureFlag value={Feature.events} />
       </Switch>
     </div>
   );

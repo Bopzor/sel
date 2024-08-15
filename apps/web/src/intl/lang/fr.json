@@ -413,11 +413,6 @@
       "title": "Paramètres",
       "appearance": "Apparence",
       "darkMode": "Mode sombre",
-      "featureFlagsTitle": "Fonctionnalités anticipées",
-      "featureFlags": {
-        "requests": "Demandes",
-        "events": "Événements"
-      },
       "notifications": {
         "title": "Notifications",
         "description": "Comment souhaitez-vous recevoir les notifications du SEL ?",

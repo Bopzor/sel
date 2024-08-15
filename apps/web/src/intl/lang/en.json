@@ -416,11 +416,6 @@
       "title": "Settings",
       "appearance": "Appearance",
       "darkMode": "Dark mode",
-      "featureFlagsTitle": "Feature flags",
-      "featureFlags": {
-        "requests": "Requests",
-        "events": "Events"
-      },
       "notifications": {
         "title": "Notifications",
         "description": "How would you like to receive notifications?",
