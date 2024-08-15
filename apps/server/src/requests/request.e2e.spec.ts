@@ -48,14 +48,14 @@ describe('[E2E] Request', () => {
     const { body: requestId } = await test.fetch('/requests', {
       token,
       method: 'POST',
-      body: { title: 'title', body: '<p>body</p>' },
+      body: { title: 'title', body: '<p>request body</p>' },
     });
 
     expect(await test.fetch('/requests', { token })).toHaveProperty<shared.Request[]>('body', [
       expect.objectContaining({
         id: requestId,
         title: 'title',
-        body: '<p>body</p>',
+        body: '<p>request body</p>',
       }),
     ]);
 
@@ -66,7 +66,7 @@ describe('[E2E] Request', () => {
     await test.fetch('/requests', {
       token,
       method: 'POST',
-      body: { title: 'Title', body: '' },
+      body: { title: 'Title', body: '<p>request body</p>' },
     });
 
     await test.waitForEventHandlers();
@@ -129,10 +129,14 @@ describe('[E2E] Request', () => {
   it('creates a comment on an existing request', async () => {
     const request = await test.create.request({ requesterId: test.requester.id });
 
-    await test.fetch(`/requests/${request.id}/comment`, { token, method: 'POST', body: { body: 'body' } });
+    await test.fetch(`/requests/${request.id}/comment`, {
+      token,
+      method: 'POST',
+      body: { body: '<p>body</p>' },
+    });
 
     expect(await test.fetch(`/requests/${request.id}`, { token })).toHaveProperty('body.comments', [
-      expect.objectContaining({ body: 'body' }),
+      expect.objectContaining({ body: '<p>body</p>' }),
     ]);
   });
 
@@ -153,7 +157,7 @@ describe('[E2E] Request', () => {
     await test.fetch(`/requests/${request.id}/comment`, {
       token: test.memberToken,
       method: 'POST',
-      body: { body: '' },
+      body: { body: 'comment body' },
     });
 
     await test.fetch(`/requests/${request.id}/fulfill`, { token, method: 'PUT' });

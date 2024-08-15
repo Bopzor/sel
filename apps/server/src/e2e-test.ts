@@ -1,5 +1,5 @@
 import { EventKind } from '@sel/shared';
-import { defined } from '@sel/utils';
+import { createId, defined } from '@sel/utils';
 import { expect } from 'vitest';
 
 import { AuthenticationService } from './authentication/authentication.service';
@@ -18,6 +18,7 @@ import { CreateMemberCommand } from './members/commands/create-member.command';
 import { Member } from './members/member.entity';
 import { MemberRepository } from './persistence/repositories/member/member.repository';
 import { RequestRepository } from './persistence/repositories/request/request.repository';
+import * as schema from './persistence/schema';
 import { CreateRequestCommand } from './requests/commands/create-request.command';
 import { Request } from './requests/request.entity';
 import { COMMANDS, TOKENS } from './tokens';
@@ -105,7 +106,18 @@ export class E2ETest {
   }
 
   async reset() {
-    await container.resolve(TOKENS.database).reset();
+    const database = container.resolve(TOKENS.database);
+    const dateAdapter = container.resolve(TOKENS.date);
+
+    await database.reset();
+
+    await database.db.insert(schema.config).values({
+      id: createId(),
+      currency: 'test',
+      currencyPlural: 'tests',
+      createdAt: dateAdapter.now(),
+      updatedAt: dateAdapter.now(),
+    });
 
     this.mailServer.emails = [];
     this.pushNotification.notifications.clear();
