@@ -1,8 +1,9 @@
 import * as shared from '@sel/shared';
-import { pick } from '@sel/utils';
+import { hasProperty, identity, not, pick, toObject } from '@sel/utils';
 import { injectableClass } from 'ditox';
-import { eq } from 'drizzle-orm';
+import { desc, eq, or } from 'drizzle-orm';
 import { RequestHandler, Router } from 'express';
+import { z } from 'zod';
 
 import { SessionProvider } from '../authentication/session.provider';
 import { HttpStatus } from '../http-status';
@@ -13,6 +14,7 @@ import { transactions } from '../persistence/schema';
 import { COMMANDS, TOKENS } from '../tokens';
 
 import { TransactionNotFound } from './transaction-errors';
+import { Transaction } from './transaction.entity';
 
 export class TransactionController {
   readonly router = Router();
@@ -33,6 +35,7 @@ export class TransactionController {
   ) {
     this.router.use(this.authenticated);
 
+    this.router.get('/', this.listTransactions);
     this.router.get('/:transactionId', this.getTransaction);
     this.router.post('/', this.createTransaction);
     this.router.put('/:transactionId/accept', this.acceptTransaction);
@@ -42,6 +45,43 @@ export class TransactionController {
   authenticated: RequestHandler = (req, res, next) => {
     this.sessionProvider.getMember();
     next();
+  };
+
+  private formatTransaction(
+    this: void,
+    transaction: Transaction & Record<'payer' | 'recipient', Record<'id' | 'firstName' | 'lastName', string>>,
+  ): shared.Transaction {
+    return {
+      id: transaction.id,
+      status: transaction.status,
+      amount: transaction.amount,
+      description: transaction.description,
+      payer: pick(transaction.payer, ['id', 'firstName', 'lastName']),
+      recipient: pick(transaction.recipient, ['id', 'firstName', 'lastName']),
+      date: transaction.createdAt.toISOString(),
+    };
+  }
+
+  listTransactions: RequestHandler<never, shared.Transaction[]> = async (req, res) => {
+    const { memberId } = z.object({ memberId: z.string() }).parse(req.query);
+
+    const results = await this.database.db.query.transactions.findMany({
+      where: memberId
+        ? or(eq(transactions.payerId, memberId), eq(transactions.recipientId, memberId))
+        : undefined,
+      with: {
+        payer: true,
+        recipient: true,
+      },
+      orderBy: desc(transactions.createdAt),
+    });
+
+    res.send(
+      [
+        ...results.filter(hasProperty('status', shared.TransactionStatus.pending)),
+        ...results.filter(not(hasProperty('status', shared.TransactionStatus.pending))),
+      ].map(this.formatTransaction),
+    );
   };
 
   getTransaction: RequestHandler<{ transactionId: string }, shared.Transaction> = async (req, res) => {
@@ -59,15 +99,7 @@ export class TransactionController {
       throw new TransactionNotFound(transactionId);
     }
 
-    res.send({
-      id: transaction.id,
-      status: transaction.status,
-      amount: transaction.amount,
-      description: transaction.description,
-      payer: pick(transaction.payer, ['id', 'firstName', 'lastName']),
-      recipient: pick(transaction.recipient, ['id', 'firstName', 'lastName']),
-      date: transaction.createdAt.toISOString(),
-    });
+    res.send(this.formatTransaction(transaction));
   };
 
   createTransaction: RequestHandler<never, string, shared.CreateTransactionBody> = async (req, res) => {

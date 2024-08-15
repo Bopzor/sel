@@ -70,6 +70,21 @@
   dialog {
     color: inherit;
   }
+
+  thead th {
+    @apply bg-inverted/10;
+    @apply font-medium text-start text-dim text-sm;
+  }
+
+  tbody tr {
+    @apply hover:bg-primary/5;
+    @apply border-t;
+  }
+
+  th,
+  td {
+    @apply px-2 py-3;
+  }
 }
 
 @layer utilities {

@@ -1,5 +1,13 @@
 import { Icon } from 'solid-heroicons';
-import { arrowRightOnRectangle, bell, cog_6Tooth, mapPin, sparkles, user } from 'solid-heroicons/solid';
+import {
+  arrowRightOnRectangle,
+  arrowsRightLeft,
+  bell,
+  cog_6Tooth,
+  mapPin,
+  sparkles,
+  user,
+} from 'solid-heroicons/solid';
 import { ComponentProps, JSX } from 'solid-js';
 
 import { BackLink } from '../../components/back-link';
@@ -15,11 +23,11 @@ export default function ProfileLayout(props: { children?: JSX.Element }) {
       <BackLink href={routes.home} />
 
       <div class="col md:row grow gap-4 lg:gap-8">
-        <div class="w-full sm:max-w-56 lg:max-w-xs">
+        <div class="w-full sm:max-w-64">
           <Navigation />
         </div>
 
-        <div class="col flex-1 grow gap-4">{props.children}</div>
+        <div class="col min-w-0 flex-1 grow gap-4">{props.children}</div>
       </div>
     </div>
   );
@@ -34,6 +42,10 @@ function Navigation() {
 
       <NavigationLink href={routes.profile.address} icon={mapPin}>
         <T id="address" />
+      </NavigationLink>
+
+      <NavigationLink href={routes.profile.transactions} icon={arrowsRightLeft}>
+        <T id="transactions" />
       </NavigationLink>
 
       <NavigationLink href={routes.profile.interests} icon={sparkles}>

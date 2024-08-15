@@ -6,7 +6,6 @@ import { Portal } from 'solid-js/web';
 type DialogProps = {
   open: boolean;
   onClose: () => void;
-  title: JSX.Element;
   width?: 1 | 2 | 3;
   children: JSX.Element;
 };
@@ -24,16 +23,21 @@ export function Dialog(props: DialogProps) {
             'max-w-3xl': props.width === 3,
           }}
         >
-          <div class="row items-start justify-between">
-            <div class="mb-4 mt-2 text-lg font-medium">{props.title}</div>
-            <button onClick={() => props.onClose()}>
-              <Icon path={xMark} class="size-6" />
-            </button>
-          </div>
           {props.children}
         </dialog>
       </Overlay>
     </Portal>
+  );
+}
+
+export function DialogHeader(props: { title: JSX.Element; onClose: () => void }) {
+  return (
+    <div class="row items-start justify-between">
+      <div class="mb-4 mt-2 text-lg font-medium">{props.title}</div>
+      <button onClick={() => props.onClose()}>
+        <Icon path={xMark} class="size-6" />
+      </button>
+    </div>
   );
 }
 

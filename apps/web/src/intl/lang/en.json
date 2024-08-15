@@ -161,6 +161,21 @@
       "placeholder": "..."
     }
   },
+  "transactions": {
+    "statuses": {
+      "pending": "Pending",
+      "completed": "Completed",
+      "canceled": "Canceled"
+    },
+    "list": {
+      "date": "Date",
+      "payer": "Giver",
+      "recipient": "Recipient",
+      "status": "Status",
+      "description": "Description",
+      "amountDescription": "{amount}: {description}"
+    }
+  },
   "members": {
     "list": {
       "showOnMap": "Show on map",
@@ -208,12 +223,7 @@
         "submit": "Create exchange",
         "created": "The exchange was created successfully.",
         "requested": "The exchange is waiting for {payer} confirmation."
-      },
-      "date": "Date",
-      "payer": "Giver",
-      "recipient": "Recipient",
-      "description": "Description",
-      "amountDescription": "{amount}: {description}"
+      }
     }
   },
   "requests": {
@@ -346,6 +356,7 @@
     "navigation": {
       "profile": "Profile",
       "address": "Address",
+      "transactions": "Exchanges",
       "interests": "Points of interests",
       "notifications": "Notifications",
       "settings": "Settings",
@@ -367,6 +378,21 @@
       "description": "Search for your address and select a result to update it on your profile. If you can't find it, contact us so we can update it manually.",
       "placeholder": "Search for an address...",
       "saved": "Your address has been saved."
+    },
+    "transactions": {
+      "balance": "Balance: {balance}",
+      "completeSuccess": "The exchange has been validated, your balance was updated.",
+      "canceled": "This exchange has been canceled, no {currency} has been transferred.",
+      "cancelSuccess": "The exchange has been canceled, your balance did not change.",
+      "pendingRecipient": "This exchange is awaiting validation from {payer}.",
+      "pendingPayer": "This exchange is awaiting validation from you.",
+      "complete": "Validate the exchange",
+      "cancel": "Reject",
+      "details": {
+        "title": "Exchange with {name}",
+        "payer": "Giver",
+        "recipient": "Recipient"
+      }
     },
     "interests": {
       "title": "Points of interests",

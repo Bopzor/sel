@@ -52,7 +52,7 @@ function HeaderMember() {
 function UnreadNotificationsCount() {
   return (
     <span
-      class="row absolute -right-1 -top-1 size-5 scale-0 items-center justify-center rounded-full bg-yellow-600 text-sm transition-transform"
+      class="row absolute -right-1 -top-1 size-5 scale-0 items-center justify-center rounded-full bg-yellow-600 text-sm tracking-tighter transition-transform"
       classList={{ 'scale-100': unreadNotificationsCount() > 0 }}
     >
       <Show

@@ -161,6 +161,21 @@
       "title": "Nouveautés"
     }
   },
+  "transactions": {
+    "statuses": {
+      "pending": "En attente",
+      "completed": "Terminé",
+      "canceled": "Annulé"
+    },
+    "list": {
+      "date": "Date",
+      "payer": "Donneur",
+      "recipient": "Receveur",
+      "status": "Statut",
+      "description": "Motif",
+      "amountDescription": "{amount} : {description}"
+    }
+  },
   "members": {
     "list": {
       "showOnMap": "Voir sur la carte",
@@ -208,12 +223,7 @@
         "submit": "Créer l'échange",
         "created": "L'échange a bien été créé.",
         "requested": "L'échange est en attente de confirmation de la part de {payer}."
-      },
-      "date": "Date",
-      "payer": "Donneur",
-      "recipient": "Receveur",
-      "description": "Motif",
-      "amountDescription": "{amount} : {description}"
+      }
     }
   },
   "requests": {
@@ -343,6 +353,7 @@
     "navigation": {
       "profile": "Profil",
       "address": "Adresse",
+      "transactions": "Échanges",
       "interests": "Centres d'intérêts",
       "notifications": "Notifications",
       "settings": "Paramètres",
@@ -360,6 +371,26 @@
       "profilePictureMessage": "La gestion des photos de profil n'est pas encore disponible directement via l'app. En attendant, il est possible de changer son image via <link>gravatar</link> (après inscription).",
       "saved": "Vos informations de profil ont bien été mises à jour."
     },
+    "address": {
+      "description": "Cherchez votre adresse et sélectionnez un résultat pour la mettre à jour sur votre page de profil. Si vous ne la trouvez pas, contactez-nous pour que nous la mettions à jour manuellement.",
+      "placeholder": "Chercher une adresse...",
+      "saved": "Votre adresse a été bien enregistrée."
+    },
+    "transactions": {
+      "balance": "Solde : {balance}",
+      "completeSuccess": "L'échange a bien été validé, votre solde a été mis à jour.",
+      "canceled": "Cet échange a été annulé, aucun {currency} n'a été transféré.",
+      "cancelSuccess": "L'échange a bien été annulé, votre solde n'a pas changé.",
+      "pendingRecipient": "Cet échange est en attente de validation de la part de {payer}.",
+      "pendingPayer": "Cet échange est en attente de validation de votre part.",
+      "complete": "Valider l'échange",
+      "cancel": "Refuser",
+      "details": {
+        "title": "Échange avec {name}",
+        "payer": "Donneur",
+        "recipient": "Receveur"
+      }
+    },
     "interests": {
       "title": "Centres d'intérêts",
       "noInterests": {
@@ -370,11 +401,6 @@
       "addDescription": "Ajouter",
       "updateDescription": "Modifier",
       "edited": "Le détail de votre centre d'intérêt a bien été mis à jour."
-    },
-    "address": {
-      "description": "Cherchez votre adresse et sélectionnez un résultat pour la mettre à jour sur votre page de profil. Si vous ne la trouvez pas, contactez-nous pour que nous la mettions à jour manuellement.",
-      "placeholder": "Chercher une adresse...",
-      "saved": "Votre adresse a été bien enregistrée."
     },
     "notifications": {
       "title": "Notifications",

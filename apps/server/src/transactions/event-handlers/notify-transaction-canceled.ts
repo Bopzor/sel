@@ -53,7 +53,7 @@ export class NotifyTransactionCanceled implements EventHandler<TransactionCancel
     assert(config !== undefined);
 
     const payerName = this.translation.memberName(payer);
-    const link = `${this.appBaseUrl}/profile/transactions`;
+    const link = `${this.appBaseUrl}/profile/transactions?transactionId=${transaction.id}`;
 
     await this.subscriptionService.notify({
       subscriptionType: 'TransactionEvent',

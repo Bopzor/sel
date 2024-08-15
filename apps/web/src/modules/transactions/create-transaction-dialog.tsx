@@ -8,7 +8,7 @@ import { z } from 'zod';
 import { authenticatedMember } from '../../app-context';
 import { Autocomplete } from '../../components/autocomplete';
 import { Button } from '../../components/button';
-import { Dialog } from '../../components/dialog';
+import { Dialog, DialogHeader } from '../../components/dialog';
 import { FormField } from '../../components/form-field';
 import { Input } from '../../components/input';
 import { MemberAvatarName } from '../../components/member-avatar-name';
@@ -119,12 +119,12 @@ export function CreateTransactionDialog(props: {
   });
 
   return (
-    <Dialog
-      title={<T id="title" values={{ name: member()?.firstName }} />}
-      open={props.open}
-      onClose={() => props.onClose()}
-      width={1}
-    >
+    <Dialog open={props.open} onClose={() => props.onClose()} width={1}>
+      <DialogHeader
+        title={<T id="title" values={{ name: member()?.firstName }} />}
+        onClose={() => props.onClose()}
+      />
+
       <form use:form class="col gap-4">
         <div class="col gap-4" classList={{ '!hidden': showConfirmation() }}>
           <FormField

@@ -53,7 +53,7 @@ export class NotifyTransactionPending implements EventHandler<TransactionPending
     assert(config !== undefined);
 
     const recipientName = this.translation.memberName(recipient);
-    const link = `${this.appBaseUrl}/profile/transactions`;
+    const link = `${this.appBaseUrl}/profile/transactions?transactionId=${transaction.id}`;
 
     await this.subscriptionService.notify({
       subscriptionType: 'TransactionEvent',
