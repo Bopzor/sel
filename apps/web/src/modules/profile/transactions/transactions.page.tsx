@@ -46,12 +46,14 @@ export default function TransactionsPage() {
         <T id="balance" values={{ balance: <CurrencyAmount amount={authenticatedMember()!.balance} /> }} />
       </div>
 
-      <TransactionList
-        showStatus
-        member={authenticatedMember()}
-        transactions={Object.values(transactions.latest ?? {}).flat()}
-        onTransactionClick={(transaction) => setTransactionId(transaction.id)}
-      />
+      <Show when={transactions.latest?.length} fallback={<T id="noTransactions" />}>
+        <TransactionList
+          showStatus
+          member={authenticatedMember()}
+          transactions={transactions.latest}
+          onTransactionClick={(transaction) => setTransactionId(transaction.id)}
+        />
+      </Show>
 
       <Dialog open={transactionId() !== undefined} onClose={onClose}>
         <Show when={transaction()}>

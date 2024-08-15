@@ -1,4 +1,5 @@
 import { Member, Transaction } from '@sel/shared';
+import { Show } from 'solid-js';
 
 import { CurrencyAmount } from '../../../components/currency-amount';
 import { Translate } from '../../../intl/translate';
@@ -13,7 +14,14 @@ export function MemberTransactions(props: { member: Member; transactions?: Trans
         <T id="balance" values={{ balance: <CurrencyAmount amount={props.member.balance} /> }} />
       </div>
 
-      <TransactionList member={props.member} transactions={props.transactions} />
+      <Show
+        when={props.transactions?.length}
+        fallback=<div class="card p-4">
+          {<T id="noTransactions" values={{ name: props.member.firstName }} />}
+        </div>
+      >
+        <TransactionList member={props.member} transactions={props.transactions} />
+      </Show>
     </>
   );
 }

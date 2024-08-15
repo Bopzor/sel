@@ -204,6 +204,7 @@
     "transactions": {
       "title": "Échanges",
       "balance": "Solde: {balance}",
+      "noTransactions": "{name} n'a réalisé aucun échange pour le moment.",
       "create": {
         "cta": "Créer un échange",
         "title": "Créer un échange {name, select, undefined {} other {avec {name}}}",
@@ -378,6 +379,7 @@
     },
     "transactions": {
       "balance": "Solde : {balance}",
+      "noTransactions": "Vous n'avez réalisé aucun échange pour le moment.",
       "completeSuccess": "L'échange a bien été validé, votre solde a été mis à jour.",
       "canceled": "Cet échange a été annulé, aucun {currency} n'a été transféré.",
       "cancelSuccess": "L'échange a bien été annulé, votre solde n'a pas changé.",

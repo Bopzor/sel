@@ -204,6 +204,7 @@
     "transactions": {
       "title": "Transactions",
       "balance": "Balance: {balance}",
+      "noTransactions": "{name} did not make any exchange yet.",
       "create": {
         "cta": "Create exchange",
         "title": "Create exchange {name, select, undefined {} other {with {name}}}",
@@ -381,6 +382,7 @@
     },
     "transactions": {
       "balance": "Balance: {balance}",
+      "noTransactions": "You didn't make any exchange yet.",
       "completeSuccess": "The exchange has been validated, your balance was updated.",
       "canceled": "This exchange has been canceled, no {currency} has been transferred.",
       "cancelSuccess": "The exchange has been canceled, your balance did not change.",
