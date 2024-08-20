@@ -10,6 +10,14 @@ export class StubEmailRendererAdapter implements EmailRendererPort {
     };
   }
 
+  render2(): Omit<Email, 'to'> {
+    return {
+      subject: '',
+      html: '',
+      text: '',
+    };
+  }
+
   userContent(children: string): string {
     return children;
   }

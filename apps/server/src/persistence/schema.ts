@@ -58,6 +58,7 @@ export const members = pgTable('members', {
 
 export const memberRelations = relations(members, ({ many }) => ({
   memberInterests: many(membersInterests),
+  devices: many(memberDevices),
 }));
 
 export const tokenType = pgEnum('token_type', enumValues(TokenType));
@@ -217,6 +218,13 @@ export const memberDevices = pgTable(
     unique: unique().on(table.memberId, table.deviceSubscription),
   }),
 );
+
+export const memberDevicesRelations = relations(memberDevices, ({ one }) => ({
+  member: one(members, {
+    fields: [memberDevices.memberId],
+    references: [members.id],
+  }),
+}));
 
 export const eventKindEnum = pgEnum('event_kind', ['internal', 'external']);
 

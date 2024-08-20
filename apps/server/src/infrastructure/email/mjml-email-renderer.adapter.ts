@@ -20,7 +20,7 @@ export class MjmlEmailRendererAdapter implements EmailRendererPort {
     const { subject, html, text } = props;
     const result = mjml2html(this.renderEmail(subject, html));
 
-    if (result.errors) {
+    if (result.errors.length > 0) {
       this.logger.warn(result.errors);
     }
 
@@ -31,8 +31,30 @@ export class MjmlEmailRendererAdapter implements EmailRendererPort {
     };
   }
 
+  render2(props: { subject: string; html: string; text: string }): Omit<Email, 'to'> {
+    const { subject, html, text } = props;
+    const result = mjml2html(this.renderEmail(subject, [html]));
+
+    if (result.errors.length > 0) {
+      this.logger.warn(result.errors);
+    }
+
+    return {
+      subject,
+      text: this.renderText(text),
+      html: result.html,
+    };
+  }
+
   public userContent(children: string) {
     return `<div style="padding: 8px 16px; border: 1px solid #CCC; border-radius: 4px; background: #fafafc">${children}</div>`;
+  }
+
+  private renderText(text: string): string {
+    return text
+      .replaceAll('**', '')
+      .replaceAll(/\[([^\]]+)\]\(([^)]+)\)/g, (_, text, href) => `${text} (${href})`)
+      .replaceAll(/\n> (.+)/g, (_, text) => `\n${text}`);
   }
 
   private renderEmail(preview: string, sections: string[]) {
@@ -46,6 +68,14 @@ export class MjmlEmailRendererAdapter implements EmailRendererPort {
 
   private renderHead(preview: string) {
     const styles = `
+      blockquote {
+        margin: 0;
+        padding: 8px 16px;
+        border: 1px solid #CCC;
+        border-radius: 4px;
+        background: #fafafc;
+      }
+
       .strong {
         font-weight: 600;
         color: #333;

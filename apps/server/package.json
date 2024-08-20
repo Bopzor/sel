@@ -27,6 +27,11 @@
     "nanoid": "^5.0.4",
     "nodemailer": "^6.9.13",
     "postgres": "^3.4.3",
+    "rehype-stringify": "^10.0.0",
+    "remark-parse": "^11.0.0",
+    "remark-rehype": "^11.1.0",
+    "unified": "^11.0.5",
+    "vfile-reporter": "^8.1.1",
     "web-push": "^3.6.6",
     "zod": "^3.22.4"
   },

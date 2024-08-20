@@ -63,6 +63,7 @@ import { SendEmailNotification } from './notifications/commands/send-email-notif
 import { SendPushNotification } from './notifications/commands/send-push-notification.command';
 import { DeliverNotification } from './notifications/event-handlers/deliver-notification.event-handler';
 import { NotificationController } from './notifications/notification.controller';
+import { NotificationService } from './notifications/notification.service';
 import { GetMemberNotifications } from './notifications/queries/get-member-notifications.query';
 import { SubscriptionService } from './notifications/subscription.service';
 import { Database } from './persistence/database';
@@ -109,6 +110,7 @@ export const TOKENS = {
   htmlParser: token<HtmlParserPort>('htmlParser'),
   translation: token<TranslationPort>('translation'),
   pushNotification: token<PushNotificationPort>('pushNotification'),
+  notificationService: token<NotificationService>('notificationService'),
   server: token<Server>('server'),
   database: token<Database>('database'),
   nodemailer: token<Nodemailer>('nodemailer'),
