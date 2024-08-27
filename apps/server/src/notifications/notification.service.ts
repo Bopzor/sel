@@ -27,6 +27,8 @@ import { Database } from '../persistence/database';
 import * as schema from '../persistence/schema';
 import { TOKENS } from '../tokens';
 
+// cspell:word rehype vfile
+
 const dirname = path.dirname(url.fileURLToPath(import.meta.url));
 
 type Context = Record<string, unknown>;
