@@ -16,7 +16,6 @@ import { CreateEventComment } from './events/commands/create-event-comment.comma
 import { CreateEvent } from './events/commands/create-event.command';
 import { SetEventParticipation } from './events/commands/set-event-participation.command';
 import { UpdateEvent } from './events/commands/update-event.command';
-import { CreateEventSubscription } from './events/event-handlers/create-event-subscription.event-handler';
 import { NotifyEventCommentCreated } from './events/event-handlers/notify-event-comment-created.handler';
 import { NotifyEventCreated } from './events/event-handlers/notify-event-created.event-handler';
 import { NotifyEventParticipationSet } from './events/event-handlers/notify-event-participant-set.event-handler';
@@ -51,37 +50,27 @@ import { ListInterests } from './interests/queries/list-interests.query';
 import { ChangeNotificationDeliveryType } from './members/commands/change-notification-delivery-type.command';
 import { CreateMember } from './members/commands/create-member.command';
 import { UpdateMemberProfile } from './members/commands/update-member-profile.command';
-import { CreateMemberSubscription } from './members/event-handlers/create-member-subscription.event-handler';
-import { EnableSubscriptions } from './members/event-handlers/enable-subscriptions.event-handler';
 import { MembersController } from './members/members.controller';
 import { GetMember } from './members/queries/get-member.query';
 import { ListMembers } from './members/queries/list-members.query';
-import { CreateSubscription } from './notifications/commands/create-subscription.command';
 import { MarkNotificationAsRead } from './notifications/commands/mark-notification-as-read.command';
 import { RegisterDevice } from './notifications/commands/register-device.command';
-import { SendEmailNotification } from './notifications/commands/send-email-notification.command';
-import { SendPushNotification } from './notifications/commands/send-push-notification.command';
-import { DeliverNotification } from './notifications/event-handlers/deliver-notification.event-handler';
 import { NotificationController } from './notifications/notification.controller';
 import { NotificationService } from './notifications/notification.service';
 import { GetMemberNotifications } from './notifications/queries/get-member-notifications.query';
-import { SubscriptionService } from './notifications/subscription.service';
 import { Database } from './persistence/database';
 import { CommentRepository } from './persistence/repositories/comment/comment.repository';
 import { EventRepository } from './persistence/repositories/event/event.repository';
 import { MemberRepository } from './persistence/repositories/member/member.repository';
 import { MemberDeviceRepository } from './persistence/repositories/member-device/member-device.repository';
-import { NotificationRepository } from './persistence/repositories/notification/notification.repository';
 import { RequestRepository } from './persistence/repositories/request/request.repository';
 import { RequestAnswerRepository } from './persistence/repositories/request-answer/request-answer.repository';
-import { SubscriptionRepository } from './persistence/repositories/subscription/subscription.repository';
 import { TokenRepository } from './persistence/repositories/token/token.repository';
 import { ChangeRequestStatus } from './requests/commands/change-request-status.command';
 import { CreateRequestComment } from './requests/commands/create-request-comment.command';
 import { CreateRequest } from './requests/commands/create-request.command';
 import { EditRequest } from './requests/commands/edit-request.command';
 import { SetRequestAnswer } from './requests/commands/set-request-answer.command';
-import { CreateRequestSubscription } from './requests/event-handlers/create-request-subscriptions.event-handler';
 import { NotifyRequestCommentCreated } from './requests/event-handlers/notify-request-comment-created.event-handler';
 import { NotifyRequestCreated } from './requests/event-handlers/notify-request-created.event-handler';
 import { NotifyRequestStatusChanged } from './requests/event-handlers/notify-request-status-changed.event-handler';
@@ -110,7 +99,6 @@ export const TOKENS = {
   htmlParser: token<HtmlParserPort>('htmlParser'),
   translation: token<TranslationPort>('translation'),
   pushNotification: token<PushNotificationPort>('pushNotification'),
-  notificationService: token<NotificationService>('notificationService'),
   server: token<Server>('server'),
   database: token<Database>('database'),
   nodemailer: token<Nodemailer>('nodemailer'),
@@ -133,10 +121,8 @@ export const TOKENS = {
   transactionService: token<TransactionService>('transactionService'),
   commentService: token<CommentService>('commentService'),
   commentRepository: token<CommentRepository>('commentRepository'),
-  subscriptionService: token<SubscriptionService>('subscriptionService'),
-  subscriptionRepository: token<SubscriptionRepository>('subscriptionRepository'),
   notificationController: token<NotificationController>('notificationController'),
-  notificationRepository: token<NotificationRepository>('notificationRepository'),
+  notificationService: token<NotificationService>('notificationService'),
   memberDeviceRepository: token<MemberDeviceRepository>('memberDeviceRepository'),
 
   commandBus: token<CommandBus>('commandBus'),
@@ -167,11 +153,8 @@ export const COMMANDS = {
   createMember: token<CreateMember>('createMember'),
   updateMemberProfile: token<UpdateMemberProfile>('updateMemberProfile'),
   changeNotificationDeliveryType: token<ChangeNotificationDeliveryType>('changeNotificationDeliveryType'),
-  createSubscription: token<CreateSubscription>('createSubscription'),
   markNotificationAsRead: token<MarkNotificationAsRead>('markNotificationAsRead'),
   registerDevice: token<RegisterDevice>('registerDevice'),
-  sendPushNotification: token<SendPushNotification>('sendPushNotification'),
-  sendEmailNotification: token<SendEmailNotification>('sendEmailNotification'),
   createEventComment: token<CreateEventComment>('createEventComment'),
 };
 
@@ -193,18 +176,13 @@ export const EVENT_HANDLERS = {
   eventsPersistor: token<EventsPersistor>('eventsPersistor'),
   eventsSlackPublisher: token<EventsSlackPublisher>('eventsSlackPublisher'),
   sendAuthenticationEmail: token<SendAuthenticationEmail>('sendAuthenticationEmail'),
-  createRequestSubscription: token<CreateRequestSubscription>('createRequestSubscription'),
   notifyRequestCreated: token<NotifyRequestCreated>('notifyRequestCreated'),
   notifyRequestCommentCreated: token<NotifyRequestCommentCreated>('notifyRequestCommentCreated'),
   notifyRequestStatusChanged: token<NotifyRequestStatusChanged>('notifyRequestStatusChanged'),
-  createEventSubscription: token<CreateEventSubscription>('createEventSubscription'),
   notifyEventCreated: token<NotifyEventCreated>('notifyEventCreated'),
   notifyEventParticipationSet: token<NotifyEventParticipationSet>('notifyEventParticipationSet'),
   notifyEventCommentCreated: token<NotifyEventCommentCreated>('notifyEventCommentCreated'),
   notifyTransactionPending: token<NotifyTransactionPending>('notifyTransactionPending'),
   notifyTransactionCompleted: token<NotifyTransactionCompleted>('notifyTransactionCompleted'),
   notifyTransactionCanceled: token<NotifyTransactionCanceled>('notifyTransactionCanceled'),
-  createMemberSubscription: token<CreateMemberSubscription>('createMemberSubscription'),
-  enableSubscriptions: token<EnableSubscriptions>('enableSubscriptions'),
-  deliverNotification: token<DeliverNotification>('deliverNotification'),
 };

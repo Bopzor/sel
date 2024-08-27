@@ -7,11 +7,9 @@ import { EventBus } from './infrastructure/cqs/event-bus';
 import { QueryBus } from './infrastructure/cqs/query-bus';
 import { QueryHandler } from './infrastructure/cqs/query-handler';
 import { PushNotificationPort } from './infrastructure/push-notification/push-notification.port';
-import { AuthenticationLinkRequested, MemberCreated, OnboardingCompleted } from './members/member-events';
-import { NotificationCreated } from './notifications/notification-events';
+import { AuthenticationLinkRequested } from './members/member-events';
 import { Database } from './persistence/database';
 import {
-  RequestAnswerCreated,
   RequestCanceled,
   RequestCommentCreated,
   RequestCreated,
@@ -55,29 +53,18 @@ export class Application {
 
     eventBus.bind(AuthenticationLinkRequested, EVENT_HANDLERS.sendAuthenticationEmail);
 
-    eventBus.bind(RequestCreated, EVENT_HANDLERS.createRequestSubscription);
     eventBus.bind(RequestCreated, EVENT_HANDLERS.notifyRequestCreated);
-    eventBus.bind(RequestAnswerCreated, EVENT_HANDLERS.createRequestSubscription);
-    eventBus.bind(RequestCommentCreated, EVENT_HANDLERS.createRequestSubscription);
     eventBus.bind(RequestCommentCreated, EVENT_HANDLERS.notifyRequestCommentCreated);
     eventBus.bind(RequestFulfilled, EVENT_HANDLERS.notifyRequestStatusChanged);
     eventBus.bind(RequestCanceled, EVENT_HANDLERS.notifyRequestStatusChanged);
 
-    eventBus.bind(EventCreated, EVENT_HANDLERS.createEventSubscription);
     eventBus.bind(EventCreated, EVENT_HANDLERS.notifyEventCreated);
-    eventBus.bind(EventParticipationSet, EVENT_HANDLERS.createEventSubscription);
     eventBus.bind(EventParticipationSet, EVENT_HANDLERS.notifyEventParticipationSet);
-    eventBus.bind(EventCommentCreated, EVENT_HANDLERS.createEventSubscription);
     eventBus.bind(EventCommentCreated, EVENT_HANDLERS.notifyEventCommentCreated);
 
     eventBus.bind(TransactionPending, EVENT_HANDLERS.notifyTransactionPending);
     eventBus.bind(TransactionCompleted, EVENT_HANDLERS.notifyTransactionCompleted);
     eventBus.bind(TransactionCanceled, EVENT_HANDLERS.notifyTransactionCanceled);
-
-    eventBus.bind(MemberCreated, EVENT_HANDLERS.createMemberSubscription);
-    eventBus.bind(OnboardingCompleted, EVENT_HANDLERS.enableSubscriptions);
-
-    eventBus.bind(NotificationCreated, EVENT_HANDLERS.deliverNotification);
   }
 
   async close() {
@@ -91,8 +78,6 @@ export class Application {
 
   createMember = this.createCommandMethod(COMMANDS.createMember);
   updateMemberProfile = this.createCommandMethod(COMMANDS.updateMemberProfile);
-  createSubscription = this.createCommandMethod(COMMANDS.createSubscription);
-  sendPushNotification = this.createCommandMethod(COMMANDS.sendPushNotification);
   registerDevice = this.createCommandMethod(COMMANDS.registerDevice);
   changeNotificationDeliveryType = this.createCommandMethod(COMMANDS.changeNotificationDeliveryType);
   createRequestComment = this.createCommandMethod(COMMANDS.createRequestComment);

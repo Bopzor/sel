@@ -36,6 +36,7 @@ export type Notification<Type extends NotificationType = NotificationType> = {
   read: boolean;
   title: string;
   content: string;
+  context: NotificationData[NotificationType];
 };
 
 export type NotificationData = {

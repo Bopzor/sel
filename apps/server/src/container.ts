@@ -17,7 +17,6 @@ import { CreateEventComment } from './events/commands/create-event-comment.comma
 import { CreateEvent } from './events/commands/create-event.command';
 import { SetEventParticipation } from './events/commands/set-event-participation.command';
 import { UpdateEvent } from './events/commands/update-event.command';
-import { CreateEventSubscription } from './events/event-handlers/create-event-subscription.event-handler';
 import { NotifyEventCommentCreated } from './events/event-handlers/notify-event-comment-created.handler';
 import { NotifyEventCreated } from './events/event-handlers/notify-event-created.event-handler';
 import { NotifyEventParticipationSet } from './events/event-handlers/notify-event-participant-set.event-handler';
@@ -51,37 +50,27 @@ import { ListInterests } from './interests/queries/list-interests.query';
 import { ChangeNotificationDeliveryType } from './members/commands/change-notification-delivery-type.command';
 import { CreateMember } from './members/commands/create-member.command';
 import { UpdateMemberProfile } from './members/commands/update-member-profile.command';
-import { CreateMemberSubscription } from './members/event-handlers/create-member-subscription.event-handler';
-import { EnableSubscriptions } from './members/event-handlers/enable-subscriptions.event-handler';
 import { MembersController } from './members/members.controller';
 import { GetMember } from './members/queries/get-member.query';
 import { ListMembers } from './members/queries/list-members.query';
-import { CreateSubscription } from './notifications/commands/create-subscription.command';
 import { MarkNotificationAsRead } from './notifications/commands/mark-notification-as-read.command';
 import { RegisterDevice } from './notifications/commands/register-device.command';
-import { SendEmailNotification } from './notifications/commands/send-email-notification.command';
-import { SendPushNotification } from './notifications/commands/send-push-notification.command';
-import { DeliverNotification } from './notifications/event-handlers/deliver-notification.event-handler';
 import { NotificationController } from './notifications/notification.controller';
 import { NotificationService } from './notifications/notification.service';
 import { GetMemberNotifications } from './notifications/queries/get-member-notifications.query';
-import { SubscriptionService } from './notifications/subscription.service';
 import { Database } from './persistence/database';
 import { SqlCommentRepository } from './persistence/repositories/comment/sql-comment.repository';
 import { SqlEventRepository } from './persistence/repositories/event/sql-memory-event.repository';
 import { SqlMemberRepository } from './persistence/repositories/member/sql-member.repository';
 import { SqlMemberDeviceRepository } from './persistence/repositories/member-device/sql-member-device.repository';
-import { SqlNotificationRepository } from './persistence/repositories/notification/sql-notification.repository';
 import { SqlRequestRepository } from './persistence/repositories/request/sql-request.repository';
 import { SqlRequestAnswerRepository } from './persistence/repositories/request-answer/sql-memory-request-answer.repository';
-import { SqlSubscriptionRepository } from './persistence/repositories/subscription/sql-subscription.repository';
 import { SqlTokenRepository } from './persistence/repositories/token/sql-token.repository';
 import { ChangeRequestStatus } from './requests/commands/change-request-status.command';
 import { CreateRequestComment } from './requests/commands/create-request-comment.command';
 import { CreateRequest } from './requests/commands/create-request.command';
 import { EditRequest } from './requests/commands/edit-request.command';
 import { SetRequestAnswer } from './requests/commands/set-request-answer.command';
-import { CreateRequestSubscription } from './requests/event-handlers/create-request-subscriptions.event-handler';
 import { NotifyRequestCommentCreated } from './requests/event-handlers/notify-request-comment-created.event-handler';
 import { NotifyRequestCreated } from './requests/event-handlers/notify-request-created.event-handler';
 import { NotifyRequestStatusChanged } from './requests/event-handlers/notify-request-status-changed.event-handler';
@@ -121,7 +110,6 @@ container.bindFactory(TOKENS.database, Database.inject);
 container.bindFactory(TOKENS.emailRenderer, MjmlEmailRendererAdapter.inject);
 container.bindValue(TOKENS.nodemailer, nodemailer);
 container.bindFactory(TOKENS.emailSender, NodemailerEmailSenderAdapter.inject);
-container.bindFactory(TOKENS.notificationService, NotificationService.inject);
 
 container.bindFactory(TOKENS.membersController, MembersController.inject);
 container.bindFactory(TOKENS.memberRepository, SqlMemberRepository.inject);
@@ -148,11 +136,8 @@ container.bindFactory(TOKENS.tokenRepository, SqlTokenRepository.inject);
 container.bindFactory(TOKENS.commentService, CommentService.inject);
 container.bindFactory(TOKENS.commentRepository, SqlCommentRepository.inject);
 
-container.bindFactory(TOKENS.subscriptionService, SubscriptionService.inject);
-container.bindFactory(TOKENS.subscriptionRepository, SqlSubscriptionRepository.inject);
-
 container.bindFactory(TOKENS.notificationController, NotificationController.inject);
-container.bindFactory(TOKENS.notificationRepository, SqlNotificationRepository.inject);
+container.bindFactory(TOKENS.notificationService, NotificationService.inject);
 
 container.bindFactory(TOKENS.memberDeviceRepository, SqlMemberDeviceRepository.inject);
 
@@ -191,11 +176,8 @@ container.bindFactory(COMMANDS.createMember, CreateMember.inject);
 container.bindFactory(COMMANDS.updateMemberProfile, UpdateMemberProfile.inject);
 container.bindFactory(COMMANDS.changeNotificationDeliveryType, ChangeNotificationDeliveryType.inject);
 
-container.bindFactory(COMMANDS.createSubscription, CreateSubscription.inject);
 container.bindFactory(COMMANDS.markNotificationAsRead, MarkNotificationAsRead.inject);
 container.bindFactory(COMMANDS.registerDevice, RegisterDevice.inject);
-container.bindFactory(COMMANDS.sendPushNotification, SendPushNotification.inject);
-container.bindFactory(COMMANDS.sendEmailNotification, SendEmailNotification.inject);
 
 // queries
 
@@ -216,17 +198,12 @@ container.bindFactory(EVENT_HANDLERS.eventsLogger, EventsLogger.inject);
 container.bindFactory(EVENT_HANDLERS.eventsPersistor, EventsPersistor.inject);
 container.bindFactory(EVENT_HANDLERS.eventsSlackPublisher, EventsSlackPublisher.inject);
 container.bindFactory(EVENT_HANDLERS.sendAuthenticationEmail, SendAuthenticationEmail.inject);
-container.bindFactory(EVENT_HANDLERS.createRequestSubscription, CreateRequestSubscription.inject);
 container.bindFactory(EVENT_HANDLERS.notifyRequestCreated, NotifyRequestCreated.inject);
 container.bindFactory(EVENT_HANDLERS.notifyRequestCommentCreated, NotifyRequestCommentCreated.inject);
 container.bindFactory(EVENT_HANDLERS.notifyRequestStatusChanged, NotifyRequestStatusChanged.inject);
-container.bindFactory(EVENT_HANDLERS.createEventSubscription, CreateEventSubscription.inject);
 container.bindFactory(EVENT_HANDLERS.notifyEventCreated, NotifyEventCreated.inject);
 container.bindFactory(EVENT_HANDLERS.notifyEventParticipationSet, NotifyEventParticipationSet.inject);
 container.bindFactory(EVENT_HANDLERS.notifyEventCommentCreated, NotifyEventCommentCreated.inject);
 container.bindFactory(EVENT_HANDLERS.notifyTransactionPending, NotifyTransactionPending.inject);
 container.bindFactory(EVENT_HANDLERS.notifyTransactionCompleted, NotifyTransactionCompleted.inject);
 container.bindFactory(EVENT_HANDLERS.notifyTransactionCanceled, NotifyTransactionCanceled.inject);
-container.bindFactory(EVENT_HANDLERS.createMemberSubscription, CreateMemberSubscription.inject);
-container.bindFactory(EVENT_HANDLERS.enableSubscriptions, EnableSubscriptions.inject);
-container.bindFactory(EVENT_HANDLERS.deliverNotification, DeliverNotification.inject);

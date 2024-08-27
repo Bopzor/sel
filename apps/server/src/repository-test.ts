@@ -6,10 +6,8 @@ import { StubConfigAdapter } from './infrastructure/config/stub-config.adapter';
 import { DatePort } from './infrastructure/date/date.port';
 import { StubDate } from './infrastructure/date/stub-date.adapter';
 import { Member } from './members/member.entity';
-import { Notification } from './notifications/notification.entity';
-import { Subscription } from './notifications/subscription.entity';
 import { Database } from './persistence/database';
-import { members, notifications, requests, subscriptions, tokens } from './persistence/schema';
+import { members, requests, tokens } from './persistence/schema';
 import { Request } from './requests/request.entity';
 import { TOKENS } from './tokens';
 
@@ -90,29 +88,5 @@ export class Persistor {
     });
 
     return token;
-  }
-
-  async subscription(subscription: Subscription): Promise<Subscription> {
-    await this.db.insert(subscriptions).values({
-      ...subscription,
-      active: true,
-      createdAt: this.now,
-      updatedAt: this.now,
-    });
-
-    return subscription;
-  }
-
-  async notification(notification: Notification): Promise<Notification> {
-    await this.db.insert(notifications).values({
-      ...notification,
-      deliveryType: entries(notification.deliveryType)
-        .filter(([, value]) => value)
-        .map(([key]) => key),
-      createdAt: this.now,
-      updatedAt: this.now,
-    });
-
-    return notification;
   }
 }

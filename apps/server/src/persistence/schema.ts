@@ -15,7 +15,6 @@ import {
 import { TokenType } from '../authentication/token.entity';
 import { NotificationDeliveryType } from '../common/notification-delivery-type';
 import { MemberStatus } from '../members/member.entity';
-import { Notification } from '../notifications/notification.entity';
 import { RequestStatus } from '../requests/request.entity';
 
 const id = (name = 'id') => varchar(name, { length: 16 });
@@ -172,35 +171,6 @@ export const commentsRelations = relations(comments, ({ one }) => ({
     references: [events.id],
   }),
 }));
-
-export const subscriptions = pgTable('subscriptions', {
-  id: primaryKey(),
-  active: boolean('active').notNull(),
-  type: varchar('type', { length: 32 }).notNull(),
-  memberId: id('member_id')
-    .references(() => members.id)
-    .notNull(),
-  entityId: id('entity_id'),
-  createdAt: createdAt(),
-  updatedAt: updatedAt(),
-});
-
-export const notifications = pgTable('notifications', {
-  id: primaryKey(),
-  subscriptionId: id('subscription_id')
-    .references(() => subscriptions.id)
-    .notNull(),
-  entityId: id('entity_id'),
-  type: varchar('type', { length: 32 }).notNull(),
-  date: date('date').notNull(),
-  deliveryType: notificationDeliveryTypeEnum('delivery_type').array().notNull(),
-  readAt: date('read_at'),
-  title: text('title').notNull(),
-  push: json('push').$type<Notification['push']>().notNull(),
-  email: json('email').$type<Notification['email']>().notNull(),
-  createdAt: createdAt(),
-  updatedAt: updatedAt(),
-});
 
 export const notifications2 = pgTable('notifications2', {
   id: primaryKey(),
