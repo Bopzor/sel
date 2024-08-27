@@ -1,4 +1,4 @@
-import { Address, TransactionStatus } from '@sel/shared';
+import * as shared from '@sel/shared';
 import { relations, sql } from 'drizzle-orm';
 import {
   boolean,
@@ -46,7 +46,7 @@ export const members = pgTable('members', {
   emailVisible: boolean('email_visible').notNull(),
   phoneNumbers: json('phone_numbers').notNull().default('[]'),
   bio: text('bio'),
-  address: json('address').$type<Address>(),
+  address: json('address').$type<shared.Address>(),
   membershipStartDate: date('membership_start_date')
     .notNull()
     .default(sql`CURRENT_DATE`),
@@ -202,6 +202,36 @@ export const notifications = pgTable('notifications', {
   updatedAt: updatedAt(),
 });
 
+export const notifications2 = pgTable('notifications2', {
+  id: primaryKey(),
+  memberId: id('member_id')
+    .references(() => members.id)
+    .notNull(),
+  type: varchar('type', { length: 32 }).$type<shared.NotificationType>().notNull(),
+  date: date('date').notNull(),
+  readAt: date('read_at'),
+  context: json('context').$type<shared.NotificationData[shared.NotificationType]>().notNull(),
+  createdAt: createdAt(),
+  updatedAt: updatedAt(),
+});
+
+export const notificationsRelations2 = relations(notifications2, ({ many }) => ({
+  deliveries: many(notificationDeliveries),
+}));
+
+export const notificationDeliveries = pgTable('notification_deliveries', {
+  id: primaryKey(),
+  notificationId: id('notification_id')
+    .references(() => notifications2.id)
+    .notNull(),
+  type: notificationDeliveryTypeEnum('delivery_type').notNull(),
+  target: text('target').notNull(),
+  delivered: boolean('delivered').notNull().default(false),
+  error: json('error'),
+  createdAt: createdAt(),
+  updatedAt: updatedAt(),
+});
+
 export const memberDevices = pgTable(
   'member_device',
   {
@@ -237,7 +267,7 @@ export const events = pgTable('events', {
   text: text('text').notNull(),
   html: text('html').notNull(),
   date: date('date'),
-  location: json('location').$type<Address>(),
+  location: json('location').$type<shared.Address>(),
   kind: eventKindEnum('kind').notNull(),
   createdAt: createdAt(),
   updatedAt: updatedAt(),
@@ -320,7 +350,7 @@ export const membersInterestsRelations = relations(membersInterests, ({ one }) =
   }),
 }));
 
-export const transactionStatus = pgEnum('transaction_status', enumValues(TransactionStatus));
+export const transactionStatus = pgEnum('transaction_status', enumValues(shared.TransactionStatus));
 
 export const transactions = pgTable('transactions', {
   id: primaryKey(),

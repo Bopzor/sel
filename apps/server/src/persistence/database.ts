@@ -26,6 +26,8 @@ const {
   transactions,
   subscriptions,
   notifications,
+  notifications2,
+  notificationDeliveries,
 } = schema;
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
@@ -80,6 +82,8 @@ export class Database {
   async reset() {
     assert(this.databaseUrl.endsWith('/test'), 'Not using test database');
 
+    await this.db.delete(notificationDeliveries);
+    await this.db.delete(notifications2);
     await this.db.delete(notifications);
     await this.db.delete(subscriptions);
     await this.db.delete(comments);

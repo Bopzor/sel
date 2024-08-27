@@ -2,9 +2,10 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import url from 'node:url';
 
-import { assert } from '@sel/utils';
+import * as shared from '@sel/shared';
+import { assert, defined, hasProperty } from '@sel/utils';
 import { injectableClass } from 'ditox';
-import { inArray, InferSelectModel } from 'drizzle-orm';
+import { eq, inArray } from 'drizzle-orm';
 import rehypeStringify from 'rehype-stringify';
 import remarkParse from 'remark-parse';
 import remarkRehype from 'remark-rehype';
@@ -12,35 +13,35 @@ import { unified } from 'unified';
 import { reporter } from 'vfile-reporter';
 
 import { NotificationDeliveryType } from '../common/notification-delivery-type';
+import { ConfigPort } from '../infrastructure/config/config.port';
+import { DatePort } from '../infrastructure/date/date.port';
 import { EmailRendererPort } from '../infrastructure/email/email-renderer.port';
 import { EmailSenderPort } from '../infrastructure/email/email-sender.port';
-import { PushNotificationPort } from '../infrastructure/push-notification/push-notification.port';
+import { GeneratorPort } from '../infrastructure/generator/generator.port';
+import { LoggerPort } from '../infrastructure/logger/logger.port';
+import {
+  PushDeviceSubscription,
+  PushNotificationPort,
+} from '../infrastructure/push-notification/push-notification.port';
 import { Database } from '../persistence/database';
 import * as schema from '../persistence/schema';
 import { TOKENS } from '../tokens';
 
 const dirname = path.dirname(url.fileURLToPath(import.meta.url));
 
-type Member = InferSelectModel<typeof schema.members>;
-type MemberDevice = InferSelectModel<typeof schema.memberDevices>;
+type Context = Record<string, unknown>;
 
-export type NotificationType = 'Test';
-
-type Context = Record<string, string>;
-
-type NotificationContextMap = {
-  Test: {
-    name: string;
-    link: string;
-    content: string;
-  };
-};
-
-export type NotificationContext<Type extends NotificationType> = NotificationContextMap[Type];
+export interface GetNotificationContext<Type extends shared.NotificationType> {
+  (member: typeof schema.members.$inferSelect): shared.NotificationData[Type] | null;
+}
 
 export class NotificationService {
   static inject = injectableClass(
     this,
+    TOKENS.config,
+    TOKENS.generator,
+    TOKENS.logger,
+    TOKENS.date,
     TOKENS.database,
     TOKENS.pushNotification,
     TOKENS.emailRenderer,
@@ -48,16 +49,26 @@ export class NotificationService {
   );
 
   constructor(
+    private readonly config: ConfigPort,
+    private readonly generator: GeneratorPort,
+    private readonly logger: LoggerPort,
+    private readonly dateAdapter: DatePort,
     private readonly database: Database,
     private readonly pushNotification: PushNotificationPort,
     private readonly emailRenderer: EmailRendererPort,
     private readonly emailSender: EmailSenderPort,
   ) {}
 
-  async notify<Type extends NotificationType>(
+  private get commonContext() {
+    return {
+      appBaseUrl: this.config.app.baseUrl,
+    };
+  }
+
+  async notify<Type extends shared.NotificationType>(
     memberIds: string[] | null,
     type: Type,
-    context: NotificationContext<Type>,
+    getContext: GetNotificationContext<Type>,
   ) {
     const template = await this.loadTemplate(type);
 
@@ -66,53 +77,138 @@ export class NotificationService {
       with: { devices: true },
     });
 
-    await Promise.allSettled(
-      members.flatMap((member) => [
-        this.sendPushNotification(member, template.push, context),
-        this.sendEmailNotification(member, template.email, context),
-      ]),
+    const now = this.dateAdapter.now();
+    const notifications = new Array<typeof schema.notifications2.$inferInsert>();
+    const deliveries = new Array<typeof schema.notificationDeliveries.$inferInsert>();
+
+    for (const member of members) {
+      const context = getContext(member);
+
+      if (member.notificationDelivery.length === 0 || context === null) {
+        continue;
+      }
+
+      const notificationId = this.generator.id();
+
+      notifications.push({
+        id: notificationId,
+        memberId: member.id,
+        type,
+        date: now,
+        context: { ...this.commonContext, ...context },
+        createdAt: now,
+        updatedAt: now,
+      });
+
+      if (member.notificationDelivery.includes(NotificationDeliveryType.email)) {
+        deliveries.push({
+          id: this.generator.id(),
+          notificationId,
+          type: NotificationDeliveryType.email,
+          target: member.email,
+          createdAt: now,
+          updatedAt: now,
+        });
+      }
+
+      if (member.notificationDelivery.includes(NotificationDeliveryType.push)) {
+        for (const device of member.devices) {
+          deliveries.push({
+            id: this.generator.id(),
+            notificationId,
+            type: NotificationDeliveryType.push,
+            target: device.deviceSubscription,
+            createdAt: now,
+            updatedAt: now,
+          });
+        }
+      }
+    }
+
+    if (notifications.length > 0) {
+      await this.database.db.insert(schema.notifications2).values(notifications);
+    }
+
+    if (deliveries.length > 0) {
+      await this.database.db.insert(schema.notificationDeliveries).values(deliveries);
+    }
+
+    const results = await Promise.allSettled(
+      deliveries.map(async (delivery) => {
+        const notification = notifications.find(hasProperty('id', delivery.notificationId));
+        const context = defined(notification).context;
+
+        await this.deliverNotification(delivery, template, context);
+      }),
     );
+
+    const deliveredIds = results
+      .map((result, index) => [result, deliveries[index].id] as const)
+      .filter(([result]) => result.status === 'fulfilled')
+      .map(([, deliveryId]) => deliveryId);
+
+    if (deliveredIds.length > 0) {
+      await this.database.db
+        .update(schema.notificationDeliveries)
+        .set({ delivered: true })
+        .where(inArray(schema.notificationDeliveries.id, deliveredIds));
+    }
   }
 
-  private async loadTemplate(type: NotificationType): Promise<{ push: string; email: string }> {
+  private async loadTemplate(type: shared.NotificationType): Promise<{ push: string; email: string }> {
     const file = String(await fs.readFile(path.join(dirname, 'templates', type + '.md')));
     const [push, email] = file.split('\n--\n', 2).map((str) => str.trim());
 
     return { push, email };
   }
 
-  private async sendPushNotification(
-    member: Member & { devices: MemberDevice[] },
+  private async deliverNotification(
+    delivery: typeof schema.notificationDeliveries.$inferInsert,
+    template: { push: string; email: string },
+    context: Context,
+  ) {
+    try {
+      if (delivery.type === NotificationDeliveryType.push) {
+        await this.deliverPushNotification(delivery.target, template.push, context);
+      }
+
+      if (delivery.type === NotificationDeliveryType.email) {
+        await this.deliverEmailNotification(delivery.target, template.email, context);
+      }
+    } catch (error) {
+      await this.handleDeliveryError(delivery.id, error);
+      throw error;
+    }
+  }
+
+  private async handleDeliveryError(deliveryId: string, error: unknown) {
+    assert(error instanceof Error);
+
+    this.logger.error('Failed to deliver notification', error);
+
+    await this.database.db
+      .update(schema.notificationDeliveries)
+      .set({ error: { message: error.message, stack: error.stack } })
+      .where(eq(schema.notificationDeliveries.id, deliveryId));
+  }
+
+  private async deliverPushNotification(
+    subscription: PushDeviceSubscription,
     template: string,
     context: Context,
   ) {
-    if (!member.notificationDelivery.includes(NotificationDeliveryType.push)) {
-      return;
-    }
-
     const [title, link, body] = this.getPushContent(template, context);
 
-    await Promise.allSettled(
-      member.devices
-        .map((device) => device.deviceSubscription)
-        .map((subscription) => JSON.parse(subscription))
-        .map((subscription) => this.pushNotification.send(subscription, title, body, link)),
-    );
+    await this.pushNotification.send(subscription, title, body, link);
   }
 
   private getPushContent(template: string, context: Context): string[] {
-    const [title, link, ...body] = template.split('\n');
+    const [title, body, link] = template.split('\n\n');
 
-    return [title.replace(/^# /, ''), link, body.join('\n').trim()].map((str) =>
-      this.replaceVariables(str, context),
-    );
+    return [title.replace(/^# /, ''), link, body.trim()].map((str) => this.replaceVariables(str, context));
   }
 
-  private async sendEmailNotification(member: Member, template: string, context: Context) {
-    if (!member.notificationDelivery.includes(NotificationDeliveryType.email)) {
-      return;
-    }
-
+  private async deliverEmailNotification(emailAddress: string, template: string, context: Context) {
     const [subject, body] = this.getEmailContent(template, context);
     const html = await this.markdownToHtml(body);
 
@@ -123,7 +219,7 @@ export class NotificationService {
     });
 
     await this.emailSender.send({
-      to: member.email,
+      to: emailAddress,
       ...email,
     });
   }
@@ -138,15 +234,19 @@ export class NotificationService {
 
   private replaceVariables(template: string, context: Context): string {
     const getValue = (_: string, key: string) => {
-      assert(key in context, `Missing context value for key ${key}`);
-      return context[key];
+      // eslint-disable-next-line @typescript-eslint/no-implied-eval
+      return new Function(...Object.keys(context), `return ${key}`)(...Object.values(context));
     };
 
     return template.replaceAll(/\{([^}]+)\}/g, getValue);
   }
 
   private async markdownToHtml(markdown: string): Promise<string> {
-    const file = await unified().use(remarkParse).use(remarkRehype).use(rehypeStringify).process(markdown);
+    const file = await unified()
+      .use(remarkParse)
+      .use(remarkRehype, { allowDangerousHtml: true })
+      .use(rehypeStringify, { allowDangerousHtml: true })
+      .process(markdown);
 
     const status = reporter(file);
 

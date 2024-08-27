@@ -2,6 +2,7 @@ import { EventParticipation } from './event';
 import { RequestStatus } from './request';
 
 const notificationTypes = [
+  'Test',
   'NewAppVersion',
   'RequestCreated',
   'RequestCommentCreated',
@@ -38,6 +39,15 @@ export type Notification<Type extends NotificationType = NotificationType> = {
 };
 
 export type NotificationData = {
+  Test: {
+    member: {
+      firstName: string;
+    };
+    link: string;
+    answer: number;
+    content: string;
+  };
+
   NewAppVersion: {
     version: string;
     content?: string;
@@ -140,4 +150,8 @@ export type NotificationData = {
       };
     };
   };
+
+  TransactionCompleted: never;
+  TransactionCanceled: never;
+  TransactionPending: never;
 };
