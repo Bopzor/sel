@@ -1,5 +1,78 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
+exports[`[intg] Notification snapshots > EventCommentCreated 1`] = `
+[
+  {
+    "content": "Author : Comment body",
+    "link": "http://app.url/events/eventId",
+    "title": "Nouveau commentaire sur votre événement "Event title"",
+  },
+]
+`;
+
+exports[`[intg] Notification snapshots > EventCommentCreated 2`] = `
+[
+  {
+    "html": "<p>Bonjour Member,</p><p><strong>Author</strong> a écrit un commentaire sur votre événement <a href="http://app.url/events/eventId">Event title</a> :</p><blockquote style="margin: 0; padding: 8px 16px; border: 1px solid #CCC; border-radius: 4px; background: #fafafc;"><p>Comment body</p></blockquote>",
+    "subject": "Commentaire de Author sur votre événement "Event title"",
+    "text": "Bonjour Member,
+
+Author a écrit un commentaire sur votre événement Event title (http://app.url/events/eventId) :
+
+Comment body",
+    "to": "member@email",
+  },
+]
+`;
+
+exports[`[intg] Notification snapshots > EventCreated 1`] = `
+[
+  {
+    "content": "Event title",
+    "link": "http://app.url/events/eventId",
+    "title": "Nouvel événement",
+  },
+]
+`;
+
+exports[`[intg] Notification snapshots > EventCreated 2`] = `
+[
+  {
+    "html": "<p>Bonjour Member,</p><p><strong>Organizer</strong> a créé un nouvel événement : <a href="http://app.url/events/eventId">Event title</a></p><blockquote style="margin: 0; padding: 8px 16px; border: 1px solid #CCC; border-radius: 4px; background: #fafafc;"><p>Event body</p></blockquote>",
+    "subject": "Nouvel événement : Event title",
+    "text": "Bonjour Member,
+
+Organizer a créé un nouvel événement : Event title (http://app.url/events/eventId)
+
+Event body",
+    "to": "member@email",
+  },
+]
+`;
+
+exports[`[intg] Notification snapshots > EventParticipationSet 1`] = `
+[
+  {
+    "content": "Event title",
+    "link": "http://app.url/events/eventId",
+    "title": "Participation à votre événement Event title",
+  },
+]
+`;
+
+exports[`[intg] Notification snapshots > EventParticipationSet 2`] = `
+[
+  {
+    "html": "<p>Bonjour Member,</p><p><strong>Participant</strong> participera à votre événement <a href="http://app.url/events/eventId">Event title</a>.</p>",
+    "subject": "Participation à votre événement Event title",
+    "text": "Bonjour Member,
+
+Participant participera à votre événement Event title (http://app.url/events/eventId).",
+    "to": "member@email",
+  },
+]
+`;
+
 exports[`[intg] Notification snapshots > RequestCommentCreated 1`] = `
 [
   {

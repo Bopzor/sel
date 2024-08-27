@@ -115,19 +115,27 @@ export type NotificationData = {
   };
 
   EventCreated: {
+    member: {
+      firstName: string;
+    };
     event: {
       id: string;
       title: string;
       organizer: {
         id: string;
-        firstName: string;
-        lastName: string;
+        name: string;
       };
-      message: string;
+      body: {
+        html: string;
+        text: string;
+      };
     };
   };
 
   EventParticipationSet: {
+    member: {
+      firstName: string;
+    };
     event: {
       id: string;
       title: string;
@@ -137,30 +145,34 @@ export type NotificationData = {
     };
     participant: {
       id: string;
-      firstName: string;
-      lastName: string;
+      name: string;
     };
     previousParticipation: EventParticipation | null;
     participation: EventParticipation | null;
   };
 
   EventCommentCreated: {
+    member: {
+      firstName: string;
+    };
+    isOrganizer: boolean;
     event: {
       id: string;
       title: string;
       organizer: {
         id: string;
-        firstName: string;
-        lastName: string;
+        name: string;
       };
     };
     comment: {
       id: string;
-      message: string;
       author: {
         id: string;
-        firstName: string;
-        lastName: string;
+        name: string;
+      };
+      body: {
+        html: string;
+        text: string;
       };
     };
   };

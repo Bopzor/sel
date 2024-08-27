@@ -140,4 +140,67 @@ describe('[intg] Notification snapshots', () => {
       },
     });
   });
+
+  it('EventCreated', async () => {
+    await test.assertNotificationSnapshot('EventCreated', {
+      member: { firstName: 'Member' },
+      event: {
+        id: 'eventId',
+        title: 'Event title',
+        organizer: {
+          id: 'organizerId',
+          name: 'Organizer',
+        },
+        body: {
+          html: '<p>Event body</p>',
+          text: 'Event body',
+        },
+      },
+    });
+  });
+
+  it('EventCommentCreated', async () => {
+    await test.assertNotificationSnapshot('EventCommentCreated', {
+      member: { firstName: 'Member' },
+      isOrganizer: true,
+      event: {
+        id: 'eventId',
+        title: 'Event title',
+        organizer: {
+          id: 'organizerId',
+          name: 'Organizer',
+        },
+      },
+      comment: {
+        id: 'commentId',
+        author: {
+          id: 'authorId',
+          name: 'Author',
+        },
+        body: {
+          html: '<p>Comment body</p>',
+          text: 'Comment body',
+        },
+      },
+    });
+  });
+
+  it('EventParticipationSet', async () => {
+    await test.assertNotificationSnapshot('EventParticipationSet', {
+      member: { firstName: 'Member' },
+      event: {
+        id: 'eventId',
+        title: 'Event title',
+        organizer: {
+          id: 'organizerId',
+        },
+      },
+      participant: {
+        id: 'participantId',
+        name: 'Participant',
+      },
+      participation: 'yes',
+      previousParticipation: null,
+    });
+  });
 });

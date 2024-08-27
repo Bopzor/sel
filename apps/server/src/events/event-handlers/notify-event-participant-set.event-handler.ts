@@ -1,39 +1,27 @@
-import { assert } from '@sel/utils';
+import * as shared from '@sel/shared';
+import { defined } from '@sel/utils';
 import { injectableClass } from 'ditox';
+import { eq } from 'drizzle-orm';
 
-import { ConfigPort } from '../../infrastructure/config/config.port';
 import { EventHandler } from '../../infrastructure/cqs/event-handler';
-import { EmailRendererPort } from '../../infrastructure/email/email-renderer.port';
 import { TranslationPort } from '../../infrastructure/translation/translation.port';
-import { SubscriptionService } from '../../notifications/subscription.service';
-import { EventRepository } from '../../persistence/repositories/event/event.repository';
-import { MemberRepository } from '../../persistence/repositories/member/member.repository';
+import { GetNotificationContext, NotificationService } from '../../notifications/notification.service';
+import { Database } from '../../persistence/database';
+import * as schema from '../../persistence/schema';
 import { TOKENS } from '../../tokens';
 import { EventParticipationSet } from '../event-events';
 
+type Member = typeof schema.members.$inferSelect;
+type Event = typeof schema.events.$inferSelect;
+
 export class NotifyEventParticipationSet implements EventHandler<EventParticipationSet> {
-  static inject = injectableClass(
-    this,
-    TOKENS.config,
-    TOKENS.translation,
-    TOKENS.memberRepository,
-    TOKENS.eventRepository,
-    TOKENS.subscriptionService,
-    TOKENS.emailRenderer,
-  );
+  static inject = injectableClass(this, TOKENS.translation, TOKENS.database, TOKENS.notificationService);
 
   constructor(
-    private readonly config: ConfigPort,
     private readonly translation: TranslationPort,
-    private readonly memberRepository: MemberRepository,
-    private readonly eventRepository: EventRepository,
-    private readonly subscriptionService: SubscriptionService,
-    private readonly emailRenderer: EmailRendererPort,
+    private readonly database: Database,
+    private readonly notificationService: NotificationService,
   ) {}
-
-  private get appBaseUrl(): string {
-    return this.config.app.baseUrl;
-  }
 
   async handle({
     entityId: eventId,
@@ -41,68 +29,59 @@ export class NotifyEventParticipationSet implements EventHandler<EventParticipat
     previousParticipation,
     participation,
   }: EventParticipationSet): Promise<void> {
-    const event = await this.eventRepository.getEvent(eventId);
-    assert(event);
+    const event = defined(
+      await this.database.db.query.events.findFirst({
+        where: eq(schema.events.id, eventId),
+        with: {
+          organizer: true,
+          participants: true,
+        },
+      }),
+    );
 
-    const organizer = await this.memberRepository.getMember(event.organizerId);
-    assert(organizer);
+    const participant = defined(
+      await this.database.db.query.members.findFirst({
+        where: eq(schema.members.id, participantId),
+      }),
+    );
 
-    const participant = await this.memberRepository.getMember(participantId);
-    assert(participant);
+    await this.notificationService.notify(null, 'EventParticipationSet', (member) =>
+      this.getContext(member, event, participant, participation, previousParticipation),
+    );
+  }
 
-    const participantName = this.translation.memberName(participant);
-    const addedOrRemoved = participation === 'yes' ? 'added' : 'removed';
+  private getContext(
+    member: Member,
+    event: Event & { organizer: Member },
+    participant: Member,
+    participation: shared.EventParticipation | null,
+    previousParticipation: shared.EventParticipation | null,
+  ): ReturnType<GetNotificationContext<'EventParticipationSet'>> {
+    if (member.id !== event.organizer.id || participant.id === event.organizer.id) {
+      return null;
+    }
 
-    const title = event.title;
-    const link = `${this.appBaseUrl}/events/${event.id}`;
+    if (participation !== 'yes' && previousParticipation !== 'yes') {
+      return null;
+    }
 
-    await this.subscriptionService.notify({
-      subscriptionType: 'EventEvent',
-      subscriptionEntityId: event.id,
-      notificationType: 'EventParticipationSet',
-      notificationEntityId: event.id,
-
-      data: (member) => {
-        const t = this.translation;
-
-        return {
-          get shouldSend(): boolean {
-            if (member.id !== organizer.id || participant.id === organizer.id) {
-              return false;
-            }
-
-            return participation === 'yes' || previousParticipation === 'yes';
-          },
-          title: t.translate('eventParticipationSet.title', { title }),
-          push: {
-            title: t.translate('eventParticipationSet.push.title', { title }),
-            content: t.translate(`eventParticipationSet.push.content.${addedOrRemoved}`, { participantName }),
-            link,
-          },
-          email: this.emailRenderer.render({
-            subject: t.translate('eventParticipationSet.email.subject', { participantName, title }),
-            html: [
-              t.translate('greeting', { firstName: member.firstName }),
-              t.translate(`eventParticipationSet.email.html.line1.${addedOrRemoved}`, {
-                participantName,
-                title,
-                link: t.link(link),
-              }),
-            ],
-            text: [
-              t.translate('greeting', { firstName: member.firstName }),
-              t.translate(`eventParticipationSet.email.text.line1.${addedOrRemoved}`, {
-                participantName,
-                title,
-              }),
-              t.translate('eventParticipationSet.email.text.line2', {
-                title,
-                link,
-              }),
-            ],
-          }),
-        };
+    return {
+      member: {
+        firstName: member.firstName,
       },
-    });
+      event: {
+        id: event.id,
+        title: event.title,
+        organizer: {
+          id: event.organizer.id,
+        },
+      },
+      participant: {
+        id: participant.id,
+        name: this.translation.memberName(participant),
+      },
+      previousParticipation,
+      participation,
+    };
   }
 }
