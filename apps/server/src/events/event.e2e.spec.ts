@@ -103,10 +103,10 @@ describe('[E2E] Request', () => {
 
     await test.waitForEventHandlers();
 
-    // expect(await test.application.getMemberNotifications({ memberId: test.organizer.id })).toHaveProperty(
-    //   'notifications.0.title',
-    //   'Participation à votre événement title',
-    // );
+    expect(await test.application.getMemberNotifications({ memberId: test.organizer.id })).toHaveProperty(
+      'notifications.0.type',
+      'EventParticipationSet',
+    );
   });
 
   it('creates a comment on an event', async () => {
@@ -124,9 +124,9 @@ describe('[E2E] Request', () => {
 
     await test.waitForEventHandlers();
 
-    // expect(await test.application.getMemberNotifications({ memberId: test.organizer.id })).toHaveProperty(
-    //   'notifications.0.title',
-    //   'Nouveau commentaire sur votre événement "title"',
-    // );
+    expect(await test.application.getMemberNotifications({ memberId: test.organizer.id })).toHaveProperty(
+      'notifications.0.type',
+      'EventCommentCreated',
+    );
   });
 });
