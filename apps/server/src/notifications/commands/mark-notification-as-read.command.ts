@@ -1,9 +1,12 @@
 import { injectableClass } from 'ditox';
+import { eq } from 'drizzle-orm';
 
 import { CommandHandler } from '../../infrastructure/cqs/command-handler';
-import { NotificationRepository } from '../../persistence/repositories/notification/notification.repository';
+import { DatePort } from '../../infrastructure/date/date.port';
+import { Database } from '../../persistence/database';
+import * as schema from '../../persistence/schema';
 import { TOKENS } from '../../tokens';
-import { NotificationNotFound, MemberIsNotNotificationRecipient } from '../notification-errors';
+import { MemberIsNotNotificationRecipient, NotificationNotFound } from '../notification-errors';
 
 export type MarkNotificationAsReadCommand = {
   notificationId: string;
@@ -11,12 +14,17 @@ export type MarkNotificationAsReadCommand = {
 };
 
 export class MarkNotificationAsRead implements CommandHandler<MarkNotificationAsReadCommand> {
-  static inject = injectableClass(this, TOKENS.notificationRepository);
+  static inject = injectableClass(this, TOKENS.date, TOKENS.database);
 
-  constructor(private readonly notificationRepository: NotificationRepository) {}
+  constructor(
+    private readonly dateAdapter: DatePort,
+    private readonly database: Database,
+  ) {}
 
   async handle({ memberId, notificationId }: MarkNotificationAsReadCommand): Promise<void> {
-    const notification = await this.notificationRepository.getNotification(notificationId);
+    const notification = await this.database.db.query.notifications2.findFirst({
+      where: eq(schema.notifications2.id, notificationId),
+    });
 
     if (!notification) {
       throw new NotificationNotFound(notificationId);
@@ -26,6 +34,9 @@ export class MarkNotificationAsRead implements CommandHandler<MarkNotificationAs
       throw new MemberIsNotNotificationRecipient(notificationId);
     }
 
-    await this.notificationRepository.markAsRead(notificationId);
+    await this.database.db
+      .update(schema.notifications2)
+      .set({ readAt: this.dateAdapter.now() })
+      .where(eq(schema.notifications2.id, notificationId));
   }
 }
