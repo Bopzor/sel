@@ -177,7 +177,49 @@ export type NotificationData = {
     };
   };
 
-  TransactionCompleted: never;
-  TransactionCanceled: never;
-  TransactionPending: never;
+  TransactionPending: {
+    member: {
+      firstName: string;
+    };
+    transaction: {
+      id: string;
+      description: string;
+      recipient: {
+        id: string;
+        name: string;
+      };
+    };
+    currency: string;
+    currencyAmount: string;
+  };
+
+  TransactionCanceled: {
+    member: {
+      firstName: string;
+    };
+    transaction: {
+      id: string;
+      description: string;
+      payer: {
+        id: string;
+        name: string;
+      };
+    };
+    currency: string;
+  };
+
+  TransactionCompleted: {
+    member: {
+      firstName: string;
+    };
+    transaction: {
+      id: string;
+      description: string;
+      payer: {
+        id: string;
+        name: string;
+      };
+    };
+    currencyAmount: string;
+  };
 };

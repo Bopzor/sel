@@ -176,3 +176,74 @@ Cheers!",
   },
 ]
 `;
+
+exports[`[intg] Notification snapshots > TransactionCanceled 1`] = `
+[
+  {
+    "content": "Payer n'a pas accepté votre demande de coins pour l'échange : Transaction description",
+    "link": "http://app.url/profile/transactions?transactionId=transactionId",
+    "title": "Échange avec Payer",
+  },
+]
+`;
+
+exports[`[intg] Notification snapshots > TransactionCanceled 2`] = `
+[
+  {
+    "html": "<p>Bonjour Member,</p><p><strong>Payer</strong> a annulé l'échange : Transaction description.</p>",
+    "subject": "Payer n'a pas accepté votre demande de coins pour l'échange : Transaction description",
+    "text": "Bonjour Member,
+
+Payer a annulé l'échange : Transaction description.",
+    "to": "member@email",
+  },
+]
+`;
+
+exports[`[intg] Notification snapshots > TransactionCompleted 1`] = `
+[
+  {
+    "content": "Vous avez reçu 123 coins pour l'échange : Transaction description",
+    "link": "http://app.url/profile/transactions?transactionId=transactionId",
+    "title": "Échange avec Payer",
+  },
+]
+`;
+
+exports[`[intg] Notification snapshots > TransactionCompleted 2`] = `
+[
+  {
+    "html": "<p>Bonjour Member,</p><p><strong>Payer</strong> a accepté votre demande de <strong>123 coins</strong> pour l'échange : <a href="http://app.url/profile/transactions?transactionId=transactionId">Transaction description</a>.</p>",
+    "subject": "Vous avez reçu 123 coins pour l'échange : Transaction description",
+    "text": "Bonjour Member,
+
+Payer a accepté votre demande de 123 coins pour l'échange : Transaction description (http://app.url/profile/transactions?transactionId=transactionId).",
+    "to": "member@email",
+  },
+]
+`;
+
+exports[`[intg] Notification snapshots > TransactionPending 1`] = `
+[
+  {
+    "content": "Recipient vous demande 123 coins pour l'échange : Transaction description",
+    "link": "http://app.url/profile/transactions?transactionId=transactionId",
+    "title": "Échange avec Recipient",
+  },
+]
+`;
+
+exports[`[intg] Notification snapshots > TransactionPending 2`] = `
+[
+  {
+    "html": "<p>Bonjour Member,</p><p><strong>Recipient</strong> vous demande <strong>123 coins</strong> pour l'échange : Transaction description.</p><p>Vous pouvez valider ou refuser cet échange depuis <a href="http://app.url/profile/transactions?transactionId=transactionId">votre page de profil</a>.</p>",
+    "subject": "Demande de coins pour l'échange : Transaction description",
+    "text": "Bonjour Member,
+
+Recipient vous demande 123 coins pour l'échange : Transaction description.
+
+Vous pouvez valider ou refuser cet échange depuis votre page de profil (http://app.url/profile/transactions?transactionId=transactionId).",
+    "to": "member@email",
+  },
+]
+`;

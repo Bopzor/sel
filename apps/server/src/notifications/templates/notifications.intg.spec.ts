@@ -203,4 +203,50 @@ describe('[intg] Notification snapshots', () => {
       previousParticipation: null,
     });
   });
+
+  it('TransactionPending', async () => {
+    await test.assertNotificationSnapshot('TransactionPending', {
+      member: { firstName: 'Member' },
+      transaction: {
+        id: 'transactionId',
+        description: 'Transaction description',
+        recipient: {
+          id: 'recipientId',
+          name: 'Recipient',
+        },
+      },
+      currency: 'coins',
+      currencyAmount: '123 coins',
+    });
+  });
+
+  it('TransactionCompleted', async () => {
+    await test.assertNotificationSnapshot('TransactionCompleted', {
+      member: { firstName: 'Member' },
+      transaction: {
+        id: 'transactionId',
+        description: 'Transaction description',
+        payer: {
+          id: 'payerId',
+          name: 'Payer',
+        },
+      },
+      currencyAmount: '123 coins',
+    });
+  });
+
+  it('TransactionCanceled', async () => {
+    await test.assertNotificationSnapshot('TransactionCanceled', {
+      member: { firstName: 'Member' },
+      transaction: {
+        id: 'transactionId',
+        description: 'Transaction description',
+        payer: {
+          id: 'payerId',
+          name: 'Payer',
+        },
+      },
+      currency: 'coins',
+    });
+  });
 });
