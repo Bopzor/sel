@@ -31,30 +31,25 @@ export class MjmlEmailRendererAdapter implements EmailRendererPort {
     };
   }
 
-  render2(props: { subject: string; html: string; text: string }): Omit<Email, 'to'> {
-    const { subject, html, text } = props;
-    const result = mjml2html(this.renderEmail(subject, [html]));
+  renderHtml(preview: string, html: string): string {
+    const result = mjml2html(this.renderEmail(preview, [html]));
 
     if (result.errors.length > 0) {
       this.logger.warn(result.errors);
     }
 
-    return {
-      subject,
-      text: this.renderText(text),
-      html: result.html,
-    };
+    return result.html;
   }
 
-  public userContent(children: string) {
-    return `<div style="padding: 8px 16px; border: 1px solid #CCC; border-radius: 4px; background: #fafafc">${children}</div>`;
-  }
-
-  private renderText(text: string): string {
+  renderText(text: string): string {
     return text
       .replaceAll('**', '')
       .replaceAll(/\[([^\]]+)\]\(([^)]+)\)/g, (_, text, href) => `${text} (${href})`)
       .replaceAll(/\n> (.+)/g, (_, text) => `\n${text}`);
+  }
+
+  public userContent(children: string) {
+    return `<div style="padding: 8px 16px; border: 1px solid #CCC; border-radius: 4px; background: #fafafc">${children}</div>`;
   }
 
   private renderEmail(preview: string, sections: string[]) {

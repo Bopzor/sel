@@ -12,19 +12,17 @@ main(app, process.argv.slice(2))
   .finally(() => void app.close());
 
 async function main(app: Application, args: string[]) {
-  const [memberId, name, answer, link, content] = args;
+  const [memberId, name, answer, content] = args;
   const notificationService = container.resolve(TOKENS.notificationService);
 
   assert(memberId, 'missing memberId');
   assert(name, 'missing name');
   assert(answer, 'missing answer');
-  assert(link, 'missing link');
   assert(content, 'missing content');
 
   await notificationService.notify([memberId], 'Test', () => ({
     member: { firstName: name },
     answer: Number(answer),
-    link,
-    content,
+    content: { html: content, text: content },
   }));
 }

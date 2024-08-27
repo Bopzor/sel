@@ -3,7 +3,7 @@ import path from 'node:path';
 import url from 'node:url';
 
 import * as shared from '@sel/shared';
-import { assert, defined, hasProperty } from '@sel/utils';
+import { assert, defined, hasProperty, toObject } from '@sel/utils';
 import { injectableClass } from 'ditox';
 import { eq, inArray } from 'drizzle-orm';
 import rehypeStringify from 'rehype-stringify';
@@ -30,6 +30,18 @@ import { TOKENS } from '../tokens';
 const dirname = path.dirname(url.fileURLToPath(import.meta.url));
 
 type Context = Record<string, unknown>;
+
+type NotificationTemplate = {
+  push: {
+    title: string;
+    content: string;
+    link: string;
+  };
+  email: {
+    subject: string;
+    body: string;
+  };
+};
 
 export interface GetNotificationContext<Type extends shared.NotificationType> {
   (member: typeof schema.members.$inferSelect): shared.NotificationData[Type] | null;
@@ -155,16 +167,36 @@ export class NotificationService {
     }
   }
 
-  private async loadTemplate(type: shared.NotificationType): Promise<{ push: string; email: string }> {
+  private async loadTemplate(type: shared.NotificationType): Promise<NotificationTemplate> {
     const file = String(await fs.readFile(path.join(dirname, 'templates', type + '.md')));
-    const [push, email] = file.split('\n--\n', 2).map((str) => str.trim());
+    const [, metadataString, emailBody] = file.split('---\n');
 
-    return { push, email };
+    const metadata = toObject(
+      metadataString.split('\n').filter(Boolean),
+      (line) => line.split(':', 2)[0].trim(),
+      (line) => line.split(':', 2)[1].trim(),
+    );
+
+    for (const key of ['title', 'content', 'link', 'subject']) {
+      assert(key in metadata, `Missing ${key} metadata in notification template ${type}`);
+    }
+
+    return {
+      push: {
+        title: metadata.title,
+        content: metadata.content,
+        link: metadata.link,
+      },
+      email: {
+        subject: metadata.subject,
+        body: emailBody.trim(),
+      },
+    };
   }
 
   private async deliverNotification(
     delivery: typeof schema.notificationDeliveries.$inferInsert,
-    template: { push: string; email: string },
+    template: NotificationTemplate,
     context: Context,
   ) {
     try {
@@ -194,42 +226,53 @@ export class NotificationService {
 
   private async deliverPushNotification(
     subscription: PushDeviceSubscription,
-    template: string,
+    template: NotificationTemplate['push'],
     context: Context,
   ) {
-    const [title, link, body] = this.getPushContent(template, context);
+    const { title, content, link } = this.getPushContent(template, context);
 
-    await this.pushNotification.send(subscription, title, body, link);
+    await this.pushNotification.send(subscription, title, content, link);
   }
 
-  private getPushContent(template: string, context: Context): string[] {
-    const [title, body, link] = template.split('\n\n');
-
-    return [title.replace(/^# /, ''), link, body.trim()].map((str) => this.replaceVariables(str, context));
+  private getPushContent(template: NotificationTemplate['push'], context: Context) {
+    return {
+      title: this.replaceVariables(template.title, context),
+      content: this.replaceVariables(template.content, context),
+      link: this.replaceVariables(template.link, context),
+    };
   }
 
-  private async deliverEmailNotification(emailAddress: string, template: string, context: Context) {
-    const [subject, body] = this.getEmailContent(template, context);
-    const html = await this.markdownToHtml(body);
-
-    const email = this.emailRenderer.render2({
-      subject,
-      html: html,
-      text: body,
-    });
+  private async deliverEmailNotification(
+    emailAddress: string,
+    template: NotificationTemplate['email'],
+    context: Context,
+  ) {
+    const { subject, html, text } = await this.getEmailContent(template, context);
 
     await this.emailSender.send({
       to: emailAddress,
-      ...email,
+      subject,
+      html,
+      text,
     });
   }
 
-  private getEmailContent(template: string, context: Context): string[] {
-    const [title, ...body] = template.split('\n');
+  private async getEmailContent(template: NotificationTemplate['email'], context: Context) {
+    const subject = this.replaceVariables(template.subject, context);
 
-    return [title.replace(/^# /, ''), body.join('\n').trim()].map((str) =>
-      this.replaceVariables(str, context),
-    );
+    const html = await this.markdownToHtml(template.body);
+    const text = template.body;
+
+    return {
+      subject,
+      html: this.emailRenderer.renderHtml(
+        subject,
+        this.replaceVariables(html, { ...context, verbatim: (obj: { html: string }) => obj.html }),
+      ),
+      text: this.emailRenderer.renderText(
+        this.replaceVariables(text, { ...context, verbatim: (obj: { text: string }) => obj.text }),
+      ),
+    };
   }
 
   private replaceVariables(template: string, context: Context): string {

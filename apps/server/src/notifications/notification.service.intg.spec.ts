@@ -73,7 +73,7 @@ describe('[intg] NotificationService', () => {
       member: { firstName: member.firstName },
       answer: 42,
       link: test.config.app.baseUrl,
-      content: 'some content',
+      content: { html: '<p>some content</p>', text: 'some content' },
     }));
 
     const db = container.resolve(TOKENS.database).db;
@@ -143,7 +143,7 @@ Cheers!`,
       member: { firstName: member.firstName },
       answer: 42,
       link: test.config.app.baseUrl,
-      content: 'some content',
+      content: { html: '<p>some content</p>', text: 'some content' },
     }));
 
     const db = container.resolve(TOKENS.database).db;
