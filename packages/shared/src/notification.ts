@@ -43,9 +43,11 @@ export type NotificationData = {
     member: {
       firstName: string;
     };
-    link: string;
     answer: number;
-    content: string;
+    content: {
+      html: string;
+      text: string;
+    };
   };
 
   NewAppVersion: {
@@ -54,48 +56,60 @@ export type NotificationData = {
   };
 
   RequestCreated: {
+    member: {
+      firstName: string;
+    };
     request: {
       id: string;
       title: string;
       requester: {
         id: string;
-        firstName: string;
-        lastName: string;
+        name: string;
       };
-      message: string;
+      body: {
+        html: string;
+        text: string;
+      };
     };
   };
 
   RequestCommentCreated: {
+    member: {
+      firstName: string;
+    };
+    isRequester: boolean;
     request: {
       id: string;
       title: string;
       requester: {
         id: string;
-        firstName: string;
-        lastName: string;
+        name: string;
       };
     };
     comment: {
       id: string;
-      message: string;
       author: {
         id: string;
-        firstName: string;
-        lastName: string;
+        name: string;
+      };
+      body: {
+        html: string;
+        text: string;
       };
     };
   };
 
   RequestStatusChanged: {
+    member: {
+      firstName: string;
+    };
     request: {
       id: string;
       title: string;
       status: RequestStatus;
       requester: {
         id: string;
-        firstName: string;
-        lastName: string;
+        name: string;
       };
     };
   };

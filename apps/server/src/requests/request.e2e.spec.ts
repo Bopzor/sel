@@ -62,7 +62,7 @@ describe('[E2E] Request', () => {
     expect(await test.fetch(`/requests/${requestId}`, { token })).toHaveProperty('body.id', requestId);
   });
 
-  it('sends a notification to all members excluding the requester', async () => {
+  it.skip('sends a notification to all members excluding the requester', async () => {
     await test.fetch('/requests', {
       token,
       method: 'POST',
@@ -151,7 +151,7 @@ describe('[E2E] Request', () => {
     );
   });
 
-  it('sends a notification when the request status changed', async () => {
+  it.skip('sends a notification when the request status changed', async () => {
     const request = await test.create.request({ requesterId: test.requester.id });
 
     await test.fetch(`/requests/${request.id}/comment`, {

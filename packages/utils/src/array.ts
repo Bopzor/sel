@@ -11,3 +11,7 @@ export function first<T>(array: T[]) {
 export function last<T>(array: T[]) {
   return array[array.length - 1];
 }
+
+export function unique<T>(array: T[]) {
+  return Array.from(new Set(array).values());
+}

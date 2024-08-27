@@ -173,8 +173,8 @@ export class NotificationService {
 
     const metadata = toObject(
       metadataString.split('\n').filter(Boolean),
-      (line) => line.split(':', 2)[0].trim(),
-      (line) => line.split(':', 2)[1].trim(),
+      (line) => line.slice(0, line.indexOf(':')).trim(),
+      (line) => line.slice(line.indexOf(':') + 1).trim(),
     );
 
     for (const key of ['title', 'content', 'link', 'subject']) {
@@ -260,18 +260,25 @@ export class NotificationService {
   private async getEmailContent(template: NotificationTemplate['email'], context: Context) {
     const subject = this.replaceVariables(template.subject, context);
 
-    const html = await this.markdownToHtml(template.body);
-    const text = template.body;
+    const html = await this.markdownToHtml(
+      this.replaceVariables(template.body, {
+        ...context,
+        verbatim: (obj: { html: string }) => obj.html,
+      }),
+    );
+
+    const text = this.replaceVariables(template.body, {
+      ...context,
+      verbatim: (obj: { text: string }) => obj.text,
+    });
 
     return {
       subject,
       html: this.emailRenderer.renderHtml(
         subject,
-        this.replaceVariables(html, { ...context, verbatim: (obj: { html: string }) => obj.html }),
+        ['<!-- CONTENT START -->', html, '<!-- CONTENT END -->'].join('\n'),
       ),
-      text: this.emailRenderer.renderText(
-        this.replaceVariables(text, { ...context, verbatim: (obj: { text: string }) => obj.text }),
-      ),
+      text: this.emailRenderer.renderText(text),
     };
   }
 

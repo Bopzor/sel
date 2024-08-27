@@ -1,0 +1,105 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`[intg] Notification snapshots > RequestCommentCreated 1`] = `
+[
+  {
+    "content": "Author : Comment body",
+    "link": "http://app.url/requests/requestId",
+    "title": "Nouveau commentaire sur votre demande "Request title"",
+  },
+]
+`;
+
+exports[`[intg] Notification snapshots > RequestCommentCreated 2`] = `
+[
+  {
+    "html": "<p>Bonjour Member,</p><p><strong>Author</strong> a écrit un commentaire sur votre demande <a href="http://app.url/requests/requestId">Request title</a> :</p><blockquote style="margin: 0; padding: 8px 16px; border: 1px solid #CCC; border-radius: 4px; background: #fafafc;"><p>Comment body</p></blockquote>",
+    "subject": "Commentaire de Author sur votre demande "Request title"",
+    "text": "Bonjour Member,
+
+Author a écrit un commentaire sur votre demande Request title (http://app.url/requests/requestId) :
+
+Comment body",
+    "to": "member@email",
+  },
+]
+`;
+
+exports[`[intg] Notification snapshots > RequestCreated 1`] = `
+[
+  {
+    "content": "Request title",
+    "link": "http://app.url/requests/requestId",
+    "title": "Demande de Requester",
+  },
+]
+`;
+
+exports[`[intg] Notification snapshots > RequestCreated 2`] = `
+[
+  {
+    "html": "<p>Bonjour Member,</p><p><strong>Requester</strong> a publié une nouvelle demande : <a href="http://app.url/requests/requestId">Request title</a></p><blockquote style="margin: 0; padding: 8px 16px; border: 1px solid #CCC; border-radius: 4px; background: #fafafc;"><p>Request body</p></blockquote>",
+    "subject": "Demande de Requester : Request title",
+    "text": "Bonjour Member,
+
+Requester a publié une nouvelle demande : Request title (http://app.url/requests/requestId)
+
+Request body",
+    "to": "member@email",
+  },
+]
+`;
+
+exports[`[intg] Notification snapshots > RequestStatusChanged 1`] = `
+[
+  {
+    "content": "Request title",
+    "link": "http://app.url/requests/requestId",
+    "title": "Requester a annulé sa demande",
+  },
+]
+`;
+
+exports[`[intg] Notification snapshots > RequestStatusChanged 2`] = `
+[
+  {
+    "html": "<p>Bonjour Member,</p><p><strong>Requester</strong> a annulé sa demande <a href="http://app.url/requests/requestId">Request title</a></p>",
+    "subject": "Requester a annulé sa demande "Request title"",
+    "text": "Bonjour Member,
+
+Requester a annulé sa demande Request title (http://app.url/requests/requestId)",
+    "to": "member@email",
+  },
+]
+`;
+
+exports[`[intg] Notification snapshots > Test 1`] = `
+[
+  {
+    "content": "Hello Member, this is a test notification! I hope it works 😄",
+    "link": "http://app.url",
+    "title": "Test notification (push)",
+  },
+]
+`;
+
+exports[`[intg] Notification snapshots > Test 2`] = `
+[
+  {
+    "html": "<p>Hello Member, this is <strong>a test notification</strong>! I hope it works 😄</p><p>Here is <a href="http://app.url">a link</a>.</p><p>42 is a good answer.</p><p>And here is some verbatim content:</p><blockquote style="margin: 0; padding: 8px 16px; border: 1px solid #CCC; border-radius: 4px; background: #fafafc;"><p>hello <strong>world</strong></p></blockquote><p>Cheers!</p>",
+    "subject": "Test notification (email)",
+    "text": "Hello Member, this is a test notification! I hope it works 😄
+
+Here is a link (http://app.url).
+
+42 is a good answer.
+
+And here is some verbatim content:
+
+hello world
+
+Cheers!",
+    "to": "member@email",
+  },
+]
+`;
