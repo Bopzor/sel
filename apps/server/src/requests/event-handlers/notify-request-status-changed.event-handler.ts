@@ -29,7 +29,7 @@ export class NotifyRequestStatusChanged implements EventHandler<RequestFulfilled
         with: {
           requester: true,
           comments: true,
-          answers: true,
+          answers: { where: eq(schema.requestAnswers.answer, 'positive') },
         },
       }),
     );

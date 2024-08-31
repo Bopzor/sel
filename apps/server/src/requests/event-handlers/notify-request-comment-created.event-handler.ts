@@ -30,7 +30,7 @@ export class NotifyRequestCommentCreated implements EventHandler<RequestCommentC
         with: {
           requester: true,
           comments: true,
-          answers: true,
+          answers: { where: eq(schema.requestAnswers.answer, 'positive') },
         },
       }),
     );

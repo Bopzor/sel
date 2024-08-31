@@ -30,7 +30,7 @@ export class NotifyEventCommentCreated implements EventHandler<EventCommentCreat
         with: {
           organizer: true,
           comments: true,
-          participants: true,
+          participants: { where: eq(schema.eventParticipations.participation, 'yes') },
         },
       }),
     );

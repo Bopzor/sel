@@ -34,7 +34,6 @@ export class NotifyEventParticipationSet implements EventHandler<EventParticipat
         where: eq(schema.events.id, eventId),
         with: {
           organizer: true,
-          participants: true,
         },
       }),
     );
@@ -45,7 +44,7 @@ export class NotifyEventParticipationSet implements EventHandler<EventParticipat
       }),
     );
 
-    await this.notificationService.notify(null, 'EventParticipationSet', (member) =>
+    await this.notificationService.notify([event.organizer.id], 'EventParticipationSet', (member) =>
       this.getContext(member, event, participant, participation, previousParticipation),
     );
   }

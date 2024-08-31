@@ -28,7 +28,6 @@ export class NotifyEventCreated implements EventHandler<EventCreated> {
         where: eq(schema.events.id, eventId),
         with: {
           organizer: true,
-          participants: true,
         },
       }),
     );

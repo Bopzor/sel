@@ -48,7 +48,7 @@ describe('[E2E] Request', () => {
   });
 
   it('creates a new event', async () => {
-    const { body: eventId } = await test.fetch('/events', {
+    const { body: eventId } = await test.fetch<string>('/events', {
       token,
       method: 'POST',
       body: { title: 'title', body: '<p>body</p>', kind: shared.EventKind.internal },
@@ -63,10 +63,10 @@ describe('[E2E] Request', () => {
 
     expect(await test.fetch(`/events/${eventId}`, { token })).toHaveProperty('body.body', '<p>body</p>');
 
-    // expect(await test.application.getMemberNotifications({ memberId: test.member.id })).toHaveProperty(
-    //   'notifications.0',
-    //   expect.objectContaining<Partial<shared.Notification>>({ title: 'Nouvel événement', content: 'title' }),
-    // );
+    expect(await test.application.getMemberNotifications({ memberId: test.member.id })).toHaveProperty(
+      'notifications.0',
+      expect.objectContaining<Partial<shared.Notification>>({ type: 'EventCreated' }),
+    );
   });
 
   it('updates an existing event', async () => {
