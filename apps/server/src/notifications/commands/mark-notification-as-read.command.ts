@@ -22,8 +22,8 @@ export class MarkNotificationAsRead implements CommandHandler<MarkNotificationAs
   ) {}
 
   async handle({ memberId, notificationId }: MarkNotificationAsReadCommand): Promise<void> {
-    const notification = await this.database.db.query.notifications2.findFirst({
-      where: eq(schema.notifications2.id, notificationId),
+    const notification = await this.database.db.query.notifications.findFirst({
+      where: eq(schema.notifications.id, notificationId),
     });
 
     if (!notification) {
@@ -35,8 +35,8 @@ export class MarkNotificationAsRead implements CommandHandler<MarkNotificationAs
     }
 
     await this.database.db
-      .update(schema.notifications2)
+      .update(schema.notifications)
       .set({ readAt: this.dateAdapter.now() })
-      .where(eq(schema.notifications2.id, notificationId));
+      .where(eq(schema.notifications.id, notificationId));
   }
 }

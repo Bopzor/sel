@@ -172,7 +172,7 @@ export const commentsRelations = relations(comments, ({ one }) => ({
   }),
 }));
 
-export const notifications2 = pgTable('notifications2', {
+export const notifications = pgTable('notifications', {
   id: primaryKey(),
   memberId: id('member_id')
     .references(() => members.id)
@@ -185,14 +185,14 @@ export const notifications2 = pgTable('notifications2', {
   updatedAt: updatedAt(),
 });
 
-export const notificationsRelations2 = relations(notifications2, ({ many }) => ({
+export const notificationsRelations2 = relations(notifications, ({ many }) => ({
   deliveries: many(notificationDeliveries),
 }));
 
 export const notificationDeliveries = pgTable('notification_deliveries', {
   id: primaryKey(),
   notificationId: id('notification_id')
-    .references(() => notifications2.id)
+    .references(() => notifications.id)
     .notNull(),
   type: notificationDeliveryTypeEnum('delivery_type').notNull(),
   target: text('target').notNull(),

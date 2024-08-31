@@ -24,7 +24,7 @@ const {
   requestAnswers,
   tokens,
   transactions,
-  notifications2,
+  notifications,
   notificationDeliveries,
 } = schema;
 
@@ -81,7 +81,7 @@ export class Database {
     assert(this.databaseUrl.endsWith('/test'), 'Not using test database');
 
     await this.db.delete(notificationDeliveries);
-    await this.db.delete(notifications2);
+    await this.db.delete(notifications);
     await this.db.delete(comments);
     await this.db.delete(requestAnswers);
     await this.db.delete(requests);

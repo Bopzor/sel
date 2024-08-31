@@ -77,7 +77,7 @@ describe('[intg] NotificationService', () => {
     }));
 
     const db = container.resolve(TOKENS.database).db;
-    const notifications = await db.query.notifications2.findMany();
+    const notifications = await db.query.notifications.findMany();
     const deliveries = await db.query.notificationDeliveries.findMany();
 
     const errors = test.logger.lines.error;

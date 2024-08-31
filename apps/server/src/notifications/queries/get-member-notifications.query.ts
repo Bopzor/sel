@@ -26,12 +26,12 @@ export class GetMemberNotifications
   async handle({ memberId }: GetMemberNotificationQuery): Promise<GetMemberNotificationQueryResult> {
     const [{ count: unreadCount }] = await this.database.db
       .select({ count: count() })
-      .from(schema.notifications2)
-      .where(and(isNull(schema.notifications2.readAt), eq(schema.notifications2.memberId, memberId)));
+      .from(schema.notifications)
+      .where(and(isNull(schema.notifications.readAt), eq(schema.notifications.memberId, memberId)));
 
-    const notifications = await this.database.db.query.notifications2.findMany({
-      where: eq(schema.notifications2.memberId, memberId),
-      orderBy: desc(schema.notifications2.date),
+    const notifications = await this.database.db.query.notifications.findMany({
+      where: eq(schema.notifications.memberId, memberId),
+      orderBy: desc(schema.notifications.date),
     });
 
     return {
@@ -42,7 +42,7 @@ export class GetMemberNotifications
 
   private mapNotification(
     this: void,
-    notification: typeof schema.notifications2.$inferSelect,
+    notification: typeof schema.notifications.$inferSelect,
   ): shared.Notification {
     return {
       id: notification.id,

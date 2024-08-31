@@ -92,7 +92,7 @@ export class NotificationService {
     });
 
     const now = this.dateAdapter.now();
-    const notifications = new Array<typeof schema.notifications2.$inferInsert>();
+    const notifications = new Array<typeof schema.notifications.$inferInsert>();
     const deliveries = new Array<typeof schema.notificationDeliveries.$inferInsert>();
 
     for (const member of members) {
@@ -140,7 +140,7 @@ export class NotificationService {
     }
 
     if (notifications.length > 0) {
-      await this.database.db.insert(schema.notifications2).values(notifications);
+      await this.database.db.insert(schema.notifications).values(notifications);
     }
 
     if (deliveries.length > 0) {
