@@ -11,5 +11,5 @@ export type MemberDevice = {
 export const createMemberDevice = createFactory<MemberDevice>(() => ({
   id: createId(),
   memberId: '',
-  subscription: null,
+  subscription: '',
 }));

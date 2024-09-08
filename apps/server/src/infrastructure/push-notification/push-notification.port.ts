@@ -1,4 +1,4 @@
-export type PushDeviceSubscription = unknown;
+export type PushDeviceSubscription = string;
 export type DeviceType = 'mobile' | 'desktop';
 
 export interface PushNotificationPort {

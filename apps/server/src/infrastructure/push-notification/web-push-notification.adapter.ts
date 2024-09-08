@@ -28,7 +28,7 @@ export class WebPushNotificationAdapter implements PushNotificationPort {
   ): Promise<void> {
     try {
       await webpush.sendNotification(
-        subscription as webpush.PushSubscription,
+        JSON.parse(subscription) as webpush.PushSubscription,
         JSON.stringify({ title, content, link }),
       );
     } catch (error) {
