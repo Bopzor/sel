@@ -52,6 +52,9 @@ export type NotificationData = {
   };
 
   NewAppVersion: {
+    member: {
+      firstName: string;
+    };
     version: string;
     content?: string;
   };

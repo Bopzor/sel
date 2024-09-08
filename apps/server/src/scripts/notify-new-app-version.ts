@@ -17,7 +17,8 @@ async function main(app: Application, args: string[]) {
 
   assert(version, 'missing version');
 
-  await notificationService.notify(null, 'NewAppVersion', () => ({
+  await notificationService.notify(null, 'NewAppVersion', ({ firstName }) => ({
+    member: { firstName },
     version,
     content,
   }));
