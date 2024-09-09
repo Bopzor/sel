@@ -1,5 +1,10 @@
 import { assert } from '@sel/utils';
+import { injectableClass } from 'ditox';
 import { z } from 'zod';
+
+import { TOKENS } from '../tokens';
+
+import { ConfigPort } from './config/config.port';
 
 export class FetchResult<Body> {
   constructor(
@@ -90,6 +95,10 @@ export class StubFetcher implements FetcherPort {
 }
 
 export class Fetcher implements FetcherPort {
+  static inject = injectableClass(this, TOKENS.config);
+
+  constructor(private readonly config: ConfigPort) {}
+
   get<ResponseBody>(path: string) {
     return this.fetch<ResponseBody>(path, { method: 'GET' });
   }
@@ -129,7 +138,8 @@ export class Fetcher implements FetcherPort {
 
   private async execute<Body>(path: string, init: RequestInit): Promise<FetchResult<Body>> {
     // await new Promise((r) => setTimeout(r, 1000));
-    const response = await fetch(path, init);
+
+    const response = await fetch((this.config.api.url ?? '') + path, init);
     const body: Body = await this.getBody(response);
 
     const result = new FetchResult(response, body);

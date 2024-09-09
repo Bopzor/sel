@@ -108,7 +108,7 @@ jobs:
           service-regions: fra
           service-ports: 8080:http
           service-routes: /:8080
-          service-env: VITE_GEOAPIFY_API_KEY=@sel-staging-geoapify-key,VITE_WEB_PUSH_PUBLIC_KEY=@sel-staging-web-push-public-key
+          service-env: VITE_API_URL=/api,VITE_GEOAPIFY_API_KEY=@sel-staging-geoapify-key,VITE_WEB_PUSH_PUBLIC_KEY=@sel-staging-web-push-public-key
 
   cleanup:
     name: Delete Koyeb application

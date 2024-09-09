@@ -3,6 +3,12 @@ import { ConfigPort } from './config.port';
 export class StubConfigAdapter implements ConfigPort {
   constructor(private readonly overrides: Partial<ConfigPort> = {}) {}
 
+  get api() {
+    return {
+      url: '',
+    };
+  }
+
   get analytics() {
     return {
       url: '',
