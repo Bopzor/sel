@@ -102,12 +102,12 @@ jobs:
           app-name: ${{ needs.environment.outputs.name }}
           service-name: web
           git-branch: ${{ github.head_ref }}
-          git-build-command: pnpm exec tsc -b && pnpm run --filter @sel/web build
-          git-run-command: pnpx serve -p 8080 --single apps/web/dist
+          git-builder: docker
+          git-docker-dockerfile: apps/web/Dockerfile
           service-instance-type: nano
           service-regions: fra
-          service-ports: 8080:http
-          service-routes: /:8080
+          service-ports: 80:http
+          service-routes: /:80
           service-env: VITE_API_URL=/api,VITE_GEOAPIFY_API_KEY=@sel-staging-geoapify-key,VITE_WEB_PUSH_PUBLIC_KEY=@sel-staging-web-push-public-key
 
   cleanup:
