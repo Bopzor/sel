@@ -25,7 +25,7 @@ container.bindFactory(TOKENS.config, EnvConfigAdapter.inject);
 container.bindFactory(TOKENS.analytics, MatomoAnalyticsAdapter.inject);
 container.bindFactory(TOKENS.geocode, GeoapifyGeocodeAdapter.inject);
 container.bindFactory(TOKENS.router, SolidRouterAdapter.inject);
-container.bindValue(TOKENS.fetcher, new Fetcher());
+container.bindFactory(TOKENS.fetcher, Fetcher.inject);
 container.bindFactory(TOKENS.notifications, ToastNotificationsAdapter.inject);
 container.bindFactory(TOKENS.pushSubscription, WebPushSubscriptionAdapter.inject);
 container.bindFactory(TOKENS.memberAvatar, ApiMemberAvatarAdapter.inject);
