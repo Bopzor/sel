@@ -162,9 +162,11 @@ export class NotificationService {
       .map(([, deliveryId]) => deliveryId);
 
     if (deliveredIds.length > 0) {
+      const now = this.dateAdapter.now();
+
       await this.database.db
         .update(schema.notificationDeliveries)
-        .set({ delivered: true })
+        .set({ delivered: true, updatedAt: now })
         .where(inArray(schema.notificationDeliveries.id, deliveredIds));
     }
   }
@@ -222,7 +224,7 @@ export class NotificationService {
 
     await this.database.db
       .update(schema.notificationDeliveries)
-      .set({ error: { message: error.message, stack: error.stack } })
+      .set({ error: JSON.stringify({ message: error.message, stack: error.stack }) })
       .where(eq(schema.notificationDeliveries.id, deliveryId));
   }
 
