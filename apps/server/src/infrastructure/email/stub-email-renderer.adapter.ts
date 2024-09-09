@@ -10,11 +10,11 @@ export class StubEmailRendererAdapter implements EmailRendererPort {
     };
   }
 
-  renderHtml(preview: string, html: string): string {
+  renderHtml(): string {
     throw new Error('Method not implemented.');
   }
 
-  renderText(text: string): string {
+  renderText(): string {
     throw new Error('Method not implemented.');
   }
 

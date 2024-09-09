@@ -71,10 +71,12 @@ describe('[E2E] Request', () => {
 
     await test.waitForEventHandlers();
 
-    const { body: notifications } = await test.fetch('/session/notifications', { token: test.memberToken });
+    const notifications = await test.application.getMemberNotifications({ memberId: test.member.id });
     expect(notifications).toHaveLength(1);
 
-    const { body: requesterNotifications } = await test.fetch('/session/notifications', { token });
+    const requesterNotifications = await test.application.getMemberNotifications({
+      memberId: test.requester.id,
+    });
     expect(requesterNotifications).toHaveLength(0);
   });
 
@@ -161,11 +163,9 @@ describe('[E2E] Request', () => {
     await test.fetch(`/requests/${request.id}/fulfill`, { token, method: 'PUT' });
     await test.waitForEventHandlers();
 
-    const { body: memberNotifications } = await test.fetch('/session/notifications', {
-      token: test.memberToken,
-    });
+    const notifications = await test.application.getMemberNotifications({ memberId: test.member.id });
 
-    expect(memberNotifications).toHaveLength(2);
-    expect(memberNotifications).toHaveProperty('0.type', 'RequestStatusChanged');
+    expect(notifications).toHaveLength(2);
+    expect(notifications).toHaveProperty('0.type', 'RequestStatusChanged');
   });
 });

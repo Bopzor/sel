@@ -31,11 +31,7 @@ export function isNotificationOfType<Type extends NotificationType>(
 export type Notification<Type extends NotificationType = NotificationType> = {
   id: string;
   type: Type;
-  entityId?: string;
   date: string;
-  read: boolean;
-  title: string;
-  content: string;
   context: NotificationData[NotificationType];
 };
 

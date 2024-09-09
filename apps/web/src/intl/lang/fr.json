@@ -47,8 +47,7 @@
     "header": {
       "title": "Système d'échange local",
       "subtitle": "de Cavaillon et ses environs",
-      "sign-in": "Connexion",
-      "notificationsCountGreaterThan9": "9+"
+      "sign-in": "Connexion"
     },
     "registerDevice": "Vous souhaitez recevoir les notifications sur cet appareil ? Activez-les dans <link>vos paramètres</link>.",
     "breadcrumb": {
@@ -356,7 +355,6 @@
       "address": "Adresse",
       "transactions": "Échanges",
       "interests": "Centres d'intérêts",
-      "notifications": "Notifications",
       "settings": "Paramètres",
       "signOut": "Déconnexion"
     },
@@ -403,12 +401,6 @@
       "addDescription": "Ajouter",
       "updateDescription": "Modifier",
       "edited": "Le détail de votre centre d'intérêt a bien été mis à jour."
-    },
-    "notifications": {
-      "title": "Notifications",
-      "viewRequest": "Voir la demande",
-      "viewEvent": "Voir l'événement",
-      "viewTransaction": "Voir l'échange"
     },
     "settings": {
       "title": "Paramètres",

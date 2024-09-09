@@ -179,7 +179,6 @@ export const notifications = pgTable('notifications', {
     .notNull(),
   type: varchar('type', { length: 32 }).$type<shared.NotificationType>().notNull(),
   date: date('date').notNull(),
-  readAt: date('read_at'),
   context: json('context').$type<shared.NotificationData[shared.NotificationType]>().notNull(),
   createdAt: createdAt(),
   updatedAt: updatedAt(),

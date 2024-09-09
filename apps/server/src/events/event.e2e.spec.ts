@@ -63,10 +63,9 @@ describe('[E2E] Request', () => {
 
     expect(await test.fetch(`/events/${eventId}`, { token })).toHaveProperty('body.body', '<p>body</p>');
 
-    expect(await test.application.getMemberNotifications({ memberId: test.member.id })).toHaveProperty(
-      'notifications.0',
+    expect(await test.application.getMemberNotifications({ memberId: test.member.id })).toEqual([
       expect.objectContaining<Partial<shared.Notification>>({ type: 'EventCreated' }),
-    );
+    ]);
   });
 
   it('updates an existing event', async () => {
@@ -104,7 +103,7 @@ describe('[E2E] Request', () => {
     await test.waitForEventHandlers();
 
     expect(await test.application.getMemberNotifications({ memberId: test.organizer.id })).toHaveProperty(
-      'notifications.0.type',
+      '0.type',
       'EventParticipationSet',
     );
   });
@@ -125,7 +124,7 @@ describe('[E2E] Request', () => {
     await test.waitForEventHandlers();
 
     expect(await test.application.getMemberNotifications({ memberId: test.organizer.id })).toHaveProperty(
-      'notifications.0.type',
+      '0.type',
       'EventCommentCreated',
     );
   });

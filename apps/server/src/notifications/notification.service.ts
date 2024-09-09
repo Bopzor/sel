@@ -224,7 +224,7 @@ export class NotificationService {
 
     await this.database.db
       .update(schema.notificationDeliveries)
-      .set({ error: JSON.stringify({ message: error.message, stack: error.stack }) })
+      .set({ error: { message: error.message, stack: error.stack } })
       .where(eq(schema.notificationDeliveries.id, deliveryId));
   }
 

@@ -53,7 +53,6 @@ import { UpdateMemberProfile } from './members/commands/update-member-profile.co
 import { MembersController } from './members/members.controller';
 import { GetMember } from './members/queries/get-member.query';
 import { ListMembers } from './members/queries/list-members.query';
-import { MarkNotificationAsRead } from './notifications/commands/mark-notification-as-read.command';
 import { RegisterDevice } from './notifications/commands/register-device.command';
 import { NotificationController } from './notifications/notification.controller';
 import { NotificationService } from './notifications/notification.service';
@@ -176,7 +175,6 @@ container.bindFactory(COMMANDS.createMember, CreateMember.inject);
 container.bindFactory(COMMANDS.updateMemberProfile, UpdateMemberProfile.inject);
 container.bindFactory(COMMANDS.changeNotificationDeliveryType, ChangeNotificationDeliveryType.inject);
 
-container.bindFactory(COMMANDS.markNotificationAsRead, MarkNotificationAsRead.inject);
 container.bindFactory(COMMANDS.registerDevice, RegisterDevice.inject);
 
 // queries

@@ -141,6 +141,13 @@
       "when": 1725095664020,
       "tag": "0019_flowery_living_lightning",
       "breakpoints": true
+    },
+    {
+      "idx": 20,
+      "version": "5",
+      "when": 1725888498207,
+      "tag": "0020_fuzzy_the_anarchist",
+      "breakpoints": true
     }
   ]
 }

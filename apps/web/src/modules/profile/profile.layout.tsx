@@ -2,7 +2,6 @@ import { Icon } from 'solid-heroicons';
 import {
   arrowRightOnRectangle,
   arrowsRightLeft,
-  bell,
   cog_6Tooth,
   mapPin,
   sparkles,
@@ -50,10 +49,6 @@ function Navigation() {
 
       <NavigationLink href={routes.profile.interests} icon={sparkles}>
         <T id="interests" />
-      </NavigationLink>
-
-      <NavigationLink href={routes.profile.notifications} icon={bell}>
-        <T id="notifications" />
       </NavigationLink>
 
       <NavigationLink href={routes.profile.settings} icon={cog_6Tooth}>

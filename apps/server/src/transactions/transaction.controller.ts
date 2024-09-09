@@ -1,5 +1,5 @@
 import * as shared from '@sel/shared';
-import { hasProperty, identity, not, pick, toObject } from '@sel/utils';
+import { hasProperty, not, pick } from '@sel/utils';
 import { injectableClass } from 'ditox';
 import { desc, eq, or } from 'drizzle-orm';
 import { RequestHandler, Router } from 'express';

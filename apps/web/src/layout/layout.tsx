@@ -1,6 +1,6 @@
 import { JSX, Show, createEffect, createResource, lazy } from 'solid-js';
 
-import { authenticatedMember, unreadNotificationsCount } from '../app-context';
+import { authenticatedMember } from '../app-context';
 import { Link } from '../components/link';
 import { MemberAvatar } from '../components/member-avatar';
 import { container } from '../infrastructure/container';
@@ -43,25 +43,8 @@ function HeaderMember() {
   return (
     <Link unstyled href={routes.profile.profileEdition} class="col relative items-center gap-1 font-semibold">
       <MemberAvatar member={authenticatedMember()} class="relative size-10 rounded-full" />
-      <UnreadNotificationsCount />
       <div class="leading-1">{authenticatedMember()?.firstName}</div>
     </Link>
-  );
-}
-
-function UnreadNotificationsCount() {
-  return (
-    <span
-      class="row absolute -right-1 -top-1 size-5 scale-0 items-center justify-center rounded-full bg-yellow-600 text-sm tracking-tighter transition-transform"
-      classList={{ 'scale-100': unreadNotificationsCount() > 0 }}
-    >
-      <Show
-        when={unreadNotificationsCount() < 10}
-        fallback={<Translate id="layout.header.notificationsCountGreaterThan9" />}
-      >
-        {unreadNotificationsCount()}
-      </Show>
-    </span>
   );
 }
 

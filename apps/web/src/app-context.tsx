@@ -9,12 +9,10 @@ import { TOKENS } from './tokens';
 
 type AppState = {
   authenticatedMember: AuthenticatedMember | undefined;
-  unreadNotificationsCount: number | undefined;
 };
 
 type AppActions = {
   refreshAuthenticatedMember: () => void;
-  refreshNotificationsCount: () => void;
 };
 
 type AppContext = [AppState, AppActions];
@@ -23,7 +21,6 @@ const appContext = createContext<AppContext>();
 
 export function AppContextProvider(props: { children: JSX.Element }) {
   const sessionApi = container.resolve(TOKENS.sessionApi);
-  const profileApi = container.resolve(TOKENS.profileApi);
 
   const [token] = useSearchParam('auth-token');
 
@@ -32,25 +29,14 @@ export function AppContextProvider(props: { children: JSX.Element }) {
     async () => sessionApi.getAuthenticatedMember(),
   );
 
-  const [notifications, { refetch: refetchNotifications }] = createResource(
-    () => Boolean(authenticatedMember.latest),
-    async () => {
-      return profileApi.getNotifications();
-    },
-  );
-
   const [state] = createStore<AppState>({
     get authenticatedMember() {
       return authenticatedMember.latest;
-    },
-    get unreadNotificationsCount() {
-      return notifications.latest?.[0];
     },
   });
 
   const actions: AppActions = {
     refreshAuthenticatedMember: () => void refetchAuthenticatedMember(),
-    refreshNotificationsCount: () => void refetchNotifications(),
   };
 
   return <appContext.Provider value={[state, actions]}>{props.children}</appContext.Provider>;
@@ -74,8 +60,4 @@ export function authenticatedMember() {
 
 export function isAuthenticatedMember(member: { id: string }) {
   return member.id === authenticatedMember()?.id;
-}
-
-export function unreadNotificationsCount() {
-  return getAppState().unreadNotificationsCount ?? 0;
 }

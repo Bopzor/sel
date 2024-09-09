@@ -47,8 +47,7 @@
     "header": {
       "title": "Local Exchange System",
       "subtitle": "of Cavaillon and its surroundings",
-      "sign-in": "Sign in",
-      "notificationsCountGreaterThan9": "9+"
+      "sign-in": "Sign in"
     },
     "breadcrumb": {
       "home": "Home",
@@ -359,7 +358,6 @@
       "address": "Address",
       "transactions": "Exchanges",
       "interests": "Points of interests",
-      "notifications": "Notifications",
       "settings": "Settings",
       "signOut": "Sign out"
     },
@@ -406,12 +404,6 @@
       "addDescription": "Add",
       "updateDescription": "Update",
       "edited": "Your point of interest's description was edited successfully."
-    },
-    "notifications": {
-      "title": "Notifications",
-      "viewRequest": "View request",
-      "viewEvent": "View event",
-      "viewTransaction": "View exchange"
     },
     "settings": {
       "title": "Settings",

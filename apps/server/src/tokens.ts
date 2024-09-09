@@ -53,7 +53,6 @@ import { UpdateMemberProfile } from './members/commands/update-member-profile.co
 import { MembersController } from './members/members.controller';
 import { GetMember } from './members/queries/get-member.query';
 import { ListMembers } from './members/queries/list-members.query';
-import { MarkNotificationAsRead } from './notifications/commands/mark-notification-as-read.command';
 import { RegisterDevice } from './notifications/commands/register-device.command';
 import { NotificationController } from './notifications/notification.controller';
 import { NotificationService } from './notifications/notification.service';
@@ -153,7 +152,6 @@ export const COMMANDS = {
   createMember: token<CreateMember>('createMember'),
   updateMemberProfile: token<UpdateMemberProfile>('updateMemberProfile'),
   changeNotificationDeliveryType: token<ChangeNotificationDeliveryType>('changeNotificationDeliveryType'),
-  markNotificationAsRead: token<MarkNotificationAsRead>('markNotificationAsRead'),
   registerDevice: token<RegisterDevice>('registerDevice'),
   createEventComment: token<CreateEventComment>('createEventComment'),
 };
