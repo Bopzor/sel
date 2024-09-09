@@ -1,10 +1,10 @@
 import { Address } from '@sel/shared';
 import { isDefined } from '@sel/utils';
-import { injectable } from 'ditox';
+import { injectableClass } from 'ditox';
 
 import { TOKENS } from '../../tokens';
 import { ConfigPort } from '../config/config.port';
-import { Fetcher, FetcherPort } from '../fetcher';
+import { FetcherPort } from '../fetcher';
 
 import { GeocodePort } from './geocode.port';
 
@@ -25,7 +25,7 @@ type QueryResult = {
 };
 
 export class GeoapifyGeocodeAdapter implements GeocodePort {
-  static inject = injectable((config) => new GeoapifyGeocodeAdapter(config, new Fetcher()), TOKENS.config);
+  static inject = injectableClass(this, TOKENS.config, TOKENS.fetcher);
 
   constructor(
     private readonly config: ConfigPort,
