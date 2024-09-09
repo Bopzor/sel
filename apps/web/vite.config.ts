@@ -5,9 +5,12 @@ import path from 'node:path';
 import devtools from 'solid-devtools/vite';
 import { Plugin } from 'vite';
 import { VitePWA } from 'vite-plugin-pwa';
+import { qrcode } from 'vite-plugin-qrcode';
 import solidPlugin from 'vite-plugin-solid';
 import solidSvg from 'vite-plugin-solid-svg';
 import { defineConfig } from 'vitest/config';
+
+// cspell:word qrcode
 
 const getVersion = () => {
   return new Promise<string>((resolve) => {
@@ -21,6 +24,7 @@ export default defineConfig({
       autoname: true,
       locator: true,
     }),
+    qrcode(),
     solidPlugin(),
     solidSvg(),
     VitePWA({

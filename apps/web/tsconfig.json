@@ -1,12 +1,7 @@
 {
   "extends": "@sel/typescript-config/tsconfig.base.json",
   "include": ["src/**/*"],
-  "files": ["tailwind.config.ts"],
-  "references": [
-    { "path": "./tsconfig.node.json" },
-    { "path": "../../packages/shared" },
-    { "path": "../../packages/utils" }
-  ],
+  "references": [{ "path": "../../packages/shared" }, { "path": "../../packages/utils" }],
 
   "compilerOptions": {
     "target": "ES2020",
