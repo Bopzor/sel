@@ -23,23 +23,23 @@ export class FetchTransactionApi implements TransactionsApi {
       params.set('memberId', memberId);
     }
 
-    return this.fetcher.get<Transaction[]>(`/api/transactions?${params.toString()}`).body();
+    return this.fetcher.get<Transaction[]>(`/transactions?${params.toString()}`).body();
   }
 
   async createTransaction(body: CreateTransactionBody): Promise<string> {
     const transactionId = await this.fetcher
-      .post<CreateTransactionBody, string>('/api/transactions', body)
+      .post<CreateTransactionBody, string>('/transactions', body)
       .body();
 
     return transactionId;
   }
 
   async acceptTransaction(transactionId: string): Promise<void> {
-    await this.fetcher.put(`/api/transactions/${transactionId}/accept`);
+    await this.fetcher.put(`/transactions/${transactionId}/accept`);
   }
 
   async cancelTransaction(transactionId: string): Promise<void> {
-    await this.fetcher.put(`/api/transactions/${transactionId}/cancel`);
+    await this.fetcher.put(`/transactions/${transactionId}/cancel`);
   }
 }
 

@@ -16,7 +16,7 @@ export class FetchSessionApi implements SessionApi {
 
   async getAuthenticatedMember(): Promise<AuthenticatedMember | undefined> {
     return await this.fetcher
-      .get<AuthenticatedMember | undefined>('/api/session/member')
+      .get<AuthenticatedMember | undefined>('/session/member')
       .body()
       .catch((error) => {
         if (FetchError.is(error, 401)) {
@@ -28,7 +28,7 @@ export class FetchSessionApi implements SessionApi {
   }
 
   async signOut(): Promise<void> {
-    await this.fetcher.delete('/api/session');
+    await this.fetcher.delete('/session');
   }
 }
 

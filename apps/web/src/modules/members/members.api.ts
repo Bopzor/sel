@@ -16,7 +16,7 @@ export class FetchMemberApi implements MemberApi {
   constructor(private readonly fetcher: FetcherPort) {}
 
   async listMembers(sort?: MembersSort): Promise<Member[]> {
-    let endpoint = '/api/members';
+    let endpoint = '/members';
     const search = new URLSearchParams();
 
     if (sort) {
@@ -32,7 +32,7 @@ export class FetchMemberApi implements MemberApi {
 
   async getMember(memberId: string): Promise<Member | undefined> {
     return this.fetcher
-      .get<Member>(`/api/members/${memberId}`)
+      .get<Member>(`/members/${memberId}`)
       .body()
       .catch((error) => {
         if (FetchError.is(error) && error.status === 404) {
@@ -44,7 +44,7 @@ export class FetchMemberApi implements MemberApi {
   }
 
   async listMemberTransactions(memberId: string): Promise<Transaction[]> {
-    return this.fetcher.get<Transaction[]>(`/api/members/${memberId}/transactions`).body();
+    return this.fetcher.get<Transaction[]>(`/members/${memberId}/transactions`).body();
   }
 }
 

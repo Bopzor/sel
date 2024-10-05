@@ -27,12 +27,12 @@ export class FetchEventApi implements EventApi {
   constructor(private readonly fetcher: FetcherPort) {}
 
   async listEvents(): Promise<EventsListItem[]> {
-    return this.fetcher.get<EventsListItem[]>('/api/events').body();
+    return this.fetcher.get<EventsListItem[]>('/events').body();
   }
 
   async getEvent(eventId: string): Promise<Event | undefined> {
     return this.fetcher
-      .get<Event>(`/api/events/${eventId}`)
+      .get<Event>(`/events/${eventId}`)
       .body()
       .catch((error) => {
         if (FetchError.is(error) && error.status === 404) {
@@ -44,16 +44,16 @@ export class FetchEventApi implements EventApi {
   }
 
   async createEvent(data: CreateEventBody): Promise<string> {
-    return this.fetcher.post<CreateEventBody, string>('/api/events', data).body();
+    return this.fetcher.post<CreateEventBody, string>('/events', data).body();
   }
 
   async updateEvent(eventId: string, data: CreateEventBody): Promise<void> {
-    await this.fetcher.put<CreateEventBody, void>(`/api/events/${eventId}`, data);
+    await this.fetcher.put<CreateEventBody, void>(`/events/${eventId}`, data);
   }
 
   async setParticipation(eventId: string, participation: EventParticipation | null): Promise<void> {
     await this.fetcher
-      .put<SetEventParticipationBody, undefined>(`/api/events/${eventId}/participation`, {
+      .put<SetEventParticipationBody, undefined>(`/events/${eventId}/participation`, {
         participation,
       })
       .catch((error) => {
@@ -66,7 +66,7 @@ export class FetchEventApi implements EventApi {
   }
 
   async createComment(eventId: string, body: string): Promise<void> {
-    await this.fetcher.post<CreateCommentBody, string>(`/api/events/${eventId}/comment`, { body }).body();
+    await this.fetcher.post<CreateCommentBody, string>(`/events/${eventId}/comment`, { body }).body();
   }
 }
 

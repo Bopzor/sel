@@ -25,48 +25,45 @@ export class FetchRequestApi implements RequestsApi {
   constructor(private readonly fetcher: FetcherPort) {}
 
   async listRequests(): Promise<Request[]> {
-    return this.fetcher.get<Request[]>('/api/requests').body();
+    return this.fetcher.get<Request[]>('/requests').body();
   }
 
   async getRequest(requestId: string): Promise<Request | undefined> {
-    return this.fetcher.get<Request>(`/api/requests/${requestId}`).body();
+    return this.fetcher.get<Request>(`/requests/${requestId}`).body();
   }
 
   async createRequest(title: string, body: string): Promise<string> {
     const requestId = await this.fetcher
-      .post<{ title: string; body: string }, string>('/api/requests', { title, body })
+      .post<{ title: string; body: string }, string>('/requests', { title, body })
       .body();
 
     return requestId;
   }
 
   async editRequest(requestId: string, title: string, body: string): Promise<void> {
-    await this.fetcher.put<{ title: string; body: string }, void>(`/api/requests/${requestId}`, {
+    await this.fetcher.put<{ title: string; body: string }, void>(`/requests/${requestId}`, {
       title,
       body,
     });
   }
 
   async cancelRequest(requestId: string) {
-    await this.fetcher.put<unknown, void>(`/api/requests/${requestId}/cancel`);
+    await this.fetcher.put<unknown, void>(`/requests/${requestId}/cancel`);
   }
 
   async setAnswer(requestId: string, answer: 'positive' | 'negative' | null) {
     await this.fetcher.post<{ answer: 'positive' | 'negative' | null }, void>(
-      `/api/requests/${requestId}/answer`,
+      `/requests/${requestId}/answer`,
       { answer },
     );
   }
 
   async createComment(requestId: string, body: string) {
-    await this.fetcher.post<{ body: string }, void>(`/api/requests/${requestId}/comment`, { body });
+    await this.fetcher.post<{ body: string }, void>(`/requests/${requestId}/comment`, { body });
   }
 
   async createTransaction(requestId: string, body: CreateRequestTransactionBody) {
-    await this.fetcher.post<CreateRequestTransactionBody, void>(
-      `/api/requests/${requestId}/transaction`,
-      body,
-    );
+    await this.fetcher.post<CreateRequestTransactionBody, void>(`/requests/${requestId}/transaction`, body);
   }
 }
 
