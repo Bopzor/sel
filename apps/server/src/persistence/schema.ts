@@ -225,6 +225,24 @@ export const memberDevicesRelations = relations(memberDevices, ({ one }) => ({
   }),
 }));
 
+export const publicMessages = pgTable('public_messages', {
+  id: primaryKey(),
+  text: text('text').notNull(),
+  html: text('html').notNull(),
+  isPin: boolean('is_pin').notNull(),
+  authorId: id('author_id').references(() => members.id),
+  publishedAt: date('published_at').notNull(),
+  createdAt: createdAt(),
+  updatedAt: updatedAt(),
+});
+
+export const publicMessagesRelations = relations(publicMessages, ({ one }) => ({
+  author: one(members, {
+    fields: [publicMessages.authorId],
+    references: [members.id],
+  }),
+}));
+
 export const eventKindEnum = pgEnum('event_kind', ['internal', 'external']);
 
 export const events = pgTable('events', {

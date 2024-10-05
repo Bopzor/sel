@@ -9,11 +9,19 @@ import {
   users,
   wrench,
 } from 'solid-heroicons/solid';
-import { ComponentProps, Index, JSX } from 'solid-js';
+import { ComponentProps, createResource, createSignal, For, JSX, Show } from 'solid-js';
 
+import { authenticatedMember } from '../../app-context';
+import { Button } from '../../components/button';
 import { Link } from '../../components/link';
+import { MemberAvatarName } from '../../components/member-avatar-name';
+import { RichText } from '../../components/rich-text';
+import { container } from '../../infrastructure/container';
 import { Translate } from '../../intl/translate';
 import { routes } from '../../routes';
+import { TOKENS } from '../../tokens';
+import { fullName } from '../members/full-name';
+import { PublicMessageForm } from '../public-messages/public-message-form';
 
 const T = Translate.prefix('home');
 
@@ -22,7 +30,7 @@ export default function HomePage() {
     <div>
       <PreviewBanner />
 
-      <div class="row gap-8 py-16">
+      <div class="row items-start gap-8 py-16">
         <div class="grid max-w-sm grid-cols-1 gap-6">
           <LinkCard
             href={routes.members.list}
@@ -111,7 +119,7 @@ function LinkCard(props: LinkCardProps) {
       unstyled
       href={props.href}
       class={clsx(
-        'row group items-center gap-4 rounded-lg border border-primary bg-gradient-to-tl from-gray-400/10 to-gray-400/20 px-6 py-4 transition-all hover:bg-primary/10 hover:shadow-lg',
+        'row group items-center gap-4 rounded-lg border border-primary bg-gradient-to-tl from-primary/0 to-primary/10 px-6 py-4 transition-all hover:bg-primary/10 hover:shadow-lg',
         props.class,
       )}
     >
@@ -127,15 +135,69 @@ function LinkCard(props: LinkCardProps) {
 }
 
 function News() {
-  return (
-    <>
-      <h2 class="typo-h1">
-        <T id="news.title" />
-      </h2>
+  const [messageFormVisible, setMessageFormVisible] = createSignal(false);
+  const publicMessageApi = container.resolve(TOKENS.publicMessageApi);
+  const [messages, { refetch }] = createResource(() => publicMessageApi.listPublicMessages());
 
-      <div class="col mt-6 gap-6">
-        <Index each={Array(3).fill(null)}>{() => <div class="min-h-48 w-full rounded-lg bg-dim/5" />}</Index>
+  return (
+    <div class="col gap-6">
+      <div class="row items-center justify-between gap-4">
+        <h2 class="typo-h1">
+          <T id="news.title" />
+        </h2>
+
+        <Button classList={{ hidden: messageFormVisible() }} onClick={() => setMessageFormVisible(true)}>
+          <T id="news.createPublicMessage" />
+        </Button>
       </div>
-    </>
+
+      <Show when={messageFormVisible()}>
+        <div class="col gap-3">
+          <div class="row items-center gap-2">
+            <MemberAvatarName member={authenticatedMember()} />
+          </div>
+
+          <PublicMessageForm
+            onCancel={() => setMessageFormVisible(false)}
+            onSubmitted={() => {
+              setMessageFormVisible(false);
+              void refetch();
+            }}
+            class="ms-10"
+          />
+        </div>
+      </Show>
+
+      <For each={messages.latest?.pin}>
+        {(message) => (
+          <div class="rounded-lg">
+            <Show when={message.author}>{(author) => <div>{fullName(author())}</div>}</Show>
+            <RichText>{message.body}</RichText>
+          </div>
+        )}
+      </For>
+
+      <For each={messages.latest?.notPin}>
+        {(message) => (
+          <div class="col gap-3">
+            <div class="row items-end justify-between gap-4">
+              <Show when={message.author}>
+                {(author) => (
+                  <Link unstyled href={routes.members.member(author().id)} class="row items-center gap-2">
+                    <MemberAvatarName member={author()} />
+                  </Link>
+                )}
+              </Show>
+
+              <div class="text-sm text-dim">
+                <T id="news.publishedAt" values={{ date: new Date(message.publishedAt) }} />
+              </div>
+            </div>
+
+            <RichText class="col ms-10 flex-1 gap-2 rounded-lg bg-white p-6">{message.body}</RichText>
+          </div>
+        )}
+      </For>
+    </div>
   );
 }

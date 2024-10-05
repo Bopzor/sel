@@ -13,6 +13,7 @@ import { EventApi } from './modules/events/events.api';
 import { InterestApi } from './modules/interests/interests-api';
 import { MemberApi } from './modules/members/members.api';
 import { ProfileApi } from './modules/profile/profile.api';
+import { PublicMessageApi } from './modules/public-messages/public-message-api';
 import { RequestsApi } from './modules/requests/requests.api';
 import { SessionApi } from './session.api';
 import { TransactionsApi } from './transactions.api';
@@ -33,5 +34,6 @@ export const TOKENS = {
   eventApi: token<EventApi>('eventApi'),
   interestApi: token<InterestApi>('interestApi'),
   memberApi: token<MemberApi>('memberApi'),
+  publicMessageApi: token<PublicMessageApi>('publicMessageApi'),
   transactionApi: token<TransactionsApi>('transactionApi'),
 };

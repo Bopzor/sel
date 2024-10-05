@@ -4,6 +4,7 @@
     "search": "Rechercher",
     "loading": "Chargement...",
     "save": "Enregistrer",
+    "publish": "Publier",
     "cancel": "Annuler",
     "visible": "Visible",
     "notVisible": "Non visible",
@@ -142,7 +143,7 @@
     },
     "interests": {
       "label": "Centres d'intérêts",
-      "description": "Voir les centres d'intérêts des members."
+      "description": "Voir les centres d'intérêts."
     },
     "assets": {
       "label": "Biens",
@@ -153,10 +154,17 @@
       "description": "Informations et liens utiles."
     },
     "news": {
-      "title": "Actualités"
+      "title": "Actualités",
+      "createPublicMessage": "Publier un message",
+      "publishedAt": "Le {date, date, medium} à {date, time, short}"
     },
     "changelog": {
       "title": "Nouveautés"
+    }
+  },
+  "publicMessages": {
+    "form": {
+      "placeholder": "Écrivez votre message..."
     }
   },
   "transactions": {

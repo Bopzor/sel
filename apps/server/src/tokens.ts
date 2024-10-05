@@ -65,6 +65,8 @@ import { MemberDeviceRepository } from './persistence/repositories/member-device
 import { RequestRepository } from './persistence/repositories/request/request.repository';
 import { RequestAnswerRepository } from './persistence/repositories/request-answer/request-answer.repository';
 import { TokenRepository } from './persistence/repositories/token/token.repository';
+import { CreatePublicMessage } from './publicMessages/commands/create-public-message.command';
+import { PublicMessageController } from './publicMessages/public-message.controller';
 import { ChangeRequestStatus } from './requests/commands/change-request-status.command';
 import { CreateRequestComment } from './requests/commands/create-request-comment.command';
 import { CreateRequest } from './requests/commands/create-request.command';
@@ -110,6 +112,7 @@ export const TOKENS = {
   authenticationService: token<AuthenticationService>('authenticationService'),
   tokenRepository: token<TokenRepository>('tokenRepository'),
   sessionController: token<SessionController>('sessionController'),
+  publicMessageController: token<PublicMessageController>('publicMessageController'),
   requestController: token<RequestController>('requestController'),
   requestRepository: token<RequestRepository>('requestRepository'),
   requestAnswerRepository: token<RequestAnswerRepository>('requestAnswerRepository'),
@@ -154,6 +157,7 @@ export const COMMANDS = {
   changeNotificationDeliveryType: token<ChangeNotificationDeliveryType>('changeNotificationDeliveryType'),
   registerDevice: token<RegisterDevice>('registerDevice'),
   createEventComment: token<CreateEventComment>('createEventComment'),
+  createPublicMessage: token<CreatePublicMessage>('createPublicMessage'),
 };
 
 export const QUERIES = {

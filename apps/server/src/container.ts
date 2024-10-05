@@ -65,6 +65,8 @@ import { SqlMemberDeviceRepository } from './persistence/repositories/member-dev
 import { SqlRequestRepository } from './persistence/repositories/request/sql-request.repository';
 import { SqlRequestAnswerRepository } from './persistence/repositories/request-answer/sql-memory-request-answer.repository';
 import { SqlTokenRepository } from './persistence/repositories/token/sql-token.repository';
+import { CreatePublicMessage } from './publicMessages/commands/create-public-message.command';
+import { PublicMessageController } from './publicMessages/public-message.controller';
 import { ChangeRequestStatus } from './requests/commands/change-request-status.command';
 import { CreateRequestComment } from './requests/commands/create-request-comment.command';
 import { CreateRequest } from './requests/commands/create-request.command';
@@ -113,6 +115,8 @@ container.bindFactory(TOKENS.emailSender, NodemailerEmailSenderAdapter.inject);
 container.bindFactory(TOKENS.membersController, MembersController.inject);
 container.bindFactory(TOKENS.memberRepository, SqlMemberRepository.inject);
 
+container.bindFactory(TOKENS.publicMessageController, PublicMessageController.inject);
+
 container.bindFactory(TOKENS.requestController, RequestController.inject);
 container.bindFactory(TOKENS.requestRepository, SqlRequestRepository.inject);
 container.bindFactory(TOKENS.requestAnswerRepository, SqlRequestAnswerRepository.inject);
@@ -150,6 +154,8 @@ container.bindFactory(TOKENS.eventPublisher, EventPublisher.inject);
 container.bindFactory(COMMANDS.requestAuthenticationLink, RequestAuthenticationLink.inject);
 container.bindFactory(COMMANDS.verifyAuthenticationToken, VerifyAuthenticationToken.inject);
 container.bindFactory(COMMANDS.revokeSessionToken, RevokeSessionToken.inject);
+
+container.bindFactory(COMMANDS.createPublicMessage, CreatePublicMessage.inject);
 
 container.bindFactory(COMMANDS.createRequest, CreateRequest.inject);
 container.bindFactory(COMMANDS.editRequest, EditRequest.inject);

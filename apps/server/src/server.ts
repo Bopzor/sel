@@ -49,6 +49,7 @@ export class Server {
     this.app.use('/health', this.healthCheck);
     this.app.use('/config', this.configHandler);
     this.app.use('/members', container.resolve(TOKENS.membersController).router);
+    this.app.use('/public-messages', container.resolve(TOKENS.publicMessageController).router);
     this.app.use('/events', container.resolve(TOKENS.eventController).router);
     this.app.use('/requests', container.resolve(TOKENS.requestController).router);
     this.app.use('/interests', container.resolve(TOKENS.interestController).router);

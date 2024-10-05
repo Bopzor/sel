@@ -4,6 +4,7 @@
     "search": "Search",
     "loading": "Loading...",
     "save": "Save",
+    "publish": "Publish",
     "cancel": "Cancel",
     "visible": "Visible",
     "notVisible": "Not visible",
@@ -156,7 +157,14 @@
       "title": "Changelog"
     },
     "news": {
-      "title": "News"
+      "title": "News",
+      "createPublicMessage": "Post message",
+      "publishedAt": "The {date, date, medium} at {date, time, short}"
+    }
+  },
+  "publicMessages": {
+    "form": {
+      "placeholder": "Write a message..."
     }
   },
   "transactions": {

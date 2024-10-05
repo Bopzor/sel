@@ -8,6 +8,7 @@ export * from './member';
 export * from './members-sort';
 export * from './notification';
 export * from './phone-number';
+export * from './public-message';
 export * from './request';
 export * from './transaction';
 export * from './update-member-profile-data';
