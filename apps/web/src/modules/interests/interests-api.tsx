@@ -23,28 +23,28 @@ export class FetchInterestApi implements InterestApi {
   constructor(private readonly fetcher: FetcherPort) {}
 
   listInterests(): Promise<Interest[]> {
-    return this.fetcher.get<Interest[]>('/api/interests').body();
+    return this.fetcher.get<Interest[]>('/interests').body();
   }
 
   async joinInterest(interestId: string, description?: string): Promise<void> {
-    await this.fetcher.put<AddInterestMemberBody, void>(`/api/interests/${interestId}/join`, {
+    await this.fetcher.put<AddInterestMemberBody, void>(`/interests/${interestId}/join`, {
       description,
     });
   }
 
   async leaveInterest(interestId: string): Promise<void> {
-    await this.fetcher.put<void, void>(`/api/interests/${interestId}/leave`);
+    await this.fetcher.put<void, void>(`/interests/${interestId}/leave`);
   }
 
   async editMemberInterestDescription(interestId: string, description?: string): Promise<void> {
-    await this.fetcher.put<EditInterestMemberBody, void>(`/api/interests/${interestId}/edit`, {
+    await this.fetcher.put<EditInterestMemberBody, void>(`/interests/${interestId}/edit`, {
       description,
     });
   }
 
   async createInterest(label: string, description: string): Promise<string> {
     return this.fetcher
-      .post<CreateInterestBodySchema, string>('/api/interests', {
+      .post<CreateInterestBodySchema, string>('/interests', {
         label,
         description,
       })

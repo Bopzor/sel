@@ -11,6 +11,6 @@ export class ApiMemberAvatarAdapter implements MemberAvatarPort {
   });
 
   getAvatarUrl(member: { id: string }): string {
-    return `/api/members/${member.id}/avatar?${this.params}`;
+    return `/members/${member.id}/avatar?${this.params}`;
   }
 }

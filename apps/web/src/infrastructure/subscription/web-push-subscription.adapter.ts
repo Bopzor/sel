@@ -35,7 +35,7 @@ export class WebPushSubscriptionAdapter implements PushSubscriptionPort {
       return false;
     }
 
-    await this.fetcher.post('/api/session/notifications/register-device', {
+    await this.fetcher.post('/session/notifications/register-device', {
       deviceType: detectDevice(),
       subscription,
     });

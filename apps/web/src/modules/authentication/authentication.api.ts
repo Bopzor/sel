@@ -15,12 +15,12 @@ export class FetchAuthenticationApi implements AuthenticationApi {
 
   async requestAuthenticationLink(email: string): Promise<void> {
     const params = new URLSearchParams({ email });
-    await this.fetcher.post(`/api/authentication/request-authentication-link?${params}`);
+    await this.fetcher.post(`/authentication/request-authentication-link?${params}`);
   }
 
   async verifyAuthenticationToken(token: string): Promise<void> {
     const params = new URLSearchParams({ token });
-    await this.fetcher.get(`/api/authentication/verify-authentication-token?${params}`);
+    await this.fetcher.get(`/authentication/verify-authentication-token?${params}`);
   }
 }
 

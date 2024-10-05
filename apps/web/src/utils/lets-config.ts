@@ -6,7 +6,7 @@ import { TOKENS } from '../tokens';
 
 export function getLetsConfig() {
   const [data] = createResource(async () => {
-    return container.resolve(TOKENS.fetcher).get<Config>('/api/config').body();
+    return container.resolve(TOKENS.fetcher).get<Config>('/config').body();
   });
 
   return data;
