@@ -153,8 +153,7 @@
       "description": "Informations et liens utiles."
     },
     "news": {
-      "title": "Actualités",
-      "placeholder": "Plus tard, cette section vous permettra de voir les dernières informations importantes du SEL."
+      "title": "Actualités"
     },
     "changelog": {
       "title": "Nouveautés"
