@@ -65,8 +65,8 @@ import { SqlMemberDeviceRepository } from './persistence/repositories/member-dev
 import { SqlRequestRepository } from './persistence/repositories/request/sql-request.repository';
 import { SqlRequestAnswerRepository } from './persistence/repositories/request-answer/sql-memory-request-answer.repository';
 import { SqlTokenRepository } from './persistence/repositories/token/sql-token.repository';
-import { CreatePublicMessage } from './publicMessages/commands/create-public-message.command';
-import { PublicMessageController } from './publicMessages/public-message.controller';
+import { CreatePublicMessage } from './public-messages/commands/create-public-message.command';
+import { PublicMessageController } from './public-messages/public-message.controller';
 import { ChangeRequestStatus } from './requests/commands/change-request-status.command';
 import { CreateRequestComment } from './requests/commands/create-request-comment.command';
 import { CreateRequest } from './requests/commands/create-request.command';

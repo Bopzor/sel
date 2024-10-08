@@ -65,8 +65,8 @@ import { MemberDeviceRepository } from './persistence/repositories/member-device
 import { RequestRepository } from './persistence/repositories/request/request.repository';
 import { RequestAnswerRepository } from './persistence/repositories/request-answer/request-answer.repository';
 import { TokenRepository } from './persistence/repositories/token/token.repository';
-import { CreatePublicMessage } from './publicMessages/commands/create-public-message.command';
-import { PublicMessageController } from './publicMessages/public-message.controller';
+import { CreatePublicMessage } from './public-messages/commands/create-public-message.command';
+import { PublicMessageController } from './public-messages/public-message.controller';
 import { ChangeRequestStatus } from './requests/commands/change-request-status.command';
 import { CreateRequestComment } from './requests/commands/create-request-comment.command';
 import { CreateRequest } from './requests/commands/create-request.command';
