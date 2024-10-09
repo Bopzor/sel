@@ -6,7 +6,8 @@
     "dev": "nodemon -w src -e ts -x 'pnpm start'",
     "start": "vite-node src/index.ts",
     "lint": "eslint src",
-    "test": "vitest"
+    "test": "vitest",
+    "cli": "vite-node cli/index.ts"
   },
   "devDependencies": {
     "@sel/eslint-config": "workspace:*",
@@ -14,7 +15,11 @@
     "@sel/typescript-config": "workspace:*",
     "@sel/utils": "workspace:*",
     "@types/express": "^5.0.0",
+    "@types/mjml": "^4.7.4",
+    "@types/nodemailer": "^6.4.16",
     "@types/pg": "^8.11.10",
+    "@types/web-push": "^3.6.3",
+    "ditox": "^2.4.1",
     "drizzle-kit": "^0.25.0",
     "nanoid": "^5.0.7",
     "nodemon": "^3.1.7",
@@ -28,7 +33,15 @@
     "dotenv": "^16.4.5",
     "drizzle-orm": "^0.34.1",
     "express": "^5.0.0",
+    "mjml": "^4.15.3",
+    "nodemailer": "^6.9.15",
     "pg": "^8.13.0",
+    "rehype-stringify": "^10.0.1",
+    "remark-parse": "^11.0.0",
+    "remark-rehype": "^11.1.1",
+    "unified": "^11.0.5",
+    "vfile-reporter": "^8.1.1",
+    "web-push": "^3.6.7",
     "zod": "^3.23.8"
   }
 }

@@ -6,9 +6,10 @@ import { defined, pick } from '@sel/utils';
 import { and, eq, or } from 'drizzle-orm';
 import express, { RequestHandler } from 'express';
 
-import { generateId } from 'src/infrastructure/generator';
+import { container } from 'src/infrastructure/container';
 import { ForbiddenError, HttpStatus, NotFoundError } from 'src/infrastructure/http';
 import { db, schema } from 'src/persistence';
+import { TOKENS } from 'src/tokens';
 
 import { createMember } from './create-member.command';
 import { Member } from './member.entities';
@@ -49,7 +50,9 @@ router.get('/', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-  const memberId = generateId();
+  const generator = container.resolve(TOKENS.generator);
+
+  const memberId = generator.id();
   const body = shared.createMemberBodySchema.parse(req.body);
 
   await createMember({ memberId, ...body });

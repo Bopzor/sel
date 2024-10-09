@@ -1,0 +1,249 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`[intg] Notification snapshots > EventCommentCreated 1`] = `
+[
+  {
+    "content": "Author : Comment body",
+    "link": "http://app.url/events/eventId",
+    "title": "Nouveau commentaire sur votre événement "Event title"",
+  },
+]
+`;
+
+exports[`[intg] Notification snapshots > EventCommentCreated 2`] = `
+[
+  {
+    "html": "<p>Bonjour Member,</p><p><strong>Author</strong> a écrit un commentaire sur votre événement <a href="http://app.url/events/eventId">Event title</a> :</p><blockquote style="margin: 0; padding: 8px 16px; border: 1px solid #CCC; border-radius: 4px; background: #fafafc;"><p>Comment body</p></blockquote>",
+    "subject": "Commentaire de Author sur votre événement "Event title"",
+    "text": "Bonjour Member,
+
+Author a écrit un commentaire sur votre événement Event title (http://app.url/events/eventId) :
+
+Comment body",
+    "to": "member@email",
+  },
+]
+`;
+
+exports[`[intg] Notification snapshots > EventCreated 1`] = `
+[
+  {
+    "content": "Event title",
+    "link": "http://app.url/events/eventId",
+    "title": "Nouvel événement",
+  },
+]
+`;
+
+exports[`[intg] Notification snapshots > EventCreated 2`] = `
+[
+  {
+    "html": "<p>Bonjour Member,</p><p><strong>Organizer</strong> a créé un nouvel événement : <a href="http://app.url/events/eventId">Event title</a></p><blockquote style="margin: 0; padding: 8px 16px; border: 1px solid #CCC; border-radius: 4px; background: #fafafc;"><p>Event body</p></blockquote>",
+    "subject": "Nouvel événement : Event title",
+    "text": "Bonjour Member,
+
+Organizer a créé un nouvel événement : Event title (http://app.url/events/eventId)
+
+Event body",
+    "to": "member@email",
+  },
+]
+`;
+
+exports[`[intg] Notification snapshots > EventParticipationSet 1`] = `
+[
+  {
+    "content": "Event title",
+    "link": "http://app.url/events/eventId",
+    "title": "Participation à votre événement Event title",
+  },
+]
+`;
+
+exports[`[intg] Notification snapshots > EventParticipationSet 2`] = `
+[
+  {
+    "html": "<p>Bonjour Member,</p><p><strong>Participant</strong> participera à votre événement <a href="http://app.url/events/eventId">Event title</a>.</p>",
+    "subject": "Participation à votre événement Event title",
+    "text": "Bonjour Member,
+
+Participant participera à votre événement Event title (http://app.url/events/eventId).",
+    "to": "member@email",
+  },
+]
+`;
+
+exports[`[intg] Notification snapshots > RequestCommentCreated 1`] = `
+[
+  {
+    "content": "Author : Comment body",
+    "link": "http://app.url/requests/requestId",
+    "title": "Nouveau commentaire sur votre demande "Request title"",
+  },
+]
+`;
+
+exports[`[intg] Notification snapshots > RequestCommentCreated 2`] = `
+[
+  {
+    "html": "<p>Bonjour Member,</p><p><strong>Author</strong> a écrit un commentaire sur votre demande <a href="http://app.url/requests/requestId">Request title</a> :</p><blockquote style="margin: 0; padding: 8px 16px; border: 1px solid #CCC; border-radius: 4px; background: #fafafc;"><p>Comment body</p></blockquote>",
+    "subject": "Commentaire de Author sur votre demande "Request title"",
+    "text": "Bonjour Member,
+
+Author a écrit un commentaire sur votre demande Request title (http://app.url/requests/requestId) :
+
+Comment body",
+    "to": "member@email",
+  },
+]
+`;
+
+exports[`[intg] Notification snapshots > RequestCreated 1`] = `
+[
+  {
+    "content": "Request title",
+    "link": "http://app.url/requests/requestId",
+    "title": "Demande de Requester",
+  },
+]
+`;
+
+exports[`[intg] Notification snapshots > RequestCreated 2`] = `
+[
+  {
+    "html": "<p>Bonjour Member,</p><p><strong>Requester</strong> a publié une nouvelle demande : <a href="http://app.url/requests/requestId">Request title</a></p><blockquote style="margin: 0; padding: 8px 16px; border: 1px solid #CCC; border-radius: 4px; background: #fafafc;"><p>Request body</p></blockquote>",
+    "subject": "Demande de Requester : Request title",
+    "text": "Bonjour Member,
+
+Requester a publié une nouvelle demande : Request title (http://app.url/requests/requestId)
+
+Request body",
+    "to": "member@email",
+  },
+]
+`;
+
+exports[`[intg] Notification snapshots > RequestStatusChanged 1`] = `
+[
+  {
+    "content": "Request title",
+    "link": "http://app.url/requests/requestId",
+    "title": "Requester a annulé sa demande",
+  },
+]
+`;
+
+exports[`[intg] Notification snapshots > RequestStatusChanged 2`] = `
+[
+  {
+    "html": "<p>Bonjour Member,</p><p><strong>Requester</strong> a annulé sa demande <a href="http://app.url/requests/requestId">Request title</a></p>",
+    "subject": "Requester a annulé sa demande "Request title"",
+    "text": "Bonjour Member,
+
+Requester a annulé sa demande Request title (http://app.url/requests/requestId)",
+    "to": "member@email",
+  },
+]
+`;
+
+exports[`[intg] Notification snapshots > Test 1`] = `
+[
+  {
+    "content": "Hello Member, this is a test notification! I hope it works 😄",
+    "link": "http://app.url",
+    "title": "Test notification (push)",
+  },
+]
+`;
+
+exports[`[intg] Notification snapshots > Test 2`] = `
+[
+  {
+    "html": "<p>Hello Member, this is <strong>a test notification</strong>! I hope it works 😄</p><p>Here is <a href="http://app.url">a link</a>.</p><p>42 is a good answer.</p><p>And here is some verbatim content:</p><blockquote style="margin: 0; padding: 8px 16px; border: 1px solid #CCC; border-radius: 4px; background: #fafafc;"><p>hello <strong>world</strong></p></blockquote><p>Cheers!</p>",
+    "subject": "Test notification (email)",
+    "text": "Hello Member, this is a test notification! I hope it works 😄
+
+Here is a link (http://app.url).
+
+42 is a good answer.
+
+And here is some verbatim content:
+
+hello world
+
+Cheers!",
+    "to": "member@email",
+  },
+]
+`;
+
+exports[`[intg] Notification snapshots > TransactionCanceled 1`] = `
+[
+  {
+    "content": "Payer n'a pas accepté votre demande de coins pour l'échange : Transaction description",
+    "link": "http://app.url/profile/transactions?transactionId=transactionId",
+    "title": "Échange avec Payer",
+  },
+]
+`;
+
+exports[`[intg] Notification snapshots > TransactionCanceled 2`] = `
+[
+  {
+    "html": "<p>Bonjour Member,</p><p><strong>Payer</strong> a annulé l'échange : Transaction description.</p>",
+    "subject": "Payer n'a pas accepté votre demande de coins pour l'échange : Transaction description",
+    "text": "Bonjour Member,
+
+Payer a annulé l'échange : Transaction description.",
+    "to": "member@email",
+  },
+]
+`;
+
+exports[`[intg] Notification snapshots > TransactionCompleted 1`] = `
+[
+  {
+    "content": "Vous avez reçu 123 coins pour l'échange : Transaction description",
+    "link": "http://app.url/profile/transactions?transactionId=transactionId",
+    "title": "Échange avec Payer",
+  },
+]
+`;
+
+exports[`[intg] Notification snapshots > TransactionCompleted 2`] = `
+[
+  {
+    "html": "<p>Bonjour Member,</p><p><strong>Payer</strong> a accepté votre demande de <strong>123 coins</strong> pour l'échange : <a href="http://app.url/profile/transactions?transactionId=transactionId">Transaction description</a>.</p>",
+    "subject": "Vous avez reçu 123 coins pour l'échange : Transaction description",
+    "text": "Bonjour Member,
+
+Payer a accepté votre demande de 123 coins pour l'échange : Transaction description (http://app.url/profile/transactions?transactionId=transactionId).",
+    "to": "member@email",
+  },
+]
+`;
+
+exports[`[intg] Notification snapshots > TransactionPending 1`] = `
+[
+  {
+    "content": "Recipient vous demande 123 coins pour l'échange : Transaction description",
+    "link": "http://app.url/profile/transactions?transactionId=transactionId",
+    "title": "Échange avec Recipient",
+  },
+]
+`;
+
+exports[`[intg] Notification snapshots > TransactionPending 2`] = `
+[
+  {
+    "html": "<p>Bonjour Member,</p><p><strong>Recipient</strong> vous demande <strong>123 coins</strong> pour l'échange : Transaction description.</p><p>Vous pouvez valider ou refuser cet échange depuis <a href="http://app.url/profile/transactions?transactionId=transactionId">votre page de profil</a>.</p>",
+    "subject": "Demande de coins pour l'échange : Transaction description",
+    "text": "Bonjour Member,
+
+Recipient vous demande 123 coins pour l'échange : Transaction description.
+
+Vous pouvez valider ou refuser cet échange depuis votre page de profil (http://app.url/profile/transactions?transactionId=transactionId).",
+    "to": "member@email",
+  },
+]
+`;

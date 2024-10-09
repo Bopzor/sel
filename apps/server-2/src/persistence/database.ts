@@ -4,7 +4,8 @@ import { assert } from '@sel/utils';
 import { drizzle, migrate } from 'drizzle-orm/connect';
 import pg from 'pg';
 
-import { config } from 'src/infrastructure/config';
+import { container } from 'src/infrastructure/container';
+import { TOKENS } from 'src/tokens';
 
 import drizzleConfig from '../../drizzle.config';
 
@@ -16,6 +17,8 @@ export const db = await drizzle('node-postgres', {
 });
 
 function databaseUrl() {
+  const config = container.resolve(TOKENS.config);
+
   if (import.meta.env.MODE === 'test') {
     return 'postgres://postgres@localhost:5432/test';
   }
@@ -27,8 +30,8 @@ export async function resetDatabase() {
   assert(import.meta.env.MODE === 'test');
 
   const client = new pg.Client('postgres://postgres@localhost:5432/postgres');
-  await client.connect();
 
+  await client.connect();
   await client.query('drop database if exists test');
   await client.query('create database test');
   await client.end();

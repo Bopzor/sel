@@ -14,10 +14,6 @@ export enum HttpStatus {
 
 export class UnauthorizedError extends DomainError {
   public status = HttpStatus.unauthorized;
-
-  constructor() {
-    super('Unauthorized');
-  }
 }
 
 export class ForbiddenError extends DomainError {

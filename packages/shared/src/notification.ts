@@ -1,5 +1,12 @@
+import { z } from 'zod';
+
 import { EventParticipation } from './event';
 import { RequestStatus } from './request';
+
+export const registerDeviceBodySchema = z.object({
+  subscription: z.any(),
+  deviceType: z.union([z.literal('mobile'), z.literal('desktop')]),
+});
 
 const notificationTypes = [
   'Test',

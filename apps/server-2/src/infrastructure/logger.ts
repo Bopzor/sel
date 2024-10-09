@@ -1,3 +1,5 @@
-import { pick } from '@sel/utils';
-
-export const logger = pick(console, ['log', 'warn', 'error']);
+export interface Logger {
+  log: typeof console.log;
+  warn: typeof console.warn;
+  error: typeof console.error;
+}

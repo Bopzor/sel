@@ -1,9 +1,10 @@
 import express, { ErrorRequestHandler, RequestHandler } from 'express';
 import { z } from 'zod';
 
+import { container } from './infrastructure/container';
 import { HttpStatus } from './infrastructure/http';
-import { logger } from './infrastructure/logger';
 import { router as members } from './modules/member/member.router';
+import { TOKENS } from './tokens';
 
 export function server() {
   const app = express();
@@ -32,6 +33,8 @@ const zodErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
 };
 
 const fallbackErrorHandler: ErrorRequestHandler = (err, req, res, _next) => {
+  const logger = container.resolve(TOKENS.logger);
+
   logger.error(err);
 
   if (typeof err.status === 'number') {
