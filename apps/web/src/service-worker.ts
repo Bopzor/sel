@@ -49,6 +49,7 @@ self.addEventListener('notificationclick', (event) => {
           await self.clients.openWindow(link);
         }
       })
+      // eslint-disable-next-line no-console
       .catch(console.error),
   );
 });
