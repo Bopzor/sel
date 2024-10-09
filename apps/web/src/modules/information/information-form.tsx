@@ -1,6 +1,6 @@
 import { createForm } from '@felte/solid';
 import { validateSchema } from '@nilscox/felte-validator-zod';
-import { createPublicMessageBodySchema } from '@sel/shared';
+import { createInformationBodySchema } from '@sel/shared';
 import clsx from 'clsx';
 
 import { authenticatedMember } from '../../app-context';
@@ -13,11 +13,11 @@ import { TOKENS } from '../../tokens';
 import { createErrorHandler } from '../../utils/create-error-handler';
 import { createErrorMap } from '../../utils/zod-error-map';
 
-const T = Translate.prefix('publicMessages.form');
+const T = Translate.prefix('information.form');
 
-export function PublicMessageForm(props: { onCancel: () => void; onSubmitted: () => void; class?: string }) {
+export function InformationForm(props: { onCancel: () => void; onSubmitted: () => void; class?: string }) {
   const t = T.useTranslation();
-  const publicMessageApi = container.resolve(TOKENS.publicMessageApi);
+  const informationApi = container.resolve(TOKENS.informationApi);
 
   // @ts-expect-error solidjs directive
   const { form, setData, data } = createForm({
@@ -25,11 +25,11 @@ export function PublicMessageForm(props: { onCancel: () => void; onSubmitted: ()
       body: '',
       isPin: false,
     },
-    validate: validateSchema(createPublicMessageBodySchema, {
+    validate: validateSchema(createInformationBodySchema, {
       errorMap: createErrorMap(),
     }),
     async onSubmit(values) {
-      await publicMessageApi.createPublicMessage(values.body, values.isPin);
+      await informationApi.createInformation(values.body, values.isPin);
     },
     onSuccess: props.onSubmitted,
     onError: createErrorHandler(),

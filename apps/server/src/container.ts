@@ -23,6 +23,8 @@ import { NotifyEventParticipationSet } from './events/event-handlers/notify-even
 import { EventController } from './events/event.controller';
 import { GetEvent } from './events/queries/get-event.query';
 import { ListEvents } from './events/queries/list-events.query';
+import { CreateInformation } from './information/commands/create-information.command';
+import { InformationController } from './information/information.controller';
 import { EnvConfigAdapter } from './infrastructure/config/env-config.adapter';
 import { CommandBus } from './infrastructure/cqs/command-bus';
 import { EventBus } from './infrastructure/cqs/event-bus';
@@ -65,8 +67,6 @@ import { SqlMemberDeviceRepository } from './persistence/repositories/member-dev
 import { SqlRequestRepository } from './persistence/repositories/request/sql-request.repository';
 import { SqlRequestAnswerRepository } from './persistence/repositories/request-answer/sql-memory-request-answer.repository';
 import { SqlTokenRepository } from './persistence/repositories/token/sql-token.repository';
-import { CreatePublicMessage } from './public-messages/commands/create-public-message.command';
-import { PublicMessageController } from './public-messages/public-message.controller';
 import { ChangeRequestStatus } from './requests/commands/change-request-status.command';
 import { CreateRequestComment } from './requests/commands/create-request-comment.command';
 import { CreateRequest } from './requests/commands/create-request.command';
@@ -115,7 +115,7 @@ container.bindFactory(TOKENS.emailSender, NodemailerEmailSenderAdapter.inject);
 container.bindFactory(TOKENS.membersController, MembersController.inject);
 container.bindFactory(TOKENS.memberRepository, SqlMemberRepository.inject);
 
-container.bindFactory(TOKENS.publicMessageController, PublicMessageController.inject);
+container.bindFactory(TOKENS.informationController, InformationController.inject);
 
 container.bindFactory(TOKENS.requestController, RequestController.inject);
 container.bindFactory(TOKENS.requestRepository, SqlRequestRepository.inject);
@@ -155,7 +155,7 @@ container.bindFactory(COMMANDS.requestAuthenticationLink, RequestAuthenticationL
 container.bindFactory(COMMANDS.verifyAuthenticationToken, VerifyAuthenticationToken.inject);
 container.bindFactory(COMMANDS.revokeSessionToken, RevokeSessionToken.inject);
 
-container.bindFactory(COMMANDS.createPublicMessage, CreatePublicMessage.inject);
+container.bindFactory(COMMANDS.createInformation, CreateInformation.inject);
 
 container.bindFactory(COMMANDS.createRequest, CreateRequest.inject);
 container.bindFactory(COMMANDS.editRequest, EditRequest.inject);

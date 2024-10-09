@@ -155,14 +155,14 @@
     },
     "news": {
       "title": "Actualités",
-      "createPublicMessage": "Publier un message",
+      "createInformation": "Publier un message",
       "publishedAt": "Le {date, date, medium} à {date, time, short}"
     },
     "changelog": {
       "title": "Nouveautés"
     }
   },
-  "publicMessages": {
+  "information": {
     "form": {
       "placeholder": "Écrivez votre message..."
     }

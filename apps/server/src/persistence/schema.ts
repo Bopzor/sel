@@ -225,7 +225,7 @@ export const memberDevicesRelations = relations(memberDevices, ({ one }) => ({
   }),
 }));
 
-export const publicMessages = pgTable('public_messages', {
+export const information = pgTable('information', {
   id: primaryKey(),
   text: text('text').notNull(),
   html: text('html').notNull(),
@@ -236,9 +236,9 @@ export const publicMessages = pgTable('public_messages', {
   updatedAt: updatedAt(),
 });
 
-export const publicMessagesRelations = relations(publicMessages, ({ one }) => ({
+export const informationRelations = relations(information, ({ one }) => ({
   author: one(members, {
-    fields: [publicMessages.authorId],
+    fields: [information.authorId],
     references: [members.id],
   }),
 }));

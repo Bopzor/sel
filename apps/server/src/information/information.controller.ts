@@ -9,12 +9,12 @@ import { SessionProvider } from '../authentication/session.provider';
 import { CommandBus } from '../infrastructure/cqs/command-bus';
 import { GeneratorPort } from '../infrastructure/generator/generator.port';
 import { Database } from '../persistence/database';
-import { publicMessages } from '../persistence/schema';
+import { information } from '../persistence/schema';
 import { COMMANDS, TOKENS } from '../tokens';
 
-import { PublicMessage } from './public-message.entity';
+import { Information } from './information.entity';
 
-export class PublicMessageController {
+export class InformationController {
   readonly router = Router();
 
   static inject = injectableClass(
@@ -33,8 +33,8 @@ export class PublicMessageController {
   ) {
     this.router.use(this.authenticated);
 
-    this.router.get('/', this.listPublicMessages);
-    this.router.post('/', this.createPublicMessages);
+    this.router.get('/', this.listInformation);
+    this.router.post('/', this.createInformation);
   }
 
   authenticated: RequestHandler = (req, res, next) => {
@@ -42,46 +42,44 @@ export class PublicMessageController {
     next();
   };
 
-  listPublicMessages: RequestHandler<never, { pin: shared.PublicMessage[]; notPin: shared.PublicMessage[] }> =
+  listInformation: RequestHandler<never, { pin: shared.Information[]; notPin: shared.Information[] }> =
     async (req, res) => {
       const [pinMessages, notPinMessages] = await Promise.all(
         [true, false].map((isPin) =>
-          this.database.db.query.publicMessages.findMany({
+          this.database.db.query.information.findMany({
             with: { author: true },
-            where: eq(publicMessages.isPin, isPin),
-            orderBy: desc(publicMessages.publishedAt),
+            where: eq(information.isPin, isPin),
+            orderBy: desc(information.publishedAt),
           }),
         ),
       );
 
       res.json({
-        pin: pinMessages.map(this.formatPublicMessage),
-        notPin: notPinMessages.map(this.formatPublicMessage),
+        pin: pinMessages.map(this.formatInformation),
+        notPin: notPinMessages.map(this.formatInformation),
       });
     };
 
-  private formatPublicMessage(
+  private formatInformation(
     this: void,
-    publicMessages: PublicMessage & { author: Record<'id' | 'firstName' | 'lastName', string> | null },
-  ): shared.PublicMessage {
+    information: Information & { author: Record<'id' | 'firstName' | 'lastName', string> | null },
+  ): shared.Information {
     return {
-      id: publicMessages.id,
-      body: publicMessages.html,
-      publishedAt: publicMessages.publishedAt.toISOString(),
-      author: publicMessages.author
-        ? pick(publicMessages.author, ['id', 'firstName', 'lastName'])
-        : undefined,
+      id: information.id,
+      body: information.html,
+      publishedAt: information.publishedAt.toISOString(),
+      author: information.author ? pick(information.author, ['id', 'firstName', 'lastName']) : undefined,
     };
   }
 
-  createPublicMessages: RequestHandler<never, string, z.infer<typeof shared.createPublicMessageBodySchema>> =
+  createInformation: RequestHandler<never, string, z.infer<typeof shared.createInformationBodySchema>> =
     async (req, res) => {
-      const { isPin, body } = shared.createPublicMessageBodySchema.parse(req.body);
+      const { isPin, body } = shared.createInformationBodySchema.parse(req.body);
       const id = this.generator.id();
       const member = this.sessionProvider.getMember();
 
-      await this.commandBus.executeCommand(COMMANDS.createPublicMessage, {
-        publicMessageId: id,
+      await this.commandBus.executeCommand(COMMANDS.createInformation, {
+        informationId: id,
         authorId: member.id,
         body,
         isPin: isPin ?? false,

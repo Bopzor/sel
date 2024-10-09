@@ -1,4 +1,4 @@
-import { type PublicMessage } from '@sel/shared';
+import { Information } from '@sel/shared';
 import clsx from 'clsx';
 import { Icon } from 'solid-heroicons';
 import {
@@ -21,7 +21,7 @@ import { container } from '../../infrastructure/container';
 import { Translate } from '../../intl/translate';
 import { routes } from '../../routes';
 import { TOKENS } from '../../tokens';
-import { PublicMessageForm } from '../public-messages/public-message-form';
+import { InformationForm } from '../information/information-form';
 
 const T = Translate.prefix('home');
 
@@ -136,8 +136,8 @@ function LinkCard(props: LinkCardProps) {
 
 function News() {
   const [messageFormVisible, setMessageFormVisible] = createSignal(false);
-  const publicMessageApi = container.resolve(TOKENS.publicMessageApi);
-  const [messages, { refetch }] = createResource(() => publicMessageApi.listPublicMessages());
+  const informationApi = container.resolve(TOKENS.informationApi);
+  const [messages, { refetch }] = createResource(() => informationApi.listInformation());
 
   return (
     <div class="col gap-6">
@@ -147,12 +147,12 @@ function News() {
         </h2>
 
         <Button classList={{ hidden: messageFormVisible() }} onClick={() => setMessageFormVisible(true)}>
-          <T id="news.createPublicMessage" />
+          <T id="news.createInformation" />
         </Button>
       </div>
 
       <Show when={messageFormVisible()}>
-        <PublicMessageForm
+        <InformationForm
           onCancel={() => setMessageFormVisible(false)}
           onSubmitted={() => {
             setMessageFormVisible(false);
@@ -162,14 +162,14 @@ function News() {
         />
       </Show>
 
-      <For each={messages.latest?.pin}>{(message) => <PublicMessage message={message} />}</For>
+      <For each={messages.latest?.pin}>{(message) => <InformationItem message={message} />}</For>
       <hr class="my-4" />
-      <For each={messages.latest?.notPin}>{(message) => <PublicMessage message={message} />}</For>
+      <For each={messages.latest?.notPin}>{(message) => <InformationItem message={message} />}</For>
     </div>
   );
 }
 
-function PublicMessage(props: { message: PublicMessage }) {
+function InformationItem(props: { message: Information }) {
   const authorComponentProps = (): DynamicProps<'div' | typeof Link> => {
     const author = props.message.author;
 

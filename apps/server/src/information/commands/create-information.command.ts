@@ -5,18 +5,18 @@ import { DatePort } from '../../infrastructure/date/date.port';
 import { EventPublisherPort } from '../../infrastructure/events/event-publisher.port';
 import { HtmlParserPort } from '../../infrastructure/html-parser/html-parser.port';
 import { Database } from '../../persistence/database';
-import { publicMessages } from '../../persistence/schema';
+import { information } from '../../persistence/schema';
 import { TOKENS } from '../../tokens';
-import { PublicMessagePublished } from '../public-message.events';
+import { InformationPublished } from '../information.events';
 
-export type CreatePublicMessageCommand = {
-  publicMessageId: string;
+export type CreateInformationCommand = {
+  informationId: string;
   authorId: string;
   body: string;
   isPin: boolean;
 };
 
-export class CreatePublicMessage implements CommandHandler<CreatePublicMessageCommand> {
+export class CreateInformation implements CommandHandler<CreateInformationCommand> {
   static inject = injectableClass(
     this,
     TOKENS.date,
@@ -32,11 +32,11 @@ export class CreatePublicMessage implements CommandHandler<CreatePublicMessageCo
     private readonly htmlParser: HtmlParserPort,
   ) {}
 
-  async handle(command: CreatePublicMessageCommand): Promise<void> {
+  async handle(command: CreateInformationCommand): Promise<void> {
     const now = this.dateAdapter.now();
 
-    await this.database.db.insert(publicMessages).values({
-      id: command.publicMessageId,
+    await this.database.db.insert(information).values({
+      id: command.informationId,
       authorId: command.isPin ? undefined : command.authorId,
       html: command.body,
       text: this.htmlParser.getTextContent(command.body),
@@ -46,6 +46,6 @@ export class CreatePublicMessage implements CommandHandler<CreatePublicMessageCo
       updatedAt: now,
     });
 
-    this.eventPublisher.publish(new PublicMessagePublished(command.publicMessageId));
+    this.eventPublisher.publish(new InformationPublished(command.informationId));
   }
 }

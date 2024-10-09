@@ -2,10 +2,10 @@ import { createContainer } from 'ditox';
 
 import { FetchAuthenticationApi } from '../modules/authentication/authentication.api';
 import { FetchEventApi } from '../modules/events/events.api';
+import { FetchInformationApi } from '../modules/information/information-api';
 import { FetchInterestApi } from '../modules/interests/interests-api';
 import { FetchMemberApi } from '../modules/members/members.api';
 import { FetchProfileApi } from '../modules/profile/profile.api';
-import { FetchPublicMessageApi } from '../modules/public-messages/public-message-api';
 import { FetchRequestApi } from '../modules/requests/requests.api';
 import { FetchSessionApi } from '../session.api';
 import { TOKENS } from '../tokens';
@@ -37,5 +37,5 @@ container.bindFactory(TOKENS.memberApi, FetchMemberApi.inject);
 container.bindFactory(TOKENS.requestApi, FetchRequestApi.inject);
 container.bindFactory(TOKENS.eventApi, FetchEventApi.inject);
 container.bindFactory(TOKENS.interestApi, FetchInterestApi.inject);
-container.bindFactory(TOKENS.publicMessageApi, FetchPublicMessageApi.inject);
+container.bindFactory(TOKENS.informationApi, FetchInformationApi.inject);
 container.bindFactory(TOKENS.transactionApi, FetchTransactionApi.inject);

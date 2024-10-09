@@ -22,6 +22,8 @@ import { NotifyEventParticipationSet } from './events/event-handlers/notify-even
 import { EventController } from './events/event.controller';
 import { GetEvent } from './events/queries/get-event.query';
 import { ListEvents } from './events/queries/list-events.query';
+import { CreateInformation } from './information/commands/create-information.command';
+import { InformationController } from './information/information.controller';
 import { ConfigPort } from './infrastructure/config/config.port';
 import { CommandBus } from './infrastructure/cqs/command-bus';
 import { EventBus } from './infrastructure/cqs/event-bus';
@@ -65,8 +67,6 @@ import { MemberDeviceRepository } from './persistence/repositories/member-device
 import { RequestRepository } from './persistence/repositories/request/request.repository';
 import { RequestAnswerRepository } from './persistence/repositories/request-answer/request-answer.repository';
 import { TokenRepository } from './persistence/repositories/token/token.repository';
-import { CreatePublicMessage } from './public-messages/commands/create-public-message.command';
-import { PublicMessageController } from './public-messages/public-message.controller';
 import { ChangeRequestStatus } from './requests/commands/change-request-status.command';
 import { CreateRequestComment } from './requests/commands/create-request-comment.command';
 import { CreateRequest } from './requests/commands/create-request.command';
@@ -112,7 +112,7 @@ export const TOKENS = {
   authenticationService: token<AuthenticationService>('authenticationService'),
   tokenRepository: token<TokenRepository>('tokenRepository'),
   sessionController: token<SessionController>('sessionController'),
-  publicMessageController: token<PublicMessageController>('publicMessageController'),
+  informationController: token<InformationController>('informationController'),
   requestController: token<RequestController>('requestController'),
   requestRepository: token<RequestRepository>('requestRepository'),
   requestAnswerRepository: token<RequestAnswerRepository>('requestAnswerRepository'),
@@ -157,7 +157,7 @@ export const COMMANDS = {
   changeNotificationDeliveryType: token<ChangeNotificationDeliveryType>('changeNotificationDeliveryType'),
   registerDevice: token<RegisterDevice>('registerDevice'),
   createEventComment: token<CreateEventComment>('createEventComment'),
-  createPublicMessage: token<CreatePublicMessage>('createPublicMessage'),
+  createInformation: token<CreateInformation>('createInformation'),
 };
 
 export const QUERIES = {

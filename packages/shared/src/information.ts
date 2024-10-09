@@ -2,14 +2,14 @@ import { z } from 'zod';
 
 import { LightMember } from './member';
 
-export type PublicMessage = {
+export type Information = {
   id: string;
   body: string;
   author?: LightMember;
   publishedAt: string;
 };
 
-export const createPublicMessageBodySchema = z.object({
+export const createInformationBodySchema = z.object({
   body: z.string().trim().min(15),
   isPin: z.boolean().optional(),
 });

@@ -158,11 +158,11 @@
     },
     "news": {
       "title": "News",
-      "createPublicMessage": "Post message",
+      "createInformation": "Post message",
       "publishedAt": "The {date, date, medium} at {date, time, short}"
     }
   },
-  "publicMessages": {
+  "information": {
     "form": {
       "placeholder": "Write a message..."
     }
