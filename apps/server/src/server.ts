@@ -2,7 +2,7 @@ import http from 'node:http';
 import util from 'node:util';
 
 import * as shared from '@sel/shared';
-import { assert } from '@sel/utils';
+import { assert, pick } from '@sel/utils';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import { Container, injectableClass } from 'ditox';
@@ -98,10 +98,7 @@ export class Server {
 
     assert(config !== undefined);
 
-    res.json({
-      currency: config.currency,
-      currencyPlural: config.currencyPlural,
-    });
+    res.json(pick(config, ['letsName', 'logoUrl', 'currency', 'currencyPlural']));
   };
 
   private authenticationMiddleware: RequestHandler = async (req, res, next) => {

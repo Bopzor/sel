@@ -1,12 +1,13 @@
-import { PublicMessage } from '@sel/shared';
+import { createPublicMessageBodySchema, PublicMessage } from '@sel/shared';
 import { injectableClass } from 'ditox';
+import { z } from 'zod';
 
 import { FetcherPort } from '../../infrastructure/fetcher';
 import { TOKENS } from '../../tokens';
 
 export interface PublicMessageApi {
   listPublicMessages(): Promise<{ pin: PublicMessage[]; notPin: PublicMessage[] }>;
-  createPublicMessage(body: string): Promise<string>;
+  createPublicMessage(body: string, isPin?: boolean): Promise<string>;
 }
 
 export class FetchPublicMessageApi implements PublicMessageApi {
@@ -18,8 +19,10 @@ export class FetchPublicMessageApi implements PublicMessageApi {
     return this.fetcher.get<{ pin: PublicMessage[]; notPin: PublicMessage[] }>('/api/public-messages').body();
   }
 
-  createPublicMessage(body: string): Promise<string> {
-    return this.fetcher.post<{ body: string }, string>('/api/public-messages', { body }).body();
+  createPublicMessage(body: string, isPin?: boolean): Promise<string> {
+    return this.fetcher
+      .post<z.infer<typeof createPublicMessageBodySchema>, string>('/api/public-messages', { body, isPin })
+      .body();
   }
 }
 

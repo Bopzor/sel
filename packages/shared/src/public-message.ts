@@ -11,4 +11,5 @@ export type PublicMessage = {
 
 export const createPublicMessageBodySchema = z.object({
   body: z.string().trim().min(15),
+  isPin: z.boolean().optional(),
 });

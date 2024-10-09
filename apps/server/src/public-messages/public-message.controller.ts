@@ -76,7 +76,7 @@ export class PublicMessageController {
 
   createPublicMessages: RequestHandler<never, string, z.infer<typeof shared.createPublicMessageBodySchema>> =
     async (req, res) => {
-      const { body } = shared.createPublicMessageBodySchema.parse(req.body);
+      const { isPin, body } = shared.createPublicMessageBodySchema.parse(req.body);
       const id = this.generator.id();
       const member = this.sessionProvider.getMember();
 
@@ -84,6 +84,7 @@ export class PublicMessageController {
         publicMessageId: id,
         authorId: member.id,
         body,
+        isPin: isPin ?? false,
       });
 
       res.status(201).send(id);

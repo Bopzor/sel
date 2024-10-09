@@ -13,6 +13,7 @@ export type CreatePublicMessageCommand = {
   publicMessageId: string;
   authorId: string;
   body: string;
+  isPin: boolean;
 };
 
 export class CreatePublicMessage implements CommandHandler<CreatePublicMessageCommand> {
@@ -36,10 +37,10 @@ export class CreatePublicMessage implements CommandHandler<CreatePublicMessageCo
 
     await this.database.db.insert(publicMessages).values({
       id: command.publicMessageId,
-      authorId: command.authorId,
+      authorId: command.isPin ? undefined : command.authorId,
       html: command.body,
       text: this.htmlParser.getTextContent(command.body),
-      isPin: false,
+      isPin: command.isPin,
       publishedAt: now,
       createdAt: now,
       updatedAt: now,

@@ -1,19 +1,25 @@
-import { Member } from '@sel/shared';
 import clsx from 'clsx';
 import { Show } from 'solid-js';
 
 import { container } from '../infrastructure/container';
 import { TOKENS } from '../tokens';
+import { getLetsConfig } from '../utils/lets-config';
 
 type MemberAvatarProps = {
-  member?: Pick<Member, 'id'>;
+  genericLetsMember?: boolean;
+  member?: { id: string };
   class?: string;
 };
 
 export function MemberAvatar(props: MemberAvatarProps) {
   const avatarAdapter = container.resolve(TOKENS.memberAvatar);
+  const config = getLetsConfig();
 
   const url = () => {
+    if (props.genericLetsMember) {
+      return config.latest?.logoUrl;
+    }
+
     if (props.member) {
       return avatarAdapter.getAvatarUrl(props.member);
     }

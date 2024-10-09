@@ -1,3 +1,4 @@
+import { type PublicMessage } from '@sel/shared';
 import clsx from 'clsx';
 import { Icon } from 'solid-heroicons';
 import {
@@ -10,8 +11,8 @@ import {
   wrench,
 } from 'solid-heroicons/solid';
 import { ComponentProps, createResource, createSignal, For, JSX, Show } from 'solid-js';
+import { Dynamic, DynamicProps } from 'solid-js/web';
 
-import { authenticatedMember } from '../../app-context';
 import { Button } from '../../components/button';
 import { Link } from '../../components/link';
 import { MemberAvatarName } from '../../components/member-avatar-name';
@@ -20,7 +21,6 @@ import { container } from '../../infrastructure/container';
 import { Translate } from '../../intl/translate';
 import { routes } from '../../routes';
 import { TOKENS } from '../../tokens';
-import { fullName } from '../members/full-name';
 import { PublicMessageForm } from '../public-messages/public-message-form';
 
 const T = Translate.prefix('home');
@@ -152,52 +152,54 @@ function News() {
       </div>
 
       <Show when={messageFormVisible()}>
-        <div class="col gap-3">
-          <div class="row items-center gap-2">
-            <MemberAvatarName member={authenticatedMember()} />
-          </div>
-
-          <PublicMessageForm
-            onCancel={() => setMessageFormVisible(false)}
-            onSubmitted={() => {
-              setMessageFormVisible(false);
-              void refetch();
-            }}
-            class="ms-10"
-          />
-        </div>
+        <PublicMessageForm
+          onCancel={() => setMessageFormVisible(false)}
+          onSubmitted={() => {
+            setMessageFormVisible(false);
+            void refetch();
+          }}
+          class="ms-10"
+        />
       </Show>
 
-      <For each={messages.latest?.pin}>
-        {(message) => (
-          <div class="rounded-lg">
-            <Show when={message.author}>{(author) => <div>{fullName(author())}</div>}</Show>
-            <RichText>{message.body}</RichText>
-          </div>
-        )}
-      </For>
+      <For each={messages.latest?.pin}>{(message) => <PublicMessage message={message} />}</For>
+      <hr class="my-4" />
+      <For each={messages.latest?.notPin}>{(message) => <PublicMessage message={message} />}</For>
+    </div>
+  );
+}
 
-      <For each={messages.latest?.notPin}>
-        {(message) => (
-          <div class="col gap-3">
-            <div class="row items-end justify-between gap-4">
-              <Show when={message.author}>
-                {(author) => (
-                  <Link unstyled href={routes.members.member(author().id)} class="row items-center gap-2">
-                    <MemberAvatarName member={author()} />
-                  </Link>
-                )}
-              </Show>
+function PublicMessage(props: { message: PublicMessage }) {
+  const authorComponentProps = (): DynamicProps<'div' | typeof Link> => {
+    const author = props.message.author;
 
-              <div class="text-sm text-dim">
-                <T id="news.publishedAt" values={{ date: new Date(message.publishedAt) }} />
-              </div>
-            </div>
+    if (author === undefined) {
+      return { component: 'div' };
+    }
 
-            <RichText class="col ms-10 flex-1 gap-2 rounded-lg bg-white p-6">{message.body}</RichText>
-          </div>
-        )}
-      </For>
+    return {
+      component: Link,
+      unstyled: true,
+      href: routes.members.member(author.id),
+    };
+  };
+
+  return (
+    <div class="col gap-3">
+      <div class="row items-end justify-between gap-4">
+        <Dynamic class="row items-center gap-2" {...authorComponentProps()}>
+          <MemberAvatarName
+            genericLetsMember={props.message.author === undefined}
+            member={props.message.author}
+          />
+        </Dynamic>
+
+        <div class="text-sm text-dim">
+          <T id="news.publishedAt" values={{ date: new Date(props.message.publishedAt) }} />
+        </div>
+      </div>
+
+      <RichText class="col ms-10 flex-1 gap-2 rounded-lg bg-white p-6">{props.message.body}</RichText>
     </div>
   );
 }
