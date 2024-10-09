@@ -1,4 +1,5 @@
-import { createDate, createFactory, createId } from '@sel/utils';
+import { createFactory, createId, createDate } from '@sel/utils';
+import { z } from 'zod';
 
 import { Address } from './address';
 import { MemberInterest } from './interest';
@@ -32,3 +33,9 @@ export const createMember = createFactory<Member>(() => ({
   balance: 0,
   interests: [],
 }));
+
+export const createMemberBodySchema = z.object({
+  firstName: z.string().optional(),
+  lastName: z.string().optional(),
+  email: z.string(),
+});

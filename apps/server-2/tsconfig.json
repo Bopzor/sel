@@ -4,6 +4,11 @@
   "files": ["vite.config.ts", "drizzle.config.ts"],
   "references": [{ "path": "../../packages/shared" }, { "path": "../../packages/utils" }],
   "compilerOptions": {
-    "noEmit": true
+    "noEmit": true,
+    "paths": {
+      "@sel/shared": ["../../packages/shared/src/index.ts"],
+      "@sel/utils": ["../../packages/utils/src/index.ts"],
+      "src/*": ["./src/*"]
+    }
   }
 }

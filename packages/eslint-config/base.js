@@ -30,6 +30,12 @@ export default [
           'newlines-between': 'always',
           alphabetize: { order: 'asc' },
           groups: ['builtin', 'external', 'internal', 'parent', 'sibling', 'index'],
+          pathGroups: [
+            {
+              pattern: 'src/**',
+              group: 'internal',
+            },
+          ],
         },
       ],
     },

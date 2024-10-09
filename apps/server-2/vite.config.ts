@@ -1,16 +1,8 @@
-import path from 'node:path';
+import tsconfigPaths from 'vite-tsconfig-paths';
 import { defineConfig } from 'vitest/config';
 
-const packages = path.resolve(__dirname, '..', '..', 'packages');
-
 export default defineConfig({
-  resolve: {
-    alias: {
-      '@sel/shared': path.join(packages, 'shared', 'src'),
-      '@sel/utils': path.join(packages, 'utils', 'src'),
-      src: 'src',
-    },
-  },
+  plugins: [tsconfigPaths()],
   test: {
     watch: false,
     environment: 'node',

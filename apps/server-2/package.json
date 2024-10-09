@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "nodemon -w src -e ts -x 'pnpm start'",
     "start": "vite-node src/index.ts",
-    "lint": "eslint src"
+    "lint": "eslint src",
+    "test": "vitest"
   },
   "devDependencies": {
     "@sel/eslint-config": "workspace:*",
@@ -15,16 +16,19 @@
     "@types/express": "^5.0.0",
     "@types/pg": "^8.11.10",
     "drizzle-kit": "^0.25.0",
+    "nanoid": "^5.0.7",
     "nodemon": "^3.1.7",
     "tsx": "^4.19.1",
     "vite": "5.4.8",
     "vite-node": "^2.1.2",
+    "vite-tsconfig-paths": "^5.0.1",
     "vitest": "^2.1.2"
   },
   "dependencies": {
     "dotenv": "^16.4.5",
     "drizzle-orm": "^0.34.1",
     "express": "^5.0.0",
-    "pg": "^8.13.0"
+    "pg": "^8.13.0",
+    "zod": "^3.23.8"
   }
 }

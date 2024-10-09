@@ -5,4 +5,6 @@ const primaryKey = () => id().primaryKey();
 
 export const members = pgTable('members', {
   id: primaryKey(),
+  firstName: varchar('first_name', { length: 256 }).notNull(),
+  lastName: varchar('last_name', { length: 256 }).notNull(),
 });
