@@ -225,6 +225,24 @@ export const memberDevicesRelations = relations(memberDevices, ({ one }) => ({
   }),
 }));
 
+export const information = pgTable('information', {
+  id: primaryKey(),
+  text: text('text').notNull(),
+  html: text('html').notNull(),
+  isPin: boolean('is_pin').notNull(),
+  authorId: id('author_id').references(() => members.id),
+  publishedAt: date('published_at').notNull(),
+  createdAt: createdAt(),
+  updatedAt: updatedAt(),
+});
+
+export const informationRelations = relations(information, ({ one }) => ({
+  author: one(members, {
+    fields: [information.authorId],
+    references: [members.id],
+  }),
+}));
+
 export const eventKindEnum = pgEnum('event_kind', ['internal', 'external']);
 
 export const events = pgTable('events', {
@@ -368,6 +386,8 @@ export const transactionsRelations = relations(transactions, ({ one }) => ({
 
 export const config = pgTable('config', {
   id: primaryKey(),
+  letsName: varchar('lets_name', { length: 256 }).notNull().default(''),
+  logoUrl: varchar('logo_url', { length: 256 }).notNull().default(''),
   currency: varchar('currency', { length: 256 }).notNull(),
   currencyPlural: varchar('currency_plural', { length: 256 }).notNull(),
   createdAt: createdAt(),

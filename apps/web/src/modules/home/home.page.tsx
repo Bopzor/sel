@@ -1,11 +1,27 @@
+import { Information } from '@sel/shared';
 import clsx from 'clsx';
 import { Icon } from 'solid-heroicons';
-import { exclamationTriangle } from 'solid-heroicons/solid';
-import { Index, JSX } from 'solid-js';
+import {
+  calendar,
+  exclamationTriangle,
+  handRaised,
+  sparkles,
+  star,
+  users,
+  wrench,
+} from 'solid-heroicons/solid';
+import { ComponentProps, createResource, createSignal, For, JSX, Show } from 'solid-js';
+import { Dynamic, DynamicProps } from 'solid-js/web';
 
+import { Button } from '../../components/button';
 import { Link } from '../../components/link';
+import { MemberAvatarName } from '../../components/member-avatar-name';
+import { RichText } from '../../components/rich-text';
+import { container } from '../../infrastructure/container';
 import { Translate } from '../../intl/translate';
 import { routes } from '../../routes';
+import { TOKENS } from '../../tokens';
+import { InformationForm } from '../information/information-form';
 
 const T = Translate.prefix('home');
 
@@ -14,52 +30,55 @@ export default function HomePage() {
     <div>
       <PreviewBanner />
 
-      <div class="grid grid-cols-1 gap-8 py-8 sm:grid-cols-2 md:grid-cols-3">
-        <LinkCard
-          href={routes.members.list}
-          label={<T id="members.label" />}
-          description={<T id="members.description" />}
-          class="border-blue-400 from-blue-400/5 to-blue-400/20"
-        />
+      <div class="row items-start gap-8 py-16">
+        <div class="grid max-w-sm grid-cols-1 gap-6">
+          <LinkCard
+            href={routes.members.list}
+            label={<T id="members.label" />}
+            description={<T id="members.description" />}
+            icon={users}
+          />
 
-        <LinkCard
-          href={routes.requests.list}
-          label={<T id="requests.label" />}
-          description={<T id="requests.description" />}
-          class="border-yellow-400 from-yellow-400/10 to-yellow-400/20"
-        />
+          <LinkCard
+            href={routes.requests.list}
+            label={<T id="requests.label" />}
+            description={<T id="requests.description" />}
+            icon={handRaised}
+          />
 
-        <LinkCard
-          href={routes.events.list}
-          label={<T id="events.label" />}
-          description={<T id="events.description" />}
-          // eslint-disable-next-line tailwindcss/no-arbitrary-value
-          class="border-[#9955DD] from-[#9955DD]/10 to-[#9955DD]/20"
-        />
+          <LinkCard
+            href={routes.events.list}
+            label={<T id="events.label" />}
+            description={<T id="events.description" />}
+            icon={calendar}
+          />
 
-        <LinkCard
-          href={routes.interests}
-          label={<T id="interests.label" />}
-          description={<T id="interests.description" />}
-          class="border-red-400 from-red-400/10 to-red-400/20"
-        />
+          <LinkCard
+            href={routes.interests}
+            label={<T id="interests.label" />}
+            description={<T id="interests.description" />}
+            icon={sparkles}
+          />
 
-        <LinkCard
-          href={routes.assets.home}
-          label={<T id="assets.label" />}
-          description={<T id="assets.description" />}
-          class="border-green-400 from-green-400/10 to-green-400/20"
-        />
+          <LinkCard
+            href={routes.assets.home}
+            label={<T id="assets.label" />}
+            description={<T id="assets.description" />}
+            icon={wrench}
+          />
 
-        <LinkCard
-          href={routes.misc}
-          label={<T id="misc.label" />}
-          description={<T id="misc.description" />}
-          class="border-gray-400 from-gray-400/10 to-gray-400/20"
-        />
+          <LinkCard
+            href={routes.misc}
+            label={<T id="misc.label" />}
+            description={<T id="misc.description" />}
+            icon={star}
+          />
+        </div>
+
+        <div class="flex-1">
+          <News />
+        </div>
       </div>
-
-      <News />
     </div>
   );
 }
@@ -90,7 +109,8 @@ type LinkCardProps = {
   href: string;
   label: JSX.Element;
   description: JSX.Element;
-  class: string;
+  icon: ComponentProps<typeof Icon>['path'];
+  class?: string;
 };
 
 function LinkCard(props: LinkCardProps) {
@@ -98,28 +118,88 @@ function LinkCard(props: LinkCardProps) {
     <Link
       unstyled
       href={props.href}
-      class={clsx('rounded-lg border bg-gradient-to-tl p-8 transition-shadow hover:shadow-lg', props.class)}
+      class={clsx(
+        'row group items-center gap-4 rounded-lg border border-primary bg-gradient-to-tl from-primary/0 to-primary/10 px-6 py-4 transition-all hover:bg-primary/10 hover:shadow-lg',
+        props.class,
+      )}
     >
-      <div class="text-xl font-semibold">{props.label}</div>
-      <div class="mt-1">{props.description}</div>
+      <div>
+        <Icon path={props.icon} class="size-8 text-gray-400 transition-colors group-hover:text-primary" />
+      </div>
+      <div>
+        <div class="text-xl font-semibold">{props.label}</div>
+        <div class="mt-1 text-dim group-hover:text-primary">{props.description}</div>
+      </div>
     </Link>
   );
 }
 
 function News() {
+  const [messageFormVisible, setMessageFormVisible] = createSignal(false);
+  const informationApi = container.resolve(TOKENS.informationApi);
+  const [messages, { refetch }] = createResource(() => informationApi.listInformation());
+
   return (
-    <>
-      <h2 class="typo-h2">
-        <T id="news.title" />
-      </h2>
+    <div class="col gap-6">
+      <div class="row items-center justify-between gap-4">
+        <h2 class="typo-h1">
+          <T id="news.title" />
+        </h2>
 
-      <p>
-        <T id="news.placeholder" />
-      </p>
-
-      <div class="col mt-6 gap-6">
-        <Index each={Array(3).fill(null)}>{() => <div class="min-h-48 w-full rounded-lg bg-dim/5" />}</Index>
+        <Button classList={{ hidden: messageFormVisible() }} onClick={() => setMessageFormVisible(true)}>
+          <T id="news.createInformation" />
+        </Button>
       </div>
-    </>
+
+      <Show when={messageFormVisible()}>
+        <InformationForm
+          onCancel={() => setMessageFormVisible(false)}
+          onSubmitted={() => {
+            setMessageFormVisible(false);
+            void refetch();
+          }}
+          class="ms-10"
+        />
+      </Show>
+
+      <For each={messages.latest?.pin}>{(message) => <InformationItem message={message} />}</For>
+      <hr class="my-4" />
+      <For each={messages.latest?.notPin}>{(message) => <InformationItem message={message} />}</For>
+    </div>
+  );
+}
+
+function InformationItem(props: { message: Information }) {
+  const authorComponentProps = (): DynamicProps<'div' | typeof Link> => {
+    const author = props.message.author;
+
+    if (author === undefined) {
+      return { component: 'div' };
+    }
+
+    return {
+      component: Link,
+      unstyled: true,
+      href: routes.members.member(author.id),
+    };
+  };
+
+  return (
+    <div class="col gap-3">
+      <div class="row items-end justify-between gap-4">
+        <Dynamic class="row items-center gap-2" {...authorComponentProps()}>
+          <MemberAvatarName
+            genericLetsMember={props.message.author === undefined}
+            member={props.message.author}
+          />
+        </Dynamic>
+
+        <div class="text-sm text-dim">
+          <T id="news.publishedAt" values={{ date: new Date(props.message.publishedAt) }} />
+        </div>
+      </div>
+
+      <RichText class="col ms-10 flex-1 gap-2 rounded-lg bg-white p-6">{props.message.body}</RichText>
+    </div>
   );
 }

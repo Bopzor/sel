@@ -3,6 +3,7 @@ export * from './authenticated-member';
 export * from './comment';
 export * from './config';
 export * from './event';
+export * from './information';
 export * from './interest';
 export * from './member';
 export * from './members-sort';

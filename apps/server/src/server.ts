@@ -2,7 +2,7 @@ import http from 'node:http';
 import util from 'node:util';
 
 import * as shared from '@sel/shared';
-import { assert } from '@sel/utils';
+import { assert, pick } from '@sel/utils';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import { Container, injectableClass } from 'ditox';
@@ -49,6 +49,7 @@ export class Server {
     this.app.use('/health', this.healthCheck);
     this.app.use('/config', this.configHandler);
     this.app.use('/members', container.resolve(TOKENS.membersController).router);
+    this.app.use('/information', container.resolve(TOKENS.informationController).router);
     this.app.use('/events', container.resolve(TOKENS.eventController).router);
     this.app.use('/requests', container.resolve(TOKENS.requestController).router);
     this.app.use('/interests', container.resolve(TOKENS.interestController).router);
@@ -97,10 +98,7 @@ export class Server {
 
     assert(config !== undefined);
 
-    res.json({
-      currency: config.currency,
-      currencyPlural: config.currencyPlural,
-    });
+    res.json(pick(config, ['letsName', 'logoUrl', 'currency', 'currencyPlural']));
   };
 
   private authenticationMiddleware: RequestHandler = async (req, res, next) => {

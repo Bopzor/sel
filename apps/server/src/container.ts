@@ -23,6 +23,8 @@ import { NotifyEventParticipationSet } from './events/event-handlers/notify-even
 import { EventController } from './events/event.controller';
 import { GetEvent } from './events/queries/get-event.query';
 import { ListEvents } from './events/queries/list-events.query';
+import { CreateInformation } from './information/commands/create-information.command';
+import { InformationController } from './information/information.controller';
 import { EnvConfigAdapter } from './infrastructure/config/env-config.adapter';
 import { CommandBus } from './infrastructure/cqs/command-bus';
 import { EventBus } from './infrastructure/cqs/event-bus';
@@ -113,6 +115,8 @@ container.bindFactory(TOKENS.emailSender, NodemailerEmailSenderAdapter.inject);
 container.bindFactory(TOKENS.membersController, MembersController.inject);
 container.bindFactory(TOKENS.memberRepository, SqlMemberRepository.inject);
 
+container.bindFactory(TOKENS.informationController, InformationController.inject);
+
 container.bindFactory(TOKENS.requestController, RequestController.inject);
 container.bindFactory(TOKENS.requestRepository, SqlRequestRepository.inject);
 container.bindFactory(TOKENS.requestAnswerRepository, SqlRequestAnswerRepository.inject);
@@ -150,6 +154,8 @@ container.bindFactory(TOKENS.eventPublisher, EventPublisher.inject);
 container.bindFactory(COMMANDS.requestAuthenticationLink, RequestAuthenticationLink.inject);
 container.bindFactory(COMMANDS.verifyAuthenticationToken, VerifyAuthenticationToken.inject);
 container.bindFactory(COMMANDS.revokeSessionToken, RevokeSessionToken.inject);
+
+container.bindFactory(COMMANDS.createInformation, CreateInformation.inject);
 
 container.bindFactory(COMMANDS.createRequest, CreateRequest.inject);
 container.bindFactory(COMMANDS.editRequest, EditRequest.inject);
