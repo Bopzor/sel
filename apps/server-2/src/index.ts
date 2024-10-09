@@ -1,5 +1,5 @@
 import 'dotenv/config';
 
-import { server } from './server';
+import { application } from './application';
 
-server().listen(3000);
+application().listen(3000);

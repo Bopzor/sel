@@ -1,17 +1,22 @@
-import { pick } from '@sel/utils';
+import { events } from 'src/infrastructure/events';
+import { db, schema } from 'src/persistence';
 
-import { db } from '../../persistence/database';
-import { members } from '../../persistence/schema';
+import { MemberCreatedEvent } from './member.entities';
 
 type CreateMemberCommand = {
   memberId: string;
-  firstName: string;
-  lastName: string;
+  firstName?: string;
+  lastName?: string;
+  email: string;
 };
 
 export async function createMember(command: CreateMemberCommand): Promise<void> {
-  await db.insert(members).values({
+  await db.insert(schema.members).values({
     id: command.memberId,
-    ...pick(command, ['firstName', 'lastName']),
+    firstName: command.firstName ?? '',
+    lastName: command.lastName ?? '',
+    email: command.email,
   });
+
+  events.emit(new MemberCreatedEvent(command.memberId));
 }
