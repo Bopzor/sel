@@ -33,7 +33,12 @@ const zodErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
 
 const fallbackErrorHandler: ErrorRequestHandler = (err, req, res, _next) => {
   logger.error(err);
-  res.status(HttpStatus.internalServerError);
+
+  if (typeof err.status === 'number') {
+    res.status(err.status);
+  } else {
+    res.status(HttpStatus.internalServerError);
+  }
 
   if (import.meta.env.PROD) {
     res.end();

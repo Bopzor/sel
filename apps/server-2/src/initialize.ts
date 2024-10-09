@@ -3,12 +3,9 @@ import { generateId } from './infrastructure/generator';
 import { logger } from './infrastructure/logger';
 import { db } from './persistence/database';
 import { domainEvents } from './persistence/schema/domain-events';
-import { server } from './server';
 
-export function application() {
+export function initialize() {
   events.addGlobalListener(storeDomainEvent);
-
-  return server();
 }
 
 async function storeDomainEvent(event: DomainEvent<unknown>) {

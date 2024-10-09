@@ -17,3 +17,7 @@ export function date<Name extends string>(name: Name) {
 
 export const createdAt = date('created_at').notNull().defaultNow();
 export const updatedAt = date('updated_at').notNull().defaultNow();
+
+export function enumValues<Values extends string>(enumType: Record<string, Values>) {
+  return Object.values(enumType) as [Values, ...Values[]];
+}

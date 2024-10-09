@@ -1,7 +1,7 @@
 import { events } from 'src/infrastructure/events';
 import { db, schema } from 'src/persistence';
 
-import { MemberCreatedEvent } from './member.entities';
+import { MemberCreatedEvent, MemberStatus } from './member.entities';
 
 type CreateMemberCommand = {
   memberId: string;
@@ -13,9 +13,11 @@ type CreateMemberCommand = {
 export async function createMember(command: CreateMemberCommand): Promise<void> {
   await db.insert(schema.members).values({
     id: command.memberId,
+    status: MemberStatus.onboarding,
     firstName: command.firstName ?? '',
     lastName: command.lastName ?? '',
     email: command.email,
+    emailVisible: false,
   });
 
   events.emit(new MemberCreatedEvent(command.memberId));

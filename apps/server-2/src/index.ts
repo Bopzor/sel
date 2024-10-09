@@ -1,5 +1,9 @@
+/// <reference types="vite/client" />
+
 import 'dotenv/config';
 
-import { application } from './application';
+import { initialize } from './initialize';
+import { server } from './server';
 
-application().listen(3000);
+initialize();
+server().listen(3000);

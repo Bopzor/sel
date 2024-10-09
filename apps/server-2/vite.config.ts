@@ -7,5 +7,6 @@ export default defineConfig({
     watch: false,
     environment: 'node',
     reporters: ['verbose'],
+    fileParallelism: false,
   },
 });

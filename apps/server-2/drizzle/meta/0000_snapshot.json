@@ -1,5 +1,5 @@
 {
-  "id": "84c9a4cc-fb1a-4d65-b5c8-162985875d06",
+  "id": "93c89fec-d301-4437-bf7c-38b994ad8e6c",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -61,6 +61,13 @@
           "primaryKey": true,
           "notNull": true
         },
+        "status": {
+          "name": "status",
+          "type": "member_status",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
         "first_name": {
           "name": "first_name",
           "type": "varchar(256)",
@@ -78,6 +85,45 @@
           "type": "varchar(256)",
           "primaryKey": false,
           "notNull": true
+        },
+        "email_visible": {
+          "name": "email_visible",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "phone_numbers": {
+          "name": "phone_numbers",
+          "type": "json",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'[]'::json"
+        },
+        "bio": {
+          "name": "bio",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "address": {
+          "name": "address",
+          "type": "json",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "membership_start_date": {
+          "name": "membership_start_date",
+          "type": "timestamp (3)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "balance": {
+          "name": "balance",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
         },
         "created_at": {
           "name": "created_at",
@@ -98,9 +144,147 @@
       "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
+    },
+    "public.transactions": {
+      "name": "transactions",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "varchar(16)",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "status": {
+          "name": "status",
+          "type": "transaction_status",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "description": {
+          "name": "description",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "amount": {
+          "name": "amount",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "payer_id": {
+          "name": "payer_id",
+          "type": "varchar(16)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "recipient_id": {
+          "name": "recipient_id",
+          "type": "varchar(16)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "payer_comment": {
+          "name": "payer_comment",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "recipient_comment": {
+          "name": "recipient_comment",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "creator_id": {
+          "name": "creator_id",
+          "type": "varchar(16)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp (3)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp (3)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "transactions_payer_id_members_id_fk": {
+          "name": "transactions_payer_id_members_id_fk",
+          "tableFrom": "transactions",
+          "tableTo": "members",
+          "columnsFrom": [
+            "payer_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "transactions_recipient_id_members_id_fk": {
+          "name": "transactions_recipient_id_members_id_fk",
+          "tableFrom": "transactions",
+          "tableTo": "members",
+          "columnsFrom": [
+            "recipient_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "transactions_creator_id_members_id_fk": {
+          "name": "transactions_creator_id_members_id_fk",
+          "tableFrom": "transactions",
+          "tableTo": "members",
+          "columnsFrom": [
+            "creator_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
     }
   },
-  "enums": {},
+  "enums": {
+    "public.member_status": {
+      "name": "member_status",
+      "schema": "public",
+      "values": [
+        "onboarding",
+        "inactive",
+        "active"
+      ]
+    },
+    "public.transaction_status": {
+      "name": "transaction_status",
+      "schema": "public",
+      "values": [
+        "pending",
+        "completed",
+        "canceled"
+      ]
+    }
+  },
   "schemas": {},
   "sequences": {},
   "_meta": {
