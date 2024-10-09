@@ -31,7 +31,7 @@ export class Server {
   );
 
   private app = express();
-  private server = http.createServer(this.app);
+  private server = http.createServer((req, res) => this.app(req, res));
 
   constructor(
     private readonly container: Container,

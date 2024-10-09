@@ -59,7 +59,7 @@ export function RichEditor(props: RichEditorProps) {
   const editor = createRichEditor(() => ref, {
     placeholder: props.placeholder,
     initialValue: props.initialValue,
-    onChange: props.onChange,
+    onChange: (html) => props.onChange?.(html),
   });
 
   return (

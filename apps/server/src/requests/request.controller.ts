@@ -61,7 +61,7 @@ export class RequestController {
     });
 
     if (!request) {
-      return res.status(HttpStatus.notFound).end();
+      return void res.status(HttpStatus.notFound).end();
     }
 
     res.json(request);

@@ -12,7 +12,7 @@ export class StubPushNotificationAdapter implements PushNotificationPort {
     link: string,
   ): Promise<void> {
     if (this.errors.has(subscription)) {
-      throw this.errors.get(subscription);
+      throw this.errors.get(subscription)!;
     }
 
     if (!this.notifications.has(subscription)) {

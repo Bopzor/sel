@@ -5,9 +5,7 @@ import { QueryHandler } from '../../infrastructure/cqs/query-handler';
 import { Database } from '../../persistence/database';
 import { TOKENS } from '../../tokens';
 
-export type ListInterestsQuery = {
-  //
-};
+export type ListInterestsQuery = Record<string, never>;
 
 export type ListInterestsQueryResult = shared.Interest[];
 

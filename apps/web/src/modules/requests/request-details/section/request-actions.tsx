@@ -18,7 +18,7 @@ export function RequestActions(props: { request: Request; onCanceled: () => void
   const canCancel = () => isRequester() && props.request.status === RequestStatus.pending;
 
   const [cancelRequest, isCanceling] = createAsyncCall(requestApi.cancelRequest.bind(requestApi), {
-    onSuccess: props.onCanceled,
+    onSuccess: () => props.onCanceled(),
   });
 
   return (

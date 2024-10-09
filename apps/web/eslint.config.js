@@ -2,7 +2,7 @@ import { FlatCompat } from '@eslint/eslintrc';
 import url from 'node:url';
 import path from 'node:path';
 
-import solid from 'eslint-plugin-solid/dist/configs/typescript.js';
+import solid from 'eslint-plugin-solid/configs/typescript';
 import base from '@sel/eslint-config/base.js';
 import typescript from '@sel/eslint-config/typescript.js';
 import globals from 'globals';

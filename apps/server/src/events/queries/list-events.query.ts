@@ -7,9 +7,7 @@ import * as schema from '../../persistence/schema';
 import { asc } from '../../persistence/utils';
 import { TOKENS } from '../../tokens';
 
-export type ListEventsQuery = {
-  //
-};
+export type ListEventsQuery = Record<string, never>;
 
 export type ListEventsQueryResult = shared.EventsListItem[];
 

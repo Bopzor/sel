@@ -15,7 +15,7 @@ export function BioStep(props: OnboardingStepProps<OnboardingStep.bio>) {
   // @ts-expect-error solidjs directive
   const { form } = createForm({
     initialValues: props.initialValues,
-    onSubmit: props.onSubmit,
+    onSubmit: (data) => props.onSubmit(data),
     onError: createErrorHandler(),
   });
 

@@ -33,7 +33,7 @@ export function ContactStep(props: OnboardingStepProps<OnboardingStep.contact>) 
   const { form, data, errors } = createForm({
     initialValues: props.initialValues,
     extend: validator({ schema: schema() }),
-    onSubmit: props.onSubmit,
+    onSubmit: (data) => props.onSubmit(data),
     onError: createErrorHandler(),
   });
 

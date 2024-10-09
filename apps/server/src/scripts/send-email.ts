@@ -15,7 +15,7 @@ async function main(argv: string[]) {
 
   try {
     assert(typeof to === 'string', 'missing <to>');
-  } catch (error) {
+  } catch {
     logger.error(`usage: ${argv[0]} <to> <variable>`);
     process.exitCode = 1;
     return;
