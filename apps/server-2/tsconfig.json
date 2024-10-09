@@ -1,0 +1,9 @@
+{
+  "extends": "@sel/typescript-config/tsconfig.base.json",
+  "include": ["src/**/*"],
+  "files": ["vite.config.ts", "drizzle.config.ts"],
+  "references": [{ "path": "../../packages/shared" }, { "path": "../../packages/utils" }],
+  "compilerOptions": {
+    "noEmit": true
+  }
+}

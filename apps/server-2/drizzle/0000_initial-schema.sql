@@ -1,0 +1,3 @@
+CREATE TABLE IF NOT EXISTS "members" (
+	"id" varchar(16) PRIMARY KEY NOT NULL
+);

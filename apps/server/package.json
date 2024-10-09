@@ -20,7 +20,7 @@
     "cookie-parser": "^1.4.7",
     "ditox": "^2.4.1",
     "dotenv": "^16.4.5",
-    "drizzle-orm": "^0.29.2",
+    "drizzle-orm": "^0.34.1",
     "express": "5.0.0-beta.1",
     "lodash.clonedeep": "^4.5.0",
     "mjml": "^4.15.3",
@@ -45,11 +45,11 @@
     "@types/mjml": "^4.7.4",
     "@types/nodemailer": "^6.4.16",
     "@types/web-push": "^3.6.3",
-    "drizzle-kit": "^0.20.9",
+    "drizzle-kit": "^0.25.0",
     "maildev": "^2.1.0",
     "nodemon": "^3.1.7",
     "tsx": "^4.19.1",
     "typescript": "~5.5.0",
-    "vitest": "^1.1.0"
+    "vitest": "^2.1.2"
   }
 }

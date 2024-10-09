@@ -10,8 +10,8 @@ assert(typeof DB_URL === 'string');
 export default {
   schema: './src/persistence/schema.ts',
   out: './src/persistence/migrations',
-  driver: 'pg',
+  dialect: 'postgresql',
   dbCredentials: {
-    connectionString: DB_URL,
+    url: DB_URL,
   },
 } satisfies Config;
