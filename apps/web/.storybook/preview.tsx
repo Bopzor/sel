@@ -12,8 +12,6 @@ import '../src/index.css';
 
 export default {
   parameters: {
-    // remove padding on body
-    layout: 'fullscreen',
     actions: { argTypesRegex: '^on[A-Z].*' },
     controls: {
       matchers: {
@@ -23,12 +21,6 @@ export default {
     },
   },
   decorators: [
-    (Story) => (
-      <div class="max-w-7xl min-h-screen col p-6">
-        <Story />
-      </div>
-    ),
-
     (Story) => (
       <AppContextProvider>
         <Story />

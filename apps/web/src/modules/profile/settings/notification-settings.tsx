@@ -86,7 +86,6 @@ export function NotificationDeliveryOptions(props: { pushEnabled: boolean }) {
 
 function NotificationDeliveryOption(props: { type: 'email' | 'push'; children: JSX.Element }) {
   return (
-    // eslint-disable-next-line tailwindcss/no-arbitrary-value
     <label class="cursor-pointer rounded border p-4 ring-primary has-[:checked]:ring">
       <div class="row items-center gap-2">
         <input type="checkbox" class="size-em" name={props.type} />

@@ -3,7 +3,7 @@ import { createCombobox } from '@upop/solid';
 import { useFloating } from 'solid-floating-ui';
 import { Icon } from 'solid-heroicons';
 import { chevronDown, chevronUp } from 'solid-heroicons/solid';
-import { ComponentProps, JSX, Show, createSignal } from 'solid-js';
+import { ComponentProps, JSX, Show, createSignal, splitProps } from 'solid-js';
 
 import { Dropdown } from './dropdown';
 import { Input } from './input';
@@ -24,11 +24,10 @@ type AutocompleteProps<Item> = Pick<ComponentProps<typeof Input>, 'variant' | 'w
 };
 
 export function Autocomplete<Item>(props: AutocompleteProps<Item>) {
+  const [comboboxProps] = splitProps(props, ['items', 'itemToString', 'inputValue', 'selectedItem']);
+
   const combobox = createCombobox({
-    items: props.items,
-    itemToString: props.itemToString,
-    inputValue: props.inputValue,
-    selectedItem: props.selectedItem,
+    ...comboboxProps,
     onInputValueChange({ inputValue }) {
       props.onSearch(inputValue);
     },

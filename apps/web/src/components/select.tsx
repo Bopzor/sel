@@ -51,10 +51,10 @@ export function Select<Item>(props1: SelectProps<Item>) {
     whileElementsMounted: autoUpdate,
   });
 
+  const [selectProps] = splitProps(props, ['items', 'itemToString', 'selectedItem']);
+
   const select = createSelect({
-    items: props.items,
-    itemToString: props.itemToString,
-    selectedItem: props.selectedItem,
+    ...selectProps,
     onSelectedItemChange({ selectedItem }) {
       if (selectedItem) {
         props.onItemSelected?.(selectedItem);

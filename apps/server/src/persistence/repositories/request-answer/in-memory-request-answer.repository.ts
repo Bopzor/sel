@@ -21,6 +21,7 @@ export class InMemoryRequestAnswerRepository
     }
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-misused-promises
   async delete(requestAnswerId: string): Promise<void> {
     return super.delete(requestAnswerId);
   }

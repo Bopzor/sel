@@ -50,7 +50,7 @@ function ParticipationButton(props: ParticipationButtonProps) {
   const isMemberParticipation = () => props.participation === memberParticipation()?.participation;
 
   const [setParticipation, loading] = createAsyncCall(eventApi.setParticipation.bind(eventApi), {
-    onSuccess: props.onChanged,
+    onSuccess: () => props.onChanged(),
   });
 
   const onClick = () => {

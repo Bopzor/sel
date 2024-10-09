@@ -1,6 +1,13 @@
-import { ComponentProps, Show, mergeProps, splitProps } from 'solid-js';
-
-import { createDebouncedValue } from '../utils/debounce';
+import { debounce } from '@solid-primitives/scheduled';
+import {
+  ComponentProps,
+  Show,
+  createEffect,
+  createSignal,
+  mergeProps,
+  onCleanup,
+  splitProps,
+} from 'solid-js';
 
 import { Link } from './link';
 import { Spinner } from './spinner';
@@ -16,11 +23,22 @@ export function Button(props1: ButtonProps) {
   const props2 = mergeProps({ type: 'button', variant: 'primary' } satisfies ButtonProps, props1);
   const [props, buttonProps] = splitProps(props2, ['variant', 'loading', 'disabled', 'class', 'classList']);
 
-  const loading = createDebouncedValue(() => props.loading, 200);
+  const [loading, setLoading] = createSignal(false);
+  const setLoadingDebounced = debounce(setLoading, 250);
+
+  createEffect(() => {
+    if (props.loading) {
+      setLoadingDebounced(true);
+    } else {
+      setLoading(false);
+    }
+
+    onCleanup(() => setLoadingDebounced.clear());
+  });
 
   return (
     <button
-      disabled={props.disabled ?? loading()}
+      disabled={props.disabled ?? props.loading}
       class={props.class}
       classList={{
         button: true,

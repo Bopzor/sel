@@ -35,7 +35,7 @@ export class GetMemberNotifications
   ): shared.Notification {
     return {
       id: notification.id,
-      type: notification.type as shared.NotificationType,
+      type: notification.type,
       date: notification.date.toISOString(),
       context: notification.context,
     };

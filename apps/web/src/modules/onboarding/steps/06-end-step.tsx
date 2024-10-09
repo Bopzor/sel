@@ -11,7 +11,7 @@ export function EndStep(props: OnboardingStepProps<OnboardingStep.end>) {
   // @ts-expect-error solidjs directive
   const { form } = createForm({
     initialValues: props.initialValues,
-    onSubmit: props.onSubmit,
+    onSubmit: () => props.onSubmit(null as never),
     onError: createErrorHandler(),
   });
 

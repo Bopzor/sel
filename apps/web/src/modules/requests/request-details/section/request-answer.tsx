@@ -55,7 +55,7 @@ function AnswerButton(props: AnswerButtonProps) {
   };
 
   const [setAnswer, loading] = createAsyncCall(requestApi.setAnswer.bind(requestApi), {
-    onSuccess: props.onAnswerChanged,
+    onSuccess: () => props.onAnswerChanged(),
   });
 
   const onClick = () => {

@@ -70,7 +70,7 @@ export class MembersController {
     const member = await this.queryBus.executeQuery(QUERIES.getMember, { memberId });
 
     if (!member) {
-      return res.status(HttpStatus.notFound).end();
+      return void res.status(HttpStatus.notFound).end();
     }
 
     res.json(member);
@@ -80,7 +80,7 @@ export class MembersController {
     const member = await this.membersRepository.getMember(req.params.memberId);
 
     if (!member) {
-      return res.status(HttpStatus.notFound).end();
+      return void res.status(HttpStatus.notFound).end();
     }
 
     const email = member.email;
@@ -96,7 +96,7 @@ export class MembersController {
     const member = await this.membersRepository.getMember(req.params.memberId);
 
     if (!member) {
-      return res.status(HttpStatus.notFound).end();
+      return void res.status(HttpStatus.notFound).end();
     }
 
     const transactions = await this.database.db.query.transactions.findMany({

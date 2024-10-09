@@ -13,7 +13,7 @@ export function AddressStep(props: OnboardingStepProps<OnboardingStep.address>) 
   // @ts-expect-error solidjs directive
   const { form, data, setFields } = createForm({
     initialValues: props.initialValues,
-    onSubmit: props.onSubmit,
+    onSubmit: (data) => props.onSubmit(data),
     onError: createErrorHandler(),
   });
 

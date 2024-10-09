@@ -10,6 +10,7 @@
     "clean": "rm -rf {packages,apps}/*/{dist,tsconfig.tsbuildinfo}"
   },
   "devDependencies": {
-    "typescript": "^5.3.3"
+    "prettier": "^3.3.3",
+    "typescript": "^5.5.4"
   }
 }
