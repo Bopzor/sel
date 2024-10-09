@@ -1,17 +1,30 @@
+import cookieParser from 'cookie-parser';
+import { eq } from 'drizzle-orm';
 import express, { ErrorRequestHandler, RequestHandler } from 'express';
 import { z } from 'zod';
 
 import { container } from './infrastructure/container';
 import { HttpStatus } from './infrastructure/http';
+import { isAuthenticated, provideAuthenticatedMember } from './infrastructure/session';
+import { InvalidSessionTokenError, TokenType } from './modules/authentication/authentication.entities';
+import { router as authentication } from './modules/authentication/authentication.router';
+import { router as session } from './modules/authentication/session.router';
 import { router as members } from './modules/member/member.router';
+import { db, schema } from './persistence';
 import { TOKENS } from './tokens';
 
 export function server() {
+  const config = container.resolve(TOKENS.config);
   const app = express();
 
+  app.use(cookieParser(config.session.secret));
   app.use(express.json());
+  app.use(authenticationProvider);
 
-  app.use('/members', members);
+  app.use('/authentication', authentication);
+  app.use('/session', isAuthenticated, session);
+  app.use('/members', isAuthenticated, members);
+
   app.use(fallbackRequestHandler);
 
   app.use(zodErrorHandler);
@@ -19,6 +32,25 @@ export function server() {
 
   return app;
 }
+
+const authenticationProvider: RequestHandler = async (req, res, next) => {
+  const tokenCookie: unknown = req.cookies['token'];
+
+  if (typeof tokenCookie !== 'string') {
+    return next();
+  }
+
+  const token = await db.query.tokens.findFirst({
+    where: eq(schema.tokens.value, tokenCookie),
+    with: { member: true },
+  });
+
+  if (!token || token.type !== TokenType.session) {
+    throw new InvalidSessionTokenError();
+  }
+
+  provideAuthenticatedMember(token.member, next);
+};
 
 const fallbackRequestHandler: RequestHandler = (req, res) => {
   res.status(HttpStatus.notFound).end();

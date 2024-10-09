@@ -6,6 +6,11 @@ export interface Config {
     port: number;
   };
 
+  session: {
+    secret: string;
+    secure: boolean;
+  };
+
   app: {
     baseUrl: string;
   };
@@ -29,34 +34,41 @@ export interface Config {
   };
 }
 
-export const envConfig: Config = {
-  server: {
-    host: getEnv('HOST'),
-    port: getEnv('PORT', Number.parseInt),
-  },
+export function createEnvConfig(): Config {
+  return {
+    server: {
+      host: getEnv('HOST'),
+      port: getEnv('PORT', Number.parseInt),
+    },
 
-  app: {
-    baseUrl: getEnv('APP_BASE_URL'),
-  },
+    session: {
+      secret: getEnv('SESSION_SECRET'),
+      secure: getEnv('SESSION_SECURE', (value) => value === 'true'),
+    },
 
-  database: {
-    url: getEnv('DATABASE_URL'),
-  },
+    app: {
+      baseUrl: getEnv('APP_BASE_URL'),
+    },
 
-  email: {
-    host: getEnv('EMAIL_HOST'),
-    port: getEnv('EMAIL_PORT', Number.parseInt),
-    secure: getEnv('EMAIL_SECURE', (value) => value === 'true'),
-    sender: getEnv('EMAIL_FROM'),
-    password: getEnv('EMAIL_PASSWORD'),
-  },
+    database: {
+      url: getEnv('DATABASE_URL'),
+    },
 
-  push: {
-    subject: getEnv('WEB_PUSH_SUBJECT'),
-    publicKey: getEnv('WEB_PUSH_PUBLIC_KEY'),
-    privateKey: getEnv('WEB_PUSH_PRIVATE_KEY'),
-  },
-};
+    email: {
+      host: getEnv('EMAIL_HOST'),
+      port: getEnv('EMAIL_PORT', Number.parseInt),
+      secure: getEnv('EMAIL_SECURE', (value) => value === 'true'),
+      sender: getEnv('EMAIL_FROM'),
+      password: getEnv('EMAIL_PASSWORD'),
+    },
+
+    push: {
+      subject: getEnv('WEB_PUSH_SUBJECT'),
+      publicKey: getEnv('WEB_PUSH_PUBLIC_KEY'),
+      privateKey: getEnv('WEB_PUSH_PRIVATE_KEY'),
+    },
+  };
+}
 
 function getEnv(name: string): string;
 function getEnv<T>(name: string, parse: (value: string) => T): T;

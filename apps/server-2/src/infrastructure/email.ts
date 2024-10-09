@@ -245,3 +245,11 @@ export class NodemailerEmailSender implements EmailSender {
     });
   }
 }
+
+export class StubEmailSender implements EmailSender {
+  public readonly emails: Email[] = [];
+
+  async send(email: Email): Promise<void> {
+    this.emails.push(email);
+  }
+}

@@ -11,6 +11,12 @@ EXCEPTION
 END $$;
 --> statement-breakpoint
 DO $$ BEGIN
+ CREATE TYPE "public"."token_type" AS ENUM('authentication', 'session');
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
  CREATE TYPE "public"."transaction_status" AS ENUM('pending', 'completed', 'canceled');
 EXCEPTION
  WHEN duplicate_object THEN null;
@@ -73,6 +79,18 @@ CREATE TABLE IF NOT EXISTS "notifications" (
 	"updated_at" timestamp (3) DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
+CREATE TABLE IF NOT EXISTS "tokens" (
+	"id" varchar(16) PRIMARY KEY NOT NULL,
+	"value" varchar(256) NOT NULL,
+	"expiration_date" timestamp (3) NOT NULL,
+	"type" "token_type" NOT NULL,
+	"member_id" varchar(16) NOT NULL,
+	"revoked" boolean DEFAULT false NOT NULL,
+	"created_at" timestamp (3) DEFAULT now() NOT NULL,
+	"updated_at" timestamp (3) DEFAULT now() NOT NULL,
+	CONSTRAINT "tokens_value_unique" UNIQUE("value")
+);
+--> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "transactions" (
 	"id" varchar(16) PRIMARY KEY NOT NULL,
 	"status" "transaction_status" NOT NULL,
@@ -101,6 +119,12 @@ END $$;
 --> statement-breakpoint
 DO $$ BEGIN
  ALTER TABLE "notifications" ADD CONSTRAINT "notifications_member_id_members_id_fk" FOREIGN KEY ("member_id") REFERENCES "public"."members"("id") ON DELETE no action ON UPDATE no action;
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
+ ALTER TABLE "tokens" ADD CONSTRAINT "tokens_member_id_members_id_fk" FOREIGN KEY ("member_id") REFERENCES "public"."members"("id") ON DELETE no action ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;

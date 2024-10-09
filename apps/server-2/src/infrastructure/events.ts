@@ -42,9 +42,9 @@ class Events {
 
   addListener<Event extends AnyDomainEvent>(
     EventClass: DomainEventClass<Event>,
-    cb: (event: Event) => void,
+    cb: DomainEventHandler<Event>,
   ): void {
-    this.events.addListener(EventClass.type, cb);
+    this.events.addListener(EventClass.type, (event) => void cb(event));
   }
 }
 
