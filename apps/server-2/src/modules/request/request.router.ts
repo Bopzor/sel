@@ -19,6 +19,7 @@ import { createRequestComment } from './create-request-comment.command';
 import { createRequest } from './create-request.command';
 import { editRequest } from './edit-request.command';
 import { MemberIsNotAuthorError, Request, RequestAnswer, RequestNotFoundError } from './request.entities';
+import { findRequestById } from './request.persistence';
 import { setRequestAnswer } from './set-request-answer.command';
 
 export const router = express.Router();
@@ -87,17 +88,13 @@ router.get('/:requestId', async (req, res) => {
 });
 
 router.param('requestId', async (req, res, next) => {
-  const requestId = req.params.requestId;
-
-  const request = await db.query.requests.findFirst({
-    where: eq(schema.requests.id, requestId),
-  });
+  const request = await findRequestById(req.params.requestId);
 
   if (!request) {
-    throw new RequestNotFoundError();
+    next();
+  } else {
+    requestContext.run(request, next);
   }
-
-  requestContext.run(request, next);
 });
 
 router.post('/', async (req, res) => {

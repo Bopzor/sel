@@ -6,3 +6,4 @@ export * from './schema/notifications';
 export * from './schema/requests';
 export * from './schema/tokens';
 export * from './schema/transactions';
+export * from './schema/interests';

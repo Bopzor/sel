@@ -9,6 +9,7 @@ export enum TokenType {
 }
 
 export type Token = typeof schema.tokens.$inferSelect;
+export type TokenInsert = typeof schema.tokens.$inferInsert;
 
 export class AuthenticationLinkRequestedEvent extends MemberEvent {
   constructor(

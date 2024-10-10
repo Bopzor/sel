@@ -1,6 +1,5 @@
 import * as shared from '@sel/shared';
 import { defined, waitFor } from '@sel/utils';
-import { eq } from 'drizzle-orm';
 import { beforeAll, beforeEach, describe, expect, it } from 'vitest';
 
 import { insert } from 'src/factories';
@@ -12,6 +11,7 @@ import { db, resetDatabase, schema } from 'src/persistence';
 import { TOKENS } from 'src/tokens';
 
 import { Member } from '../member/member.entities';
+import { updateMember } from '../member/member.persistence';
 
 import { NotificationDeliveryType } from './notification.entities';
 import { notify } from './notify';
@@ -28,10 +28,9 @@ describe('notification snapshots', () => {
     member = defined(await db.query.members.findFirst());
     subscription = 'subscription';
 
-    await db
-      .update(schema.members)
-      .set({ notificationDelivery: [NotificationDeliveryType.push, NotificationDeliveryType.email] })
-      .where(eq(schema.members.id, member.id));
+    await updateMember(member.id, {
+      notificationDelivery: [NotificationDeliveryType.push, NotificationDeliveryType.email],
+    });
 
     await registerDevice({
       memberId: member.id,

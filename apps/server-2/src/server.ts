@@ -11,6 +11,7 @@ import { isAuthenticated, provideAuthenticatedMember } from './infrastructure/se
 import { InvalidSessionTokenError, TokenType } from './modules/authentication/authentication.entities';
 import { router as authentication } from './modules/authentication/authentication.router';
 import { router as session } from './modules/authentication/session.router';
+import { router as interests } from './modules/interest/interest.router';
 import { router as members } from './modules/member/member.router';
 import { router as requests } from './modules/request/request.router';
 import { db, schema } from './persistence';
@@ -30,6 +31,7 @@ export function server() {
   app.use('/session', isAuthenticated, session);
   app.use('/members', isAuthenticated, members);
   app.use('/requests', isAuthenticated, requests);
+  app.use('/interests', isAuthenticated, interests);
 
   app.use(fallbackRequestHandler);
 

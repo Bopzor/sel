@@ -13,6 +13,7 @@ import { TOKENS } from 'src/tokens';
 
 import { createMember } from './create-member.command';
 import { Member } from './member.entities';
+import { findMemberById } from './member.persistence';
 import { updateMemberProfile } from './update-member-profile.command';
 
 export const router = express.Router();
@@ -32,9 +33,7 @@ const isAuthenticatedMember: RequestHandler<{ memberId: string }> = (req, res, n
 };
 
 router.param('memberId', async (req, res, next) => {
-  const member = await db.query.members.findFirst({
-    where: eq(schema.members.id, req.params.memberId),
-  });
+  const member = await findMemberById(req.params.memberId);
 
   if (!member) {
     return next(new NotFoundError('Member not found'));

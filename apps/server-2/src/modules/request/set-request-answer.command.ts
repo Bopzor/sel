@@ -14,6 +14,7 @@ import {
   RequestIsNotPendingError,
   RequestNotFoundError,
 } from './request.entities';
+import { findRequestById } from './request.persistence';
 
 export type SetRequestAnswerCommand = {
   requestId: string;
@@ -28,9 +29,7 @@ export async function setRequestAnswer(command: SetRequestAnswerCommand): Promis
 
   const { requestId, memberId, answer } = command;
 
-  const request = await db.query.requests.findFirst({
-    where: eq(schema.requests.id, requestId),
-  });
+  const request = await findRequestById(requestId);
 
   if (!request) {
     throw new RequestNotFoundError();

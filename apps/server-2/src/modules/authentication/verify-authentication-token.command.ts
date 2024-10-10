@@ -1,5 +1,4 @@
 import { addDuration, isAfter } from '@sel/utils';
-import { eq } from 'drizzle-orm';
 
 import { container } from 'src/infrastructure/container';
 import { db, schema } from 'src/persistence';
@@ -11,6 +10,7 @@ import {
   TokenNotFoundError,
   TokenType,
 } from './authentication.entities';
+import { findTokenByValue, updateToken } from './token.persistence';
 
 type VerifyAuthenticationTokenCommand = {
   tokenValue: string;
@@ -19,14 +19,10 @@ type VerifyAuthenticationTokenCommand = {
 
 export async function verifyAuthenticationToken(command: VerifyAuthenticationTokenCommand): Promise<void> {
   const generator = container.resolve(TOKENS.generator);
-  const dateAdapter = container.resolve(TOKENS.date);
+  const now = container.resolve(TOKENS.date).now();
   const events = container.resolve(TOKENS.events);
 
-  const now = dateAdapter.now();
-
-  const token = await db.query.tokens.findFirst({
-    where: eq(schema.tokens.value, command.tokenValue),
-  });
+  const token = await findTokenByValue(command.tokenValue);
 
   if (token === undefined) {
     throw new TokenNotFoundError();
@@ -38,14 +34,12 @@ export async function verifyAuthenticationToken(command: VerifyAuthenticationTok
 
   events.publish(new MemberAuthenticatedEvent(token.memberId));
 
-  await db.update(schema.tokens).set({ revoked: true, updatedAt: now }).where(eq(schema.tokens.id, token.id));
-
-  const expirationDate = addDuration(dateAdapter.now(), { months: 1 });
+  await updateToken(token.id, { revoked: true });
 
   await db.insert(schema.tokens).values({
     id: command.sessionTokenId,
     value: generator.token(),
-    expirationDate,
+    expirationDate: addDuration(now, { months: 1 }),
     type: TokenType.session,
     memberId: token.memberId,
     revoked: false,

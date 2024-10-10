@@ -1,11 +1,10 @@
 import { UpdateMemberProfileData } from '@sel/shared';
-import { eq } from 'drizzle-orm';
 
 import { container } from 'src/infrastructure/container';
-import { db, schema } from 'src/persistence';
 import { TOKENS } from 'src/tokens';
 
 import { MemberInsert, MemberStatus, OnboardingCompletedEvent } from './member.entities';
+import { updateMember } from './member.persistence';
 
 type UpdateMemberProfileCommand = {
   memberId: string;
@@ -35,7 +34,7 @@ export async function updateMemberProfile(command: UpdateMemberProfileCommand): 
     values.status = MemberStatus.onboarding;
   }
 
-  await db.update(schema.members).set(values).where(eq(schema.members.id, memberId));
+  await updateMember(memberId, values);
 
   if (data.onboardingCompleted) {
     events.publish(new OnboardingCompletedEvent(memberId));

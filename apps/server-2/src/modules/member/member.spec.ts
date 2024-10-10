@@ -1,6 +1,5 @@
 import { UpdateMemberProfileData } from '@sel/shared';
 import { createFactory } from '@sel/utils';
-import { eq } from 'drizzle-orm';
 import { beforeAll, beforeEach, describe, expect, it } from 'vitest';
 
 import { insert } from 'src/factories';
@@ -18,6 +17,7 @@ import {
   MemberStatus,
   OnboardingCompletedEvent,
 } from './member.entities';
+import { findMemberById } from './member.persistence';
 import { updateMemberProfile } from './update-member-profile.command';
 
 describe('member', () => {
@@ -30,12 +30,6 @@ describe('member', () => {
     events = new StubEvents();
     container.bindValue(TOKENS.events, events);
   });
-
-  async function findMember(memberId: string) {
-    return db.query.members.findFirst({
-      where: eq(schema.members.id, memberId),
-    });
-  }
 
   async function saveMember(values: Partial<MemberInsert>) {
     return db.insert(schema.members).values(insert.member(values)).execute();
@@ -55,7 +49,7 @@ describe('member', () => {
       email: 'me@domain.tld',
     });
 
-    expect(await findMember('memberId')).toEqual<Member>({
+    expect(await findMemberById('memberId')).toEqual<Member>({
       id: 'memberId',
       status: MemberStatus.onboarding,
       firstName: '',
@@ -81,7 +75,7 @@ describe('member', () => {
       lastName: 'Last',
     });
 
-    expect(await findMember('memberId')).toMatchObject<Partial<Member>>({
+    expect(await findMemberById('memberId')).toMatchObject<Partial<Member>>({
       firstName: 'First',
       lastName: 'Last',
     });
@@ -115,7 +109,7 @@ describe('member', () => {
       data,
     });
 
-    expect(await findMember('memberId')).toMatchObject<Partial<Member>>(data);
+    expect(await findMemberById('memberId')).toMatchObject<Partial<Member>>(data);
   });
 
   it("set the member's status to active when onboarding is completed", async () => {
@@ -126,7 +120,7 @@ describe('member', () => {
       data: createUpdateProfileData({ onboardingCompleted: true }),
     });
 
-    expect(await findMember('memberId')).toHaveProperty('status', MemberStatus.active);
+    expect(await findMemberById('memberId')).toHaveProperty('status', MemberStatus.active);
   });
 
   it("set the member's status to onboarding when onboardingCompleted is set to false", async () => {
@@ -137,7 +131,7 @@ describe('member', () => {
       data: createUpdateProfileData({ onboardingCompleted: false }),
     });
 
-    expect(await findMember('memberId')).toHaveProperty('status', MemberStatus.onboarding);
+    expect(await findMemberById('memberId')).toHaveProperty('status', MemberStatus.onboarding);
   });
 
   it('triggers a domain event when the onboarding was completed', async () => {

@@ -1,9 +1,9 @@
-import { assert } from '@sel/utils';
-import { eq } from 'drizzle-orm';
+import { defined } from '@sel/utils';
 
 import { container } from 'src/infrastructure/container';
-import { db, schema } from 'src/persistence';
 import { TOKENS } from 'src/tokens';
+
+import { findMemberById } from '../member/member.persistence';
 
 import { AuthenticationLinkRequestedEvent } from './authentication.entities';
 
@@ -11,11 +11,7 @@ export async function sendAuthenticationEmail(event: AuthenticationLinkRequested
   const emailRenderer = container.resolve(TOKENS.emailRenderer);
   const emailSender = container.resolve(TOKENS.emailSender);
 
-  const member = await db.query.members.findFirst({
-    where: eq(schema.members.id, event.entityId),
-  });
-
-  assert(member !== undefined);
+  const member = defined(await findMemberById(event.entityId));
 
   await emailSender.send({
     to: member.email,

@@ -4,6 +4,8 @@ import { ForbiddenError, HttpStatus, NotFoundError } from 'src/infrastructure/ht
 import { schema } from 'src/persistence';
 
 export type Request = typeof schema.requests.$inferSelect;
+export type RequestInsert = typeof schema.requests.$inferInsert;
+
 export type RequestAnswer = typeof schema.requestAnswers.$inferSelect;
 
 class RequestEvent extends DomainEvent {

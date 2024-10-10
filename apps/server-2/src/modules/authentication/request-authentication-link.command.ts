@@ -6,6 +6,7 @@ import { db, schema } from 'src/persistence';
 import { TOKENS } from 'src/tokens';
 
 import { AuthenticationLinkRequestedEvent, TokenType } from './authentication.entities';
+import { updateToken } from './token.persistence';
 
 type RequestAuthenticationLinkCommand = {
   email: string;
@@ -14,10 +15,8 @@ type RequestAuthenticationLinkCommand = {
 export async function requestAuthenticationLink(command: RequestAuthenticationLinkCommand): Promise<void> {
   const config = container.resolve(TOKENS.config);
   const generator = container.resolve(TOKENS.generator);
-  const dateAdapter = container.resolve(TOKENS.date);
+  const now = container.resolve(TOKENS.date).now();
   const events = container.resolve(TOKENS.events);
-
-  const now = dateAdapter.now();
 
   const member = await db.query.members.findFirst({
     where: eq(schema.members.email, command.email),
@@ -32,19 +31,15 @@ export async function requestAuthenticationLink(command: RequestAuthenticationLi
   });
 
   if (previousToken) {
-    await db
-      .update(schema.tokens)
-      .set({ revoked: true, updatedAt: now })
-      .where(eq(schema.tokens.id, previousToken.id));
+    await updateToken(previousToken.id, { revoked: true });
   }
 
-  const expirationDate = addDuration(dateAdapter.now(), { months: 1 });
   const tokenValue = generator.token();
 
   await db.insert(schema.tokens).values({
     id: generator.id(),
     value: tokenValue,
-    expirationDate,
+    expirationDate: addDuration(now, { months: 1 }),
     type: TokenType.authentication,
     memberId: member.id,
   });

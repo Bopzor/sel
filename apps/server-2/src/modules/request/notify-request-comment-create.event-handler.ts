@@ -5,6 +5,7 @@ import { db, schema } from 'src/persistence';
 
 import { comment } from '../comment/comment.entities';
 import { Member, memberName } from '../member/member.entities';
+import { findMemberById } from '../member/member.persistence';
 import { GetNotificationContext, notify } from '../notification/notify';
 
 import { Request, RequestCommentCreatedEvent } from './request.entities';
@@ -22,12 +23,7 @@ export async function notifyRequestCommentCreated(event: RequestCommentCreatedEv
   assert(request !== undefined);
 
   const comment = defined(request.comments.find(hasProperty('id', event.commentId)));
-
-  const author = defined(
-    await db.query.members.findFirst({
-      where: eq(schema.members.id, event.authorId),
-    }),
-  );
+  const author = defined(await findMemberById(event.authorId));
 
   const stakeholderIds = unique([
     request.requester.id,

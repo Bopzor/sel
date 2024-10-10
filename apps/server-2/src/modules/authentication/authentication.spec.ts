@@ -14,6 +14,7 @@ import { MemberInsert } from '../member/member.entities';
 
 import { Token, TokenType } from './authentication.entities';
 import { requestAuthenticationLink } from './request-authentication-link.command';
+import { findTokenById, findTokenByValue } from './token.persistence';
 import { verifyAuthenticationToken } from './verify-authentication-token.command';
 
 describe('member', () => {
@@ -32,7 +33,7 @@ describe('member', () => {
     return db.insert(schema.members).values(insert.member(values)).execute();
   }
 
-  async function findAuthenticationToken() {
+  async function getAuthenticationToken() {
     await container.resolve(TOKENS.events).waitForListeners();
 
     const email = defined(emailSender.emails[0]);
@@ -48,11 +49,8 @@ describe('member', () => {
       email: 'email',
     });
 
-    const authenticationTokenValue = await findAuthenticationToken();
-
-    const authenticationToken = await db.query.tokens.findFirst({
-      where: eq(schema.tokens.value, authenticationTokenValue),
-    });
+    const authenticationTokenValue = await getAuthenticationToken();
+    const authenticationToken = await findTokenByValue(authenticationTokenValue);
 
     expect(authenticationToken).toEqual<Token>({
       id: expect.any(String),
@@ -70,9 +68,7 @@ describe('member', () => {
       sessionTokenId: 'sessionTokenId',
     });
 
-    const sessionToken = await db.query.tokens.findFirst({
-      where: eq(schema.tokens.id, 'sessionTokenId'),
-    });
+    const sessionToken = await findTokenById('sessionTokenId');
 
     expect(sessionToken).toEqual<Token>({
       id: 'sessionTokenId',
@@ -91,16 +87,14 @@ describe('member', () => {
 
     await requestAuthenticationLink({ email: 'email' });
 
-    const authenticationTokenValue = await findAuthenticationToken();
+    const authenticationTokenValue = await getAuthenticationToken();
 
     await verifyAuthenticationToken({
       tokenValue: authenticationTokenValue,
       sessionTokenId: 'sessionTokenId',
     });
 
-    const authenticationToken = await db.query.tokens.findFirst({
-      where: eq(schema.tokens.value, await findAuthenticationToken()),
-    });
+    const authenticationToken = await findTokenByValue(await getAuthenticationToken());
 
     expect(authenticationToken).toHaveProperty('revoked', true);
   });
