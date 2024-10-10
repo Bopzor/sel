@@ -1,1 +1,0 @@
-ALTER TABLE "notifications" DROP COLUMN IF EXISTS "read_at";
