@@ -1,5 +1,6 @@
-import { events } from 'src/infrastructure/events';
+import { container } from 'src/infrastructure/container';
 import { db, schema } from 'src/persistence';
+import { TOKENS } from 'src/tokens';
 
 import { MemberCreatedEvent, MemberStatus } from './member.entities';
 
@@ -11,6 +12,8 @@ type CreateMemberCommand = {
 };
 
 export async function createMember(command: CreateMemberCommand): Promise<void> {
+  const events = container.resolve(TOKENS.events);
+
   await db.insert(schema.members).values({
     id: command.memberId,
     status: MemberStatus.onboarding,
@@ -20,5 +23,5 @@ export async function createMember(command: CreateMemberCommand): Promise<void> 
     emailVisible: false,
   });
 
-  events.emit(new MemberCreatedEvent(command.memberId));
+  events.publish(new MemberCreatedEvent(command.memberId));
 }

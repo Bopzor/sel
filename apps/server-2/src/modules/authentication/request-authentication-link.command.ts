@@ -2,7 +2,6 @@ import { addDuration } from '@sel/utils';
 import { and, eq } from 'drizzle-orm';
 
 import { container } from 'src/infrastructure/container';
-import { events } from 'src/infrastructure/events';
 import { db, schema } from 'src/persistence';
 import { TOKENS } from 'src/tokens';
 
@@ -16,6 +15,7 @@ export async function requestAuthenticationLink(command: RequestAuthenticationLi
   const config = container.resolve(TOKENS.config);
   const generator = container.resolve(TOKENS.generator);
   const dateAdapter = container.resolve(TOKENS.date);
+  const events = container.resolve(TOKENS.events);
 
   const now = dateAdapter.now();
 
@@ -52,5 +52,5 @@ export async function requestAuthenticationLink(command: RequestAuthenticationLi
   const authenticationUrl = new URL(config.app.baseUrl);
   authenticationUrl.searchParams.set('auth-token', tokenValue);
 
-  events.emit(new AuthenticationLinkRequestedEvent(member.id, authenticationUrl.toString()));
+  events.publish(new AuthenticationLinkRequestedEvent(member.id, authenticationUrl.toString()));
 }

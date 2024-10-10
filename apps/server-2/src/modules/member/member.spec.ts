@@ -1,12 +1,14 @@
 import { UpdateMemberProfileData } from '@sel/shared';
 import { createFactory } from '@sel/utils';
 import { eq } from 'drizzle-orm';
-import { beforeAll, beforeEach, describe, expect, it, vi } from 'vitest';
+import { beforeAll, beforeEach, describe, expect, it } from 'vitest';
 
 import { insert } from 'src/factories';
-import { events } from 'src/infrastructure/events';
+import { container } from 'src/infrastructure/container';
+import { StubEvents } from 'src/infrastructure/events';
 import { db, resetDatabase, schema } from 'src/persistence';
 import { clearDatabase } from 'src/persistence/database';
+import { TOKENS } from 'src/tokens';
 
 import { createMember } from './create-member.command';
 import {
@@ -21,6 +23,13 @@ import { updateMemberProfile } from './update-member-profile.command';
 describe('member', () => {
   beforeAll(resetDatabase);
   beforeEach(clearDatabase);
+
+  let events: StubEvents;
+
+  beforeEach(() => {
+    events = new StubEvents();
+    container.bindValue(TOKENS.events, events);
+  });
 
   async function findMember(memberId: string) {
     return db.query.members.findFirst({
@@ -79,13 +88,9 @@ describe('member', () => {
   });
 
   it('triggers a domain event when a member is created', async () => {
-    const listener = vi.fn();
-
-    events.addListener(MemberCreatedEvent, listener);
-
     await createMember({ memberId: 'memberId', email: '' });
 
-    expect(listener).toHaveBeenCalledWith(new MemberCreatedEvent('memberId'));
+    expect(events.events).toContainEqual(new MemberCreatedEvent('memberId'));
   });
 
   it("updates a member's profile", async () => {
@@ -136,10 +141,6 @@ describe('member', () => {
   });
 
   it('triggers a domain event when the onboarding was completed', async () => {
-    const listener = vi.fn();
-
-    events.addListener(OnboardingCompletedEvent, listener);
-
     await saveMember({ id: 'memberId', status: MemberStatus.onboarding });
 
     await updateMemberProfile({
@@ -147,6 +148,6 @@ describe('member', () => {
       data: createUpdateProfileData({ onboardingCompleted: true }),
     });
 
-    expect(listener).toHaveBeenCalledWith(new OnboardingCompletedEvent('memberId'));
+    expect(events.events).toContainEqual(new OnboardingCompletedEvent('memberId'));
   });
 });

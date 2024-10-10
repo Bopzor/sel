@@ -1,5 +1,5 @@
 import { container } from './infrastructure/container';
-import { DomainEvent, events } from './infrastructure/events';
+import { DomainEvent } from './infrastructure/events';
 import { AuthenticationLinkRequestedEvent } from './modules/authentication/authentication.entities';
 import { sendAuthenticationEmail } from './modules/authentication/send-authentication-link.event-handler';
 import { notifyRequestCommentCreated } from './modules/request/notify-request-comment-create.event-handler';
@@ -16,7 +16,10 @@ import { domainEvents } from './persistence/schema/domain-events';
 import { TOKENS } from './tokens';
 
 export function initialize() {
-  container.resolve(TOKENS.pushNotification).init?.();
+  const pushNotification = container.resolve(TOKENS.pushNotification);
+  const events = container.resolve(TOKENS.events);
+
+  pushNotification.init?.();
 
   events.addGlobalListener(storeDomainEvent);
 

@@ -2,7 +2,6 @@ import { addDuration, isAfter } from '@sel/utils';
 import { eq } from 'drizzle-orm';
 
 import { container } from 'src/infrastructure/container';
-import { events } from 'src/infrastructure/events';
 import { db, schema } from 'src/persistence';
 import { TOKENS } from 'src/tokens';
 
@@ -21,6 +20,7 @@ type VerifyAuthenticationTokenCommand = {
 export async function verifyAuthenticationToken(command: VerifyAuthenticationTokenCommand): Promise<void> {
   const generator = container.resolve(TOKENS.generator);
   const dateAdapter = container.resolve(TOKENS.date);
+  const events = container.resolve(TOKENS.events);
 
   const now = dateAdapter.now();
 
@@ -36,7 +36,7 @@ export async function verifyAuthenticationToken(command: VerifyAuthenticationTok
     throw new TokenExpiredError();
   }
 
-  events.emit(new MemberAuthenticatedEvent(token.memberId));
+  events.publish(new MemberAuthenticatedEvent(token.memberId));
 
   await db.update(schema.tokens).set({ revoked: true, updatedAt: now }).where(eq(schema.tokens.id, token.id));
 

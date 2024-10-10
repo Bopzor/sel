@@ -1,4 +1,11 @@
 import EventEmitter from 'node:events';
+import util from 'node:util';
+
+import { injectableClass } from 'ditox';
+
+import { TOKENS } from 'src/tokens';
+
+import { Logger } from './logger';
 
 export abstract class DomainEvent<Payload = never> {
   public abstract readonly entity: string;
@@ -18,34 +25,80 @@ export abstract class DomainEvent<Payload = never> {
   }
 }
 
-type AnyDomainEvent = DomainEvent<unknown>;
-type DomainEventHandler<Event extends AnyDomainEvent> = (event: Event) => void | Promise<void>;
+type DomainEventListener<Event extends DomainEvent<unknown> = DomainEvent<unknown>> = (
+  event: Event,
+) => void | Promise<void>;
 
-type DomainEventClass<Event extends AnyDomainEvent> = {
+type DomainEventClass<Event extends DomainEvent<unknown>> = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   new (...args: any[]): Event;
   type: string;
 };
 
-class Events {
-  private events = new EventEmitter();
-  private listeners = new Set<DomainEventHandler<AnyDomainEvent>>();
+export interface Events {
+  publish(event: DomainEvent<unknown>): void;
 
-  emit(event: AnyDomainEvent) {
-    this.listeners.forEach((listener) => void listener(event));
+  addGlobalListener(listener: DomainEventListener): void;
+
+  addListener<Event extends DomainEvent<unknown>>(
+    EventClass: DomainEventClass<Event>,
+    listener: DomainEventListener<Event>,
+  ): void;
+
+  waitForListeners(): Promise<void>;
+}
+
+export class EmitterEvents implements Events {
+  static inject = injectableClass(this, TOKENS.logger);
+
+  private events = new EventEmitter();
+  private listeners = new Set<(event: DomainEvent<unknown>) => void>();
+
+  private readonly promises = new Set<Promise<void>>();
+
+  constructor(private readonly logger: Logger) {}
+
+  publish(event: DomainEvent<unknown>) {
+    this.listeners.forEach((listener) => listener(event));
     this.events.emit(event.type, event);
   }
 
-  addGlobalListener(cb: DomainEventHandler<AnyDomainEvent>): void {
-    this.listeners.add(cb);
+  addGlobalListener(listener: DomainEventListener): void {
+    this.listeners.add(this.wrapListener(listener));
   }
 
-  addListener<Event extends AnyDomainEvent>(
+  addListener<Event extends DomainEvent<unknown>>(
     EventClass: DomainEventClass<Event>,
-    cb: DomainEventHandler<Event>,
+    listener: DomainEventListener<Event>,
   ): void {
-    this.events.addListener(EventClass.type, (event) => void cb(event));
+    this.events.addListener(EventClass.type, this.wrapListener(listener));
+  }
+
+  async waitForListeners(): Promise<void> {
+    await Promise.all(this.promises);
+  }
+
+  private wrapListener<Event extends DomainEvent<unknown>>(listener: DomainEventListener<Event>) {
+    const handleError = (error: unknown) => {
+      this.logger.error(`Error in event listener ${listener.name}`, util.inspect(error));
+    };
+
+    return (event: Event): void => {
+      const promise = Promise.resolve(listener(event))
+        .catch(handleError)
+        .finally(() => this.promises.delete(promise));
+
+      this.promises.add(promise);
+    };
   }
 }
 
-export const events = new Events();
+export class StubEvents implements Events {
+  public readonly events = new Set<DomainEvent<unknown>>();
+
+  publish = this.events.add.bind(this.events);
+
+  addGlobalListener(): void {}
+  addListener(): void {}
+  async waitForListeners(): Promise<void> {}
+}

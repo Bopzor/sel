@@ -1,7 +1,6 @@
 import { eq } from 'drizzle-orm';
 
 import { container } from 'src/infrastructure/container';
-import { events } from 'src/infrastructure/events';
 import { db, schema } from 'src/persistence';
 import { TOKENS } from 'src/tokens';
 
@@ -16,6 +15,7 @@ export type EditRequestCommand = {
 export async function editRequest(command: EditRequestCommand): Promise<void> {
   const dateAdapter = container.resolve(TOKENS.date);
   const htmlParser = container.resolve(TOKENS.htmlParser);
+  const events = container.resolve(TOKENS.events);
 
   await db
     .update(schema.requests)
@@ -27,5 +27,5 @@ export async function editRequest(command: EditRequestCommand): Promise<void> {
     })
     .where(eq(schema.requests.id, command.requestId));
 
-  events.emit(new RequestEditedEvent(command.requestId));
+  events.publish(new RequestEditedEvent(command.requestId));
 }

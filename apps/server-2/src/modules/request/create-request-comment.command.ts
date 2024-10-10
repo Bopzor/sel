@@ -1,5 +1,4 @@
 import { container } from 'src/infrastructure/container';
-import { events } from 'src/infrastructure/events';
 import { db, schema } from 'src/persistence';
 import { TOKENS } from 'src/tokens';
 
@@ -13,6 +12,8 @@ export type CreateRequestCommentCommand = {
 };
 
 export async function createRequestComment(command: CreateRequestCommentCommand): Promise<void> {
+  const events = container.resolve(TOKENS.events);
+
   const { commentId, requestId, authorId, body } = command;
 
   const now = container.resolve(TOKENS.date).now();
@@ -27,5 +28,5 @@ export async function createRequestComment(command: CreateRequestCommentCommand)
     text: htmlParser.getTextContent(body),
   });
 
-  events.emit(new RequestCommentCreatedEvent(requestId, commentId, authorId));
+  events.publish(new RequestCommentCreatedEvent(requestId, commentId, authorId));
 }

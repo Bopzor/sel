@@ -1,4 +1,4 @@
-import { defined, noop, waitFor } from '@sel/utils';
+import { defined, noop } from '@sel/utils';
 import supertest from 'supertest';
 import { beforeAll, beforeEach, describe, it } from 'vitest';
 
@@ -27,7 +27,9 @@ describe('end-to-end', () => {
   });
 
   async function findAuthenticationToken() {
-    const email = await waitFor(() => defined(emailSender.emails[0]));
+    await container.resolve(TOKENS.events).waitForListeners();
+
+    const email = defined(emailSender.emails[0]);
     const link = defined(email.text.match(/(http:\/\/.*)\n/)?.[1]);
 
     return new URL(link).searchParams.get('auth-token') as string;

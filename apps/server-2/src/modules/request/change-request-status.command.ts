@@ -2,7 +2,6 @@ import { RequestStatus } from '@sel/shared';
 import { eq } from 'drizzle-orm';
 
 import { container } from 'src/infrastructure/container';
-import { events } from 'src/infrastructure/events';
 import { db, schema } from 'src/persistence';
 import { TOKENS } from 'src/tokens';
 
@@ -19,8 +18,10 @@ export type ChangeRequestStatusCommand = {
 };
 
 export async function changeRequestStatus(command: ChangeRequestStatusCommand): Promise<void> {
-  const { requestId, status } = command;
   const now = container.resolve(TOKENS.date).now();
+  const events = container.resolve(TOKENS.events);
+
+  const { requestId, status } = command;
 
   const request = await db.query.requests.findFirst({
     where: eq(schema.requests.id, requestId),
@@ -43,10 +44,10 @@ export async function changeRequestStatus(command: ChangeRequestStatusCommand): 
     .where(eq(schema.requests.id, requestId));
 
   if (command.status === RequestStatus.fulfilled) {
-    events.emit(new RequestFulfilledEvent(request.id));
+    events.publish(new RequestFulfilledEvent(request.id));
   }
 
   if (command.status === RequestStatus.canceled) {
-    events.emit(new RequestCanceledEvent(request.id));
+    events.publish(new RequestCanceledEvent(request.id));
   }
 }

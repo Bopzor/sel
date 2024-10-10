@@ -1,7 +1,6 @@
 import { RequestStatus } from '@sel/shared';
 
 import { container } from 'src/infrastructure/container';
-import { events } from 'src/infrastructure/events';
 import { db, schema } from 'src/persistence';
 import { TOKENS } from 'src/tokens';
 
@@ -17,6 +16,7 @@ export type CreateRequestCommand = {
 export async function createRequest(command: CreateRequestCommand): Promise<void> {
   const dateAdapter = container.resolve(TOKENS.date);
   const htmlParser = container.resolve(TOKENS.htmlParser);
+  const events = container.resolve(TOKENS.events);
 
   await db.insert(schema.requests).values({
     id: command.requestId,
@@ -28,5 +28,5 @@ export async function createRequest(command: CreateRequestCommand): Promise<void
     html: command.body,
   });
 
-  events.emit(new RequestCreatedEvent(command.requestId, command.requesterId));
+  events.publish(new RequestCreatedEvent(command.requestId, command.requesterId));
 }

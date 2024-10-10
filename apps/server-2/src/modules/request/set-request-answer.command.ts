@@ -2,7 +2,6 @@ import { RequestStatus } from '@sel/shared';
 import { eq } from 'drizzle-orm';
 
 import { container } from 'src/infrastructure/container';
-import { events } from 'src/infrastructure/events';
 import { db, schema } from 'src/persistence';
 import { TOKENS } from 'src/tokens';
 
@@ -23,9 +22,11 @@ export type SetRequestAnswerCommand = {
 };
 
 export async function setRequestAnswer(command: SetRequestAnswerCommand): Promise<void> {
-  const { requestId, memberId, answer } = command;
   const generator = container.resolve(TOKENS.generator);
   const now = container.resolve(TOKENS.date).now();
+  const events = container.resolve(TOKENS.events);
+
+  const { requestId, memberId, answer } = command;
 
   const request = await db.query.requests.findFirst({
     where: eq(schema.requests.id, requestId),
@@ -69,16 +70,16 @@ export async function setRequestAnswer(command: SetRequestAnswerCommand): Promis
       });
 
     if (requestAnswer) {
-      events.emit(new RequestAnswerChangedEvent(request.id, requestAnswerId, answer));
+      events.publish(new RequestAnswerChangedEvent(request.id, requestAnswerId, answer));
     } else {
-      events.emit(new RequestAnswerCreatedEvent(request.id, requestAnswerId, memberId, answer));
+      events.publish(new RequestAnswerCreatedEvent(request.id, requestAnswerId, memberId, answer));
     }
   }
 
   if (requestAnswer && answer === null) {
     await db.delete(schema.requestAnswers).where(eq(schema.requestAnswers, requestAnswer.id));
-    events.emit(new RequestAnswerDeletedEvent(request.id, requestAnswer.id));
+    events.publish(new RequestAnswerDeletedEvent(request.id, requestAnswer.id));
   }
 
-  events.emit(new RequestEditedEvent(command.requestId));
+  events.publish(new RequestEditedEvent(command.requestId));
 }

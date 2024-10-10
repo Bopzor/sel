@@ -12,14 +12,14 @@ export class StubLogger implements Logger {
   };
 
   log(...args: unknown[]): void {
-    this.lines['log'].push(...args);
+    this.lines['log'].push(args);
   }
 
   warn(...args: unknown[]): void {
-    this.lines['warn'].push(...args);
+    this.lines['warn'].push(args);
   }
 
   error(...args: unknown[]): void {
-    this.lines['error'].push(...args);
+    this.lines['error'].push(args);
   }
 }

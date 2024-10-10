@@ -1,8 +1,9 @@
 import { UpdateMemberProfileData } from '@sel/shared';
 import { eq } from 'drizzle-orm';
 
-import { events } from 'src/infrastructure/events';
+import { container } from 'src/infrastructure/container';
 import { db, schema } from 'src/persistence';
+import { TOKENS } from 'src/tokens';
 
 import { MemberInsert, MemberStatus, OnboardingCompletedEvent } from './member.entities';
 
@@ -12,6 +13,8 @@ type UpdateMemberProfileCommand = {
 };
 
 export async function updateMemberProfile(command: UpdateMemberProfileCommand): Promise<void> {
+  const events = container.resolve(TOKENS.events);
+
   const { memberId, data } = command;
   const { firstName, lastName, emailVisible, phoneNumbers, bio, address, onboardingCompleted } = data;
 
@@ -35,6 +38,6 @@ export async function updateMemberProfile(command: UpdateMemberProfileCommand): 
   await db.update(schema.members).set(values).where(eq(schema.members.id, memberId));
 
   if (data.onboardingCompleted) {
-    events.emit(new OnboardingCompletedEvent(memberId));
+    events.publish(new OnboardingCompletedEvent(memberId));
   }
 }

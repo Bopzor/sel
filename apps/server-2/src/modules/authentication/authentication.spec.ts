@@ -1,6 +1,6 @@
-import { defined, waitFor } from '@sel/utils';
+import { defined } from '@sel/utils';
 import { and, eq } from 'drizzle-orm';
-import { describe, beforeAll, beforeEach, it, expect } from 'vitest';
+import { beforeAll, beforeEach, describe, expect, it } from 'vitest';
 
 import { insert } from 'src/factories';
 import { container } from 'src/infrastructure/container';
@@ -33,7 +33,9 @@ describe('member', () => {
   }
 
   async function findAuthenticationToken() {
-    const email = await waitFor(() => defined(emailSender.emails[0]));
+    await container.resolve(TOKENS.events).waitForListeners();
+
+    const email = defined(emailSender.emails[0]);
     const link = defined(email.text.match(/(http:\/\/.*)\n/)?.[1]);
 
     return new URL(link).searchParams.get('auth-token') as string;
