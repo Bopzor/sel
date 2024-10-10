@@ -1,4 +1,16 @@
 DO $$ BEGIN
+ CREATE TYPE "public"."event_kind" AS ENUM('internal', 'external');
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
+ CREATE TYPE "public"."event_participation" AS ENUM('yes', 'no');
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
  CREATE TYPE "public"."member_status" AS ENUM('onboarding', 'inactive', 'active');
 EXCEPTION
  WHEN duplicate_object THEN null;
@@ -32,6 +44,7 @@ CREATE TABLE IF NOT EXISTS "comments" (
 	"id" varchar(16) PRIMARY KEY NOT NULL,
 	"author_id" varchar(16) NOT NULL,
 	"request_id" varchar(16),
+	"event_id" varchar(16),
 	"date" timestamp (3) NOT NULL,
 	"text" text NOT NULL,
 	"html" text NOT NULL,
@@ -55,6 +68,29 @@ CREATE TABLE IF NOT EXISTS "domain_events" (
 	"type" varchar(256) NOT NULL,
 	"payload" json,
 	"created_at" timestamp (3) DEFAULT now() NOT NULL
+);
+--> statement-breakpoint
+CREATE TABLE IF NOT EXISTS "event_participations" (
+	"id" varchar(16) PRIMARY KEY NOT NULL,
+	"event_id" varchar(16) NOT NULL,
+	"participant_id" varchar(16) NOT NULL,
+	"participation" "event_participation" NOT NULL,
+	"created_at" timestamp (3) DEFAULT now() NOT NULL,
+	"updated_at" timestamp (3) DEFAULT now() NOT NULL,
+	CONSTRAINT "event_participations_event_id_participant_id_unique" UNIQUE("event_id","participant_id")
+);
+--> statement-breakpoint
+CREATE TABLE IF NOT EXISTS "events" (
+	"id" varchar(16) PRIMARY KEY NOT NULL,
+	"organizer_id" varchar(16) NOT NULL,
+	"title" varchar(256) NOT NULL,
+	"text" text NOT NULL,
+	"html" text NOT NULL,
+	"date" timestamp (3),
+	"location" json,
+	"kind" "event_kind" NOT NULL,
+	"created_at" timestamp (3) DEFAULT now() NOT NULL,
+	"updated_at" timestamp (3) DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "interests" (
@@ -168,6 +204,7 @@ CREATE TABLE IF NOT EXISTS "transactions" (
 	"recipient_comment" text,
 	"creator_id" varchar(16) NOT NULL,
 	"request_id" varchar(16),
+	"event_id" varchar(16),
 	"created_at" timestamp (3) DEFAULT now() NOT NULL,
 	"updated_at" timestamp (3) DEFAULT now() NOT NULL
 );
@@ -180,6 +217,30 @@ END $$;
 --> statement-breakpoint
 DO $$ BEGIN
  ALTER TABLE "comments" ADD CONSTRAINT "comments_request_id_requests_id_fk" FOREIGN KEY ("request_id") REFERENCES "public"."requests"("id") ON DELETE no action ON UPDATE no action;
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
+ ALTER TABLE "comments" ADD CONSTRAINT "comments_event_id_events_id_fk" FOREIGN KEY ("event_id") REFERENCES "public"."events"("id") ON DELETE no action ON UPDATE no action;
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
+ ALTER TABLE "event_participations" ADD CONSTRAINT "event_participations_event_id_events_id_fk" FOREIGN KEY ("event_id") REFERENCES "public"."events"("id") ON DELETE no action ON UPDATE no action;
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
+ ALTER TABLE "event_participations" ADD CONSTRAINT "event_participations_participant_id_members_id_fk" FOREIGN KEY ("participant_id") REFERENCES "public"."members"("id") ON DELETE no action ON UPDATE no action;
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
+ ALTER TABLE "events" ADD CONSTRAINT "events_organizer_id_members_id_fk" FOREIGN KEY ("organizer_id") REFERENCES "public"."members"("id") ON DELETE no action ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;
@@ -258,6 +319,12 @@ END $$;
 --> statement-breakpoint
 DO $$ BEGIN
  ALTER TABLE "transactions" ADD CONSTRAINT "transactions_request_id_requests_id_fk" FOREIGN KEY ("request_id") REFERENCES "public"."requests"("id") ON DELETE no action ON UPDATE no action;
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
+ ALTER TABLE "transactions" ADD CONSTRAINT "transactions_event_id_events_id_fk" FOREIGN KEY ("event_id") REFERENCES "public"."events"("id") ON DELETE no action ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;

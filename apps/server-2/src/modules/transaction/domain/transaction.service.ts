@@ -84,7 +84,7 @@ export function createTransaction(params: {
     payerComment: null,
     recipientComment: null,
     requestId: requestId ?? null,
-    // eventId: eventId ?? null,
+    eventId: eventId ?? null,
     createdAt: now,
     updatedAt: now,
   };

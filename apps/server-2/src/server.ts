@@ -11,9 +11,11 @@ import { isAuthenticated, provideAuthenticatedMember } from './infrastructure/se
 import { TokenType } from './modules/authentication/authentication.entities';
 import { router as authentication } from './modules/authentication/authentication.router';
 import { router as session } from './modules/authentication/session.router';
+import { router as events } from './modules/event/event.router';
 import { router as interests } from './modules/interest/interest.router';
 import { router as members } from './modules/member/member.router';
 import { router as requests } from './modules/request/request.router';
+import { router as transactions } from './modules/transaction/transaction.router';
 import { db, schema } from './persistence';
 import { TOKENS } from './tokens';
 
@@ -26,12 +28,14 @@ export function server() {
   app.use(authenticationProvider);
 
   app.use('/health', health);
-  app.use('/config', configHandler);
+  app.use('/config', isAuthenticated, configHandler);
   app.use('/authentication', authentication);
   app.use('/session', isAuthenticated, session);
+  app.use('/events', isAuthenticated, events);
+  app.use('/interests', isAuthenticated, interests);
   app.use('/members', isAuthenticated, members);
   app.use('/requests', isAuthenticated, requests);
-  app.use('/interests', isAuthenticated, interests);
+  app.use('/transactions', isAuthenticated, transactions);
 
   app.use(fallbackRequestHandler);
 

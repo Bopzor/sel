@@ -4,6 +4,7 @@ import { integer, pgEnum, pgTable, text } from 'drizzle-orm/pg-core';
 
 import { createdAt, enumValues, id, primaryKey, updatedAt } from '../schema-utils';
 
+import { events } from './events';
 import { members } from './members';
 import { requests } from './requests';
 
@@ -26,7 +27,7 @@ export const transactions = pgTable('transactions', {
     .references(() => members.id)
     .notNull(),
   requestId: id('request_id').references(() => requests.id),
-  // eventId: id('event_id').references(() => events.id),
+  eventId: id('event_id').references(() => events.id),
   createdAt,
   updatedAt,
 });
@@ -48,8 +49,8 @@ export const transactionsRelations = relations(transactions, ({ one }) => ({
     fields: [transactions.requestId],
     references: [requests.id],
   }),
-  // event: one(events, {
-  //   fields: [transactions.eventId],
-  //   references: [events.id],
-  // }),
+  event: one(events, {
+    fields: [transactions.eventId],
+    references: [events.id],
+  }),
 }));

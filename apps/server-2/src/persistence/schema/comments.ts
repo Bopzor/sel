@@ -3,6 +3,7 @@ import { pgTable, text } from 'drizzle-orm/pg-core';
 
 import { createdAt, date, id, primaryKey, updatedAt } from '../schema-utils';
 
+import { events } from './events';
 import { members } from './members';
 import { requests } from './requests';
 
@@ -12,7 +13,7 @@ export const comments = pgTable('comments', {
     .references(() => members.id)
     .notNull(),
   requestId: id('request_id').references(() => requests.id),
-  // eventId: id('event_id').references(() => events.id),
+  eventId: id('event_id').references(() => events.id),
   date: date('date').notNull(),
   text: text('text').notNull(),
   html: text('html').notNull(),
@@ -29,8 +30,8 @@ export const commentsRelations = relations(comments, ({ one }) => ({
     fields: [comments.requestId],
     references: [requests.id],
   }),
-  // event: one(events, {
-  //   fields: [comments.eventId],
-  //   references: [events.id],
-  // }),
+  event: one(events, {
+    fields: [comments.eventId],
+    references: [events.id],
+  }),
 }));

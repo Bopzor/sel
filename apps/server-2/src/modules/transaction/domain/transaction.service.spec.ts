@@ -66,7 +66,7 @@ describe('transaction', () => {
     recipientComment: '',
     creatorId: '',
     requestId: '',
-    // eventId: '',
+    eventId: '',
     createdAt: createDate(),
     updatedAt: createDate(),
   }));
