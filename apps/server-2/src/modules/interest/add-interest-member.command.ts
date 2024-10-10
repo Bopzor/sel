@@ -36,5 +36,5 @@ export async function addInterestMember(command: AddInterestMemberCommand): Prom
     description,
   });
 
-  events.publish(new InterestMemberAddedEvent(interestId, memberId));
+  events.publish(new InterestMemberAddedEvent(interestId, { memberId }));
 }

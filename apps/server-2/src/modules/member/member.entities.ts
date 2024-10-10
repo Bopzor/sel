@@ -14,10 +14,6 @@ export function memberName(member: Member) {
   return `${member.firstName} ${member.lastName[0]}.`;
 }
 
-export class MemberEvent<Payload = never> extends DomainEvent<Payload> {
-  entity = 'member';
-}
+export class MemberCreatedEvent extends DomainEvent {}
 
-export class MemberCreatedEvent extends MemberEvent {}
-
-export class OnboardingCompletedEvent extends MemberEvent {}
+export class OnboardingCompletedEvent extends DomainEvent {}

@@ -8,8 +8,6 @@ import { TOKENS } from 'src/tokens';
 import { Logger } from './logger';
 
 export abstract class DomainEvent<Payload = never> {
-  public abstract readonly entity: string;
-
   public readonly type: string;
   public readonly entityId: string;
   public readonly payload: Payload;

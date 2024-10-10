@@ -37,5 +37,5 @@ export async function editInterestMember(command: EditInterestMemberCommand): Pr
     })
     .where(eq(schema.membersInterests.id, memberInterest.id));
 
-  events.publish(new InterestMemberEditedEvent(interestId, memberId));
+  events.publish(new InterestMemberEditedEvent(interestId, { memberId }));
 }

@@ -69,15 +69,15 @@ export async function setRequestAnswer(command: SetRequestAnswerCommand): Promis
       });
 
     if (requestAnswer) {
-      events.publish(new RequestAnswerChangedEvent(request.id, requestAnswerId, answer));
+      events.publish(new RequestAnswerChangedEvent(request.id, { requestAnswerId, answer }));
     } else {
-      events.publish(new RequestAnswerCreatedEvent(request.id, requestAnswerId, memberId, answer));
+      events.publish(new RequestAnswerCreatedEvent(request.id, { requestAnswerId, memberId, answer }));
     }
   }
 
   if (requestAnswer && answer === null) {
     await db.delete(schema.requestAnswers).where(eq(schema.requestAnswers, requestAnswer.id));
-    events.publish(new RequestAnswerDeletedEvent(request.id, requestAnswer.id));
+    events.publish(new RequestAnswerDeletedEvent(request.id, { requestAnswerId: requestAnswer.id }));
   }
 
   events.publish(new RequestEditedEvent(command.requestId));

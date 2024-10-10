@@ -22,8 +22,8 @@ export async function notifyRequestCommentCreated(event: RequestCommentCreatedEv
 
   assert(request !== undefined);
 
-  const comment = defined(request.comments.find(hasProperty('id', event.commentId)));
-  const author = defined(await findMemberById(event.authorId));
+  const comment = defined(request.comments.find(hasProperty('id', event.payload.commentId)));
+  const author = defined(await findMemberById(event.payload.authorId));
 
   const stakeholderIds = unique([
     request.requester.id,

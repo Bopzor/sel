@@ -51,7 +51,6 @@ CREATE TABLE IF NOT EXISTS "config" (
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "domain_events" (
 	"id" varchar(16) PRIMARY KEY NOT NULL,
-	"entity" varchar(256) NOT NULL,
 	"entity_id" varchar(16) NOT NULL,
 	"type" varchar(256) NOT NULL,
 	"payload" json,

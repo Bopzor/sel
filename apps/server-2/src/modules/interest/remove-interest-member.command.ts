@@ -30,5 +30,5 @@ export async function removeInterestMember(command: RemoveInterestMemberCommand)
 
   await db.delete(schema.membersInterests).where(where);
 
-  events.publish(new InterestMemberRemovedEvent(interestId, memberId));
+  events.publish(new InterestMemberRemovedEvent(interestId, { memberId }));
 }

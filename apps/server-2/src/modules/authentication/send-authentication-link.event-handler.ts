@@ -12,6 +12,7 @@ export async function sendAuthenticationEmail(event: AuthenticationLinkRequested
   const emailSender = container.resolve(TOKENS.emailSender);
 
   const member = defined(await findMemberById(event.entityId));
+  const { link } = event.payload;
 
   await emailSender.send({
     to: member.email,
@@ -19,12 +20,12 @@ export async function sendAuthenticationEmail(event: AuthenticationLinkRequested
       subject: 'Lien de connexion',
       html: [
         `Bonjour ${member.firstName},`,
-        `Pour vous connecter à l'app du SEL, cliquez sur le lien suivant : <a href="${event.link}">${event.link}</a>`,
+        `Pour vous connecter à l'app du SEL, cliquez sur le lien suivant : <a href="${link}">${link}</a>`,
         `Si vous n'êtes pas à l'origine de cette demande, vous pouvez ignorer cet email.`,
       ],
       text: [
         `Bonjour ${member.firstName},`,
-        `Pour vous connecter à l'app du SEL, ouvrez le lien suivant depuis un navigateur : ${event.link}`,
+        `Pour vous connecter à l'app du SEL, ouvrez le lien suivant depuis un navigateur : ${link}`,
         `Si vous n'êtes pas à l'origine de cette demande, vous pouvez ignorer cet email.`,
       ],
     }),

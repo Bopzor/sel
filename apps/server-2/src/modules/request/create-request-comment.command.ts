@@ -28,5 +28,5 @@ export async function createRequestComment(command: CreateRequestCommentCommand)
     text: htmlParser.getTextContent(body),
   });
 
-  events.publish(new RequestCommentCreatedEvent(requestId, commentId, authorId));
+  events.publish(new RequestCommentCreatedEvent(requestId, { commentId, authorId }));
 }

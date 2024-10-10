@@ -28,5 +28,5 @@ export async function createRequest(command: CreateRequestCommand): Promise<void
     html: command.body,
   });
 
-  events.publish(new RequestCreatedEvent(command.requestId, command.requesterId));
+  events.publish(new RequestCreatedEvent(command.requestId, { requesterId: command.requesterId }));
 }

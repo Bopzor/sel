@@ -8,6 +8,16 @@ export type InterestInsert = typeof schema.interests.$inferInsert;
 
 export type MemberInterest = typeof schema.membersInterests.$inferSelect;
 
+export class InterestCreatedEvent extends DomainEvent {}
+
+export class InterestMemberEvent extends DomainEvent<{ memberId: string }> {}
+
+export class InterestMemberAddedEvent extends InterestMemberEvent {}
+
+export class InterestMemberEditedEvent extends InterestMemberEvent {}
+
+export class InterestMemberRemovedEvent extends InterestMemberEvent {}
+
 export class InterestAlreadyAddedError extends DomainError {
   status = HttpStatus.badRequest;
 
@@ -23,21 +33,3 @@ export class InterestNotAddedError extends DomainError {
     super('Interest was not added');
   }
 }
-
-export class InterestEvent<Payload = never> extends DomainEvent<Payload> {
-  entity = 'interest';
-}
-
-export class InterestCreatedEvent extends InterestEvent {}
-
-export class InterestMemberEvent extends InterestEvent<{ memberId: string }> {
-  constructor(interestId: string, memberId: string) {
-    super(interestId, { memberId });
-  }
-}
-
-export class InterestMemberAddedEvent extends InterestMemberEvent {}
-
-export class InterestMemberEditedEvent extends InterestMemberEvent {}
-
-export class InterestMemberRemovedEvent extends InterestMemberEvent {}

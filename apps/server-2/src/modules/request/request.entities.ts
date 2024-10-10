@@ -8,64 +8,28 @@ export type RequestInsert = typeof schema.requests.$inferInsert;
 
 export type RequestAnswer = typeof schema.requestAnswers.$inferSelect;
 
-class RequestEvent extends DomainEvent {
-  public entity = 'request';
-}
+export class RequestCreatedEvent extends DomainEvent<{ requesterId: string }> {}
 
-export class RequestCreatedEvent extends RequestEvent {
-  constructor(
-    requestId: string,
-    public requesterId: string,
-  ) {
-    super(requestId);
-  }
-}
+export class RequestEditedEvent extends DomainEvent {}
 
-export class RequestEditedEvent extends RequestEvent {}
+export class RequestCommentCreatedEvent extends DomainEvent<{ commentId: string; authorId: string }> {}
 
-export class RequestCommentCreatedEvent extends RequestEvent {
-  constructor(
-    requestId: string,
-    public readonly commentId: string,
-    public readonly authorId: string,
-  ) {
-    super(requestId);
-  }
-}
+export class RequestFulfilledEvent extends DomainEvent {}
 
-export class RequestFulfilledEvent extends RequestEvent {}
+export class RequestCanceledEvent extends DomainEvent {}
 
-export class RequestCanceledEvent extends RequestEvent {}
+export class RequestAnswerCreatedEvent extends DomainEvent<{
+  requestAnswerId: string;
+  memberId: string;
+  answer: RequestAnswer['answer'];
+}> {}
 
-export class RequestAnswerCreatedEvent extends RequestEvent {
-  constructor(
-    requestId: string,
-    public readonly requestAnswerId: string,
-    public readonly memberId: string,
-    public readonly answer: RequestAnswer['answer'],
-  ) {
-    super(requestId);
-  }
-}
+export class RequestAnswerChangedEvent extends DomainEvent<{
+  requestAnswerId: string;
+  answer: RequestAnswer['answer'] | null;
+}> {}
 
-export class RequestAnswerChangedEvent extends RequestEvent {
-  constructor(
-    requestId: string,
-    public readonly requestAnswerId: string,
-    public readonly answer: RequestAnswer['answer'] | null,
-  ) {
-    super(requestId);
-  }
-}
-
-export class RequestAnswerDeletedEvent extends RequestEvent {
-  constructor(
-    requestId: string,
-    public readonly requestAnswerId: string,
-  ) {
-    super(requestId);
-  }
-}
+export class RequestAnswerDeletedEvent extends DomainEvent<{ requestAnswerId: string }> {}
 
 export class RequestNotFoundError extends NotFoundError {
   constructor() {

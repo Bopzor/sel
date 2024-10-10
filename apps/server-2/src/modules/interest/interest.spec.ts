@@ -63,7 +63,9 @@ describe('interest', () => {
       interestId: 'interestId',
     });
 
-    expect(events.events).toContainEqual(new InterestMemberAddedEvent('interestId', 'memberId'));
+    expect(events.events).toContainEqual(
+      new InterestMemberAddedEvent('interestId', { memberId: 'memberId' }),
+    );
   });
 
   it('removes a member from an interest', async () => {
@@ -75,7 +77,9 @@ describe('interest', () => {
 
     expect(await db.query.membersInterests.findFirst()).toBeUndefined();
 
-    expect(events.events).toContainEqual(new InterestMemberRemovedEvent('interestId', 'memberId'));
+    expect(events.events).toContainEqual(
+      new InterestMemberRemovedEvent('interestId', { memberId: 'memberId' }),
+    );
   });
 
   it("edits a member interest's description", async () => {
@@ -87,6 +91,8 @@ describe('interest', () => {
 
     expect(await db.query.membersInterests.findFirst()).toHaveProperty('description', 'description');
 
-    expect(events.events).toContainEqual(new InterestMemberEditedEvent('interestId', 'memberId'));
+    expect(events.events).toContainEqual(
+      new InterestMemberEditedEvent('interestId', { memberId: 'memberId' }),
+    );
   });
 });

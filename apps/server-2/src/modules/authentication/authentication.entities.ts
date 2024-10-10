@@ -1,7 +1,6 @@
+import { DomainEvent } from 'src/infrastructure/events';
 import { NotFoundError, UnauthorizedError } from 'src/infrastructure/http';
 import { type schema } from 'src/persistence';
-
-import { MemberEvent } from '../member/member.entities';
 
 export enum TokenType {
   authentication = 'authentication',
@@ -11,16 +10,9 @@ export enum TokenType {
 export type Token = typeof schema.tokens.$inferSelect;
 export type TokenInsert = typeof schema.tokens.$inferInsert;
 
-export class AuthenticationLinkRequestedEvent extends MemberEvent {
-  constructor(
-    memberId: string,
-    public readonly link: string,
-  ) {
-    super(memberId);
-  }
-}
+export class AuthenticationLinkRequestedEvent extends DomainEvent<{ link: string }> {}
 
-export class MemberAuthenticatedEvent extends MemberEvent {}
+export class MemberAuthenticatedEvent extends DomainEvent {}
 
 export class InvalidSessionTokenError extends UnauthorizedError {
   constructor() {

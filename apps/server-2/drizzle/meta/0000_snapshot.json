@@ -1,5 +1,5 @@
 {
-  "id": "b2ef39ca-502d-4fc6-899f-afc9035bfd27",
+  "id": "f5b438b6-2e97-4ebe-ae16-fce7c1af46a0",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -155,12 +155,6 @@
           "name": "id",
           "type": "varchar(16)",
           "primaryKey": true,
-          "notNull": true
-        },
-        "entity": {
-          "name": "entity",
-          "type": "varchar(256)",
-          "primaryKey": false,
           "notNull": true
         },
         "entity_id": {
