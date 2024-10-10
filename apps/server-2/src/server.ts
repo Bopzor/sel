@@ -1,3 +1,5 @@
+import { Config } from '@sel/shared';
+import { defined, pick } from '@sel/utils';
 import cookieParser from 'cookie-parser';
 import { eq } from 'drizzle-orm';
 import express, { ErrorRequestHandler, RequestHandler } from 'express';
@@ -10,6 +12,7 @@ import { InvalidSessionTokenError, TokenType } from './modules/authentication/au
 import { router as authentication } from './modules/authentication/authentication.router';
 import { router as session } from './modules/authentication/session.router';
 import { router as members } from './modules/member/member.router';
+import { router as requests } from './modules/request/request.router';
 import { db, schema } from './persistence';
 import { TOKENS } from './tokens';
 
@@ -21,9 +24,12 @@ export function server() {
   app.use(express.json());
   app.use(authenticationProvider);
 
+  app.use('/health', health);
+  app.use('/config', configHandler);
   app.use('/authentication', authentication);
   app.use('/session', isAuthenticated, session);
   app.use('/members', isAuthenticated, members);
+  app.use('/requests', isAuthenticated, requests);
 
   app.use(fallbackRequestHandler);
 
@@ -50,6 +56,17 @@ const authenticationProvider: RequestHandler = async (req, res, next) => {
   }
 
   provideAuthenticatedMember(token.member, next);
+};
+
+const health: RequestHandler = (req, res) => {
+  res.status(HttpStatus.noContent).end();
+};
+
+const configHandler: RequestHandler = async (req, res) => {
+  const config = defined(await db.query.config.findFirst());
+
+  res.json(pick(config, ['letsName', 'logoUrl', 'currency', 'currencyPlural']) satisfies Config);
+  res.end();
 };
 
 const fallbackRequestHandler: RequestHandler = (req, res) => {
