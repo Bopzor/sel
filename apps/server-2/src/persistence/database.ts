@@ -11,9 +11,19 @@ import drizzleConfig from '../../drizzle.config';
 
 import * as schema from './schema';
 
+const config = container.resolve(TOKENS.config);
+const logger = container.resolve(TOKENS.logger);
+
 export const db = await drizzle('node-postgres', {
   connection: databaseUrl(),
   schema,
+  logger: {
+    logQuery(query, params) {
+      if (config.database.debug) {
+        logger.log(query, params);
+      }
+    },
+  },
 });
 
 function databaseUrl() {

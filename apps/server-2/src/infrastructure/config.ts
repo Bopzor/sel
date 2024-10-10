@@ -17,6 +17,7 @@ export interface Config {
 
   database: {
     url: string;
+    debug: boolean;
   };
 
   email: {
@@ -43,7 +44,7 @@ export function createEnvConfig(): Config {
 
     session: {
       secret: getEnv('SESSION_SECRET'),
-      secure: getEnv('SESSION_SECURE', (value) => value === 'true'),
+      secure: getEnv('SESSION_SECURE', parseBoolean),
     },
 
     app: {
@@ -52,12 +53,13 @@ export function createEnvConfig(): Config {
 
     database: {
       url: getEnv('DATABASE_URL'),
+      debug: getEnv('DATABASE_DEBUG', parseBoolean),
     },
 
     email: {
       host: getEnv('EMAIL_HOST'),
       port: getEnv('EMAIL_PORT', Number.parseInt),
-      secure: getEnv('EMAIL_SECURE', (value) => value === 'true'),
+      secure: getEnv('EMAIL_SECURE', parseBoolean),
       sender: getEnv('EMAIL_FROM'),
       password: getEnv('EMAIL_PASSWORD'),
     },
@@ -79,4 +81,8 @@ function getEnv<T>(name: string, parse?: (value: string) => T): string | T {
   assert(value !== undefined, `Missing environment variable ${name}`);
 
   return parse ? parse(value) : value;
+}
+
+function parseBoolean(value: string) {
+  return value === 'true';
 }
