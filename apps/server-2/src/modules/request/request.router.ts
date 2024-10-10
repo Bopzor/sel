@@ -13,6 +13,7 @@ import { TOKENS } from 'src/tokens';
 
 import { Comment } from '../comment';
 import { Member } from '../member';
+import { createTransaction } from '../transaction/domain/create-transaction.command';
 
 import { changeRequestStatus } from './domain/change-request-status.command';
 import { createRequestComment } from './domain/create-request-comment.command';
@@ -181,14 +182,13 @@ router.post('/:requestId/transaction', async (req, res) => {
   const transactionId = container.resolve(TOKENS.generator).id();
   const body = shared.createRequestTransactionBodySchema.parse(req.body);
 
-  // todo
-  // await createTransaction({
-  //   transactionId,
-  //   payerId: request.requesterId,
-  //   creatorId: member.id,
-  //   requestId: request.id,
-  //   ...body,
-  // });
+  await createTransaction({
+    transactionId,
+    payerId: request.requesterId,
+    creatorId: member.id,
+    requestId: request.id,
+    ...body,
+  });
 
   res.send(transactionId);
 });

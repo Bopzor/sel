@@ -1,11 +1,15 @@
 import * as shared from '@sel/shared';
+import { defined } from '@sel/utils';
+import { eq } from 'drizzle-orm';
 import express from 'express';
 
 import { unsetCookie } from 'src/infrastructure/cookie';
 import { HttpStatus } from 'src/infrastructure/http';
 import { getAuthenticatedMember } from 'src/infrastructure/session';
+import { db, schema } from 'src/persistence';
 
-import { MemberStatus } from '../member/member.entities';
+import { Interest, MemberInterest } from '../interest/interest.entities';
+import { Member, MemberStatus } from '../member/member.entities';
 import { NotificationDeliveryType } from '../notification/notification.entities';
 
 import { revokeSessionToken } from './domain/revoke-session-token.command';
@@ -21,10 +25,27 @@ router.delete('/', async (req, res) => {
   res.status(HttpStatus.noContent).end();
 });
 
-router.get('/member', (req, res) => {
-  const member = getAuthenticatedMember();
+router.get('/member', async (req, res) => {
+  const member = await db.query.members.findFirst({
+    where: eq(schema.members.id, getAuthenticatedMember().id),
+    with: {
+      memberInterests: {
+        with: { interest: true },
+      },
+    },
+  });
 
-  res.json({
+  res.json(serializeAuthenticatedMember(defined(member)));
+});
+
+function serializeAuthenticatedMember(
+  member: Member & { memberInterests: Array<MemberInterest & { interest: Interest }> },
+): shared.AuthenticatedMember {
+  const compareMemberInterests = (a: shared.MemberInterest, b: shared.MemberInterest) => {
+    return a.label.localeCompare(b.label);
+  };
+
+  return {
     id: member.id,
     firstName: member.firstName,
     lastName: member.lastName,
@@ -40,6 +61,17 @@ router.get('/member', (req, res) => {
       email: member.notificationDelivery.includes(NotificationDeliveryType.email),
       push: member.notificationDelivery.includes(NotificationDeliveryType.push),
     },
-    interests: [],
-  } satisfies shared.AuthenticatedMember);
-});
+    interests: member.memberInterests.map(serializeMemberInterest).sort(compareMemberInterests),
+  };
+}
+
+function serializeMemberInterest(
+  memberInterest: MemberInterest & { interest: Interest },
+): shared.MemberInterest {
+  return {
+    id: memberInterest.id,
+    interestId: memberInterest.interestId,
+    label: memberInterest.interest.label,
+    description: memberInterest.description ?? undefined,
+  };
+}

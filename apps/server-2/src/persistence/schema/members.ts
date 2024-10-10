@@ -6,6 +6,7 @@ import { MemberStatus } from 'src/modules/member/member.entities';
 
 import { createdAt, date, enumValues, primaryKey, updatedAt } from '../schema-utils';
 
+import { membersInterests } from './interests';
 import { memberDevices, notificationDeliveryTypeEnum } from './notifications';
 
 export const memberStatusEnum = pgEnum('member_status', enumValues(MemberStatus));
@@ -31,5 +32,6 @@ export const members = pgTable('members', {
 });
 
 export const memberRelations = relations(members, ({ many }) => ({
+  memberInterests: many(membersInterests),
   devices: many(memberDevices),
 }));

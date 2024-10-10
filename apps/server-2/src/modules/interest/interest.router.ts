@@ -43,7 +43,7 @@ router.post('/', async (req, res) => {
     description,
   });
 
-  res.status(HttpStatus.created).end();
+  res.status(HttpStatus.created).send(interestId);
 });
 
 router.put('/:interestId/join', async (req, res) => {

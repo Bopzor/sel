@@ -11,6 +11,8 @@ import { Forbidden, HttpStatus, NotFound } from 'src/infrastructure/http';
 import { db, schema } from 'src/persistence';
 import { TOKENS } from 'src/tokens';
 
+import { Interest, MemberInterest } from '../interest/interest.entities';
+
 import { changeNotificationDeliveryType } from './domain/change-notification-delivery-type.command';
 import { createMember } from './domain/create-member.command';
 import { updateMemberProfile } from './domain/update-member-profile.command';
@@ -44,7 +46,13 @@ router.param('memberId', async (req, res, next) => {
 });
 
 router.get('/', async (req, res) => {
-  const members = await db.query.members.findMany();
+  const members = await db.query.members.findMany({
+    with: {
+      memberInterests: {
+        with: { interest: true },
+      },
+    },
+  });
 
   res.json(members.map(serializeMember));
 });
@@ -60,8 +68,17 @@ router.post('/', async (req, res) => {
   res.status(201).send(memberId);
 });
 
-router.get('/:memberId', (req, res) => {
-  res.json(serializeMember(getMember()));
+router.get('/:memberId', async (req, res) => {
+  const member = await db.query.members.findFirst({
+    where: eq(schema.members.id, req.params.memberId),
+    with: {
+      memberInterests: {
+        with: { interest: true },
+      },
+    },
+  });
+
+  res.json(serializeMember(defined(member)));
 });
 
 router.get('/:memberId/avatar', (req, res) => {
@@ -112,7 +129,13 @@ router.put('/:memberId/notification-delivery', isAuthenticatedMember, async (req
   res.status(HttpStatus.noContent).end();
 });
 
-function serializeMember(member: Member): shared.Member {
+function serializeMember(
+  member: Member & { memberInterests: Array<MemberInterest & { interest: Interest }> },
+): shared.Member {
+  const compareMemberInterests = (a: shared.MemberInterest, b: shared.MemberInterest) => {
+    return a.label.localeCompare(b.label);
+  };
+
   return {
     id: member.id,
     firstName: member.firstName,
@@ -123,7 +146,18 @@ function serializeMember(member: Member): shared.Member {
     phoneNumbers: member.phoneNumbers.filter(({ visible }) => visible),
     membershipStartDate: member.membershipStartDate?.toISOString(),
     balance: member.balance,
-    interests: [], // todo
+    interests: member.memberInterests.map(serializeMemberInterest).sort(compareMemberInterests),
+  };
+}
+
+function serializeMemberInterest(
+  memberInterest: MemberInterest & { interest: Interest },
+): shared.MemberInterest {
+  return {
+    id: memberInterest.id,
+    interestId: memberInterest.interestId,
+    label: memberInterest.interest.label,
+    description: memberInterest.description ?? undefined,
   };
 }
 
