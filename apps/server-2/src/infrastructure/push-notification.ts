@@ -5,6 +5,7 @@ import { TOKENS } from 'src/tokens';
 
 import { Config } from './config';
 import { DomainError } from './domain-error';
+import { Logger } from './logger';
 
 export type PushDeviceSubscription = string;
 export type DeviceType = 'mobile' | 'desktop';
@@ -24,13 +25,17 @@ export class PushNotificationDeliveryError extends DomainError {
 }
 
 export class WebPushNotification implements PushNotification {
-  static inject = injectableClass(this, TOKENS.config);
+  static inject = injectableClass(this, TOKENS.config, TOKENS.logger);
 
-  constructor(private readonly config: Config) {}
+  constructor(
+    private readonly config: Config,
+    private readonly logger: Logger,
+  ) {}
 
   init() {
     const { subject, publicKey, privateKey } = this.config.push;
 
+    this.logger.log('Initializing push notification service');
     setVapidDetails(subject, publicKey, privateKey);
   }
 

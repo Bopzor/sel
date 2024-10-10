@@ -16,12 +16,12 @@ export class FetchInformationApi implements InformationApi {
   constructor(private readonly fetcher: FetcherPort) {}
 
   listInformation(): Promise<{ pin: Information[]; notPin: Information[] }> {
-    return this.fetcher.get<{ pin: Information[]; notPin: Information[] }>('/api/information').body();
+    return this.fetcher.get<{ pin: Information[]; notPin: Information[] }>('/information').body();
   }
 
   createInformation(body: string, isPin?: boolean): Promise<string> {
     return this.fetcher
-      .post<z.infer<typeof createInformationBodySchema>, string>('/api/information', { body, isPin })
+      .post<z.infer<typeof createInformationBodySchema>, string>('/information', { body, isPin })
       .body();
   }
 }

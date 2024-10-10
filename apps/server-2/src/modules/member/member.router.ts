@@ -11,6 +11,7 @@ import { Forbidden, HttpStatus, NotFound } from 'src/infrastructure/http';
 import { db, schema } from 'src/persistence';
 import { TOKENS } from 'src/tokens';
 
+import { changeNotificationDeliveryType } from './domain/change-notification-delivery-type.command';
 import { createMember } from './domain/create-member.command';
 import { updateMemberProfile } from './domain/update-member-profile.command';
 import { Member } from './member.entities';
@@ -97,6 +98,18 @@ router.put('/:memberId/profile', isAuthenticatedMember, async (req, res) => {
   await updateMemberProfile({ memberId, data });
 
   res.end();
+});
+
+router.put('/:memberId/notification-delivery', isAuthenticatedMember, async (req, res) => {
+  const { memberId } = req.params;
+  const data = shared.notificationDeliveryBodySchema.parse(req.body);
+
+  await changeNotificationDeliveryType({
+    memberId,
+    notificationDeliveryType: data,
+  });
+
+  res.status(HttpStatus.noContent).end();
 });
 
 function serializeMember(member: Member): shared.Member {

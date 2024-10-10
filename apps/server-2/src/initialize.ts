@@ -10,6 +10,8 @@ import {
   EventCreatedEvent,
   EventParticipationSetEvent,
 } from './modules/event/event.entities';
+import { reportOnboardingCompleted } from './modules/member/domain/report-onboarding-completed.event-handler';
+import { OnboardingCompletedEvent } from './modules/member/member.entities';
 import { notifyRequestCommentCreated } from './modules/request/domain/notify-request-comment-create.event-handler';
 import { notifyRequestCreated } from './modules/request/domain/notify-request-created.event-handler';
 import { notifyRequestStatusChanged } from './modules/request/domain/notify-request-status-changed.event-handler';
@@ -23,9 +25,9 @@ import { notifyTransactionCanceled } from './modules/transaction/domain/notify-t
 import { notifyTransactionCompleted } from './modules/transaction/domain/notify-transaction-completed.event-handler';
 import { notifyTransactionPending } from './modules/transaction/domain/notify-transaction-pending.event-handler';
 import {
-  TransactionPending,
-  TransactionCompleted,
   TransactionCanceled,
+  TransactionCompleted,
+  TransactionPending,
 } from './modules/transaction/transaction.entities';
 import { db } from './persistence/database';
 import { domainEvents } from './persistence/schema/domain-events';
@@ -33,11 +35,21 @@ import { TOKENS } from './tokens';
 
 export function initialize() {
   const pushNotification = container.resolve(TOKENS.pushNotification);
-  const events = container.resolve(TOKENS.events);
 
   pushNotification.init?.();
+  bindEventListeners();
+}
 
+function bindEventListeners() {
+  const logger = container.resolve(TOKENS.logger);
+  const events = container.resolve(TOKENS.events);
+
+  logger.log('Binding event listeners');
+
+  events.addGlobalListener(logDomainEvent);
   events.addGlobalListener(storeDomainEvent);
+
+  events.addListener(OnboardingCompletedEvent, reportOnboardingCompleted);
 
   events.addListener(AuthenticationLinkRequestedEvent, sendAuthenticationEmail);
 
@@ -53,6 +65,10 @@ export function initialize() {
   events.addListener(TransactionPending, notifyTransactionPending);
   events.addListener(TransactionCompleted, notifyTransactionCompleted);
   events.addListener(TransactionCanceled, notifyTransactionCanceled);
+}
+
+async function logDomainEvent(event: DomainEvent<unknown>) {
+  container.resolve(TOKENS.logger).log('Event published', event);
 }
 
 async function storeDomainEvent(event: DomainEvent<unknown>) {

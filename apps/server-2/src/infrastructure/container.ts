@@ -10,6 +10,7 @@ import { SlackErrorReporter } from './error-reporter';
 import { EmitterEvents } from './events';
 import { NanoIdGenerator } from './generator';
 import { CheerioHtmlParser } from './html-parser';
+import { ConsoleLogger } from './logger';
 import { WebPushNotification } from './push-notification';
 import { WebSlackClientAdapter } from './slack';
 
@@ -23,7 +24,7 @@ container.bindFactory(TOKENS.errorReporter, SlackErrorReporter.inject);
 container.bindFactory(TOKENS.events, EmitterEvents.inject);
 container.bindFactory(TOKENS.generator, NanoIdGenerator.inject);
 container.bindFactory(TOKENS.htmlParser, CheerioHtmlParser.inject);
-container.bindValue(TOKENS.logger, console);
+container.bindFactory(TOKENS.logger, ConsoleLogger.inject);
 container.bindValue(TOKENS.nodemailer, nodemailer);
 container.bindFactory(TOKENS.pushNotification, WebPushNotification.inject);
 container.bindFactory(TOKENS.slackClient, WebSlackClientAdapter.inject);

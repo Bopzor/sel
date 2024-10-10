@@ -58,3 +58,8 @@ export const updateMemberProfileBodySchema = z.object({
     .optional(),
   onboardingCompleted: z.boolean().optional(),
 });
+
+export const notificationDeliveryBodySchema = z.object({
+  email: z.boolean(),
+  push: z.boolean(),
+});
