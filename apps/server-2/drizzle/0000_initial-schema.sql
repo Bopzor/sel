@@ -93,6 +93,17 @@ CREATE TABLE IF NOT EXISTS "events" (
 	"updated_at" timestamp (3) DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
+CREATE TABLE IF NOT EXISTS "information" (
+	"id" varchar(16) PRIMARY KEY NOT NULL,
+	"text" text NOT NULL,
+	"html" text NOT NULL,
+	"is_pin" boolean NOT NULL,
+	"author_id" varchar(16),
+	"published_at" timestamp (3) NOT NULL,
+	"created_at" timestamp (3) DEFAULT now() NOT NULL,
+	"updated_at" timestamp (3) DEFAULT now() NOT NULL
+);
+--> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "interests" (
 	"id" varchar(16) PRIMARY KEY NOT NULL,
 	"label" varchar(256) NOT NULL,
@@ -241,6 +252,12 @@ END $$;
 --> statement-breakpoint
 DO $$ BEGIN
  ALTER TABLE "events" ADD CONSTRAINT "events_organizer_id_members_id_fk" FOREIGN KEY ("organizer_id") REFERENCES "public"."members"("id") ON DELETE no action ON UPDATE no action;
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
+ ALTER TABLE "information" ADD CONSTRAINT "information_author_id_members_id_fk" FOREIGN KEY ("author_id") REFERENCES "public"."members"("id") ON DELETE no action ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;
