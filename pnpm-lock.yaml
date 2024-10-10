@@ -135,6 +135,9 @@ importers:
 
   apps/server-2:
     dependencies:
+      cheerio:
+        specifier: ^1.0.0
+        version: 1.0.0
       cookie-parser:
         specifier: ^1.4.7
         version: 1.4.7

@@ -11,6 +11,12 @@ EXCEPTION
 END $$;
 --> statement-breakpoint
 DO $$ BEGIN
+ CREATE TYPE "public"."request_status" AS ENUM('pending', 'fulfilled', 'canceled');
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
  CREATE TYPE "public"."token_type" AS ENUM('authentication', 'session');
 EXCEPTION
  WHEN duplicate_object THEN null;
@@ -21,6 +27,17 @@ DO $$ BEGIN
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;
+--> statement-breakpoint
+CREATE TABLE IF NOT EXISTS "comments" (
+	"id" varchar(16) PRIMARY KEY NOT NULL,
+	"author_id" varchar(16) NOT NULL,
+	"request_id" varchar(16),
+	"date" timestamp (3) NOT NULL,
+	"text" text NOT NULL,
+	"html" text NOT NULL,
+	"created_at" timestamp (3) DEFAULT now() NOT NULL,
+	"updated_at" timestamp (3) DEFAULT now() NOT NULL
+);
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "domain_events" (
 	"id" varchar(16) PRIMARY KEY NOT NULL,
@@ -79,6 +96,28 @@ CREATE TABLE IF NOT EXISTS "notifications" (
 	"updated_at" timestamp (3) DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
+CREATE TABLE IF NOT EXISTS "request_answers" (
+	"id" varchar(16) PRIMARY KEY NOT NULL,
+	"request_id" varchar(16) NOT NULL,
+	"member_id" varchar(16) NOT NULL,
+	"date" timestamp (3) NOT NULL,
+	"answer" varchar(16) NOT NULL,
+	"created_at" timestamp (3) DEFAULT now() NOT NULL,
+	"updated_at" timestamp (3) DEFAULT now() NOT NULL
+);
+--> statement-breakpoint
+CREATE TABLE IF NOT EXISTS "requests" (
+	"id" varchar(16) PRIMARY KEY NOT NULL,
+	"status" "request_status" NOT NULL,
+	"date" timestamp (3) DEFAULT CURRENT_DATE NOT NULL,
+	"requester_id" varchar(16) NOT NULL,
+	"title" varchar(256) NOT NULL,
+	"text" text NOT NULL,
+	"html" text NOT NULL,
+	"created_at" timestamp (3) DEFAULT now() NOT NULL,
+	"updated_at" timestamp (3) DEFAULT now() NOT NULL
+);
+--> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "tokens" (
 	"id" varchar(16) PRIMARY KEY NOT NULL,
 	"value" varchar(256) NOT NULL,
@@ -106,6 +145,18 @@ CREATE TABLE IF NOT EXISTS "transactions" (
 );
 --> statement-breakpoint
 DO $$ BEGIN
+ ALTER TABLE "comments" ADD CONSTRAINT "comments_author_id_members_id_fk" FOREIGN KEY ("author_id") REFERENCES "public"."members"("id") ON DELETE no action ON UPDATE no action;
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
+ ALTER TABLE "comments" ADD CONSTRAINT "comments_request_id_requests_id_fk" FOREIGN KEY ("request_id") REFERENCES "public"."requests"("id") ON DELETE no action ON UPDATE no action;
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
  ALTER TABLE "member_device" ADD CONSTRAINT "member_device_member_id_members_id_fk" FOREIGN KEY ("member_id") REFERENCES "public"."members"("id") ON DELETE no action ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
@@ -119,6 +170,24 @@ END $$;
 --> statement-breakpoint
 DO $$ BEGIN
  ALTER TABLE "notifications" ADD CONSTRAINT "notifications_member_id_members_id_fk" FOREIGN KEY ("member_id") REFERENCES "public"."members"("id") ON DELETE no action ON UPDATE no action;
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
+ ALTER TABLE "request_answers" ADD CONSTRAINT "request_answers_request_id_requests_id_fk" FOREIGN KEY ("request_id") REFERENCES "public"."requests"("id") ON DELETE no action ON UPDATE no action;
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
+ ALTER TABLE "request_answers" ADD CONSTRAINT "request_answers_member_id_members_id_fk" FOREIGN KEY ("member_id") REFERENCES "public"."members"("id") ON DELETE no action ON UPDATE no action;
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
+ ALTER TABLE "requests" ADD CONSTRAINT "requests_requester_id_members_id_fk" FOREIGN KEY ("requester_id") REFERENCES "public"."members"("id") ON DELETE no action ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;

@@ -6,7 +6,7 @@ import { events } from 'src/infrastructure/events';
 import { db, schema } from 'src/persistence';
 import { TOKENS } from 'src/tokens';
 
-import { AuthenticationLinkRequestedEvent, TokenInsert, TokenType } from './authentication.entities';
+import { AuthenticationLinkRequestedEvent, TokenType } from './authentication.entities';
 
 type RequestAuthenticationLinkCommand = {
   email: string;
@@ -39,19 +39,18 @@ export async function requestAuthenticationLink(command: RequestAuthenticationLi
   }
 
   const expirationDate = addDuration(dateAdapter.now(), { months: 1 });
+  const tokenValue = generator.token();
 
-  const token: TokenInsert = {
+  await db.insert(schema.tokens).values({
     id: generator.id(),
-    value: generator.token(),
+    value: tokenValue,
     expirationDate,
     type: TokenType.authentication,
     memberId: member.id,
-  };
-
-  await db.insert(schema.tokens).values(token);
+  });
 
   const authenticationUrl = new URL(config.app.baseUrl);
-  authenticationUrl.searchParams.set('auth-token', token.value);
+  authenticationUrl.searchParams.set('auth-token', tokenValue);
 
   events.emit(new AuthenticationLinkRequestedEvent(member.id, authenticationUrl.toString()));
 }

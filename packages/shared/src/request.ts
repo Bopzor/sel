@@ -42,3 +42,7 @@ export const createRequestBodySchema = z.object({
 });
 
 export const updateRequestBodySchema = createRequestBodySchema;
+
+export const setRequestAnswerBodySchema = z.object({
+  answer: z.enum(['positive', 'negative']).nullable(),
+});

@@ -100,7 +100,7 @@ router.put('/:memberId/profile', isAuthenticatedMember, async (req, res) => {
   res.end();
 });
 
-export function serializeMember(member: Member): shared.Member {
+function serializeMember(member: Member): shared.Member {
   return {
     id: member.id,
     firstName: member.firstName,

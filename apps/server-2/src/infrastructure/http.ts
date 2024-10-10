@@ -18,10 +18,6 @@ export class UnauthorizedError extends DomainError {
 
 export class ForbiddenError extends DomainError {
   public status = HttpStatus.forbidden;
-
-  constructor() {
-    super('Forbidden');
-  }
 }
 
 export class NotFoundError extends DomainError {

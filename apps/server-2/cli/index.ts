@@ -5,10 +5,12 @@ import { TOKENS } from 'src/tokens';
 import { sendPush } from './commands/send-push';
 import { CliCommand } from './types';
 import { sendEmail } from './commands/send-email';
+import { createMemberCommand } from './commands/create-member';
 
 const commands: Record<string, CliCommand> = {
   'send-push': sendPush,
   'send-email': sendEmail,
+  'create-member': createMemberCommand,
 };
 
 main();

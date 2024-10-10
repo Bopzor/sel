@@ -10,6 +10,10 @@ export enum MemberStatus {
 export type Member = typeof schema.members.$inferSelect;
 export type MemberInsert = typeof schema.members.$inferInsert;
 
+export function memberName(member: Member) {
+  return `${member.firstName} ${member.lastName[0]}.`;
+}
+
 export class MemberEvent<Payload = never> extends DomainEvent<Payload> {
   entity = 'member';
 }
