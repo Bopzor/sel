@@ -88,7 +88,8 @@ CREATE TABLE IF NOT EXISTS "members" (
 	"notification_delivery" notification_delivery_type[] DEFAULT '{}' NOT NULL,
 	"balance" integer DEFAULT 0 NOT NULL,
 	"created_at" timestamp (3) DEFAULT now() NOT NULL,
-	"updated_at" timestamp (3) DEFAULT now() NOT NULL
+	"updated_at" timestamp (3) DEFAULT now() NOT NULL,
+	CONSTRAINT "members_email_unique" UNIQUE("email")
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "member_device" (

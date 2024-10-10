@@ -15,7 +15,7 @@ export const members = pgTable('members', {
   status: memberStatusEnum('status').notNull(),
   firstName: varchar('first_name', { length: 256 }).notNull(),
   lastName: varchar('last_name', { length: 256 }).notNull(),
-  email: varchar('email', { length: 256 }).notNull(),
+  email: varchar('email', { length: 256 }).unique().notNull(),
   emailVisible: boolean('email_visible').notNull(),
   phoneNumbers: json('phone_numbers')
     .$type<Array<{ number: string; visible: boolean }>>()

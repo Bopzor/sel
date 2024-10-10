@@ -143,7 +143,7 @@ export async function notify<Type extends shared.NotificationType>(
 }
 
 async function loadTemplate(type: shared.NotificationType): Promise<NotificationTemplate> {
-  const file = String(await fs.readFile(path.join(__dirname, 'templates', type + '.md')));
+  const file = String(await fs.readFile(path.resolve(__dirname, '..', 'templates', type + '.md')));
   const [, metadataString, emailBody] = file.split('---\n');
 
   const metadata = toObject(

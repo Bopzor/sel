@@ -202,17 +202,6 @@ export class NodemailerEmailSender implements EmailSender {
   constructor(config: Config, nodemailer: Nodemailer) {
     this.from = config.email.sender;
 
-    console.log({
-      port: config.email.port,
-      host: config.email.host,
-      secure: config.email.secure,
-      auth: {
-        type: 'login',
-        user: config.email.sender,
-        pass: config.email.password,
-      },
-    });
-
     this.transporter = nodemailer.createTransport({
       port: config.email.port,
       host: config.email.host,

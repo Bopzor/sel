@@ -1,5 +1,5 @@
 {
-  "id": "f5b438b6-2e97-4ebe-ae16-fce7c1af46a0",
+  "id": "090ca1be-d33c-4695-bc42-90571a2f68dd",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -404,7 +404,15 @@
       "indexes": {},
       "foreignKeys": {},
       "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
+      "uniqueConstraints": {
+        "members_email_unique": {
+          "name": "members_email_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "email"
+          ]
+        }
+      }
     },
     "public.member_device": {
       "name": "member_device",

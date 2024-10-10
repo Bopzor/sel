@@ -7,7 +7,7 @@
     "start": "vite-node src/index.ts",
     "lint": "eslint src",
     "test": "vitest",
-    "cli": "vite-node cli/index.ts"
+    "cli": "vite-node src/cli.ts"
   },
   "devDependencies": {
     "@sel/eslint-config": "workspace:*",
@@ -34,6 +34,7 @@
   },
   "dependencies": {
     "cheerio": "^1.0.0",
+    "commander": "^12.1.0",
     "cookie-parser": "^1.4.7",
     "dotenv": "^16.4.5",
     "drizzle-orm": "^0.34.1",
