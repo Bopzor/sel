@@ -4,8 +4,8 @@ import { container } from 'src/infrastructure/container';
 import { BadRequest, NotFound } from 'src/infrastructure/http';
 import { TOKENS } from 'src/tokens';
 
-import { RequestCanceledEvent, RequestFulfilledEvent } from './request.entities';
-import { findRequestById, updateRequest } from './request.persistence';
+import { RequestCanceledEvent, RequestFulfilledEvent } from '../request.entities';
+import { findRequestById, updateRequest } from '../request.persistence';
 
 export type ChangeRequestStatusCommand = {
   requestId: string;

@@ -5,8 +5,8 @@ import { NotFound, Unauthorized } from 'src/infrastructure/http';
 import { db, schema } from 'src/persistence';
 import { TOKENS } from 'src/tokens';
 
-import { MemberAuthenticatedEvent, TokenType } from './authentication.entities';
-import { findTokenByValue, updateToken } from './token.persistence';
+import { MemberAuthenticatedEvent, TokenType } from '../authentication.entities';
+import { findTokenByValue, updateToken } from '../token.persistence';
 
 type VerifyAuthenticationTokenCommand = {
   tokenValue: string;

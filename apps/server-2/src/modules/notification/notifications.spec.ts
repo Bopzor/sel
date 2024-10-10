@@ -10,12 +10,11 @@ import { StubPushNotification } from 'src/infrastructure/push-notification';
 import { db, resetDatabase, schema } from 'src/persistence';
 import { TOKENS } from 'src/tokens';
 
-import { Member } from '../member/member.entities';
-import { updateMember } from '../member/member.persistence';
+import { Member, updateMember } from '../member';
 
+import { notify } from './domain/notify';
+import { registerDevice } from './domain/register-device.command';
 import { NotificationDeliveryType } from './notification.entities';
-import { notify } from './notify';
-import { registerDevice } from './register-device.command';
 
 describe('notification snapshots', () => {
   let member: Member;

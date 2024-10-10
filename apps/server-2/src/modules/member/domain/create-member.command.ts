@@ -2,7 +2,7 @@ import { container } from 'src/infrastructure/container';
 import { db, schema } from 'src/persistence';
 import { TOKENS } from 'src/tokens';
 
-import { MemberCreatedEvent, MemberStatus } from './member.entities';
+import { MemberCreatedEvent, MemberStatus } from '../member.entities';
 
 type CreateMemberCommand = {
   memberId: string;

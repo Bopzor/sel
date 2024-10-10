@@ -11,10 +11,10 @@ import { Forbidden, HttpStatus, NotFound } from 'src/infrastructure/http';
 import { db, schema } from 'src/persistence';
 import { TOKENS } from 'src/tokens';
 
-import { createMember } from './create-member.command';
+import { createMember } from './domain/create-member.command';
+import { updateMemberProfile } from './domain/update-member-profile.command';
 import { Member } from './member.entities';
 import { findMemberById } from './member.persistence';
-import { updateMemberProfile } from './update-member-profile.command';
 
 export const router = express.Router();
 

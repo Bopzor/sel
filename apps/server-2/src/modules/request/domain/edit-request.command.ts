@@ -1,8 +1,8 @@
 import { container } from 'src/infrastructure/container';
 import { TOKENS } from 'src/tokens';
 
-import { RequestEditedEvent } from './request.entities';
-import { updateRequest } from './request.persistence';
+import { RequestEditedEvent } from '../request.entities';
+import { updateRequest } from '../request.persistence';
 
 export type EditRequestCommand = {
   requestId: string;

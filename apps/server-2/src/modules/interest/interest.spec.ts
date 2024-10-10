@@ -7,11 +7,12 @@ import { resetDatabase } from 'src/persistence';
 import { clearDatabase, db } from 'src/persistence/database';
 import { TOKENS } from 'src/tokens';
 
-import { insertMember } from '../member/member.persistence';
+import { insertMember } from '../member';
 
-import { addInterestMember } from './add-interest-member.command';
-import { createInterest } from './create-interest.command';
-import { editInterestMember } from './edit-interest-member.command';
+import { addInterestMember } from './domain/add-interest-member.command';
+import { createInterest } from './domain/create-interest.command';
+import { editInterestMember } from './domain/edit-interest-member.command';
+import { removeInterestMember } from './domain/remove-interest-member.command';
 import {
   Interest,
   InterestCreatedEvent,
@@ -21,7 +22,6 @@ import {
   MemberInterest,
 } from './interest.entities';
 import { findInterestById, insertInterest } from './interest.persistence';
-import { removeInterestMember } from './remove-interest-member.command';
 
 describe('interest', () => {
   beforeAll(resetDatabase);

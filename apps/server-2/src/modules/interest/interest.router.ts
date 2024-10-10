@@ -10,11 +10,11 @@ import { TOKENS } from 'src/tokens';
 
 import { Member } from '../member/member.entities';
 
-import { addInterestMember } from './add-interest-member.command';
-import { createInterest } from './create-interest.command';
-import { editInterestMember } from './edit-interest-member.command';
+import { addInterestMember } from './domain/add-interest-member.command';
+import { createInterest } from './domain/create-interest.command';
+import { editInterestMember } from './domain/edit-interest-member.command';
+import { removeInterestMember } from './domain/remove-interest-member.command';
 import { Interest, MemberInterest } from './interest.entities';
-import { removeInterestMember } from './remove-interest-member.command';
 
 export const router = express.Router();
 

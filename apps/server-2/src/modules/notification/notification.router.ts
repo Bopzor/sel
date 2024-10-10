@@ -4,7 +4,7 @@ import express from 'express';
 import { HttpStatus } from 'src/infrastructure/http';
 import { getAuthenticatedMember } from 'src/infrastructure/session';
 
-import { registerDevice } from './register-device.command';
+import { registerDevice } from './domain/register-device.command';
 
 const router = express.Router();
 

@@ -4,7 +4,7 @@ import { container } from 'src/infrastructure/container';
 import { db, schema } from 'src/persistence';
 import { TOKENS } from 'src/tokens';
 
-import { RequestCreatedEvent } from './request.entities';
+import { RequestCreatedEvent } from '../request.entities';
 
 export type CreateRequestCommand = {
   requestId: string;

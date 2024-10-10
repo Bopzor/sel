@@ -6,7 +6,7 @@ import { container } from './infrastructure/container';
 import { StubEmailSender } from './infrastructure/email';
 import { HttpStatus } from './infrastructure/http';
 import { initialize } from './initialize';
-import { createMember } from './modules/member/create-member.command';
+import { createMember } from './modules/member/domain/create-member.command';
 import { resetDatabase } from './persistence';
 import { clearDatabase } from './persistence/database';
 import { server } from './server';

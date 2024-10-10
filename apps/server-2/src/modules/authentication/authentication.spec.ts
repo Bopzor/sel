@@ -10,12 +10,12 @@ import { resetDatabase, schema } from 'src/persistence';
 import { clearDatabase, db } from 'src/persistence/database';
 import { TOKENS } from 'src/tokens';
 
-import { MemberInsert } from '../member/member.entities';
+import { insertMember } from '../member';
 
 import { Token, TokenType } from './authentication.entities';
-import { requestAuthenticationLink } from './request-authentication-link.command';
+import { requestAuthenticationLink } from './domain/request-authentication-link.command';
+import { verifyAuthenticationToken } from './domain/verify-authentication-token.command';
 import { findTokenById, findTokenByValue } from './token.persistence';
-import { verifyAuthenticationToken } from './verify-authentication-token.command';
 
 describe('member', () => {
   beforeAll(resetDatabase);
@@ -29,10 +29,6 @@ describe('member', () => {
     container.bindValue(TOKENS.emailSender, emailSender);
   });
 
-  async function saveMember(values: Partial<MemberInsert>) {
-    return db.insert(schema.members).values(insert.member(values)).execute();
-  }
-
   async function getAuthenticationToken() {
     await container.resolve(TOKENS.events).waitForListeners();
 
@@ -43,7 +39,7 @@ describe('member', () => {
   }
 
   it('authenticates', async () => {
-    await saveMember({ id: 'memberId', email: 'email' });
+    await insertMember(insert.member({ id: 'memberId', email: 'email' }));
 
     await requestAuthenticationLink({
       email: 'email',
@@ -83,7 +79,7 @@ describe('member', () => {
   });
 
   it('revokes the authentication tokens after verifying it', async () => {
-    await saveMember({ id: 'memberId', email: 'email' });
+    await insertMember(insert.member({ id: 'memberId', email: 'email' }));
 
     await requestAuthenticationLink({ email: 'email' });
 
@@ -100,7 +96,7 @@ describe('member', () => {
   });
 
   it('revokes previous authentication tokens when requesting a new authentication token', async () => {
-    await saveMember({ id: 'memberId', email: 'email' });
+    await insertMember(insert.member({ id: 'memberId', email: 'email' }));
 
     await requestAuthenticationLink({ email: 'email' });
     await requestAuthenticationLink({ email: 'email' });

@@ -3,12 +3,10 @@ import { eq } from 'drizzle-orm';
 
 import { db, schema } from 'src/persistence';
 
-import { comment } from '../comment/comment.entities';
-import { Member, memberName } from '../member/member.entities';
-import { findMemberById } from '../member/member.persistence';
-import { GetNotificationContext, notify } from '../notification/notify';
-
-import { Request, RequestCommentCreatedEvent } from './request.entities';
+import { Comment } from '../../comment';
+import { findMemberById, Member, memberName } from '../../member';
+import { GetNotificationContext, notify } from '../../notification';
+import { Request, RequestCommentCreatedEvent } from '../request.entities';
 
 export async function notifyRequestCommentCreated(event: RequestCommentCreatedEvent) {
   const request = await db.query.requests.findFirst({
@@ -39,7 +37,7 @@ export async function notifyRequestCommentCreated(event: RequestCommentCreatedEv
 function getContext(
   member: Member,
   request: Request & { requester: Member },
-  comment: comment,
+  comment: Comment,
   author: Member,
 ): ReturnType<GetNotificationContext<'RequestCommentCreated'>> {
   if (member.id === author.id) {

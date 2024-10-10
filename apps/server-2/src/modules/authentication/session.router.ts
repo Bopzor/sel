@@ -8,7 +8,7 @@ import { getAuthenticatedMember } from 'src/infrastructure/session';
 import { MemberStatus } from '../member/member.entities';
 import { NotificationDeliveryType } from '../notification/notification.entities';
 
-import { revokeSessionToken } from './revoke-session-token.command';
+import { revokeSessionToken } from './domain/revoke-session-token.command';
 
 export const router = express.Router();
 

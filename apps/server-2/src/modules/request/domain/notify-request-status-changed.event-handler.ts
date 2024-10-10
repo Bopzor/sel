@@ -3,10 +3,9 @@ import { eq } from 'drizzle-orm';
 
 import { db, schema } from 'src/persistence';
 
-import { Member, memberName } from '../member/member.entities';
-import { GetNotificationContext, notify } from '../notification/notify';
-
-import { Request, RequestCanceledEvent, RequestFulfilledEvent } from './request.entities';
+import { Member, memberName } from '../../member';
+import { GetNotificationContext, notify } from '../../notification';
+import { Request, RequestCanceledEvent, RequestFulfilledEvent } from '../request.entities';
 
 export async function notifyRequestStatusChanged(event: RequestFulfilledEvent | RequestCanceledEvent) {
   const request = await db.query.requests.findFirst({

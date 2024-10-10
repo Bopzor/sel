@@ -15,13 +15,12 @@ import { PushDeviceSubscription } from 'src/infrastructure/push-notification';
 import { db, schema } from 'src/persistence';
 import { TOKENS } from 'src/tokens';
 
-import { Member } from '../member/member.entities';
-
+import { Member } from '../../member/member.entities';
 import {
   NotificationDeliveryInsert,
   NotificationDeliveryType,
   NotificationInsert,
-} from './notification.entities';
+} from '../notification.entities';
 
 // cspell:word rehype vfile
 

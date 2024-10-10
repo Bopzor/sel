@@ -11,8 +11,8 @@ import {
   RequestAnswerCreatedEvent,
   RequestAnswerDeletedEvent,
   RequestEditedEvent,
-} from './request.entities';
-import { findRequestById } from './request.persistence';
+} from '../request.entities';
+import { findRequestById } from '../request.persistence';
 
 export type SetRequestAnswerCommand = {
   requestId: string;

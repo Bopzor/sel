@@ -7,9 +7,9 @@ import { setCookie } from 'src/infrastructure/cookie';
 import { HttpStatus } from 'src/infrastructure/http';
 import { TOKENS } from 'src/tokens';
 
-import { requestAuthenticationLink } from './request-authentication-link.command';
+import { requestAuthenticationLink } from './domain/request-authentication-link.command';
+import { verifyAuthenticationToken } from './domain/verify-authentication-token.command';
 import { findTokenById } from './token.persistence';
-import { verifyAuthenticationToken } from './verify-authentication-token.command';
 
 export const router = express.Router();
 

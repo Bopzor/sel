@@ -1,10 +1,10 @@
 import { container } from './infrastructure/container';
 import { DomainEvent } from './infrastructure/events';
 import { AuthenticationLinkRequestedEvent } from './modules/authentication/authentication.entities';
-import { sendAuthenticationEmail } from './modules/authentication/send-authentication-link.event-handler';
-import { notifyRequestCommentCreated } from './modules/request/notify-request-comment-create.event-handler';
-import { notifyRequestCreated } from './modules/request/notify-request-created.event-handler';
-import { notifyRequestStatusChanged } from './modules/request/notify-request-status-changed.event-handler';
+import { sendAuthenticationEmail } from './modules/authentication/domain/send-authentication-link.event-handler';
+import { notifyRequestCommentCreated } from './modules/request/domain/notify-request-comment-create.event-handler';
+import { notifyRequestCreated } from './modules/request/domain/notify-request-created.event-handler';
+import { notifyRequestStatusChanged } from './modules/request/domain/notify-request-status-changed.event-handler';
 import {
   RequestCanceledEvent,
   RequestCommentCreatedEvent,

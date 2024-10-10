@@ -11,16 +11,16 @@ import { getAuthenticatedMember } from 'src/infrastructure/session';
 import { db, schema } from 'src/persistence';
 import { TOKENS } from 'src/tokens';
 
-import { comment } from '../comment/comment.entities';
-import { Member } from '../member/member.entities';
+import { Comment } from '../comment';
+import { Member } from '../member';
 
-import { changeRequestStatus } from './change-request-status.command';
-import { createRequestComment } from './create-request-comment.command';
-import { createRequest } from './create-request.command';
-import { editRequest } from './edit-request.command';
+import { changeRequestStatus } from './domain/change-request-status.command';
+import { createRequestComment } from './domain/create-request-comment.command';
+import { createRequest } from './domain/create-request.command';
+import { editRequest } from './domain/edit-request.command';
+import { setRequestAnswer } from './domain/set-request-answer.command';
 import { Request, RequestAnswer } from './request.entities';
 import { findRequestById } from './request.persistence';
-import { setRequestAnswer } from './set-request-answer.command';
 
 export const router = express.Router();
 
@@ -196,7 +196,7 @@ router.post('/:requestId/transaction', async (req, res) => {
 function serializeRequest(
   request: Request & {
     requester: Member;
-    comments: Array<comment & { author: Member }>;
+    comments: Array<Comment & { author: Member }>;
     answers: Array<RequestAnswer & { member: Member }>;
   },
 ): shared.Request {

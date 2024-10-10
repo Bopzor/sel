@@ -9,7 +9,8 @@ import { db, resetDatabase, schema } from 'src/persistence';
 import { clearDatabase } from 'src/persistence/database';
 import { TOKENS } from 'src/tokens';
 
-import { createMember } from './create-member.command';
+import { createMember } from './domain/create-member.command';
+import { updateMemberProfile } from './domain/update-member-profile.command';
 import {
   Member,
   MemberCreatedEvent,
@@ -18,7 +19,6 @@ import {
   OnboardingCompletedEvent,
 } from './member.entities';
 import { findMemberById } from './member.persistence';
-import { updateMemberProfile } from './update-member-profile.command';
 
 describe('member', () => {
   beforeAll(resetDatabase);

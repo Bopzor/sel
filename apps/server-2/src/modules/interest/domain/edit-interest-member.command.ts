@@ -5,7 +5,7 @@ import { BadRequest } from 'src/infrastructure/http';
 import { db, schema } from 'src/persistence';
 import { TOKENS } from 'src/tokens';
 
-import { InterestMemberEditedEvent } from './interest.entities';
+import { InterestMemberEditedEvent } from '../interest.entities';
 
 export type EditInterestMemberCommand = {
   interestId: string;

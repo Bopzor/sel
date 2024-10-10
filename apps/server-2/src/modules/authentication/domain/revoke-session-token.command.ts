@@ -4,7 +4,7 @@ import { container } from 'src/infrastructure/container';
 import { db, schema } from 'src/persistence';
 import { TOKENS } from 'src/tokens';
 
-import { TokenType } from './authentication.entities';
+import { TokenType } from '../authentication.entities';
 
 type RevokeSessionTokenCommand = {
   tokenValue: string;

@@ -2,7 +2,7 @@ import { container } from 'src/infrastructure/container';
 import { db, schema } from 'src/persistence';
 import { TOKENS } from 'src/tokens';
 
-import { RequestCommentCreatedEvent } from './request.entities';
+import { RequestCommentCreatedEvent } from '../request.entities';
 
 export type CreateRequestCommentCommand = {
   commentId: string;

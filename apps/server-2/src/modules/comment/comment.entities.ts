@@ -1,3 +1,3 @@
 import { schema } from 'src/persistence';
 
-export type comment = typeof schema.comments.$inferSelect;
+export type Comment = typeof schema.comments.$inferSelect;

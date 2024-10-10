@@ -5,7 +5,7 @@ import { BadRequest } from 'src/infrastructure/http';
 import { db, schema } from 'src/persistence';
 import { TOKENS } from 'src/tokens';
 
-import { InterestMemberRemovedEvent } from './interest.entities';
+import { InterestMemberRemovedEvent } from '../interest.entities';
 
 export type RemoveInterestMemberCommand = {
   interestId: string;

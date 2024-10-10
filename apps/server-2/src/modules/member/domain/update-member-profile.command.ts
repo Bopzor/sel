@@ -3,8 +3,8 @@ import { UpdateMemberProfileData } from '@sel/shared';
 import { container } from 'src/infrastructure/container';
 import { TOKENS } from 'src/tokens';
 
-import { MemberInsert, MemberStatus, OnboardingCompletedEvent } from './member.entities';
-import { updateMember } from './member.persistence';
+import { MemberInsert, MemberStatus, OnboardingCompletedEvent } from '../member.entities';
+import { updateMember } from '../member.persistence';
 
 type UpdateMemberProfileCommand = {
   memberId: string;

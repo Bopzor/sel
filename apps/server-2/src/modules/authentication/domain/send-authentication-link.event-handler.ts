@@ -3,9 +3,8 @@ import { defined } from '@sel/utils';
 import { container } from 'src/infrastructure/container';
 import { TOKENS } from 'src/tokens';
 
-import { findMemberById } from '../member/member.persistence';
-
-import { AuthenticationLinkRequestedEvent } from './authentication.entities';
+import { findMemberById } from '../../member';
+import { AuthenticationLinkRequestedEvent } from '../authentication.entities';
 
 export async function sendAuthenticationEmail(event: AuthenticationLinkRequestedEvent) {
   const emailRenderer = container.resolve(TOKENS.emailRenderer);

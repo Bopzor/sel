@@ -1,6 +1,6 @@
 import { assert } from '@sel/utils';
 import { CliCommand } from '../types';
-import { createMember } from 'src/modules/member/create-member.command';
+import { createMember } from 'src/modules/member/domain/create-member.command';
 import { container } from 'src/infrastructure/container';
 import { TOKENS } from 'src/tokens';
 

@@ -5,8 +5,8 @@ import { container } from 'src/infrastructure/container';
 import { db, schema } from 'src/persistence';
 import { TOKENS } from 'src/tokens';
 
-import { AuthenticationLinkRequestedEvent, TokenType } from './authentication.entities';
-import { updateToken } from './token.persistence';
+import { AuthenticationLinkRequestedEvent, TokenType } from '../authentication.entities';
+import { updateToken } from '../token.persistence';
 
 type RequestAuthenticationLinkCommand = {
   email: string;
