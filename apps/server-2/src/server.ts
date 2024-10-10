@@ -88,8 +88,10 @@ const zodErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
 };
 
 const fallbackErrorHandler: ErrorRequestHandler = (err, req, res, _next) => {
+  const errorReporter = container.resolve(TOKENS.errorReporter);
   const logger = container.resolve(TOKENS.logger);
 
+  void errorReporter.report(err);
   logger.error(err);
 
   if (typeof err.status === 'number') {

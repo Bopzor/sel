@@ -1,5 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
+import { TestErrorReporter } from './error-reporter';
 import { DomainEvent, EmitterEvents } from './events';
 import { StubLogger } from './logger';
 
@@ -15,7 +16,7 @@ describe('Events', () => {
 
   beforeEach(() => {
     logger = new StubLogger();
-    events = new EmitterEvents(logger);
+    events = new EmitterEvents(logger, new TestErrorReporter());
   });
 
   it('triggers listeners when an event is emitted', () => {

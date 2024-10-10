@@ -33,6 +33,10 @@ export interface Config {
     publicKey: string;
     privateKey: string;
   };
+
+  slack: {
+    webhookUrl: string;
+  };
 }
 
 export function createEnvConfig(): Config {
@@ -68,6 +72,10 @@ export function createEnvConfig(): Config {
       subject: getEnv('WEB_PUSH_SUBJECT'),
       publicKey: getEnv('WEB_PUSH_PUBLIC_KEY'),
       privateKey: getEnv('WEB_PUSH_PRIVATE_KEY'),
+    },
+
+    slack: {
+      webhookUrl: getEnv('SLACK_WEBHOOK_URL'),
     },
   };
 }

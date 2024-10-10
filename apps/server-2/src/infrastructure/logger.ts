@@ -1,3 +1,5 @@
+import { noop } from '@sel/utils';
+
 export interface Logger {
   log: typeof console.log;
   warn: typeof console.warn;
@@ -22,4 +24,10 @@ export class StubLogger implements Logger {
   error(...args: unknown[]): void {
     this.lines['error'].push(args);
   }
+}
+
+export class NoopLogger implements Logger {
+  log = noop;
+  warn = noop;
+  error = noop;
 }

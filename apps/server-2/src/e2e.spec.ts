@@ -1,4 +1,4 @@
-import { defined, noop } from '@sel/utils';
+import { defined } from '@sel/utils';
 import supertest from 'supertest';
 import { beforeAll, beforeEach, describe, it } from 'vitest';
 
@@ -21,8 +21,6 @@ describe('end-to-end', () => {
 
   beforeEach(() => {
     emailSender = new StubEmailSender();
-
-    container.bindValue(TOKENS.logger, { log: noop, warn: noop, error: noop });
     container.bindValue(TOKENS.emailSender, emailSender);
   });
 

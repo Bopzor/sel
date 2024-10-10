@@ -5,6 +5,7 @@ import { injectableClass } from 'ditox';
 
 import { TOKENS } from 'src/tokens';
 
+import { ErrorReporter } from './error-reporter';
 import { Logger } from './logger';
 
 export abstract class DomainEvent<Payload = never> {
@@ -47,14 +48,17 @@ export interface Events {
 }
 
 export class EmitterEvents implements Events {
-  static inject = injectableClass(this, TOKENS.logger);
+  static inject = injectableClass(this, TOKENS.logger, TOKENS.errorReporter);
 
   private events = new EventEmitter();
   private listeners = new Set<(event: DomainEvent<unknown>) => void>();
 
   private readonly promises = new Set<Promise<void>>();
 
-  constructor(private readonly logger: Logger) {}
+  constructor(
+    private readonly logger: Logger,
+    private readonly errorReporter: ErrorReporter,
+  ) {}
 
   publish(event: DomainEvent<unknown>) {
     this.listeners.forEach((listener) => listener(event));
@@ -78,6 +82,7 @@ export class EmitterEvents implements Events {
 
   private wrapListener<Event extends DomainEvent<unknown>>(listener: DomainEventListener<Event>) {
     const handleError = (error: unknown) => {
+      void this.errorReporter.report(error);
       this.logger.error(`Error in event listener ${listener.name}`, util.inspect(error));
     };
 
