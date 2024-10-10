@@ -1,9 +1,10 @@
 import { assert } from '@sel/utils';
 import { eq } from 'drizzle-orm';
 
+import { memberName } from 'src/infrastructure/format';
 import { db, schema } from 'src/persistence';
 
-import { Member, memberName } from '../../member';
+import { Member } from '../../member';
 import { GetNotificationContext, notify } from '../../notification';
 import { Request, RequestCreatedEvent } from '../request.entities';
 

@@ -1,10 +1,11 @@
 import { assert, defined, hasProperty, unique } from '@sel/utils';
 import { eq } from 'drizzle-orm';
 
+import { memberName } from 'src/infrastructure/format';
 import { db, schema } from 'src/persistence';
 
 import { Comment } from '../../comment';
-import { findMemberById, Member, memberName } from '../../member';
+import { findMemberById, Member } from '../../member';
 import { GetNotificationContext, notify } from '../../notification';
 import { Request, RequestCommentCreatedEvent } from '../request.entities';
 

@@ -1,5 +1,5 @@
 {
-  "id": "090ca1be-d33c-4695-bc42-90571a2f68dd",
+  "id": "2ece9767-1d1b-418d-a4d7-726b2e3f3f42",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -935,6 +935,12 @@
           "primaryKey": false,
           "notNull": true
         },
+        "request_id": {
+          "name": "request_id",
+          "type": "varchar(16)",
+          "primaryKey": false,
+          "notNull": false
+        },
         "created_at": {
           "name": "created_at",
           "type": "timestamp (3)",
@@ -984,6 +990,19 @@
           "tableTo": "members",
           "columnsFrom": [
             "creator_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "transactions_request_id_requests_id_fk": {
+          "name": "transactions_request_id_requests_id_fk",
+          "tableFrom": "transactions",
+          "tableTo": "requests",
+          "columnsFrom": [
+            "request_id"
           ],
           "columnsTo": [
             "id"
