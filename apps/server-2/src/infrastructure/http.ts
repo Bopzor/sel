@@ -12,14 +12,18 @@ export enum HttpStatus {
   internalServerError = 500,
 }
 
-export class UnauthorizedError extends DomainError {
+export class BadRequest extends DomainError {
+  public status = HttpStatus.badRequest;
+}
+
+export class Unauthorized extends DomainError {
   public status = HttpStatus.unauthorized;
 }
 
-export class ForbiddenError extends DomainError {
+export class Forbidden extends DomainError {
   public status = HttpStatus.forbidden;
 }
 
-export class NotFoundError extends DomainError {
+export class NotFound extends DomainError {
   public status = HttpStatus.notFound;
 }

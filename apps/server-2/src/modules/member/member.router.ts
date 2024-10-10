@@ -7,7 +7,7 @@ import { and, eq, or } from 'drizzle-orm';
 import express, { RequestHandler } from 'express';
 
 import { container } from 'src/infrastructure/container';
-import { ForbiddenError, HttpStatus, NotFoundError } from 'src/infrastructure/http';
+import { Forbidden, HttpStatus, NotFound } from 'src/infrastructure/http';
 import { db, schema } from 'src/persistence';
 import { TOKENS } from 'src/tokens';
 
@@ -26,7 +26,7 @@ const isAuthenticatedMember: RequestHandler<{ memberId: string }> = (req, res, n
   const memberId = req.params.memberId;
 
   if (authenticatedMember.id !== memberId) {
-    throw new ForbiddenError();
+    throw new Forbidden();
   }
 
   next();
@@ -36,7 +36,7 @@ router.param('memberId', async (req, res, next) => {
   const member = await findMemberById(req.params.memberId);
 
   if (!member) {
-    return next(new NotFoundError('Member not found'));
+    return next(new NotFound('Member not found'));
   }
 
   memberContext.run(member, next);

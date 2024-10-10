@@ -1,15 +1,11 @@
 import { addDuration, isAfter } from '@sel/utils';
 
 import { container } from 'src/infrastructure/container';
+import { NotFound, Unauthorized } from 'src/infrastructure/http';
 import { db, schema } from 'src/persistence';
 import { TOKENS } from 'src/tokens';
 
-import {
-  MemberAuthenticatedEvent,
-  TokenExpiredError,
-  TokenNotFoundError,
-  TokenType,
-} from './authentication.entities';
+import { MemberAuthenticatedEvent, TokenType } from './authentication.entities';
 import { findTokenByValue, updateToken } from './token.persistence';
 
 type VerifyAuthenticationTokenCommand = {
@@ -25,11 +21,11 @@ export async function verifyAuthenticationToken(command: VerifyAuthenticationTok
   const token = await findTokenByValue(command.tokenValue);
 
   if (token === undefined) {
-    throw new TokenNotFoundError();
+    throw new NotFound('Token does not exist');
   }
 
   if (isAfter(now, token.expirationDate)) {
-    throw new TokenExpiredError();
+    throw new Unauthorized('Token has expired');
   }
 
   events.publish(new MemberAuthenticatedEvent(token.memberId));

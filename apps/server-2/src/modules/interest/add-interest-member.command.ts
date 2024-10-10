@@ -1,10 +1,11 @@
 import { and, eq } from 'drizzle-orm';
 
 import { container } from 'src/infrastructure/container';
+import { BadRequest } from 'src/infrastructure/http';
 import { db, schema } from 'src/persistence';
 import { TOKENS } from 'src/tokens';
 
-import { InterestAlreadyAddedError, InterestMemberAddedEvent } from './interest.entities';
+import { InterestMemberAddedEvent } from './interest.entities';
 
 export type AddInterestMemberCommand = {
   interestId: string;
@@ -26,7 +27,7 @@ export async function addInterestMember(command: AddInterestMemberCommand): Prom
   });
 
   if (existing) {
-    throw new InterestAlreadyAddedError();
+    throw new BadRequest('Interest was already added');
   }
 
   await db.insert(schema.membersInterests).values({

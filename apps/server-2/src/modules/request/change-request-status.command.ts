@@ -1,14 +1,10 @@
 import { RequestStatus } from '@sel/shared';
 
 import { container } from 'src/infrastructure/container';
+import { BadRequest, NotFound } from 'src/infrastructure/http';
 import { TOKENS } from 'src/tokens';
 
-import {
-  RequestCanceledEvent,
-  RequestFulfilledEvent,
-  RequestIsNotPendingError,
-  RequestNotFoundError,
-} from './request.entities';
+import { RequestCanceledEvent, RequestFulfilledEvent } from './request.entities';
 import { findRequestById, updateRequest } from './request.persistence';
 
 export type ChangeRequestStatusCommand = {
@@ -24,11 +20,11 @@ export async function changeRequestStatus(command: ChangeRequestStatusCommand): 
   const request = await findRequestById(requestId);
 
   if (!request) {
-    throw new RequestNotFoundError();
+    throw new NotFound('Request not found');
   }
 
   if ([RequestStatus.fulfilled, RequestStatus.canceled].includes(request.status)) {
-    throw new RequestIsNotPendingError();
+    throw new BadRequest('Request is not pending');
   }
 
   await updateRequest(requestId, { status });

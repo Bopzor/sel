@@ -1,10 +1,11 @@
 import { and, eq } from 'drizzle-orm';
 
 import { container } from 'src/infrastructure/container';
+import { BadRequest } from 'src/infrastructure/http';
 import { db, schema } from 'src/persistence';
 import { TOKENS } from 'src/tokens';
 
-import { InterestMemberEditedEvent, InterestNotAddedError } from './interest.entities';
+import { InterestMemberEditedEvent } from './interest.entities';
 
 export type EditInterestMemberCommand = {
   interestId: string;
@@ -26,7 +27,7 @@ export async function editInterestMember(command: EditInterestMemberCommand): Pr
   });
 
   if (!memberInterest) {
-    throw new InterestNotAddedError();
+    throw new BadRequest('Interest was not added');
   }
 
   await db

@@ -5,7 +5,7 @@ import { RequestHandler } from 'express';
 
 import { Member } from 'src/modules/member/member.entities';
 
-import { UnauthorizedError } from './http';
+import { Unauthorized } from './http';
 
 const storage = new AsyncLocalStorage<Member>();
 
@@ -23,7 +23,7 @@ export function getAuthenticatedMember() {
 
 export const isAuthenticated: RequestHandler = (req, res, next) => {
   if (!getAuthenticatedMemberUnsafe()) {
-    next(new UnauthorizedError('Authentication required'));
+    next(new Unauthorized('Authentication required'));
   } else {
     next();
   }

@@ -1,10 +1,11 @@
 import { and, eq } from 'drizzle-orm';
 
 import { container } from 'src/infrastructure/container';
+import { BadRequest } from 'src/infrastructure/http';
 import { db, schema } from 'src/persistence';
 import { TOKENS } from 'src/tokens';
 
-import { InterestMemberRemovedEvent, InterestNotAddedError } from './interest.entities';
+import { InterestMemberRemovedEvent } from './interest.entities';
 
 export type RemoveInterestMemberCommand = {
   interestId: string;
@@ -25,7 +26,7 @@ export async function removeInterestMember(command: RemoveInterestMemberCommand)
   const existing = await db.query.membersInterests.findFirst({ where });
 
   if (!existing) {
-    throw new InterestNotAddedError();
+    throw new BadRequest('Interest was not added');
   }
 
   await db.delete(schema.membersInterests).where(where);

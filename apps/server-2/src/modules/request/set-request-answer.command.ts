@@ -2,17 +2,15 @@ import { RequestStatus } from '@sel/shared';
 import { eq } from 'drizzle-orm';
 
 import { container } from 'src/infrastructure/container';
+import { BadRequest, NotFound } from 'src/infrastructure/http';
 import { db, schema } from 'src/persistence';
 import { TOKENS } from 'src/tokens';
 
 import {
-  CannotAnswerOwnRequestError,
   RequestAnswerChangedEvent,
   RequestAnswerCreatedEvent,
   RequestAnswerDeletedEvent,
   RequestEditedEvent,
-  RequestIsNotPendingError,
-  RequestNotFoundError,
 } from './request.entities';
 import { findRequestById } from './request.persistence';
 
@@ -32,15 +30,15 @@ export async function setRequestAnswer(command: SetRequestAnswerCommand): Promis
   const request = await findRequestById(requestId);
 
   if (!request) {
-    throw new RequestNotFoundError();
+    throw new NotFound('Request not found');
   }
 
   if (request.status !== RequestStatus.pending) {
-    throw new RequestIsNotPendingError();
+    throw new BadRequest('Request is not pending');
   }
 
   if (memberId === request.requesterId) {
-    throw new CannotAnswerOwnRequestError();
+    throw new BadRequest('Request is not pending');
   }
 
   const requestAnswer = await db.query.requestAnswers.findFirst({

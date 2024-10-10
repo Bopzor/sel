@@ -6,9 +6,9 @@ import express, { ErrorRequestHandler, RequestHandler } from 'express';
 import { z } from 'zod';
 
 import { container } from './infrastructure/container';
-import { HttpStatus } from './infrastructure/http';
+import { HttpStatus, Unauthorized } from './infrastructure/http';
 import { isAuthenticated, provideAuthenticatedMember } from './infrastructure/session';
-import { InvalidSessionTokenError, TokenType } from './modules/authentication/authentication.entities';
+import { TokenType } from './modules/authentication/authentication.entities';
 import { router as authentication } from './modules/authentication/authentication.router';
 import { router as session } from './modules/authentication/session.router';
 import { router as interests } from './modules/interest/interest.router';
@@ -54,7 +54,7 @@ const authenticationProvider: RequestHandler = async (req, res, next) => {
   });
 
   if (!token || token.type !== TokenType.session) {
-    throw new InvalidSessionTokenError();
+    throw new Unauthorized('Invalid session token');
   }
 
   provideAuthenticatedMember(token.member, next);

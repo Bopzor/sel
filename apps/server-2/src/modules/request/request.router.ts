@@ -6,7 +6,7 @@ import { desc, eq, sql } from 'drizzle-orm';
 import express, { RequestHandler } from 'express';
 
 import { container } from 'src/infrastructure/container';
-import { HttpStatus } from 'src/infrastructure/http';
+import { Forbidden, HttpStatus, NotFound } from 'src/infrastructure/http';
 import { getAuthenticatedMember } from 'src/infrastructure/session';
 import { db, schema } from 'src/persistence';
 import { TOKENS } from 'src/tokens';
@@ -18,7 +18,7 @@ import { changeRequestStatus } from './change-request-status.command';
 import { createRequestComment } from './create-request-comment.command';
 import { createRequest } from './create-request.command';
 import { editRequest } from './edit-request.command';
-import { MemberIsNotAuthorError, Request, RequestAnswer, RequestNotFoundError } from './request.entities';
+import { Request, RequestAnswer } from './request.entities';
 import { findRequestById } from './request.persistence';
 import { setRequestAnswer } from './set-request-answer.command';
 
@@ -32,7 +32,7 @@ const isRequester: RequestHandler<{ requestId: string }> = async (req, res, next
   const request = getRequest();
 
   if (request.requesterId !== member.id) {
-    throw new MemberIsNotAuthorError();
+    throw new Forbidden('Member must be the author of the request');
   }
 
   next();
@@ -81,7 +81,7 @@ router.get('/:requestId', async (req, res) => {
   });
 
   if (!request) {
-    throw new RequestNotFoundError();
+    throw new NotFound('Request not found');
   }
 
   res.json(serializeRequest(request));
