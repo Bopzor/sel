@@ -1,4 +1,4 @@
-import { defined } from '@sel/utils';
+import { addDuration, defined } from '@sel/utils';
 import { and, eq } from 'drizzle-orm';
 import { beforeAll, beforeEach, describe, expect, it } from 'vitest';
 
@@ -15,7 +15,7 @@ import { insertMember } from '../member';
 import { Token, TokenType } from './authentication.entities';
 import { requestAuthenticationLink } from './domain/request-authentication-link.command';
 import { verifyAuthenticationToken } from './domain/verify-authentication-token.command';
-import { findTokenById, findTokenByValue } from './token.persistence';
+import { findTokenById, findTokenByValue, insertToken } from './token.persistence';
 
 describe('member', () => {
   beforeAll(resetDatabase);
@@ -106,5 +106,22 @@ describe('member', () => {
     });
 
     expect(tokens).toHaveLength(1);
+  });
+
+  it('fails when trying to use a revoked token', async () => {
+    await insertMember(insert.member({ id: 'memberId', email: 'email' }));
+
+    await insertToken(
+      insert.token({
+        memberId: 'memberId',
+        value: 'token',
+        revoked: true,
+        expirationDate: addDuration(new Date(), { hours: 1 }),
+      }),
+    );
+
+    await expect(verifyAuthenticationToken({ tokenValue: 'token', sessionTokenId: '' })).rejects.toThrow(
+      'Token was revoked',
+    );
   });
 });

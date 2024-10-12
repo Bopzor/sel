@@ -24,6 +24,10 @@ export async function verifyAuthenticationToken(command: VerifyAuthenticationTok
     throw new NotFound('Token does not exist');
   }
 
+  if (token.revoked) {
+    throw new Unauthorized('Token was revoked');
+  }
+
   if (isAfter(now, token.expirationDate)) {
     throw new Unauthorized('Token has expired');
   }
