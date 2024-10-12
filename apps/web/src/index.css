@@ -9,7 +9,7 @@
     --color-neutral: 255 255 255;
     --color-inverted: 0 0 0;
     --color-text: 0 0 0;
-    --color-dim: 0 0 0;
+    --color-dim: 24 24 27;
     --color-icon: 75 85 99;
   }
 
@@ -19,7 +19,7 @@
     --color-neutral: 32 32 36;
     --color-inverted: 255 255 255;
     --color-text: 255 255 255;
-    --color-dim: 220 220 240;
+    --color-dim: 212 212 216;
     --color-icon: 156 163 175;
   }
 

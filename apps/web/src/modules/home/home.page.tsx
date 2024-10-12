@@ -30,8 +30,8 @@ export default function HomePage() {
     <div>
       <PreviewBanner />
 
-      <div class="row items-start gap-8 py-16">
-        <div class="grid max-w-sm grid-cols-1 gap-6">
+      <div class="col lg:row gap-8 py-16 lg:items-start">
+        <div class="grid grid-cols-1 gap-6 lg:max-w-sm">
           <LinkCard
             href={routes.members.list}
             label={<T id="members.label" />}
@@ -65,6 +65,7 @@ export default function HomePage() {
             label={<T id="assets.label" />}
             description={<T id="assets.description" />}
             icon={wrench}
+            class="!hidden"
           />
 
           <LinkCard
@@ -124,11 +125,16 @@ function LinkCard(props: LinkCardProps) {
       )}
     >
       <div>
-        <Icon path={props.icon} class="size-8 text-gray-400 transition-colors group-hover:text-primary" />
+        <Icon
+          path={props.icon}
+          class="size-8 text-gray-400 transition-colors group-hover:text-primary dark:group-hover:text-text"
+        />
       </div>
       <div>
         <div class="text-xl font-semibold">{props.label}</div>
-        <div class="mt-1 text-dim group-hover:text-primary">{props.description}</div>
+        <div class="mt-1 text-dim group-hover:text-primary dark:group-hover:text-text">
+          {props.description}
+        </div>
       </div>
     </Link>
   );
@@ -138,6 +144,14 @@ function News() {
   const [messageFormVisible, setMessageFormVisible] = createSignal(false);
   const informationApi = container.resolve(TOKENS.informationApi);
   const [messages, { refetch }] = createResource(() => informationApi.listInformation());
+
+  const pinMessages = () => {
+    return messages.latest?.pin ?? [];
+  };
+
+  const notPinMessages = () => {
+    return messages.latest?.notPin ?? [];
+  };
 
   return (
     <div class="col gap-6">
@@ -162,9 +176,15 @@ function News() {
         />
       </Show>
 
-      <For each={messages.latest?.pin}>{(message) => <InformationItem message={message} />}</For>
-      <hr class="my-4" />
-      <For each={messages.latest?.notPin}>{(message) => <InformationItem message={message} />}</For>
+      <For each={pinMessages()}>{(message) => <InformationItem message={message} />}</For>
+
+      <Show when={pinMessages().length > 0 && notPinMessages.length > 0}>
+        <hr class="my-4" />
+      </Show>
+
+      <For each={notPinMessages()} fallback={<T id="news.informationEmpty" />}>
+        {(message) => <InformationItem message={message} />}
+      </For>
     </div>
   );
 }
@@ -199,7 +219,7 @@ function InformationItem(props: { message: Information }) {
         </div>
       </div>
 
-      <RichText class="col ms-10 flex-1 gap-2 rounded-lg bg-white p-6">{props.message.body}</RichText>
+      <RichText class="col ms-10 flex-1 gap-2 rounded-lg bg-neutral p-6">{props.message.body}</RichText>
     </div>
   );
 }

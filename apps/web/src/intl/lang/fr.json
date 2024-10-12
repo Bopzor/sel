@@ -156,6 +156,7 @@
     "news": {
       "title": "Actualités",
       "createInformation": "Publier un message",
+      "informationEmpty": "Aucune information n'a été publiée pour le moment.",
       "publishedAt": "Le {date, date, medium} à {date, time, short}"
     },
     "changelog": {

@@ -159,6 +159,7 @@
     "news": {
       "title": "News",
       "createInformation": "Post message",
+      "informationEmpty": "No information was published yet.",
       "publishedAt": "The {date, date, medium} at {date, time, short}"
     }
   },
