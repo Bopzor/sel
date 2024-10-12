@@ -211,8 +211,8 @@ importers:
         specifier: ^1.9.2
         version: 1.9.2
       solid-map-gl:
-        specifier: ^1.11.3
-        version: 1.11.3(empty-npm-package@1.0.0)(solid-js@1.9.2)
+        specifier: ~1.10.3
+        version: 1.10.3(empty-npm-package@1.0.0)(solid-js@1.9.2)
       solid-tiptap:
         specifier: ^0.7.0
         version: 0.7.0(@tiptap/core@2.8.0)(@tiptap/pm@2.8.0)(solid-js@1.9.2)
@@ -9867,8 +9867,8 @@ packages:
       seroval: 1.1.1
       seroval-plugins: 1.1.1(seroval@1.1.1)
 
-  /solid-map-gl@1.11.3(empty-npm-package@1.0.0)(solid-js@1.9.2):
-    resolution: {integrity: sha512-X2LSZVP3i5wiFJLnjvCWcPQENGk7GQoYv8miKMZ6HlCYmA51MOqvAPSAb/2VeXAJPmAccQhbJIucujmcOcDsoA==}
+  /solid-map-gl@1.10.3(empty-npm-package@1.0.0)(solid-js@1.9.2):
+    resolution: {integrity: sha512-hg/Lu49amZsPWR0/nz6RN3wLihUdXHhb7TNVrBDiYfRkj3W1YQSv+1LGfwjSxYSsM6KWlVgUKDYD6OJIfV1B3g==}
     peerDependencies:
       '@babylonjs/core': ^6.24.0
       mapbox-gl: '*'
