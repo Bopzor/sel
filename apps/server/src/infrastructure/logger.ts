@@ -16,6 +16,7 @@ export class ConsoleLogger {
 
   private createLog(level: keyof Logger) {
     return (...args: unknown[]): void => {
+      // eslint-disable-next-line no-console
       console[level](`[${this.date}]`, `[${level}]`, ...args);
     };
   }

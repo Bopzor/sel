@@ -1,6 +1,5 @@
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { beforeEach, describe, expect, it, Mock, vi } from 'vitest';
 
-import { TestErrorReporter } from './error-reporter';
 import { DomainEvent, EmitterEvents } from './events';
 import { StubLogger } from './logger';
 
@@ -11,12 +10,14 @@ class TestEvent extends DomainEvent {
 describe('Events', () => {
   let logger: StubLogger;
   let events: EmitterEvents;
+  let report: Mock;
 
   const event = new TestEvent('1');
 
   beforeEach(() => {
     logger = new StubLogger();
-    events = new EmitterEvents(logger, new TestErrorReporter());
+    report = vi.fn();
+    events = new EmitterEvents(logger, { report });
   });
 
   it('triggers listeners when an event is emitted', () => {
@@ -49,7 +50,7 @@ describe('Events', () => {
     expect(done).toHaveBeenCalled();
   });
 
-  it('logs a message when an event listener throws', async () => {
+  it('logs a message and reports the error when an event listener throws', async () => {
     const error = new Error('test');
     const listener = vi.fn().mockRejectedValue(error);
 
@@ -61,5 +62,7 @@ describe('Events', () => {
       `Error in event listener ${listener.name}`,
       expect.stringContaining(error.message),
     ]);
+
+    expect(report).toHaveBeenCalledWith(error);
   });
 });

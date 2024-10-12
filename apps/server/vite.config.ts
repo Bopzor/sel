@@ -6,6 +6,7 @@ export default defineConfig({
   test: {
     watch: false,
     environment: 'node',
+    setupFiles: './src/vitest.setup.ts',
     reporters: ['verbose'],
     fileParallelism: false,
   },
