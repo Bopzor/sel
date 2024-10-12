@@ -3,7 +3,7 @@ import crypto from 'node:crypto';
 
 import * as shared from '@sel/shared';
 import { defined, pick } from '@sel/utils';
-import { and, eq, or } from 'drizzle-orm';
+import { and, asc, desc, eq, or } from 'drizzle-orm';
 import express, { RequestHandler } from 'express';
 
 import { container } from 'src/infrastructure/container';
@@ -46,7 +46,16 @@ router.param('memberId', async (req, res, next) => {
 });
 
 router.get('/', async (req, res) => {
+  const { sort } = shared.listMembersQuerySchema.parse(req.query);
+
+  const orderBy = {
+    [shared.MembersSort.firstName]: asc(schema.members.firstName),
+    [shared.MembersSort.lastName]: asc(schema.members.lastName),
+    [shared.MembersSort.membershipDate]: desc(schema.members.membershipStartDate),
+  };
+
   const members = await db.query.members.findMany({
+    orderBy: sort ? orderBy[sort] : undefined,
     with: {
       memberInterests: {
         with: { interest: true },

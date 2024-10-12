@@ -3,6 +3,7 @@ import { z } from 'zod';
 
 import { Address } from './address';
 import { MemberInterest } from './interest';
+import { MembersSort } from './members-sort';
 import { PhoneNumber } from './phone-number';
 
 export type Member = {
@@ -33,6 +34,10 @@ export const createMember = createFactory<Member>(() => ({
   balance: 0,
   interests: [],
 }));
+
+export const listMembersQuerySchema = z.object({
+  sort: z.nativeEnum(MembersSort).optional(),
+});
 
 export const createMemberBodySchema = z.object({
   firstName: z.string().optional(),
