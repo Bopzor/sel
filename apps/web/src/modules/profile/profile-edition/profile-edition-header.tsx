@@ -1,9 +1,11 @@
-import { authenticatedMember } from '../../../app-context';
 import { Button } from '../../../components/button';
 import { MemberAvatarName } from '../../../components/member-avatar-name';
 import { Translate } from '../../../intl/translate';
+import { getAuthenticatedMember } from '../../../utils/authenticated-member';
 
 export function ProfileEditionHeader(props: { isDirty: boolean; isSubmitting: boolean }) {
+  const authenticatedMember = getAuthenticatedMember();
+
   return (
     <>
       <MemberAvatarName member={authenticatedMember()} classes={{ avatar: '!size-20', name: 'typo-h1' }} />

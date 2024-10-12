@@ -3,12 +3,12 @@ import { Icon } from 'solid-heroicons';
 import { check, xMark } from 'solid-heroicons/outline';
 import { JSX, createMemo } from 'solid-js';
 
-import { isAuthenticatedMember } from '../../../../app-context';
 import { Button } from '../../../../components/button';
 import { container } from '../../../../infrastructure/container';
 import { NotificationType } from '../../../../infrastructure/notifications/notifications.port';
 import { Translate } from '../../../../intl/translate';
 import { TOKENS } from '../../../../tokens';
+import { getIsAuthenticatedMember } from '../../../../utils/authenticated-member';
 import { createAsyncCall } from '../../../../utils/create-async-call';
 import { notify } from '../../../../utils/notify';
 
@@ -45,6 +45,7 @@ type AnswerButtonProps = {
 
 function AnswerButton(props: AnswerButtonProps) {
   const requestApi = container.resolve(TOKENS.requestApi);
+  const isAuthenticatedMember = getIsAuthenticatedMember();
 
   const memberAnswer = createMemo(() => {
     return props.request.answers.find((answer) => isAuthenticatedMember(answer.member))?.answer;

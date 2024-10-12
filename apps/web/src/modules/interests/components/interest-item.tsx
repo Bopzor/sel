@@ -4,7 +4,6 @@ import { Icon } from 'solid-heroicons';
 import { chevronRight } from 'solid-heroicons/solid';
 import { For, createSignal } from 'solid-js';
 
-import { getAppActions, isAuthenticatedMember } from '../../../app-context';
 import { Collapse } from '../../../components/collapse';
 import { Link } from '../../../components/link';
 import { MemberAvatarName } from '../../../components/member-avatar-name';
@@ -13,6 +12,7 @@ import { container } from '../../../infrastructure/container';
 import { Translate } from '../../../intl/translate';
 import { routes } from '../../../routes';
 import { TOKENS } from '../../../tokens';
+import { getIsAuthenticatedMember, getRefetchAuthenticatedMember } from '../../../utils/authenticated-member';
 import { notify } from '../../../utils/notify';
 
 const T = Translate.prefix('interests');
@@ -103,7 +103,8 @@ function Header(props: HeaderProps) {
 function JoinSwitch(props: { interest: Interest; refetch: () => void }) {
   const t = T.useTranslation();
   const interestApi = container.resolve(TOKENS.interestApi);
-  const { refreshAuthenticatedMember } = getAppActions();
+  const isAuthenticatedMember = getIsAuthenticatedMember();
+  const refetchAuthenticatedMember = getRefetchAuthenticatedMember();
 
   // @ts-expect-error solidjs directive
   const { form, handleSubmit } = createForm({
@@ -120,7 +121,7 @@ function JoinSwitch(props: { interest: Interest; refetch: () => void }) {
       return joined;
     },
     onSuccess(hasJoined) {
-      refreshAuthenticatedMember();
+      refetchAuthenticatedMember();
       props.refetch();
 
       notify.success(

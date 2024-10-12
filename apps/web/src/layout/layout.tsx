@@ -1,12 +1,12 @@
 import { JSX, Show, createEffect, createResource, lazy } from 'solid-js';
 
-import { authenticatedMember } from '../app-context';
 import { Link } from '../components/link';
 import { MemberAvatar } from '../components/member-avatar';
 import { container } from '../infrastructure/container';
 import { Translate } from '../intl/translate';
 import { routes } from '../routes';
 import { TOKENS } from '../tokens';
+import { getAuthenticatedMember } from '../utils/authenticated-member';
 import { detectDevice } from '../utils/detect-device';
 import { notify } from '../utils/notify';
 
@@ -21,6 +21,7 @@ type LayoutProps = {
 
 export function Layout(props: LayoutProps) {
   const router = container.resolve(TOKENS.router);
+  const authenticatedMember = getAuthenticatedMember();
   const pathname = () => router.location.pathname;
 
   return (
@@ -40,6 +41,8 @@ export function Layout(props: LayoutProps) {
 }
 
 function HeaderMember() {
+  const authenticatedMember = getAuthenticatedMember();
+
   return (
     <Link unstyled href={routes.profile.profileEdition} class="col relative items-center gap-1 font-semibold">
       <MemberAvatar member={authenticatedMember()} class="relative size-10 rounded-full" />
@@ -51,6 +54,7 @@ function HeaderMember() {
 function CheckDeviceRegistration() {
   const subscription = container.resolve(TOKENS.pushSubscription);
   const [registrationState] = createResource(() => subscription.getRegistrationState());
+  const authenticatedMember = getAuthenticatedMember();
 
   createEffect(() => {
     if (!authenticatedMember()?.notificationDelivery.push) {

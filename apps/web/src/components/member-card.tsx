@@ -4,9 +4,9 @@ import { Icon } from 'solid-heroicons';
 import { envelope, phone } from 'solid-heroicons/solid';
 import { For, Show } from 'solid-js';
 
-import { isAuthenticatedMember } from '../app-context';
 import { Translate } from '../intl/translate';
 import { routes } from '../routes';
+import { getIsAuthenticatedMember } from '../utils/authenticated-member';
 import { formatPhoneNumber } from '../utils/format-phone-number';
 
 import { Button } from './button';
@@ -22,6 +22,8 @@ type MemberCardProps = {
 };
 
 export function MemberCard(props: MemberCardProps) {
+  const isAuthenticatedMember = getIsAuthenticatedMember();
+
   return (
     <div class={clsx('card col gap-4 p-4', props.class)}>
       <Link

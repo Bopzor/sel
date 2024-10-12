@@ -1,11 +1,11 @@
 import { Request, RequestStatus } from '@sel/shared';
 import { createSignal, Show } from 'solid-js';
 
-import { isAuthenticatedMember } from '../../../../app-context';
 import { Button } from '../../../../components/button';
 import { container } from '../../../../infrastructure/container';
 import { Translate } from '../../../../intl/translate';
 import { TOKENS } from '../../../../tokens';
+import { getIsAuthenticatedMember } from '../../../../utils/authenticated-member';
 import { createAsyncCall } from '../../../../utils/create-async-call';
 import { CreateTransactionDialog } from '../../../transactions/create-transaction-dialog';
 
@@ -13,6 +13,7 @@ const T = Translate.prefix('requests');
 
 export function RequestActions(props: { request: Request; onCanceled: () => void }) {
   const requestApi = container.resolve(TOKENS.requestApi);
+  const isAuthenticatedMember = getIsAuthenticatedMember();
 
   const isRequester = () => isAuthenticatedMember(props.request.requester);
   const canCancel = () => isRequester() && props.request.status === RequestStatus.pending;
@@ -35,6 +36,7 @@ export function RequestActions(props: { request: Request; onCanceled: () => void
 }
 
 function CreateTransactionButton(props: { request: Request }) {
+  const isAuthenticatedMember = getIsAuthenticatedMember();
   const canCreateTransaction = () => props.request.status === RequestStatus.pending;
   const requestApi = container.resolve(TOKENS.requestApi);
   const [open, setOpen] = createSignal(false);

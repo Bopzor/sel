@@ -5,7 +5,6 @@ import { assert, defined, hasProperty, not } from '@sel/utils';
 import { createEffect, createResource, createSignal, Show } from 'solid-js';
 import { z } from 'zod';
 
-import { authenticatedMember } from '../../app-context';
 import { Autocomplete } from '../../components/autocomplete';
 import { Button } from '../../components/button';
 import { Dialog, DialogHeader } from '../../components/dialog';
@@ -16,6 +15,7 @@ import { Select } from '../../components/select';
 import { container } from '../../infrastructure/container';
 import { Translate } from '../../intl/translate';
 import { TOKENS } from '../../tokens';
+import { getAuthenticatedMember } from '../../utils/authenticated-member';
 import { createErrorHandler } from '../../utils/create-error-handler';
 import { getLetsConfig } from '../../utils/lets-config';
 import { notify } from '../../utils/notify';
@@ -42,11 +42,10 @@ export function CreateTransactionDialog(props: {
   initialDescription?: string;
 }) {
   const config = getLetsConfig();
+  const authenticatedMember = getAuthenticatedMember();
   const t = T.useTranslation();
 
   const [showConfirmation, setShowConfirmation] = createSignal(false);
-
-  const currentMember = authenticatedMember();
 
   // @ts-expect-error solidjs directive
   const { form, data, setData, errors, reset } = createForm<z.infer<typeof schema>>({
@@ -60,7 +59,7 @@ export function CreateTransactionDialog(props: {
       errorMap: createErrorMap(),
     }),
     async onSubmit({ type, amount, description }) {
-      assert(currentMember);
+      const currentMember = defined(authenticatedMember());
 
       if (!showConfirmation()) {
         setShowConfirmation(true);
@@ -107,7 +106,7 @@ export function CreateTransactionDialog(props: {
 
   const membersList = () => {
     return filteredMemberList(members() ?? [], memberSearch())
-      .filter(not(hasProperty('id', defined(currentMember).id)))
+      .filter(not(hasProperty('id', defined(authenticatedMember()).id)))
       .slice(0, 6);
   };
 

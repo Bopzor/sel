@@ -4,7 +4,6 @@ import { Icon } from 'solid-heroicons';
 import { arrowRight, check, minus, xMark } from 'solid-heroicons/solid';
 import { createResource, Show } from 'solid-js';
 
-import { authenticatedMember, getAppActions, isAuthenticatedMember } from '../../../app-context';
 import { Button } from '../../../components/button';
 import { CurrencyAmount } from '../../../components/currency-amount';
 import { Dialog, DialogHeader } from '../../../components/dialog';
@@ -14,6 +13,11 @@ import { useSearchParam } from '../../../infrastructure/router/use-search-param'
 import { FormattedDate } from '../../../intl/formatted';
 import { Translate } from '../../../intl/translate';
 import { TOKENS } from '../../../tokens';
+import {
+  getAuthenticatedMember,
+  getIsAuthenticatedMember,
+  getRefetchAuthenticatedMember,
+} from '../../../utils/authenticated-member';
 import { createAsyncCall } from '../../../utils/create-async-call';
 import { createErrorHandler } from '../../../utils/create-error-handler';
 import { getLetsConfig } from '../../../utils/lets-config';
@@ -27,10 +31,12 @@ const T = Translate.prefix('profile.transactions');
 export default function TransactionsPage() {
   const transactionApi = container.resolve(TOKENS.transactionApi);
 
-  const member = authenticatedMember();
-  const { refreshAuthenticatedMember } = getAppActions();
+  const authenticatedMember = getAuthenticatedMember();
+  const refetchAuthenticatedMember = getRefetchAuthenticatedMember();
 
-  const [transactions, { refetch }] = createResource(() => transactionApi.listTransactions(member?.id));
+  const [transactions, { refetch }] = createResource(() =>
+    transactionApi.listTransactions(authenticatedMember()?.id),
+  );
 
   const [transactionId, setTransactionId] = useSearchParam('transactionId');
   const transaction = () => transactions.latest?.find(hasProperty('id', transactionId() as string));
@@ -66,9 +72,9 @@ export default function TransactionsPage() {
 
               <TransactionDetails
                 transaction={transaction()}
-                onActionSuccess={() => {
-                  void refetch();
-                  void refreshAuthenticatedMember();
+                onActionSuccess={async () => {
+                  await refetch();
+                  await refetchAuthenticatedMember();
                   onClose();
                 }}
               />
@@ -80,23 +86,24 @@ export default function TransactionsPage() {
   );
 }
 
-function TransactionDetails(props: { transaction: Transaction; onActionSuccess: () => void }) {
+function TransactionDetails(props: { transaction: Transaction; onActionSuccess: () => Promise<void> }) {
   const transactionApi = container.resolve(TOKENS.transactionApi);
+  const isAuthenticatedMember = getIsAuthenticatedMember();
   const t = T.useTranslation();
   const config = getLetsConfig();
 
   const [accept] = createAsyncCall(() => transactionApi.acceptTransaction(props.transaction.id), {
     onError: createErrorHandler(),
-    onSuccess() {
-      props.onActionSuccess();
+    async onSuccess() {
+      await props.onActionSuccess();
       notify.success(t('completeSuccess'));
     },
   });
 
   const [cancel] = createAsyncCall(() => transactionApi.cancelTransaction(props.transaction.id), {
     onError: createErrorHandler(),
-    onSuccess() {
-      props.onActionSuccess();
+    async onSuccess() {
+      await props.onActionSuccess();
       notify.success(t('cancelSuccess'));
     },
   });

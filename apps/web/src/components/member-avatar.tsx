@@ -17,7 +17,7 @@ export function MemberAvatar(props: MemberAvatarProps) {
 
   const url = () => {
     if (props.genericLetsMember) {
-      return config.latest?.logoUrl;
+      return config()?.logoUrl;
     }
 
     if (props.member) {

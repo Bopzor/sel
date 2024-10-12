@@ -4,15 +4,16 @@ import { Icon } from 'solid-heroicons';
 import { pencil } from 'solid-heroicons/solid';
 import { Show } from 'solid-js';
 
-import { isAuthenticatedMember } from '../../../../app-context';
 import { LinkButton } from '../../../../components/button';
 import { Translate } from '../../../../intl/translate';
 import { routes } from '../../../../routes';
+import { getIsAuthenticatedMember } from '../../../../utils/authenticated-member';
 import { RequestStatus } from '../../components/request-status';
 
 const T = Translate.prefix('requests');
 
 export function RequestHeader(props: { request: Request }) {
+  const isAuthenticatedMember = getIsAuthenticatedMember();
   const isRequester = () => isAuthenticatedMember(props.request.requester);
 
   return (

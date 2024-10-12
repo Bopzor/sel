@@ -29,7 +29,7 @@ export function MemberAvatarName(props: MemberAvatarNameProps) {
 
       <span class={clsx(props.classes?.name, 'truncate font-medium')}>
         <Show when={props.genericLetsMember} fallback={props.member ? fullName(props.member) : ''}>
-          {config.latest?.letsName}
+          {config()?.letsName}
         </Show>
       </span>
     </>

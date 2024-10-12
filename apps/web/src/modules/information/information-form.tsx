@@ -3,13 +3,13 @@ import { validateSchema } from '@nilscox/felte-validator-zod';
 import { createInformationBodySchema } from '@sel/shared';
 import clsx from 'clsx';
 
-import { authenticatedMember } from '../../app-context';
 import { Button } from '../../components/button';
 import { MemberAvatarName } from '../../components/member-avatar-name';
 import { RichEditor } from '../../components/rich-editor';
 import { container } from '../../infrastructure/container';
 import { Translate } from '../../intl/translate';
 import { TOKENS } from '../../tokens';
+import { getAuthenticatedMember } from '../../utils/authenticated-member';
 import { createErrorHandler } from '../../utils/create-error-handler';
 import { createErrorMap } from '../../utils/zod-error-map';
 
@@ -18,6 +18,7 @@ const T = Translate.prefix('information.form');
 export function InformationForm(props: { onCancel: () => void; onSubmitted: () => void; class?: string }) {
   const t = T.useTranslation();
   const informationApi = container.resolve(TOKENS.informationApi);
+  const authenticatedMember = getAuthenticatedMember();
 
   // @ts-expect-error solidjs directive
   const { form, setData, data } = createForm({

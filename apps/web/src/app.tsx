@@ -2,7 +2,6 @@ import { QueryClient, QueryClientProvider } from '@tanstack/solid-query';
 import { createEffect, JSX, onMount, ErrorBoundary as SolidErrorBoundary } from 'solid-js';
 import { useRegisterSW } from 'virtual:pwa-register/solid';
 
-import { AppContextProvider, authenticatedMember } from './app-context';
 import { SuspenseLoader } from './components/loader';
 import { MatomoScript } from './infrastructure/analytics/matomo-script';
 import { TrackPageView } from './infrastructure/analytics/track-page-view';
@@ -12,6 +11,7 @@ import { IntlProvider } from './intl';
 import { Layout } from './layout/layout';
 import { routes } from './routes';
 import { TOKENS } from './tokens';
+import { getAuthenticatedMember } from './utils/authenticated-member';
 
 type AppProps = {
   children?: JSX.Element;
@@ -48,32 +48,31 @@ export function App(props: AppProps) {
   });
 
   return (
-    <QueryClientProvider client={client}>
-      <SolidErrorBoundary
-        fallback={(error) => {
-          // eslint-disable-next-line no-console
-          console.error(error);
-          return <>{error?.message ?? 'Unknown error'}</>;
-        }}
-      >
-        <IntlProvider>
-          <MatomoScript />
-          <TrackPageView />
-          <NotificationsContainer />
+    <SolidErrorBoundary
+      fallback={(error) => {
+        // eslint-disable-next-line no-console
+        console.error(error);
+        return <>{error?.message ?? 'Unknown error'}</>;
+      }}
+    >
+      <IntlProvider>
+        <MatomoScript />
+        <TrackPageView />
+        <NotificationsContainer />
+        <QueryClientProvider client={client}>
           <SuspenseLoader>
-            <AppContextProvider>
-              <OnboardingRedirections />
-              <Layout>{props.children}</Layout>
-            </AppContextProvider>
+            <OnboardingRedirections />
+            <Layout>{props.children}</Layout>
           </SuspenseLoader>
-        </IntlProvider>
-      </SolidErrorBoundary>
-    </QueryClientProvider>
+        </QueryClientProvider>
+      </IntlProvider>
+    </SolidErrorBoundary>
   );
 }
 
 function OnboardingRedirections() {
   const router = container.resolve(TOKENS.router);
+  const authenticatedMember = getAuthenticatedMember();
 
   createEffect(() => {
     const { pathname } = router.location;

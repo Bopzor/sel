@@ -4,13 +4,13 @@ import { Icon } from 'solid-heroicons';
 import { arrowsRightLeft, sparkles, user } from 'solid-heroicons/solid';
 import { ComponentProps, createResource, createSignal, JSX, Show } from 'solid-js';
 
-import { authenticatedMember } from '../../../app-context';
 import { breadcrumb, Breadcrumb } from '../../../components/breadcrumb';
 import { Button } from '../../../components/button';
 import { MemberAvatarName } from '../../../components/member-avatar-name';
 import { container } from '../../../infrastructure/container';
 import { Translate } from '../../../intl/translate';
 import { TOKENS } from '../../../tokens';
+import { getAuthenticatedMember } from '../../../utils/authenticated-member';
 import { CreateTransactionDialog } from '../../transactions/create-transaction-dialog';
 
 import { ContactInformation } from './contact-information';
@@ -45,6 +45,7 @@ export default function MemberDetailsPage() {
 
 function MemberDetails(props: { member: Member }) {
   const memberApi = container.resolve(TOKENS.memberApi);
+  const authenticatedMember = getAuthenticatedMember();
 
   const [transactions, { refetch: refetchTransactions }] = createResource(
     () => props.member.id,

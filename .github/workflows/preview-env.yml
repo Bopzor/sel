@@ -53,7 +53,8 @@ jobs:
             SESSION_SECRET=@sel-staging-session-secret
             SESSION_SECURE=true
             APP_BASE_URL=${{ needs.environment.outputs.app-url }}
-            DB_URL=@sel-staging-db-url
+            DATABASE_URL=@sel-staging-db-url
+            DATABASE_DEBUG=false
             EMAIL_HOST=@sel-staging-email-host
             EMAIL_PORT=465
             EMAIL_SECURE=true

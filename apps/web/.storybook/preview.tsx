@@ -1,6 +1,5 @@
 import { MemoryRouter, Navigate, Route } from '@solidjs/router';
 import { Preview } from 'storybook-solidjs';
-import { AppContextProvider } from '../src/app-context';
 import { container } from '../src/infrastructure/container';
 import { StubMemberAvatarAdapter } from '../src/infrastructure/member-avatar/stub-member-avatar.adapter';
 import { IntlProvider } from '../src/intl/intl-provider';
@@ -21,12 +20,6 @@ export default {
     },
   },
   decorators: [
-    (Story) => (
-      <AppContextProvider>
-        <Story />
-      </AppContextProvider>
-    ),
-
     (Story) => {
       container.bindValue(TOKENS.memberAvatar, new StubMemberAvatarAdapter());
       container.bindValue(TOKENS.sessionApi, new FakeSessionApi());

@@ -3,10 +3,10 @@ import { validator } from '@nilscox/felte-validator-zod';
 import { AuthenticatedMember } from '@sel/shared';
 import { createEffect } from 'solid-js';
 
-import { getAppActions, authenticatedMember } from '../../../app-context';
 import { container } from '../../../infrastructure/container';
 import { Translate } from '../../../intl/translate';
 import { TOKENS } from '../../../tokens';
+import { getAuthenticatedMember, getRefetchAuthenticatedMember } from '../../../utils/authenticated-member';
 import { createErrorHandler } from '../../../utils/create-error-handler';
 import { formatPhoneNumber } from '../../../utils/format-phone-number';
 import { notify } from '../../../utils/notify';
@@ -34,15 +34,15 @@ export default function ProfileEditionPage() {
 
 function createProfileEditionForm() {
   const t = T.useTranslation();
-  const { refreshAuthenticatedMember } = getAppActions();
+  const refetchAuthenticatedMember = getRefetchAuthenticatedMember();
 
   const profileApi = container.resolve(TOKENS.profileApi);
-  const member = authenticatedMember();
+  const member = getAuthenticatedMember();
 
   const form = createForm<ReturnType<typeof getInitialValues>>({
     extend: validator({ schema: schema() }),
     async onSubmit(values) {
-      await profileApi.updateMemberProfile(member?.id as string, {
+      await profileApi.updateMemberProfile(member()?.id as string, {
         firstName: values.firstName,
         lastName: values.lastName,
         emailVisible: values.emailVisible,
@@ -53,18 +53,18 @@ function createProfileEditionForm() {
           },
         ],
         bio: values.bio,
-        address: member?.address,
+        address: member()?.address,
       });
     },
     onSuccess() {
       notify.success(t('saved'));
-      refreshAuthenticatedMember();
+      refetchAuthenticatedMember();
     },
     onError: createErrorHandler(),
   });
 
   createEffect(() => {
-    form.setInitialValues(getInitialValues(authenticatedMember()));
+    form.setInitialValues(getInitialValues(member()));
     form.reset();
   });
 

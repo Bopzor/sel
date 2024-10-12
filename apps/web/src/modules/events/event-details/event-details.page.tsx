@@ -4,7 +4,6 @@ import { Icon } from 'solid-heroicons';
 import { pencil } from 'solid-heroicons/solid';
 import { createResource, Show } from 'solid-js';
 
-import { authenticatedMember } from '../../../app-context';
 import { breadcrumb, Breadcrumb } from '../../../components/breadcrumb';
 import { LinkButton } from '../../../components/button';
 import { MemberCard } from '../../../components/member-card';
@@ -13,6 +12,7 @@ import { container } from '../../../infrastructure/container';
 import { Translate } from '../../../intl/translate';
 import { routes } from '../../../routes';
 import { TOKENS } from '../../../tokens';
+import { getAuthenticatedMember } from '../../../utils/authenticated-member';
 import { matchBreakpoint } from '../../../utils/match-breakpoint';
 
 import { EventComments } from './sections/event-comments';
@@ -88,6 +88,8 @@ function EventDetails(props: { event: Event; refetch: () => void }) {
 }
 
 function Header(props: { event: Event }) {
+  const authenticatedMember = getAuthenticatedMember();
+
   const isOrganizer = () => {
     return authenticatedMember()?.id === props.event.organizer.id;
   };

@@ -3,9 +3,9 @@ import { validateSchema } from '@nilscox/felte-validator-zod';
 import { createCommentBodySchema, type Comment } from '@sel/shared';
 import { For, Show } from 'solid-js';
 
-import { authenticatedMember } from '../app-context';
 import { FormattedDate } from '../intl/formatted';
 import { Translate } from '../intl/translate';
+import { getAuthenticatedMember } from '../utils/authenticated-member';
 import { createErrorHandler } from '../utils/create-error-handler';
 import { createErrorMap } from '../utils/zod-error-map';
 
@@ -62,6 +62,7 @@ function Comment(props: { comment: Comment }) {
 }
 
 function CreateCommentForm(props: { onCreate: (html: string) => Promise<void>; onCreated: () => void }) {
+  const authenticatedMember = getAuthenticatedMember();
   const t = T.useTranslation();
 
   // @ts-expect-error solidjs directive

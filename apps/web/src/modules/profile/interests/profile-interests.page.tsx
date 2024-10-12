@@ -2,7 +2,6 @@ import { createForm } from '@felte/solid';
 import type { Interest, MemberInterest } from '@sel/shared';
 import { For, Show, createSignal } from 'solid-js';
 
-import { authenticatedMember, getAppActions } from '../../../app-context';
 import { Button } from '../../../components/button';
 import { Link } from '../../../components/link';
 import { TextArea } from '../../../components/text-area';
@@ -10,12 +9,15 @@ import { container } from '../../../infrastructure/container';
 import { Translate } from '../../../intl/translate';
 import { routes } from '../../../routes';
 import { TOKENS } from '../../../tokens';
+import { getAuthenticatedMember, getRefetchAuthenticatedMember } from '../../../utils/authenticated-member';
 import { createErrorHandler } from '../../../utils/create-error-handler';
 import { notify } from '../../../utils/notify';
 
 const T = Translate.prefix('profile.interests');
 
 export default function ProfileInterestsPage() {
+  const authenticatedMember = getAuthenticatedMember();
+
   return (
     <>
       <h1>
@@ -52,7 +54,7 @@ function Interest(props: { interest: MemberInterest }) {
   const [editing, setEditing] = createSignal(false);
 
   const interestApi = container.resolve(TOKENS.interestApi);
-  const { refreshAuthenticatedMember } = getAppActions();
+  const refetchAuthenticatedMember = getRefetchAuthenticatedMember();
 
   // @ts-expect-error solidjs directive
   const { form, isSubmitting } = createForm({
@@ -62,9 +64,9 @@ function Interest(props: { interest: MemberInterest }) {
     async onSubmit({ description }) {
       await interestApi.editMemberInterestDescription(props.interest.interestId, description || undefined);
     },
-    onSuccess() {
+    async onSuccess() {
+      await refetchAuthenticatedMember();
       notify.success(t('edited'));
-      refreshAuthenticatedMember();
       setEditing(false);
     },
     onError: createErrorHandler(),

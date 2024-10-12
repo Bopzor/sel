@@ -3,6 +3,7 @@ import url from 'node:url';
 import path from 'node:path';
 
 import solid from 'eslint-plugin-solid/configs/typescript';
+import pluginQuery from '@tanstack/eslint-plugin-query';
 import base from '@sel/eslint-config/base.js';
 import typescript from '@sel/eslint-config/typescript.js';
 import globals from 'globals';
@@ -16,6 +17,7 @@ export default [
   ...base,
   ...typescript,
   ...compat.extends('plugin:tailwindcss/recommended'),
+  ...pluginQuery.configs['flat/recommended'],
   solid,
   {
     files: ['**/*.{ts,tsx}'],

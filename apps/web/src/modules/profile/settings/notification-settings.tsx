@@ -1,11 +1,11 @@
 import { createForm } from '@felte/solid';
 import { JSX, Show, createEffect, createResource } from 'solid-js';
 
-import { authenticatedMember, getAppActions } from '../../../app-context';
 import { Button } from '../../../components/button';
 import { container } from '../../../infrastructure/container';
 import { Translate } from '../../../intl/translate';
 import { TOKENS } from '../../../tokens';
+import { getAuthenticatedMember, getRefetchAuthenticatedMember } from '../../../utils/authenticated-member';
 import { createAsyncCall } from '../../../utils/create-async-call';
 import { createErrorHandler } from '../../../utils/create-error-handler';
 import { detectDevice } from '../../../utils/detect-device';
@@ -15,18 +15,20 @@ const T = Translate.prefix('profile.settings.notifications');
 
 export function NotificationSettings() {
   const profileApi = container.resolve(TOKENS.profileApi);
-  const member = authenticatedMember();
-  const { refreshAuthenticatedMember } = getAppActions();
+
+  const refetchAuthenticatedMember = getRefetchAuthenticatedMember();
+  const authenticatedMember = getAuthenticatedMember();
+
   const t = T.useTranslation();
 
   // @ts-expect-error solidjs directive
   const { form, setInitialValues, reset, data, isDirty, isSubmitting } = createForm({
     initialValues: authenticatedMember()?.notificationDelivery,
     async onSubmit(data) {
-      await profileApi.updateNotificationDelivery(member?.id as string, data);
+      await profileApi.updateNotificationDelivery(authenticatedMember()?.id as string, data);
     },
-    onSuccess() {
-      refreshAuthenticatedMember();
+    async onSuccess() {
+      await refetchAuthenticatedMember();
       notify.success(t('saved'));
     },
     onError: createErrorHandler(),
@@ -67,6 +69,8 @@ export function NotificationSettings() {
 }
 
 export function NotificationDeliveryOptions(props: { pushEnabled: boolean }) {
+  const authenticatedMember = getAuthenticatedMember();
+
   return (
     <>
       <div role="radiogroup" class="my-4 grid grid-cols-1 gap-4 sm:grid-cols-2">

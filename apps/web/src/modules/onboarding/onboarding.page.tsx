@@ -2,9 +2,9 @@ import { AuthenticatedMember } from '@sel/shared';
 import { Component, Show, createSignal } from 'solid-js';
 import { Dynamic } from 'solid-js/web';
 
-import { authenticatedMember, getAppActions } from '../../app-context';
 import { container } from '../../infrastructure/container';
 import { TOKENS } from '../../tokens';
+import { getAuthenticatedMember, getRefetchAuthenticatedMember } from '../../utils/authenticated-member';
 import { createAsyncCall } from '../../utils/create-async-call';
 import { formatPhoneNumber } from '../../utils/format-phone-number';
 
@@ -46,9 +46,10 @@ const Steps: { [S in OnboardingStep]: Component<OnboardingStepProps<S>> } = {
 export default function OnboardingPage() {
   const profileApi = container.resolve(TOKENS.profileApi);
 
-  const member = authenticatedMember();
-  const initialValues = getInitialValues(member);
-  const { refreshAuthenticatedMember } = getAppActions();
+  const authenticatedMember = getAuthenticatedMember();
+  const refetchAuthenticatedMember = getRefetchAuthenticatedMember();
+
+  const initialValues = getInitialValues(authenticatedMember());
 
   const [step, setStep] = createSignal(OnboardingStep.welcome);
   const [stepStates, setStepStates] = createSignal<Partial<OnboardingStepStates>>({});
@@ -60,11 +61,11 @@ export default function OnboardingPage() {
       const state = stepStates() as OnboardingStepStates;
 
       await profileApi.updateNotificationDelivery(
-        member?.id as string,
+        authenticatedMember()?.id as string,
         state[OnboardingStep.notifications].notifications,
       );
 
-      await profileApi.updateMemberProfile(member?.id as string, {
+      await profileApi.updateMemberProfile(authenticatedMember()?.id as string, {
         firstName: state[OnboardingStep.name].firstName,
         lastName: state[OnboardingStep.name].lastName,
         emailVisible: state[OnboardingStep.contact].emailVisible,
@@ -81,7 +82,7 @@ export default function OnboardingPage() {
     }
 
     if (step() === OnboardingStep.end) {
-      refreshAuthenticatedMember();
+      void refetchAuthenticatedMember();
     } else {
       setStep((step) => step + 1);
     }

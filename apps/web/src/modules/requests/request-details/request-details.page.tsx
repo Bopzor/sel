@@ -2,7 +2,6 @@ import { Request, Requester } from '@sel/shared';
 import { useParams } from '@solidjs/router';
 import { Show, createResource } from 'solid-js';
 
-import { isAuthenticatedMember } from '../../../app-context';
 import { Breadcrumb, breadcrumb } from '../../../components/breadcrumb';
 import { Link } from '../../../components/link';
 import { MemberAvatarName } from '../../../components/member-avatar-name';
@@ -11,6 +10,7 @@ import { RichText } from '../../../components/rich-text';
 import { container } from '../../../infrastructure/container';
 import { routes } from '../../../routes';
 import { TOKENS } from '../../../tokens';
+import { getIsAuthenticatedMember } from '../../../utils/authenticated-member';
 
 import { RequestActions } from './section/request-actions';
 import { RequestAnswer } from './section/request-answer';
@@ -38,6 +38,8 @@ export default function RequestDetailsPage() {
 }
 
 export function RequestDetails(props: { request: Request; refetch: () => void }) {
+  const isAuthenticatedMember = getIsAuthenticatedMember();
+
   return (
     <>
       <div class="mb-6">

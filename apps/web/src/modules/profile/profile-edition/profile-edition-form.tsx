@@ -1,11 +1,11 @@
 import { Show, createSignal } from 'solid-js';
 
-import { authenticatedMember } from '../../../app-context';
 import { FormField } from '../../../components/form-field';
 import { Input } from '../../../components/input';
 import { MemberAvatar } from '../../../components/member-avatar';
 import { TextArea } from '../../../components/text-area';
 import { Translate } from '../../../intl/translate';
+import { getAuthenticatedMember } from '../../../utils/authenticated-member';
 
 import { type ProfileEditionForm } from './profile-edition.page';
 import { ProfileFieldVisibility } from './profile-field-visibility';
@@ -88,6 +88,8 @@ function BioField(props: Pick<ProfileEditionForm, 'errors'>) {
 }
 
 function ProfilePictureField() {
+  const authenticatedMember = getAuthenticatedMember();
+
   return (
     <FormField label={<T id="profilePicture" />}>
       <div class="row items-center gap-2">
