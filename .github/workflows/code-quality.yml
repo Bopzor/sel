@@ -79,7 +79,9 @@ jobs:
       - uses: ./.github/actions/setup
 
       - name: Run tests
-        run: pnpm --filter @sel/server test
+        run: |
+          pnpm --filter @sel/utils build
+          pnpm --filter @sel/server test
         env:
           DATABASE_URL: postgres://postgres@postgres/test
 
