@@ -5,19 +5,16 @@ import { NotFound } from 'src/infrastructure/http';
 import { db, schema } from 'src/persistence';
 import { TOKENS } from 'src/tokens';
 
-import {
-  checkCanCancelTransaction,
-  cancelTransaction as cancelTransactionEntity,
-} from './transaction.service';
-
 export type CancelTransactionCommand = {
   transactionId: string;
   memberId: string;
 };
 
 export async function cancelTransaction(command: CancelTransactionCommand): Promise<void> {
-  const now = container.resolve(TOKENS.date).now();
   const { transactionId, memberId } = command;
+
+  const now = container.resolve(TOKENS.date).now();
+  const transactionService = container.resolve(TOKENS.transactionService);
 
   const transaction = await db.query.transactions.findFirst({
     where: eq(schema.transactions.id, transactionId),
@@ -27,9 +24,8 @@ export async function cancelTransaction(command: CancelTransactionCommand): Prom
     throw new NotFound('Transaction not found');
   }
 
-  checkCanCancelTransaction({ transaction, memberId });
-
-  cancelTransactionEntity({ transaction });
+  transactionService.checkCanCancelTransaction({ transaction, memberId });
+  transactionService.cancelTransaction({ transaction });
 
   await db
     .update(schema.transactions)

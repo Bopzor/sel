@@ -5,9 +5,9 @@ import { currencyAmount, memberName } from 'src/infrastructure/format';
 import { notify } from 'src/modules/notification';
 import { db, schema } from 'src/persistence';
 
-import { TransactionPending } from '../transaction.entities';
+import { TransactionPendingEvent } from '../transaction.entities';
 
-export async function notifyTransactionPending(event: TransactionPending): Promise<void> {
+export async function notifyTransactionPending(event: TransactionPendingEvent): Promise<void> {
   const transaction = defined(
     await db.query.transactions.findFirst({
       where: eq(schema.transactions.id, event.entityId),

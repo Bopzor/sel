@@ -2,40 +2,43 @@ import { TransactionStatus } from '@sel/shared';
 import { createDate, createFactory, createId } from '@sel/utils';
 import { beforeEach, describe, expect, it } from 'vitest';
 
-import { container } from 'src/infrastructure/container';
 import { StubEvents } from 'src/infrastructure/events';
 import { Member } from 'src/modules/member';
 import { MemberStatus } from 'src/modules/member/member.entities';
-import { TOKENS } from 'src/tokens';
 
 import {
-  TransactionCreated,
-  TransactionCompleted,
-  TransactionPending,
-  TransactionCanceled,
   Transaction,
+  TransactionCanceledEvent,
+  TransactionCompletedEvent,
+  TransactionCreatedEvent,
+  TransactionPendingEvent,
 } from '../transaction.entities';
 
 import {
-  cancelTransaction,
-  checkCanAcceptTransaction,
-  checkCanCancelTransaction,
-  completeTransaction,
-  createTransaction,
   InvalidTransactionCreatorError,
   MemberIsNotPayerError,
   NegativeAmountError,
   PayerIsRecipientError,
   TransactionIsNotPendingError,
+  TransactionService,
 } from './transaction.service';
 
-describe('transaction', () => {
+describe('transactions service', () => {
+  let publisher: StubEvents;
+  let service: TransactionService;
+
   const now = new Date();
-  let events: StubEvents;
+
+  const defaultTransaction = {
+    transactionId: 'transactionId',
+    amount: 1,
+    description: '',
+    now,
+  };
 
   beforeEach(() => {
-    events = new StubEvents();
-    container.bindValue(TOKENS.events, events);
+    publisher = new StubEvents();
+    service = new TransactionService(publisher);
   });
 
   const createMember = createFactory<Member>(() => ({
@@ -55,7 +58,7 @@ describe('transaction', () => {
     updatedAt: createDate(),
   }));
 
-  const createTransactionEntity = createFactory<Transaction>(() => ({
+  const createTransaction = createFactory<Transaction>(() => ({
     id: createId(),
     status: TransactionStatus.pending,
     description: '',
@@ -71,18 +74,11 @@ describe('transaction', () => {
     updatedAt: createDate(),
   }));
 
-  const defaultTransaction = {
-    transactionId: 'transactionId',
-    amount: 1,
-    description: '',
-    now,
-  };
-
   it('creates a transaction as a payer', () => {
     const payer = createMember({ balance: 1 });
     const recipient = createMember({ balance: 1 });
 
-    const transaction = createTransaction({
+    const transaction = service.createTransaction({
       ...defaultTransaction,
       payer,
       recipient,
@@ -95,15 +91,15 @@ describe('transaction', () => {
     expect(payer.balance).toEqual(0);
     expect(recipient.balance).toEqual(2);
 
-    expect(events.events).toContainEqual(new TransactionCreated('transactionId'));
-    expect(events.events).toContainEqual(new TransactionCompleted('transactionId'));
+    expect(publisher.events).toContainEqual(new TransactionCreatedEvent('transactionId'));
+    expect(publisher.events).toContainEqual(new TransactionCompletedEvent('transactionId'));
   });
 
   it('creates a transaction as a recipient', () => {
     const payer = createMember({ balance: 1 });
     const recipient = createMember({ balance: 1 });
 
-    const transaction = createTransaction({
+    const transaction = service.createTransaction({
       ...defaultTransaction,
       payer,
       recipient,
@@ -116,15 +112,15 @@ describe('transaction', () => {
     expect(payer.balance).toEqual(1);
     expect(recipient.balance).toEqual(1);
 
-    expect(events.events).toContainEqual(new TransactionCreated('transactionId'));
-    expect(events.events).toContainEqual(new TransactionPending('transactionId'));
+    expect(publisher.events).toContainEqual(new TransactionCreatedEvent('transactionId'));
+    expect(publisher.events).toContainEqual(new TransactionPendingEvent('transactionId'));
   });
 
   it('completes a transaction as a payer', () => {
     const payer = createMember({ balance: 1 });
     const recipient = createMember({ balance: 1 });
 
-    const transaction = createTransaction({
+    const transaction = service.createTransaction({
       ...defaultTransaction,
       payer,
       recipient,
@@ -132,7 +128,7 @@ describe('transaction', () => {
       amount: 1,
     });
 
-    completeTransaction({
+    service.completeTransaction({
       transaction,
       payer,
       recipient,
@@ -142,14 +138,14 @@ describe('transaction', () => {
     expect(payer.balance).toEqual(0);
     expect(recipient.balance).toEqual(2);
 
-    expect(events.events).toContainEqual(new TransactionCompleted('transactionId'));
+    expect(publisher.events).toContainEqual(new TransactionCompletedEvent('transactionId'));
   });
 
   it('cancels a transaction as a payer', () => {
     const payer = createMember({ balance: 1 });
     const recipient = createMember({ balance: 1 });
 
-    const transaction = createTransaction({
+    const transaction = service.createTransaction({
       ...defaultTransaction,
       payer,
       recipient,
@@ -157,20 +153,20 @@ describe('transaction', () => {
       amount: 1,
     });
 
-    cancelTransaction({ transaction });
+    service.cancelTransaction({ transaction });
 
     expect(transaction.status).toEqual(TransactionStatus.canceled);
     expect(payer.balance).toEqual(1);
     expect(recipient.balance).toEqual(1);
 
-    expect(events.events).toContainEqual(new TransactionCanceled('transactionId'));
+    expect(publisher.events).toContainEqual(new TransactionCanceledEvent('transactionId'));
   });
 
   it('prevents to create a transaction with the payer as recipient', () => {
     const payer = createMember();
 
     expect(() => {
-      createTransaction({ ...defaultTransaction, payer, recipient: payer, creator: payer });
+      service.createTransaction({ ...defaultTransaction, payer, recipient: payer, creator: payer });
     }).toThrow(new PayerIsRecipientError(payer.id));
   });
 
@@ -180,7 +176,7 @@ describe('transaction', () => {
     const creator = createMember();
 
     expect(() => {
-      createTransaction({ ...defaultTransaction, payer, recipient, creator });
+      service.createTransaction({ ...defaultTransaction, payer, recipient, creator });
     }).toThrow(new InvalidTransactionCreatorError(creator.id, payer.id, recipient.id));
   });
 
@@ -189,7 +185,7 @@ describe('transaction', () => {
     const recipient = createMember();
 
     expect(() => {
-      createTransaction({ ...defaultTransaction, payer, recipient, creator: payer, amount: -1 });
+      service.createTransaction({ ...defaultTransaction, payer, recipient, creator: payer, amount: -1 });
     }).toThrow(new NegativeAmountError(-1));
   });
 
@@ -198,19 +194,19 @@ describe('transaction', () => {
     const recipient = createMember();
 
     expect(() => {
-      createTransaction({ ...defaultTransaction, payer, recipient, creator: payer, amount: 0 });
+      service.createTransaction({ ...defaultTransaction, payer, recipient, creator: payer, amount: 0 });
     }).toThrow(new NegativeAmountError(0));
   });
 
   it('prevents to accept a transaction if not payer', () => {
-    const transaction = createTransactionEntity({
+    const transaction = createTransaction({
       payerId: 'payerId',
       recipientId: 'recipientId',
       creatorId: 'recipientId',
     });
 
     expect(() => {
-      checkCanAcceptTransaction({
+      service.checkCanAcceptTransaction({
         transaction,
         memberId: 'recipientId',
       });
@@ -218,12 +214,12 @@ describe('transaction', () => {
   });
 
   it('prevents to complete a transaction that is not pending', () => {
-    const transaction = createTransactionEntity({
+    const transaction = createTransaction({
       status: TransactionStatus.completed,
     });
 
     expect(() => {
-      completeTransaction({
+      service.completeTransaction({
         transaction,
         payer: createMember(),
         recipient: createMember(),
@@ -232,14 +228,14 @@ describe('transaction', () => {
   });
 
   it('prevents to cancel a transaction if not payer', () => {
-    const transaction = createTransactionEntity({
+    const transaction = createTransaction({
       payerId: 'payerId',
       recipientId: 'recipientId',
       creatorId: 'recipientId',
     });
 
     expect(() => {
-      checkCanCancelTransaction({
+      service.checkCanCancelTransaction({
         transaction,
         memberId: 'recipientId',
       });
@@ -247,12 +243,12 @@ describe('transaction', () => {
   });
 
   it('prevents to cancel a transaction that is not pending', () => {
-    const transaction = createTransactionEntity({
+    const transaction = createTransaction({
       status: TransactionStatus.completed,
     });
 
     expect(() => {
-      cancelTransaction({ transaction });
+      service.cancelTransaction({ transaction });
     }).toThrow(new TransactionIsNotPendingError('transactionId', TransactionStatus.completed));
   });
 });

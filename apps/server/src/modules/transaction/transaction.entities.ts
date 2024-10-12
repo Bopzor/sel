@@ -4,7 +4,7 @@ import { schema } from 'src/persistence';
 export type Transaction = typeof schema.transactions.$inferSelect;
 export type TransactionInsert = typeof schema.transactions.$inferInsert;
 
-export class TransactionCreated extends DomainEvent {}
-export class TransactionPending extends DomainEvent {}
-export class TransactionCompleted extends DomainEvent {}
-export class TransactionCanceled extends DomainEvent {}
+export class TransactionCreatedEvent extends DomainEvent {}
+export class TransactionPendingEvent extends DomainEvent {}
+export class TransactionCompletedEvent extends DomainEvent {}
+export class TransactionCanceledEvent extends DomainEvent {}

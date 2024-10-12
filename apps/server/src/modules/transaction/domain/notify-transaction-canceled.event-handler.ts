@@ -5,9 +5,9 @@ import { memberName } from 'src/infrastructure/format';
 import { notify } from 'src/modules/notification';
 import { db, schema } from 'src/persistence';
 
-import { TransactionCanceled } from '../transaction.entities';
+import { TransactionCanceledEvent } from '../transaction.entities';
 
-export async function notifyTransactionCanceled(event: TransactionCanceled): Promise<void> {
+export async function notifyTransactionCanceled(event: TransactionCanceledEvent): Promise<void> {
   const transaction = defined(
     await db.query.transactions.findFirst({
       where: eq(schema.transactions.id, event.entityId),

@@ -4,7 +4,6 @@
     { "path": "./packages/shared" },
     { "path": "./packages/utils" },
     { "path": "./apps/server" },
-    { "path": "./apps/server-2" },
     { "path": "./apps/web" }
   ]
 }

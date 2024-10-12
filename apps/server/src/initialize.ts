@@ -25,9 +25,9 @@ import { notifyTransactionCanceled } from './modules/transaction/domain/notify-t
 import { notifyTransactionCompleted } from './modules/transaction/domain/notify-transaction-completed.event-handler';
 import { notifyTransactionPending } from './modules/transaction/domain/notify-transaction-pending.event-handler';
 import {
-  TransactionCanceled,
-  TransactionCompleted,
-  TransactionPending,
+  TransactionCanceledEvent,
+  TransactionCompletedEvent,
+  TransactionPendingEvent,
 } from './modules/transaction/transaction.entities';
 import { db } from './persistence/database';
 import { domainEvents } from './persistence/schema/domain-events';
@@ -62,9 +62,9 @@ function bindEventListeners() {
   events.addListener(EventParticipationSetEvent, notifyEventParticipationSet);
   events.addListener(EventCommentCreatedEvent, notifyEventCommentCreated);
 
-  events.addListener(TransactionPending, notifyTransactionPending);
-  events.addListener(TransactionCompleted, notifyTransactionCompleted);
-  events.addListener(TransactionCanceled, notifyTransactionCanceled);
+  events.addListener(TransactionPendingEvent, notifyTransactionPending);
+  events.addListener(TransactionCompletedEvent, notifyTransactionCompleted);
+  events.addListener(TransactionCanceledEvent, notifyTransactionCanceled);
 }
 
 async function logDomainEvent(event: DomainEvent<unknown>) {

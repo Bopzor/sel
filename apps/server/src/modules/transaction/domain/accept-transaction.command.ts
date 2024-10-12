@@ -7,8 +7,6 @@ import { findMemberById } from 'src/modules/member';
 import { db, schema } from 'src/persistence';
 import { TOKENS } from 'src/tokens';
 
-import { checkCanAcceptTransaction, completeTransaction } from './transaction.service';
-
 export type AcceptTransactionCommand = {
   transactionId: string;
   memberId: string;
@@ -16,6 +14,7 @@ export type AcceptTransactionCommand = {
 
 export async function acceptTransaction(command: AcceptTransactionCommand): Promise<void> {
   const now = container.resolve(TOKENS.date).now();
+  const transactionService = container.resolve(TOKENS.transactionService);
 
   const { transactionId, memberId } = command;
 
@@ -30,9 +29,9 @@ export async function acceptTransaction(command: AcceptTransactionCommand): Prom
   const payer = defined(await findMemberById(transaction.payerId));
   const recipient = defined(await findMemberById(transaction.recipientId));
 
-  checkCanAcceptTransaction({ transaction, memberId });
+  transactionService.checkCanAcceptTransaction({ transaction, memberId });
 
-  completeTransaction({
+  transactionService.completeTransaction({
     transaction,
     payer,
     recipient,

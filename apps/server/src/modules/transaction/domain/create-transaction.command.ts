@@ -5,8 +5,6 @@ import { TOKENS } from 'src/tokens';
 
 import { insertTransaction } from '../transaction.persistence';
 
-import { createTransaction as createTransactionEntity } from './transaction.service';
-
 export type CreateTransactionCommand = {
   transactionId: string;
   payerId: string;
@@ -20,6 +18,7 @@ export type CreateTransactionCommand = {
 
 export async function createTransaction(command: CreateTransactionCommand): Promise<void> {
   const now = container.resolve(TOKENS.date).now();
+  const transactionService = container.resolve(TOKENS.transactionService);
 
   const { transactionId, payerId, recipientId, creatorId, amount, description, requestId, eventId } = command;
 
@@ -36,7 +35,7 @@ export async function createTransaction(command: CreateTransactionCommand): Prom
 
   const creator = creatorId === payerId ? payer : recipient;
 
-  const transaction = createTransactionEntity({
+  const transaction = transactionService.createTransaction({
     transactionId,
     payer,
     recipient,

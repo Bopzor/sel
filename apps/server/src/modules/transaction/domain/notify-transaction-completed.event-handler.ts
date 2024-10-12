@@ -5,9 +5,9 @@ import { currencyAmount, memberName } from 'src/infrastructure/format';
 import { notify } from 'src/modules/notification';
 import { db, schema } from 'src/persistence';
 
-import { TransactionCompleted } from '../transaction.entities';
+import { TransactionCompletedEvent } from '../transaction.entities';
 
-export async function notifyTransactionCompleted(event: TransactionCompleted): Promise<void> {
+export async function notifyTransactionCompleted(event: TransactionCompletedEvent): Promise<void> {
   const transaction = defined(
     await db.query.transactions.findFirst({
       where: eq(schema.transactions.id, event.entityId),
