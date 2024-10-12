@@ -28,5 +28,7 @@ RUN pnpm deploy --filter=@sel/web --prod /prod
 
 FROM nginx:latest
 
+COPY ./apps/web/nginx.conf /etc/nginx/conf.d/default.conf
 COPY --from=build /prod/dist /usr/share/nginx/html
+
 EXPOSE 80
