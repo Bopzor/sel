@@ -5,11 +5,11 @@ exports[`notification snapshots > EventCommentCreated 1`] = `undefined`;
 exports[`notification snapshots > EventCommentCreated 2`] = `
 [
   {
-    "html": "<p>Bonjour Member,</p><p><strong>Author</strong> a écrit un commentaire sur votre événement <a href="http://localhost:8000/events/eventId">Event title</a> :</p><blockquote style="margin: 0; padding: 8px 16px; border: 1px solid #CCC; border-radius: 4px; background: #fafafc;"><p>Comment body</p></blockquote>",
+    "html": "<p>Bonjour Member,</p><p><strong>Author</strong> a écrit un commentaire sur votre événement <a href="http://localhost/events/eventId">Event title</a> :</p><blockquote style="margin: 0; padding: 8px 16px; border: 1px solid #CCC; border-radius: 4px; background: #fafafc;"><p>Comment body</p></blockquote>",
     "subject": "Commentaire de Author sur votre événement "Event title"",
     "text": "Bonjour Member,
 
-Author a écrit un commentaire sur votre événement Event title (http://localhost:8000/events/eventId) :
+Author a écrit un commentaire sur votre événement Event title (http://localhost/events/eventId) :
 
 Comment body",
     "to": "member@email",
@@ -22,11 +22,11 @@ exports[`notification snapshots > EventCreated 1`] = `undefined`;
 exports[`notification snapshots > EventCreated 2`] = `
 [
   {
-    "html": "<p>Bonjour Member,</p><p><strong>Organizer</strong> a créé un nouvel événement : <a href="http://localhost:8000/events/eventId">Event title</a></p><blockquote style="margin: 0; padding: 8px 16px; border: 1px solid #CCC; border-radius: 4px; background: #fafafc;"><p>Event body</p></blockquote>",
+    "html": "<p>Bonjour Member,</p><p><strong>Organizer</strong> a créé un nouvel événement : <a href="http://localhost/events/eventId">Event title</a></p><blockquote style="margin: 0; padding: 8px 16px; border: 1px solid #CCC; border-radius: 4px; background: #fafafc;"><p>Event body</p></blockquote>",
     "subject": "Nouvel événement : Event title",
     "text": "Bonjour Member,
 
-Organizer a créé un nouvel événement : Event title (http://localhost:8000/events/eventId)
+Organizer a créé un nouvel événement : Event title (http://localhost/events/eventId)
 
 Event body",
     "to": "member@email",
@@ -39,11 +39,11 @@ exports[`notification snapshots > EventParticipationSet 1`] = `undefined`;
 exports[`notification snapshots > EventParticipationSet 2`] = `
 [
   {
-    "html": "<p>Bonjour Member,</p><p><strong>Participant</strong> participera à votre événement <a href="http://localhost:8000/events/eventId">Event title</a>.</p>",
+    "html": "<p>Bonjour Member,</p><p><strong>Participant</strong> participera à votre événement <a href="http://localhost/events/eventId">Event title</a>.</p>",
     "subject": "Participation à votre événement Event title",
     "text": "Bonjour Member,
 
-Participant participera à votre événement Event title (http://localhost:8000/events/eventId).",
+Participant participera à votre événement Event title (http://localhost/events/eventId).",
     "to": "member@email",
   },
 ]
@@ -54,11 +54,11 @@ exports[`notification snapshots > RequestCommentCreated 1`] = `undefined`;
 exports[`notification snapshots > RequestCommentCreated 2`] = `
 [
   {
-    "html": "<p>Bonjour Member,</p><p><strong>Author</strong> a écrit un commentaire sur votre demande <a href="http://localhost:8000/requests/requestId">Request title</a> :</p><blockquote style="margin: 0; padding: 8px 16px; border: 1px solid #CCC; border-radius: 4px; background: #fafafc;"><p>Comment body</p></blockquote>",
+    "html": "<p>Bonjour Member,</p><p><strong>Author</strong> a écrit un commentaire sur votre demande <a href="http://localhost/requests/requestId">Request title</a> :</p><blockquote style="margin: 0; padding: 8px 16px; border: 1px solid #CCC; border-radius: 4px; background: #fafafc;"><p>Comment body</p></blockquote>",
     "subject": "Commentaire de Author sur votre demande "Request title"",
     "text": "Bonjour Member,
 
-Author a écrit un commentaire sur votre demande Request title (http://localhost:8000/requests/requestId) :
+Author a écrit un commentaire sur votre demande Request title (http://localhost/requests/requestId) :
 
 Comment body",
     "to": "member@email",
@@ -71,11 +71,11 @@ exports[`notification snapshots > RequestCreated 1`] = `undefined`;
 exports[`notification snapshots > RequestCreated 2`] = `
 [
   {
-    "html": "<p>Bonjour Member,</p><p><strong>Requester</strong> a publié une nouvelle demande : <a href="http://localhost:8000/requests/requestId">Request title</a></p><blockquote style="margin: 0; padding: 8px 16px; border: 1px solid #CCC; border-radius: 4px; background: #fafafc;"><p>Request body</p></blockquote>",
+    "html": "<p>Bonjour Member,</p><p><strong>Requester</strong> a publié une nouvelle demande : <a href="http://localhost/requests/requestId">Request title</a></p><blockquote style="margin: 0; padding: 8px 16px; border: 1px solid #CCC; border-radius: 4px; background: #fafafc;"><p>Request body</p></blockquote>",
     "subject": "Demande de Requester : Request title",
     "text": "Bonjour Member,
 
-Requester a publié une nouvelle demande : Request title (http://localhost:8000/requests/requestId)
+Requester a publié une nouvelle demande : Request title (http://localhost/requests/requestId)
 
 Request body",
     "to": "member@email",
@@ -88,11 +88,11 @@ exports[`notification snapshots > RequestStatusChanged 1`] = `undefined`;
 exports[`notification snapshots > RequestStatusChanged 2`] = `
 [
   {
-    "html": "<p>Bonjour Member,</p><p><strong>Requester</strong> a annulé sa demande <a href="http://localhost:8000/requests/requestId">Request title</a></p>",
+    "html": "<p>Bonjour Member,</p><p><strong>Requester</strong> a annulé sa demande <a href="http://localhost/requests/requestId">Request title</a></p>",
     "subject": "Requester a annulé sa demande "Request title"",
     "text": "Bonjour Member,
 
-Requester a annulé sa demande Request title (http://localhost:8000/requests/requestId)",
+Requester a annulé sa demande Request title (http://localhost/requests/requestId)",
     "to": "member@email",
   },
 ]
@@ -103,11 +103,11 @@ exports[`notification snapshots > Test 1`] = `undefined`;
 exports[`notification snapshots > Test 2`] = `
 [
   {
-    "html": "<p>Hello Member, this is <strong>a test notification</strong>! I hope it works 😄</p><p>Here is <a href="http://localhost:8000">a link</a>.</p><p>42 is a good answer.</p><p>And here is some verbatim content:</p><blockquote style="margin: 0; padding: 8px 16px; border: 1px solid #CCC; border-radius: 4px; background: #fafafc;"><p>hello <strong>world</strong></p></blockquote><p>Cheers!</p>",
+    "html": "<p>Hello Member, this is <strong>a test notification</strong>! I hope it works 😄</p><p>Here is <a href="http://localhost">a link</a>.</p><p>42 is a good answer.</p><p>And here is some verbatim content:</p><blockquote style="margin: 0; padding: 8px 16px; border: 1px solid #CCC; border-radius: 4px; background: #fafafc;"><p>hello <strong>world</strong></p></blockquote><p>Cheers!</p>",
     "subject": "Test notification (email)",
     "text": "Hello Member, this is a test notification! I hope it works 😄
 
-Here is a link (http://localhost:8000).
+Here is a link (http://localhost).
 
 42 is a good answer.
 
@@ -141,11 +141,11 @@ exports[`notification snapshots > TransactionCompleted 1`] = `undefined`;
 exports[`notification snapshots > TransactionCompleted 2`] = `
 [
   {
-    "html": "<p>Bonjour Member,</p><p><strong>Payer</strong> a accepté votre demande de <strong>123 coins</strong> pour l'échange : <a href="http://localhost:8000/profile/transactions?transactionId=transactionId">Transaction description</a>.</p>",
+    "html": "<p>Bonjour Member,</p><p><strong>Payer</strong> a accepté votre demande de <strong>123 coins</strong> pour l'échange : <a href="http://localhost/profile/transactions?transactionId=transactionId">Transaction description</a>.</p>",
     "subject": "Vous avez reçu 123 coins pour l'échange : Transaction description",
     "text": "Bonjour Member,
 
-Payer a accepté votre demande de 123 coins pour l'échange : Transaction description (http://localhost:8000/profile/transactions?transactionId=transactionId).",
+Payer a accepté votre demande de 123 coins pour l'échange : Transaction description (http://localhost/profile/transactions?transactionId=transactionId).",
     "to": "member@email",
   },
 ]
@@ -156,13 +156,13 @@ exports[`notification snapshots > TransactionPending 1`] = `undefined`;
 exports[`notification snapshots > TransactionPending 2`] = `
 [
   {
-    "html": "<p>Bonjour Member,</p><p><strong>Recipient</strong> vous demande <strong>123 coins</strong> pour l'échange : Transaction description.</p><p>Vous pouvez valider ou refuser cet échange depuis <a href="http://localhost:8000/profile/transactions?transactionId=transactionId">votre page de profil</a>.</p>",
+    "html": "<p>Bonjour Member,</p><p><strong>Recipient</strong> vous demande <strong>123 coins</strong> pour l'échange : Transaction description.</p><p>Vous pouvez valider ou refuser cet échange depuis <a href="http://localhost/profile/transactions?transactionId=transactionId">votre page de profil</a>.</p>",
     "subject": "Demande de coins pour l'échange : Transaction description",
     "text": "Bonjour Member,
 
 Recipient vous demande 123 coins pour l'échange : Transaction description.
 
-Vous pouvez valider ou refuser cet échange depuis votre page de profil (http://localhost:8000/profile/transactions?transactionId=transactionId).",
+Vous pouvez valider ou refuser cet échange depuis votre page de profil (http://localhost/profile/transactions?transactionId=transactionId).",
     "to": "member@email",
   },
 ]

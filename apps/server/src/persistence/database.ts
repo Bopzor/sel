@@ -12,13 +12,15 @@ import drizzleConfig from '../../drizzle.config';
 import * as schema from './schema';
 
 const config = container.resolve(TOKENS.config);
-const logger = container.resolve(TOKENS.logger);
 
 export const db = await drizzle('node-postgres', {
-  connection: databaseUrl(),
+  connection: config.database.url,
   schema,
   logger: {
     logQuery(query, params) {
+      const logger = container.resolve(TOKENS.logger);
+      const config = container.resolve(TOKENS.config);
+
       if (config.database.debug) {
         logger.log(query, params);
       }
@@ -26,20 +28,10 @@ export const db = await drizzle('node-postgres', {
   },
 });
 
-function databaseUrl() {
-  const config = container.resolve(TOKENS.config);
-
-  if (import.meta.env.MODE === 'test') {
-    return 'postgres://postgres@localhost:5432/test';
-  }
-
-  return config.database.url;
-}
-
 export async function resetDatabase() {
   assert(import.meta.env.MODE === 'test');
 
-  const client = new pg.Client('postgres://postgres@localhost:5432/postgres');
+  const client = new pg.Client(config.database.url.replace(/\/[a-z]*$/, '/postgres'));
 
   await client.connect();
   await client.query('drop database if exists test');
