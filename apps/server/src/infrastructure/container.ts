@@ -1,6 +1,7 @@
 import { createContainer } from 'ditox';
 import nodemailer from 'nodemailer';
 
+import { TransactionService } from 'src/modules/transaction/domain/transaction.service';
 import { TOKENS } from 'src/tokens';
 
 import { createEnvConfig } from './config';
@@ -28,3 +29,4 @@ container.bindFactory(TOKENS.logger, ConsoleLogger.inject);
 container.bindValue(TOKENS.nodemailer, nodemailer);
 container.bindFactory(TOKENS.pushNotification, WebPushNotification.inject);
 container.bindFactory(TOKENS.slackClient, WebSlackClientAdapter.inject);
+container.bindFactory(TOKENS.transactionService, TransactionService.inject);
