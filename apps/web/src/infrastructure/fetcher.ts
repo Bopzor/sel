@@ -139,7 +139,7 @@ export class Fetcher implements FetcherPort {
   private async execute<Body>(path: string, init: RequestInit): Promise<FetchResult<Body>> {
     // await new Promise((r) => setTimeout(r, 1000));
 
-    const response = await fetch((this.config.api.url ?? '') + path, init);
+    const response = await fetch(this.getUrl(path), init);
     const body: Body = await this.getBody(response);
 
     const result = new FetchResult(response, body);
@@ -149,6 +149,14 @@ export class Fetcher implements FetcherPort {
     }
 
     return result;
+  }
+
+  private getUrl(path: string) {
+    if (path.startsWith('http')) {
+      return path;
+    }
+
+    return (this.config.api.url ?? '') + path;
   }
 
   private getBody(response: Response) {
