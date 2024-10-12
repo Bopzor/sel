@@ -1,94 +1,16 @@
-import {
-  CreateCommentBody,
-  CreateEventBody,
-  Event,
-  EventParticipation,
-  EventsListItem,
-  SetEventParticipationBody,
-  UpdateEventBody,
-} from '@sel/shared';
-import { injectableClass } from 'ditox';
+import { createQuery } from '@tanstack/solid-query';
 
-import { FetchError, FetcherPort } from '../../infrastructure/fetcher';
+import { catchNotFound } from '../../infrastructure/api';
+import { container } from '../../infrastructure/container';
 import { TOKENS } from '../../tokens';
 
-export interface EventApi {
-  listEvents(): Promise<EventsListItem[]>;
-  getEvent(eventId: string): Promise<Event | undefined>;
-  createEvent(data: CreateEventBody): Promise<string>;
-  updateEvent(eventId: string, body: UpdateEventBody): Promise<void>;
-  setParticipation(eventId: string, participation: EventParticipation | null): Promise<void>;
-  createComment(eventId: string, body: string): Promise<void>;
-}
+export function fetchEvent(eventId: string) {
+  const api = container.resolve(TOKENS.api);
 
-export class FetchEventApi implements EventApi {
-  static inject = injectableClass(this, TOKENS.fetcher);
-
-  constructor(private readonly fetcher: FetcherPort) {}
-
-  async listEvents(): Promise<EventsListItem[]> {
-    return this.fetcher.get<EventsListItem[]>('/events').body();
-  }
-
-  async getEvent(eventId: string): Promise<Event | undefined> {
-    return this.fetcher
-      .get<Event>(`/events/${eventId}`)
-      .body()
-      .catch((error) => {
-        if (FetchError.is(error) && error.status === 404) {
-          return undefined;
-        }
-
-        throw error;
-      });
-  }
-
-  async createEvent(data: CreateEventBody): Promise<string> {
-    return this.fetcher.post<CreateEventBody, string>('/events', data).body();
-  }
-
-  async updateEvent(eventId: string, data: CreateEventBody): Promise<void> {
-    await this.fetcher.put<CreateEventBody, void>(`/events/${eventId}`, data);
-  }
-
-  async setParticipation(eventId: string, participation: EventParticipation | null): Promise<void> {
-    await this.fetcher
-      .put<SetEventParticipationBody, undefined>(`/events/${eventId}/participation`, {
-        participation,
-      })
-      .catch((error) => {
-        if (FetchError.is(error) && error.status === 404) {
-          return undefined;
-        }
-
-        throw error;
-      });
-  }
-
-  async createComment(eventId: string, body: string): Promise<void> {
-    await this.fetcher.post<CreateCommentBody, string>(`/events/${eventId}/comment`, { body }).body();
-  }
-}
-
-export class StubEventApi implements EventApi {
-  events = new Array<Event>();
-  event: Event | undefined;
-
-  async listEvents(): Promise<Event[]> {
-    return this.events;
-  }
-
-  async getEvent(): Promise<Event | undefined> {
-    return this.event;
-  }
-
-  async createEvent(): Promise<string> {
-    return '';
-  }
-
-  async updateEvent(): Promise<void> {}
-
-  async setParticipation(): Promise<void> {}
-
-  async createComment(): Promise<void> {}
+  return createQuery(() => ({
+    queryKey: ['getEvent', eventId],
+    async queryFn() {
+      return api.getEvent({ path: { eventId } }).catch(catchNotFound);
+    },
+  }));
 }

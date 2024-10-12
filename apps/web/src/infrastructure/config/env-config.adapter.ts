@@ -2,6 +2,7 @@ import { injectableClass } from 'ditox';
 
 import { ConfigPort } from './config.port';
 
+// todo: parse env variables
 export class EnvConfigAdapter implements ConfigPort {
   static inject = injectableClass(this);
 
@@ -15,7 +16,7 @@ export class EnvConfigAdapter implements ConfigPort {
 
   get api() {
     return {
-      url: EnvConfigAdapter.env.API_URL,
+      url: String(EnvConfigAdapter.env.API_URL),
     };
   }
 

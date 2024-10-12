@@ -1,6 +1,7 @@
 import { token } from 'ditox';
 
 import { AnalyticsPort } from './infrastructure/analytics/analytics.port';
+import { Api } from './infrastructure/api';
 import { ConfigPort } from './infrastructure/config/config.port';
 import { FetcherPort } from './infrastructure/fetcher';
 import { GeocodePort } from './infrastructure/geocode/geocode.port';
@@ -9,7 +10,6 @@ import { NotificationsPort } from './infrastructure/notifications/notifications.
 import { RouterPort } from './infrastructure/router/router.port';
 import { PushSubscriptionPort } from './infrastructure/subscription/push-subscription.port';
 import { AuthenticationApi } from './modules/authentication/authentication.api';
-import { EventApi } from './modules/events/events.api';
 import { InformationApi } from './modules/information/information-api';
 import { InterestApi } from './modules/interests/interests-api';
 import { MemberApi } from './modules/members/members.api';
@@ -31,7 +31,7 @@ export const TOKENS = {
   authenticationApi: token<AuthenticationApi>('authenticationApi'),
   profileApi: token<ProfileApi>('profileApi'),
   requestApi: token<RequestsApi>('requestApi'),
-  eventApi: token<EventApi>('eventApi'),
+  api: token<Api>('api'),
   interestApi: token<InterestApi>('interestApi'),
   memberApi: token<MemberApi>('memberApi'),
   informationApi: token<InformationApi>('informationApi'),

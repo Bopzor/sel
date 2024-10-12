@@ -18,7 +18,7 @@ const T = Translate.prefix('common.commentsSection');
 
 type CommentsSectionProps = {
   comments: Comment[];
-  onCreate: (html: string) => Promise<void>;
+  onCreate: (html: string) => Promise<unknown>;
   onCreated: () => void;
 };
 
@@ -61,7 +61,7 @@ function Comment(props: { comment: Comment }) {
   );
 }
 
-function CreateCommentForm(props: { onCreate: (html: string) => Promise<void>; onCreated: () => void }) {
+function CreateCommentForm(props: { onCreate: (html: string) => Promise<unknown>; onCreated: () => void }) {
   const authenticatedMember = getAuthenticatedMember();
   const t = T.useTranslation();
 

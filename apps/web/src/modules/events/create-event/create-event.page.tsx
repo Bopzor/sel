@@ -34,12 +34,12 @@ export default function CreateEventPage() {
 }
 
 export function CreateEventForm(props: { onCreated: (eventId: string) => void }) {
-  const eventApi = container.resolve(TOKENS.eventApi);
+  const api = container.resolve(TOKENS.api);
 
   return (
     <EventForm
       submit={<T id="create" />}
-      onSubmit={(event: CreateEventBody) => eventApi.createEvent(event)}
+      onSubmit={(event: CreateEventBody) => api.createEvent({ body: event })}
       onSubmitted={(eventId) => props.onCreated(eventId)}
     />
   );

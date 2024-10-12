@@ -1,6 +1,6 @@
 import { Event, UpdateEventBody } from '@sel/shared';
 import { useNavigate, useParams } from '@solidjs/router';
-import { createResource, Show } from 'solid-js';
+import { Show } from 'solid-js';
 
 import { Breadcrumb, breadcrumb } from '../../../components/breadcrumb';
 import { container } from '../../../infrastructure/container';
@@ -9,58 +9,50 @@ import { routes } from '../../../routes';
 import { TOKENS } from '../../../tokens';
 import { notify } from '../../../utils/notify';
 import { EventForm } from '../components/event-form';
+import { fetchEvent } from '../events.api';
 
 const T = Translate.prefix('events.edit');
 
 export default function EditEventPage() {
-  const eventApi = container.resolve(TOKENS.eventApi);
   const { eventId } = useParams<{ eventId: string }>();
   const t = T.useTranslation();
   const navigate = useNavigate();
 
-  const [event] = createResource(eventId, async (eventId) => {
-    return eventApi.getEvent(eventId);
-  });
+  const eventQuery = fetchEvent(eventId);
 
   return (
-    <>
-      <Breadcrumb
-        items={[
-          breadcrumb.events(),
-          event.latest && breadcrumb.event(event.latest),
-          event.latest && breadcrumb.editEvent(event.latest),
-        ]}
-      />
+    <Show when={eventQuery.data}>
+      {(event) => (
+        <>
+          <Breadcrumb
+            items={[breadcrumb.events(), breadcrumb.event(event()), breadcrumb.editEvent(event())]}
+          />
 
-      <Show when={event()}>
-        {(event) => (
-          <>
-            <h1 class="truncate">
-              <T id="title" values={{ eventTitle: event().title }} />
-            </h1>
+          <h1 class="truncate">
+            <T id="title" values={{ eventTitle: event().title }} />
+          </h1>
 
-            <EditEventForm
-              event={event()}
-              onEdited={() => {
-                navigate(routes.events.details(event().id));
-                notify.success(t('edited'));
-              }}
-            />
-          </>
-        )}
-      </Show>
-    </>
+          <EditEventForm
+            event={event()}
+            onEdited={() => {
+              navigate(routes.events.details(event().id));
+              notify.success(t('edited'));
+            }}
+          />
+        </>
+      )}
+    </Show>
   );
 }
 
 function EditEventForm(props: { event: Event; onEdited: () => void }) {
-  const eventApi = container.resolve(TOKENS.eventApi);
+  const api = container.resolve(TOKENS.api);
 
   return (
     <EventForm
       event={props.event}
       submit={<Translate id="common.save" />}
-      onSubmit={(data: UpdateEventBody) => eventApi.updateEvent(props.event.id, data)}
+      onSubmit={(data: UpdateEventBody) => api.updateEvent({ path: { eventId: props.event.id }, body: data })}
       onSubmitted={props.onEdited}
     />
   );

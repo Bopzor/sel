@@ -1,6 +1,6 @@
 export interface ConfigPort {
   api: {
-    url?: string;
+    url: string;
   };
 
   analytics: {

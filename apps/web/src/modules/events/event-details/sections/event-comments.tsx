@@ -8,7 +8,7 @@ import { TOKENS } from '../../../../tokens';
 const T = Translate.prefix('events.details');
 
 export function EventComments(props: { event: Event; onCreated: () => void }) {
-  const eventApi = container.resolve(TOKENS.eventApi);
+  const api = container.resolve(TOKENS.api);
 
   return (
     <div>
@@ -18,7 +18,12 @@ export function EventComments(props: { event: Event; onCreated: () => void }) {
 
       <CommentsSection
         comments={props.event.comments}
-        onCreate={(html) => eventApi.createComment(props.event.id, html)}
+        onCreate={(html) =>
+          api.createEventComment({
+            path: { eventId: props.event.id },
+            body: { body: html },
+          })
+        }
         onCreated={props.onCreated}
       />
     </div>

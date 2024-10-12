@@ -18,10 +18,10 @@ import { EventsList } from './components/events-list';
 const T = Translate.prefix('events.list');
 
 export default function EventsListPage() {
-  const eventsApi = container.resolve(TOKENS.eventApi);
+  const api = container.resolve(TOKENS.api);
 
   const [events] = createResource(async () => {
-    return eventsApi.listEvents();
+    return api.listEvents({});
   });
 
   // @ts-expect-error solidjs directive

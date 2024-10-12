@@ -8,7 +8,7 @@ import { Button } from '../../../../components/button';
 import { container } from '../../../../infrastructure/container';
 import { Translate } from '../../../../intl/translate';
 import { TOKENS } from '../../../../tokens';
-import { getAuthenticatedMember } from "../../../../utils/authenticated-member";
+import { getAuthenticatedMember } from '../../../../utils/authenticated-member';
 import { createAsyncCall } from '../../../../utils/create-async-call';
 
 const T = Translate.prefix('events.details');
@@ -43,22 +43,25 @@ type ParticipationButtonProps = {
 };
 
 function ParticipationButton(props: ParticipationButtonProps) {
-  const eventApi = container.resolve(TOKENS.eventApi);
+  const api = container.resolve(TOKENS.api);
 
   const authenticatedMember = getAuthenticatedMember();
-  const memberParticipation = () => props.event.participants.find(hasProperty('id', authenticatedMember()?.id as string));
+  const memberParticipation = () =>
+    props.event.participants.find(hasProperty('id', authenticatedMember()?.id as string));
   const isMemberParticipation = () => props.participation === memberParticipation()?.participation;
 
-  const [setParticipation, loading] = createAsyncCall(eventApi.setParticipation.bind(eventApi), {
+  const [setParticipation, loading] = createAsyncCall(api.setParticipation.bind(api), {
     onSuccess: () => props.onChanged(),
   });
 
   const onClick = () => {
-    if (props.participation === memberParticipation()?.participation) {
-      setParticipation(props.event.id, null);
-    } else {
-      setParticipation(props.event.id, props.participation);
-    }
+    const participation =
+      props.participation === memberParticipation()?.participation ? null : props.participation;
+
+    setParticipation({
+      path: { eventId: props.event.id },
+      body: { participation },
+    });
   };
 
   return (
