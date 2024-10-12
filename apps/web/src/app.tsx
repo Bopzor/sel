@@ -1,4 +1,5 @@
-import { JSX, ErrorBoundary as SolidErrorBoundary, createEffect, onMount } from 'solid-js';
+import { QueryClient, QueryClientProvider } from '@tanstack/solid-query';
+import { createEffect, JSX, onMount, ErrorBoundary as SolidErrorBoundary } from 'solid-js';
 import { useRegisterSW } from 'virtual:pwa-register/solid';
 
 import { AppContextProvider, authenticatedMember } from './app-context';
@@ -38,26 +39,36 @@ export function App(props: AppProps) {
     }
   });
 
+  const client = new QueryClient({
+    defaultOptions: {
+      queries: {
+        staleTime: 1000 * 60 * 5,
+      },
+    },
+  });
+
   return (
-    <SolidErrorBoundary
-      fallback={(error) => {
-        // eslint-disable-next-line no-console
-        console.error(error);
-        return <>{error?.message ?? 'Unknown error'}</>;
-      }}
-    >
-      <IntlProvider>
-        <MatomoScript />
-        <TrackPageView />
-        <NotificationsContainer />
-        <SuspenseLoader>
-          <AppContextProvider>
-            <OnboardingRedirections />
-            <Layout>{props.children}</Layout>
-          </AppContextProvider>
-        </SuspenseLoader>
-      </IntlProvider>
-    </SolidErrorBoundary>
+    <QueryClientProvider client={client}>
+      <SolidErrorBoundary
+        fallback={(error) => {
+          // eslint-disable-next-line no-console
+          console.error(error);
+          return <>{error?.message ?? 'Unknown error'}</>;
+        }}
+      >
+        <IntlProvider>
+          <MatomoScript />
+          <TrackPageView />
+          <NotificationsContainer />
+          <SuspenseLoader>
+            <AppContextProvider>
+              <OnboardingRedirections />
+              <Layout>{props.children}</Layout>
+            </AppContextProvider>
+          </SuspenseLoader>
+        </IntlProvider>
+      </SolidErrorBoundary>
+    </QueryClientProvider>
   );
 }
 

@@ -1,13 +1,17 @@
 import { Config } from '@sel/shared';
-import { createResource } from 'solid-js';
+import { createQuery } from '@tanstack/solid-query';
 
 import { container } from '../infrastructure/container';
 import { TOKENS } from '../tokens';
 
 export function getLetsConfig() {
-  const [data] = createResource(async () => {
-    return container.resolve(TOKENS.fetcher).get<Config>('/config').body();
-  });
+  const fetcher = container.resolve(TOKENS.fetcher);
 
-  return data;
+  const query = createQuery(() => ({
+    queryKey: ['getConfig'],
+    queryFn: () => fetcher.get<Config>('/config').body(),
+    staleTime: Infinity,
+  }));
+
+  return () => query.data;
 }
