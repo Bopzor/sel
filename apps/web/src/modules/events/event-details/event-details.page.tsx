@@ -1,5 +1,6 @@
 import { Event } from '@sel/shared';
 import { useParams } from '@solidjs/router';
+import { createQuery } from '@tanstack/solid-query';
 import { Icon } from 'solid-heroicons';
 import { pencil } from 'solid-heroicons/solid';
 import { Show } from 'solid-js';
@@ -8,11 +9,13 @@ import { breadcrumb, Breadcrumb } from '../../../components/breadcrumb';
 import { LinkButton } from '../../../components/button';
 import { MemberCard } from '../../../components/member-card';
 import { RichText } from '../../../components/rich-text';
+import { catchNotFound } from '../../../infrastructure/api';
+import { container } from '../../../infrastructure/container';
 import { Translate } from '../../../intl/translate';
 import { routes } from '../../../routes';
+import { TOKENS } from '../../../tokens';
 import { getAuthenticatedMember } from '../../../utils/authenticated-member';
 import { matchBreakpoint } from '../../../utils/match-breakpoint';
-import { fetchEvent } from '../events.api';
 
 import { EventComments } from './sections/event-comments';
 import { EventDate } from './sections/event-date';
@@ -23,23 +26,30 @@ import { EventParticipation } from './sections/event-participation';
 const T = Translate.prefix('events.details');
 
 export default function EventDetailsPage() {
+  const api = container.resolve(TOKENS.api);
   const { eventId } = useParams<{ eventId: string }>();
-  const eventQuery = fetchEvent(eventId);
+
+  const query = createQuery(() => ({
+    queryKey: ['getEvent', eventId],
+    async queryFn() {
+      return api.getEvent({ path: { eventId } }).catch(catchNotFound);
+    },
+  }));
 
   return (
     // todo: not found
-    <Show when={eventQuery.data} fallback="Event not found">
+    <Show when={query.data} fallback="Event not found">
       {(event) => (
         <>
           <Breadcrumb items={[breadcrumb.events(), breadcrumb.event(event())]} />
-          <EventDetails event={event()} refetch={() => void eventQuery.refetch()} />
+          <EventDetails event={event()} />
         </>
       )}
     </Show>
   );
 }
 
-function EventDetails(props: { event: Event; refetch: () => void }) {
+function EventDetails(props: { event: Event }) {
   const isDesktop = matchBreakpoint(1024);
   const isMobile = () => !isDesktop();
 
@@ -58,7 +68,7 @@ function EventDetails(props: { event: Event; refetch: () => void }) {
             </div>
           </Show>
 
-          <EventParticipation event={props.event} onParticipationChanged={props.refetch} />
+          <EventParticipation event={props.event} />
 
           <EventComments event={props.event} />
         </div>

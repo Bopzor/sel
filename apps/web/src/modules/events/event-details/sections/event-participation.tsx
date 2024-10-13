@@ -1,19 +1,20 @@
 import { Event, type EventParticipation } from '@sel/shared';
 import { hasProperty } from '@sel/utils';
+import { createMutation } from '@tanstack/solid-query';
 import { Icon } from 'solid-heroicons';
 import { check, xMark } from 'solid-heroicons/outline';
 import { JSX } from 'solid-js';
 
 import { Button } from '../../../../components/button';
+import { useInvalidateApi } from '../../../../infrastructure/api';
 import { container } from '../../../../infrastructure/container';
 import { Translate } from '../../../../intl/translate';
 import { TOKENS } from '../../../../tokens';
 import { getAuthenticatedMember } from '../../../../utils/authenticated-member';
-import { createAsyncCall } from '../../../../utils/create-async-call';
 
 const T = Translate.prefix('events.details');
 
-export function EventParticipation(props: { event: Event; onParticipationChanged: () => void }) {
+export function EventParticipation(props: { event: Event }) {
   return (
     <div>
       <h2 class="mb-4">
@@ -21,12 +22,12 @@ export function EventParticipation(props: { event: Event; onParticipationChanged
       </h2>
 
       <div class="row gap-4">
-        <ParticipationButton event={props.event} participation="yes" onChanged={props.onParticipationChanged}>
+        <ParticipationButton event={props.event} participation="yes">
           <Icon path={check} class="text-green size-5 stroke-2" />
           <T id="participates" />
         </ParticipationButton>
 
-        <ParticipationButton event={props.event} participation="no" onChanged={props.onParticipationChanged}>
+        <ParticipationButton event={props.event} participation="no">
           <Icon path={xMark} class="text-red size-5 stroke-2" />
           <T id="dontParticipate" />
         </ParticipationButton>
@@ -38,37 +39,39 @@ export function EventParticipation(props: { event: Event; onParticipationChanged
 type ParticipationButtonProps = {
   event: Event;
   participation: EventParticipation;
-  onChanged: () => void;
   children: JSX.Element;
 };
 
 function ParticipationButton(props: ParticipationButtonProps) {
   const api = container.resolve(TOKENS.api);
+  const invalidate = useInvalidateApi();
 
   const authenticatedMember = getAuthenticatedMember();
   const memberParticipation = () =>
     props.event.participants.find(hasProperty('id', authenticatedMember()?.id as string));
   const isMemberParticipation = () => props.participation === memberParticipation()?.participation;
 
-  const [setParticipation, loading] = createAsyncCall(api.setParticipation.bind(api), {
-    onSuccess: () => props.onChanged(),
-  });
+  const mutation = createMutation(() => ({
+    async mutationFn(participation: EventParticipation | null) {
+      await api.setEventParticipation({ path: { eventId: props.event.id }, body: { participation } });
+    },
+    async onSuccess() {
+      await invalidate(['getEvent', props.event.id]);
+    },
+  }));
 
   const onClick = () => {
     const participation =
       props.participation === memberParticipation()?.participation ? null : props.participation;
 
-    setParticipation({
-      path: { eventId: props.event.id },
-      body: { participation },
-    });
+    mutation.mutate(participation);
   };
 
   return (
     <Button
       variant="secondary"
       onClick={onClick}
-      loading={loading()}
+      loading={mutation.isPending}
       class="row items-center gap-1 bg-neutral"
       classList={{
         'border-green': isMemberParticipation() && props.participation === 'yes',

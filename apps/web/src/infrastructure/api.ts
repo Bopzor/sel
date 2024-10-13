@@ -134,7 +134,7 @@ export class Api {
     }
   >('put', '/events/:eventId');
 
-  setParticipation = this.endpoint<
+  setEventParticipation = this.endpoint<
     void,
     { path: { eventId: string }; body: typeof setEventParticipationBodySchema }
   >('put', '/events/:eventId/participation');

@@ -1,27 +1,34 @@
 import { Event, UpdateEventBody } from '@sel/shared';
 import { useNavigate, useParams } from '@solidjs/router';
+import { createQuery } from '@tanstack/solid-query';
 import { Show } from 'solid-js';
 
 import { Breadcrumb, breadcrumb } from '../../../components/breadcrumb';
+import { catchNotFound } from '../../../infrastructure/api';
 import { container } from '../../../infrastructure/container';
 import { Translate } from '../../../intl/translate';
 import { routes } from '../../../routes';
 import { TOKENS } from '../../../tokens';
 import { notify } from '../../../utils/notify';
 import { EventForm } from '../components/event-form';
-import { fetchEvent } from '../events.api';
 
 const T = Translate.prefix('events.edit');
 
 export default function EditEventPage() {
+  const api = container.resolve(TOKENS.api);
   const { eventId } = useParams<{ eventId: string }>();
   const t = T.useTranslation();
   const navigate = useNavigate();
 
-  const eventQuery = fetchEvent(eventId);
+  const query = createQuery(() => ({
+    queryKey: ['getEvent', eventId],
+    async queryFn() {
+      return api.getEvent({ path: { eventId } }).catch(catchNotFound);
+    },
+  }));
 
   return (
-    <Show when={eventQuery.data}>
+    <Show when={query.data}>
       {(event) => (
         <>
           <Breadcrumb
