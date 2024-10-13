@@ -1,6 +1,5 @@
 import { createContainer } from 'ditox';
 
-import { FetchInformationApi } from '../modules/information/information-api';
 import { FetchInterestApi } from '../modules/interests/interests-api';
 import { FetchMemberApi } from '../modules/members/members.api';
 import { FetchProfileApi } from '../modules/profile/profile.api';
@@ -25,7 +24,6 @@ container.bindFactory(TOKENS.api, Api.inject);
 container.bindFactory(TOKENS.config, EnvConfigAdapter.inject);
 container.bindFactory(TOKENS.fetcher, Fetcher.inject);
 container.bindFactory(TOKENS.geocode, GeoapifyGeocodeAdapter.inject);
-container.bindFactory(TOKENS.informationApi, FetchInformationApi.inject);
 container.bindFactory(TOKENS.interestApi, FetchInterestApi.inject);
 container.bindFactory(TOKENS.memberApi, FetchMemberApi.inject);
 container.bindFactory(TOKENS.memberAvatar, ApiMemberAvatarAdapter.inject);

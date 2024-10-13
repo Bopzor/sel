@@ -1,9 +1,11 @@
 import { createForm } from '@felte/solid';
 import { validateSchema } from '@nilscox/felte-validator-zod';
 import { createInformationBodySchema } from '@sel/shared';
+import { useQueryClient } from '@tanstack/solid-query';
 import clsx from 'clsx';
 
 import { Button } from '../../components/button';
+import { FormField } from '../../components/form-field';
 import { MemberAvatarName } from '../../components/member-avatar-name';
 import { RichEditor } from '../../components/rich-editor';
 import { container } from '../../infrastructure/container';
@@ -17,11 +19,12 @@ const T = Translate.prefix('information.form');
 
 export function InformationForm(props: { onCancel: () => void; onSubmitted: () => void; class?: string }) {
   const t = T.useTranslation();
-  const informationApi = container.resolve(TOKENS.informationApi);
+  const queryClient = useQueryClient();
+  const api = container.resolve(TOKENS.api);
   const authenticatedMember = getAuthenticatedMember();
 
   // @ts-expect-error solidjs directive
-  const { form, setData, data } = createForm({
+  const { form, setData, data, errors, isSubmitting } = createForm({
     initialValues: {
       body: '',
       isPin: false,
@@ -30,9 +33,12 @@ export function InformationForm(props: { onCancel: () => void; onSubmitted: () =
       errorMap: createErrorMap(),
     }),
     async onSubmit(values) {
-      await informationApi.createInformation(values.body, values.isPin);
+      await api.createInformation({ body: values });
     },
-    onSuccess: props.onSubmitted,
+    async onSuccess() {
+      await queryClient.invalidateQueries({ queryKey: ['listInformation'] });
+      props.onSubmitted();
+    },
     onError: createErrorHandler(),
   });
 
@@ -43,7 +49,9 @@ export function InformationForm(props: { onCancel: () => void; onSubmitted: () =
       </div>
 
       <form use:form class={clsx('col gap-2', props.class)}>
-        <RichEditor placeholder={t('placeholder')} onChange={(html) => setData('body', html)} />
+        <FormField error={errors('body')}>
+          <RichEditor placeholder={t('placeholder')} onChange={(html) => setData('body', html)} />
+        </FormField>
 
         <div class="row items-center gap-4">
           <div class="me-auto">
@@ -57,7 +65,7 @@ export function InformationForm(props: { onCancel: () => void; onSubmitted: () =
             <Translate id="common.cancel" />
           </Button>
 
-          <Button type="submit">
+          <Button type="submit" loading={isSubmitting()}>
             <Translate id="common.publish" />
           </Button>
         </div>

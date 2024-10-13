@@ -1,4 +1,5 @@
 import { Information } from '@sel/shared';
+import { createQuery } from '@tanstack/solid-query';
 import clsx from 'clsx';
 import { Icon } from 'solid-heroicons';
 import {
@@ -10,7 +11,7 @@ import {
   users,
   wrench,
 } from 'solid-heroicons/solid';
-import { ComponentProps, createResource, createSignal, For, JSX, Show } from 'solid-js';
+import { ComponentProps, createSignal, For, JSX, Show } from 'solid-js';
 import { Dynamic, DynamicProps } from 'solid-js/web';
 
 import { Button } from '../../components/button';
@@ -142,15 +143,19 @@ function LinkCard(props: LinkCardProps) {
 
 function News() {
   const [messageFormVisible, setMessageFormVisible] = createSignal(false);
-  const informationApi = container.resolve(TOKENS.informationApi);
-  const [messages, { refetch }] = createResource(() => informationApi.listInformation());
+  const api = container.resolve(TOKENS.api);
+
+  const query = createQuery(() => ({
+    queryKey: ['listInformation'],
+    queryFn: () => api.listInformation({}),
+  }));
 
   const pinMessages = () => {
-    return messages.latest?.pin ?? [];
+    return query.data?.pin ?? [];
   };
 
   const notPinMessages = () => {
-    return messages.latest?.notPin ?? [];
+    return query.data?.notPin ?? [];
   };
 
   return (
@@ -168,10 +173,7 @@ function News() {
       <Show when={messageFormVisible()}>
         <InformationForm
           onCancel={() => setMessageFormVisible(false)}
-          onSubmitted={() => {
-            setMessageFormVisible(false);
-            void refetch();
-          }}
+          onSubmitted={() => setMessageFormVisible(false)}
           class="ms-10"
         />
       </Show>

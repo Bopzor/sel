@@ -2,8 +2,10 @@ import {
   AuthenticatedMember,
   createCommentBodySchema,
   createEventBodySchema,
+  createInformationBodySchema,
   Event,
   EventsListItem,
+  Information,
   requestAuthenticationLinkQuerySchema,
   setEventParticipationBodySchema,
   updateEventBodySchema,
@@ -51,6 +53,15 @@ export class Api {
   getAuthenticatedMember = this.endpoint<AuthenticatedMember>('get', '/session/member');
 
   signOut = this.endpoint<void>('delete', '/session');
+
+  // information
+
+  listInformation = this.endpoint<{ pin: Information[]; notPin: Information[] }>('get', '/information');
+
+  createInformation = this.endpoint<void, { body: typeof createInformationBodySchema }>(
+    'post',
+    '/information',
+  );
 
   // events
 
