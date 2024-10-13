@@ -3,17 +3,18 @@ import { defined } from '@sel/utils';
 import { createMutation } from '@tanstack/solid-query';
 
 import { AddressSearch } from '../../../components/address-search';
+import { useInvalidateApi } from '../../../infrastructure/api';
 import { container } from '../../../infrastructure/container';
 import { Translate } from '../../../intl/translate';
 import { TOKENS } from '../../../tokens';
-import { getAuthenticatedMember, getRefetchAuthenticatedMember } from '../../../utils/authenticated-member';
+import { getAuthenticatedMember } from '../../../utils/authenticated-member';
 
 const T = Translate.prefix('profile.address');
 
 export default function AddressPage() {
   const api = container.resolve(TOKENS.api);
   const authenticatedMember = getAuthenticatedMember();
-  const refetchAuthenticatedMember = getRefetchAuthenticatedMember();
+  const invalidate = useInvalidateApi();
   const t = T.useTranslation();
 
   const mutation = createMutation(() => ({
@@ -24,7 +25,7 @@ export default function AddressPage() {
       });
     },
     async onSuccess() {
-      await refetchAuthenticatedMember();
+      await invalidate(['getAuthenticatedMember']);
     },
   }));
 

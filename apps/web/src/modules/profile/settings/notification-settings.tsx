@@ -2,10 +2,11 @@ import { createForm } from '@felte/solid';
 import { JSX, Show, createEffect, createResource } from 'solid-js';
 
 import { Button } from '../../../components/button';
+import { useInvalidateApi } from '../../../infrastructure/api';
 import { container } from '../../../infrastructure/container';
 import { Translate } from '../../../intl/translate';
 import { TOKENS } from '../../../tokens';
-import { getAuthenticatedMember, getRefetchAuthenticatedMember } from '../../../utils/authenticated-member';
+import { getAuthenticatedMember } from '../../../utils/authenticated-member';
 import { createAsyncCall } from '../../../utils/create-async-call';
 import { createErrorHandler } from '../../../utils/create-error-handler';
 import { detectDevice } from '../../../utils/detect-device';
@@ -16,8 +17,8 @@ const T = Translate.prefix('profile.settings.notifications');
 export function NotificationSettings() {
   const api = container.resolve(TOKENS.api);
 
-  const refetchAuthenticatedMember = getRefetchAuthenticatedMember();
   const authenticatedMember = getAuthenticatedMember();
+  const invalidate = useInvalidateApi();
 
   const t = T.useTranslation();
 
@@ -28,7 +29,7 @@ export function NotificationSettings() {
       await api.updateNotificationDelivery({ path: { memberId: authenticatedMember()!.id }, body: data });
     },
     async onSuccess() {
-      await refetchAuthenticatedMember();
+      await invalidate(['getAuthenticatedMember']);
       notify.success(t('saved'));
     },
     onError: createErrorHandler(),

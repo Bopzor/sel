@@ -13,7 +13,7 @@ import { container } from '../../../infrastructure/container';
 import { Translate } from '../../../intl/translate';
 import { routes } from '../../../routes';
 import { TOKENS } from '../../../tokens';
-import { getIsAuthenticatedMember, getRefetchAuthenticatedMember } from '../../../utils/authenticated-member';
+import { getIsAuthenticatedMember } from '../../../utils/authenticated-member';
 import { notify } from '../../../utils/notify';
 
 const T = Translate.prefix('interests');
@@ -103,7 +103,6 @@ function JoinSwitch(props: { interest: Interest }) {
   const t = T.useTranslation();
   const api = container.resolve(TOKENS.api);
   const isAuthenticatedMember = getIsAuthenticatedMember();
-  const refetchAuthenticatedMember = getRefetchAuthenticatedMember();
   const invalidate = useInvalidateApi();
 
   // @ts-expect-error solidjs directive
@@ -121,8 +120,7 @@ function JoinSwitch(props: { interest: Interest }) {
       return joined;
     },
     async onSuccess(hasJoined) {
-      await refetchAuthenticatedMember();
-      await invalidate(['listInterests']);
+      await invalidate(['getAuthenticatedMember'], ['listInterests']);
 
       notify.success(
         t((hasJoined as boolean) ? 'joined' : 'left', {

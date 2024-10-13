@@ -5,11 +5,12 @@ import { For, Show, createSignal } from 'solid-js';
 import { Button } from '../../../components/button';
 import { Link } from '../../../components/link';
 import { TextArea } from '../../../components/text-area';
+import { useInvalidateApi } from '../../../infrastructure/api';
 import { container } from '../../../infrastructure/container';
 import { Translate } from '../../../intl/translate';
 import { routes } from '../../../routes';
 import { TOKENS } from '../../../tokens';
-import { getAuthenticatedMember, getRefetchAuthenticatedMember } from '../../../utils/authenticated-member';
+import { getAuthenticatedMember } from '../../../utils/authenticated-member';
 import { createErrorHandler } from '../../../utils/create-error-handler';
 import { notify } from '../../../utils/notify';
 
@@ -54,7 +55,7 @@ function Interest(props: { interest: MemberInterest }) {
   const [editing, setEditing] = createSignal(false);
 
   const api = container.resolve(TOKENS.api);
-  const refetchAuthenticatedMember = getRefetchAuthenticatedMember();
+  const invalidate = useInvalidateApi();
 
   // @ts-expect-error solidjs directive
   const { form, isSubmitting } = createForm({
@@ -68,7 +69,7 @@ function Interest(props: { interest: MemberInterest }) {
       });
     },
     async onSuccess() {
-      await refetchAuthenticatedMember();
+      await invalidate(['getAuthenticatedMember']);
       notify.success(t('edited'));
       setEditing(false);
     },

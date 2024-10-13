@@ -3,10 +3,11 @@ import { validator } from '@nilscox/felte-validator-zod';
 import { AuthenticatedMember } from '@sel/shared';
 import { createEffect } from 'solid-js';
 
+import { useInvalidateApi } from '../../../infrastructure/api';
 import { container } from '../../../infrastructure/container';
 import { Translate } from '../../../intl/translate';
 import { TOKENS } from '../../../tokens';
-import { getAuthenticatedMember, getRefetchAuthenticatedMember } from '../../../utils/authenticated-member';
+import { getAuthenticatedMember } from '../../../utils/authenticated-member';
 import { createErrorHandler } from '../../../utils/create-error-handler';
 import { formatPhoneNumber } from '../../../utils/format-phone-number';
 import { notify } from '../../../utils/notify';
@@ -34,7 +35,7 @@ export default function ProfileEditionPage() {
 
 function createProfileEditionForm() {
   const t = T.useTranslation();
-  const refetchAuthenticatedMember = getRefetchAuthenticatedMember();
+  const invalidate = useInvalidateApi();
 
   const api = container.resolve(TOKENS.api);
   const member = getAuthenticatedMember();
@@ -60,7 +61,7 @@ function createProfileEditionForm() {
       });
     },
     async onSuccess() {
-      await refetchAuthenticatedMember();
+      await invalidate(['getAuthenticatedMember']);
       notify.success(t('saved'));
     },
     onError: createErrorHandler(),

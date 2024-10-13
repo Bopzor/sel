@@ -2,9 +2,10 @@ import { AuthenticatedMember } from '@sel/shared';
 import { Component, Show, createSignal } from 'solid-js';
 import { Dynamic } from 'solid-js/web';
 
+import { useInvalidateApi } from '../../infrastructure/api';
 import { container } from '../../infrastructure/container';
 import { TOKENS } from '../../tokens';
-import { getAuthenticatedMember, getRefetchAuthenticatedMember } from '../../utils/authenticated-member';
+import { getAuthenticatedMember } from '../../utils/authenticated-member';
 import { createAsyncCall } from '../../utils/create-async-call';
 import { formatPhoneNumber } from '../../utils/format-phone-number';
 
@@ -47,7 +48,7 @@ export default function OnboardingPage() {
   const api = container.resolve(TOKENS.api);
 
   const authenticatedMember = getAuthenticatedMember();
-  const refetchAuthenticatedMember = getRefetchAuthenticatedMember();
+  const invalidate = useInvalidateApi();
 
   const initialValues = getInitialValues(authenticatedMember());
 
@@ -85,7 +86,7 @@ export default function OnboardingPage() {
     }
 
     if (step() === OnboardingStep.end) {
-      void refetchAuthenticatedMember();
+      await invalidate(['getAuthenticatedMember']);
     } else {
       setStep((step) => step + 1);
     }

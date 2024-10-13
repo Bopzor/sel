@@ -4,13 +4,12 @@ import { JSX, Show, createSignal } from 'solid-js';
 
 import { Button } from '../../components/button';
 import { Input } from '../../components/input';
-import { ApiError } from '../../infrastructure/api';
+import { ApiError, useInvalidateApi } from '../../infrastructure/api';
 import { container } from '../../infrastructure/container';
 import { useSearchParam } from '../../infrastructure/router/use-search-param';
 import { Translate } from '../../intl/translate';
 import { Header } from '../../layout/header';
 import { TOKENS } from '../../tokens';
-import { getRefetchAuthenticatedMember } from '../../utils/authenticated-member';
 import { createErrorHandler } from '../../utils/create-error-handler';
 import { notify } from '../../utils/notify';
 
@@ -43,7 +42,7 @@ function verifyAuthenticationToken() {
   const api = container.resolve(TOKENS.api);
   const t = T.useTranslation();
   const [token, setToken] = useSearchParam('auth-token');
-  const refreshAuthenticatedMember = getRefetchAuthenticatedMember();
+  const invalidate = useInvalidateApi();
 
   return createQuery(() => ({
     queryKey: ['verifyAuthenticationToken'],
@@ -51,7 +50,7 @@ function verifyAuthenticationToken() {
     async queryFn() {
       try {
         await api.verifyAuthenticationToken({ query: { token: token()! } });
-        await refreshAuthenticatedMember();
+        await invalidate(['getAuthenticatedMember']);
         setToken(undefined);
 
         return null;
