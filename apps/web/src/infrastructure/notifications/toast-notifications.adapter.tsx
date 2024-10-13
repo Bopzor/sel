@@ -1,9 +1,9 @@
 import { injectableClass } from 'ditox';
-import { JSX } from 'solid-js';
+import { JSX, Show } from 'solid-js';
 import { toast, Toaster } from 'solid-toast';
 
 import { Translate } from '../../intl/translate';
-import { FetchResult } from '../fetcher';
+import { ApiError } from '../api';
 
 import { NotificationsPort, NotificationType } from './notifications.port';
 
@@ -27,11 +27,11 @@ export class ToastNotificationsAdapter implements NotificationsPort {
           <T id="unexpectedError" />
         </p>
 
-        {error instanceof FetchResult && (
-          <p class="my-1 text-sm font-medium text-dim">
-            {error.status} {error.response.statusText}
-          </p>
-        )}
+        <Show when={ApiError.is(error) ? error : false}>
+          {error => <p class="my-1 text-sm font-medium text-dim">
+            {error().status} {error().response.statusText}
+          </p>}
+        </Show>
 
         {error.message && (
           <p class="my-1 text-sm font-medium text-dim">

@@ -2,17 +2,17 @@ import { injectableClass } from 'ditox';
 
 import { TOKENS } from '../../tokens';
 import { detectDevice } from '../../utils/detect-device';
+import { Api } from '../api';
 import { ConfigPort } from '../config/config.port';
-import { FetcherPort } from '../fetcher';
 
 import { PushSubscriptionPort } from './push-subscription.port';
 
 export class WebPushSubscriptionAdapter implements PushSubscriptionPort {
-  static inject = injectableClass(this, TOKENS.config, TOKENS.fetcher);
+  static inject = injectableClass(this, TOKENS.config, TOKENS.api);
 
   constructor(
     private readonly config: ConfigPort,
-    private readonly fetcher: FetcherPort,
+    private readonly api: Api,
   ) {}
 
   async registerDevice(): Promise<boolean> {
@@ -35,9 +35,11 @@ export class WebPushSubscriptionAdapter implements PushSubscriptionPort {
       return false;
     }
 
-    await this.fetcher.post('/session/notifications/register-device', {
-      deviceType: detectDevice(),
-      subscription,
+    await this.api.registerDevice({
+      body: {
+        deviceType: detectDevice(),
+        subscription,
+      },
     });
 
     return true;

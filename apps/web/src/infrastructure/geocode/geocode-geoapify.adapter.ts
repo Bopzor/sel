@@ -4,7 +4,6 @@ import { injectableClass } from 'ditox';
 
 import { TOKENS } from '../../tokens';
 import { ConfigPort } from '../config/config.port';
-import { FetcherPort } from '../fetcher';
 
 import { GeocodePort } from './geocode.port';
 
@@ -25,15 +24,22 @@ type QueryResult = {
 };
 
 export class GeoapifyGeocodeAdapter implements GeocodePort {
-  static inject = injectableClass(this, TOKENS.config, TOKENS.fetcher);
+  static inject = injectableClass(this, TOKENS.config, TOKENS.fetch);
 
   constructor(
     private readonly config: ConfigPort,
-    private readonly fetcher: FetcherPort,
+    private readonly fetch: typeof window.fetch,
   ) {}
 
   async search(query: string): Promise<Array<[formatted: string, address: Address]>> {
-    const { body } = await this.fetcher.get<QueryResult>(this.url(query));
+    const response = await this.fetch(this.url(query));
+
+    // todo: report error
+    if (!response.ok) {
+      throw new Error(`Failed to search for address: ${response.statusText}`);
+    }
+
+    const body: QueryResult = await response.json();
 
     if (!body.features) {
       return [];

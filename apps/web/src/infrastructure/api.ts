@@ -1,6 +1,7 @@
 import {
   addInterestMemberBodySchema,
   AuthenticatedMember,
+  Config,
   createCommentBodySchema,
   createEventBodySchema,
   createInformationBodySchema,
@@ -16,6 +17,7 @@ import {
   listTransactionsQuerySchema,
   Member,
   notificationDeliveryBodySchema,
+  registerDeviceBodySchema,
   Request,
   requestAuthenticationLinkQuerySchema,
   setEventParticipationBodySchema,
@@ -53,6 +55,10 @@ export class Api {
   static inject = injectableClass(this, TOKENS.config);
 
   constructor(private readonly config: ConfigPort) {}
+
+  // config
+
+  getConfig = this.endpoint<Config>('get', '/config');
 
   // authentication
 
@@ -92,6 +98,11 @@ export class Api {
     void,
     { path: { memberId: string }; body: typeof notificationDeliveryBodySchema }
   >('put', '/members/:memberId/notification-delivery');
+
+  registerDevice = this.endpoint<void, { body: typeof registerDeviceBodySchema }>(
+    'post',
+    '/session/notifications/register-device',
+  );
 
   // information
 

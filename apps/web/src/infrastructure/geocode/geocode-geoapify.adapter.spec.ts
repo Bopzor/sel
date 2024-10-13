@@ -1,7 +1,6 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 
 import { StubConfigAdapter } from '../config/stub-config.adapter';
-import { StubFetcher } from '../fetcher';
 
 import { GeoapifyGeocodeAdapter } from './geocode-geoapify.adapter';
 
@@ -36,12 +35,10 @@ describe('GeocodeGeoapifyAdapter', () => {
 
   it('searches for an address', async () => {
     const config = new StubConfigAdapter({ geoapify: { apiKey: 'key' } });
-    const fetcher = new StubFetcher();
-    const adapter = new GeoapifyGeocodeAdapter(config, fetcher);
+    const fetch = vi.fn<typeof window.fetch>();
+    const adapter = new GeoapifyGeocodeAdapter(config, fetch);
 
-    fetcher.requests.set('https://api.geoapify.com/v1/geocode/search?text=query&apiKey=key', {
-      body: result,
-    });
+    fetch.mockResolvedValue(new Response(JSON.stringify(result)));
 
     await expect(adapter.search('query')).resolves.toEqual([
       [
@@ -55,5 +52,7 @@ describe('GeocodeGeoapifyAdapter', () => {
         },
       ],
     ]);
+
+    expect(fetch).toHaveBeenCalledWith('https://api.geoapify.com/v1/geocode/search?text=query&apiKey=key');
   });
 });
