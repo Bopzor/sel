@@ -7,7 +7,7 @@ import { TOKENS } from '../../../../tokens';
 
 const T = Translate.prefix('events.details');
 
-export function EventComments(props: { event: Event; onCreated: () => void }) {
+export function EventComments(props: { event: Event }) {
   const api = container.resolve(TOKENS.api);
 
   return (
@@ -24,7 +24,7 @@ export function EventComments(props: { event: Event; onCreated: () => void }) {
             body: { body: html },
           })
         }
-        onCreated={props.onCreated}
+        invalidate={['getEvent', props.event.id]}
       />
     </div>
   );

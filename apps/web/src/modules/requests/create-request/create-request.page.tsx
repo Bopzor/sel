@@ -33,12 +33,12 @@ export default function CreateRequestPage() {
 }
 
 function CreateRequestForm(props: { onCreated: (requestId: string) => void }) {
-  const requestApi = container.resolve(TOKENS.requestApi);
+  const api = container.resolve(TOKENS.api);
 
   return (
     <RequestForm
       submit={<T id="submit" />}
-      onSubmit={(title, body) => requestApi.createRequest(title, body)}
+      onSubmit={(title, body) => api.createRequest({ body: { title, body } })}
       onSubmitted={(requestId) => props.onCreated(requestId as string)}
     />
   );

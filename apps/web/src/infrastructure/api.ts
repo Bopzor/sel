@@ -3,15 +3,21 @@ import {
   createCommentBodySchema,
   createEventBodySchema,
   createInformationBodySchema,
+  createRequestBodySchema,
+  createTransactionBodySchema,
   Event,
   EventsListItem,
   Information,
+  Request,
   requestAuthenticationLinkQuerySchema,
   setEventParticipationBodySchema,
+  setRequestAnswerBodySchema,
   updateEventBodySchema,
+  updateRequestBodySchema,
   verifyAuthenticationTokenQuerySchema,
 } from '@sel/shared';
 import { OmitNever } from '@sel/utils';
+import { QueryKey, useQueryClient } from '@tanstack/solid-query';
 import { injectableClass } from 'ditox';
 import { z } from 'zod';
 
@@ -58,10 +64,59 @@ export class Api {
 
   listInformation = this.endpoint<{ pin: Information[]; notPin: Information[] }>('get', '/information');
 
-  createInformation = this.endpoint<void, { body: typeof createInformationBodySchema }>(
-    'post',
-    '/information',
-  );
+  createInformation = this.endpoint<
+    string,
+    {
+      body: typeof createInformationBodySchema;
+    }
+  >('post', '/information');
+
+  // requests
+
+  listRequests = this.endpoint<Request[]>('get', '/requests');
+
+  getRequest = this.endpoint<Request, { path: { requestId: string } }>('get', '/requests/:requestId');
+
+  createRequest = this.endpoint<string, { body: typeof createRequestBodySchema }>('post', '/requests');
+
+  editRequest = this.endpoint<
+    void,
+    {
+      path: { requestId: string };
+      body: typeof updateRequestBodySchema;
+    }
+  >('put', '/requests/:requestId');
+
+  cancelRequest = this.endpoint<
+    void,
+    {
+      path: { requestId: string };
+    }
+  >('put', '/requests/:requestId/cancel');
+
+  setRequestAnswer = this.endpoint<
+    void,
+    {
+      path: { requestId: string };
+      body: typeof setRequestAnswerBodySchema;
+    }
+  >('post', '/requests/:requestId/answer');
+
+  createRequestComment = this.endpoint<
+    string,
+    {
+      path: { requestId: string };
+      body: typeof createCommentBodySchema;
+    }
+  >('post', '/requests/:requestId/comment');
+
+  createTransaction = this.endpoint<
+    void,
+    {
+      path: { requestId: string };
+      body: typeof createTransactionBodySchema;
+    }
+  >('post', '/requests/:requestId/transaction');
 
   // events
 
@@ -144,6 +199,14 @@ export function catchNotFound(error: unknown): null {
   }
 
   throw error;
+}
+
+export function useInvalidateApi() {
+  const queryClient = useQueryClient();
+
+  return (...queryKeys: QueryKey[]) => {
+    return Promise.all(queryKeys.map((queryKey) => queryClient.invalidateQueries({ queryKey })));
+  };
 }
 
 export class ApiError extends Error {

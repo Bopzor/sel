@@ -7,8 +7,8 @@ import { TOKENS } from '../../../../tokens';
 
 const T = Translate.prefix('requests.comments');
 
-export function RequestComments(props: { request: Request; onCreated: () => void }) {
-  const requestApi = container.resolve(TOKENS.requestApi);
+export function RequestComments(props: { request: Request }) {
+  const api = container.resolve(TOKENS.api);
 
   return (
     <div>
@@ -18,8 +18,10 @@ export function RequestComments(props: { request: Request; onCreated: () => void
 
       <CommentsSection
         comments={props.request.comments}
-        onCreate={(html) => requestApi.createComment(props.request.id, html)}
-        onCreated={props.onCreated}
+        onCreate={(body) =>
+          api.createRequestComment({ path: { requestId: props.request.id }, body: { body } })
+        }
+        invalidate={['getRequest', props.request.id]}
       />
     </div>
   );

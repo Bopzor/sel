@@ -1,6 +1,7 @@
 import { Request } from '@sel/shared';
 import { useNavigate, useParams } from '@solidjs/router';
-import { Show, createResource } from 'solid-js';
+import { createQuery } from '@tanstack/solid-query';
+import { Show } from 'solid-js';
 
 import { Breadcrumb, breadcrumb } from '../../../components/breadcrumb';
 import { container } from '../../../infrastructure/container';
@@ -13,54 +14,51 @@ import { RequestForm } from '../components/request-form';
 const T = Translate.prefix('requests.edit');
 
 export default function EditRequestPage() {
-  const requestApi = container.resolve(TOKENS.requestApi);
+  const api = container.resolve(TOKENS.api);
   const { requestId } = useParams<{ requestId: string }>();
   const t = T.useTranslation();
   const navigate = useNavigate();
 
-  const [request] = createResource(requestId, async (requestId) => {
-    return requestApi.getRequest(requestId);
-  });
+  const query = createQuery(() => ({
+    queryKey: ['getRequest', requestId],
+    queryFn: () => api.getRequest({ path: { requestId } }),
+  }));
 
   return (
-    <>
-      <Breadcrumb
-        items={[
-          breadcrumb.requests(),
-          request.latest && breadcrumb.request(request.latest),
-          request.latest && breadcrumb.editRequest(request.latest),
-        ]}
-      />
+    <Show when={query.data}>
+      {(request) => (
+        <>
+          <Breadcrumb
+            items={[breadcrumb.requests(), breadcrumb.request(request()), breadcrumb.editRequest(request())]}
+          />
 
-      <Show when={request()}>
-        {(request) => (
-          <>
-            <h1 class="truncate">
-              <T id="title" values={{ requestTitle: request().title }} />
-            </h1>
+          <h1 class="truncate">
+            <T id="title" values={{ requestTitle: request().title }} />
+          </h1>
 
-            <EditRequestForm
-              request={request()}
-              onEdited={() => {
-                navigate(routes.requests.request(request().id));
-                notify.success(t('edited'));
-              }}
-            />
-          </>
-        )}
-      </Show>
-    </>
+          <EditRequestForm
+            request={request()}
+            onEdited={() => {
+              navigate(routes.requests.request(request().id));
+              notify.success(t('edited'));
+            }}
+          />
+        </>
+      )}
+    </Show>
   );
 }
 
 function EditRequestForm(props: { request: Request; onEdited: () => void }) {
-  const requestApi = container.resolve(TOKENS.requestApi);
+  const api = container.resolve(TOKENS.api);
 
   return (
     <RequestForm
       request={props.request}
       submit={<Translate id="common.save" />}
-      onSubmit={(title, body) => requestApi.editRequest(props.request.id, title, body)}
+      onSubmit={(title, body) =>
+        api.editRequest({ path: { requestId: props.request.id }, body: { title, body } })
+      }
       onSubmitted={props.onEdited}
     />
   );

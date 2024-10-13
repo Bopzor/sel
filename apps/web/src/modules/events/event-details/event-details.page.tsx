@@ -60,7 +60,7 @@ function EventDetails(props: { event: Event; refetch: () => void }) {
 
           <EventParticipation event={props.event} onParticipationChanged={props.refetch} />
 
-          <EventComments event={props.event} onCreated={props.refetch} />
+          <EventComments event={props.event} />
         </div>
 
         <div class="col flex-1 gap-4">

@@ -1,20 +1,21 @@
-import { Request, RequestStatus, type RequestAnswer } from '@sel/shared';
+import { Request, type RequestAnswer, RequestStatus } from '@sel/shared';
+import { createMutation } from '@tanstack/solid-query';
 import { Icon } from 'solid-heroicons';
 import { check, xMark } from 'solid-heroicons/outline';
 import { JSX, createMemo } from 'solid-js';
 
 import { Button } from '../../../../components/button';
+import { useInvalidateApi } from '../../../../infrastructure/api';
 import { container } from '../../../../infrastructure/container';
 import { NotificationType } from '../../../../infrastructure/notifications/notifications.port';
 import { Translate } from '../../../../intl/translate';
 import { TOKENS } from '../../../../tokens';
 import { getIsAuthenticatedMember } from '../../../../utils/authenticated-member';
-import { createAsyncCall } from '../../../../utils/create-async-call';
 import { notify } from '../../../../utils/notify';
 
 const T = Translate.prefix('requests.answer');
 
-export function RequestAnswer(props: { request: Request; onAnswerChanged: () => void }) {
+export function RequestAnswer(props: { request: Request }) {
   return (
     <div>
       <h2 class="mb-4">
@@ -22,12 +23,12 @@ export function RequestAnswer(props: { request: Request; onAnswerChanged: () => 
       </h2>
 
       <div class="row gap-4">
-        <AnswerButton request={props.request} answer="positive" onAnswerChanged={props.onAnswerChanged}>
+        <AnswerButton request={props.request} answer="positive">
           <Icon path={check} class="text-green size-5 stroke-2" />
           <T id="positive" />
         </AnswerButton>
 
-        <AnswerButton request={props.request} answer="negative" onAnswerChanged={props.onAnswerChanged}>
+        <AnswerButton request={props.request} answer="negative">
           <Icon path={xMark} class="text-red size-5 stroke-2" />
           <T id="negative" />
         </AnswerButton>
@@ -39,13 +40,13 @@ export function RequestAnswer(props: { request: Request; onAnswerChanged: () => 
 type AnswerButtonProps = {
   request: Request;
   answer: RequestAnswer['answer'];
-  onAnswerChanged: () => void;
   children: JSX.Element;
 };
 
 function AnswerButton(props: AnswerButtonProps) {
-  const requestApi = container.resolve(TOKENS.requestApi);
+  const api = container.resolve(TOKENS.api);
   const isAuthenticatedMember = getIsAuthenticatedMember();
+  const invalidate = useInvalidateApi();
 
   const memberAnswer = createMemo(() => {
     return props.request.answers.find((answer) => isAuthenticatedMember(answer.member))?.answer;
@@ -55,9 +56,14 @@ function AnswerButton(props: AnswerButtonProps) {
     return memberAnswer() === props.answer;
   };
 
-  const [setAnswer, loading] = createAsyncCall(requestApi.setAnswer.bind(requestApi), {
-    onSuccess: () => props.onAnswerChanged(),
-  });
+  const mutation = createMutation(() => ({
+    async mutationFn(answer: 'positive' | 'negative' | null) {
+      await api.setRequestAnswer({ path: { requestId: props.request.id }, body: { answer } });
+    },
+    async onSuccess() {
+      await invalidate(['getRequest', props.request.id]);
+    },
+  }));
 
   const onClick = () => {
     if (props.request.status !== RequestStatus.pending) {
@@ -66,9 +72,9 @@ function AnswerButton(props: AnswerButtonProps) {
     }
 
     if (props.answer === memberAnswer()) {
-      setAnswer(props.request.id, null);
+      mutation.mutate(null);
     } else {
-      setAnswer(props.request.id, props.answer);
+      mutation.mutate(props.answer);
     }
   };
 
@@ -76,7 +82,7 @@ function AnswerButton(props: AnswerButtonProps) {
     <Button
       variant="secondary"
       onClick={onClick}
-      loading={loading()}
+      loading={mutation.isPending}
       class="row items-center gap-1 bg-neutral"
       classList={{
         'border-green': isMemberAnswer() && props.answer === 'positive',

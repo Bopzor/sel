@@ -7,6 +7,7 @@ import { Button } from '../../../components/button';
 import { FormField } from '../../../components/form-field';
 import { Input } from '../../../components/input';
 import { RichEditor } from '../../../components/rich-editor';
+import { useInvalidateApi } from '../../../infrastructure/api';
 import { Translate } from '../../../intl/translate';
 import { createErrorHandler } from '../../../utils/create-error-handler';
 import { createErrorMap } from '../../../utils/zod-error-map';
@@ -22,6 +23,7 @@ type RequestFormProps = {
 
 export function RequestForm(props: RequestFormProps) {
   const t = T.useTranslation();
+  const invalidate = useInvalidateApi();
 
   // @ts-expect-error solidjs directive
   const { form, setData, isSubmitting, errors } = createForm({
@@ -35,7 +37,13 @@ export function RequestForm(props: RequestFormProps) {
     async onSubmit(values) {
       return props.onSubmit(values.title, values.body);
     },
-    onSuccess(result) {
+    async onSuccess(result) {
+      if (props.request) {
+        await invalidate(['getRequest', props.request]);
+      } else {
+        await invalidate(['listRequests']);
+      }
+
       props.onSubmitted(result);
     },
     onError: createErrorHandler(),

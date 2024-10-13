@@ -1,8 +1,10 @@
 import { createForm } from '@felte/solid';
 import { validateSchema } from '@nilscox/felte-validator-zod';
 import { createCommentBodySchema, type Comment } from '@sel/shared';
+import { QueryKey } from '@tanstack/solid-query';
 import { For, Show } from 'solid-js';
 
+import { useInvalidateApi } from '../infrastructure/api';
 import { FormattedDate } from '../intl/formatted';
 import { Translate } from '../intl/translate';
 import { getAuthenticatedMember } from '../utils/authenticated-member';
@@ -19,7 +21,7 @@ const T = Translate.prefix('common.commentsSection');
 type CommentsSectionProps = {
   comments: Comment[];
   onCreate: (html: string) => Promise<unknown>;
-  onCreated: () => void;
+  invalidate?: QueryKey;
 };
 
 export function CommentsSection(props: CommentsSectionProps) {
@@ -30,7 +32,7 @@ export function CommentsSection(props: CommentsSectionProps) {
         <hr />
       </Show>
 
-      <CreateCommentForm onCreate={props.onCreate} onCreated={props.onCreated} />
+      <CreateCommentForm onCreate={props.onCreate} invalidate={props.invalidate} />
     </div>
   );
 }
@@ -61,7 +63,8 @@ function Comment(props: { comment: Comment }) {
   );
 }
 
-function CreateCommentForm(props: { onCreate: (html: string) => Promise<unknown>; onCreated: () => void }) {
+function CreateCommentForm(props: { onCreate: (html: string) => Promise<unknown>; invalidate?: QueryKey }) {
+  const invalidate = useInvalidateApi();
   const authenticatedMember = getAuthenticatedMember();
   const t = T.useTranslation();
 
@@ -76,10 +79,13 @@ function CreateCommentForm(props: { onCreate: (html: string) => Promise<unknown>
     async onSubmit(values) {
       await props.onCreate(values.body);
     },
-    onSuccess() {
-      reset();
+    async onSuccess() {
+      if (props.invalidate) {
+        await invalidate(props.invalidate);
+      }
+
       editor()?.chain().clearContent().run();
-      props.onCreated();
+      reset();
     },
     onError: createErrorHandler(),
   });

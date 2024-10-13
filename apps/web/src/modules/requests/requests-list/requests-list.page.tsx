@@ -1,6 +1,7 @@
 import { Request, RequestStatus } from '@sel/shared';
 import { hasProperty, not } from '@sel/utils';
-import { For, Show, createResource } from 'solid-js';
+import { createQuery } from '@tanstack/solid-query';
+import { For, Show } from 'solid-js';
 
 import { Breadcrumb, breadcrumb } from '../../../components/breadcrumb';
 import { LinkButton } from '../../../components/button';
@@ -17,16 +18,20 @@ import { RequestStatus as RequestStatusComponent } from '../components/request-s
 const T = Translate.prefix('requests');
 
 export default function RequestsListPage() {
-  const requestApi = container.resolve(TOKENS.requestApi);
+  const api = container.resolve(TOKENS.api);
 
-  const [requests] = createResource(requestApi.listRequests.bind(requestApi));
+  const query = createQuery(() => ({
+    queryKey: ['listRequests'],
+    queryFn: () => api.listRequests({}),
+  }));
 
   return (
     <>
       <Breadcrumb items={[breadcrumb.requests()]} />
 
       <Header />
-      <Show when={requests()}>{(requests) => <RequestsList requests={requests()} />}</Show>
+
+      <Show when={query.data}>{(requests) => <RequestsList requests={requests()} />}</Show>
     </>
   );
 }

@@ -1,6 +1,7 @@
 import { Request, Requester } from '@sel/shared';
 import { useParams } from '@solidjs/router';
-import { Show, createResource } from 'solid-js';
+import { createQuery } from '@tanstack/solid-query';
+import { Show } from 'solid-js';
 
 import { Breadcrumb, breadcrumb } from '../../../components/breadcrumb';
 import { Link } from '../../../components/link';
@@ -19,25 +20,27 @@ import { RequestComments } from './section/request-comments';
 import { RequestHeader } from './section/request-header';
 
 export default function RequestDetailsPage() {
-  const requestApi = container.resolve(TOKENS.requestApi);
+  const api = container.resolve(TOKENS.api);
   const { requestId } = useParams<{ requestId: string }>();
 
-  const [request, { refetch }] = createResource(requestId, async (requestId) => {
-    return requestApi.getRequest(requestId);
-  });
+  const query = createQuery(() => ({
+    queryKey: ['getRequest', requestId],
+    queryFn: () => api.getRequest({ path: { requestId } }),
+  }));
 
   return (
-    <>
-      <Breadcrumb items={[breadcrumb.requests(), request.latest && breadcrumb.request(request.latest)]} />
-
-      <Show when={request.latest}>
-        {(request) => <RequestDetails request={request()} refetch={() => void refetch()} />}
-      </Show>
-    </>
+    <Show when={query.data}>
+      {(request) => (
+        <>
+          <Breadcrumb items={[breadcrumb.requests(), breadcrumb.request(request())]} />
+          <RequestDetails request={request()} />
+        </>
+      )}
+    </Show>
   );
 }
 
-export function RequestDetails(props: { request: Request; refetch: () => void }) {
+export function RequestDetails(props: { request: Request }) {
   const isAuthenticatedMember = getIsAuthenticatedMember();
 
   return (
@@ -57,12 +60,12 @@ export function RequestDetails(props: { request: Request; refetch: () => void })
           <Show when={!isAuthenticatedMember(props.request.requester)}>
             <hr />
 
-            <RequestAnswer request={props.request} onAnswerChanged={props.refetch} />
+            <RequestAnswer request={props.request} />
           </Show>
 
           <hr />
 
-          <RequestComments request={props.request} onCreated={props.refetch} />
+          <RequestComments request={props.request} />
         </div>
 
         <div class="col flex-1 gap-4">
@@ -70,7 +73,7 @@ export function RequestDetails(props: { request: Request; refetch: () => void })
             <MemberCard member={props.request.requester} class="pt-8" />
           </div>
 
-          <RequestActions request={props.request} onCanceled={props.refetch} />
+          <RequestActions request={props.request} />
 
           <hr />
 
