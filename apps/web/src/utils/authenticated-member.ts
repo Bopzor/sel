@@ -1,22 +1,30 @@
-import { AuthenticatedMember } from '@sel/shared';
 import { createQuery } from '@tanstack/solid-query';
 
+import { ApiError } from '../infrastructure/api';
 import { container } from '../infrastructure/container';
 import { TOKENS } from '../tokens';
 
 function getAuthenticatedMemberQuery() {
-  const fetcher = container.resolve(TOKENS.fetcher);
+  const api = container.resolve(TOKENS.api);
 
   return createQuery(() => ({
-    queryKey: ['getAuthenticatedMember'],
-    queryFn: () => fetcher.get<AuthenticatedMember>('/session/member').body(),
     staleTime: 1000 * 60 * 5,
+    queryKey: ['getAuthenticatedMember'],
+    async queryFn() {
+      return api.getAuthenticatedMember({}).catch((error) => {
+        if (ApiError.isStatus(error, 401)) {
+          return null;
+        }
+
+        throw error;
+      });
+    },
   }));
 }
 
 export function getAuthenticatedMember() {
   const query = getAuthenticatedMemberQuery();
-  return () => query.data;
+  return () => query.data ?? undefined;
 }
 
 export function getIsAuthenticatedMember() {

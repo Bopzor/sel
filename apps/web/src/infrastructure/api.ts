@@ -1,10 +1,13 @@
 import {
+  AuthenticatedMember,
   createCommentBodySchema,
   createEventBodySchema,
   Event,
   EventsListItem,
+  requestAuthenticationLinkQuerySchema,
   setEventParticipationBodySchema,
   updateEventBodySchema,
+  verifyAuthenticationTokenQuerySchema,
 } from '@sel/shared';
 import { OmitNever } from '@sel/utils';
 import { injectableClass } from 'ditox';
@@ -14,7 +17,7 @@ import { TOKENS } from '../tokens';
 
 import { ConfigPort } from './config/config.port';
 
-type HttpMethod = 'get' | 'post' | 'put';
+type HttpMethod = 'get' | 'post' | 'put' | 'delete';
 
 type EndpointConfig = {
   path?: Record<string, string>;
@@ -32,6 +35,24 @@ export class Api {
   static inject = injectableClass(this, TOKENS.config);
 
   constructor(private readonly config: ConfigPort) {}
+
+  // authentication
+
+  requestAuthenticationLink = this.endpoint<void, { query: typeof requestAuthenticationLinkQuerySchema }>(
+    'post',
+    '/authentication/request-authentication-link',
+  );
+
+  verifyAuthenticationToken = this.endpoint<void, { query: typeof verifyAuthenticationTokenQuerySchema }>(
+    'get',
+    '/authentication/verify-authentication-token',
+  );
+
+  getAuthenticatedMember = this.endpoint<AuthenticatedMember>('get', '/session/member');
+
+  signOut = this.endpoint<void>('delete', '/session');
+
+  // events
 
   listEvents = this.endpoint<EventsListItem[]>('get', '/events');
 
@@ -114,21 +135,32 @@ export function catchNotFound(error: unknown): null {
   throw error;
 }
 
-class ApiError extends Error {
+export class ApiError extends Error {
   private static errorSchema = z.object({
     error: z.string(),
+    code: z.string().optional(),
   });
+
+  public readonly body?: z.infer<typeof ApiError.errorSchema>;
 
   constructor(
     public readonly response: Response,
-    public readonly body: unknown,
+    body: unknown,
   ) {
     const { success, data } = ApiError.errorSchema.safeParse(body);
     super(success ? data.error : String(body));
+
+    if (success) {
+      this.body = data;
+    }
   }
 
   static is(value: unknown): value is ApiError {
     return value instanceof this;
+  }
+
+  static isStatus(value: unknown, status: number): value is ApiError {
+    return this.is(value) && value.status === status;
   }
 
   get status() {

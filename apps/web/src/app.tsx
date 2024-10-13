@@ -1,4 +1,4 @@
-import { QueryClient, QueryClientProvider } from '@tanstack/solid-query';
+import { QueryClient, QueryClientProvider as TanstackQueryClientProvider } from '@tanstack/solid-query';
 import { createEffect, JSX, onMount, ErrorBoundary as SolidErrorBoundary } from 'solid-js';
 import { useRegisterSW } from 'virtual:pwa-register/solid';
 
@@ -12,6 +12,7 @@ import { Layout } from './layout/layout';
 import { routes } from './routes';
 import { TOKENS } from './tokens';
 import { getAuthenticatedMember } from './utils/authenticated-member';
+import { createErrorHandler } from './utils/create-error-handler';
 
 type AppProps = {
   children?: JSX.Element;
@@ -39,14 +40,6 @@ export function App(props: AppProps) {
     }
   });
 
-  const client = new QueryClient({
-    defaultOptions: {
-      queries: {
-        staleTime: 1000 * 60 * 5,
-      },
-    },
-  });
-
   return (
     <SolidErrorBoundary
       fallback={(error) => {
@@ -59,7 +52,7 @@ export function App(props: AppProps) {
         <MatomoScript />
         <TrackPageView />
         <NotificationsContainer />
-        <QueryClientProvider client={client}>
+        <QueryClientProvider>
           <SuspenseLoader>
             <OnboardingRedirections />
             <Layout>{props.children}</Layout>
@@ -68,6 +61,22 @@ export function App(props: AppProps) {
       </IntlProvider>
     </SolidErrorBoundary>
   );
+}
+
+function QueryClientProvider(props: { children: JSX.Element }) {
+  const client = new QueryClient({
+    defaultOptions: {
+      queries: {
+        staleTime: 1000 * 60 * 5,
+        throwOnError: true,
+      },
+      mutations: {
+        onError: createErrorHandler(),
+      },
+    },
+  });
+
+  return <TanstackQueryClientProvider client={client}>{props.children}</TanstackQueryClientProvider>;
 }
 
 function OnboardingRedirections() {

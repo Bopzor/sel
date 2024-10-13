@@ -1,12 +1,10 @@
 import { createContainer } from 'ditox';
 
-import { FetchAuthenticationApi } from '../modules/authentication/authentication.api';
 import { FetchInformationApi } from '../modules/information/information-api';
 import { FetchInterestApi } from '../modules/interests/interests-api';
 import { FetchMemberApi } from '../modules/members/members.api';
 import { FetchProfileApi } from '../modules/profile/profile.api';
 import { FetchRequestApi } from '../modules/requests/requests.api';
-import { FetchSessionApi } from '../session.api';
 import { TOKENS } from '../tokens';
 import { FetchTransactionApi } from '../transactions.api';
 
@@ -24,7 +22,6 @@ export const container = createContainer();
 
 container.bindFactory(TOKENS.analytics, MatomoAnalyticsAdapter.inject);
 container.bindFactory(TOKENS.api, Api.inject);
-container.bindFactory(TOKENS.authenticationApi, FetchAuthenticationApi.inject);
 container.bindFactory(TOKENS.config, EnvConfigAdapter.inject);
 container.bindFactory(TOKENS.fetcher, Fetcher.inject);
 container.bindFactory(TOKENS.geocode, GeoapifyGeocodeAdapter.inject);
@@ -37,5 +34,4 @@ container.bindFactory(TOKENS.profileApi, FetchProfileApi.inject);
 container.bindFactory(TOKENS.pushSubscription, WebPushSubscriptionAdapter.inject);
 container.bindFactory(TOKENS.requestApi, FetchRequestApi.inject);
 container.bindFactory(TOKENS.router, SolidRouterAdapter.inject);
-container.bindFactory(TOKENS.sessionApi, FetchSessionApi.inject);
 container.bindFactory(TOKENS.transactionApi, FetchTransactionApi.inject);

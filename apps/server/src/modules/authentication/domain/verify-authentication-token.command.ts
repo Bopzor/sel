@@ -21,15 +21,15 @@ export async function verifyAuthenticationToken(command: VerifyAuthenticationTok
   const token = await findTokenByValue(command.tokenValue);
 
   if (token === undefined) {
-    throw new NotFound('Token does not exist');
+    throw new NotFound('Token does not exist', { code: 'TokenNotFound' });
   }
 
   if (token.revoked) {
-    throw new Unauthorized('Token was revoked');
+    throw new Unauthorized('Token was revoked', { code: 'TokenRevoked' });
   }
 
   if (isAfter(now, token.expirationDate)) {
-    throw new Unauthorized('Token has expired');
+    throw new Unauthorized('Token has expired', { code: 'TokenExpired' });
   }
 
   events.publish(new MemberAuthenticatedEvent(token.memberId));

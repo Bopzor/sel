@@ -1,14 +1,16 @@
 import { createForm } from '@felte/solid';
-import { JSX, Show, createResource, createSignal } from 'solid-js';
+import { createQuery } from '@tanstack/solid-query';
+import { JSX, Show, createSignal } from 'solid-js';
 
 import { Button } from '../../components/button';
 import { Input } from '../../components/input';
+import { ApiError } from '../../infrastructure/api';
 import { container } from '../../infrastructure/container';
-import { FetchError } from '../../infrastructure/fetcher';
 import { useSearchParam } from '../../infrastructure/router/use-search-param';
 import { Translate } from '../../intl/translate';
 import { Header } from '../../layout/header';
 import { TOKENS } from '../../tokens';
+import { getRefetchAuthenticatedMember } from '../../utils/authenticated-member';
 import { createErrorHandler } from '../../utils/create-error-handler';
 import { notify } from '../../utils/notify';
 
@@ -17,7 +19,7 @@ const T = Translate.prefix('authentication');
 export default function AuthenticationPage() {
   const [linkRequested, setLinkRequested] = createSignal<string>();
 
-  const triggerSuspense = verifyAuthenticationToken();
+  const verifyAuthenticationTokenQuery = verifyAuthenticationToken();
 
   return (
     <div class="col flex-1 items-center justify-center px-4">
@@ -30,43 +32,50 @@ export default function AuthenticationPage() {
           </Show>
         </div>
 
-        {triggerSuspense()}
+        {/* trigger suspense */}
+        {verifyAuthenticationTokenQuery.data}
       </div>
     </div>
   );
 }
 
 function verifyAuthenticationToken() {
-  const authenticationApi = container.resolve(TOKENS.authenticationApi);
+  const api = container.resolve(TOKENS.api);
   const t = T.useTranslation();
   const [token, setToken] = useSearchParam('auth-token');
+  const refreshAuthenticatedMember = getRefetchAuthenticatedMember();
 
-  const [verifyAuthenticationToken] = createResource(token, async (token) => {
-    try {
-      await authenticationApi.verifyAuthenticationToken(token);
-      return null;
-    } catch (error) {
-      if (!FetchError.is(error)) {
-        throw error;
+  return createQuery(() => ({
+    queryKey: ['verifyAuthenticationToken'],
+    enabled: token() !== undefined,
+    async queryFn() {
+      try {
+        await api.verifyAuthenticationToken({ query: { token: token()! } });
+        await refreshAuthenticatedMember();
+        setToken(undefined);
+
+        return null;
+      } catch (error) {
+        if (!ApiError.is(error)) {
+          throw error;
+        }
+
+        if (error.body?.code === 'TokenNotFound' || error.body?.code === 'TokenRevoked') {
+          notify.error(t('invalidAuthenticationLink'));
+        } else if (error.body?.code === 'TokenExpired') {
+          notify.error(t('authenticationLinkExpired'));
+        } else {
+          throw error;
+        }
+
+        return null;
       }
-
-      if (error.body.code === 'TokenNotFound') {
-        notify.error(t('invalidAuthenticationLink'));
-      } else if (error.body.code === 'TokenExpired') {
-        notify.error(t('authenticationLinkExpired'));
-      } else {
-        throw error;
-      }
-    } finally {
-      setToken(undefined);
-    }
-  });
-
-  return verifyAuthenticationToken;
+    },
+  }));
 }
 
 function AuthenticationForm(props: { onSubmitted: (email: string) => void }) {
-  const authenticationApi = container.resolve(TOKENS.authenticationApi);
+  const api = container.resolve(TOKENS.api);
   const t = T.useTranslation();
 
   // @ts-expect-error solidjs directive
@@ -75,7 +84,7 @@ function AuthenticationForm(props: { onSubmitted: (email: string) => void }) {
       email: '',
     },
     async onSubmit(values) {
-      await authenticationApi.requestAuthenticationLink(values.email);
+      await api.requestAuthenticationLink({ query: { email: values.email } });
     },
     onSuccess() {
       props.onSubmitted(data((data) => data.email));
