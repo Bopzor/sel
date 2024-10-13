@@ -1,8 +1,9 @@
 import { Member } from '@sel/shared';
 import { useParams } from '@solidjs/router';
+import { createQuery } from '@tanstack/solid-query';
 import { Icon } from 'solid-heroicons';
 import { arrowsRightLeft, sparkles, user } from 'solid-heroicons/solid';
-import { ComponentProps, createResource, createSignal, JSX, Show } from 'solid-js';
+import { ComponentProps, createSignal, JSX, Show } from 'solid-js';
 
 import { breadcrumb, Breadcrumb } from '../../../components/breadcrumb';
 import { Button } from '../../../components/button';
@@ -23,36 +24,33 @@ import { MemberTransactions } from './member-transactions';
 const T = Translate.prefix('members');
 
 export default function MemberDetailsPage() {
-  const memberApi = container.resolve(TOKENS.memberApi);
+  const api = container.resolve(TOKENS.api);
   const { memberId } = useParams<{ memberId: string }>();
 
-  const [member] = createResource(memberId, async (memberId) => {
-    return memberApi.getMember(memberId);
-  });
+  const query = createQuery(() => ({
+    queryKey: ['getMember', memberId],
+    queryFn: () => api.getMember({ path: { memberId } }),
+  }));
 
   return (
     <>
-      <Breadcrumb items={[breadcrumb.members(), member.latest && breadcrumb.member(member.latest)]} />
+      <Breadcrumb items={[breadcrumb.members(), query.data && breadcrumb.member(query.data)]} />
 
-      <Show when={member()}>{(member) => <MemberDetails member={member()} />}</Show>
-
-      <Show when={!member()}>
-        <MemberNotFound />
+      <Show when={query.data} fallback={<MemberNotFound />}>
+        {(member) => <MemberDetails member={member()} />}
       </Show>
     </>
   );
 }
 
 function MemberDetails(props: { member: Member }) {
-  const memberApi = container.resolve(TOKENS.memberApi);
+  const api = container.resolve(TOKENS.api);
   const authenticatedMember = getAuthenticatedMember();
 
-  const [transactions, { refetch: refetchTransactions }] = createResource(
-    () => props.member.id,
-    async (memberId) => {
-      return memberApi.listMemberTransactions(memberId);
-    },
-  );
+  const query = createQuery(() => ({
+    queryKey: ['listMemberTransactions', props.member.id],
+    queryFn: () => api.listMemberTransactions({ path: { memberId: props.member.id } }),
+  }));
 
   return (
     <div class="col gap-8">
@@ -65,7 +63,7 @@ function MemberDetails(props: { member: Member }) {
             />
           </div>
           <Show when={props.member.id !== authenticatedMember()?.id}>
-            <CreateTransactionButton member={props.member} onCreated={() => void refetchTransactions()} />
+            <CreateTransactionButton member={props.member} onCreated={() => query.refetch()} />
           </Show>
         </div>
 
@@ -86,7 +84,7 @@ function MemberDetails(props: { member: Member }) {
       </Section>
 
       <Section show icon={arrowsRightLeft} title={<T id="transactions.title" />}>
-        <MemberTransactions member={props.member} transactions={transactions.latest} />
+        <MemberTransactions member={props.member} transactions={query.data} />
       </Section>
     </div>
   );
@@ -115,7 +113,7 @@ function Section(props: {
   );
 }
 
-function CreateTransactionButton(props: { member: Member; onCreated: () => void }) {
+function CreateTransactionButton(props: { member: Member; onCreated: () => Promise<unknown> }) {
   const api = container.resolve(TOKENS.api);
   const [open, setOpen] = createSignal(false);
 

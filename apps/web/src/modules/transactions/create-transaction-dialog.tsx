@@ -2,7 +2,8 @@ import { createForm } from '@felte/solid';
 import { validateSchema } from '@nilscox/felte-validator-zod';
 import { CreateTransactionBody, LightMember, Member } from '@sel/shared';
 import { assert, defined, hasProperty, not } from '@sel/utils';
-import { createEffect, createResource, createSignal, Show } from 'solid-js';
+import { createQuery } from '@tanstack/solid-query';
+import { createEffect, createSignal, Show } from 'solid-js';
 import { z } from 'zod';
 
 import { Autocomplete } from '../../components/autocomplete';
@@ -35,7 +36,7 @@ const schema = z.object({
 export function CreateTransactionDialog(props: {
   open: boolean;
   onClose: () => void;
-  onCreated: () => void;
+  onCreated?: () => Promise<unknown>;
   createTransaction: (values: CreateTransactionBody) => Promise<unknown>;
   member?: LightMember;
   type?: 'send' | 'request';
@@ -80,10 +81,12 @@ export function CreateTransactionDialog(props: {
         return true;
       }
     },
-    onSuccess(created) {
+    async onSuccess(created) {
       if (!created) {
         return;
       }
+
+      await props.onCreated?.();
 
       if (data('type') === 'request') {
         notify.success(t('requested', { payer: fullName(defined(member())) }));
@@ -92,20 +95,22 @@ export function CreateTransactionDialog(props: {
       }
 
       props.onClose();
-      props.onCreated();
     },
     onError: createErrorHandler(),
   });
 
   const [memberSearch, setMemberSearch] = createSignal('');
 
-  const membersApi = container.resolve(TOKENS.memberApi);
-  const [members] = createResource(() => membersApi.listMembers());
+  const api = container.resolve(TOKENS.api);
+  const membersQuery = createQuery(() => ({
+    queryKey: ['listMembers'],
+    queryFn: () => api.listMembers({ query: {} }),
+  }));
 
-  const member = () => members()?.find(hasProperty('id', data('memberId')));
+  const member = () => membersQuery.data?.find(hasProperty('id', data('memberId')));
 
   const membersList = () => {
-    return filteredMemberList(members() ?? [], memberSearch())
+    return filteredMemberList(membersQuery.data ?? [], memberSearch())
       .filter(not(hasProperty('id', defined(authenticatedMember()).id)))
       .slice(0, 6);
   };

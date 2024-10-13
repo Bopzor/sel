@@ -1,6 +1,7 @@
-import { JSX, ErrorBoundary as SolidErrorBoundary, createEffect } from 'solid-js';
+import { JSX, Show, ErrorBoundary as SolidErrorBoundary, createEffect } from 'solid-js';
 
 import { Button } from '../components/button';
+import { ApiError } from '../infrastructure/api';
 import { container } from '../infrastructure/container';
 import { Translate } from '../intl/translate';
 import { routes } from '../routes';
@@ -48,6 +49,28 @@ function ErrorFallback(props: ErrorFallbackProps) {
 
   return (
     <div class="col mx-auto flex-1 items-center justify-center gap-4 px-4">
+      <Show
+        when={ApiError.isStatus(props.error, 404) ? props.error : false}
+        fallback={<UnknownError {...props} />}
+      >
+        {(error) => (
+          <>
+            <p class="typo-h1">
+              <T id="pageNotFound" />
+            </p>
+            <p class="text-dim">
+              <T id="errorMessage" values={{ message: error().message }} />
+            </p>
+          </>
+        )}
+      </Show>
+    </div>
+  );
+}
+
+function UnknownError(props: ErrorFallbackProps) {
+  return (
+    <>
       <p class="typo-h1">
         <T id="unknownErrorMessage" values={{ nbsp: () => <>&nbsp;</> }} />
       </p>
@@ -69,6 +92,6 @@ function ErrorFallback(props: ErrorFallbackProps) {
           <T id="reset" />
         </Button>
       </div>
-    </div>
+    </>
   );
 }

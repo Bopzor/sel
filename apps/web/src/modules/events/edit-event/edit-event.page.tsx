@@ -4,7 +4,6 @@ import { createQuery } from '@tanstack/solid-query';
 import { Show } from 'solid-js';
 
 import { Breadcrumb, breadcrumb } from '../../../components/breadcrumb';
-import { catchNotFound } from '../../../infrastructure/api';
 import { container } from '../../../infrastructure/container';
 import { Translate } from '../../../intl/translate';
 import { routes } from '../../../routes';
@@ -22,33 +21,37 @@ export default function EditEventPage() {
 
   const query = createQuery(() => ({
     queryKey: ['getEvent', eventId],
-    async queryFn() {
-      return api.getEvent({ path: { eventId } }).catch(catchNotFound);
-    },
+    queryFn: () => api.getEvent({ path: { eventId } }),
   }));
 
   return (
-    <Show when={query.data}>
-      {(event) => (
-        <>
-          <Breadcrumb
-            items={[breadcrumb.events(), breadcrumb.event(event()), breadcrumb.editEvent(event())]}
-          />
+    <>
+      <Breadcrumb
+        items={[
+          breadcrumb.events(),
+          query.data && breadcrumb.event(query.data),
+          query.data && breadcrumb.editEvent(query.data),
+        ]}
+      />
 
-          <h1 class="truncate">
-            <T id="title" values={{ eventTitle: event().title }} />
-          </h1>
+      <Show when={query.data}>
+        {(event) => (
+          <>
+            <h1 class="truncate">
+              <T id="title" values={{ eventTitle: event().title }} />
+            </h1>
 
-          <EditEventForm
-            event={event()}
-            onEdited={() => {
-              navigate(routes.events.details(event().id));
-              notify.success(t('edited'));
-            }}
-          />
-        </>
-      )}
-    </Show>
+            <EditEventForm
+              event={event()}
+              onEdited={() => {
+                navigate(routes.events.details(event().id));
+                notify.success(t('edited'));
+              }}
+            />
+          </>
+        )}
+      </Show>
+    </>
   );
 }
 

@@ -25,6 +25,7 @@
       "linkTarget": "Cible du lien :"
     },
     "error": {
+      "pageNotFound": "Page non trouvée.",
       "unknownErrorMessage": "🫨<nbsp></nbsp>Il s'est passé quelque chose qui n'était pas prévu...<nbsp></nbsp>🥲",
       "unknownErrorDescription": "C'est probablement un bug, la personne responsable sera privée de dessert.",
       "errorMessage": "Message d'erreur : {message}",

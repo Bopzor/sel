@@ -1,7 +1,8 @@
 import { createForm } from '@felte/solid';
 import { EventKind, EventsListItem } from '@sel/shared';
 import { isSameDay } from '@sel/utils';
-import { For, Show, createResource } from 'solid-js';
+import { createQuery } from '@tanstack/solid-query';
+import { For } from 'solid-js';
 
 import { Breadcrumb, breadcrumb } from '../../components/breadcrumb';
 import { LinkButton } from '../../components/button';
@@ -20,9 +21,10 @@ const T = Translate.prefix('events.list');
 export default function EventsListPage() {
   const api = container.resolve(TOKENS.api);
 
-  const [events] = createResource(async () => {
-    return api.listEvents({});
-  });
+  const query = createQuery(() => ({
+    queryKey: ['listEvents'],
+    queryFn: () => api.listEvents({}),
+  }));
 
   // @ts-expect-error solidjs directive
   const { form, data, setFields } = createForm({
@@ -62,7 +64,7 @@ export default function EventsListPage() {
           renderDay={(date) => (
             <CalendarDay
               date={date}
-              events={events()?.filter((event) => event.date !== undefined && isSameDay(date, event.date))}
+              events={query.data?.filter((event) => event.date !== undefined && isSameDay(date, event.date))}
             />
           )}
         />
@@ -79,7 +81,7 @@ export default function EventsListPage() {
           </LinkButton>
         </div>
 
-        <Show when={events()}>{(events) => <EventsList events={events()} />}</Show>
+        <EventsList events={query.data ?? []} />
       </div>
     </>
   );

@@ -9,7 +9,6 @@ import { breadcrumb, Breadcrumb } from '../../../components/breadcrumb';
 import { LinkButton } from '../../../components/button';
 import { MemberCard } from '../../../components/member-card';
 import { RichText } from '../../../components/rich-text';
-import { catchNotFound } from '../../../infrastructure/api';
 import { container } from '../../../infrastructure/container';
 import { Translate } from '../../../intl/translate';
 import { routes } from '../../../routes';
@@ -31,21 +30,18 @@ export default function EventDetailsPage() {
 
   const query = createQuery(() => ({
     queryKey: ['getEvent', eventId],
-    async queryFn() {
-      return api.getEvent({ path: { eventId } }).catch(catchNotFound);
-    },
+    queryFn: () => api.getEvent({ path: { eventId } }),
   }));
 
   return (
-    // todo: not found
-    <Show when={query.data} fallback="Event not found">
-      {(event) => (
-        <>
-          <Breadcrumb items={[breadcrumb.events(), breadcrumb.event(event())]} />
-          <EventDetails event={event()} />
-        </>
-      )}
-    </Show>
+    <>
+      <Breadcrumb items={[breadcrumb.events(), query.data && breadcrumb.event(query.data)]} />
+
+      {/* todo: not found */}
+      <Show when={query.data} fallback="Event not found">
+        {(event) => <EventDetails event={event()} />}
+      </Show>
+    </>
   );
 }
 

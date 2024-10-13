@@ -5,6 +5,7 @@ import { useRegisterSW } from 'virtual:pwa-register/solid';
 import { SuspenseLoader } from './components/loader';
 import { MatomoScript } from './infrastructure/analytics/matomo-script';
 import { TrackPageView } from './infrastructure/analytics/track-page-view';
+import { ApiError } from './infrastructure/api';
 import { container } from './infrastructure/container';
 import { NotificationsContainer } from './infrastructure/notifications/toast-notifications.adapter';
 import { IntlProvider } from './intl';
@@ -69,6 +70,13 @@ function QueryClientProvider(props: { children: JSX.Element }) {
       queries: {
         staleTime: 1000 * 60 * 5,
         throwOnError: true,
+        retry(failureCount: number, error: Error) {
+          if (ApiError.isStatus(error, 404)) {
+            return false;
+          }
+
+          return failureCount < 3;
+        },
       },
       mutations: {
         onError: createErrorHandler(),

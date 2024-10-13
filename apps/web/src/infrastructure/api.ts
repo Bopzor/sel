@@ -12,7 +12,9 @@ import {
   EventsListItem,
   Information,
   Interest,
+  listMembersQuerySchema,
   listTransactionsQuerySchema,
+  Member,
   notificationDeliveryBodySchema,
   Request,
   requestAuthenticationLinkQuerySchema,
@@ -67,6 +69,17 @@ export class Api {
   getAuthenticatedMember = this.endpoint<AuthenticatedMember>('get', '/session/member');
 
   signOut = this.endpoint<void>('delete', '/session');
+
+  // members
+
+  listMembers = this.endpoint<Member[], { query: typeof listMembersQuerySchema }>('get', '/members');
+
+  getMember = this.endpoint<Member, { path: { memberId: string } }>('get', '/members/:memberId');
+
+  listMemberTransactions = this.endpoint<Transaction[], { path: { memberId: string } }>(
+    'get',
+    '/members/:memberId/transactions',
+  );
 
   // profile
 
@@ -203,21 +216,25 @@ export class Api {
     };
   }
 
-  private getUrl(path: string, config: EndpointParam<EndpointConfig>) {
+  private getUrl(pathname: string, config: EndpointParam<EndpointConfig>) {
+    const { path, query } = { path: {}, query: {}, ...config };
+
     const base = new URL(this.config.api.url, window.location.origin);
-    const url = new URL(path, base.origin);
+    const url = new URL(pathname, base.origin);
 
     url.pathname = base.pathname + url.pathname;
 
-    if ('path' in config) {
-      for (const [key, value] of Object.entries(config.path as Record<string, string>)) {
-        url.pathname = url.pathname.replaceAll(`:${key}`, value);
+    for (const [key, value] of Object.entries(path)) {
+      url.pathname = url.pathname.replaceAll(`:${key}`, value as string);
+    }
+
+    for (const [key, value] of Object.entries(query)) {
+      if (value === undefined) {
+        delete query[key as keyof typeof query];
       }
     }
 
-    if ('query' in config) {
-      url.search = new URLSearchParams(config.query as Record<string, string>).toString();
-    }
+    url.search = new URLSearchParams(query).toString();
 
     return url.toString();
   }
@@ -229,22 +246,6 @@ export class Api {
 
     return response.text();
   }
-}
-
-export function catchNotFound(error: unknown): null {
-  if (ApiError.is(error) && error.status === 404) {
-    return null;
-  }
-
-  throw error;
-}
-
-export function useInvalidateApi() {
-  const queryClient = useQueryClient();
-
-  return (...queryKeys: QueryKey[]) => {
-    return Promise.all(queryKeys.map((queryKey) => queryClient.invalidateQueries({ queryKey })));
-  };
 }
 
 export class ApiError extends Error {
@@ -278,4 +279,12 @@ export class ApiError extends Error {
   get status() {
     return this.response.status;
   }
+}
+
+export function useInvalidateApi() {
+  const queryClient = useQueryClient();
+
+  return (...queryKeys: QueryKey[]) => {
+    return Promise.all(queryKeys.map((queryKey) => queryClient.invalidateQueries({ queryKey })));
+  };
 }

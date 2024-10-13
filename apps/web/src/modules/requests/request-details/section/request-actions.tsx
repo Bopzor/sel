@@ -57,7 +57,6 @@ function CreateTransactionButton(props: { request: Request }) {
       <CreateTransactionDialog
         open={open()}
         onClose={() => setOpen(false)}
-        onCreated={() => {}}
         createTransaction={(values) =>
           api.createRequestTransaction({ path: { requestId: props.request.id }, body: values })
         }

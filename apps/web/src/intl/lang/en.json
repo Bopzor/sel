@@ -25,6 +25,7 @@
       "linkTarget": "Link target:"
     },
     "error": {
+      "pageNotFound": "Page not found.",
       "unknownErrorMessage": "🫨<nbsp></nbsp>Something unexpected just happened...<nbsp></nbsp>🥲",
       "unknownErrorDescription": "It's probably a bug, the person responsible won't get any dessert.",
       "error": "Error: {message}",

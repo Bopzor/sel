@@ -1,6 +1,7 @@
 import { Member, MembersSort } from '@sel/shared';
 import { parseEnumValue } from '@sel/utils';
-import { Show, createResource, createSignal } from 'solid-js';
+import { createQuery } from '@tanstack/solid-query';
+import { Show, createSignal } from 'solid-js';
 
 import { Breadcrumb, breadcrumb } from '../../../components/breadcrumb';
 import { container } from '../../../infrastructure/container';
@@ -11,24 +12,20 @@ import { filteredMemberList } from '../filter-member-list';
 import { MembersList } from './members-list';
 import { MembersMap } from './members-map';
 
-const defaultSort = Symbol();
-
 export default function MembersListPage() {
-  const memberApi = container.resolve(TOKENS.memberApi);
+  const api = container.resolve(TOKENS.api);
   const [sort, setSort] = useSearchParam('sort', parseEnumValue(MembersSort));
 
-  const [members] = createResource(
-    () => sort() ?? defaultSort,
-    async (sort) => {
-      return memberApi.listMembers(sort === defaultSort ? undefined : sort);
-    },
-  );
+  const query = createQuery(() => ({
+    queryKey: ['listMembers', sort()],
+    queryFn: () => api.listMembers({ query: { sort: sort() } }),
+  }));
 
   return (
     <>
       <Breadcrumb items={[breadcrumb.members()]} />
 
-      <Show when={members()}>
+      <Show when={query.data}>
         {(members) => <MembersListContent members={members()} sort={sort()} setSort={setSort} />}
       </Show>
     </>
