@@ -59,7 +59,7 @@ function CreateTransactionButton(props: { request: Request }) {
         onClose={() => setOpen(false)}
         onCreated={() => {}}
         createTransaction={(values) =>
-          api.createTransaction({ path: { requestId: props.request.id }, body: values })
+          api.createRequestTransaction({ path: { requestId: props.request.id }, body: values })
         }
         initialDescription={props.request.title}
         member={isAuthenticatedMember(props.request.requester) ? undefined : props.request.requester}

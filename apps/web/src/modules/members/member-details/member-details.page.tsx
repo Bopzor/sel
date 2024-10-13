@@ -116,7 +116,7 @@ function Section(props: {
 }
 
 function CreateTransactionButton(props: { member: Member; onCreated: () => void }) {
-  const transactionApi = container.resolve(TOKENS.transactionApi);
+  const api = container.resolve(TOKENS.api);
   const [open, setOpen] = createSignal(false);
 
   return (
@@ -129,7 +129,7 @@ function CreateTransactionButton(props: { member: Member; onCreated: () => void 
         open={open()}
         onClose={() => setOpen(false)}
         onCreated={props.onCreated}
-        createTransaction={(values) => transactionApi.createTransaction(values)}
+        createTransaction={(values) => api.createTransaction({ body: values })}
         member={props.member}
       />
     </>

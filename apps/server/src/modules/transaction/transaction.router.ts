@@ -20,7 +20,7 @@ import { Transaction } from './transaction.entities';
 export const router = express.Router();
 
 router.get('/', async (req, res) => {
-  const { memberId } = z.object({ memberId: z.string() }).parse(req.query);
+  const { memberId } = shared.listTransactionsQuerySchema.parse(req.query);
 
   const results = await db.query.transactions.findMany({
     where: memberId

@@ -48,7 +48,7 @@ export function CreateTransactionDialog(props: {
   const [showConfirmation, setShowConfirmation] = createSignal(false);
 
   // @ts-expect-error solidjs directive
-  const { form, data, setData, errors, reset } = createForm<z.infer<typeof schema>>({
+  const { form, data, setData, errors, isSubmitting, reset } = createForm<z.infer<typeof schema>>({
     initialValues: {
       type: props.type ?? 'send',
       memberId: props.member?.id ?? null,
@@ -216,7 +216,7 @@ export function CreateTransactionDialog(props: {
               <Translate id="common.back" />
             </Button>
 
-            <Button type="submit">
+            <Button type="submit" loading={isSubmitting()}>
               <T id="submit" />
             </Button>
           </div>

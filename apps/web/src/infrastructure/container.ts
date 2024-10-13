@@ -2,7 +2,6 @@ import { createContainer } from 'ditox';
 
 import { FetchMemberApi } from '../modules/members/members.api';
 import { TOKENS } from '../tokens';
-import { FetchTransactionApi } from '../transactions.api';
 
 import { MatomoAnalyticsAdapter } from './analytics/matomo-analytics.adapter';
 import { Api } from './api';
@@ -26,4 +25,3 @@ container.bindFactory(TOKENS.memberAvatar, ApiMemberAvatarAdapter.inject);
 container.bindFactory(TOKENS.notifications, ToastNotificationsAdapter.inject);
 container.bindFactory(TOKENS.pushSubscription, WebPushSubscriptionAdapter.inject);
 container.bindFactory(TOKENS.router, SolidRouterAdapter.inject);
-container.bindFactory(TOKENS.transactionApi, FetchTransactionApi.inject);

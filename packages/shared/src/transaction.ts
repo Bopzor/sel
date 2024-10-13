@@ -18,6 +18,10 @@ export type Transaction = {
   date: string;
 };
 
+export const listTransactionsQuerySchema = z.object({
+  memberId: z.string().optional(),
+});
+
 export const createTransactionBodySchema = z.object({
   payerId: z.string(),
   recipientId: z.string(),

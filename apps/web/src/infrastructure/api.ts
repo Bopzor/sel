@@ -12,11 +12,13 @@ import {
   EventsListItem,
   Information,
   Interest,
+  listTransactionsQuerySchema,
   notificationDeliveryBodySchema,
   Request,
   requestAuthenticationLinkQuerySchema,
   setEventParticipationBodySchema,
   setRequestAnswerBodySchema,
+  Transaction,
   updateEventBodySchema,
   updateMemberProfileBodySchema,
   updateRequestBodySchema,
@@ -112,7 +114,7 @@ export class Api {
     { path: { requestId: string }; body: typeof createCommentBodySchema }
   >('post', '/requests/:requestId/comment');
 
-  createTransaction = this.endpoint<
+  createRequestTransaction = this.endpoint<
     void,
     { path: { requestId: string }; body: typeof createTransactionBodySchema }
   >('post', '/requests/:requestId/transaction');
@@ -157,6 +159,28 @@ export class Api {
     void,
     { path: { interestId: string }; body: typeof editInterestMemberBodySchema }
   >('put', '/interests/:interestId/edit');
+
+  // transactions
+
+  listTransactions = this.endpoint<Transaction[], { query: typeof listTransactionsQuerySchema }>(
+    'get',
+    '/transactions',
+  );
+
+  createTransaction = this.endpoint<string, { body: typeof createTransactionBodySchema }>(
+    'post',
+    '/transactions',
+  );
+
+  acceptTransaction = this.endpoint<void, { path: { transactionId: string } }>(
+    'put',
+    '/transactions/:transactionId/accept',
+  );
+
+  cancelTransaction = this.endpoint<void, { path: { transactionId: string } }>(
+    'put',
+    '/transactions/:transactionId/cancel',
+  );
 
   // eslint-disable-next-line @typescript-eslint/no-empty-object-type
   private endpoint<Result, Config extends EndpointConfig = {}>(method: HttpMethod, path: string) {
