@@ -1,9 +1,10 @@
 import { createForm } from '@felte/solid';
 import { Interest } from '@sel/shared';
 import { removeDiacriticCharacters } from '@sel/utils';
+import { createQuery } from '@tanstack/solid-query';
 import { Icon } from 'solid-heroicons';
 import { magnifyingGlass } from 'solid-heroicons/solid';
-import { For, Show, createResource, createSignal } from 'solid-js';
+import { For, Show, createSignal } from 'solid-js';
 
 import { Breadcrumb, breadcrumb } from '../../components/breadcrumb';
 import { Button } from '../../components/button';
@@ -22,8 +23,11 @@ const T = Translate.prefix('interests');
 export default function InterestsPage() {
   const t = T.useTranslation();
 
-  const interestApi = container.resolve(TOKENS.interestApi);
-  const [interests, { refetch }] = createResource(() => interestApi.listInterests());
+  const api = container.resolve(TOKENS.api);
+  const query = createQuery(() => ({
+    queryKey: ['listInterests'],
+    queryFn: () => api.listInterests({}),
+  }));
 
   // @ts-expect-error solidjs directive
   const { form, data, setFields } = createForm<{ search: string }>();
@@ -35,7 +39,7 @@ export default function InterestsPage() {
     const search = removeDiacriticCharacters(data('search') ?? '').toLowerCase();
 
     if (search === '') {
-      return interests.latest;
+      return query.data;
     }
 
     const matchInterest = (interest: Interest) => {
@@ -44,17 +48,12 @@ export default function InterestsPage() {
         .some((string) => string.includes(search));
     };
 
-    return interests.latest?.filter(matchInterest);
+    return query.data?.filter(matchInterest);
   };
 
   const onCreate = () => {
     setCreateInterest(search());
     setFields('search', '');
-  };
-
-  const onCreated = () => {
-    setCreateInterest(undefined);
-    void refetch();
   };
 
   return (
@@ -88,7 +87,7 @@ export default function InterestsPage() {
           <For each={filteredInterests()} fallback={<NoResults search={search()} onCreate={onCreate} />}>
             {(interest) => (
               <li>
-                <InterestItem interest={interest} refetch={() => void refetch()} />
+                <InterestItem interest={interest} />
               </li>
             )}
           </For>
@@ -100,7 +99,7 @@ export default function InterestsPage() {
           <CreateInterestForm
             initialLabel={label()}
             onCancel={() => setCreateInterest(undefined)}
-            onCreated={onCreated}
+            onCreated={() => setCreateInterest(undefined)}
           />
         )}
       </Show>

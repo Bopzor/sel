@@ -53,7 +53,7 @@ function Interest(props: { interest: MemberInterest }) {
   const t = T.useTranslation();
   const [editing, setEditing] = createSignal(false);
 
-  const interestApi = container.resolve(TOKENS.interestApi);
+  const api = container.resolve(TOKENS.api);
   const refetchAuthenticatedMember = getRefetchAuthenticatedMember();
 
   // @ts-expect-error solidjs directive
@@ -62,7 +62,10 @@ function Interest(props: { interest: MemberInterest }) {
       description: props.interest.description,
     },
     async onSubmit({ description }) {
-      await interestApi.editMemberInterestDescription(props.interest.interestId, description || undefined);
+      await api.editMemberInterestDescription({
+        path: { interestId: props.interest.interestId },
+        body: { description: description || undefined },
+      });
     },
     async onSuccess() {
       await refetchAuthenticatedMember();

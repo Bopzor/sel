@@ -1,13 +1,17 @@
 import {
+  addInterestMemberBodySchema,
   AuthenticatedMember,
   createCommentBodySchema,
   createEventBodySchema,
   createInformationBodySchema,
+  createInterestBodySchema,
   createRequestBodySchema,
   createTransactionBodySchema,
+  editInterestMemberBodySchema,
   Event,
   EventsListItem,
   Information,
+  Interest,
   notificationDeliveryBodySchema,
   Request,
   requestAuthenticationLinkQuerySchema,
@@ -135,6 +139,24 @@ export class Api {
     string,
     { path: { eventId: string }; body: typeof createCommentBodySchema }
   >('post', '/events/:eventId/comment');
+
+  // interests
+
+  listInterests = this.endpoint<Interest[]>('get', '/interests');
+
+  createInterest = this.endpoint<string, { body: typeof createInterestBodySchema }>('post', '/interests');
+
+  joinInterest = this.endpoint<
+    void,
+    { path: { interestId: string }; body: typeof addInterestMemberBodySchema }
+  >('put', '/interests/:interestId/join');
+
+  leaveInterest = this.endpoint<void, { path: { interestId: string } }>('put', '/interests/:interestId/join');
+
+  editMemberInterestDescription = this.endpoint<
+    void,
+    { path: { interestId: string }; body: typeof editInterestMemberBodySchema }
+  >('put', '/interests/:interestId/edit');
 
   // eslint-disable-next-line @typescript-eslint/no-empty-object-type
   private endpoint<Result, Config extends EndpointConfig = {}>(method: HttpMethod, path: string) {

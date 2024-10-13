@@ -8,6 +8,7 @@ import { Collapse } from '../../../components/collapse';
 import { Link } from '../../../components/link';
 import { MemberAvatarName } from '../../../components/member-avatar-name';
 import { Switch } from '../../../components/switch';
+import { useInvalidateApi } from '../../../infrastructure/api';
 import { container } from '../../../infrastructure/container';
 import { Translate } from '../../../intl/translate';
 import { routes } from '../../../routes';
@@ -17,7 +18,7 @@ import { notify } from '../../../utils/notify';
 
 const T = Translate.prefix('interests');
 
-export function InterestItem(props: { interest: Interest; refetch: () => void }) {
+export function InterestItem(props: { interest: Interest }) {
   const [expanded, setExpanded] = createSignal(false);
 
   return (
@@ -26,7 +27,6 @@ export function InterestItem(props: { interest: Interest; refetch: () => void })
         interest={props.interest}
         expanded={expanded()}
         toggleExpanded={() => setExpanded(!expanded())}
-        refetch={props.refetch}
       />
 
       <Collapse open={expanded()}>
@@ -63,7 +63,6 @@ type HeaderProps = {
   interest: Interest;
   expanded: boolean;
   toggleExpanded: () => void;
-  refetch: () => void;
 };
 
 function Header(props: HeaderProps) {
@@ -95,16 +94,17 @@ function Header(props: HeaderProps) {
         </div>
       </div>
 
-      <JoinSwitch interest={props.interest} refetch={props.refetch} />
+      <JoinSwitch interest={props.interest} />
     </div>
   );
 }
 
-function JoinSwitch(props: { interest: Interest; refetch: () => void }) {
+function JoinSwitch(props: { interest: Interest }) {
   const t = T.useTranslation();
-  const interestApi = container.resolve(TOKENS.interestApi);
+  const api = container.resolve(TOKENS.api);
   const isAuthenticatedMember = getIsAuthenticatedMember();
   const refetchAuthenticatedMember = getRefetchAuthenticatedMember();
+  const invalidate = useInvalidateApi();
 
   // @ts-expect-error solidjs directive
   const { form, handleSubmit } = createForm({
@@ -113,16 +113,16 @@ function JoinSwitch(props: { interest: Interest; refetch: () => void }) {
     },
     async onSubmit({ joined }) {
       if (joined) {
-        await interestApi.joinInterest(props.interest.id);
+        await api.joinInterest({ path: { interestId: props.interest.id }, body: {} });
       } else {
-        await interestApi.leaveInterest(props.interest.id);
+        await api.leaveInterest({ path: { interestId: props.interest.id } });
       }
 
       return joined;
     },
-    onSuccess(hasJoined) {
-      refetchAuthenticatedMember();
-      props.refetch();
+    async onSuccess(hasJoined) {
+      await refetchAuthenticatedMember();
+      await invalidate(['listInterests']);
 
       notify.success(
         t((hasJoined as boolean) ? 'joined' : 'left', {

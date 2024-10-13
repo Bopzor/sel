@@ -5,6 +5,7 @@ import { JSX } from 'solid-js';
 import { Button } from '../../../components/button';
 import { FormField } from '../../../components/form-field';
 import { Input } from '../../../components/input';
+import { useInvalidateApi } from '../../../infrastructure/api';
 import { container } from '../../../infrastructure/container';
 import { Translate } from '../../../intl/translate';
 import { TOKENS } from '../../../tokens';
@@ -29,9 +30,9 @@ export function CreateInterestForm(props: {
   onCancel: () => void;
   onCreated: () => void;
 }) {
+  const api = container.resolve(TOKENS.api);
+  const invalidate = useInvalidateApi();
   const t = T.useTranslation();
-
-  const interestsApi = container.resolve(TOKENS.interestApi);
 
   // @ts-expect-error solidjs directive
   const { form, errors } = createForm({
@@ -41,13 +42,14 @@ export function CreateInterestForm(props: {
       description: '',
     },
     async onSubmit({ label, description }) {
-      const interestId = await interestsApi.createInterest(label, description);
+      const interestId = await api.createInterest({ body: { label, description } });
 
-      await interestsApi.joinInterest(interestId);
+      await api.joinInterest({ path: { interestId }, body: {} });
+      await invalidate(['listInterests']);
 
       notify.success(t('interestCreated', { strong, label }));
-      props.onCreated();
     },
+    onSuccess: () => props.onCreated(),
     onError: createErrorHandler(),
   });
 
