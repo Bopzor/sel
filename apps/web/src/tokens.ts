@@ -11,7 +11,6 @@ import { RouterPort } from './infrastructure/router/router.port';
 import { PushSubscriptionPort } from './infrastructure/subscription/push-subscription.port';
 import { InterestApi } from './modules/interests/interests-api';
 import { MemberApi } from './modules/members/members.api';
-import { ProfileApi } from './modules/profile/profile.api';
 import { TransactionsApi } from './transactions.api';
 
 export const TOKENS = {
@@ -23,7 +22,6 @@ export const TOKENS = {
   notifications: token<NotificationsPort>('notifications'),
   pushSubscription: token<PushSubscriptionPort>('subscription'),
   memberAvatar: token<MemberAvatarPort>('memberAvatar'),
-  profileApi: token<ProfileApi>('profileApi'),
   api: token<Api>('api'),
   interestApi: token<InterestApi>('interestApi'),
   memberApi: token<MemberApi>('memberApi'),

@@ -1,6 +1,6 @@
 import { createQuery } from '@tanstack/solid-query';
 
-import { ApiError } from '../infrastructure/api';
+import { ApiError, useInvalidateApi } from '../infrastructure/api';
 import { container } from '../infrastructure/container';
 import { TOKENS } from '../tokens';
 
@@ -33,5 +33,6 @@ export function getIsAuthenticatedMember() {
 }
 
 export function getRefetchAuthenticatedMember() {
-  return getAuthenticatedMemberQuery().refetch;
+  const invalidate = useInvalidateApi();
+  return () => invalidate(['getAuthenticatedMember']);
 }

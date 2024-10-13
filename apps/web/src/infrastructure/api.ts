@@ -8,11 +8,13 @@ import {
   Event,
   EventsListItem,
   Information,
+  notificationDeliveryBodySchema,
   Request,
   requestAuthenticationLinkQuerySchema,
   setEventParticipationBodySchema,
   setRequestAnswerBodySchema,
   updateEventBodySchema,
+  updateMemberProfileBodySchema,
   updateRequestBodySchema,
   verifyAuthenticationTokenQuerySchema,
 } from '@sel/shared';
@@ -60,16 +62,26 @@ export class Api {
 
   signOut = this.endpoint<void>('delete', '/session');
 
+  // profile
+
+  updateMemberProfile = this.endpoint<
+    void,
+    { path: { memberId: string }; body: typeof updateMemberProfileBodySchema }
+  >('put', '/members/:memberId/profile');
+
+  updateNotificationDelivery = this.endpoint<
+    void,
+    { path: { memberId: string }; body: typeof notificationDeliveryBodySchema }
+  >('put', '/members/:memberId/notification-delivery');
+
   // information
 
   listInformation = this.endpoint<{ pin: Information[]; notPin: Information[] }>('get', '/information');
 
-  createInformation = this.endpoint<
-    string,
-    {
-      body: typeof createInformationBodySchema;
-    }
-  >('post', '/information');
+  createInformation = this.endpoint<string, { body: typeof createInformationBodySchema }>(
+    'post',
+    '/information',
+  );
 
   // requests
 
@@ -79,43 +91,26 @@ export class Api {
 
   createRequest = this.endpoint<string, { body: typeof createRequestBodySchema }>('post', '/requests');
 
-  editRequest = this.endpoint<
-    void,
-    {
-      path: { requestId: string };
-      body: typeof updateRequestBodySchema;
-    }
-  >('put', '/requests/:requestId');
+  editRequest = this.endpoint<void, { path: { requestId: string }; body: typeof updateRequestBodySchema }>(
+    'put',
+    '/requests/:requestId',
+  );
 
-  cancelRequest = this.endpoint<
-    void,
-    {
-      path: { requestId: string };
-    }
-  >('put', '/requests/:requestId/cancel');
+  cancelRequest = this.endpoint<void, { path: { requestId: string } }>('put', '/requests/:requestId/cancel');
 
   setRequestAnswer = this.endpoint<
     void,
-    {
-      path: { requestId: string };
-      body: typeof setRequestAnswerBodySchema;
-    }
+    { path: { requestId: string }; body: typeof setRequestAnswerBodySchema }
   >('post', '/requests/:requestId/answer');
 
   createRequestComment = this.endpoint<
     string,
-    {
-      path: { requestId: string };
-      body: typeof createCommentBodySchema;
-    }
+    { path: { requestId: string }; body: typeof createCommentBodySchema }
   >('post', '/requests/:requestId/comment');
 
   createTransaction = this.endpoint<
     void,
-    {
-      path: { requestId: string };
-      body: typeof createTransactionBodySchema;
-    }
+    { path: { requestId: string }; body: typeof createTransactionBodySchema }
   >('post', '/requests/:requestId/transaction');
 
   // events
@@ -126,13 +121,10 @@ export class Api {
 
   createEvent = this.endpoint<string, { body: typeof createEventBodySchema }>('post', '/events');
 
-  updateEvent = this.endpoint<
-    void,
-    {
-      path: { eventId: string };
-      body: typeof updateEventBodySchema;
-    }
-  >('put', '/events/:eventId');
+  updateEvent = this.endpoint<void, { path: { eventId: string }; body: typeof updateEventBodySchema }>(
+    'put',
+    '/events/:eventId',
+  );
 
   setEventParticipation = this.endpoint<
     void,

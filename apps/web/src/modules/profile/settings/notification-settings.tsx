@@ -14,7 +14,7 @@ import { notify } from '../../../utils/notify';
 const T = Translate.prefix('profile.settings.notifications');
 
 export function NotificationSettings() {
-  const profileApi = container.resolve(TOKENS.profileApi);
+  const api = container.resolve(TOKENS.api);
 
   const refetchAuthenticatedMember = getRefetchAuthenticatedMember();
   const authenticatedMember = getAuthenticatedMember();
@@ -25,7 +25,7 @@ export function NotificationSettings() {
   const { form, setInitialValues, reset, data, isDirty, isSubmitting } = createForm({
     initialValues: authenticatedMember()?.notificationDelivery,
     async onSubmit(data) {
-      await profileApi.updateNotificationDelivery(authenticatedMember()?.id as string, data);
+      await api.updateNotificationDelivery({ path: { memberId: authenticatedMember()!.id }, body: data });
     },
     async onSuccess() {
       await refetchAuthenticatedMember();

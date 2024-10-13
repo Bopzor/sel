@@ -2,7 +2,6 @@ import { createContainer } from 'ditox';
 
 import { FetchInterestApi } from '../modules/interests/interests-api';
 import { FetchMemberApi } from '../modules/members/members.api';
-import { FetchProfileApi } from '../modules/profile/profile.api';
 import { TOKENS } from '../tokens';
 import { FetchTransactionApi } from '../transactions.api';
 
@@ -27,7 +26,6 @@ container.bindFactory(TOKENS.interestApi, FetchInterestApi.inject);
 container.bindFactory(TOKENS.memberApi, FetchMemberApi.inject);
 container.bindFactory(TOKENS.memberAvatar, ApiMemberAvatarAdapter.inject);
 container.bindFactory(TOKENS.notifications, ToastNotificationsAdapter.inject);
-container.bindFactory(TOKENS.profileApi, FetchProfileApi.inject);
 container.bindFactory(TOKENS.pushSubscription, WebPushSubscriptionAdapter.inject);
 container.bindFactory(TOKENS.router, SolidRouterAdapter.inject);
 container.bindFactory(TOKENS.transactionApi, FetchTransactionApi.inject);

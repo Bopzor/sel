@@ -44,7 +44,7 @@ const Steps: { [S in OnboardingStep]: Component<OnboardingStepProps<S>> } = {
 };
 
 export default function OnboardingPage() {
-  const profileApi = container.resolve(TOKENS.profileApi);
+  const api = container.resolve(TOKENS.api);
 
   const authenticatedMember = getAuthenticatedMember();
   const refetchAuthenticatedMember = getRefetchAuthenticatedMember();
@@ -60,24 +60,27 @@ export default function OnboardingPage() {
     if (step() === OnboardingStep.notifications) {
       const state = stepStates() as OnboardingStepStates;
 
-      await profileApi.updateNotificationDelivery(
-        authenticatedMember()?.id as string,
-        state[OnboardingStep.notifications].notifications,
-      );
+      await api.updateNotificationDelivery({
+        path: { memberId: authenticatedMember()!.id },
+        body: state[OnboardingStep.notifications].notifications,
+      });
 
-      await profileApi.updateMemberProfile(authenticatedMember()?.id as string, {
-        firstName: state[OnboardingStep.name].firstName,
-        lastName: state[OnboardingStep.name].lastName,
-        emailVisible: state[OnboardingStep.contact].emailVisible,
-        phoneNumbers: [
-          {
-            number: state[OnboardingStep.contact].phoneNumber.replaceAll(' ', ''),
-            visible: state[OnboardingStep.contact].phoneNumberVisible,
-          },
-        ],
-        address: state[OnboardingStep.address].address || undefined,
-        bio: state[OnboardingStep.bio].bio || undefined,
-        onboardingCompleted: true,
+      await api.updateMemberProfile({
+        path: { memberId: authenticatedMember()!.id },
+        body: {
+          firstName: state[OnboardingStep.name].firstName,
+          lastName: state[OnboardingStep.name].lastName,
+          emailVisible: state[OnboardingStep.contact].emailVisible,
+          phoneNumbers: [
+            {
+              number: state[OnboardingStep.contact].phoneNumber.replaceAll(' ', ''),
+              visible: state[OnboardingStep.contact].phoneNumberVisible,
+            },
+          ],
+          address: state[OnboardingStep.address].address || undefined,
+          bio: state[OnboardingStep.bio].bio || undefined,
+          onboardingCompleted: true,
+        },
       });
     }
 

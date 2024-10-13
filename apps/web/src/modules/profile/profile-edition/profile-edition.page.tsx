@@ -36,29 +36,32 @@ function createProfileEditionForm() {
   const t = T.useTranslation();
   const refetchAuthenticatedMember = getRefetchAuthenticatedMember();
 
-  const profileApi = container.resolve(TOKENS.profileApi);
+  const api = container.resolve(TOKENS.api);
   const member = getAuthenticatedMember();
 
   const form = createForm<ReturnType<typeof getInitialValues>>({
     extend: validator({ schema: schema() }),
     async onSubmit(values) {
-      await profileApi.updateMemberProfile(member()?.id as string, {
-        firstName: values.firstName,
-        lastName: values.lastName,
-        emailVisible: values.emailVisible,
-        phoneNumbers: [
-          {
-            number: values.phoneNumber.replace(/^\+33/, '0').replaceAll(' ', ''),
-            visible: values.phoneNumberVisible,
-          },
-        ],
-        bio: values.bio,
-        address: member()?.address,
+      await api.updateMemberProfile({
+        path: { memberId: member()!.id },
+        body: {
+          firstName: values.firstName,
+          lastName: values.lastName,
+          emailVisible: values.emailVisible,
+          phoneNumbers: [
+            {
+              number: values.phoneNumber.replace(/^\+33/, '0').replaceAll(' ', ''),
+              visible: values.phoneNumberVisible,
+            },
+          ],
+          bio: values.bio,
+          address: member()?.address,
+        },
       });
     },
-    onSuccess() {
+    async onSuccess() {
+      await refetchAuthenticatedMember();
       notify.success(t('saved'));
-      refetchAuthenticatedMember();
     },
     onError: createErrorHandler(),
   });
