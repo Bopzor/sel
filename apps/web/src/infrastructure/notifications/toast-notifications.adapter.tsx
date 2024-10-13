@@ -28,9 +28,11 @@ export class ToastNotificationsAdapter implements NotificationsPort {
         </p>
 
         <Show when={ApiError.is(error) ? error : false}>
-          {error => <p class="my-1 text-sm font-medium text-dim">
-            {error().status} {error().response.statusText}
-          </p>}
+          {(error) => (
+            <p class="my-1 text-sm font-medium text-dim">
+              {error().status} {error().response.statusText}
+            </p>
+          )}
         </Show>
 
         {error.message && (

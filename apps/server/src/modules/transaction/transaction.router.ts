@@ -2,7 +2,6 @@ import * as shared from '@sel/shared';
 import { hasProperty, not, pick } from '@sel/utils';
 import { desc, eq, or } from 'drizzle-orm';
 import express from 'express';
-import { z } from 'zod';
 
 import { container } from 'src/infrastructure/container';
 import { HttpStatus, NotFound } from 'src/infrastructure/http';
