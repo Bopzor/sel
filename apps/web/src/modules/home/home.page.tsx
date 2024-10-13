@@ -180,7 +180,7 @@ function News() {
 
       <For each={pinMessages()}>{(message) => <InformationItem message={message} />}</For>
 
-      <Show when={pinMessages().length > 0 && notPinMessages.length > 0}>
+      <Show when={pinMessages().length > 0 && notPinMessages().length > 0}>
         <hr class="my-4" />
       </Show>
 
