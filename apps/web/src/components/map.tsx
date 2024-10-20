@@ -4,6 +4,7 @@ import { For, JSX, createEffect, createSignal, createUniqueId, onMount } from 's
 import MapGL, { Layer, Marker, Source, Viewport } from 'solid-map-gl';
 
 import 'maplibre-gl/dist/maplibre-gl.css';
+import { getLetsConfig } from '../utils/lets-config';
 
 // cspell:words maplibre maplibregl
 
@@ -14,17 +15,20 @@ export type MapMarker = {
 };
 
 type MapProps = {
-  center: [lng: number, lat: number];
-  zoom: number;
+  center?: [lng: number, lat: number];
+  zoom?: number;
   markers?: Array<MapMarker>;
   class?: string;
 };
 
 export function Map(props: MapProps) {
   const id = createUniqueId();
+  const config = getLetsConfig();
 
   const [viewport, setViewport] = createSignal<Viewport>({
+    // eslint-disable-next-line solid/reactivity
     center: props.center,
+    // eslint-disable-next-line solid/reactivity
     zoom: props.zoom,
     id,
   });
@@ -35,6 +39,16 @@ export function Map(props: MapProps) {
       zoom: props.zoom,
       id,
     });
+  });
+
+  createEffect(() => {
+    if (viewport().center === undefined && config() !== undefined) {
+      setViewport({
+        center: config()?.map.center,
+        zoom: config()?.map.zoom,
+        id,
+      });
+    }
   });
 
   const [fade, setFade] = createSignal<number>(0);

@@ -71,8 +71,8 @@ export function AddressSearch(props: AddressSearchProps) {
       />
 
       <Map
-        center={props.value?.position ?? [5.042, 43.836]}
-        zoom={props.value?.position ? 14 : 11}
+        center={props.value?.position}
+        zoom={props.value?.position ? 14 : undefined}
         class={clsx('grow rounded-lg shadow', props.mapClass)}
         markers={props.value?.position ? [{ isPopupOpen: false, position: props.value.position }] : undefined}
       />

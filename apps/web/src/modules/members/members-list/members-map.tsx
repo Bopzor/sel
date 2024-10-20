@@ -27,11 +27,7 @@ export function MembersMap(props: MemberMapProps) {
 
   return (
     <div class="max-h-md grow">
-      <Map
-        center={props.openPopupMember?.address?.position ?? [5.042, 43.836]}
-        zoom={11}
-        markers={markers()}
-      />
+      <Map center={props.openPopupMember?.address?.position} markers={markers()} />
     </div>
   );
 }

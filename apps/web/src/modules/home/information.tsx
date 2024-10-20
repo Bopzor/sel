@@ -1,7 +1,7 @@
 import { type Information } from '@sel/shared';
 import { createQuery } from '@tanstack/solid-query';
-import { For, JSX, Show } from 'solid-js';
-import { DynamicProps, Dynamic } from 'solid-js/web';
+import { For, Show } from 'solid-js';
+import { Dynamic, DynamicProps } from 'solid-js/web';
 
 import { Link } from '../../components/link';
 import { MemberAvatarName } from '../../components/member-avatar-name';

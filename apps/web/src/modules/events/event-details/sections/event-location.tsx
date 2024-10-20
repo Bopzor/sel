@@ -37,7 +37,7 @@ export function EventLocation(props: { event: Event }) {
 function NoLocation() {
   return (
     <>
-      <Map zoom={13} class="pointer-events-none h-48 flex-1 opacity-50 grayscale" center={[5.042, 43.836]} />
+      <Map class="pointer-events-none h-48 flex-1 opacity-50 grayscale" />
 
       <div class="mt-4 text-center text-lg font-semibold text-dim">
         <T id="locationToBeDefined" />

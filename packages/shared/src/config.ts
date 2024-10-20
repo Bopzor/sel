@@ -3,4 +3,8 @@ export type Config = {
   logoUrl: string;
   currency: string;
   currencyPlural: string;
+  map: {
+    center: [lng: number, lat: number];
+    zoom: number;
+  };
 };

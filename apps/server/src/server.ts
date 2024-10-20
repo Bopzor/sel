@@ -79,7 +79,15 @@ const health: RequestHandler = (req, res) => {
 const configHandler: RequestHandler = async (req, res) => {
   const config = defined(await db.query.config.findFirst());
 
-  res.json(pick(config, ['letsName', 'logoUrl', 'currency', 'currencyPlural']) satisfies Config);
+  const result: Config = {
+    ...pick(config, ['letsName', 'logoUrl', 'currency', 'currencyPlural']),
+    map: {
+      center: [config.mapLongitude, config.mapLatitude],
+      zoom: Number(config.mapZoom),
+    },
+  };
+
+  res.json(result);
   res.end();
 };
 
