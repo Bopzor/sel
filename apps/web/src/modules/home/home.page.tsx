@@ -1,5 +1,3 @@
-import { Information } from '@sel/shared';
-import { createQuery } from '@tanstack/solid-query';
 import clsx from 'clsx';
 import { Icon } from 'solid-heroicons';
 import {
@@ -11,22 +9,25 @@ import {
   users,
   wrench,
 } from 'solid-heroicons/solid';
-import { ComponentProps, createSignal, For, JSX, Show } from 'solid-js';
-import { Dynamic, DynamicProps } from 'solid-js/web';
+import { ComponentProps, createSignal, JSX, Show } from 'solid-js';
 
 import { Button } from '../../components/button';
+import { Collapse } from '../../components/collapse';
 import { Link } from '../../components/link';
-import { MemberAvatarName } from '../../components/member-avatar-name';
-import { RichText } from '../../components/rich-text';
-import { container } from '../../infrastructure/container';
 import { Translate } from '../../intl/translate';
 import { routes } from '../../routes';
-import { TOKENS } from '../../tokens';
 import { InformationForm } from '../information/information-form';
+
+import { CreateMessageTypeSelector } from './create-message-type-selector';
+import { Information } from './information';
 
 const T = Translate.prefix('home');
 
 export default function HomePage() {
+  const [resourceCreationState, setResourceCreationState] = createSignal<
+    'type-selector' | 'information' | 'news'
+  >();
+
   return (
     <div>
       <PreviewBanner />
@@ -77,8 +78,49 @@ export default function HomePage() {
           />
         </div>
 
-        <div class="flex-1">
-          <News />
+        <div class="grow">
+          <div class="col gap-6">
+            <div class="row items-center justify-between gap-4">
+              <h2 class="typo-h1">
+                <T id="information.title" />
+              </h2>
+
+              <Button
+                variant={resourceCreationState() === undefined ? 'primary' : 'secondary'}
+                onClick={() => {
+                  setResourceCreationState(
+                    resourceCreationState() === undefined ? 'type-selector' : undefined,
+                  );
+                }}
+              >
+                <Show
+                  when={resourceCreationState() === undefined}
+                  fallback={<Translate id="common.cancel" />}
+                >
+                  <T id="createMessage.cta" />
+                </Show>
+              </Button>
+            </div>
+
+            <div>
+              <Collapse open={resourceCreationState() === 'type-selector'}>
+                <CreateMessageTypeSelector
+                  onCreateInformation={() => setResourceCreationState('information')}
+                  onCreateNews={() => setResourceCreationState('news')}
+                />
+              </Collapse>
+
+              <Show when={resourceCreationState() === 'information' || resourceCreationState() === 'news'}>
+                <InformationForm
+                  isPin={resourceCreationState() === 'news'}
+                  onSubmitted={() => setResourceCreationState(undefined)}
+                  class="ms-10"
+                />
+              </Show>
+            </div>
+
+            <Information />
+          </div>
         </div>
       </div>
     </div>
@@ -138,90 +180,5 @@ function LinkCard(props: LinkCardProps) {
         </div>
       </div>
     </Link>
-  );
-}
-
-function News() {
-  const [messageFormVisible, setMessageFormVisible] = createSignal(false);
-  const api = container.resolve(TOKENS.api);
-
-  const query = createQuery(() => ({
-    queryKey: ['listInformation'],
-    queryFn: () => api.listInformation({}),
-  }));
-
-  const pinMessages = () => {
-    return query.data?.pin ?? [];
-  };
-
-  const notPinMessages = () => {
-    return query.data?.notPin ?? [];
-  };
-
-  return (
-    <div class="col gap-6">
-      <div class="row items-center justify-between gap-4">
-        <h2 class="typo-h1">
-          <T id="news.title" />
-        </h2>
-
-        <Button classList={{ hidden: messageFormVisible() }} onClick={() => setMessageFormVisible(true)}>
-          <T id="news.createInformation" />
-        </Button>
-      </div>
-
-      <Show when={messageFormVisible()}>
-        <InformationForm
-          onCancel={() => setMessageFormVisible(false)}
-          onSubmitted={() => setMessageFormVisible(false)}
-          class="ms-10"
-        />
-      </Show>
-
-      <For each={pinMessages()}>{(message) => <InformationItem message={message} />}</For>
-
-      <Show when={pinMessages().length > 0 && notPinMessages().length > 0}>
-        <hr class="my-4" />
-      </Show>
-
-      <For each={notPinMessages()} fallback={<T id="news.informationEmpty" />}>
-        {(message) => <InformationItem message={message} />}
-      </For>
-    </div>
-  );
-}
-
-function InformationItem(props: { message: Information }) {
-  const authorComponentProps = (): DynamicProps<'div' | typeof Link> => {
-    const author = props.message.author;
-
-    if (author === undefined) {
-      return { component: 'div' };
-    }
-
-    return {
-      component: Link,
-      unstyled: true,
-      href: routes.members.member(author.id),
-    };
-  };
-
-  return (
-    <div class="col gap-3">
-      <div class="row items-end justify-between gap-4">
-        <Dynamic class="row items-center gap-2" {...authorComponentProps()}>
-          <MemberAvatarName
-            genericLetsMember={props.message.author === undefined}
-            member={props.message.author}
-          />
-        </Dynamic>
-
-        <div class="text-sm text-dim">
-          <T id="news.publishedAt" values={{ date: new Date(props.message.publishedAt) }} />
-        </div>
-      </div>
-
-      <RichText class="col ms-10 flex-1 gap-2 rounded-lg bg-neutral p-6">{props.message.body}</RichText>
-    </div>
   );
 }

@@ -17,23 +17,28 @@ import { createErrorMap } from '../../utils/zod-error-map';
 
 const T = Translate.prefix('information.form');
 
-export function InformationForm(props: { onCancel: () => void; onSubmitted: () => void; class?: string }) {
+type InformationFormProps = {
+  isPin: boolean;
+  onSubmitted: () => void;
+  class?: string;
+};
+
+export function InformationForm(props: InformationFormProps) {
   const t = T.useTranslation();
   const queryClient = useQueryClient();
   const api = container.resolve(TOKENS.api);
   const authenticatedMember = getAuthenticatedMember();
 
   // @ts-expect-error solidjs directive
-  const { form, setData, data, errors, isSubmitting } = createForm({
+  const { form, setData, errors, isSubmitting } = createForm({
     initialValues: {
       body: '',
-      isPin: false,
     },
     validate: validateSchema(createInformationBodySchema, {
       errorMap: createErrorMap(),
     }),
     async onSubmit(values) {
-      await api.createInformation({ body: values });
+      await api.createInformation({ body: { ...values, isPin: props.isPin } });
     },
     async onSuccess() {
       await queryClient.invalidateQueries({ queryKey: ['listInformation'] });
@@ -45,7 +50,7 @@ export function InformationForm(props: { onCancel: () => void; onSubmitted: () =
   return (
     <div class="col gap-3">
       <div class="row items-center gap-2">
-        <MemberAvatarName genericLetsMember={data('isPin')} member={authenticatedMember()} />
+        <MemberAvatarName genericLetsMember={props.isPin} member={authenticatedMember()} />
       </div>
 
       <form use:form class={clsx('col gap-2', props.class)}>
@@ -53,22 +58,9 @@ export function InformationForm(props: { onCancel: () => void; onSubmitted: () =
           <RichEditor placeholder={t('placeholder')} onChange={(html) => setData('body', html)} />
         </FormField>
 
-        <div class="row items-center gap-4">
-          <div class="me-auto">
-            <label class="row items-center gap-2 font-medium text-dim">
-              <input name="isPin" type="checkbox" />
-              Actualité
-            </label>
-          </div>
-
-          <Button variant="secondary" onClick={() => props.onCancel()}>
-            <Translate id="common.cancel" />
-          </Button>
-
-          <Button type="submit" loading={isSubmitting()}>
-            <Translate id="common.publish" />
-          </Button>
-        </div>
+        <Button type="submit" loading={isSubmitting()} class="ms-auto">
+          <Translate id="common.publish" />
+        </Button>
       </form>
     </div>
   );

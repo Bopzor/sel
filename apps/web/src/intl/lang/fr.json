@@ -154,9 +154,19 @@
       "label": "Divers",
       "description": "Informations et liens utiles."
     },
-    "news": {
+    "createMessage": {
+      "cta": "Publier un message",
+      "requestTitle": "Nouvelle demande",
+      "requestDescription": "Coup de main, co-voiturage, prêts, ...",
+      "eventTitle": "Nouvel événement",
+      "eventDescription": "Soirée jeux, randonnée, sortie vélo, ...",
+      "informationTitle": "Publier une information",
+      "informationDescription": "Concert, recette, information diverses, ...",
+      "newsTitle": "Publier une actualité",
+      "newsDescription": "Vie du SEL, conseils d'animation, ..."
+    },
+    "information": {
       "title": "Actualités",
-      "createInformation": "Publier un message",
       "informationEmpty": "Aucune information n'a été publiée pour le moment.",
       "publishedAt": "Le {date, date, medium} à {date, time, short}"
     },
