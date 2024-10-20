@@ -1,14 +1,6 @@
 import clsx from 'clsx';
 import { Icon } from 'solid-heroicons';
-import {
-  calendar,
-  exclamationTriangle,
-  handRaised,
-  sparkles,
-  star,
-  users,
-  wrench,
-} from 'solid-heroicons/solid';
+import { calendar, handRaised, sparkles, star, users, wrench } from 'solid-heroicons/solid';
 import { ComponentProps, createSignal, JSX, Show } from 'solid-js';
 
 import { Button } from '../../components/button';
@@ -29,122 +21,91 @@ export default function HomePage() {
   >();
 
   return (
-    <div>
-      <PreviewBanner />
+    <div class="col lg:row gap-8 py-16 lg:items-start">
+      <div class="grid grid-cols-1 gap-6 lg:max-w-sm">
+        <LinkCard
+          href={routes.members.list}
+          label={<T id="members.label" />}
+          description={<T id="members.description" />}
+          icon={users}
+        />
 
-      <div class="col lg:row gap-8 py-16 lg:items-start">
-        <div class="grid grid-cols-1 gap-6 lg:max-w-sm">
-          <LinkCard
-            href={routes.members.list}
-            label={<T id="members.label" />}
-            description={<T id="members.description" />}
-            icon={users}
-          />
+        <LinkCard
+          href={routes.requests.list}
+          label={<T id="requests.label" />}
+          description={<T id="requests.description" />}
+          icon={handRaised}
+        />
 
-          <LinkCard
-            href={routes.requests.list}
-            label={<T id="requests.label" />}
-            description={<T id="requests.description" />}
-            icon={handRaised}
-          />
+        <LinkCard
+          href={routes.events.list}
+          label={<T id="events.label" />}
+          description={<T id="events.description" />}
+          icon={calendar}
+        />
 
-          <LinkCard
-            href={routes.events.list}
-            label={<T id="events.label" />}
-            description={<T id="events.description" />}
-            icon={calendar}
-          />
+        <LinkCard
+          href={routes.interests}
+          label={<T id="interests.label" />}
+          description={<T id="interests.description" />}
+          icon={sparkles}
+        />
 
-          <LinkCard
-            href={routes.interests}
-            label={<T id="interests.label" />}
-            description={<T id="interests.description" />}
-            icon={sparkles}
-          />
+        <LinkCard
+          href={routes.assets.home}
+          label={<T id="assets.label" />}
+          description={<T id="assets.description" />}
+          icon={wrench}
+          class="!hidden"
+        />
 
-          <LinkCard
-            href={routes.assets.home}
-            label={<T id="assets.label" />}
-            description={<T id="assets.description" />}
-            icon={wrench}
-            class="!hidden"
-          />
+        <LinkCard
+          href={routes.misc}
+          label={<T id="misc.label" />}
+          description={<T id="misc.description" />}
+          icon={star}
+        />
+      </div>
 
-          <LinkCard
-            href={routes.misc}
-            label={<T id="misc.label" />}
-            description={<T id="misc.description" />}
-            icon={star}
-          />
-        </div>
+      <div class="grow">
+        <div class="col gap-6">
+          <div class="row items-center justify-between gap-4">
+            <h2 class="typo-h1">
+              <T id="information.title" />
+            </h2>
 
-        <div class="grow">
-          <div class="col gap-6">
-            <div class="row items-center justify-between gap-4">
-              <h2 class="typo-h1">
-                <T id="information.title" />
-              </h2>
-
-              <Button
-                variant={resourceCreationState() === undefined ? 'primary' : 'secondary'}
-                onClick={() => {
-                  setResourceCreationState(
-                    resourceCreationState() === undefined ? 'type-selector' : undefined,
-                  );
-                }}
-              >
-                <Show
-                  when={resourceCreationState() === undefined}
-                  fallback={<Translate id="common.cancel" />}
-                >
-                  <T id="createMessage.cta" />
-                </Show>
-              </Button>
-            </div>
-
-            <div>
-              <Collapse open={resourceCreationState() === 'type-selector'}>
-                <CreateMessageTypeSelector
-                  onCreateInformation={() => setResourceCreationState('information')}
-                  onCreateNews={() => setResourceCreationState('news')}
-                />
-              </Collapse>
-
-              <Show when={resourceCreationState() === 'information' || resourceCreationState() === 'news'}>
-                <InformationForm
-                  isPin={resourceCreationState() === 'news'}
-                  onSubmitted={() => setResourceCreationState(undefined)}
-                  class="ms-10"
-                />
+            <Button
+              variant={resourceCreationState() === undefined ? 'primary' : 'secondary'}
+              onClick={() => {
+                setResourceCreationState(resourceCreationState() === undefined ? 'type-selector' : undefined);
+              }}
+            >
+              <Show when={resourceCreationState() === undefined} fallback={<Translate id="common.cancel" />}>
+                <T id="createMessage.cta" />
               </Show>
-            </div>
-
-            <Information />
+            </Button>
           </div>
+
+          <div>
+            <Collapse open={resourceCreationState() === 'type-selector'}>
+              <CreateMessageTypeSelector
+                onCreateInformation={() => setResourceCreationState('information')}
+                onCreateNews={() => setResourceCreationState('news')}
+              />
+            </Collapse>
+
+            <Show when={resourceCreationState() === 'information' || resourceCreationState() === 'news'}>
+              <InformationForm
+                isPin={resourceCreationState() === 'news'}
+                onSubmitted={() => setResourceCreationState(undefined)}
+                class="ms-10"
+              />
+            </Show>
+          </div>
+
+          <Information />
         </div>
       </div>
-    </div>
-  );
-}
-
-function PreviewBanner() {
-  return (
-    <div class="mt-4 rounded border border-yellow-600 p-4">
-      <h2 class="row items-center gap-2">
-        <Icon path={exclamationTriangle} class="inline-block size-6 text-yellow-600" />
-        Attention
-      </h2>
-
-      <p>
-        Ce site est en cours de développement, les demandes, événements, et toutes autres informations sont
-        des <strong>données de test</strong>. Vous pouvez bien sûr tester en créant des annonces et
-        commentaires fictifs.
-      </p>
-
-      <p>
-        Pour les annonces réelles du SEL, nous continuons à utiliser{' '}
-        <a href="https://selonnous.communityforge.net">https://selonnous.communityforge.net</a>.
-      </p>
     </div>
   );
 }
