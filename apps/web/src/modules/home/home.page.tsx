@@ -67,7 +67,7 @@ export default function HomePage() {
         />
       </div>
 
-      <div class="grow">
+      <div class="flex-1">
         <div class="col gap-6">
           <div class="row items-center justify-between gap-4">
             <h2 class="typo-h1">
