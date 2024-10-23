@@ -6,6 +6,10 @@ export interface Config {
     port: number;
   };
 
+  files: {
+    uploadDir: string;
+  };
+
   session: {
     secret: string;
     secure: boolean;
@@ -44,6 +48,10 @@ export function createEnvConfig(): Config {
     server: {
       host: getEnv('HOST'),
       port: getEnv('PORT', Number.parseInt),
+    },
+
+    files: {
+      uploadDir: getEnv('FILES_UPLOAD_DIR'),
     },
 
     session: {

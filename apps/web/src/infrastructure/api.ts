@@ -43,6 +43,7 @@ type EndpointConfig = {
   path?: Record<string, string>;
   query?: z.ZodSchema;
   body?: z.ZodSchema;
+  files?: Record<string, File>;
 };
 
 type EndpointParam<Config extends EndpointConfig> = OmitNever<{
@@ -103,6 +104,10 @@ export class Api {
     'post',
     '/session/notifications/register-device',
   );
+
+  // files
+
+  uploadFile = this.endpoint<string, { files: { file: File } }>('post', '/files/upload');
 
   // information
 
@@ -210,14 +215,22 @@ export class Api {
   private endpoint<Result, Config extends EndpointConfig = {}>(method: HttpMethod, path: string) {
     return async (config: EndpointParam<Config>): Promise<Result> => {
       const headers = new Headers();
-      let body: string | undefined;
+      const init: RequestInit = { method, headers };
 
       if ('body' in config) {
         headers.set('Content-Type', 'application/json');
-        body = JSON.stringify(config.body);
+        init.body = JSON.stringify(config.body);
       }
 
-      const response = await fetch(this.getUrl(path, config), { method, headers, body });
+      if ('files' in config) {
+        init.body = new FormData();
+
+        for (const [name, file] of Object.entries(config.files as Record<string, File>)) {
+          init.body.append(name, file);
+        }
+      }
+
+      const response = await fetch(this.getUrl(path, config), init);
 
       if (!response.ok) {
         throw new ApiError(response, await this.getBody(response));

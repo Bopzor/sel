@@ -22,7 +22,8 @@
       "bulletList": "Bullet list",
       "orderedList": "Number list",
       "link": "Link",
-      "linkTarget": "Link target:"
+      "linkTarget": "Link target:",
+      "upload": "Upload file"
     },
     "error": {
       "pageNotFound": "Page not found.",

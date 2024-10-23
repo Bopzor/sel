@@ -22,7 +22,8 @@
       "bulletList": "Liste à puces",
       "orderedList": "Liste numérotée",
       "link": "Lien",
-      "linkTarget": "Cible du lien :"
+      "linkTarget": "Cible du lien :",
+      "upload": "Envoyer un fichier"
     },
     "error": {
       "pageNotFound": "Page non trouvée.",
