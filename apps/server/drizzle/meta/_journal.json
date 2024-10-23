@@ -183,6 +183,13 @@
       "when": 1729437079421,
       "tag": "0025_add-config-map",
       "breakpoints": true
+    },
+    {
+      "idx": 26,
+      "version": "7",
+      "when": 1729680413860,
+      "tag": "0026_add-files-table",
+      "breakpoints": true
     }
   ]
 }

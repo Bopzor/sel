@@ -12,6 +12,7 @@ const vapidKeys = generateVAPIDKeys();
 
 const config: Config = {
   server: { host: '', port: 0 },
+  files: { uploadDir: '' },
   session: { secret: '', secure: false },
   app: { baseUrl: 'http://localhost' },
   database: { url: databaseUrl, debug: false },

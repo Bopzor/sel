@@ -15,6 +15,7 @@ import { TokenType } from './modules/authentication/authentication.entities';
 import { router as authentication } from './modules/authentication/authentication.router';
 import { router as session } from './modules/authentication/session.router';
 import { router as events } from './modules/event/event.router';
+import { router as files } from './modules/file/file.router';
 import { router as information } from './modules/information/information.router';
 import { router as interests } from './modules/interest/interest.router';
 import { router as members } from './modules/member/member.router';
@@ -36,6 +37,7 @@ export function server() {
   app.use('/config', isAuthenticated, configHandler);
   app.use('/authentication', authentication);
   app.use('/session', isAuthenticated, session);
+  app.use('/files', isAuthenticated, files);
   app.use('/events', isAuthenticated, events);
   app.use('/information', isAuthenticated, information);
   app.use('/interests', isAuthenticated, interests);

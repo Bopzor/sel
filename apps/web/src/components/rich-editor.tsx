@@ -1,4 +1,6 @@
+import { createMutation } from '@tanstack/solid-query';
 import { Editor } from '@tiptap/core';
+import Image from '@tiptap/extension-image';
 import Link from '@tiptap/extension-link';
 import Placeholder from '@tiptap/extension-placeholder';
 import Underline from '@tiptap/extension-underline';
@@ -7,14 +9,20 @@ import clsx from 'clsx';
 import { ValidComponent } from 'solid-js';
 import { Dynamic } from 'solid-js/web';
 import { createEditorTransaction, createTiptapEditor } from 'solid-tiptap';
+import ImageResize from 'tiptap-extension-resize-image';
 
-import IconBold from '../icons/bold.svg';
-import IconBulletList from '../icons/bullet-list.svg';
-import IconItalic from '../icons/italic.svg';
-import IconLink from '../icons/link.svg';
-import IconOrderedList from '../icons/ordered-list.svg';
-import IconUnderline from '../icons/underline.svg';
+import {
+  IconBold,
+  IconItalic,
+  IconLink,
+  IconListBullet,
+  IconNumberedList,
+  IconPaperClip,
+  IconUnderline,
+} from '../icons';
+import { container } from '../infrastructure/container';
 import { Translate } from '../intl/translate';
+import { TOKENS } from '../tokens';
 
 const T = Translate.prefix('common.richEditor');
 
@@ -34,6 +42,8 @@ export function createRichEditor(element: () => HTMLElement, props: CreateRichEd
       Placeholder.configure({
         placeholder: props.placeholder,
       }),
+      Image,
+      ImageResize,
     ],
     content: props.initialValue,
     editorProps: {
@@ -117,6 +127,9 @@ export function RichEditorToolbar(props: ToolbarProps) {
     }
   };
 
+  let fileInput!: HTMLInputElement;
+  const handleFileUpload = createFileUploadHandler(() => props.editor);
+
   return (
     <div class={clsx('row gap-1', props.class)}>
       <ToolbarItem
@@ -140,21 +153,37 @@ export function RichEditorToolbar(props: ToolbarProps) {
         onClick={() => props.editor?.chain().focus().toggleUnderline().run()}
       />
 
+      <ToolbarItem title={t('link')} icon={IconLink} isActive={isLink()} onClick={setLink} />
+
       <ToolbarItem
         title={t('bulletList')}
-        icon={IconBulletList}
+        icon={IconListBullet}
         isActive={isBulletList()}
         onClick={() => props.editor?.chain().focus().toggleBulletList().run()}
       />
 
       <ToolbarItem
         title={t('orderedList')}
-        icon={IconOrderedList}
+        icon={IconNumberedList}
         isActive={isOrderedList()}
         onClick={() => props.editor?.chain().focus().toggleOrderedList().run()}
       />
 
-      <ToolbarItem title={t('link')} icon={IconLink} isActive={isLink()} onClick={setLink} />
+      <ToolbarItem
+        title={t('upload')}
+        icon={IconPaperClip}
+        isActive={false}
+        onClick={() => fileInput.click()}
+      />
+
+      <form onSubmit={handleFileUpload} class="sr-only">
+        <input
+          ref={fileInput}
+          name="file"
+          type="file"
+          onChange={(event) => event.target.form?.requestSubmit()}
+        />
+      </form>
     </div>
   );
 }
@@ -178,7 +207,37 @@ function ToolbarItem(props: ToolbarItemProps) {
         'fill-primary bg-dim/10': props.isActive,
       }}
     >
-      <Dynamic component={props.icon} class="inline size-6" />
+      <Dynamic component={props.icon} class="size-5 text-dim transition-colors hover:text-text" />
     </button>
   );
+}
+
+function createFileUploadHandler(editor: () => Editor | undefined) {
+  const config = container.resolve(TOKENS.config);
+  const api = container.resolve(TOKENS.api);
+
+  const fileUpload = createMutation(() => ({
+    async mutationFn(file: File) {
+      return api.uploadFile({ files: { file } });
+    },
+    onSuccess(fileName) {
+      editor()
+        ?.chain()
+        .createParagraphNear()
+        .focus()
+        .setImage({ src: `${config.api.url}/files/${fileName}` })
+        .run();
+    },
+  }));
+
+  return (event: SubmitEvent) => {
+    event.preventDefault();
+
+    const form = event.target as HTMLFormElement;
+    const file = new FormData(form).get('file') as File;
+
+    fileUpload.mutate(file);
+
+    form.reset();
+  };
 }
