@@ -50,6 +50,7 @@ jobs:
           variables=(
             HOST=0.0.0.0
             PORT=3000
+            FILES_UPLOAD_DIR=/files
             SESSION_SECRET=@sel-staging-session-secret
             SESSION_SECURE=true
             APP_BASE_URL=${{ needs.environment.outputs.app-url }}
@@ -67,6 +68,9 @@ jobs:
           )
           IFS=, ; echo "env=${variables[*]}" >> $GITHUB_OUTPUT
 
+      - name: Create files volume
+        run: koyeb volume create ${{ needs.environment.outputs.name }} --region fra --size 1
+
       - name: Deploy server
         uses: koyeb/action-git-deploy@v1
         with:
@@ -80,6 +84,10 @@ jobs:
           service-ports: 3000:http
           service-routes: /api:3000
           service-env: ${{ steps.environment-variables.outputs.env }}
+
+      - name: Attach files volume
+        if: github.event.action == 'opened'
+        run: koyeb service update ${{ needs.environment.outputs.name }}/server --skip-build --volumes ${{ needs.environment.outputs.name }}:/files
 
   deploy-web:
     name: Deploy web
@@ -127,3 +135,6 @@ jobs:
         uses: koyeb/action-git-deploy/cleanup@v1
         with:
           app-name: ${{ needs.environment.outputs.name }}
+
+      - name: Delete files volume
+        run: koyeb volume delete ${{ needs.environment.outputs.name }}
