@@ -390,7 +390,8 @@
       "phoneNumberInvalid": "This phone number is invalid.",
       "bio": "Bio",
       "profilePicture": "Profile picture",
-      "profilePictureMessage": "Profile photo management is not yet available directly via the app. In the meantime, it is possible to change your image via <link>gravatar</link> (after registration).",
+      "profilePictureMessage": "To change your profile picture, click on the button bellow and select a file.",
+      "profilePictureChanged": "Profile picture changed successfully.",
       "saved": "Your profile information have been updated."
     },
     "address": {

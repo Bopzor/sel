@@ -51,6 +51,7 @@ describe('transactions service', () => {
     address: null,
     bio: null,
     phoneNumbers: [],
+    avatarId: null,
     notificationDelivery: [],
     balance: 0,
     membershipStartDate: createDate(),

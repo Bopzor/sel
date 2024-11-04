@@ -1,6 +1,9 @@
 import { UpdateMemberProfileData } from '@sel/shared';
+import { eq } from 'drizzle-orm';
 
 import { container } from 'src/infrastructure/container';
+import { NotFound } from 'src/infrastructure/http';
+import { db, schema } from 'src/persistence';
 import { TOKENS } from 'src/tokens';
 
 import { MemberInsert, MemberStatus, OnboardingCompletedEvent } from '../member.entities';
@@ -15,7 +18,10 @@ export async function updateMemberProfile(command: UpdateMemberProfileCommand): 
   const events = container.resolve(TOKENS.events);
 
   const { memberId, data } = command;
-  const { firstName, lastName, emailVisible, phoneNumbers, bio, address, onboardingCompleted } = data;
+  const { firstName, lastName, emailVisible, phoneNumbers, bio, address } = data;
+  const { avatarFileName, onboardingCompleted } = data;
+
+  const avatarFile = avatarFileName ? await getFile(avatarFileName) : undefined;
 
   const values: Partial<MemberInsert> = {
     firstName,
@@ -24,6 +30,7 @@ export async function updateMemberProfile(command: UpdateMemberProfileCommand): 
     phoneNumbers,
     bio,
     address,
+    avatarId: avatarFile?.id,
   };
 
   if (onboardingCompleted === true) {
@@ -39,4 +46,16 @@ export async function updateMemberProfile(command: UpdateMemberProfileCommand): 
   if (data.onboardingCompleted) {
     events.publish(new OnboardingCompletedEvent(memberId));
   }
+}
+
+async function getFile(fileName: string) {
+  const file = await db.query.files.findFirst({
+    where: eq(schema.files.name, fileName),
+  });
+
+  if (!file) {
+    throw new NotFound('File not found');
+  }
+
+  return file;
 }

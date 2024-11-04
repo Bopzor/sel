@@ -14,6 +14,7 @@ export type Member = {
   phoneNumbers: PhoneNumber[];
   bio?: string;
   address?: Address;
+  avatar?: string;
   membershipStartDate: string;
   balance: number;
   interests: MemberInterest[];
@@ -23,6 +24,7 @@ export type LightMember = {
   id: string;
   firstName: string;
   lastName: string;
+  avatar?: string;
 };
 
 export const createMember = createFactory<Member>(() => ({
@@ -46,10 +48,10 @@ export const createMemberBodySchema = z.object({
 });
 
 export const updateMemberProfileBodySchema = z.object({
-  firstName: z.string().trim().max(256),
-  lastName: z.string().trim().max(256),
-  emailVisible: z.boolean(),
-  phoneNumbers: z.array(z.object({ number: z.string().regex(/^0\d{9}$/), visible: z.boolean() })),
+  firstName: z.string().trim().max(256).optional(),
+  lastName: z.string().trim().max(256).optional(),
+  emailVisible: z.boolean().optional(),
+  phoneNumbers: z.array(z.object({ number: z.string().regex(/^0\d{9}$/), visible: z.boolean() })).optional(),
   bio: z.string().trim().max(4096).optional(),
   address: z
     .object({
@@ -61,8 +63,11 @@ export const updateMemberProfileBodySchema = z.object({
       position: z.tuple([z.number(), z.number()]).optional(),
     })
     .optional(),
+  avatarFileName: z.string().optional(),
   onboardingCompleted: z.boolean().optional(),
 });
+
+export type UpdateMemberProfileData = z.infer<typeof updateMemberProfileBodySchema>;
 
 export const notificationDeliveryBodySchema = z.object({
   email: z.boolean(),

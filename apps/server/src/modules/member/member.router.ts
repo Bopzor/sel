@@ -1,5 +1,4 @@
 import { AsyncLocalStorage } from 'node:async_hooks';
-import crypto from 'node:crypto';
 
 import * as shared from '@sel/shared';
 import { defined, pick } from '@sel/utils';
@@ -11,6 +10,7 @@ import { Forbidden, HttpStatus, NotFound } from 'src/infrastructure/http';
 import { db, schema } from 'src/persistence';
 import { TOKENS } from 'src/tokens';
 
+import { File } from '../file/file.entity';
 import { Interest, MemberInterest } from '../interest/interest.entities';
 
 import { changeNotificationDeliveryType } from './domain/change-notification-delivery-type.command';
@@ -58,6 +58,7 @@ router.get('/', async (req, res) => {
     where: eq(schema.members.status, MemberStatus.active),
     orderBy: sort ? orderBy[sort] : undefined,
     with: {
+      avatar: true,
       memberInterests: {
         with: { interest: true },
       },
@@ -82,6 +83,7 @@ router.get('/:memberId', async (req, res) => {
   const member = await db.query.members.findFirst({
     where: eq(schema.members.id, req.params.memberId),
     with: {
+      avatar: true,
       memberInterests: {
         with: { interest: true },
       },
@@ -89,16 +91,6 @@ router.get('/:memberId', async (req, res) => {
   });
 
   res.json(serializeMember(defined(member)));
-});
-
-router.get('/:memberId/avatar', (req, res) => {
-  const { email } = getMember();
-  const hash = crypto.createHash('sha256').update(email).digest('hex');
-
-  const search = new URL(req.url, `http://${req.hostname}`).search;
-  const url = `https://www.gravatar.com/avatar/${hash}${search}`;
-
-  res.status(HttpStatus.permanentRedirect).header('Location', url).end();
 });
 
 router.get('/:memberId/transactions', async (req, res) => {
@@ -140,7 +132,7 @@ router.put('/:memberId/notification-delivery', isAuthenticatedMember, async (req
 });
 
 function serializeMember(
-  member: Member & { memberInterests: Array<MemberInterest & { interest: Interest }> },
+  member: Member & { avatar: File | null; memberInterests: Array<MemberInterest & { interest: Interest }> },
 ): shared.Member {
   const compareMemberInterests = (a: shared.MemberInterest, b: shared.MemberInterest) => {
     return a.label.localeCompare(b.label);
@@ -154,6 +146,7 @@ function serializeMember(
     address: member.address ?? undefined,
     email: member.emailVisible ? member.email : undefined,
     phoneNumbers: member.phoneNumbers.filter(({ visible }) => visible),
+    avatar: member.avatar?.name,
     membershipStartDate: member.membershipStartDate?.toISOString(),
     balance: member.balance,
     interests: member.memberInterests.map(serializeMemberInterest).sort(compareMemberInterests),

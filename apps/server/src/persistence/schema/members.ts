@@ -1,11 +1,12 @@
 import * as shared from '@sel/shared';
 import { relations } from 'drizzle-orm';
-import { boolean, integer, json, pgEnum, pgTable, text, varchar } from 'drizzle-orm/pg-core';
+import { AnyPgColumn, boolean, integer, json, pgEnum, pgTable, text, varchar } from 'drizzle-orm/pg-core';
 
 import { MemberStatus } from 'src/modules/member/member.entities';
 
-import { createdAt, date, enumValues, primaryKey, updatedAt } from '../schema-utils';
+import { createdAt, date, enumValues, id, primaryKey, updatedAt } from '../schema-utils';
 
+import { files } from './files';
 import { membersInterests } from './interests';
 import { memberDevices, notificationDeliveryTypeEnum } from './notifications';
 
@@ -24,6 +25,7 @@ export const members = pgTable('members', {
     .default([]),
   bio: text('bio'),
   address: json('address').$type<shared.Address>(),
+  avatarId: id('avatar_id').references((): AnyPgColumn => files.id),
   membershipStartDate: date('membership_start_date').notNull().defaultNow(),
   notificationDelivery: notificationDeliveryTypeEnum('notification_delivery').array().notNull().default([]),
   balance: integer('balance').notNull().default(0),
@@ -31,7 +33,11 @@ export const members = pgTable('members', {
   updatedAt,
 });
 
-export const memberRelations = relations(members, ({ many }) => ({
+export const memberRelations = relations(members, ({ one, many }) => ({
+  avatar: one(files, {
+    fields: [members.avatarId],
+    references: [files.id],
+  }),
   memberInterests: many(membersInterests),
   devices: many(memberDevices),
 }));

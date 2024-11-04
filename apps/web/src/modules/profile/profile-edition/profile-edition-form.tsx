@@ -1,11 +1,17 @@
+import { assert } from '@sel/utils';
+import { createMutation } from '@tanstack/solid-query';
 import { Show, createSignal } from 'solid-js';
 
 import { FormField } from '../../../components/form-field';
 import { Input } from '../../../components/input';
 import { MemberAvatar } from '../../../components/member-avatar';
 import { TextArea } from '../../../components/text-area';
+import { useInvalidateApi } from '../../../infrastructure/api';
+import { container } from '../../../infrastructure/container';
 import { Translate } from '../../../intl/translate';
+import { TOKENS } from '../../../tokens';
 import { getAuthenticatedMember } from '../../../utils/authenticated-member';
+import { notify } from '../../../utils/notify';
 
 import { type ProfileEditionForm } from './profile-edition.page';
 import { ProfileFieldVisibility } from './profile-field-visibility';
@@ -90,22 +96,51 @@ function BioField(props: Pick<ProfileEditionForm, 'errors'>) {
 function ProfilePictureField() {
   const authenticatedMember = getAuthenticatedMember();
 
+  const t = T.useTranslation();
+  const invalidate = useInvalidateApi();
+
+  const api = container.resolve(TOKENS.api);
+
+  const mutation = createMutation(() => ({
+    async mutationFn(file: File) {
+      const fileName = await api.uploadFile({ files: { file } });
+
+      await api.updateMemberProfile({
+        path: { memberId: authenticatedMember()!.id },
+        body: { avatarFileName: fileName },
+      });
+    },
+    async onSuccess() {
+      await invalidate(['getAuthenticatedMember']);
+      notify.success(t('profilePictureChanged'));
+      input.value = '';
+    },
+  }));
+
+  let input!: HTMLInputElement;
+
   return (
     <FormField label={<T id="profilePicture" />}>
-      <div class="row items-center gap-2">
+      <div class="row items-center gap-4">
         <MemberAvatar member={authenticatedMember()} class="size-12 rounded-full" />
-        <p>
-          <T
-            id="profilePictureMessage"
-            values={{
-              link: (children) => (
-                <a target="_blank" href="https://fr.gravatar.com">
-                  {children}
-                </a>
-              ),
+
+        <div class="col gap-2">
+          <p>
+            <T id="profilePictureMessage" />
+          </p>
+
+          <input
+            ref={input}
+            type="file"
+            accept=".bmp,.gif,.jpg,.jpeg,.png"
+            onChange={(event) => {
+              const file = event.currentTarget.files?.[0];
+
+              assert(file instanceof File);
+              mutation.mutate(file);
             }}
           />
-        </p>
+        </div>
       </div>
     </FormField>
   );

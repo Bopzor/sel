@@ -59,6 +59,7 @@ describe('member', () => {
       phoneNumbers: [],
       bio: null,
       address: null,
+      avatarId: null,
       membershipStartDate: expect.any(Date),
       notificationDelivery: [],
       balance: 0,

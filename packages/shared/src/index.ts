@@ -12,5 +12,4 @@ export * from './phone-number';
 export * from './request';
 export * from './token';
 export * from './transaction';
-export * from './update-member-profile-data';
 export * from './update-notification-delivery-data';

@@ -387,7 +387,8 @@
       "phoneNumberInvalid": "Ce numéro de téléphone n'est pas valide.",
       "bio": "Présentation",
       "profilePicture": "Photo de profil",
-      "profilePictureMessage": "La gestion des photos de profil n'est pas encore disponible directement via l'app. En attendant, il est possible de changer son image via <link>gravatar</link> (après inscription).",
+      "profilePictureMessage": "Pour changer votre photos de profil, cliquez sur le bouton ci-dessous et sélectionnez un fichier.",
+      "profilePictureChanged": "Votre photo de profil a bien été mise à jour.",
       "saved": "Vos informations de profil ont bien été mises à jour."
     },
     "address": {
