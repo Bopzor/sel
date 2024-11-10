@@ -387,7 +387,7 @@
       "phoneNumberInvalid": "Ce numéro de téléphone n'est pas valide.",
       "bio": "Présentation",
       "profilePicture": "Photo de profil",
-      "profilePictureMessage": "Pour changer votre photos de profil, cliquez sur le bouton ci-dessous et sélectionnez un fichier.",
+      "profilePictureMessage": "Pour changer votre photo de profil, cliquez sur le bouton ci-dessous et sélectionnez un fichier.",
       "profilePictureChanged": "Votre photo de profil a bien été mise à jour.",
       "saved": "Vos informations de profil ont bien été mises à jour."
     },
