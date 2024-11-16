@@ -10,7 +10,7 @@ import { TOKENS } from 'src/tokens';
 
 import { Member } from '../member';
 
-import { createInformation } from './commands/create-information.command';
+import { createInformation } from './domain/create-information.command';
 import { Information } from './information.entities';
 
 export const router = express.Router();

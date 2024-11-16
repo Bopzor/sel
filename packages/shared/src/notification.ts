@@ -20,6 +20,8 @@ const notificationTypes = [
   'TransactionPending',
   'TransactionCompleted',
   'TransactionCanceled',
+  'InformationPublished',
+  'NewsPublished',
 ] as const;
 
 export type NotificationType = (typeof notificationTypes)[number];
@@ -228,5 +230,36 @@ export type NotificationData = {
       };
     };
     currencyAmount: string;
+  };
+
+  NewsPublished: {
+    member: {
+      firstName: string;
+    };
+    information: {
+      id: string;
+      letsName: string;
+      body: {
+        html: string;
+        text: string;
+      };
+    };
+  };
+
+  InformationPublished: {
+    member: {
+      firstName: string;
+    };
+    information: {
+      id: string;
+      author: {
+        id: string;
+        name: string;
+      };
+      body: {
+        html: string;
+        text: string;
+      };
+    };
   };
 };
