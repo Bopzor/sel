@@ -15,7 +15,7 @@ export const container = createContainer();
 container.bindFactory(TOKENS.analytics, MatomoAnalyticsAdapter.inject);
 container.bindFactory(TOKENS.api, Api.inject);
 container.bindFactory(TOKENS.config, EnvConfigAdapter.inject);
-container.bindValue(TOKENS.fetch, window.fetch);
+container.bindValue(TOKENS.fetch, window.fetch.bind(window));
 container.bindFactory(TOKENS.geocode, GeoapifyGeocodeAdapter.inject);
 container.bindFactory(TOKENS.notifications, ToastNotificationsAdapter.inject);
 container.bindFactory(TOKENS.pushSubscription, WebPushSubscriptionAdapter.inject);
