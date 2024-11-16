@@ -218,15 +218,32 @@ function createFileUploadHandler(editor: () => Editor | undefined) {
 
   const fileUpload = createMutation(() => ({
     async mutationFn(file: File) {
-      return api.uploadFile({ files: { file } });
+      const fileName = await api.uploadFile({ files: { file } });
+
+      return {
+        originalFileName: file.name,
+        fileName,
+      };
     },
-    onSuccess(fileName) {
-      editor()
-        ?.chain()
-        .createParagraphNear()
-        .focus()
-        .setImage({ src: `${config.api.url}/files/${fileName}` })
-        .run();
+    onSuccess({ originalFileName, fileName }) {
+      const chain = editor()?.chain();
+
+      if (!chain) {
+        return;
+      }
+
+      chain.createParagraphNear().focus().run();
+
+      if (fileName.endsWith('.pdf')) {
+        chain
+          .insertContent({ type: 'text', text: originalFileName })
+          .selectParentNode()
+          .setLink({ href: `${config.api.url}/files/${fileName}`, target: '_blank' });
+      } else {
+        chain.setImage({ src: `${config.api.url}/files/${fileName}` });
+      }
+
+      chain.run();
     },
   }));
 
