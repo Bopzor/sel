@@ -14,6 +14,7 @@ import { TOKENS } from 'src/tokens';
 import { Comment } from '../comment';
 import { Member } from '../member';
 import { createTransaction } from '../transaction/domain/create-transaction.command';
+import { Transaction } from '../transaction/transaction.entities';
 
 import { changeRequestStatus } from './domain/change-request-status.command';
 import { createRequestComment } from './domain/create-request-comment.command';
@@ -56,6 +57,7 @@ router.get('/', async (req, res) => {
           author: true,
         },
       },
+      transactions: true,
     },
     orderBy: [sql`position`, desc(schema.requests.createdAt)],
   });
@@ -78,6 +80,7 @@ router.get('/:requestId', async (req, res) => {
           author: true,
         },
       },
+      transactions: true,
     },
   });
 
@@ -154,7 +157,7 @@ router.post('/:requestId/answer', async (req, res) => {
   res.status(HttpStatus.noContent).end();
 });
 
-router.put('/:requestId/fulfill', isRequester, async (req, res) => {
+router.put('/:requestId/fulfil', isRequester, async (req, res) => {
   const requestId = req.params.requestId;
 
   await changeRequestStatus({
@@ -198,6 +201,7 @@ function serializeRequest(
     requester: Member;
     comments: Array<Comment & { author: Member }>;
     answers: Array<RequestAnswer & { member: Member }>;
+    transactions: Array<Transaction>;
   },
 ): shared.Request {
   const { requester, comments, answers } = request;
@@ -215,6 +219,7 @@ function serializeRequest(
     },
     title: request.title,
     body: request.html,
+    hasTransactions: request.transactions.length > 0,
     answers: answers.map((answer) => ({
       id: answer.id,
       member: {

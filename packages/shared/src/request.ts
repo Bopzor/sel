@@ -17,6 +17,7 @@ export type Request = {
   requester: Requester;
   title: string;
   body: string;
+  hasTransactions: boolean;
   answers: RequestAnswer[];
   comments: Comment[];
 };

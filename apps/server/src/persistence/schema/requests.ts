@@ -1,11 +1,12 @@
 import { RequestStatus } from '@sel/shared';
-import { sql, relations } from 'drizzle-orm';
+import { relations, sql } from 'drizzle-orm';
 import { pgEnum, pgTable, text, varchar } from 'drizzle-orm/pg-core';
 
-import { enumValues, id, createdAt, updatedAt, primaryKey, date } from '../schema-utils';
+import { createdAt, date, enumValues, id, primaryKey, updatedAt } from '../schema-utils';
 
 import { comments } from './comments';
 import { members } from './members';
+import { transactions } from './transactions';
 
 export const requestStatusEnum = pgEnum('request_status', enumValues(RequestStatus));
 
@@ -32,6 +33,7 @@ export const requestsRelations = relations(requests, ({ one, many }) => ({
   }),
   answers: many(requestAnswers),
   comments: many(comments),
+  transactions: many(transactions),
 }));
 
 export const requestAnswers = pgTable('request_answers', {

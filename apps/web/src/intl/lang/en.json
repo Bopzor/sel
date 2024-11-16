@@ -294,8 +294,17 @@
       "negative": "no"
     },
     "createExchange": "Create exchange",
+    "fulfil": "Fulfil request",
+    "fulfilled": "Your request was fulfilled",
     "cancel": "Cancel request",
-    "canceled": "Your request was canceled"
+    "canceled": "Your request was canceled",
+    "notPending": "This request is not pending",
+    "fulfilConfirmationDialog": {
+      "title": "Fulfil this request without exchange?",
+      "content": "No exchange was created from this request. Do you want to create one?",
+      "createExchange": "Yes, create exchange",
+      "fulfilRequest": "No, fulfil request"
+    }
   },
   "events": {
     "sentence1": "",

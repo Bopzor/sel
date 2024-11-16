@@ -133,6 +133,8 @@ export class Api {
 
   cancelRequest = this.endpoint<void, { path: { requestId: string } }>('put', '/requests/:requestId/cancel');
 
+  fulfilRequest = this.endpoint<void, { path: { requestId: string } }>('put', '/requests/:requestId/fulfil');
+
   setRequestAnswer = this.endpoint<
     void,
     { path: { requestId: string }; body: typeof setRequestAnswerBodySchema }

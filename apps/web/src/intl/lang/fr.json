@@ -255,7 +255,7 @@
     "newRequest": "Nouvelle demande",
     "status": {
       "pending": "En cours",
-      "fulfilled": "Terminée",
+      "fulfilled": "Clôturée",
       "canceled": "Annulée"
     },
     "numberOfPositiveAnswers": "({count} {count, plural, =1 {réponse positive} other {réponses positives}})",
@@ -294,8 +294,17 @@
       "negative": "non"
     },
     "createExchange": "Créer un échange",
+    "fulfil": "Clôturer la demande",
+    "fulfilled": "Votre demande a été clôturée",
     "cancel": "Annuler la demande",
-    "canceled": "Votre demande a été annulée"
+    "canceled": "Votre demande a été annulée",
+    "notPending": "Cette demande n'est plus en cours",
+    "fulfilConfirmationDialog": {
+      "title": "Clôturer la demande sans échange ?",
+      "content": "Aucun échange n'a été créé à partir de cette demande. Souhaitez-vous en créer un ?",
+      "createExchange": "Oui, créer un échange",
+      "fulfilRequest": "Non, clôturer la demande"
+    }
   },
   "events": {
     "list": {
