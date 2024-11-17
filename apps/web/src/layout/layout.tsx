@@ -1,3 +1,4 @@
+import { createMutation } from '@tanstack/solid-query';
 import { JSX, Show, createEffect, createResource, lazy } from 'solid-js';
 
 import { Link } from '../components/link';
@@ -52,8 +53,8 @@ function HeaderMember() {
 }
 
 function CheckDeviceRegistration() {
-  const subscription = container.resolve(TOKENS.pushSubscription);
-  const [registrationState] = createResource(() => subscription.getRegistrationState());
+  const pushSubscription = container.resolve(TOKENS.pushSubscription);
+  const [registrationState] = createResource(() => pushSubscription.getRegistrationState());
   const authenticatedMember = getAuthenticatedMember();
 
   createEffect(() => {
@@ -81,6 +82,18 @@ function CheckDeviceRegistration() {
         values={{ link: (children) => <Link href={routes.profile.settings}>{children}</Link> }}
       />,
     );
+  });
+
+  const registerDevice = createMutation(() => ({
+    async mutationFn() {
+      if ((await pushSubscription.getRegistrationState()) === 'granted') {
+        await pushSubscription.registerDevice();
+      }
+    },
+  }));
+
+  createEffect(() => {
+    registerDevice.mutate();
   });
 
   return null;

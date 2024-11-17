@@ -20,6 +20,29 @@ export class WebPushSubscriptionAdapter implements PushSubscriptionPort {
       throw new Error('no service worker');
     }
 
+    if (localStorage.getItem('device-registered') === 'true') {
+      return false;
+    }
+
+    const subscription = await this.getSubscription();
+
+    if (subscription === null) {
+      return false;
+    }
+
+    await this.api.registerDevice({
+      body: {
+        deviceType: detectDevice(),
+        subscription,
+      },
+    });
+
+    localStorage.setItem('device-registered', 'true');
+
+    return true;
+  }
+
+  private async getSubscription(): Promise<PushSubscription | null> {
     const pushManager = await this.pushManager();
     let subscription = await pushManager.getSubscription();
 
@@ -31,18 +54,7 @@ export class WebPushSubscriptionAdapter implements PushSubscriptionPort {
       //
     }
 
-    if ((await pushManager.permissionState(this.options)) !== 'granted') {
-      return false;
-    }
-
-    await this.api.registerDevice({
-      body: {
-        deviceType: detectDevice(),
-        subscription,
-      },
-    });
-
-    return true;
+    return subscription;
   }
 
   private get options(): PushSubscriptionOptionsInit {
