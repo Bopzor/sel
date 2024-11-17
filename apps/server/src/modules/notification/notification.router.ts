@@ -6,7 +6,7 @@ import { getAuthenticatedMember } from 'src/infrastructure/session';
 
 import { registerDevice } from './domain/register-device.command';
 
-const router = express.Router();
+export const router = express.Router();
 
 router.post('/register-device', async (req, res) => {
   const member = getAuthenticatedMember();

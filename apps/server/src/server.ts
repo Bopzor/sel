@@ -19,6 +19,7 @@ import { router as files } from './modules/file/file.router';
 import { router as information } from './modules/information/information.router';
 import { router as interests } from './modules/interest/interest.router';
 import { router as members } from './modules/member/member.router';
+import { router as sessionNotifications } from './modules/notification/notification.router';
 import { router as requests } from './modules/request/request.router';
 import { router as transactions } from './modules/transaction/transaction.router';
 import { db, schema } from './persistence';
@@ -37,6 +38,7 @@ export function server() {
   app.use('/config', isAuthenticated, configHandler);
   app.use('/authentication', authentication);
   app.use('/session', isAuthenticated, session);
+  app.use('/session/notifications', isAuthenticated, sessionNotifications);
   app.use('/files', isAuthenticated, files);
   app.use('/events', isAuthenticated, events);
   app.use('/information', isAuthenticated, information);
