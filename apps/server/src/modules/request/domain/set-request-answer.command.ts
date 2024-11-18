@@ -1,5 +1,5 @@
 import { RequestStatus } from '@sel/shared';
-import { eq } from 'drizzle-orm';
+import { and, eq } from 'drizzle-orm';
 
 import { container } from 'src/infrastructure/container';
 import { BadRequest, NotFound } from 'src/infrastructure/http';
@@ -38,11 +38,11 @@ export async function setRequestAnswer(command: SetRequestAnswerCommand): Promis
   }
 
   if (memberId === request.requesterId) {
-    throw new BadRequest('Request is not pending');
+    throw new BadRequest('Member is not requester');
   }
 
   const requestAnswer = await db.query.requestAnswers.findFirst({
-    where: eq(schema.requestAnswers.requestId, requestId),
+    where: and(eq(schema.requestAnswers.requestId, requestId), eq(schema.requestAnswers.memberId, memberId)),
   });
 
   if (answer !== null) {
