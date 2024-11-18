@@ -74,7 +74,7 @@ export async function setRequestAnswer(command: SetRequestAnswerCommand): Promis
   }
 
   if (requestAnswer && answer === null) {
-    await db.delete(schema.requestAnswers).where(eq(schema.requestAnswers, requestAnswer.id));
+    await db.delete(schema.requestAnswers).where(eq(schema.requestAnswers.id, requestAnswer.id));
     events.publish(new RequestAnswerDeletedEvent(request.id, { requestAnswerId: requestAnswer.id }));
   }
 

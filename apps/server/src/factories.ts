@@ -1,8 +1,10 @@
+import { RequestStatus } from '@sel/shared';
 import { createDate, createFactory, createId } from '@sel/utils';
 
 import { TokenInsert, TokenType } from './modules/authentication/authentication.entities';
 import { InterestInsert } from './modules/interest/interest.entities';
 import { MemberInsert, MemberStatus } from './modules/member/member.entities';
+import { RequestInsert } from './modules/request/request.entities';
 
 export const insert = {
   token: createFactory<TokenInsert>(() => ({
@@ -18,7 +20,7 @@ export const insert = {
     status: MemberStatus.active,
     firstName: '',
     lastName: '',
-    email: '',
+    email: createId(),
     emailVisible: false,
   })),
 
@@ -26,5 +28,14 @@ export const insert = {
     id: createId(),
     label: '',
     description: '',
+  })),
+
+  request: createFactory<RequestInsert>(() => ({
+    id: createId(),
+    status: RequestStatus.pending,
+    requesterId: '',
+    title: '',
+    text: '',
+    html: '',
   })),
 };

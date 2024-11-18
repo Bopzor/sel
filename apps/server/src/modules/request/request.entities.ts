@@ -27,4 +27,6 @@ export class RequestAnswerChangedEvent extends DomainEvent<{
   answer: RequestAnswer['answer'] | null;
 }> {}
 
-export class RequestAnswerDeletedEvent extends DomainEvent<{ requestAnswerId: string }> {}
+export class RequestAnswerDeletedEvent extends DomainEvent<{
+  requestAnswerId: string;
+}> {}
