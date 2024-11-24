@@ -69,7 +69,7 @@ describe('member', () => {
       membershipStartDate: expect.any(Date),
       notificationDelivery: [],
       balance: 0,
-      roles: [],
+      roles: [shared.MemberRole.member],
       createdAt: expect.any(Date),
       updatedAt: expect.any(Date),
     });

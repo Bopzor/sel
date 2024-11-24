@@ -23,6 +23,7 @@ export async function createMember(command: CreateMemberCommand): Promise<void> 
     lastName: command.lastName ?? '',
     email: command.email,
     emailVisible: false,
+    roles: [shared.MemberRole.member],
   });
 
   events.publish(new MemberCreatedEvent(command.memberId));
