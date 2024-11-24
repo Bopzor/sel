@@ -16,7 +16,7 @@ import { Interest, MemberInterest } from '../interest/interest.entities';
 import { changeNotificationDeliveryType } from './domain/change-notification-delivery-type.command';
 import { createMember } from './domain/create-member.command';
 import { updateMemberProfile } from './domain/update-member-profile.command';
-import { Member, MemberStatus } from './member.entities';
+import { Member } from './member.entities';
 import { findMemberById } from './member.persistence';
 
 export const router = express.Router();
@@ -55,7 +55,7 @@ router.get('/', async (req, res) => {
   };
 
   const members = await db.query.members.findMany({
-    where: eq(schema.members.status, MemberStatus.active),
+    where: eq(schema.members.status, shared.MemberStatus.active),
     orderBy: sort ? orderBy[sort] : undefined,
     with: {
       avatar: true,

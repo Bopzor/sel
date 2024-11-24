@@ -10,7 +10,7 @@ import { db, schema } from 'src/persistence';
 
 import { File } from '../file/file.entity';
 import { Interest, MemberInterest } from '../interest/interest.entities';
-import { Member, MemberStatus } from '../member/member.entities';
+import { Member } from '../member/member.entities';
 import { NotificationDeliveryType } from '../notification/notification.entities';
 
 import { revokeSessionToken } from './domain/revoke-session-token.command';
@@ -59,7 +59,7 @@ function serializeAuthenticatedMember(
     bio: member.bio ?? undefined,
     address: member.address ?? undefined,
     avatar: member.avatar?.name,
-    onboardingCompleted: member.status !== MemberStatus.onboarding,
+    onboardingCompleted: member.status !== shared.MemberStatus.onboarding,
     notificationDelivery: {
       email: member.notificationDelivery.includes(NotificationDeliveryType.email),
       push: member.notificationDelivery.includes(NotificationDeliveryType.push),

@@ -1,9 +1,9 @@
-import { RequestStatus } from '@sel/shared';
+import * as shared from '@sel/shared';
 import { createDate, createFactory, createId } from '@sel/utils';
 
 import { TokenInsert, TokenType } from './modules/authentication/authentication.entities';
 import { InterestInsert } from './modules/interest/interest.entities';
-import { MemberInsert, MemberStatus } from './modules/member/member.entities';
+import { MemberInsert } from './modules/member/member.entities';
 import { RequestInsert } from './modules/request/request.entities';
 
 export const insert = {
@@ -17,7 +17,7 @@ export const insert = {
 
   member: createFactory<MemberInsert>(() => ({
     id: createId(),
-    status: MemberStatus.active,
+    status: shared.MemberStatus.active,
     firstName: '',
     lastName: '',
     email: createId(),
@@ -32,7 +32,7 @@ export const insert = {
 
   request: createFactory<RequestInsert>(() => ({
     id: createId(),
-    status: RequestStatus.pending,
+    status: shared.RequestStatus.pending,
     requesterId: '',
     title: '',
     text: '',

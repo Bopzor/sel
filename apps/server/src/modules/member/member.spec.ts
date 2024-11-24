@@ -1,4 +1,4 @@
-import { UpdateMemberProfileData } from '@sel/shared';
+import * as shared from '@sel/shared';
 import { createFactory } from '@sel/utils';
 import { beforeAll, beforeEach, describe, expect, it } from 'vitest';
 
@@ -11,13 +11,7 @@ import { TOKENS } from 'src/tokens';
 
 import { createMember } from './domain/create-member.command';
 import { updateMemberProfile } from './domain/update-member-profile.command';
-import {
-  Member,
-  MemberCreatedEvent,
-  MemberInsert,
-  MemberStatus,
-  OnboardingCompletedEvent,
-} from './member.entities';
+import { Member, MemberCreatedEvent, MemberInsert, OnboardingCompletedEvent } from './member.entities';
 import { findMemberById } from './member.persistence';
 
 describe('member', () => {
@@ -35,7 +29,7 @@ describe('member', () => {
     return db.insert(schema.members).values(insert.member(values)).execute();
   }
 
-  const createUpdateProfileData = createFactory<UpdateMemberProfileData>(() => ({
+  const createUpdateProfileData = createFactory<shared.UpdateMemberProfileData>(() => ({
     firstName: '',
     lastName: '',
     emailVisible: true,
@@ -51,7 +45,7 @@ describe('member', () => {
 
     expect(await findMemberById('memberId')).toEqual<Member>({
       id: 'memberId',
-      status: MemberStatus.onboarding,
+      status: shared.MemberStatus.onboarding,
       firstName: '',
       lastName: '',
       email: 'me@domain.tld',
@@ -91,7 +85,7 @@ describe('member', () => {
   it("updates a member's profile", async () => {
     await saveMember({ id: 'memberId' });
 
-    const data: UpdateMemberProfileData = {
+    const data: shared.UpdateMemberProfileData = {
       firstName: 'First',
       lastName: 'Last',
       emailVisible: true,
@@ -114,29 +108,29 @@ describe('member', () => {
   });
 
   it("set the member's status to active when onboarding is completed", async () => {
-    await saveMember({ id: 'memberId', status: MemberStatus.onboarding });
+    await saveMember({ id: 'memberId', status: shared.MemberStatus.onboarding });
 
     await updateMemberProfile({
       memberId: 'memberId',
       data: createUpdateProfileData({ onboardingCompleted: true }),
     });
 
-    expect(await findMemberById('memberId')).toHaveProperty('status', MemberStatus.active);
+    expect(await findMemberById('memberId')).toHaveProperty('status', shared.MemberStatus.active);
   });
 
   it("set the member's status to onboarding when onboardingCompleted is set to false", async () => {
-    await saveMember({ id: 'memberId', status: MemberStatus.active });
+    await saveMember({ id: 'memberId', status: shared.MemberStatus.active });
 
     await updateMemberProfile({
       memberId: 'memberId',
       data: createUpdateProfileData({ onboardingCompleted: false }),
     });
 
-    expect(await findMemberById('memberId')).toHaveProperty('status', MemberStatus.onboarding);
+    expect(await findMemberById('memberId')).toHaveProperty('status', shared.MemberStatus.onboarding);
   });
 
   it('triggers a domain event when the onboarding was completed', async () => {
-    await saveMember({ id: 'memberId', status: MemberStatus.onboarding });
+    await saveMember({ id: 'memberId', status: shared.MemberStatus.onboarding });
 
     await updateMemberProfile({
       memberId: 'memberId',

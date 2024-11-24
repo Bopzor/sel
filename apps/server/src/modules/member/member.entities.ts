@@ -3,12 +3,6 @@ import { type schema } from 'src/persistence';
 
 import { NotificationDeliveryType } from '../notification/notification.entities';
 
-export enum MemberStatus {
-  onboarding = 'onboarding',
-  inactive = 'inactive',
-  active = 'active',
-}
-
 export type Member = typeof schema.members.$inferSelect;
 export type MemberInsert = typeof schema.members.$inferInsert;
 

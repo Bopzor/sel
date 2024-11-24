@@ -2,15 +2,13 @@ import * as shared from '@sel/shared';
 import { relations } from 'drizzle-orm';
 import { AnyPgColumn, boolean, integer, json, pgEnum, pgTable, text, varchar } from 'drizzle-orm/pg-core';
 
-import { MemberStatus } from 'src/modules/member/member.entities';
-
 import { createdAt, date, enumValues, id, primaryKey, updatedAt } from '../schema-utils';
 
 import { files } from './files';
 import { membersInterests } from './interests';
 import { memberDevices, notificationDeliveryTypeEnum } from './notifications';
 
-export const memberStatusEnum = pgEnum('member_status', enumValues(MemberStatus));
+export const memberStatusEnum = pgEnum('member_status', enumValues(shared.MemberStatus));
 
 export const members = pgTable('members', {
   id: primaryKey(),

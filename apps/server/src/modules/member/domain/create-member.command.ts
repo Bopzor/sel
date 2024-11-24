@@ -1,8 +1,10 @@
+import * as shared from '@sel/shared';
+
 import { container } from 'src/infrastructure/container';
 import { db, schema } from 'src/persistence';
 import { TOKENS } from 'src/tokens';
 
-import { MemberCreatedEvent, MemberStatus } from '../member.entities';
+import { MemberCreatedEvent } from '../member.entities';
 
 type CreateMemberCommand = {
   memberId: string;
@@ -16,7 +18,7 @@ export async function createMember(command: CreateMemberCommand): Promise<void> 
 
   await db.insert(schema.members).values({
     id: command.memberId,
-    status: MemberStatus.onboarding,
+    status: shared.MemberStatus.onboarding,
     firstName: command.firstName ?? '',
     lastName: command.lastName ?? '',
     email: command.email,

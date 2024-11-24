@@ -1,4 +1,4 @@
-import { UpdateMemberProfileData } from '@sel/shared';
+import * as shared from '@sel/shared';
 import { eq } from 'drizzle-orm';
 
 import { container } from 'src/infrastructure/container';
@@ -6,12 +6,12 @@ import { NotFound } from 'src/infrastructure/http';
 import { db, schema } from 'src/persistence';
 import { TOKENS } from 'src/tokens';
 
-import { MemberInsert, MemberStatus, OnboardingCompletedEvent } from '../member.entities';
+import { MemberInsert, OnboardingCompletedEvent } from '../member.entities';
 import { updateMember } from '../member.persistence';
 
 type UpdateMemberProfileCommand = {
   memberId: string;
-  data: UpdateMemberProfileData;
+  data: shared.UpdateMemberProfileData;
 };
 
 export async function updateMemberProfile(command: UpdateMemberProfileCommand): Promise<void> {
@@ -34,11 +34,11 @@ export async function updateMemberProfile(command: UpdateMemberProfileCommand): 
   };
 
   if (onboardingCompleted === true) {
-    values.status = MemberStatus.active;
+    values.status = shared.MemberStatus.active;
   }
 
   if (onboardingCompleted === false) {
-    values.status = MemberStatus.onboarding;
+    values.status = shared.MemberStatus.onboarding;
   }
 
   await updateMember(memberId, values);

@@ -1,10 +1,9 @@
-import { TransactionStatus } from '@sel/shared';
+import * as shared from '@sel/shared';
 import { createDate, createFactory, createId } from '@sel/utils';
 import { beforeEach, describe, expect, it } from 'vitest';
 
 import { StubEvents } from 'src/infrastructure/events';
 import { Member } from 'src/modules/member';
-import { MemberStatus } from 'src/modules/member/member.entities';
 
 import {
   Transaction,
@@ -43,7 +42,7 @@ describe('transactions service', () => {
 
   const createMember = createFactory<Member>(() => ({
     id: createId(),
-    status: MemberStatus.active,
+    status: shared.MemberStatus.active,
     firstName: '',
     lastName: '',
     email: '',
@@ -61,7 +60,7 @@ describe('transactions service', () => {
 
   const createTransaction = createFactory<Transaction>(() => ({
     id: createId(),
-    status: TransactionStatus.pending,
+    status: shared.TransactionStatus.pending,
     description: '',
     amount: 0,
     payerId: '',
@@ -88,7 +87,7 @@ describe('transactions service', () => {
     });
 
     expect(transaction.id).toEqual('transactionId');
-    expect(transaction.status).toEqual(TransactionStatus.completed);
+    expect(transaction.status).toEqual(shared.TransactionStatus.completed);
     expect(payer.balance).toEqual(0);
     expect(recipient.balance).toEqual(2);
 
@@ -109,7 +108,7 @@ describe('transactions service', () => {
     });
 
     expect(transaction.id).toEqual('transactionId');
-    expect(transaction.status).toEqual(TransactionStatus.pending);
+    expect(transaction.status).toEqual(shared.TransactionStatus.pending);
     expect(payer.balance).toEqual(1);
     expect(recipient.balance).toEqual(1);
 
@@ -135,7 +134,7 @@ describe('transactions service', () => {
       recipient,
     });
 
-    expect(transaction.status).toEqual(TransactionStatus.completed);
+    expect(transaction.status).toEqual(shared.TransactionStatus.completed);
     expect(payer.balance).toEqual(0);
     expect(recipient.balance).toEqual(2);
 
@@ -156,7 +155,7 @@ describe('transactions service', () => {
 
     service.cancelTransaction({ transaction });
 
-    expect(transaction.status).toEqual(TransactionStatus.canceled);
+    expect(transaction.status).toEqual(shared.TransactionStatus.canceled);
     expect(payer.balance).toEqual(1);
     expect(recipient.balance).toEqual(1);
 
@@ -216,7 +215,7 @@ describe('transactions service', () => {
 
   it('prevents to complete a transaction that is not pending', () => {
     const transaction = createTransaction({
-      status: TransactionStatus.completed,
+      status: shared.TransactionStatus.completed,
     });
 
     expect(() => {
@@ -225,7 +224,7 @@ describe('transactions service', () => {
         payer: createMember(),
         recipient: createMember(),
       });
-    }).toThrow(new TransactionIsNotPendingError('transactionId', TransactionStatus.completed));
+    }).toThrow(new TransactionIsNotPendingError('transactionId', shared.TransactionStatus.completed));
   });
 
   it('prevents to cancel a transaction if not payer', () => {
@@ -245,11 +244,11 @@ describe('transactions service', () => {
 
   it('prevents to cancel a transaction that is not pending', () => {
     const transaction = createTransaction({
-      status: TransactionStatus.completed,
+      status: shared.TransactionStatus.completed,
     });
 
     expect(() => {
       service.cancelTransaction({ transaction });
-    }).toThrow(new TransactionIsNotPendingError('transactionId', TransactionStatus.completed));
+    }).toThrow(new TransactionIsNotPendingError('transactionId', shared.TransactionStatus.completed));
   });
 });

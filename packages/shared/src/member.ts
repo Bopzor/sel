@@ -6,6 +6,12 @@ import { MemberInterest } from './interest';
 import { MembersSort } from './members-sort';
 import { PhoneNumber } from './phone-number';
 
+export enum MemberStatus {
+  onboarding = 'onboarding',
+  inactive = 'inactive',
+  active = 'active',
+}
+
 export type Member = {
   id: string;
   firstName: string;
