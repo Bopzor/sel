@@ -81,7 +81,10 @@ router.post('/', async (req, res) => {
 
 router.get('/:memberId', async (req, res) => {
   const member = await db.query.members.findFirst({
-    where: eq(schema.members.id, req.params.memberId),
+    where: and(
+      eq(schema.members.id, req.params.memberId),
+      eq(schema.members.status, shared.MemberStatus.active),
+    ),
     with: {
       avatar: true,
       memberInterests: {
@@ -90,7 +93,11 @@ router.get('/:memberId', async (req, res) => {
     },
   });
 
-  res.json(serializeMember(defined(member)));
+  if (member === undefined) {
+    throw new NotFound('Member not found');
+  }
+
+  res.json(serializeMember(member));
 });
 
 router.get('/:memberId/transactions', async (req, res) => {

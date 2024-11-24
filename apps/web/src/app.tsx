@@ -71,7 +71,7 @@ function QueryClientProvider(props: { children: JSX.Element }) {
         staleTime: 1000 * 60 * 5,
         throwOnError: true,
         retry(failureCount: number, error: Error) {
-          if (ApiError.isStatus(error, 404)) {
+          if (ApiError.isStatus(error, 403) || ApiError.isStatus(error, 404)) {
             return false;
           }
 

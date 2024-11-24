@@ -1,4 +1,4 @@
-import { Config } from '@sel/shared';
+import { Config, MemberRole } from '@sel/shared';
 import { defined, pick } from '@sel/utils';
 import cookieParser from 'cookie-parser';
 import { eq } from 'drizzle-orm';
@@ -10,7 +10,7 @@ import { container } from './infrastructure/container';
 import { unsetCookie } from './infrastructure/cookie';
 import { DomainError } from './infrastructure/domain-error';
 import { HttpStatus, Unauthorized } from './infrastructure/http';
-import { isAuthenticated, provideAuthenticatedMember } from './infrastructure/session';
+import { hasRoles, provideAuthenticatedMember } from './infrastructure/session';
 import { TokenType } from './modules/authentication/authentication.entities';
 import { router as authentication } from './modules/authentication/authentication.router';
 import { router as session } from './modules/authentication/session.router';
@@ -18,6 +18,7 @@ import { router as events } from './modules/event/event.router';
 import { router as files } from './modules/file/file.router';
 import { router as information } from './modules/information/information.router';
 import { router as interests } from './modules/interest/interest.router';
+import { router as adminMembersRouter } from './modules/member/member.admin-router';
 import { router as members } from './modules/member/member.router';
 import { router as sessionNotifications } from './modules/notification/notification.router';
 import { router as requests } from './modules/request/request.router';
@@ -35,17 +36,22 @@ export function server() {
   app.use(authenticationProvider);
 
   app.use('/health', health);
-  app.use('/config', isAuthenticated, configHandler);
+  app.use('/config', isMember, configHandler);
   app.use('/authentication', authentication);
-  app.use('/session', isAuthenticated, session);
-  app.use('/session/notifications', isAuthenticated, sessionNotifications);
-  app.use('/files', isAuthenticated, files);
-  app.use('/events', isAuthenticated, events);
-  app.use('/information', isAuthenticated, information);
-  app.use('/interests', isAuthenticated, interests);
-  app.use('/members', isAuthenticated, members);
-  app.use('/requests', isAuthenticated, requests);
-  app.use('/transactions', isAuthenticated, transactions);
+  app.use('/session', isMember, session);
+  app.use('/session/notifications', isMember, sessionNotifications);
+  app.use('/files', isMember, files);
+  app.use('/events', isMember, events);
+  app.use('/information', isMember, information);
+  app.use('/interests', isMember, interests);
+  app.use('/members', isMember, members);
+  app.use('/requests', isMember, requests);
+  app.use('/transactions', isMember, transactions);
+
+  const adminRouter = express.Router();
+
+  app.use('/admin', isAdmin, adminRouter);
+  adminRouter.use('/members', adminMembersRouter);
 
   app.use(fallbackRequestHandler);
 
@@ -55,6 +61,9 @@ export function server() {
 
   return app;
 }
+
+const isMember = hasRoles([MemberRole.member]);
+const isAdmin = hasRoles([MemberRole.admin]);
 
 const authenticationProvider: RequestHandler = async (req, res, next) => {
   const tokenCookie: unknown = req.cookies['token'];

@@ -26,6 +26,7 @@
       "upload": "Upload file"
     },
     "error": {
+      "forbidden": "🚫<nbsp></nbsp>Forbidden access",
       "pageNotFound": "Page not found.",
       "unknownErrorMessage": "🫨<nbsp></nbsp>Something unexpected just happened...<nbsp></nbsp>🥲",
       "unknownErrorDescription": "It's probably a bug, the person responsible won't get any dessert.",
@@ -196,6 +197,11 @@
     }
   },
   "members": {
+    "statuses": {
+      "active": "Active",
+      "onboarding": "Onboarding",
+      "inactive": "Inactive"
+    },
     "list": {
       "showOnMap": "Show on map",
       "sortBy": "Sort by:",
@@ -457,6 +463,14 @@
     "signOut": {
       "description": "To sign out of the app, click the button below.",
       "button": "Sign out"
+    }
+  },
+  "admin": {
+    "members": {
+      "name": "Name",
+      "status": "Status",
+      "email": "Email",
+      "phoneNumber": "Phone number"
     }
   }
 }

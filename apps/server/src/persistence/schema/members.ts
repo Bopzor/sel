@@ -9,6 +9,7 @@ import { membersInterests } from './interests';
 import { memberDevices, notificationDeliveryTypeEnum } from './notifications';
 
 export const memberStatusEnum = pgEnum('member_status', enumValues(shared.MemberStatus));
+export const memberRoleEnum = pgEnum('member_role', enumValues(shared.MemberRole));
 
 export const members = pgTable('members', {
   id: primaryKey(),
@@ -27,6 +28,7 @@ export const members = pgTable('members', {
   membershipStartDate: date('membership_start_date').notNull().defaultNow(),
   notificationDelivery: notificationDeliveryTypeEnum('notification_delivery').array().notNull().default([]),
   balance: integer('balance').notNull().default(0),
+  roles: memberRoleEnum('roles').array().notNull().default([]),
   createdAt,
   updatedAt,
 });

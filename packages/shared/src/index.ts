@@ -1,4 +1,5 @@
 export * from './address';
+export * from './admin-member';
 export * from './authenticated-member';
 export * from './comment';
 export * from './config';

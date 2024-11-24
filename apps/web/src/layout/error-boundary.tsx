@@ -1,4 +1,4 @@
-import { JSX, Show, ErrorBoundary as SolidErrorBoundary, createEffect } from 'solid-js';
+import { JSX, Match, ErrorBoundary as SolidErrorBoundary, Switch, createEffect } from 'solid-js';
 
 import { Button } from '../components/button';
 import { ApiError } from '../infrastructure/api';
@@ -49,21 +49,33 @@ function ErrorFallback(props: ErrorFallbackProps) {
 
   return (
     <div class="col mx-auto flex-1 items-center justify-center gap-4 px-4">
-      <Show
-        when={ApiError.isStatus(props.error, 404) ? props.error : false}
-        fallback={<UnknownError {...props} />}
-      >
-        {(error) => (
-          <>
-            <p class="typo-h1">
-              <T id="pageNotFound" />
-            </p>
-            <p class="text-dim">
-              <T id="errorMessage" values={{ message: error().message }} />
-            </p>
-          </>
-        )}
-      </Show>
+      <Switch fallback={<UnknownError {...props} />}>
+        <Match when={ApiError.isStatus(props.error, 403) ? props.error : false}>
+          {(error) => (
+            <>
+              <p class="typo-h1">
+                <T id="forbidden" values={{ nbsp: () => <>&nbsp;</> }} />
+              </p>
+              <p class="text-dim">
+                <T id="errorMessage" values={{ message: error().message }} />
+              </p>
+            </>
+          )}
+        </Match>
+
+        <Match when={ApiError.isStatus(props.error, 404) ? props.error : false}>
+          {(error) => (
+            <>
+              <p class="typo-h1">
+                <T id="pageNotFound" />
+              </p>
+              <p class="text-dim">
+                <T id="errorMessage" values={{ message: error().message }} />
+              </p>
+            </>
+          )}
+        </Match>
+      </Switch>
     </div>
   );
 }

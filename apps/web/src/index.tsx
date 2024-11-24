@@ -2,7 +2,7 @@
 
 import 'solid-devtools';
 
-import { Route, Router } from '@solidjs/router';
+import { Navigate, Route, Router } from '@solidjs/router';
 import { lazy } from 'solid-js';
 import { render } from 'solid-js/web';
 
@@ -11,7 +11,6 @@ import '@fontsource-variable/inter';
 import { App } from './app';
 import { BackLink } from './components/back-link';
 import { Translate } from './intl/translate';
-import TransactionsPage from './modules/profile/transactions/transactions.page';
 import { routes } from './routes';
 
 import './index.css';
@@ -41,9 +40,12 @@ const MiscPage = lazy(() => import('./modules/misc/misc.page'));
 const ProfileLayout = lazy(() => import('./modules/profile/profile.layout'));
 const ProfileEditionPage = lazy(() => import('./modules/profile/profile-edition/profile-edition.page'));
 const AddressPage = lazy(() => import('./modules/profile/address/address.page'));
+const TransactionsPage = lazy(() => import('./modules/profile/transactions/transactions.page'));
 const ProfileInterestsPage = lazy(() => import('./modules/profile/interests/profile-interests.page'));
 const SettingsPage = lazy(() => import('./modules/profile/settings/settings.page'));
 const SignOutPage = lazy(() => import('./modules/profile/sign-out/sign-out.page'));
+
+const MemberListPage = lazy(() => import('./modules/admin/member-list.page'));
 
 const ErrorTestPage = lazy(() => import('./utils/error-test.page'));
 
@@ -92,7 +94,15 @@ function Routing() {
       <Route path="/assets" component={AssetsPage} />
       <Route path="/misc" component={MiscPage} />
 
+      <Route path="/admin">
+        <Route path="/members" component={MemberListPage} />
+        <Route path="*" component={() => <Navigate href="/admin/members" />} />
+      </Route>
+
       <Route path="/__error" component={ErrorTestPage} />
+
+      {/* to do */}
+      <Route path="*" component={() => <>Not found.</>} />
     </>
   );
 }

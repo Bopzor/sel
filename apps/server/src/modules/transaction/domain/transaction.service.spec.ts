@@ -54,6 +54,7 @@ describe('transactions service', () => {
     notificationDelivery: [],
     balance: 0,
     membershipStartDate: createDate(),
+    roles: [],
     createdAt: createDate(),
     updatedAt: createDate(),
   }));

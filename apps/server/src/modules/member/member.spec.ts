@@ -1,5 +1,7 @@
 import * as shared from '@sel/shared';
 import { createFactory } from '@sel/utils';
+import express from 'express';
+import supertest from 'supertest';
 import { beforeAll, beforeEach, describe, expect, it } from 'vitest';
 
 import { insert } from 'src/factories';
@@ -9,10 +11,14 @@ import { db, resetDatabase, schema } from 'src/persistence';
 import { clearDatabase } from 'src/persistence/database';
 import { TOKENS } from 'src/tokens';
 
+import { TokenType } from '../authentication/authentication.entities';
+import { insertToken } from '../authentication/token.persistence';
+
 import { createMember } from './domain/create-member.command';
 import { updateMemberProfile } from './domain/update-member-profile.command';
 import { Member, MemberCreatedEvent, MemberInsert, OnboardingCompletedEvent } from './member.entities';
 import { findMemberById } from './member.persistence';
+import { router } from './member.router';
 
 describe('member', () => {
   beforeAll(resetDatabase);
@@ -26,7 +32,13 @@ describe('member', () => {
   });
 
   async function saveMember(values: Partial<MemberInsert>) {
-    return db.insert(schema.members).values(insert.member(values)).execute();
+    const [{ id }] = await db
+      .insert(schema.members)
+      .values(insert.member(values))
+      .returning({ id: schema.members.id })
+      .execute();
+
+    return id;
   }
 
   const createUpdateProfileData = createFactory<shared.UpdateMemberProfileData>(() => ({
@@ -57,6 +69,7 @@ describe('member', () => {
       membershipStartDate: expect.any(Date),
       notificationDelivery: [],
       balance: 0,
+      roles: [],
       createdAt: expect.any(Date),
       updatedAt: expect.any(Date),
     });
@@ -138,5 +151,25 @@ describe('member', () => {
     });
 
     expect(events.events).toContainEqual(new OnboardingCompletedEvent('memberId'));
+  });
+
+  it('fails to retrieve a member that is not active', async () => {
+    const authenticatedMemberId = await saveMember({});
+
+    await insertToken(
+      insert.token({ memberId: authenticatedMemberId, value: 'token', type: TokenType.session }),
+    );
+
+    const app = express();
+    app.use('/', router);
+
+    // eslint-disable-next-line @typescript-eslint/no-misused-promises
+    const agent = supertest.agent(app);
+
+    const onboardingMemberId = await saveMember({ status: shared.MemberStatus.onboarding });
+    await agent.get(`/${onboardingMemberId}`).set('Cookie', 'token=token').expect(404);
+
+    const inactiveMemberId = await saveMember({ status: shared.MemberStatus.inactive });
+    await agent.get(`/${inactiveMemberId}`).set('Cookie', 'token=token').expect(404);
   });
 });

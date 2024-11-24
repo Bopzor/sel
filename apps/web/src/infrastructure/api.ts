@@ -1,5 +1,6 @@
 import {
   addInterestMemberBodySchema,
+  AdminMember,
   AuthenticatedMember,
   Config,
   createCommentBodySchema,
@@ -80,6 +81,8 @@ export class Api {
   // members
 
   listMembers = this.endpoint<Member[], { query: typeof listMembersQuerySchema }>('get', '/members');
+
+  listMembersAdmin = this.endpoint<AdminMember[]>('get', '/admin/members');
 
   getMember = this.endpoint<Member, { path: { memberId: string } }>('get', '/members/:memberId');
 

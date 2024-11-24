@@ -12,6 +12,11 @@ export enum MemberStatus {
   active = 'active',
 }
 
+export enum MemberRole {
+  member = 'member',
+  admin = 'admin',
+}
+
 export type Member = {
   id: string;
   firstName: string;
