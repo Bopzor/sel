@@ -15,13 +15,13 @@ const T = Translate.prefix('events.edit');
 
 export default function EditEventPage() {
   const api = container.resolve(TOKENS.api);
-  const { eventId } = useParams<{ eventId: string }>();
+  const params = useParams<{ eventId: string }>();
   const t = T.useTranslation();
   const navigate = useNavigate();
 
   const query = createQuery(() => ({
-    queryKey: ['getEvent', eventId],
-    queryFn: () => api.getEvent({ path: { eventId } }),
+    queryKey: ['getEvent', params.eventId],
+    queryFn: () => api.getEvent({ path: { eventId: params.eventId } }),
   }));
 
   return (

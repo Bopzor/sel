@@ -26,11 +26,11 @@ const T = Translate.prefix('events.details');
 
 export default function EventDetailsPage() {
   const api = container.resolve(TOKENS.api);
-  const { eventId } = useParams<{ eventId: string }>();
+  const params = useParams<{ eventId: string }>();
 
   const query = createQuery(() => ({
-    queryKey: ['getEvent', eventId],
-    queryFn: () => api.getEvent({ path: { eventId } }),
+    queryKey: ['getEvent', params.eventId],
+    queryFn: () => api.getEvent({ path: { eventId: params.eventId } }),
   }));
 
   return (

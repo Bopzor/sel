@@ -25,11 +25,11 @@ const T = Translate.prefix('members');
 
 export default function MemberDetailsPage() {
   const api = container.resolve(TOKENS.api);
-  const { memberId } = useParams<{ memberId: string }>();
+  const params = useParams<{ memberId: string }>();
 
   const query = createQuery(() => ({
-    queryKey: ['getMember', memberId],
-    queryFn: () => api.getMember({ path: { memberId } }),
+    queryKey: ['getMember', params.memberId],
+    queryFn: () => api.getMember({ path: { memberId: params.memberId } }),
   }));
 
   return (

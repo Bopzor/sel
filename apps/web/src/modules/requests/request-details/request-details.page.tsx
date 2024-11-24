@@ -21,11 +21,11 @@ import { RequestHeader } from './section/request-header';
 
 export default function RequestDetailsPage() {
   const api = container.resolve(TOKENS.api);
-  const { requestId } = useParams<{ requestId: string }>();
+  const params = useParams<{ requestId: string }>();
 
   const query = createQuery(() => ({
-    queryKey: ['getRequest', requestId],
-    queryFn: () => api.getRequest({ path: { requestId } }),
+    queryKey: ['getRequest', params.requestId],
+    queryFn: () => api.getRequest({ path: { requestId: params.requestId } }),
   }));
 
   return (

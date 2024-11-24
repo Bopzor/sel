@@ -15,13 +15,13 @@ const T = Translate.prefix('requests.edit');
 
 export default function EditRequestPage() {
   const api = container.resolve(TOKENS.api);
-  const { requestId } = useParams<{ requestId: string }>();
+  const params = useParams<{ requestId: string }>();
   const t = T.useTranslation();
   const navigate = useNavigate();
 
   const query = createQuery(() => ({
-    queryKey: ['getRequest', requestId],
-    queryFn: () => api.getRequest({ path: { requestId } }),
+    queryKey: ['getRequest', params.requestId],
+    queryFn: () => api.getRequest({ path: { requestId: params.requestId } }),
   }));
 
   return (
