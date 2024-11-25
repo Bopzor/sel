@@ -15,6 +15,7 @@ export async function cancelTransaction(command: CancelTransactionCommand): Prom
 
   const now = container.resolve(TOKENS.date).now();
   const transactionService = container.resolve(TOKENS.transactionService);
+  const events = container.resolve(TOKENS.events);
 
   const transaction = await db.query.transactions.findFirst({
     where: eq(schema.transactions.id, transactionId),
@@ -24,8 +25,10 @@ export async function cancelTransaction(command: CancelTransactionCommand): Prom
     throw new NotFound('Transaction not found');
   }
 
+  const publisher = events.publisher();
+
   transactionService.checkCanCancelTransaction({ transaction, memberId });
-  transactionService.cancelTransaction({ transaction });
+  transactionService.cancelTransaction({ transaction, publisher });
 
   await db
     .update(schema.transactions)

@@ -2,7 +2,7 @@ import * as shared from '@sel/shared';
 import { createDate, createFactory, createId } from '@sel/utils';
 import { beforeEach, describe, expect, it } from 'vitest';
 
-import { StubEvents } from 'src/infrastructure/events';
+import { StubEventPublisher } from 'src/infrastructure/events';
 import { Member } from 'src/modules/member';
 
 import {
@@ -23,7 +23,7 @@ import {
 } from './transaction.service';
 
 describe('transactions service', () => {
-  let publisher: StubEvents;
+  let publisher: StubEventPublisher;
   let service: TransactionService;
 
   const now = new Date();
@@ -36,8 +36,8 @@ describe('transactions service', () => {
   };
 
   beforeEach(() => {
-    publisher = new StubEvents();
-    service = new TransactionService(publisher);
+    publisher = new StubEventPublisher();
+    service = new TransactionService();
   });
 
   const createMember = createFactory<Member>(() => ({
@@ -85,6 +85,7 @@ describe('transactions service', () => {
       recipient,
       creator: payer,
       amount: 1,
+      publisher,
     });
 
     expect(transaction.id).toEqual('transactionId');
@@ -106,6 +107,7 @@ describe('transactions service', () => {
       recipient,
       creator: recipient,
       amount: 1,
+      publisher,
     });
 
     expect(transaction.id).toEqual('transactionId');
@@ -127,12 +129,14 @@ describe('transactions service', () => {
       recipient,
       creator: recipient,
       amount: 1,
+      publisher,
     });
 
     service.completeTransaction({
       transaction,
       payer,
       recipient,
+      publisher,
     });
 
     expect(transaction.status).toEqual(shared.TransactionStatus.completed);
@@ -152,9 +156,10 @@ describe('transactions service', () => {
       recipient,
       creator: recipient,
       amount: 1,
+      publisher,
     });
 
-    service.cancelTransaction({ transaction });
+    service.cancelTransaction({ transaction, publisher });
 
     expect(transaction.status).toEqual(shared.TransactionStatus.canceled);
     expect(payer.balance).toEqual(1);
@@ -167,7 +172,13 @@ describe('transactions service', () => {
     const payer = createMember();
 
     expect(() => {
-      service.createTransaction({ ...defaultTransaction, payer, recipient: payer, creator: payer });
+      service.createTransaction({
+        ...defaultTransaction,
+        payer,
+        recipient: payer,
+        creator: payer,
+        publisher,
+      });
     }).toThrow(new PayerIsRecipientError(payer.id));
   });
 
@@ -177,7 +188,7 @@ describe('transactions service', () => {
     const creator = createMember();
 
     expect(() => {
-      service.createTransaction({ ...defaultTransaction, payer, recipient, creator });
+      service.createTransaction({ ...defaultTransaction, payer, recipient, creator, publisher });
     }).toThrow(new InvalidTransactionCreatorError(creator.id, payer.id, recipient.id));
   });
 
@@ -186,7 +197,14 @@ describe('transactions service', () => {
     const recipient = createMember();
 
     expect(() => {
-      service.createTransaction({ ...defaultTransaction, payer, recipient, creator: payer, amount: -1 });
+      service.createTransaction({
+        ...defaultTransaction,
+        payer,
+        recipient,
+        creator: payer,
+        amount: -1,
+        publisher,
+      });
     }).toThrow(new NegativeAmountError(-1));
   });
 
@@ -195,7 +213,14 @@ describe('transactions service', () => {
     const recipient = createMember();
 
     expect(() => {
-      service.createTransaction({ ...defaultTransaction, payer, recipient, creator: payer, amount: 0 });
+      service.createTransaction({
+        ...defaultTransaction,
+        payer,
+        recipient,
+        creator: payer,
+        amount: 0,
+        publisher,
+      });
     }).toThrow(new NegativeAmountError(0));
   });
 
@@ -224,6 +249,7 @@ describe('transactions service', () => {
         transaction,
         payer: createMember(),
         recipient: createMember(),
+        publisher,
       });
     }).toThrow(new TransactionIsNotPendingError('transactionId', shared.TransactionStatus.completed));
   });
@@ -249,7 +275,7 @@ describe('transactions service', () => {
     });
 
     expect(() => {
-      service.cancelTransaction({ transaction });
+      service.cancelTransaction({ transaction, publisher });
     }).toThrow(new TransactionIsNotPendingError('transactionId', shared.TransactionStatus.completed));
   });
 });

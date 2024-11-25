@@ -15,6 +15,7 @@ export type AcceptTransactionCommand = {
 export async function acceptTransaction(command: AcceptTransactionCommand): Promise<void> {
   const now = container.resolve(TOKENS.date).now();
   const transactionService = container.resolve(TOKENS.transactionService);
+  const events = container.resolve(TOKENS.events);
 
   const { transactionId, memberId } = command;
 
@@ -29,12 +30,15 @@ export async function acceptTransaction(command: AcceptTransactionCommand): Prom
   const payer = defined(await findMemberById(transaction.payerId));
   const recipient = defined(await findMemberById(transaction.recipientId));
 
+  const publisher = events.publisher();
+
   transactionService.checkCanAcceptTransaction({ transaction, memberId });
 
   transactionService.completeTransaction({
     transaction,
     payer,
     recipient,
+    publisher,
   });
 
   await db

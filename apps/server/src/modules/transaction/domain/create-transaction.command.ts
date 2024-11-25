@@ -1,9 +1,10 @@
+import { eq } from 'drizzle-orm';
+
 import { container } from 'src/infrastructure/container';
 import { NotFound } from 'src/infrastructure/http';
-import { findMemberById, updateMember } from 'src/modules/member';
+import { findMemberById } from 'src/modules/member';
+import { db, schema } from 'src/persistence';
 import { TOKENS } from 'src/tokens';
-
-import { insertTransaction } from '../transaction.persistence';
 
 export type CreateTransactionCommand = {
   transactionId: string;
@@ -18,6 +19,7 @@ export type CreateTransactionCommand = {
 
 export async function createTransaction(command: CreateTransactionCommand): Promise<void> {
   const now = container.resolve(TOKENS.date).now();
+  const events = container.resolve(TOKENS.events);
   const transactionService = container.resolve(TOKENS.transactionService);
 
   const { transactionId, payerId, recipientId, creatorId, amount, description, requestId, eventId } = command;
@@ -35,6 +37,8 @@ export async function createTransaction(command: CreateTransactionCommand): Prom
 
   const creator = creatorId === payerId ? payer : recipient;
 
+  const publisher = events.publisher();
+
   const transaction = transactionService.createTransaction({
     transactionId,
     payer,
@@ -45,11 +49,16 @@ export async function createTransaction(command: CreateTransactionCommand): Prom
     requestId,
     eventId,
     now,
+    publisher,
   });
 
-  await insertTransaction(transaction);
+  await db.transaction(async (tx) => {
+    await tx.insert(schema.transactions).values(transaction);
 
-  for (const { id, balance } of [payer, recipient]) {
-    await updateMember(id, { balance });
-  }
+    for (const { id, balance } of [payer, recipient]) {
+      await tx.update(schema.members).set({ updatedAt: now, balance }).where(eq(schema.members.id, id));
+    }
+  });
+
+  publisher.commit();
 }

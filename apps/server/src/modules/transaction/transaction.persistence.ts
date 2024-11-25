@@ -12,10 +12,6 @@ export async function findTransactionById(transactionId: string) {
   });
 }
 
-export async function insertTransaction(values: TransactionInsert) {
-  return db.insert(schema.transactions).values(values);
-}
-
 export async function updateTransaction(transactionId: string, values: Partial<TransactionInsert>) {
   const date = container.resolve(TOKENS.date);
   const now = date.now();

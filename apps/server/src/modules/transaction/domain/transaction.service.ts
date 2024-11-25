@@ -1,10 +1,9 @@
 import { TransactionStatus } from '@sel/shared';
 import { injectableClass } from 'ditox';
 
-import { Events } from 'src/infrastructure/events';
+import { EventPublisher } from 'src/infrastructure/events';
 import { BadRequest, Forbidden } from 'src/infrastructure/http';
 import { Member } from 'src/modules/member';
-import { TOKENS } from 'src/tokens';
 
 import {
   Transaction,
@@ -15,9 +14,7 @@ import {
 } from '../transaction.entities';
 
 export class TransactionService {
-  static inject = injectableClass(this, TOKENS.events);
-
-  constructor(private readonly events: Events) {}
+  static inject = injectableClass(this);
 
   createTransaction(params: {
     transactionId: string;
@@ -29,8 +26,11 @@ export class TransactionService {
     requestId?: string;
     eventId?: string;
     now: Date;
+    publisher: EventPublisher;
   }): Transaction {
-    const { transactionId, payer, recipient, creator, amount, description, requestId, eventId, now } = params;
+    const { transactionId, amount, description, requestId, eventId } = params;
+    const { payer, recipient, creator } = params;
+    const { publisher, now } = params;
 
     if (payer.id === recipient.id) {
       throw new PayerIsRecipientError(payer.id);
@@ -60,12 +60,12 @@ export class TransactionService {
       updatedAt: now,
     };
 
-    this.events.publish(new TransactionCreatedEvent(transactionId));
+    publisher.publish(new TransactionCreatedEvent(transactionId));
 
     if (creator.id === payer.id) {
-      this.completeTransaction({ transaction, payer, recipient });
+      this.completeTransaction({ transaction, payer, recipient, publisher });
     } else {
-      this.events.publish(new TransactionPendingEvent(transactionId));
+      publisher.publish(new TransactionPendingEvent(transactionId));
     }
 
     return transaction;
@@ -79,8 +79,13 @@ export class TransactionService {
     }
   }
 
-  completeTransaction(params: { transaction: Transaction; payer: Member; recipient: Member }): void {
-    const { transaction, payer, recipient } = params;
+  completeTransaction(params: {
+    transaction: Transaction;
+    payer: Member;
+    recipient: Member;
+    publisher: EventPublisher;
+  }): void {
+    const { transaction, payer, recipient, publisher } = params;
 
     if (transaction.status !== TransactionStatus.pending) {
       throw new TransactionIsNotPendingError(transaction.id, transaction.status);
@@ -90,7 +95,7 @@ export class TransactionService {
     payer.balance -= transaction.amount;
     recipient.balance += transaction.amount;
 
-    this.events.publish(new TransactionCompletedEvent(transaction.id));
+    publisher.publish(new TransactionCompletedEvent(transaction.id));
   }
 
   checkCanCancelTransaction(params: { transaction: Transaction; memberId: string }) {
@@ -101,8 +106,8 @@ export class TransactionService {
     }
   }
 
-  cancelTransaction(params: { transaction: Transaction }): void {
-    const { transaction } = params;
+  cancelTransaction(params: { transaction: Transaction; publisher: EventPublisher }): void {
+    const { transaction, publisher } = params;
 
     if (transaction.status !== TransactionStatus.pending) {
       throw new TransactionIsNotPendingError(transaction.id, transaction.status);
@@ -110,7 +115,7 @@ export class TransactionService {
 
     transaction.status = TransactionStatus.canceled;
 
-    this.events.publish(new TransactionCanceledEvent(transaction.id));
+    publisher.publish(new TransactionCanceledEvent(transaction.id));
   }
 }
 
