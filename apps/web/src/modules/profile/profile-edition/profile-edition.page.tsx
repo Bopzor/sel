@@ -106,7 +106,7 @@ const getInitialValues = (member: AuthenticatedMember | undefined) => ({
   lastName: member?.lastName ?? '',
   email: member?.email ?? '',
   emailVisible: member?.emailVisible ?? true,
-  phoneNumber: member ? formatPhoneNumber(member.phoneNumbers[0].number) : (undefined ?? ''),
+  phoneNumber: member ? formatPhoneNumber(member.phoneNumbers[0].number) : '',
   phoneNumberVisible: member?.phoneNumbers[0].visible ?? true,
   bio: member?.bio ?? '',
 });
