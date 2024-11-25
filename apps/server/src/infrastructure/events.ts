@@ -34,8 +34,15 @@ type DomainEventClass<Event extends DomainEvent<unknown>> = {
   type: string;
 };
 
+export type EventPublisher = {
+  publish(event: DomainEvent<unknown>): void;
+  commit(): void;
+};
+
 export interface Events {
   publish(event: DomainEvent<unknown>): void;
+
+  publisher(): EventPublisher;
 
   addGlobalListener(listener: DomainEventListener): void;
 
@@ -63,6 +70,15 @@ export class EmitterEvents implements Events {
   publish(event: DomainEvent<unknown>) {
     this.listeners.forEach((listener) => listener(event));
     this.events.emit(event.type, event);
+  }
+
+  publisher(): EventPublisher {
+    const events = new Set<DomainEvent<unknown>>();
+
+    return {
+      publish: (event) => events.add(event),
+      commit: () => events.forEach((event) => this.publish(event)),
+    };
   }
 
   addGlobalListener(listener: DomainEventListener): void {
@@ -100,6 +116,10 @@ export class StubEvents implements Events {
   public readonly events = new Set<DomainEvent<unknown>>();
 
   publish = this.events.add.bind(this.events);
+
+  publisher(): EventPublisher {
+    return { publish: () => {}, commit: () => {} };
+  }
 
   addGlobalListener(): void {}
   addListener(): void {}
