@@ -1,6 +1,6 @@
 import { Member, MembersSort } from '@sel/shared';
 import { parseEnumValue } from '@sel/utils';
-import { createQuery } from '@tanstack/solid-query';
+import { createQuery, keepPreviousData } from '@tanstack/solid-query';
 import { Show, createSignal } from 'solid-js';
 
 import { Breadcrumb, breadcrumb } from '../../../components/breadcrumb';
@@ -19,6 +19,7 @@ export default function MembersListPage() {
   const query = createQuery(() => ({
     queryKey: ['listMembers', sort()],
     queryFn: () => api.listMembers({ query: { sort: sort() } }),
+    placeholderData: keepPreviousData,
   }));
 
   return (
