@@ -56,7 +56,9 @@ export function App(props: AppProps) {
         <QueryClientProvider>
           <SuspenseLoader>
             <OnboardingRedirections />
-            <Layout>{props.children}</Layout>
+            <Layout>
+              <SuspenseLoader>{props.children}</SuspenseLoader>
+            </Layout>
           </SuspenseLoader>
         </QueryClientProvider>
       </IntlProvider>

@@ -19,7 +19,7 @@ export function useSearchParam<Value>(
   const param = createMemo(() => {
     const value = params[name];
 
-    if (parse) {
+    if ((value === undefined || typeof value === 'string') && parse) {
       return parse(value);
     }
 

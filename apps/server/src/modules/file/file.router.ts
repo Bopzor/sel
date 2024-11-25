@@ -28,6 +28,9 @@ function ensureAsyncContext(middleware: RequestHandler): RequestHandler {
   return (req, res, next) => middleware(req, res, AsyncResource.bind(next));
 }
 
+const fallbackImage =
+  '<svg version="1.1" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="0" width="16" height="16" fill="#CCC"/></svg>';
+
 router.get('/:name', async (req, res, next) => {
   const config = container.resolve(TOKENS.config);
 
@@ -37,6 +40,13 @@ router.get('/:name', async (req, res, next) => {
 
   if (!file) {
     return next();
+  }
+
+  try {
+    await fs.access(path.join(config.files.uploadDir, file.name), fs.constants.F_OK);
+  } catch {
+    res.set('Content-Type', 'image/svg+xml').send(fallbackImage);
+    return;
   }
 
   const buffer = await fs.readFile(path.join(config.files.uploadDir, file.name));

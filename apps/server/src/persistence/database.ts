@@ -1,8 +1,9 @@
 import path from 'node:path';
 
 import { assert } from '@sel/utils';
-import { drizzle, migrate } from 'drizzle-orm/connect';
-import pg from 'pg';
+import { drizzle } from 'drizzle-orm/node-postgres';
+import { migrate } from 'drizzle-orm/node-postgres/migrator';
+import pg, { Pool } from 'pg';
 
 import { container } from 'src/infrastructure/container';
 import { TOKENS } from 'src/tokens';
@@ -13,8 +14,8 @@ import * as schema from './schema';
 
 const config = container.resolve(TOKENS.config);
 
-export const db = await drizzle('node-postgres', {
-  connection: config.database.url,
+export const db = drizzle({
+  client: new Pool({ connectionString: config.database.url }),
   schema,
   logger: {
     logQuery(query, params) {
