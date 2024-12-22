@@ -8,7 +8,7 @@ import { getAuthenticatedMember } from 'src/infrastructure/session';
 import { db, schema } from 'src/persistence';
 import { TOKENS } from 'src/tokens';
 
-import { Member } from '../member/member.entities';
+import { MemberWithAvatar, withAvatar } from '../member/member.entities';
 
 import { addInterestMember } from './domain/add-interest-member.command';
 import { createInterest } from './domain/create-interest.command';
@@ -24,7 +24,7 @@ router.get('/', async (req, res) => {
     with: {
       membersInterests: {
         with: {
-          member: true,
+          member: withAvatar,
         },
       },
     },
@@ -87,7 +87,7 @@ router.put('/:interestId/edit', async (req, res) => {
 });
 
 function serializeInterest(
-  interest: Interest & { membersInterests: Array<MemberInterest & { member: Member }> },
+  interest: Interest & { membersInterests: Array<MemberInterest & { member: MemberWithAvatar }> },
 ): shared.Interest {
   return {
     id: interest.id,
@@ -97,6 +97,7 @@ function serializeInterest(
       id: memberInterest.member.id,
       firstName: memberInterest.member.firstName,
       lastName: memberInterest.member.lastName,
+      avatar: memberInterest.member.avatar?.name,
       description: memberInterest.description ?? undefined,
     })),
   };

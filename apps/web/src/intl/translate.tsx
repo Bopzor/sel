@@ -1,86 +1,46 @@
-import { IntlShape, useIntl } from '@cookbook/solid-intl';
 import { JSX } from 'solid-js';
-import { Paths } from 'type-fest';
 
-import { Translations } from './types';
-import { zod } from './zod';
+import { Flatten } from 'src/utils/types';
 
-type PathsAsString<T> = Paths<T> extends string ? Paths<T> : never;
-type RemovePrefix<T extends string, P extends string> = T extends `${P}${infer R}` ? R : never;
+import { useIntl } from './intl-provider';
+import translations from './lang/fr.json';
 
-type LastPart<T extends string> = T extends `${string}.${infer Tail}` ? LastPart<Tail> : T;
-type RemoveLastPart<T extends string> = T extends `${infer Head}.${LastPart<T>}` ? Head : '';
-type NonLeavePaths<T extends string> = Exclude<RemoveLastPart<T>, ''>;
+export const createTranslate = createTranslationHelper<keyof Flatten<typeof translations>>({
+  nbsp: () => <>&nbsp;</>,
+  br: () => <br />,
+  em: (children) => <em>{children}</em>,
+  strong: (children) => <strong class="font-semibold">{children}</strong>,
+});
 
-type LeavesFromPaths<P extends string> = {
-  [K in P]: K extends NonLeavePaths<P> ? never : K;
-}[P];
+type Prefixes<Key extends string> = Key extends `${infer P}.${infer S}` ? P | `${P}.${Prefixes<S>}` : never;
+type Values = Record<string, Date | JSX.Element | ((children: JSX.Element) => JSX.Element)>;
 
-type Leaves<T> = LeavesFromPaths<PathsAsString<T>>;
+export function createTranslationHelper<Key extends string>(commonValues: Values = {}) {
+  function createTranslate<Prefix extends Prefixes<Key>>(prefix: Prefix) {
+    const intl = useIntl();
 
-type Values = Parameters<IntlShape['formatMessage']>[1];
+    type Suffix = Key extends `${Prefix}.${infer S}` ? S : never;
 
-interface TranslateFunction<Keys> {
-  (id: Keys): string;
-  (id: Keys, values: Values): JSX.Element;
+    function translate(suffix: Suffix): string;
+    function translate(suffix: Suffix, values: Values): JSX.Element;
+
+    function translate(suffix: string, values?: Values) {
+      return intl.formatMessage({ id: `${prefix}.${suffix}` }, { ...values, ...commonValues });
+    }
+
+    return translate;
+  }
+
+  return function <Prefix extends Prefixes<Key>>(prefix: Prefix) {
+    type Suffix = Key extends `${Prefix}.${infer S}` ? S : never;
+
+    function Translate(props: { id: Suffix; values?: Values }) {
+      const translate = createTranslate(prefix);
+      return <>{translate(props.id, props.values ?? {})}</>;
+    }
+
+    Translate.useTranslate = () => createTranslate(prefix);
+
+    return Translate;
+  };
 }
-
-export function useTranslation() {
-  const intl = useIntl();
-
-  const translate = (id: Leaves<Translations>, values?: Values) => {
-    return intl.formatMessage({ id }, values);
-  };
-
-  return translate as TranslateFunction<Leaves<Translations>>;
-}
-
-type TranslateProps<Keys extends string> = {
-  id: Keys;
-  values?: Values;
-};
-
-export function Translate(props: TranslateProps<Leaves<Translations>>) {
-  const translate = useTranslation();
-
-  return <>{translate(props.id, props.values)}</>;
-}
-
-Translate.prefix = <Prefix extends NonLeavePaths<Paths<Translations>>>(prefix: Prefix) => {
-  const getId = (id: string) => {
-    return `${prefix}.${id}` as Leaves<Translations>;
-  };
-
-  type Keys = RemovePrefix<Leaves<Translations>, `${Prefix}.`>;
-  type Props = TranslateProps<Keys>;
-
-  const T = (props: Props) => {
-    return <Translate id={getId(props.id)} values={props.values} />;
-  };
-
-  T.useTranslation = () => {
-    const t = useTranslation();
-
-    const translate = (id: Keys, values: Values) => {
-      return t(getId(id), values);
-    };
-
-    return translate as TranslateFunction<Keys>;
-  };
-
-  return T;
-};
-
-Translate.enum = <Values extends string>(id: Paths<Translations>) => {
-  type Props = {
-    value: Values;
-  };
-
-  const T = (props: Props) => {
-    return <Translate id={`${id}.${props.value}` as Leaves<Translations>} />;
-  };
-
-  return T;
-};
-
-Translate.zod = zod;

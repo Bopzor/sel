@@ -1,19 +1,35 @@
 {
   "common": {
-    "back": "Retour",
-    "search": "Rechercher",
-    "loading": "Chargement...",
     "save": "Enregistrer",
-    "publish": "Publier",
     "cancel": "Annuler",
+    "send": "Envoyer",
+    "search": "Rechercher",
+    "next": "Continuer",
     "visible": "Visible",
     "notVisible": "Non visible",
     "validation": {
-      "required": "Ce champ est requis.",
-      "minLength": "Ce champ est trop court (min : {min} caractères).",
-      "maxLength": "Ce champ est trop long (max : {max} caractères).",
-      "min": "Ce champ est trop petit (min: {min}).",
-      "max": "Ce champ est trop grand (max: {max})."
+      "required": "Ce champ est requis",
+      "invalidEmail": "Format d'adresse email invalide",
+      "tooSmall": "Ce champ est trop petit (min : {min})",
+      "tooShort": "Ce champ est trop court (min : {min} caractères)",
+      "tooBig": "Ce champ est trop grand (max : {max})",
+      "tooLong": "Ce champ est trop long (max : {max} caractères)"
+    }
+  },
+  "components": {
+    "addressSearch": {
+      "noResults": "Aucun résultat trouvé"
+    },
+    "errorBoundary": {
+      "forbidden": "🚫<nbsp></nbsp>Access non autorisé",
+      "pageNotFound": "🧐<nbsp></nbsp>Page non trouvée.",
+      "unknownErrorMessage": "🫨<nbsp></nbsp>Il s'est passé quelque chose qui n'était pas prévu...<nbsp></nbsp>🥲",
+      "unknownErrorDescription": "C'est probablement un bug, la personne responsable sera privée de dessert.",
+      "errorMessage": "Message d'erreur : {message}",
+      "error": "Erreur : {message}",
+      "unexpectedError": "Une erreur s'est produite.",
+      "resetToHome": "Retour",
+      "reset": "Réessayer"
     },
     "richEditor": {
       "bold": "Gras",
@@ -25,33 +41,107 @@
       "linkTarget": "Cible du lien :",
       "upload": "Envoyer un fichier"
     },
-    "error": {
-      "forbidden": "🚫<nbsp></nbsp>Access non autorisé",
-      "pageNotFound": "Page non trouvée.",
-      "unknownErrorMessage": "🫨<nbsp></nbsp>Il s'est passé quelque chose qui n'était pas prévu...<nbsp></nbsp>🥲",
-      "unknownErrorDescription": "C'est probablement un bug, la personne responsable sera privée de dessert.",
-      "errorMessage": "Message d'erreur : {message}",
-      "error": "Erreur : {message}",
-      "unexpectedError": "Une erreur s'est produite.",
-      "resetToHome": "Retour",
-      "reset": "Réessayer"
+    "transactionDialog": {
+      "title": "Créer un échange {name, select, undefined {} other {avec <strong>{name}</strong>}}",
+      "next": "Continuer",
+      "back": "Retour",
+      "submit": "Créer l'échange",
+      "sent": "L'échange a bien été créé.",
+      "requested": "L'échange est en attente de confirmation du côté de {payer}.",
+      "type": {
+        "label": "Type d'échange",
+        "readOnly": "Le type d'échange n'est pas modifiable",
+        "send": "Envoyer des {currency}",
+        "request": "Demander des {currency}"
+      },
+      "member": {
+        "label": "Membre",
+        "placeholder": "Sélectionnez un membre"
+      },
+      "description": {
+        "label": "Motif",
+        "placeholder": "Aide pour monter un meuble Ikea"
+      },
+      "amount": {
+        "label": "Nombre de {currency}",
+        "placeholder": "20"
+      },
+      "confirmation": {
+        "send": {
+          "line1": "Vous êtes sur le point d'envoyer <strong>{amount}</strong> {amount, plural, =1 {{currency}} other {{currencyPlural}}} à <strong>{name}</strong>.",
+          "line2": "Aucune confirmation n'est attendu de sa part, l'échange sera conclu immédiatement."
+        },
+        "request": {
+          "line1": "Vous allez demander <strong>{amount}</strong> {amount, plural, =1 {{currency}} other {{currencyPlural}}} à <strong>{name}</strong>.",
+          "line2": "Une confirmation de sa part sera nécessaire pour conclure l'échange."
+        }
+      }
     },
-    "addressSearch": {
-      "noResults": "Aucun résultat trouvé."
+    "transactionList": {
+      "date": "Date",
+      "payer": "Emetteur",
+      "recipient": "Receveur",
+      "status": "État",
+      "description": "Motif",
+      "amountDescription": "{amount} : {description}"
+    }
+  },
+  "enums": {
+    "membersSort": {
+      "firstName": "Prénom",
+      "lastName": "Nom",
+      "membershipDate": "Date d'adhésion"
     },
-    "commentsSection": {
-      "placeholder": "Écrire un commentaire...",
-      "submit": "Envoyer"
+    "memberStatus": {
+      "onboarding": "On-boarding",
+      "inactive": "Désactivé",
+      "active": "Actif"
     },
-    "memberCard": {
-      "contact": "Contact {member}"
+    "requestStatus": {
+      "pending": "En cours",
+      "canceled": "Annulée",
+      "fulfilled": "Clôturée"
+    },
+    "requestAnswer": {
+      "positive": "oui",
+      "negative": "non"
+    },
+    "transactionStatus": {
+      "pending": "En attente",
+      "completed": "Terminé",
+      "canceled": "Annulé"
     }
   },
   "layout": {
-    "header": {
+    "title": {
       "title": "Système d'échange local",
-      "subtitle": "de Cavaillon et ses environs",
-      "sign-in": "Connexion"
+      "subtitle": "de Cavaillon et ses environs"
+    },
+    "navigation": {
+      "home": {
+        "label": "Actualités",
+        "description": "Actualités du SEL"
+      },
+      "members": {
+        "label": "Membres",
+        "description": "Liste des membres"
+      },
+      "requests": {
+        "label": "Demandes",
+        "description": "Exprimer une demande"
+      },
+      "events": {
+        "label": "Événements",
+        "description": "Planifier un événement"
+      },
+      "interests": {
+        "label": "Centres d'intérêts",
+        "description": "Voir les centres d'intérêts"
+      },
+      "misc": {
+        "label": "Divers",
+        "description": "Informations et liens utiles"
+      }
     },
     "registerDevice": "Vous souhaitez recevoir les notifications sur cet appareil ? Activez-les dans <link>vos paramètres</link>.",
     "breadcrumb": {
@@ -62,412 +152,417 @@
       "editRequest": "Édition",
       "events": "Événements",
       "createEvent": "Nouvel événement",
-      "editEvent": "Edit",
-      "interests": "Centres d'intérêts"
+      "editEvent": "Édition",
+      "interests": "Centres d'intérêts",
+      "profile": "Profil",
+      "admin": "Admin",
+      "adminMembers": "Membres"
     }
   },
-  "authentication": {
-    "description": "Entrez l'adresse email de votre compte du SEL pour accéder à l'app.",
-    "emailAddress": "Adresse email",
-    "send": "Envoyer",
-    "authenticationLinkRequested": "Si votre adresse email est autorisée, un email contenant un lien de connexion vous a été envoyé à l'adresse <strong>{email}</strong>. Si vous n'avez rien reçu dans les prochaines minutes, vérifiez dans vos spams ou contactez-nous.",
-    "invalidAuthenticationLink": "Le lien de connexion que vous avez utilisé n'est pas valide, veuillez en demander un nouveau.",
-    "authenticationLinkExpired": "Le lien de connexion que vous avez utilisé a expiré, veuillez en demander un nouveau."
-  },
-  "onboarding": {
-    "navigation": {
-      "start": "Commencer",
-      "next": "Suivant",
-      "end": "Terminer"
-    },
-    "steps": {
-      "welcome": {
-        "title": "Bienvenue sur l'app du SEL !",
-        "sentence1": "Pour commencer, prenez 3 minutes pour vérifier les informations de votre profil.",
-        "sentence2": "Ces informations seront visible par les autres membres du SEL. En revanche, elles ne seront pas accessible à l'extérieur de l'app. Si vous avez des questions, n'hésitez pas à <link>nous contacter</link>."
+  "pages": {
+    "authentication": {
+      "description": "Entrez l'adresse email de votre compte du SEL pour accéder à l'app.",
+      "email": {
+        "placeholder": "mon@email.com"
       },
-      "name": {
-        "title": "Nom",
-        "sentence1": "Votre nom et prénom seront visibles par tous les membres. En revanche, ils ne seront pas rendus publics à l'extérieur de l'app.",
-        "firstName": "Prénom",
-        "lastName": "Nom de famille"
+      "submit": "Connexion",
+      "linkRequested": {
+        "line1": "Si votre adresse email est autorisée, un email contenant un lien de connexion vous a été envoyé à l'adresse <strong>{email}</strong>.",
+        "line2": "Si vous n'avez rien reçu dans les prochaines minutes, vérifiez dans vos spams ou contactez-nous."
+      },
+      "invalidLink": "Le lien de connexion que vous avez utilisé n'est pas valide, veuillez en demander un nouveau.",
+      "linkExpired": "Le lien de connexion que vous avez utilisé a expiré, veuillez en demander un nouveau."
+    },
+    "onboarding": {
+      "signOut": "Déconnexion",
+      "currentStep": "Étape {step} / {total}",
+      "steps": {
+        "welcome": {
+          "title": "Bienvenue sur l'app du SEL !",
+          "sentence1": "Pour commencer, prenez 3 minutes pour vérifier les informations de votre profil.",
+          "sentence2": "Aucune de ces informations ne sera visible à l'extérieur de l'app. Si vous avez des questions, n'hésitez pas à <link>nous contacter</link>.",
+          "start": "Commencer"
+        },
+        "name": {
+          "title": "Noms",
+          "sentence1": "Votre nom et prénom seront visibles par tous les membres.",
+          "firstName": {
+            "label": "Prénom",
+            "placeholder": "Jean"
+          },
+          "lastName": {
+            "label": "Nom de famille",
+            "placeholder": "Dupon"
+          }
+        },
+        "contact": {
+          "title": "Contact",
+          "sentence1": "Vérifiez vos informations de contact.",
+          "sentence2": "Les champs visibles seront affichés sur votre page de membre et accessibles par tous les membres du SEL. Les champs non visibles ne seront accessible qu'aux administrateurs.",
+          "email": {
+            "label": "Adresse email",
+            "placeholder": "jean.dupon@email.com",
+            "readOnly": "Votre adresse email ne peut pas être modifiée"
+          },
+          "phoneNumber": {
+            "label": "Numéro de téléphone",
+            "placeholder": "06...",
+            "invalid": "Numéro de téléphone non valide"
+          }
+        },
+        "address": {
+          "title": "Adresse",
+          "sentence1": "Renseignez votre adresse afin de l'ajouter à votre page de profil et de vous situer sur la carte des membres.",
+          "sentence2": "Vous pouvez passer cette étape si vous ne souaithez pas partager votre adresse.",
+          "address": {
+            "placeholder": "Cherchez une adresse..."
+          }
+        },
+        "notifications": {
+          "title": "Notifications",
+          "sentence1": "Comment souhaitez-vous recevoir vos notifications ?"
+        },
+        "end": {
+          "title": "C'est tout bon ! 😁",
+          "sentence1": "L'app étant en cours de développement, il est attendu que vous tombiez sur des bugs, ou que certaines fonctionnalités ne soient pas optimales.",
+          "sentence2": "N'hésitez pas à <link>partager vos retours d'expérience</link>, pour que nous puissions, ensemble, construire une app qui convient à toutes et tous.",
+          "end": "Terminer"
+        }
+      }
+    },
+    "home": {
+      "title": "Actualités",
+      "publish": {
+        "button": "Nouveau message",
+        "dialog": {
+          "title": "Que souhaitez-vous faire ?",
+          "request": {
+            "label": "Envoyer une demande",
+            "description": "Coup de main, co-voiturage, prêts, ..."
+          },
+          "event": {
+            "label": "Créer un événement",
+            "description": "Soirée jeux, randonnée, sortie vélo, ..."
+          },
+          "information": {
+            "label": "Publier une information",
+            "description": "Concert, recette, informations diverses, ..."
+          },
+          "member": {
+            "label": "Contacter un membre",
+            "description": "Envoyer un message à un membre du SEL"
+          }
+        },
+        "createInformation": {
+          "title": "Publier une information",
+          "body": {
+            "placeholder": "Écrivez votre message..."
+          },
+          "create": "Publier",
+          "created": "Votre information a été publiée."
+        },
+        "contactMember": {
+          "title": "Contacter un membre",
+          "description": "Vous pouvez accéder aux informations de contact d'un membre depuis sa page de profil.",
+          "button": "Voir la liste des membres"
+        }
+      }
+    },
+    "members": {
+      "list": {
+        "sortBy": "Trier par : ",
+        "showOnMap": "Voir sur la carte"
+      },
+      "details": {
+        "phoneNumber": "Numéro de téléphone",
+        "emailAddress": "Adresse email",
+        "mailingAddress": "Adresse postale",
+        "membershipDate": "Date d'adhésion",
+        "membershipDateFormatted": "{date, date, long} <dim>(il y a {relative})</dim>",
+        "bio": "À propos de moi",
+        "interests": {
+          "title": "Centres d'intérêts",
+          "interest": "Centre d'intérêt",
+          "description": "Description"
+        },
+        "transactions": {
+          "title": "Échanges",
+          "balance": "Solde: {balance}",
+          "noTransactions": "{name} n'a réalisé aucun échange pour le moment.",
+          "create": "Créer un échange"
+        }
+      }
+    },
+    "requests": {
+      "form": {
+        "title": {
+          "label": "Titre de la demande",
+          "placeholder": "Monter un meuble Ikea"
+        },
+        "body": {
+          "label": "Message",
+          "placeholder": "J'ai besoin d'un coup de main pour..."
+        }
+      },
+      "create": {
+        "title": "Nouvelle demande",
+        "submit": "Créer la demande",
+        "created": "La demande a bien été créée"
+      },
+      "edit": {
+        "title": "Edition de la demande : {title}",
+        "submit": "Enregistrer",
+        "edited": "La demande a bien été mise à jour"
+      },
+      "list": {
+        "title": "Demandes",
+        "createRequest": "Nouvelle demande"
+      },
+      "details": {
+        "header": {
+          "date": "Le {date}",
+          "positiveAnswers": "({count} {count, plural, =1 {réponse positive} other {réponses positives}})",
+          "actions": {
+            "edit": "Éditer",
+            "cancel": "Annuler",
+            "cancelSuccess": "La demande a été annulée",
+            "fulfil": "Clôturer",
+            "fulfilSuccess": "La demande a été clôturée",
+            "notifications": "Notifications",
+            "notificationsSettingsUnavailable": "La gestion des notification n'est pas encore possible"
+          },
+          "fulfilConfirmationDialog": {
+            "title": "Demande sans échange",
+            "content": "Aucun échange n'a été créé à partir de cette demande. Souhaitez-vous en créer un avant de la clôturer ?",
+            "createTransaction": "Oui, créer un échange",
+            "fulfilRequest": "Non, clôturer la demande"
+          }
+        },
+        "answer": {
+          "title": "Ma réponse",
+          "positive": "OK",
+          "negative": "Je ne peux pas",
+          "requestIsNotPending": "Cette demande n'est pas en cours"
+        },
+        "comments": {
+          "title": "Commentaires",
+          "createComment": {
+            "placeholder": "Écrire un commentaire...",
+            "success": "Votre commentaire a bien été envoyé"
+          }
+        },
+        "actions": {
+          "createTransaction": "Créer un échange"
+        },
+        "answerList": {
+          "title": "Réponses",
+          "empty": "Aucune réponse n'a été faite pour le moment.",
+          "answered": "{member} a répondu : {answer}"
+        }
+      }
+    },
+    "events": {
+      "form": {
+        "title": {
+          "label": "Titre de l'événement",
+          "placeholder": "Sortie vélo"
+        },
+        "body": {
+          "label": "Message",
+          "placeholder": "J'organise une activité..."
+        },
+        "date": {
+          "label": "Date",
+          "isPast": "La date doit être dans le futur"
+        },
+        "location": {
+          "label": "Lieu"
+        }
+      },
+      "list": {
+        "title": "Évenements",
+        "createEvent": "Nouvel événement",
+        "upcoming": "Évenements à venir",
+        "noDate": "Date à définir"
+      },
+      "create": {
+        "title": "Nouvel événement",
+        "submit": "Créer l'événement",
+        "created": "L'événement a bien été créée"
+      },
+      "edit": {
+        "title": "Edition de l'événement : {title}",
+        "submit": "Enregistrer",
+        "edited": "L'événement a bien été mise à jour"
+      },
+      "details": {
+        "date": {
+          "title": "Date",
+          "empty": "Date à définir"
+        },
+        "location": {
+          "title": "Lieu",
+          "empty": "Lieu à définir"
+        },
+        "participation": {
+          "title": "Ma réponse",
+          "yes": "Je participe",
+          "no": "Je ne participe pas"
+        },
+        "header": {
+          "actions": {
+            "edit": "Éditer",
+            "notifications": "Notifications",
+            "notificationsSettingsUnavailable": "La gestion des notification n'est pas encore possible"
+          }
+        },
+        "comments": {
+          "title": "Commentaires",
+          "createComment": {
+            "placeholder": "Écrire un commentaire...",
+            "success": "Votre commentaire a bien été envoyé"
+          }
+        },
+        "organizer": {
+          "title": "Organisé par"
+        },
+        "participants": {
+          "title": "{count, plural, =0 {Participants} =1 {{count} participant(e)} other {{count} participant(e)s}}",
+          "empty": "Aucun membre ne s'est inscrit pour le moment."
+        }
+      }
+    },
+    "interests": {
+      "title": "Centres d'intérêts",
+      "membersCount": "{count, plural, =0 {} =1 {{count} membre} other {{count} membres}}",
+      "expand": "Voir plus",
+      "collapse": "Fermer",
+      "empty": "Ce centre d'intérêt ne compte aucun membre pour le moment.",
+      "memberInterest": {
+        "edit": "Éditer votre description",
+        "description": {
+          "placeholder": "Décrivez votre lien à ce centre d'intérêt",
+          "empty": "{dash} Aucune description {dash}"
+        }
+      },
+      "join": {
+        "description": "Vous partagez ce centre d'intérêt ?",
+        "button": "Rejoindre",
+        "success": "Vous avez rejoint le centre d'intérêt <strong>{label}</strong>."
+      },
+      "leave": {
+        "description": "Vous avez rejoint ce centre d'intérêt.",
+        "button": "Quitter",
+        "success": "Vous ne faites plus partie du centre d'intérêt <strong>{label}</strong>."
+      }
+    },
+    "profile": {
+      "navigation": {
+        "profile": "Profil",
+        "address": "Adresse",
+        "transactions": "Échanges",
+        "interests": "Centres d'intérêts",
+        "settings": "Paramètres",
+        "signOut": "Déconnexion"
+      },
+      "edition": {
+        "firstName": {
+          "label": "Prénom"
+        },
+        "lastName": {
+          "label": "Nom"
+        },
+        "emailAddress": {
+          "label": "Adresse email",
+          "readOnly": "L'adresse email ne peut pas être modifiée, contactez-nous si vous avez besoin de la changer."
+        },
+        "phoneNumber": {
+          "label": "Numéro de téléphone",
+          "invalid": "Ce numéro de téléphone n'est pas valide."
+        },
+        "bio": {
+          "label": "Présentation"
+        },
+        "profilePicture": {
+          "label": "Photo de profil",
+          "message": "Pour changer votre photo de profil, cliquez sur le bouton ci-dessous et sélectionnez un fichier.",
+          "changed": "Votre photo de profil a bien été mise à jour."
+        },
+        "saved": "Vos informations de profil ont bien été mises à jour."
+      },
+      "address": {
+        "description": "Cherchez votre adresse et sélectionnez un résultat pour la mettre à jour sur votre page de profil. Si vous ne la trouvez pas, contactez-nous pour que nous la mettions à jour manuellement.",
+        "changed": "Votre adresse a été mise à jour"
+      },
+      "transactions": {
+        "balance": "Solde : {balance}",
+        "empty": "Vous n'avez réalisé aucun échange pour le moment.",
+        "completeSuccess": "L'échange a bien été validé, votre solde a été mis à jour.",
+        "canceled": "Cet échange a été annulé, aucun {currency} n'a été transféré.",
+        "cancelSuccess": "L'échange a bien été annulé, votre solde n'a pas changé.",
+        "pendingRecipient": "Cet échange est en attente de validation de la part de {payer}.",
+        "pendingPayer": "Cet échange est en attente de validation de votre part.",
+        "complete": "Valider l'échange",
+        "cancel": "Refuser",
+        "details": {
+          "title": "Échange avec {name}",
+          "payer": "Donneur",
+          "recipient": "Receveur"
+        }
+      },
+      "settings": {
+        "notifications": {
+          "title": "Notifications",
+          "description": "Comment souhaitez-vous recevoir les notifications du SEL ?",
+          "email": {
+            "label": "Email",
+            "description": "Vous recevez les notifications par email à l'adresse {email}."
+          },
+          "push": {
+            "label": "Mobile",
+            "description": "Vous recevez les notifications sur votre smartphone (après installation de l'application)."
+          },
+          "saved": "Vos paramètres de notifications ont été enregistrés."
+        },
+        "deviceRegistration": {
+          "notRegistered": {
+            "title": "Activer les notifications sur ce smartphone.",
+            "description": "Pour recevoir des notifications, vous devez donner votre accord. <register>Cliquez ici</register> pour autoriser ce smartphone à recevoir les notifications."
+          },
+          "notificationPermissionDenied": "Vous avez refusé l'envoi des notifications sur ce smartphone. Pour modifier ce choix, autorisez les notifications dans les paramètres de votre navigateur.",
+          "registered": "Votre smartphone est correctement configuré pour recevoir les notifications",
+          "registrationFailed": "Votre smartphone ne pourra par recevoir de notifications"
+        },
+        "ui": {
+          "title": "Apparence",
+          "darkMode": "Mode sombre"
+        }
+      },
+      "signOut": {
+        "title": "Déconnexion",
+        "description": "Pour vous déconnecter de l'app, cliquez sur le bouton ci-dessous.",
+        "button": "Déconnexion"
+      }
+    },
+    "misc": {
+      "title": "Divers",
+      "context": {
+        "title": "Contexte",
+        "description": "Le développement de l'app est à l'initiative de Nils et Violaine, membres de SEL'ons-nous depuis 2022.\n\nNous sommes tous les deux développeurs d'applications web, et travaillons sur ce projet sur notre temps libre, pour le plaisir et pour mettre à profit nos compétences pour SEL'ons-nous."
       },
       "contact": {
         "title": "Contact",
-        "sentence1": "Vérifiez vos informations de contact. Vous pouvez également indiquer si vous souhaitez rendre ces informations publiques pour les autres membres du SEL. Lorsqu'un champ est rendu visible, il sera affiché sur votre page de membre.",
-        "emailAddress": "Adresse email",
-        "emailReadOnly": "Vous ne pouvez pas modifier votre adresse email",
-        "phoneNumber": "Numéro de téléphone",
-        "phoneNumberPlaceholder": "06...",
-        "phoneNumberInvalid": "Numéro de téléphone non valide"
-      },
-      "bio": {
-        "title": "À propos",
-        "sentence1": "Rédigez quelques mots à propos de vous pour vous présenter. Quels sont vos centres d'intérêts ? Quel genre de coups de mains pouvez-vous donner ? Quels types d'activités vous intéressent ?",
-        "sentence2": "Vous pourrez changer votre présentation à tout moment depuis votre page de profil.",
-        "bio": "A propos de vous",
-        "placeholder": "J'ai un potager, je fais du vélo, ..."
-      },
-      "address": {
-        "title": "Adresse",
-        "sentence": "Renseignez votre adresse afin de l'ajouter à votre page de profil et de vous situer sur la carte affichant tous les membres.",
-        "address": "Adresse"
-      },
-      "notifications": {
-        "title": "Notifications",
-        "sentence1": "Comment souhaitez-vous recevoir les notifications ?",
-        "sentence2": "Les notifications \"web\" sont gérées par votre appareil. Sur un smartphone, ce sont les notifications classiques des applications.",
-        "email": "Email",
-        "push": "Web",
-        "pushPermissionDenied": "Vous avez bloqué l'accès aux notifications sur cet appareil, veuillez modifier votre choix dans les paramètres de votre navigateur."
-      },
-      "end": {
-        "sentence1": "Vos informations on bien été enregistrées ! 😁",
-        "sentence2": "L'app étant en cours de développement, il est attendu que vous tombiez sur des bugs, ou que certaines fonctionnalités ne soient pas optimales. N'hésitez pas à partager vos retours d'expérience, pour que nous puissions, ensemble, construire une app qui convient à tous.",
-        "contact": {
-          "slack": "Sur slack",
-          "email": "Par email : <link>{email}</link>"
-        }
-      }
-    }
-  },
-  "home": {
-    "members": {
-      "label": "Membres",
-      "description": "Voir la liste des membres du SEL"
-    },
-    "requests": {
-      "label": "Demandes",
-      "description": "Exprimer une demande."
-    },
-    "events": {
-      "label": "Événements",
-      "description": "Planifier un événement."
-    },
-    "interests": {
-      "label": "Centres d'intérêts",
-      "description": "Voir les centres d'intérêts."
-    },
-    "assets": {
-      "label": "Biens",
-      "description": "Prêter et donner des biens matériels."
-    },
-    "misc": {
-      "label": "Divers",
-      "description": "Informations et liens utiles."
-    },
-    "createMessage": {
-      "cta": "Publier un message",
-      "requestTitle": "Nouvelle demande",
-      "requestDescription": "Coup de main, co-voiturage, prêts, ...",
-      "eventTitle": "Nouvel événement",
-      "eventDescription": "Soirée jeux, randonnée, sortie vélo, ...",
-      "informationTitle": "Publier une information",
-      "informationDescription": "Concert, recette, information diverses, ...",
-      "newsTitle": "Publier une actualité",
-      "newsDescription": "Vie du SEL, conseils d'animation, ..."
-    },
-    "information": {
-      "title": "Actualités",
-      "informationEmpty": "Aucune information n'a été publiée pour le moment.",
-      "publishedAt": "Le {date, date, medium} à {date, time, short}"
-    },
-    "changelog": {
-      "title": "Nouveautés"
-    }
-  },
-  "information": {
-    "form": {
-      "placeholder": "Écrivez votre message..."
-    }
-  },
-  "transactions": {
-    "statuses": {
-      "pending": "En attente",
-      "completed": "Terminé",
-      "canceled": "Annulé"
-    },
-    "list": {
-      "date": "Date",
-      "payer": "Donneur",
-      "recipient": "Receveur",
-      "status": "État",
-      "description": "Motif",
-      "amountDescription": "{amount} : {description}"
-    }
-  },
-  "members": {
-    "statuses": {
-      "active": "Actif",
-      "onboarding": "Onboarding",
-      "inactive": "Désactivé"
-    },
-    "list": {
-      "showOnMap": "Voir sur la carte",
-      "sortBy": "Trier par :",
-      "membersSortEnum": {
-        "firstName": "Prénom",
-        "lastName": "Nom",
-        "membershipDate": "Date d'adhésion"
+        "description": "L'app étant toute nouvelle, il est possible que vous tombiez sur des bugs, ou des choses innatendus.\n\nN'hésitez pas à nous faire part de vos retours via le groupe What's App dédié au développment du projet. Pour le rejoindre, <link>contactez-nous</link>."
       }
     },
-    "notFound": {
-      "title": "Membre non trouvé.",
-      "description": "Cette page fait référence à un membre qui n'existe pas."
-    },
-    "phoneNumber": "Numéro de téléphone",
-    "emailAddress": "Adresse email",
-    "mailingAddress": "Adresse postale",
-    "membershipDate": "Date d'adhésion",
-    "membershipDateFormatted": "{date, date, long} <dim>(il y a {relative})</dim>",
-    "bio": "À propos de moi",
-    "interests": {
-      "title": "Centres d'intérêts",
-      "interest": "Centre d'intérêt",
-      "description": "Description"
-    },
-    "transactions": {
-      "title": "Échanges",
-      "balance": "Solde: {balance}",
-      "noTransactions": "{name} n'a réalisé aucun échange pour le moment.",
-      "create": {
-        "cta": "Créer un échange",
-        "title": "Créer un échange {name, select, undefined {} other {avec {name}}}",
-        "transactionTypeLabel": "Type d'échange",
-        "transactionTypeReadOnly": "Le type d'échange n'est pas modifiable",
-        "send": "Envoyer des {currency}",
-        "request": "Demander des {currency}",
-        "memberLabel": "Membre",
-        "memberPlaceholder": "Sélectionner un membre",
-        "amountLabel": "Nombre de {currency}",
-        "amountPlaceholder": "20",
-        "descriptionLabel": "Motif",
-        "descriptionPlaceholder": "Aide pour monter un meuble Ikea",
-        "next": "Continuer",
-        "confirmSend": "Vous êtes sur le point d'envoyer <strong>{amount}</strong> {amount, plural, =1 {{currency}} other {{currencyPlural}}} à <strong>{name}</strong>.{br}Aucune confirmation n'est attendu de sa part, l'échange sera conclu immédiatement.",
-        "confirmRequest": "Vous allez demander <strong>{amount}</strong> {amount, plural, =1 {{currency}} other {{currencyPlural}}} à <strong>{name}</strong>.{br}Une confirmation de sa part sera nécessaire pour conclure l'échange.",
-        "submit": "Créer l'échange",
-        "created": "L'échange a bien été créé.",
-        "requested": "L'échange est en attente de confirmation de la part de {payer}."
+    "admin": {
+      "members": {
+        "title": "Liste des membres",
+        "name": "Nom",
+        "status": "Statut",
+        "email": "Adresse email",
+        "phoneNumber": "Téléphone"
       }
-    }
-  },
-  "requests": {
-    "title": "Demandes",
-    "noRequests": "Aucune demande n'a été créée pour l'instant.",
-    "sentence1": "La partie demandes n'est pas encore disponible !",
-    "sentence2": "L'atelier de conception est prévu le mercredi 20 décembre 2023, à 18h30. Cette partie devrait être disponible courant février 2024.",
-    "passedRequests": "Demandes passées",
-    "newRequest": "Nouvelle demande",
-    "status": {
-      "pending": "En cours",
-      "fulfilled": "Clôturée",
-      "canceled": "Annulée"
-    },
-    "numberOfPositiveAnswers": "({count} {count, plural, =1 {réponse positive} other {réponses positives}})",
-    "form": {
-      "titleLabel": "Titre de la demande",
-      "titlePlaceholder": "Monter un meuble Ikea",
-      "bodyLabel": "Message",
-      "bodyPlaceholder": "J'ai besoin d'un coup de main pour..."
-    },
-    "create": {
-      "title": "Nouvelle demande",
-      "submit": "Créer la demande",
-      "created": "Votre demande a bien été envoyée."
-    },
-    "editRequest": "Modifier la demande",
-    "edit": {
-      "title": "Édition de la demande « {requestTitle} »",
-      "edited": "Votre demande a bien été mise à jour."
-    },
-    "date": "Le {date, date, medium} à {date, time, short}",
-    "answer": {
-      "title": "Ma réponse",
-      "positive": "OK",
-      "negative": "Je ne peux pas",
-      "requestIsNotPending": "Cette demande n'est pas en cours."
-    },
-    "comments": {
-      "title": "Commentaires",
-      "created": "Votre commentaire a bien été créé."
-    },
-    "answersList": {
-      "title": "Réponses",
-      "empty": "Aucune réponse n'a été faite pour l'instant.",
-      "answered": "{member} a répondu : ",
-      "positive": "oui",
-      "negative": "non"
-    },
-    "createExchange": "Créer un échange",
-    "fulfil": "Clôturer la demande",
-    "fulfilled": "Votre demande a été clôturée",
-    "cancel": "Annuler la demande",
-    "canceled": "Votre demande a été annulée",
-    "notPending": "Cette demande n'est plus en cours",
-    "fulfilConfirmationDialog": {
-      "title": "Clôturer la demande sans échange ?",
-      "content": "Aucun échange n'a été créé à partir de cette demande. Souhaitez-vous en créer un ?",
-      "createExchange": "Oui, créer un échange",
-      "fulfilRequest": "Non, clôturer la demande"
-    }
-  },
-  "events": {
-    "list": {
-      "title": "Événements",
-      "create": "Créer un événement",
-      "empty": "Aucuns événements",
-      "organizerLabel": "Organisé par :",
-      "noDateFallback": "Date à définir"
-    },
-    "details": {
-      "editEvent": "Modifier l'événement",
-      "dateToBeDefined": "Date à définir",
-      "locationToBeDefined": "Lieu à définir",
-      "commentsTitle": "Commentaires",
-      "participationTitle": "Ma réponse",
-      "participates": "Je participe",
-      "dontParticipate": "Je ne participe pas",
-      "organizerTitle": "Organisé par",
-      "participantsTitle": "{count, plural, =0 {Aucun(e) participant(e)} =1 {{count} participant(e)} other {{count} participant(e)s}}"
-    },
-    "form": {
-      "dateLabel": "Date",
-      "datePlaceholder": "10/02/2024",
-      "dateIsPast": "La date doit être dans le futur",
-      "dateRequired": "La date est requise",
-      "timeLabel": "Heure",
-      "timePlaceholder": "12:30",
-      "timeRequired": "L'heure est requise",
-      "locationLabel": "Lieu",
-      "locationPlaceholder": "123 rue de la Liberté",
-      "titleLabel": "Titre de l'événement",
-      "titlePlaceholder": "Soirée jeux de société",
-      "bodyLabel": "Description",
-      "bodyPlaceholder": "J'organise une soirée..."
-    },
-    "create": {
-      "title": "Créer un événement",
-      "create": "Créer l'événement",
-      "created": "Votre événement a bien été créé."
-    },
-    "edit": {
-      "title": "Édition de l'événement « {eventTitle} »",
-      "edited": "Votre événement a bien été mis à jour."
-    }
-  },
-  "interests": {
-    "intro": {
-      "sentence1": "Retrouvez ici la liste des centres d'intérêts que partagent les membres de SEL'ons-nous. N'hésitez pas à rejoindre les centres d'intérêts qui vous concernent ou vous intéressent, via le bouton à droite.",
-      "sentence2": "Depuis <link>votre page de profil</link>, vous pouvez ajouter des précisions par rapport aux centres d'intérêts que vous avez rejoint, pour apporter un peu de contexte aux autres membres."
-    },
-    "noInterests": "Aucun centre d'intérêt n'a été enregistré.",
-    "noSearchResults": "Aucun centre d'intérêt ne correspond à cette recherche.",
-    "createInterest": "Ajouter le centre d'intérêt \"{label}\"",
-    "searchPlaceholder": "Rechercher parmi les centres d'intérêts",
-    "noMembers": "Ce centre d'intérêt ne compte aucun membre pour le moment.",
-    "membersCount": "({count} {count, plural, =1 {membre} other {membres}})",
-    "join": "Ajouter",
-    "joined": "Vous faites maintenant parti du centre d'intérêt <strong>{label}</strong>.",
-    "leave": "Retirer",
-    "left": "Vous ne faites plus parti du centre d'intérêt <strong>{label}</strong>.",
-    "createForm": {
-      "title": "Ajouter un centre d'intérêt",
-      "labelLabel": "Nom du centre d'intérêt",
-      "descriptionLabel": "Description",
-      "descriptionPlaceholder": "Examples d'activités liées à ce centre d'intérêt",
-      "interestCreated": "Le centre d'intérêt <strong>{label}</strong> a été ajouté"
-    }
-  },
-  "assets": {
-    "title": "Biens",
-    "sentence1": "La partie échanges de biens n'est pas encore disponible !",
-    "sentence2": "Cette partie devrait être disponible courant mai 2024."
-  },
-  "profile": {
-    "navigation": {
-      "profile": "Profil",
-      "address": "Adresse",
-      "transactions": "Échanges",
-      "interests": "Centres d'intérêts",
-      "settings": "Paramètres",
-      "signOut": "Déconnexion"
-    },
-    "profile": {
-      "firstName": "Prénom",
-      "lastName": "Nom",
-      "emailAddress": "Adresse email",
-      "emailAddressReadOnly": "L'adresse email ne peut pas être modifiée, contactez-nous si vous avez besoin de la changer.",
-      "phoneNumber": "Numéro de téléphone",
-      "phoneNumberInvalid": "Ce numéro de téléphone n'est pas valide.",
-      "bio": "Présentation",
-      "profilePicture": "Photo de profil",
-      "profilePictureMessage": "Pour changer votre photo de profil, cliquez sur le bouton ci-dessous et sélectionnez un fichier.",
-      "profilePictureChanged": "Votre photo de profil a bien été mise à jour.",
-      "saved": "Vos informations de profil ont bien été mises à jour."
-    },
-    "address": {
-      "description": "Cherchez votre adresse et sélectionnez un résultat pour la mettre à jour sur votre page de profil. Si vous ne la trouvez pas, contactez-nous pour que nous la mettions à jour manuellement.",
-      "placeholder": "Chercher une adresse...",
-      "saved": "Votre adresse a été bien enregistrée."
-    },
-    "transactions": {
-      "balance": "Solde : {balance}",
-      "noTransactions": "Vous n'avez réalisé aucun échange pour le moment.",
-      "completeSuccess": "L'échange a bien été validé, votre solde a été mis à jour.",
-      "canceled": "Cet échange a été annulé, aucun {currency} n'a été transféré.",
-      "cancelSuccess": "L'échange a bien été annulé, votre solde n'a pas changé.",
-      "pendingRecipient": "Cet échange est en attente de validation de la part de {payer}.",
-      "pendingPayer": "Cet échange est en attente de validation de votre part.",
-      "complete": "Valider l'échange",
-      "cancel": "Refuser",
-      "details": {
-        "title": "Échange avec {name}",
-        "payer": "Donneur",
-        "recipient": "Receveur"
-      }
-    },
-    "interests": {
-      "title": "Centres d'intérêts",
-      "noInterests": {
-        "line1": "Vous n'avez pas encore ajouté de centres d'intérêts à votre profil.",
-        "line2": "Rendez-vous sur la <link>page des centres d'intérêts</link> pour en ajouter."
-      },
-      "noDescription": "Pas encore de détails.",
-      "addDescription": "Ajouter",
-      "updateDescription": "Modifier",
-      "edited": "Le détail de votre centre d'intérêt a bien été mis à jour."
-    },
-    "settings": {
-      "title": "Paramètres",
-      "appearance": "Apparence",
-      "darkMode": "Mode sombre",
-      "notifications": {
-        "title": "Notifications",
-        "description": "Comment souhaitez-vous recevoir les notifications du SEL ?",
-        "deviceNotRegisteredTitle": "Activer les notifications sur ce smartphone.",
-        "deviceNotRegisteredDescription": "Pour recevoir des notifications, vous devez donner votre accord. <register>Cliquez ici</register> pour autoriser ce smartphone à recevoir les notifications.",
-        "notificationPermissionDenied": "Vous avez refusé l'envoi des notifications sur ce smartphone. Pour modifier ce choix, autorisez les notifications dans les paramètres de votre navigateur.",
-        "deviceRegistered": "Votre smartphone est correctement configuré pour recevoir les notifications.",
-        "deviceRegistrationFailed": "Votre smartphone ne pourra par recevoir de notifications.",
-        "email": "Email",
-        "emailDescription": "Vous recevez les notifications par email à l'adresse {email}.",
-        "push": "Mobile",
-        "pushDescription": "Vous recevez les notifications sur votre smartphone (après installation de l'application).",
-        "saved": "Vos paramètres de notifications ont été enregistrés."
-      }
-    },
-    "signOut": {
-      "description": "Pour vous déconnecter de l'app, cliquez sur le bouton ci-dessous.",
-      "button": "Déconnexion"
-    }
-  },
-  "admin": {
-    "members": {
-      "name": "Nom",
-      "status": "Statut",
-      "email": "Adresse email",
-      "phoneNumber": "Téléphone"
     }
   }
 }

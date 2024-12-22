@@ -9,6 +9,7 @@ export type Comment = {
 
 export type CommentAuthor = {
   id: string;
+  avatar?: string;
   firstName: string;
   lastName: string;
 };

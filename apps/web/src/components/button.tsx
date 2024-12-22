@@ -1,82 +1,89 @@
-import { debounce } from '@solid-primitives/scheduled';
-import {
-  ComponentProps,
-  Show,
-  createEffect,
-  createSignal,
-  mergeProps,
-  onCleanup,
-  splitProps,
-} from 'solid-js';
+import clsx from 'clsx';
+import { VariantProps, cva } from 'cva';
+import { ComponentProps, JSX, splitProps } from 'solid-js';
 
 import { Link } from './link';
 import { Spinner } from './spinner';
 
-type ButtonVariant = 'primary' | 'secondary';
+type ButtonVariantProps = VariantProps<typeof button>;
 
-type ButtonProps = ComponentProps<'button'> & {
-  variant?: ButtonVariant;
-  loading?: boolean;
-};
+type ButtonProps = ComponentProps<'button'> &
+  ButtonVariantProps & {
+    start?: JSX.Element;
+    end?: JSX.Element;
+    loading?: boolean;
+  };
 
-export function Button(props1: ButtonProps) {
-  const props2 = mergeProps({ type: 'button', variant: 'primary' } satisfies ButtonProps, props1);
-  const [props, buttonProps] = splitProps(props2, ['variant', 'loading', 'disabled', 'class', 'classList']);
+export function Button(_props: ButtonProps) {
+  const [props, rest] = splitProps(_props, [
+    'variant',
+    'size',
+    'start',
+    'end',
+    'disabled',
+    'loading',
+    'class',
+  ]);
 
-  const [loading, setLoading] = createSignal(false);
-  const setLoadingDebounced = debounce(setLoading, 250);
+  const start = () => {
+    const size = props.size ?? 'medium';
 
-  createEffect(() => {
     if (props.loading) {
-      setLoadingDebounced(true);
-    } else {
-      setLoading(false);
+      return <Spinner class={clsx({ 'size-6': size === 'medium', 'size-4': size === 'small' })} />;
     }
 
-    onCleanup(() => setLoadingDebounced.clear());
-  });
+    return props.start;
+  };
 
   return (
     <button
+      type="button"
+      class={button({ ...props, class: props.class })}
       disabled={props.disabled ?? props.loading}
-      class={props.class}
-      classList={{
-        button: true,
-        'button-primary': props.variant === 'primary',
-        'button-secondary': props.variant === 'secondary',
-        ...props.classList,
-      }}
-      {...buttonProps}
+      {...rest}
     >
-      {buttonProps.children}
-      <Show when={loading()}>
-        <Spinner class="size-4" />
-      </Show>
+      {start()}
+      {rest.children}
+      {props.end}
     </button>
   );
 }
 
-type LinkButtonProps = ComponentProps<typeof Link> & {
-  variant?: ButtonVariant;
-  loading?: boolean;
-};
+type LinkButtonProps = ComponentProps<typeof Link> &
+  ButtonVariantProps & {
+    start?: JSX.Element;
+  };
 
-export function LinkButton(props1: LinkButtonProps) {
-  const props = mergeProps({ variant: 'primary' } satisfies Omit<LinkButtonProps, 'href'>, props1);
+export function LinkButton(_props: LinkButtonProps) {
+  const [props, rest] = splitProps(_props, ['variant', 'size', 'disabled', 'start', 'class']);
 
-  return (
-    <Link
-      {...props}
-      unstyled
-      classList={{
-        button: true,
-        'button-primary': props.variant === 'primary',
-        'button-secondary': props.variant === 'secondary',
-        ...props.classList,
-      }}
-    >
-      {props.children}
-      {props.loading && <Spinner class="size-4" />}
-    </Link>
-  );
+  return <Link class={button({ ...props, class: props.class })} {...rest} />;
 }
+
+const button = cva(
+  [
+    'inline-flex flex-row items-center justify-center gap-2',
+    'rounded-lg border-2 transition hover:shadow-md',
+    'whitespace-nowrap font-medium',
+  ],
+  {
+    variants: {
+      variant: {
+        solid: 'border-green-600 bg-green-600 text-white',
+        outline: 'text-dim',
+        ghost: 'border-transparent text-dim hover:bg-inverted/5',
+      },
+      size: {
+        small: 'px-2 py-0.5 text-sm',
+        medium: 'px-4 py-1',
+      },
+      disabled: {
+        true: 'pointer-events-none opacity-60',
+      },
+    },
+    defaultVariants: {
+      variant: 'solid',
+      size: 'medium',
+    },
+  },
+);

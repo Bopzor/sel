@@ -1,53 +1,20 @@
-import { IntlProvider as SolidIntlProvider } from '@cookbook/solid-intl';
-import { JSX, createResource, createSignal } from 'solid-js';
+import { IntlShape as BaseIntlShape, createIntl, createIntlCache } from '@formatjs/intl';
+import { defined } from '@sel/utils';
+import { createContext, JSX, JSXElement, useContext } from 'solid-js';
 
-import fr from './lang/fr.json';
-import { Language } from './types';
+import { flatten } from 'src/utils/flatten';
 
-type IntlProviderProps = {
-  children: JSX.Element;
-};
+import translations from './lang/fr.json';
 
-export function IntlProvider(props: IntlProviderProps) {
-  const [language] = createSignal<Language>('fr');
+const intlContext = createContext<BaseIntlShape<JSXElement>>();
 
-  const [translations] = createResource(language, getTranslations, {
-    initialValue: flattenTranslations(fr),
-  });
+export function IntlProvider(props: { children: JSX.Element }) {
+  const cache = createIntlCache();
+  const intl = createIntl<JSXElement>({ locale: 'fr', messages: flatten(translations) }, cache);
 
-  return (
-    <SolidIntlProvider locale={language()} messages={translations()}>
-      {props.children}
-    </SolidIntlProvider>
-  );
+  return <intlContext.Provider value={intl}>{props.children}</intlContext.Provider>;
 }
 
-async function getTranslations(language: Language): Promise<Record<string, string>> {
-  return flattenTranslations(await fetchTranslations(language));
-}
-
-async function fetchTranslations(locale: Language) {
-  switch (locale) {
-    case 'fr':
-      return fr;
-
-    case 'en':
-      return import('./lang/en.json').then((mod) => mod.default);
-  }
-}
-
-export function flattenTranslations(obj: object, prefix = '') {
-  const result: Record<string, string> = {};
-
-  for (const [key, value] of Object.entries(obj)) {
-    if (typeof value === 'string') {
-      result[`${prefix !== '' ? `${prefix}.` : ''}${key}`] = value;
-    } else if (typeof value === 'object' && value !== null) {
-      Object.assign(result, flattenTranslations(value as object, `${prefix}.${key}`.replace(/^\./, '')));
-    } else {
-      throw new Error(`Cannot flatten value of type "${typeof value}"`);
-    }
-  }
-
-  return result;
+export function useIntl() {
+  return defined(useContext(intlContext));
 }

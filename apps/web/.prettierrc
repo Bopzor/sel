@@ -1,0 +1,8 @@
+{
+  "printWidth": 110,
+  "singleQuote": true,
+  "importOrder": [".css$", "^src/(.*)$", "^[./]"],
+  "importOrderSeparation": true,
+  "importOrderSideEffects": false,
+  "plugins": ["@trivago/prettier-plugin-sort-imports"]
+}

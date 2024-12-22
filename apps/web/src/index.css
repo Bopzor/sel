@@ -6,21 +6,55 @@
   :root {
     --color-body: 244 244 245;
     --color-border: 209 213 219;
+    --color-placeholder: 156 163 175;
     --color-neutral: 255 255 255;
     --color-inverted: 0 0 0;
-    --color-text: 0 0 0;
-    --color-dim: 24 24 27;
-    --color-icon: 75 85 99;
+    --color-text: 9 9 11;
+    --color-dim: 82 82 91;
+    --color-link: 59 130 246;
   }
 
   :root.dark {
     --color-body: 22 22 26;
     --color-border: 48 48 48;
+    --color-placeholder: 107 114 128;
     --color-neutral: 32 32 36;
     --color-inverted: 255 255 255;
-    --color-text: 255 255 255;
-    --color-dim: 212 212 216;
-    --color-icon: 156 163 175;
+    --color-text: 250 250 250;
+    --color-dim: 161 161 170;
+    --color-link: 96 165 250;
+  }
+
+  * {
+    border-color: rgb(var(--color-border));
+    outline-offset: theme(outlineOffset.4);
+  }
+
+  @media screen and (min-width: 640px) {
+    html {
+      overflow-y: scroll;
+    }
+  }
+
+  @media screen and (max-width: 639px) {
+    html {
+      font-size: 14px;
+    }
+
+    body {
+      overflow: hidden;
+    }
+  }
+
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+
+  #root {
+    display: flex;
+    flex-direction: column;
   }
 
   body {
@@ -28,180 +62,84 @@
     color: rgb(var(--color-text));
   }
 
-  *,
-  ::before,
-  ::after {
-    border-color: rgb(var(--color-border));
-    @apply outline-offset-4;
-  }
-
-  @media screen and (max-width: 640px) {
-    html {
-      font-size: 14px;
-    }
-  }
-
-  html,
-  body {
-    height: 100%;
-  }
-
-  a:not(.unstyled) {
-    @apply text-blue-500 dark:text-blue-300;
-  }
-
-  a:not(.unstyled):hover {
-    text-decoration: underline;
+  ::placeholder {
+    color: rgb(var(--color-placeholder));
   }
 
   h1 {
-    @apply typo-h1;
+    font-size: theme(fontSize.3xl);
+    font-weight: theme(fontWeight.semibold);
   }
 
-  h2 {
-    @apply typo-h2;
+  .prose {
+    a {
+      color: theme(colors.blue.500);
+    }
+
+    li,
+    li p {
+      margin-top: 0;
+      margin-bottom: 0;
+    }
   }
 
-  input::placeholder,
-  textarea::placeholder {
-    @apply text-gray-400 dark:text-gray-500;
+  .dark .prose {
+    a {
+      color: theme(colors.blue.300);
+    }
+  }
+}
+
+@layer components {
+  .shadow-current-day {
+    box-shadow: inset 0 0 theme(spacing.1) theme(colors.primary);
   }
 
-  dialog {
-    color: inherit;
-  }
+  table.table {
+    thead th {
+      background-color: theme(colors.inverted/0.1);
+      color: theme(colors.dim);
+      font-size: theme(fontSize.sm);
+      font-weight: theme(fontWeight.medium);
+      text-align: start;
+    }
 
-  thead th {
-    @apply bg-inverted/10;
-    @apply font-medium text-start text-dim text-sm;
-  }
+    tbody tr {
+      border-top-width: 1px;
 
-  tbody tr {
-    @apply hover:bg-primary/5;
-    @apply border-t;
-  }
+      &:hover {
+        background-color: theme(colors.primary/0.05);
+      }
+    }
 
-  th,
-  td {
-    @apply px-2 py-3;
+    th,
+    td {
+      padding: theme(spacing.2) theme(spacing.3);
+    }
   }
 }
 
 @layer utilities {
-  .col {
-    display: flex;
-    flex-direction: column;
-  }
-
   .row {
     display: flex;
     flex-direction: row;
   }
 
-  .flex-2 {
-    flex: 2;
-  }
-
-  .text-dim {
-    @apply text-opacity-80;
-  }
-
-  .typo-h1 {
-    @apply text-xl sm:text-3xl font-semibold;
-  }
-
-  .typo-h2 {
-    @apply text-xl font-semibold;
-  }
-
-  .border-strong {
-    @apply border-gray-500 dark:border-gray-400;
-  }
-
-  .text-green {
-    @apply text-green-700 dark:text-green-300;
-  }
-
-  .border-green {
-    @apply border-green-700 dark:border-green-300;
-  }
-
-  .text-red {
-    @apply text-red-700 dark:text-red-300;
-  }
-
-  .border-red {
-    @apply border-red-700 dark:border-red-300;
-  }
-
-  .fallback {
-    @apply text-dim font-medium row justify-center items-center;
-  }
-
-  .shadow-current-day {
-    box-shadow: inset 0 0 theme('spacing.1') theme('colors.primary');
+  .col {
+    display: flex;
+    flex-direction: column;
   }
 }
 
-@layer components {
-  .card {
-    border-radius: theme('borderRadius.lg');
-    box-shadow: theme('boxShadow.DEFAULT');
-    background-color: theme('colors.neutral');
-    overflow: hidden;
-  }
-
-  .button {
-    display: inline-flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    gap: theme('spacing.2');
-
-    padding: theme('spacing.1') theme('space.4');
-    border-radius: theme('borderRadius.lg');
-    border-width: 2px;
-
-    font-weight: theme('fontWeight.semibold');
-    white-space: nowrap;
-
-    @apply transition-all;
-
-    &:not(:disabled):hover {
-      box-shadow: theme('boxShadow.md');
-    }
-
-    &:disabled {
-      opacity: 0.6;
-    }
-  }
-
-  .button-primary {
-    @apply bg-green-600 dark:bg-green-700;
-    @apply border-green-600 dark:border-green-700;
-    color: white;
-  }
-
-  .button-secondary {
-    @apply text-dim border-gray-400 dark:border-gray-600;
-  }
-}
-
-:root.dark .map {
-  filter: brightness(60%) contrast(140%) grayscale(25%);
-  color: #666;
-}
-
-/* https://tiptap.dev/api/extensions/placeholder */
 .tiptap p.is-editor-empty:first-child::before {
-  @apply text-gray-400 dark:text-gray-500;
   content: attr(data-placeholder);
+  color: rgb(var(--color-placeholder));
   float: left;
   height: 0;
   pointer-events: none;
 }
 
-.prose li,
-.prose li p {
-  @apply my-0;
+.dark .map {
+  filter: brightness(60%) contrast(140%) grayscale(25%);
+  color: #666;
 }

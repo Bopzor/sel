@@ -1,5 +1,7 @@
 FROM node:20-slim AS build
 
+RUN apt-get update
+
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 RUN corepack enable
@@ -7,6 +9,9 @@ RUN corepack enable
 COPY . /usr/src/app
 WORKDIR /usr/src/app
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
+
+ARG VITE_ENVIRONMENT
+ENV VITE_ENVIRONMENT=$VITE_ENVIRONMENT
 
 ARG VITE_API_URL
 ENV VITE_API_URL=$VITE_API_URL
@@ -23,12 +28,17 @@ ENV VITE_GEOAPIFY_API_KEY=$VITE_GEOAPIFY_API_KEY
 ARG VITE_WEB_PUSH_PUBLIC_KEY
 ENV VITE_WEB_PUSH_PUBLIC_KEY=$VITE_WEB_PUSH_PUBLIC_KEY
 
+ARG VITE_SENTRY_DSN
+ENV VITE_SENTRY_DSN=$VITE_SENTRY_DSN
+
+ARG VITE_CONTACT_LINK
+ENV VITE_CONTACT_LINK=$VITE_CONTACT_LINK
+
 RUN pnpm run --filter=@sel/web build
-RUN pnpm deploy --filter=@sel/web --prod /prod
 
 FROM nginx:latest
 
 COPY ./apps/web/nginx.conf /etc/nginx/conf.d/default.conf
-COPY --from=build /prod/dist /usr/share/nginx/html
+COPY --from=build /usr/src/app/apps/web/dist /usr/share/nginx/html
 
 EXPOSE 80

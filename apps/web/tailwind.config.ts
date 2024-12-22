@@ -1,12 +1,15 @@
-import type { Config } from 'tailwindcss';
+import typography from '@tailwindcss/typography';
 import colors from 'tailwindcss/colors';
+import { fontFamily } from 'tailwindcss/defaultTheme';
+
+import { Config } from 'tailwindcss';
 
 export default {
-  content: ['index.html', '.storybook/preview.tsx', 'src/**/*.tsx'],
+  content: ['src/**/*.tsx'],
   darkMode: 'class',
   theme: {
     colors: {
-      primary: '#005F7E',
+      inherit: colors.inherit,
       transparent: colors.transparent,
       white: colors.white,
       green: colors.emerald,
@@ -18,28 +21,18 @@ export default {
       inverted: `rgb(var(--color-inverted) / <alpha-value>)`,
       text: `rgb(var(--color-text) / <alpha-value>)`,
       dim: `rgb(var(--color-dim) / <alpha-value>)`,
-      icon: `rgb(var(--color-icon) / <alpha-value>)`,
-    },
-    fontFamily: {
-      sans: ['Inter variable', 'sans-serif'],
-    },
-    lineHeight: {
-      0: '0',
-      1: '1em',
+      link: `rgb(var(--color-link) / <alpha-value>)`,
+      primary: '#005F7E',
     },
     extend: {
       spacing: {
         em: '1em',
       },
-      minHeight: {
-        sm: '24rem',
-        md: '32rem',
+      fontFamily: {
+        sans: ['Inter Variable', ...fontFamily.sans],
       },
-      maxHeight: {
-        md: '32rem',
-      },
-      aspectRatio: {
-        '4/3': '4/3',
+      lineHeight: {
+        0: '0',
       },
       typography: {
         DEFAULT: {
@@ -50,5 +43,5 @@ export default {
       },
     },
   },
-  plugins: [require('@tailwindcss/typography')],
+  plugins: [typography],
 } satisfies Config;

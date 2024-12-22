@@ -1,81 +1,132 @@
 import { Address } from '@sel/shared';
-import clsx from 'clsx';
-import { ComponentProps, createSignal } from 'solid-js';
+import { isDefined, wait } from '@sel/utils';
+import { createQuery } from '@tanstack/solid-query';
+import { ComponentProps, createSignal, splitProps } from 'solid-js';
 
-import { container } from '../infrastructure/container';
-import { Translate } from '../intl/translate';
-import { TOKENS } from '../tokens';
-import { createAsyncCall } from '../utils/create-async-call';
+import { getAppConfig } from 'src/application/config';
+import { formatAddressInline } from 'src/intl/formatted';
+import { createTranslate } from 'src/intl/translate';
 
 import { Autocomplete } from './autocomplete';
-import { formatAddressInline } from './formatted-address';
-import { Input } from './input';
-import { Map } from './map';
 
-const T = Translate.prefix('common.addressSearch');
+const T = createTranslate('components.addressSearch');
 
-type AddressSearchProps = Pick<ComponentProps<typeof Input>, 'variant' | 'width'> & {
+const forwardedAutocompleteProps = [
+  'ref',
+  'name',
+  'label',
+  'placeholder',
+  'error',
+  'variant',
+  'width',
+  'autofocus',
+  'onBlur',
+  'classes',
+] satisfies Array<keyof ComponentProps<typeof Autocomplete>>;
+
+type AddressSearchProps = Pick<
+  ComponentProps<typeof Autocomplete>,
+  (typeof forwardedAutocompleteProps)[number]
+> & {
   placeholder?: string;
-  value?: Address;
+  selected?: Address;
   onSelected: (address: Address) => void;
-  mapClass?: string;
 };
 
-export function AddressSearch(props: AddressSearchProps) {
-  const [inputValue, setInputValue] = createSignal<string>(
-    // eslint-disable-next-line solid/reactivity
-    props.value ? formatAddressInline(props.value) : '',
-  );
+export function AddressSearch(_props: AddressSearchProps) {
+  const [autocompleteProps, props] = splitProps(_props, forwardedAutocompleteProps);
 
-  const [addresses, setAddresses] = createSignal<Array<[string, Address]>>([]);
+  const [searchQuery, setSearchQuery] = createSignal('');
 
-  const [search, pending] = createAsyncCall(
-    (query: string) => {
-      if (query.length <= 3) {
-        return Promise.resolve([]);
+  const query = createQuery(() => ({
+    enabled: searchQuery().length >= 5,
+    queryKey: ['searchAddress', { query: searchQuery() }],
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+    refetchOnReconnect: false,
+    async queryFn({ signal }) {
+      if (!(await wait(1000, signal))) {
+        return [];
       }
 
-      return container.resolve(TOKENS.geocode).search(query);
+      return search(searchQuery());
     },
-    { onSuccess: setAddresses },
-    { debounce: 1000 },
-  );
+  }));
 
   return (
-    <div class="col grow gap-4">
-      <Autocomplete
-        variant={props.variant}
-        width={props.width}
-        loading={pending()}
-        items={addresses}
-        itemToString={(result) => result?.[0] ?? ''}
-        onItemSelected={([formatted, address]) => {
-          setInputValue(formatted);
-          props.onSelected(address);
-        }}
-        inputValue={inputValue}
-        onSearch={(query) => {
-          if (query !== inputValue()) {
-            void search(query);
-          }
-        }}
-        renderItem={([formatted]) => formatted}
-        renderNoItems={({ inputValue }) =>
-          inputValue &&
-          !pending() && (
-            <button type="button" class="w-full py-6 text-center text-dim">
-              <T id="noResults" />
-            </button>
-          )
-        }
-      />
-
-      <Map
-        center={props.value?.position}
-        zoom={props.value?.position ? 14 : undefined}
-        class={clsx('grow rounded-lg shadow', props.mapClass)}
-        markers={props.value?.position ? [{ isPopupOpen: false, position: props.value.position }] : undefined}
-      />
-    </div>
+    <Autocomplete<Address>
+      {...autocompleteProps}
+      loading={query.isFetching}
+      items={query.data ?? []}
+      itemToString={(result) => (result ? formatAddressInline(result) : '')}
+      selectedItem={() => props.selected ?? null}
+      onItemSelected={(address) => props.onSelected(address)}
+      onSearch={(value) => setSearchQuery(value)}
+      renderItem={formatAddressInline}
+      renderNoItems={({ inputValue }) =>
+        inputValue.length >= 5 &&
+        !query.isFetching && (
+          <div class="w-full py-6 text-center text-dim">
+            <T id="noResults" />
+          </div>
+        )
+      }
+    />
   );
+}
+
+type Feature = {
+  properties: Partial<{
+    country: string;
+    postcode: string;
+    city: string;
+    lon: number;
+    lat: number;
+    formatted: string;
+    address_line1: string;
+  }>;
+};
+
+type QueryResult = {
+  features?: Feature[];
+};
+
+async function search(query: string): Promise<Address[]> {
+  const { geoapifyApiKey } = getAppConfig();
+
+  const params = new URLSearchParams({
+    text: query,
+    apiKey: geoapifyApiKey,
+  });
+
+  const response = await fetch(`https://api.geoapify.com/v1/geocode/search?${params}`);
+
+  // todo: report error
+  if (!response.ok) {
+    throw new Error(`Failed to search for address: ${response.statusText}`);
+  }
+
+  const body: QueryResult = await response.json();
+
+  if (!body.features) {
+    return [];
+  }
+
+  const getAddress = ({ properties }: Feature): Address | undefined => {
+    const { address_line1, city, postcode, country, lon, lat } = properties;
+
+    if (!address_line1 || !city || !postcode || !country || !lon || !lat) {
+      return;
+    }
+
+    return {
+      line1: address_line1,
+      city: city,
+      postalCode: postcode,
+      country: country,
+      position: [lon, lat],
+    };
+  };
+
+  return body.features.map(getAddress).filter(isDefined);
 }

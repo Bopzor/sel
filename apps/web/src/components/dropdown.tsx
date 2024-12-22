@@ -1,6 +1,7 @@
 import { Strategy } from '@floating-ui/dom';
 import { ComponentProps, For, JSX, Show } from 'solid-js';
 import { Portal } from 'solid-js/web';
+import { Motion, Presence } from 'solid-motionone';
 
 export type DropdownProps<Item> = {
   ref: (element: HTMLUListElement | null) => void;
@@ -18,37 +19,43 @@ export type DropdownProps<Item> = {
 export function Dropdown<Item>(props: DropdownProps<Item>) {
   return (
     <Portal>
-      <Show when={props.items.length > 0 || props.renderNoItems?.()}>
-        <ul
-          ref={props.ref}
-          class="col rounded border bg-neutral px-2 py-3 shadow"
-          classList={{ '!hidden': !props.open }}
-          style={{
-            position: props.position.strategy,
-            top: `${props.position.y ?? 0}px`,
-            left: `${props.position.x ?? 0}px`,
-          }}
-          {...props.getMenuProps()}
-        >
-          <For
-            each={props.items}
-            fallback={props.renderNoItems ? <li>{props.renderNoItems()}</li> : undefined}
+      <Presence>
+        <Show when={props.open && (props.items.length > 0 || props.renderNoItems?.())}>
+          <Motion.ul
+            ref={props.ref}
+            class="col rounded border bg-neutral px-2 py-3 shadow"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            style={{
+              position: props.position.strategy,
+              top: `${props.position.y ?? 0}px`,
+              left: `${props.position.x ?? 0}px`,
+            }}
+            // avoid triggering click outside handler (dialog)
+            onClick={(event) => event.stopImmediatePropagation()}
+            {...props.getMenuProps()}
           >
-            {(item, index) => (
-              <li
-                class="cursor-pointer rounded px-2 py-1"
-                classList={{
-                  'font-semibold': item === props.selectedItem,
-                  'bg-primary/75 text-white': item === props.highlightedItem,
-                }}
-                {...props.getItemProps({ item, index: index() })}
-              >
-                {props.renderItem(item)}
-              </li>
-            )}
-          </For>
-        </ul>
-      </Show>
+            <For
+              each={props.items}
+              fallback={props.renderNoItems ? <li>{props.renderNoItems()}</li> : undefined}
+            >
+              {(item, index) => (
+                <li
+                  class="cursor-pointer rounded px-2 py-1"
+                  classList={{
+                    'font-semibold': item === props.selectedItem,
+                    'bg-primary/75 text-white': item === props.highlightedItem,
+                  }}
+                  {...props.getItemProps({ item, index: index() })}
+                >
+                  {props.renderItem(item)}
+                </li>
+              )}
+            </For>
+          </Motion.ul>
+        </Show>
+      </Presence>
     </Portal>
   );
 }

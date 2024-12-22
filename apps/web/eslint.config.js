@@ -1,52 +1,33 @@
-import { FlatCompat } from '@eslint/eslintrc';
-import url from 'node:url';
-import path from 'node:path';
+// @ts-check
+import eslint from '@eslint/js';
+import query from '@tanstack/eslint-plugin-query';
+import solid from 'eslint-plugin-solid/configs/recommended';
+import tseslint from 'typescript-eslint';
 
-import solid from 'eslint-plugin-solid/configs/typescript';
-import pluginQuery from '@tanstack/eslint-plugin-query';
-import base from '@sel/eslint-config/base.js';
-import typescript from '@sel/eslint-config/typescript.js';
-import globals from 'globals';
+import tailwind from 'eslint-plugin-tailwindcss';
 
-const __filename = url.fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-const compat = new FlatCompat({ resolvePluginsRelativeTo: __dirname });
-
-export default [
-  ...base,
-  ...typescript,
-  ...compat.extends('plugin:tailwindcss/recommended'),
-  ...pluginQuery.configs['flat/recommended'],
+export default tseslint.config(
+  eslint.configs.recommended,
+  tseslint.configs.recommended,
+  tseslint.configs.stylistic,
   solid,
+  ...query.configs['flat/recommended'],
+  ...tailwind.configs['flat/recommended'],
   {
-    files: ['**/*.{ts,tsx}'],
+    files: ['src/**/*'],
     languageOptions: {
-      globals: globals.browser,
       parserOptions: {
-        ecmaFeatures: {
-          jsx: true,
-        },
+        projectService: true,
+        tsconfigRootDir: import.meta.dirname,
       },
     },
     rules: {
+      'no-console': 'warn',
+      '@typescript-eslint/no-unused-vars': ['error', { ignoreRestSiblings: true }],
+      '@typescript-eslint/consistent-type-definitions': 'off',
+      '@typescript-eslint/array-type': 'off',
       'tailwindcss/no-arbitrary-value': 'warn',
-      'storybook/prefer-pascal-case': 'off',
       'solid/self-closing-comp': 'off',
     },
   },
-  {
-    files: ['vite.config.ts'],
-    languageOptions: {
-      parserOptions: {
-        project: 'tsconfig.node.json',
-      },
-    },
-    rules: {
-      '@typescript-eslint/no-unsafe-member-access': 'off',
-      '@typescript-eslint/no-unsafe-assignment': 'off',
-      '@typescript-eslint/no-unsafe-argument': 'off',
-      '@typescript-eslint/no-var-requires': 'off',
-    },
-  },
-];
+);

@@ -1,48 +1,17 @@
 import { exec } from 'node:child_process';
 import fs from 'node:fs/promises';
 import path from 'node:path';
-
-import devtools from 'solid-devtools/vite';
-import { Plugin } from 'vite';
-import { VitePWA } from 'vite-plugin-pwa';
+import { promisify } from 'node:util';
+import { defineConfig, Plugin } from 'vite';
 import { qrcode } from 'vite-plugin-qrcode';
-import solidPlugin from 'vite-plugin-solid';
+import solid from 'vite-plugin-solid';
 import solidSvg from 'vite-plugin-solid-svg';
-import { defineConfig } from 'vitest/config';
-
-// cspell:word qrcode
-
-const getVersion = () => {
-  return new Promise<string>((resolve) => {
-    exec('git rev-parse HEAD', (error, stdout) => resolve(stdout));
-  });
-};
+import tsconfigPaths from 'vite-tsconfig-paths';
 
 export default defineConfig({
-  plugins: [
-    devtools({
-      autoname: true,
-      locator: true,
-    }),
-    qrcode(),
-    solidPlugin(),
-    solidSvg(),
-    VitePWA({
-      registerType: 'autoUpdate',
-      manifest: require('./manifest.json'),
-      strategies: 'injectManifest',
-      srcDir: 'src',
-      filename: 'service-worker.ts',
-      devOptions: {
-        enabled: false,
-        type: 'module',
-      },
-    }),
-    version(getVersion),
-  ],
+  plugins: [qrcode(), tsconfigPaths(), solid(), solidSvg(), version(getVersion)],
   server: {
     port: 8000,
-    host: '0.0.0.0',
     proxy: {
       '/api': {
         target: 'http://localhost:3000',
@@ -50,38 +19,47 @@ export default defineConfig({
       },
     },
   },
+  build: {
+    sourcemap: true,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          maplibre: ['maplibre-gl'],
+          tiptap: [
+            '@tiptap/core',
+            '@tiptap/extension-image',
+            '@tiptap/extension-link',
+            '@tiptap/extension-placeholder',
+            '@tiptap/extension-underline',
+            '@tiptap/starter-kit',
+          ],
+        },
+      },
+    },
+  },
+  optimizeDeps: {
+    exclude: ['@modular-forms/solid'],
+  },
   resolve: {
     alias: {
       '@sel/shared': path.resolve('../../packages/shared/src'),
       '@sel/utils': path.resolve('../../packages/utils/src'),
     },
   },
-  build: {
-    target: 'esnext',
-    chunkSizeWarningLimit: 800,
-    rollupOptions: {
-      output: {
-        manualChunks: {
-          'maplibre-gl': ['maplibre-gl'],
-        },
-      },
-    },
-  },
-  test: {
-    reporters: ['verbose'],
-    environment: 'happy-dom',
-    watch: false,
-    deps: {
-      optimizer: {
-        web: {
-          enabled: true,
-        },
-      },
-    },
-  },
 });
 
-function version(getVersion: () => Promise<string>): Plugin {
+function getVersion() {
+  if (process.env.APP_VERSION) {
+    return process.env.APP_VERSION;
+  }
+
+  return promisify(exec)('git rev-parse HEAD').then(
+    ({ stdout }) => stdout,
+    () => 'unknown',
+  );
+}
+
+function version(getVersion: () => string | Promise<string>): Plugin {
   let dist = '';
 
   return {

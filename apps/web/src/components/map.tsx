@@ -1,17 +1,18 @@
+import clsx from 'clsx';
 import * as maplibre from 'maplibre-gl';
+
 import 'maplibre-gl/dist/maplibre-gl.css';
+
 import { createEffect, createSignal, For, JSX, Show } from 'solid-js';
 import MapGL, { Marker, Viewport } from 'solid-map-gl';
 
-import { container } from '../infrastructure/container';
-import { TOKENS } from '../tokens';
-import { getLetsConfig } from '../utils/lets-config';
+import { getAppConfig, getLetsConfig } from 'src/application/config';
 
 // cspell:words maplibre maplibregl
 
 export type MapMarker = {
   position: [lng: number, lat: number];
-  isPopupOpen: boolean;
+  isPopupOpen?: boolean;
   render?: () => JSX.Element;
 };
 
@@ -23,8 +24,7 @@ type MapProps = {
 };
 
 export function Map(props: MapProps) {
-  const { geoapify } = container.resolve(TOKENS.config);
-
+  const { geoapifyApiKey } = getAppConfig();
   const config = getLetsConfig();
   const [viewport, setViewport] = createSignal<Viewport>();
 
@@ -52,11 +52,12 @@ export function Map(props: MapProps) {
         <MapGL
           mapLib={maplibre}
           options={{
-            style: `https://maps.geoapify.com/v1/styles/osm-bright/style.json?apiKey=${geoapify.apiKey}`,
+            style: `https://maps.geoapify.com/v1/styles/osm-bright/style.json?apiKey=${geoapifyApiKey}`,
+            attributionControl: false,
           }}
           viewport={viewport()}
           onViewportChange={setViewport}
-          class="map relative size-full rounded-lg shadow"
+          class={clsx('map relative rounded-lg shadow', props.class)}
         >
           <For each={props.markers}>
             {(marker) => (

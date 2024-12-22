@@ -1,19 +1,33 @@
 import { autoUpdate, flip, offset, shift, size } from '@floating-ui/dom';
 import { createCombobox } from '@upop/solid';
+import clsx from 'clsx';
 import { useFloating } from 'solid-floating-ui';
 import { Icon } from 'solid-heroicons';
-import { chevronDown, chevronUp } from 'solid-heroicons/solid';
+import { chevronDown } from 'solid-heroicons/solid';
 import { ComponentProps, JSX, Show, createSignal, splitProps } from 'solid-js';
 
 import { Dropdown } from './dropdown';
 import { Input } from './input';
 import { Spinner } from './spinner';
 
-type AutocompleteProps<Item> = Pick<ComponentProps<typeof Input>, 'variant' | 'width' | 'name'> & {
+const forwardedInputProps = [
+  'ref',
+  'name',
+  'label',
+  'placeholder',
+  'error',
+  'variant',
+  'width',
+  'autofocus',
+  'onBlur',
+  'classes',
+] satisfies Array<keyof ComponentProps<typeof Input>>;
+
+type AutocompleteProps<Item> = Pick<ComponentProps<typeof Input>, (typeof forwardedInputProps)[number]> & {
   label?: JSX.Element;
   placeholder?: string;
   loading?: boolean;
-  items: () => Item[];
+  items: Item[];
   itemToString: (item: Item | null) => string;
   renderItem: (item: Item) => JSX.Element;
   renderNoItems?: (state: { inputValue: string }) => JSX.Element;
@@ -24,10 +38,16 @@ type AutocompleteProps<Item> = Pick<ComponentProps<typeof Input>, 'variant' | 'w
 };
 
 export function Autocomplete<Item>(props: AutocompleteProps<Item>) {
-  const [comboboxProps] = splitProps(props, ['items', 'itemToString', 'inputValue', 'selectedItem']);
+  const [inputProps, comboboxProps] = splitProps(props, forwardedInputProps, [
+    'items',
+    'itemToString',
+    'inputValue',
+    'selectedItem',
+  ]);
 
   const combobox = createCombobox({
     ...comboboxProps,
+    items: () => comboboxProps.items,
     onInputValueChange({ inputValue }) {
       props.onSearch(inputValue);
     },
@@ -62,19 +82,14 @@ export function Autocomplete<Item>(props: AutocompleteProps<Item>) {
     <>
       <Input
         {...combobox.getInputProps()}
+        {...inputProps}
         fieldRef={setReference}
-        variant={props.variant}
-        placeholder={props.placeholder}
-        width={props.width}
-        name={props.name}
         end={
-          <Show when={!props.loading} fallback={<Spinner class="size-4 text-dim" />}>
-            <button type="button" {...combobox.getToggleButtonProps()}>
-              <Show when={combobox.isOpen} fallback={<Icon path={chevronDown} class="size-5" />}>
-                <Icon path={chevronUp} class="size-5" />
-              </Show>
-            </button>
-          </Show>
+          <button type="button" {...combobox.getToggleButtonProps()}>
+            <Show when={!props.loading} fallback={<Spinner class="size-4 text-dim" />}>
+              <Icon path={chevronDown} class={clsx('size-5', combobox.isOpen && '-scale-y-100')} />
+            </Show>
+          </button>
         }
       />
 
@@ -82,9 +97,9 @@ export function Autocomplete<Item>(props: AutocompleteProps<Item>) {
         ref={setFloating}
         open={combobox.isOpen}
         position={position}
-        items={props.items()}
+        items={props.items}
         selectedItem={combobox.selectedItem ?? undefined}
-        highlightedItem={props.items()[combobox.highlightedIndex]}
+        highlightedItem={props.items[combobox.highlightedIndex]}
         renderItem={props.renderItem}
         renderNoItems={() => props.renderNoItems?.(combobox)}
         getMenuProps={combobox.getMenuProps}

@@ -45,8 +45,9 @@ export async function requestAuthenticationLink(command: RequestAuthenticationLi
   });
 
   const authenticationUrl = new URL(config.app.baseUrl);
-  authenticationUrl.searchParams.set('auth-token', tokenValue);
-  const link = authenticationUrl.toString();
 
-  events.publish(new AuthenticationLinkRequestedEvent(member.id, { link }));
+  authenticationUrl.pathname = '/authentication';
+  authenticationUrl.searchParams.set('auth-token', tokenValue);
+
+  events.publish(new AuthenticationLinkRequestedEvent(member.id, { link: authenticationUrl.toString() }));
 }

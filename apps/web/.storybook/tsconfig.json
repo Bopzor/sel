@@ -1,4 +1,0 @@
-{
-  "extends": "../tsconfig.json",
-  "files": ["fake-api.ts", "main.ts", "preview.tsx"]
-}

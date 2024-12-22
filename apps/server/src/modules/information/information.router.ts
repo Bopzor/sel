@@ -8,7 +8,7 @@ import { getAuthenticatedMember } from 'src/infrastructure/session';
 import { db, schema } from 'src/persistence';
 import { TOKENS } from 'src/tokens';
 
-import { Member } from '../member';
+import { MemberWithAvatar, withAvatar } from '../member/member.entities';
 
 import { createInformation } from './domain/create-information.command';
 import { Information } from './information.entities';
@@ -19,7 +19,7 @@ router.get('/', async (req, res) => {
   const [pinMessages, notPinMessages] = await Promise.all(
     [true, false].map((isPin) =>
       db.query.information.findMany({
-        with: { author: true },
+        with: { author: withAvatar },
         where: eq(schema.information.isPin, isPin),
         orderBy: desc(schema.information.publishedAt),
       }),
@@ -49,12 +49,21 @@ router.post('/', async (req, res) => {
 
 function serializeInformation(
   this: void,
-  information: Information & { author: Member | null },
+  information: Information & { author: MemberWithAvatar | null },
 ): shared.Information {
+  const author = () => {
+    if (information.author) {
+      return {
+        ...pick(information.author, ['id', 'firstName', 'lastName']),
+        avatar: information.author.avatar?.name,
+      };
+    }
+  };
+
   return {
     id: information.id,
     body: information.html,
     publishedAt: information.publishedAt.toISOString(),
-    author: information.author ? pick(information.author, ['id', 'firstName', 'lastName']) : undefined,
+    author: author(),
   };
 }

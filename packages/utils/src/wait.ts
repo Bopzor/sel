@@ -1,6 +1,15 @@
-export const wait = (ms: number) => {
-  return new Promise((r) => setTimeout(r, ms));
-};
+export function wait(ms: number, abort?: AbortSignal) {
+  return new Promise<boolean>((resolve) => {
+    const timeout = setTimeout(() => resolve(true), ms);
+
+    if (abort) {
+      abort.addEventListener('abort', () => {
+        clearTimeout(timeout);
+        resolve(false);
+      });
+    }
+  });
+}
 
 export const waitFor = async <T>(callback: () => T | Promise<T>): Promise<T> => {
   let error: unknown;

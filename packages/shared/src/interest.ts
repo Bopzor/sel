@@ -11,6 +11,7 @@ export type InterestMember = {
   id: string;
   firstName: string;
   lastName: string;
+  avatar?: string;
   description?: string;
 };
 

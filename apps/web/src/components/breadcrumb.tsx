@@ -1,13 +1,13 @@
 import { Event, Member, Request } from '@sel/shared';
 import { Icon } from 'solid-heroicons';
 import { chevronRight } from 'solid-heroicons/outline';
-import { JSX, For, Show } from 'solid-js';
+import { For, JSX, Show } from 'solid-js';
 
-import { Translate } from '../intl/translate';
-import { fullName } from '../modules/members/full-name';
-import { routes } from '../routes';
+import { routes } from 'src/application/routes';
+import { createTranslate } from 'src/intl/translate';
 
 import { Link } from './link';
+import { TextSkeleton } from './skeleton';
 
 type BreadcrumbItem = { label: JSX.Element; href: string; truncate?: true };
 
@@ -15,20 +15,19 @@ export function Breadcrumb(props: { items: Array<BreadcrumbItem | undefined> }) 
   const home = breadcrumb.home();
 
   return (
-    <nav class="row my-5 items-center gap-2">
+    <nav class="row mb-6 items-center gap-2">
       <For each={[home, ...props.items]}>
         {(item) => (
           <>
             <Show when={item !== home}>
               <div>
-                <Icon path={chevronRight} class="size-4 stroke-2 text-icon" />
+                <Icon path={chevronRight} class="size-4 stroke-2 text-dim" />
               </div>
             </Show>
 
-            <Show when={item} fallback={<Skeleton width={6} />}>
+            <Show when={item} fallback={<TextSkeleton width={10} />}>
               {(item) => (
                 <Link
-                  unstyled
                   href={item().href}
                   class="font-medium text-dim"
                   classList={{ truncate: item().truncate }}
@@ -44,11 +43,7 @@ export function Breadcrumb(props: { items: Array<BreadcrumbItem | undefined> }) 
   );
 }
 
-function Skeleton(props: { width: number }) {
-  return <span class="h-em animate-pulse rounded bg-inverted/10" style={{ width: `${props.width}rem` }} />;
-}
-
-const T = Translate.prefix('layout.breadcrumb');
+const T = createTranslate('layout.breadcrumb');
 
 export const breadcrumb = {
   home: (): BreadcrumbItem => ({
@@ -62,8 +57,8 @@ export const breadcrumb = {
   }),
 
   member: (member: Member): BreadcrumbItem => ({
-    label: fullName(member),
-    href: routes.members.member(member.id),
+    label: [member.firstName, member.lastName].join(' '),
+    href: routes.members.details(member.id),
     truncate: true,
   }),
 
@@ -74,7 +69,7 @@ export const breadcrumb = {
 
   request: (request: Request): BreadcrumbItem => ({
     label: request.title,
-    href: routes.requests.request(request.id),
+    href: routes.requests.details(request.id),
     truncate: true,
   }),
 
@@ -112,5 +107,20 @@ export const breadcrumb = {
   interests: (): BreadcrumbItem => ({
     label: <T id="interests" />,
     href: routes.interests,
+  }),
+
+  profile: (): BreadcrumbItem => ({
+    label: <T id="profile" />,
+    href: routes.profile.edition,
+  }),
+
+  admin: (): BreadcrumbItem => ({
+    label: <T id="admin" />,
+    href: routes.admin.index,
+  }),
+
+  adminMembers: (): BreadcrumbItem => ({
+    label: <T id="adminMembers" />,
+    href: routes.admin.memberList,
   }),
 };

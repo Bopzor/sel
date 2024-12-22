@@ -1,30 +1,4 @@
 {
-  "extends": "@sel/typescript-config/tsconfig.base.json",
-  "include": ["src/**/*"],
-  "references": [{ "path": "../../packages/shared" }, { "path": "../../packages/utils" }],
-
-  "compilerOptions": {
-    "target": "ES2020",
-    "useDefineForClassFields": true,
-    "module": "ESNext",
-    "lib": ["ES2021", "DOM", "DOM.Iterable"],
-    "skipLibCheck": true,
-
-    "types": ["vite-plugin-solid-svg/types-component-solid", "vite-plugin-pwa/solid", "vite/client"],
-
-    /* Bundler mode */
-    // "moduleResolution": "bundler",
-    "allowImportingTsExtensions": true,
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "noEmit": true,
-    "jsx": "preserve",
-    "jsxImportSource": "solid-js",
-
-    /* Linting */
-    "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
-  }
+  "files": [],
+  "references": [{ "path": "./tsconfig.app.json" }, { "path": "./tsconfig.node.json" }]
 }

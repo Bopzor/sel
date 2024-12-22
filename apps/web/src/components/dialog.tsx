@@ -1,54 +1,70 @@
+import clsx from 'clsx';
 import { Icon } from 'solid-heroicons';
 import { xMark } from 'solid-heroicons/solid';
-import { JSX } from 'solid-js';
+import { JSX, Show } from 'solid-js';
 import { Portal } from 'solid-js/web';
+import { Motion, Presence } from 'solid-motionone';
 
-type DialogProps = {
-  open: boolean;
-  onClose: () => void;
-  width?: 1 | 2 | 3;
-  children: JSX.Element;
-};
+import { createDismiss } from 'src/utils/event-handlers';
 
-export function Dialog(props: DialogProps) {
+export function Dialog(props: { open: boolean; onClose: () => void; children: JSX.Element; class?: string }) {
+  let ref!: HTMLDivElement;
+
+  createDismiss(
+    () => ref,
+    () => props.open,
+    () => props.onClose(),
+  );
+
   return (
-    <Portal mount={document.querySelector('#root') as HTMLElement}>
-      <Overlay open={props.open} onClose={() => props.onClose()}>
-        <dialog
-          open={props.open}
-          class="w-full rounded-lg bg-neutral p-4 md:mx-auto md:w-3/4 lg:w-2/3 xl:w-1/2"
-          classList={{
-            'max-w-xl': props.width === 1,
-            'max-w-2xl': props.width === 2,
-            'max-w-3xl': props.width === 3,
-          }}
+    <Portal mount={document.getElementById('root') ?? undefined}>
+      <Backdrop show={props.open} class="col items-center justify-center p-4 ">
+        <div
+          ref={ref}
+          role="dialog"
+          class={clsx('w-full overflow-auto rounded-lg bg-neutral p-4', props.class)}
         >
           {props.children}
-        </dialog>
-      </Overlay>
+        </div>
+      </Backdrop>
     </Portal>
   );
 }
 
 export function DialogHeader(props: { title: JSX.Element; onClose: () => void }) {
   return (
-    <div class="row items-start justify-between">
-      <div class="mb-4 mt-2 text-lg font-medium">{props.title}</div>
+    <header class="row mb-4 items-start justify-between">
+      <div class="mt-2 text-lg font-medium">{props.title}</div>
       <button onClick={() => props.onClose()}>
         <Icon path={xMark} class="size-6" />
       </button>
-    </div>
+    </header>
   );
 }
 
-function Overlay(props: { open: boolean; onClose: () => void; children: JSX.Element }) {
+export function DialogFooter(props: { class?: string; children: JSX.Element }) {
   return (
-    <div
-      class="col fixed inset-0 justify-center bg-inverted/25 backdrop-blur-sm dark:bg-inverted/10"
-      classList={{ '!hidden': !props.open }}
-      onClick={(event) => event.target === event.currentTarget && props.onClose()}
-    >
-      {props.children}
-    </div>
+    <footer class={clsx('row mt-6 items-center justify-end gap-4', props.class)}>{props.children}</footer>
+  );
+}
+
+export function Backdrop(props: { show: boolean; class?: string; children: JSX.Element }) {
+  return (
+    <Presence exitBeforeEnter>
+      <Show when={props.show}>
+        <Motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.2, easing: 'ease-in-out' }}
+          class={clsx(
+            'fixed inset-0 backdrop-blur-sm backdrop-brightness-75 backdrop-grayscale',
+            props.class,
+          )}
+        >
+          {props.children}
+        </Motion.div>
+      </Show>
+    </Presence>
   );
 }

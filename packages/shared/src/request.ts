@@ -31,6 +31,7 @@ export type RequestAnswer = {
   id: string;
   member: {
     id: string;
+    avatar?: string;
     firstName: string;
     lastName: string;
   };

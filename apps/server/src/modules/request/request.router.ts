@@ -12,7 +12,7 @@ import { db, schema } from 'src/persistence';
 import { TOKENS } from 'src/tokens';
 
 import { Comment } from '../comment';
-import { Member } from '../member';
+import { MemberWithAvatar, withAvatar } from '../member/member.entities';
 import { createTransaction } from '../transaction/domain/create-transaction.command';
 import { Transaction } from '../transaction/transaction.entities';
 
@@ -46,15 +46,15 @@ router.get('/', async (req, res) => {
       position: sql`case status when 'pending' then 1 else 2 end`.as('position'),
     },
     with: {
-      requester: true,
+      requester: withAvatar,
       answers: {
         with: {
-          member: true,
+          member: withAvatar,
         },
       },
       comments: {
         with: {
-          author: true,
+          author: withAvatar,
         },
       },
       transactions: true,
@@ -69,15 +69,15 @@ router.get('/:requestId', async (req, res) => {
   const request = await db.query.requests.findFirst({
     where: eq(schema.requests.id, req.params.requestId),
     with: {
-      requester: true,
+      requester: withAvatar,
       answers: {
         with: {
-          member: true,
+          member: withAvatar,
         },
       },
       comments: {
         with: {
-          author: true,
+          author: withAvatar,
         },
       },
       transactions: true,
@@ -198,9 +198,9 @@ router.post('/:requestId/transaction', async (req, res) => {
 
 function serializeRequest(
   request: Request & {
-    requester: Member;
-    comments: Array<Comment & { author: Member }>;
-    answers: Array<RequestAnswer & { member: Member }>;
+    requester: MemberWithAvatar;
+    comments: Array<Comment & { author: MemberWithAvatar }>;
+    answers: Array<RequestAnswer & { member: MemberWithAvatar }>;
     transactions: Array<Transaction>;
   },
 ): shared.Request {
@@ -214,6 +214,7 @@ function serializeRequest(
       id: requester.id,
       firstName: requester.firstName,
       lastName: requester.lastName,
+      avatar: requester.avatar?.name,
       email: requester.emailVisible ? requester.email : undefined,
       phoneNumbers: (requester.phoneNumbers as shared.PhoneNumber[]).filter(({ visible }) => visible),
     },
@@ -224,6 +225,7 @@ function serializeRequest(
       id: answer.id,
       member: {
         id: answer.member.id,
+        avatar: answer.member.avatar?.name,
         firstName: answer.member.firstName,
         lastName: answer.member.lastName,
       },
@@ -234,6 +236,7 @@ function serializeRequest(
       date: comment.date.toISOString(),
       author: {
         id: comment.author.id,
+        avatar: comment.author.avatar?.name,
         firstName: comment.author.firstName,
         lastName: comment.author.lastName,
       },

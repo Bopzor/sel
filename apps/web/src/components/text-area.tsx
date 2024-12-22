@@ -1,20 +1,33 @@
-import clsx from 'clsx';
-import { JSX, mergeProps, splitProps } from 'solid-js';
+import { JSX, splitProps } from 'solid-js';
 
-import { Field, FieldVariant, FieldWidth } from './field';
+import { createId } from 'src/utils/id';
+
+import { field, FieldVariant } from './field';
+import { FormControl } from './form-control';
 
 type TextAreaProps = JSX.TextareaHTMLAttributes<HTMLTextAreaElement> & {
   variant?: FieldVariant;
-  width?: FieldWidth;
+  label?: JSX.Element;
+  error?: JSX.Element;
+  helperText?: JSX.Element;
+  classes?: Partial<Record<'root' | 'field', string>>;
 };
 
-export function TextArea(props1: TextAreaProps) {
-  const props2 = mergeProps({ variant: 'solid', width: 'full' } satisfies TextAreaProps, props1);
-  const [fieldProps, textareaProps] = splitProps(props2, ['variant', 'class']);
+export function TextArea(_props: TextAreaProps) {
+  const id = createId(() => _props.id);
+
+  const [formControlProps, fieldProps, props, textAreaProps] = splitProps(
+    _props,
+    ['label', 'error', 'helperText', 'class'],
+    ['variant'],
+    ['classes'],
+  );
 
   return (
-    <Field {...fieldProps} class={clsx('h-auto', fieldProps.class)}>
-      <textarea ref={textareaProps.ref ?? undefined} class="w-full bg-neutral px-4 py-3" {...textareaProps} />
-    </Field>
+    <FormControl id={id()} {...formControlProps} class={props.classes?.root}>
+      <div class={field({ ...fieldProps, class: props.classes?.field })}>
+        <textarea class="w-full bg-neutral px-4 py-3" {...textAreaProps} />
+      </div>
+    </FormControl>
   );
 }

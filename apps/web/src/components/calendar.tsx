@@ -1,6 +1,4 @@
 import {
-  addDuration,
-  assert,
   createArray,
   endOfWeek,
   getDay,
@@ -12,14 +10,14 @@ import {
   lastDayOfMonth,
   startOfWeek,
 } from '@sel/utils';
+import { add } from 'date-fns';
 import { For, JSX, createMemo } from 'solid-js';
 
-import { getDayName } from '../intl/date';
+import { useIntl } from 'src/intl/intl-provider';
 
 type CalendarProps = {
   year: number;
   month: number;
-  useAbbreviation?: boolean;
   renderDay: (date: Date, day: Day) => JSX.Element;
 };
 
@@ -29,11 +27,7 @@ export function Calendar(props: CalendarProps) {
   return (
     <div class="grid grid-cols-7">
       <For each={createArray(7, (index) => index + 1)}>
-        {(day) => (
-          <div class="py-2 text-center capitalize">
-            {getDayName(new Date(2024, 0, day), props.useAbbreviation)}
-          </div>
-        )}
+        {(day) => <div class="py-2 text-center capitalize">{getDayName(new Date(2024, 0, day))}</div>}
       </For>
 
       <For each={days()}>
@@ -61,9 +55,6 @@ export function Calendar(props: CalendarProps) {
 }
 
 function createCalendarDays(year: number, month: number) {
-  assert(typeof year === 'number', `year is ${typeof year}`);
-  assert(typeof month === 'number', `month is ${typeof month}`);
-
   const first = new Date(year, month - 1);
   const last = lastDayOfMonth(first);
 
@@ -83,7 +74,7 @@ function createDaysRange(start: Date, end: Date) {
 
   while (!isSameDay(day, end)) {
     days.push(day);
-    day = addDuration(day, { days: 1 });
+    day = add(day, { days: 1 });
   }
 
   return days;
@@ -114,4 +105,11 @@ function createDayData(days: Date[], first: Date) {
       isPast: isPast(date) && !isToday,
     };
   };
+}
+
+function getDayName(date: Date) {
+  const intl = useIntl();
+  const name = intl.formatDate(date, { weekday: 'long' });
+
+  return name;
 }

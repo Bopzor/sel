@@ -9,7 +9,7 @@ import { db, schema } from 'src/persistence';
 import { TOKENS } from 'src/tokens';
 
 import { Comment } from '../comment';
-import { Member } from '../member';
+import { MemberWithAvatar, withAvatar } from '../member/member.entities';
 
 import { createEventComment } from './domain/create-event-comment.command';
 import { createEvent } from './domain/create-event.command';
@@ -23,7 +23,7 @@ router.get('/', async (req, res) => {
   const events = await db.query.events.findMany({
     orderBy: [asc(schema.events.date, { nulls: 'first' })],
     with: {
-      organizer: true,
+      organizer: withAvatar,
     },
   });
 
@@ -34,16 +34,12 @@ router.get('/:eventId', async (req, res) => {
   const event = await db.query.events.findFirst({
     where: eq(schema.events.id, req.params.eventId),
     with: {
-      organizer: true,
+      organizer: withAvatar,
       participants: {
-        with: {
-          member: true,
-        },
+        with: { member: withAvatar },
       },
       comments: {
-        with: {
-          author: true,
-        },
+        with: { author: withAvatar },
       },
     },
   });
@@ -119,7 +115,7 @@ router.post('/:eventId/comment', async (req, res) => {
   res.status(HttpStatus.created).send(commentId);
 });
 
-function serializeEvents(events: Array<Event & { organizer: Member }>): shared.EventsListItem[] {
+function serializeEvents(events: Array<Event & { organizer: MemberWithAvatar }>): shared.EventsListItem[] {
   return events.map((event) => ({
     id: event.id,
     title: event.title,
@@ -131,9 +127,9 @@ function serializeEvents(events: Array<Event & { organizer: Member }>): shared.E
 
 function serializeEvent(
   event: Event & {
-    organizer: Member;
-    participants: Array<EventParticipation & { member: Member }>;
-    comments: Array<Comment & { author: Member }>;
+    organizer: MemberWithAvatar;
+    participants: Array<EventParticipation & { member: MemberWithAvatar }>;
+    comments: Array<Comment & { author: MemberWithAvatar }>;
   },
 ): shared.Event {
   return {
@@ -148,6 +144,7 @@ function serializeEvent(
       id: member.id,
       firstName: member.firstName,
       lastName: member.lastName,
+      avatar: member.avatar?.name,
       participation,
     })),
     comments: event.comments.map((comment) => ({
@@ -157,17 +154,19 @@ function serializeEvent(
         id: comment.author.id,
         firstName: comment.author.firstName,
         lastName: comment.author.lastName,
+        avatar: comment.author.avatar?.name,
       },
       body: comment.html,
     })),
   };
 }
 
-function serializeOrganizer(organizer: Member): shared.EventOrganizer {
+function serializeOrganizer(organizer: MemberWithAvatar): shared.EventOrganizer {
   return {
     id: organizer.id,
     firstName: organizer.firstName,
     lastName: organizer.lastName,
+    avatar: organizer.avatar?.name,
     email: organizer.emailVisible ? organizer.email : undefined,
     phoneNumbers: (organizer.phoneNumbers as shared.PhoneNumber[]).filter(({ visible }) => visible),
   };

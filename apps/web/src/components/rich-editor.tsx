@@ -6,44 +6,42 @@ import Placeholder from '@tiptap/extension-placeholder';
 import Underline from '@tiptap/extension-underline';
 import StarterKit from '@tiptap/starter-kit';
 import clsx from 'clsx';
-import { ValidComponent } from 'solid-js';
+import { default as IconBold } from 'heroicons/24/solid/bold.svg';
+import { default as IconItalic } from 'heroicons/24/solid/italic.svg';
+import { default as IconLink } from 'heroicons/24/solid/link.svg';
+import { default as IconListBullet } from 'heroicons/24/solid/list-bullet.svg';
+import { default as IconNumberedList } from 'heroicons/24/solid/numbered-list.svg';
+import { default as IconPaperClip } from 'heroicons/24/solid/paper-clip.svg';
+import { default as IconUnderline } from 'heroicons/24/solid/underline.svg';
+import { JSX, splitProps, ValidComponent } from 'solid-js';
 import { Dynamic } from 'solid-js/web';
 import { createEditorTransaction, createTiptapEditor } from 'solid-tiptap';
-import ImageResize from 'tiptap-extension-resize-image';
 
-import {
-  IconBold,
-  IconItalic,
-  IconLink,
-  IconListBullet,
-  IconNumberedList,
-  IconPaperClip,
-  IconUnderline,
-} from '../icons';
-import { container } from '../infrastructure/container';
-import { Translate } from '../intl/translate';
-import { TOKENS } from '../tokens';
+import { api } from 'src/application/api';
+import { createTranslate } from 'src/intl/translate';
+import { createId } from 'src/utils/id';
 
-const T = Translate.prefix('common.richEditor');
+import { field, FieldVariant } from './field';
+import { FormControl } from './form-control';
+
+const T = createTranslate('components.richEditor');
 
 type CreateRichEditorProps = {
+  element: () => HTMLElement;
   placeholder?: string;
   initialValue?: string;
   onChange?: (html: string) => void;
 };
 
-export function createRichEditor(element: () => HTMLElement, props: CreateRichEditorProps) {
+export function createRichEditor(props: CreateRichEditorProps) {
   return createTiptapEditor(() => ({
-    element: element(),
+    element: props.element(),
     extensions: [
       StarterKit,
       Underline,
       Link,
-      Placeholder.configure({
-        placeholder: props.placeholder,
-      }),
+      Placeholder.configure({ placeholder: props.placeholder }),
       Image,
-      ImageResize,
     ],
     content: props.initialValue,
     editorProps: {
@@ -57,46 +55,42 @@ export function createRichEditor(element: () => HTMLElement, props: CreateRichEd
   }));
 }
 
-type RichEditorProps = {
-  placeholder?: string;
-  initialValue?: string;
-  onChange?: (html: string) => void;
+type RichEditorProps = CreateRichEditorProps & {
+  id?: string;
+  variant?: FieldVariant;
+  label?: JSX.Element;
+  error?: JSX.Element;
 };
 
-export function RichEditor(props: RichEditorProps) {
+export function RichEditor(_props: Omit<RichEditorProps, 'element'>) {
+  const [formControlProps, fieldProps, props] = splitProps(_props, ['label', 'error'], ['variant']);
+
+  const id = createId(() => props.id);
   let ref!: HTMLDivElement;
 
-  const editor = createRichEditor(() => ref, {
-    placeholder: props.placeholder,
-    initialValue: props.initialValue,
-    onChange: (html) => props.onChange?.(html),
-  });
+  const editor = createRichEditor({ ...props, element: () => ref });
 
   return (
-    <div
-      class={clsx(
-        'col min-h-64 resize-y overflow-auto',
-        'rounded-lg border-2',
-        'border-transparent bg-neutral shadow',
-        'transition-colors focus-within:border-primary/50',
-      )}
-    >
-      <div ref={ref} class="col grow overflow-y-auto px-4 py-3" />
+    <FormControl id={id()} {...formControlProps}>
+      <div class={field({ ...fieldProps, class: 'col items-stretch h-48 resize-y overflow-auto' })}>
+        <div
+          ref={ref}
+          aria-invalid={Boolean(formControlProps.error)}
+          aria-errormessage={formControlProps.error ? `${id()}-helper-text` : undefined}
+          id={id()}
+          class="col grow overflow-y-auto px-4 py-3"
+        />
 
-      <div class="row items-end justify-between p-1">
-        <RichEditorToolbar editor={editor()} />
+        <div class="row items-end justify-between p-1">
+          <RichEditorToolbar editor={editor()} />
+        </div>
       </div>
-    </div>
+    </FormControl>
   );
 }
 
-type ToolbarProps = {
-  editor?: Editor;
-  class?: string;
-};
-
-export function RichEditorToolbar(props: ToolbarProps) {
-  const t = T.useTranslation();
+export function RichEditorToolbar(props: { editor?: Editor; class?: string }) {
+  const t = T.useTranslate();
 
   const [isBold, isItalic, isUnderline, isBulletList, isOrderedList, isLink] = [
     'bold',
@@ -135,44 +129,44 @@ export function RichEditorToolbar(props: ToolbarProps) {
       <ToolbarItem
         title={t('bold')}
         icon={IconBold}
-        isActive={isBold()}
+        active={isBold?.()}
         onClick={() => props.editor?.chain().focus().toggleBold().run()}
       />
 
       <ToolbarItem
         title={t('italic')}
         icon={IconItalic}
-        isActive={isItalic()}
+        active={isItalic?.()}
         onClick={() => props.editor?.chain().focus().toggleItalic().run()}
       />
 
       <ToolbarItem
         title={t('underline')}
         icon={IconUnderline}
-        isActive={isUnderline()}
+        active={isUnderline?.()}
         onClick={() => props.editor?.chain().focus().toggleUnderline().run()}
       />
 
-      <ToolbarItem title={t('link')} icon={IconLink} isActive={isLink()} onClick={setLink} />
+      <ToolbarItem title={t('link')} icon={IconLink} active={isLink?.()} onClick={setLink} />
 
       <ToolbarItem
         title={t('bulletList')}
         icon={IconListBullet}
-        isActive={isBulletList()}
+        active={isBulletList?.()}
         onClick={() => props.editor?.chain().focus().toggleBulletList().run()}
       />
 
       <ToolbarItem
         title={t('orderedList')}
         icon={IconNumberedList}
-        isActive={isOrderedList()}
+        active={isOrderedList?.()}
         onClick={() => props.editor?.chain().focus().toggleOrderedList().run()}
       />
 
       <ToolbarItem
         title={t('upload')}
         icon={IconPaperClip}
-        isActive={false}
+        active={false}
         onClick={() => fileInput.click()}
       />
 
@@ -188,14 +182,7 @@ export function RichEditorToolbar(props: ToolbarProps) {
   );
 }
 
-type ToolbarItemProps = {
-  title: string;
-  icon: ValidComponent;
-  isActive: boolean;
-  onClick: () => void;
-};
-
-function ToolbarItem(props: ToolbarItemProps) {
+function ToolbarItem(props: { title: string; icon: ValidComponent; active?: boolean; onClick: () => void }) {
   return (
     <button
       type="button"
@@ -203,8 +190,8 @@ function ToolbarItem(props: ToolbarItemProps) {
       onClick={() => props.onClick()}
       class="rounded p-0.5"
       classList={{
-        'fill-icon/75': !props.isActive,
-        'fill-primary bg-dim/10': props.isActive,
+        'fill-icon/75': !props.active,
+        'fill-primary bg-dim/10': props.active,
       }}
     >
       <Dynamic component={props.icon} class="size-5 text-dim transition-colors hover:text-text" />
@@ -213,9 +200,6 @@ function ToolbarItem(props: ToolbarItemProps) {
 }
 
 function createFileUploadHandler(editor: () => Editor | undefined) {
-  const config = container.resolve(TOKENS.config);
-  const api = container.resolve(TOKENS.api);
-
   const fileUpload = createMutation(() => ({
     async mutationFn(file: File) {
       const fileName = await api.uploadFile({ files: { file } });
@@ -238,9 +222,9 @@ function createFileUploadHandler(editor: () => Editor | undefined) {
         chain
           .insertContent({ type: 'text', text: originalFileName })
           .selectParentNode()
-          .setLink({ href: `${config.api.url}/files/${fileName}`, target: '_blank' });
+          .setLink({ href: `/api/files/${fileName}`, target: '_blank' });
       } else {
-        chain.setImage({ src: `${config.api.url}/files/${fileName}` });
+        chain.setImage({ src: `/api/files/${fileName}` });
       }
 
       chain.run();
