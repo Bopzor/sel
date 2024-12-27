@@ -2,6 +2,7 @@ import * as shared from '@sel/shared';
 import { createDate, createFactory, createId } from '@sel/utils';
 
 import { TokenInsert, TokenType } from './modules/authentication/authentication.entities';
+import { FileInsert } from './modules/file/file.entity';
 import { InterestInsert } from './modules/interest/interest.entities';
 import { MemberInsert } from './modules/member/member.entities';
 import { RequestInsert } from './modules/request/request.entities';
@@ -28,6 +29,7 @@ export const insert = {
     id: createId(),
     label: '',
     description: '',
+    imageId: '',
   })),
 
   request: createFactory<RequestInsert>(() => ({
@@ -37,5 +39,14 @@ export const insert = {
     title: '',
     text: '',
     html: '',
+  })),
+
+  file: createFactory<FileInsert>(() => ({
+    id: createId(),
+    name: '',
+    originalName: '',
+    mimetype: '',
+    size: 0,
+    uploadedBy: '',
   })),
 };

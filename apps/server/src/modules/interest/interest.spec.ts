@@ -7,6 +7,7 @@ import { resetDatabase } from 'src/persistence';
 import { clearDatabase, db } from 'src/persistence/database';
 import { TOKENS } from 'src/tokens';
 
+import { insertFile } from '../file/file.persistence';
 import { insertMember } from '../member';
 
 import { addInterestMember } from './domain/add-interest-member.command';
@@ -29,9 +30,12 @@ describe('interest', () => {
 
   let events: StubEvents;
 
-  beforeEach(() => {
+  beforeEach(async () => {
     events = new StubEvents();
     container.bindValue(TOKENS.events, events);
+
+    await insertMember(insert.member({ id: 'memberId' }));
+    await insertFile(insert.file({ id: 'imageId', uploadedBy: 'memberId' }));
   });
 
   it('creates a new interest', async () => {
@@ -39,12 +43,14 @@ describe('interest', () => {
       interestId: 'interestId',
       label: 'label',
       description: 'description',
+      imageId: 'imageId',
     });
 
     expect(await findInterestById('interestId')).toEqual<Interest>({
       id: 'interestId',
       label: 'label',
       description: 'description',
+      imageId: 'imageId',
       createdAt: expect.any(Date),
       updatedAt: expect.any(Date),
     });
@@ -53,8 +59,7 @@ describe('interest', () => {
   });
 
   it('adds a member to an interest', async () => {
-    await insertMember(insert.member({ id: 'memberId' }));
-    await insertInterest(insert.interest({ id: 'interestId' }));
+    await insertInterest(insert.interest({ id: 'interestId', imageId: 'imageId' }));
 
     await addInterestMember({ memberId: 'memberId', interestId: 'interestId' });
 
@@ -69,8 +74,7 @@ describe('interest', () => {
   });
 
   it('removes a member from an interest', async () => {
-    await insertMember(insert.member({ id: 'memberId' }));
-    await insertInterest(insert.interest({ id: 'interestId' }));
+    await insertInterest(insert.interest({ id: 'interestId', imageId: 'imageId' }));
 
     await addInterestMember({ memberId: 'memberId', interestId: 'interestId' });
     await removeInterestMember({ memberId: 'memberId', interestId: 'interestId' });
@@ -83,8 +87,7 @@ describe('interest', () => {
   });
 
   it("edits a member interest's description", async () => {
-    await insertMember(insert.member({ id: 'memberId' }));
-    await insertInterest(insert.interest({ id: 'interestId' }));
+    await insertInterest(insert.interest({ id: 'interestId', imageId: 'imageId' }));
 
     await addInterestMember({ memberId: 'memberId', interestId: 'interestId' });
     await editInterestMember({ memberId: 'memberId', interestId: 'interestId', description: 'description' });

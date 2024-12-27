@@ -4,6 +4,7 @@ export type Interest = {
   id: string;
   label: string;
   description: string;
+  image: string;
   members: InterestMember[];
 };
 
@@ -37,6 +38,7 @@ export type EditInterestMemberBody = z.infer<typeof addInterestMemberBodySchema>
 export const createInterestBodySchema = z.object({
   label: z.string().trim().min(3).max(50),
   description: z.string().trim().max(400),
+  imageId: z.string().min(16).max(16),
 });
 
 export type CreateInterestBodySchema = z.infer<typeof createInterestBodySchema>;

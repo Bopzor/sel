@@ -8,6 +8,7 @@ import { getAuthenticatedMember } from 'src/infrastructure/session';
 import { db, schema } from 'src/persistence';
 import { TOKENS } from 'src/tokens';
 
+import { File } from '../file/file.entity';
 import { MemberWithAvatar, withAvatar } from '../member/member.entities';
 
 import { addInterestMember } from './domain/add-interest-member.command';
@@ -22,6 +23,7 @@ router.get('/', async (req, res) => {
   const interests = await db.query.interests.findMany({
     orderBy: asc(schema.interests.label),
     with: {
+      image: true,
       membersInterests: {
         with: {
           member: withAvatar,
@@ -35,12 +37,13 @@ router.get('/', async (req, res) => {
 
 router.post('/', async (req, res) => {
   const interestId = container.resolve(TOKENS.generator).id();
-  const { label, description } = shared.createInterestBodySchema.parse(req.body);
+  const { label, description, imageId } = shared.createInterestBodySchema.parse(req.body);
 
   await createInterest({
     interestId,
     label,
     description,
+    imageId,
   });
 
   res.status(HttpStatus.created).send(interestId);
@@ -87,12 +90,16 @@ router.put('/:interestId/edit', async (req, res) => {
 });
 
 function serializeInterest(
-  interest: Interest & { membersInterests: Array<MemberInterest & { member: MemberWithAvatar }> },
+  interest: Interest & {
+    membersInterests: Array<MemberInterest & { member: MemberWithAvatar }>;
+    image: File | null;
+  },
 ): shared.Interest {
   return {
     id: interest.id,
     label: interest.label,
     description: interest.description,
+    image: interest.image?.name ?? '',
     members: interest.membersInterests.map((memberInterest) => ({
       id: memberInterest.member.id,
       firstName: memberInterest.member.firstName,

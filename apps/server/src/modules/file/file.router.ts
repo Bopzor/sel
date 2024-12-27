@@ -10,9 +10,11 @@ import multer from 'multer';
 import { container } from 'src/infrastructure/container';
 import { HttpStatus } from 'src/infrastructure/http';
 import { getAuthenticatedMember } from 'src/infrastructure/session';
-import { db, schema } from 'src/persistence';
+import { db } from 'src/persistence';
 import { files } from 'src/persistence/schema';
 import { TOKENS } from 'src/tokens';
+
+import { insertFile } from './file.persistence';
 
 // cspell:word originalname
 
@@ -68,7 +70,7 @@ router.post('/upload', ensureAsyncContext(upload.single('file')), async (req, re
   await fs.mkdir(config.files.uploadDir, { recursive: true });
   await fs.writeFile(path.join(config.files.uploadDir, name), req.file.buffer);
 
-  await db.insert(schema.files).values({
+  await insertFile({
     id,
     name,
     originalName: req.file.originalname,

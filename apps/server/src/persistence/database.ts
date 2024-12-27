@@ -57,10 +57,11 @@ export async function clearDatabase() {
   await db.delete(schema.requests);
   await db.delete(schema.events);
   await db.delete(schema.transactions);
-  await db.delete(schema.domainEvents);
+  await db.delete(schema.files);
   await db.delete(schema.memberDevices);
   await db.delete(schema.notificationDeliveries);
   await db.delete(schema.notifications);
   await db.delete(schema.tokens);
   await db.delete(schema.members);
+  await db.delete(schema.domainEvents);
 }
