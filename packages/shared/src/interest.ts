@@ -42,3 +42,13 @@ export const createInterestBodySchema = z.object({
 });
 
 export type CreateInterestBodySchema = z.infer<typeof createInterestBodySchema>;
+
+export const updateInterestBodySchema = z
+  .object({
+    label: z.string().trim().min(3).max(50),
+    description: z.string().trim().max(400),
+    imageId: z.string().min(16).max(16),
+  })
+  .partial();
+
+export type UpdateInterestBodySchema = z.infer<typeof updateInterestBodySchema>;

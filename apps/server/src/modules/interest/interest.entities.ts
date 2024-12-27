@@ -8,6 +8,8 @@ export type MemberInterest = typeof schema.membersInterests.$inferSelect;
 
 export class InterestCreatedEvent extends DomainEvent {}
 
+export class InterestUpdatedEvent extends DomainEvent {}
+
 export class InterestMemberEvent extends DomainEvent<{ memberId: string }> {}
 
 export class InterestMemberAddedEvent extends InterestMemberEvent {}

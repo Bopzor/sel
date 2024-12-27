@@ -15,6 +15,7 @@ import { addInterestMember } from './domain/add-interest-member.command';
 import { createInterest } from './domain/create-interest.command';
 import { editInterestMember } from './domain/edit-interest-member.command';
 import { removeInterestMember } from './domain/remove-interest-member.command';
+import { updateInterest } from './domain/update-interest.command';
 import { Interest, MemberInterest } from './interest.entities';
 
 export const router = express.Router();
@@ -47,6 +48,20 @@ router.post('/', async (req, res) => {
   });
 
   res.status(HttpStatus.created).send(interestId);
+});
+
+router.put('/:interestId', async (req, res) => {
+  const interestId = req.params.interestId;
+  const { label, description, imageId } = shared.updateInterestBodySchema.parse(req.body);
+
+  await updateInterest({
+    interestId,
+    label,
+    description,
+    imageId,
+  });
+
+  res.status(HttpStatus.noContent).send(interestId);
 });
 
 router.put('/:interestId/join', async (req, res) => {
