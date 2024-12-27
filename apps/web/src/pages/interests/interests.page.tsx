@@ -26,7 +26,7 @@ export function InterestsPage() {
 
       <Show when={query.data} fallback={<Skeleton />}>
         {(interests) => (
-          <div class="col gap-8">
+          <ul class="col gap-8">
             <For each={interests()}>
               {(interest) => (
                 <InterestItem
@@ -38,7 +38,7 @@ export function InterestsPage() {
                 />
               )}
             </For>
-          </div>
+          </ul>
         )}
       </Show>
     </>

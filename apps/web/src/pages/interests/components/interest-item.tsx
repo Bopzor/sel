@@ -2,11 +2,11 @@ import { Interest, InterestMember } from '@sel/shared';
 import clsx from 'clsx';
 import { Icon } from 'solid-heroicons';
 import { pencil } from 'solid-heroicons/solid';
-import { Show, For, createSignal } from 'solid-js';
+import { For, Show, createSignal } from 'solid-js';
 
 import { getIsAuthenticatedMember } from 'src/application/query';
 import { Button } from 'src/components/button';
-import { Card, CardFallback } from 'src/components/card';
+import { CardFallback } from 'src/components/card';
 import { MemberAvatarName } from 'src/components/member-avatar-name';
 import { createTranslate } from 'src/intl/translate';
 
@@ -17,12 +17,12 @@ const T = createTranslate('pages.interests');
 
 export function InterestItem(props: { interest: Interest; expanded: boolean; toggleExpanded: () => void }) {
   return (
-    <Card padding={false} class="divide-y">
+    <li class="divide-y rounded-lg bg-neutral shadow">
       <div class="col md:row">
         <img
-          src="https://placehold.co/600x300"
+          src={`/api/files/${props.interest.image}`}
           class={clsx(
-            'max-h-64 w-full rounded-t-lg object-cover md:w-64 md:rounded-tr-none',
+            'aspect-video w-full rounded-t-lg object-cover md:w-64 md:rounded-tr-none',
             !props.expanded && 'md:rounded-bl-lg',
           )}
         />
@@ -56,7 +56,7 @@ export function InterestItem(props: { interest: Interest; expanded: boolean; tog
 
         <InterestMembership interest={props.interest} />
       </Show>
-    </Card>
+    </li>
   );
 }
 
