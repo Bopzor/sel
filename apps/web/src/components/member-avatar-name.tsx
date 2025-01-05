@@ -55,5 +55,5 @@ export function MemberAvatar(props: { member?: { avatar?: string }; class?: stri
     return defaultAvatarUrl;
   };
 
-  return <img src={url()} class={clsx('bg-neutral', props.class)} />;
+  return <img src={url()} class={clsx('aspect-square bg-neutral object-cover', props.class)} />;
 }

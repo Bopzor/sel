@@ -103,14 +103,14 @@ function Header(props: { form: FormStore<FormType> }) {
   const authenticatedMember = getAuthenticatedMember();
 
   return (
-    <header class="row items-center gap-4">
+    <header class="row flex-wrap-reverse items-center gap-4">
       <MemberAvatarName
         member={authenticatedMember()}
         classes={{ avatar: '!size-20', name: 'text-3xl font-semibold', root: 'gap-6' }}
       />
 
       <div
-        class="col sm:row ml-auto gap-2 transition-opacity"
+        class="row ml-auto gap-2 transition-opacity"
         classList={{ 'opacity-0 pointer-events-none': !props.form.dirty }}
       >
         <Button variant="outline" onClick={() => reset(props.form)}>
