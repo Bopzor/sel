@@ -10,6 +10,7 @@ import { TOKENS } from 'src/tokens';
 
 import { File } from '../file/file.entity';
 import { MemberWithAvatar, withAvatar } from '../member/member.entities';
+import { serializeMember } from '../member/member.serializer';
 
 import { addInterestMember } from './domain/add-interest-member.command';
 import { createInterest } from './domain/create-interest.command';
@@ -116,10 +117,7 @@ function serializeInterest(
     description: interest.description,
     image: interest.image?.name ?? '',
     members: interest.membersInterests.map((memberInterest) => ({
-      id: memberInterest.member.id,
-      firstName: memberInterest.member.firstName,
-      lastName: memberInterest.member.lastName,
-      avatar: memberInterest.member.avatar?.name,
+      ...serializeMember(memberInterest.member),
       description: memberInterest.description ?? undefined,
     })),
   };

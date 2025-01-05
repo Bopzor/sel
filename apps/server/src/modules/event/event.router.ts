@@ -10,6 +10,7 @@ import { TOKENS } from 'src/tokens';
 
 import { Comment } from '../comment';
 import { MemberWithAvatar, withAvatar } from '../member/member.entities';
+import { serializeMember } from '../member/member.serializer';
 
 import { createEventComment } from './domain/create-event-comment.command';
 import { createEvent } from './domain/create-event.command';
@@ -141,21 +142,13 @@ function serializeEvent(
     location: event.location ?? undefined,
     organizer: serializeOrganizer(event.organizer),
     participants: event.participants.map(({ member, participation }) => ({
-      id: member.id,
-      firstName: member.firstName,
-      lastName: member.lastName,
-      avatar: member.avatar?.name,
+      ...serializeMember(member),
       participation,
     })),
     comments: event.comments.map((comment) => ({
       id: comment.id,
       date: comment.date.toISOString(),
-      author: {
-        id: comment.author.id,
-        firstName: comment.author.firstName,
-        lastName: comment.author.lastName,
-        avatar: comment.author.avatar?.name,
-      },
+      author: serializeMember(comment.author),
       body: comment.html,
     })),
   };
@@ -163,10 +156,7 @@ function serializeEvent(
 
 function serializeOrganizer(organizer: MemberWithAvatar): shared.EventOrganizer {
   return {
-    id: organizer.id,
-    firstName: organizer.firstName,
-    lastName: organizer.lastName,
-    avatar: organizer.avatar?.name,
+    ...serializeMember(organizer),
     email: organizer.emailVisible ? organizer.email : undefined,
     phoneNumbers: (organizer.phoneNumbers as shared.PhoneNumber[]).filter(({ visible }) => visible),
   };

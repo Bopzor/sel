@@ -1,5 +1,4 @@
 import * as shared from '@sel/shared';
-import { pick } from '@sel/utils';
 import { desc, eq } from 'drizzle-orm';
 import express from 'express';
 
@@ -9,6 +8,7 @@ import { db, schema } from 'src/persistence';
 import { TOKENS } from 'src/tokens';
 
 import { MemberWithAvatar, withAvatar } from '../member/member.entities';
+import { serializeMember } from '../member/member.serializer';
 
 import { createInformation } from './domain/create-information.command';
 import { Information } from './information.entities';
@@ -53,10 +53,7 @@ function serializeInformation(
 ): shared.Information {
   const author = () => {
     if (information.author) {
-      return {
-        ...pick(information.author, ['id', 'firstName', 'lastName']),
-        avatar: information.author.avatar?.name,
-      };
+      return serializeMember(information.author);
     }
   };
 

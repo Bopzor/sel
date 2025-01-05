@@ -1,7 +1,7 @@
 import { AsyncLocalStorage } from 'node:async_hooks';
 
 import * as shared from '@sel/shared';
-import { defined, pick } from '@sel/utils';
+import { defined } from '@sel/utils';
 import { and, asc, desc, eq, or } from 'drizzle-orm';
 import express, { RequestHandler } from 'express';
 
@@ -16,8 +16,9 @@ import { Interest, MemberInterest } from '../interest/interest.entities';
 import { changeNotificationDeliveryType } from './domain/change-notification-delivery-type.command';
 import { createMember } from './domain/create-member.command';
 import { updateMemberProfile } from './domain/update-member-profile.command';
-import { Member } from './member.entities';
+import { Member, MemberWithAvatar, withAvatar } from './member.entities';
 import { findMemberById } from './member.persistence';
+import { serializeMember } from './member.serializer';
 
 export const router = express.Router();
 
@@ -65,7 +66,7 @@ router.get('/', async (req, res) => {
     },
   });
 
-  res.json(members.map(serializeMember));
+  res.json(members.map(serializeMemberFull));
 });
 
 router.post('/', async (req, res) => {
@@ -97,7 +98,7 @@ router.get('/:memberId', async (req, res) => {
     throw new NotFound('Member not found');
   }
 
-  res.json(serializeMember(member));
+  res.json(serializeMemberFull(member));
 });
 
 router.get('/:memberId/transactions', async (req, res) => {
@@ -109,8 +110,8 @@ router.get('/:memberId/transactions', async (req, res) => {
       eq(schema.transactions.status, shared.TransactionStatus.completed),
     ),
     with: {
-      payer: true,
-      recipient: true,
+      payer: withAvatar,
+      recipient: withAvatar,
     },
   });
 
@@ -138,7 +139,7 @@ router.put('/:memberId/notification-delivery', isAuthenticatedMember, async (req
   res.status(HttpStatus.noContent).end();
 });
 
-function serializeMember(
+function serializeMemberFull(
   member: Member & { avatar: File | null; memberInterests: Array<MemberInterest & { interest: Interest }> },
 ): shared.Member {
   const compareMemberInterests = (a: shared.MemberInterest, b: shared.MemberInterest) => {
@@ -146,14 +147,11 @@ function serializeMember(
   };
 
   return {
-    id: member.id,
-    firstName: member.firstName,
-    lastName: member.lastName,
+    ...serializeMember(member),
     bio: member.bio ?? undefined,
     address: member.address ?? undefined,
     email: member.emailVisible ? member.email : undefined,
     phoneNumbers: member.phoneNumbers.filter(({ visible }) => visible),
-    avatar: member.avatar?.name,
     membershipStartDate: member.membershipStartDate?.toISOString(),
     balance: member.balance,
     interests: member.memberInterests.map(serializeMemberInterest).sort(compareMemberInterests),
@@ -172,15 +170,18 @@ function serializeMemberInterest(
 }
 
 function serializeTransaction(
-  transaction: typeof schema.transactions.$inferSelect & { payer: Member; recipient: Member },
+  transaction: typeof schema.transactions.$inferSelect & {
+    payer: MemberWithAvatar;
+    recipient: MemberWithAvatar;
+  },
 ): shared.Transaction {
   return {
     id: transaction.id,
     status: transaction.status,
     amount: transaction.amount,
     description: transaction.description,
-    payer: pick(transaction.payer, ['id', 'firstName', 'lastName']),
-    recipient: pick(transaction.recipient, ['id', 'firstName', 'lastName']),
+    payer: serializeMember(transaction.payer),
+    recipient: serializeMember(transaction.recipient),
     date: transaction.createdAt.toISOString(),
   };
 }

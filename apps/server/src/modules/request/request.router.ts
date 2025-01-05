@@ -13,6 +13,7 @@ import { TOKENS } from 'src/tokens';
 
 import { Comment } from '../comment';
 import { MemberWithAvatar, withAvatar } from '../member/member.entities';
+import { serializeMember } from '../member/member.serializer';
 import { createTransaction } from '../transaction/domain/create-transaction.command';
 import { Transaction } from '../transaction/transaction.entities';
 
@@ -211,10 +212,7 @@ function serializeRequest(
     status: request.status,
     date: request.date.toISOString(),
     requester: {
-      id: requester.id,
-      firstName: requester.firstName,
-      lastName: requester.lastName,
-      avatar: requester.avatar?.name,
+      ...serializeMember(requester),
       email: requester.emailVisible ? requester.email : undefined,
       phoneNumbers: (requester.phoneNumbers as shared.PhoneNumber[]).filter(({ visible }) => visible),
     },
@@ -223,23 +221,13 @@ function serializeRequest(
     hasTransactions: request.transactions.length > 0,
     answers: answers.map((answer) => ({
       id: answer.id,
-      member: {
-        id: answer.member.id,
-        avatar: answer.member.avatar?.name,
-        firstName: answer.member.firstName,
-        lastName: answer.member.lastName,
-      },
+      member: serializeMember(answer.member),
       answer: answer.answer,
     })),
     comments: comments.map((comment) => ({
       id: comment.id,
       date: comment.date.toISOString(),
-      author: {
-        id: comment.author.id,
-        avatar: comment.author.avatar?.name,
-        firstName: comment.author.firstName,
-        lastName: comment.author.lastName,
-      },
+      author: serializeMember(comment.author),
       body: comment.html,
     })),
   };

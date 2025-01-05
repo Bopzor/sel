@@ -1,5 +1,5 @@
 import * as shared from '@sel/shared';
-import { hasProperty, not, pick } from '@sel/utils';
+import { hasProperty, not } from '@sel/utils';
 import { desc, eq, or } from 'drizzle-orm';
 import express from 'express';
 
@@ -9,7 +9,8 @@ import { getAuthenticatedMember } from 'src/infrastructure/session';
 import { db, schema } from 'src/persistence';
 import { TOKENS } from 'src/tokens';
 
-import { Member } from '../member';
+import { MemberWithAvatar, withAvatar } from '../member/member.entities';
+import { serializeMember } from '../member/member.serializer';
 
 import { acceptTransaction } from './domain/accept-transaction.command';
 import { cancelTransaction } from './domain/cancel-transaction.command';
@@ -26,8 +27,8 @@ router.get('/', async (req, res) => {
       ? or(eq(schema.transactions.payerId, memberId), eq(schema.transactions.recipientId, memberId))
       : undefined,
     with: {
-      payer: true,
-      recipient: true,
+      payer: withAvatar,
+      recipient: withAvatar,
     },
     orderBy: desc(schema.transactions.createdAt),
   });
@@ -46,8 +47,8 @@ router.get('/:transactionId', async (req, res) => {
   const transaction = await db.query.transactions.findFirst({
     where: eq(schema.transactions.id, transactionId),
     with: {
-      payer: true,
-      recipient: true,
+      payer: withAvatar,
+      recipient: withAvatar,
     },
   });
 
@@ -101,15 +102,15 @@ router.put('/:transactionId/cancel', async (req, res) => {
 
 function serializeTransaction(
   this: void,
-  transaction: Transaction & Record<'payer' | 'recipient', Member>,
+  transaction: Transaction & Record<'payer' | 'recipient', MemberWithAvatar>,
 ): shared.Transaction {
   return {
     id: transaction.id,
     status: transaction.status,
     amount: transaction.amount,
     description: transaction.description,
-    payer: pick(transaction.payer, ['id', 'firstName', 'lastName']),
-    recipient: pick(transaction.recipient, ['id', 'firstName', 'lastName']),
+    payer: serializeMember(transaction.payer),
+    recipient: serializeMember(transaction.recipient),
     date: transaction.createdAt.toISOString(),
   };
 }
