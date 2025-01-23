@@ -1,15 +1,15 @@
-import { exec } from 'node:child_process';
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import { promisify } from 'node:util';
 import { defineConfig, Plugin } from 'vite';
 import { qrcode } from 'vite-plugin-qrcode';
 import solid from 'vite-plugin-solid';
 import solidSvg from 'vite-plugin-solid-svg';
 import tsconfigPaths from 'vite-tsconfig-paths';
 
+import pkg from './package.json';
+
 export default defineConfig({
-  plugins: [qrcode(), tsconfigPaths(), solid(), solidSvg(), version(getVersion)],
+  plugins: [qrcode(), tsconfigPaths(), solid(), solidSvg(), version(() => pkg.version)],
   server: {
     port: 8000,
     proxy: {
@@ -47,17 +47,6 @@ export default defineConfig({
     },
   },
 });
-
-function getVersion() {
-  if (process.env.APP_VERSION) {
-    return process.env.APP_VERSION;
-  }
-
-  return promisify(exec)('git rev-parse HEAD').then(
-    ({ stdout }) => stdout,
-    () => 'unknown',
-  );
-}
 
 function version(getVersion: () => string | Promise<string>): Plugin {
   let dist = '';
