@@ -6,6 +6,8 @@ import { routes } from 'src/application/routes';
 import { SpinnerFullScreen } from 'src/components/spinner';
 import { LogoTitle } from 'src/layout';
 
+import pkg from '../../../package.json';
+
 export function AuthenticationLayout(props: { children?: JSX.Element }) {
   const memberQuery = queryAuthenticatedMember();
 
@@ -26,6 +28,8 @@ export function AuthenticationLayout(props: { children?: JSX.Element }) {
             <main class="p-4">{props.children}</main>
           </div>
         </div>
+
+        <AppVersion />
       </Match>
     </Switch>
   );
@@ -36,5 +40,13 @@ function Header() {
     <header class="bg-primary p-4 text-white">
       <LogoTitle link={routes.authentication} />
     </header>
+  );
+}
+
+function AppVersion() {
+  return (
+    <footer class="fixed bottom-1 left-1/2 -translate-x-1/2 text-xs text-dim">
+      App version: {pkg.version}
+    </footer>
   );
 }

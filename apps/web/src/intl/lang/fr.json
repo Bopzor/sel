@@ -536,6 +536,9 @@
         "ui": {
           "title": "Apparence",
           "darkMode": "Mode sombre"
+        },
+        "appVersion": {
+          "title": "Version de l'app"
         }
       },
       "signOut": {
