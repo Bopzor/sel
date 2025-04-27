@@ -10,6 +10,7 @@ import { HtmlParser } from './infrastructure/html-parser';
 import { Logger } from './infrastructure/logger';
 import { PushNotification } from './infrastructure/push-notification';
 import { SlackClient } from './infrastructure/slack';
+import { Storage } from './infrastructure/storage';
 import { TransactionService } from './modules/transaction/domain/transaction.service';
 
 export const TOKENS = {
@@ -26,4 +27,5 @@ export const TOKENS = {
   pushNotification: token<PushNotification>('pushNotification'),
   transactionService: token<TransactionService>('transactionService'),
   slackClient: token<SlackClient>('slackClient'),
+  storage: token<Storage>('slackClient'),
 };

@@ -41,6 +41,15 @@ export interface Config {
   slack: {
     webhookUrl: string;
   };
+
+  minio: {
+    endPoint: string;
+    port: number;
+    useSSL: boolean;
+    accessKey: string;
+    secretKey: string;
+    bucketName: string;
+  };
 }
 
 export function createEnvConfig(): Config {
@@ -84,6 +93,15 @@ export function createEnvConfig(): Config {
 
     slack: {
       webhookUrl: getEnv('SLACK_WEBHOOK_URL'),
+    },
+
+    minio: {
+      endPoint: getEnv('MINIO_ENDPOINT'),
+      port: getEnv('MINIO_PORT', Number.parseInt),
+      useSSL: getEnv('MINIO_USE_SSL', parseBoolean),
+      accessKey: getEnv('MINIO_ACCESS_KEY'),
+      secretKey: getEnv('MINIO_SECRET_KEY'),
+      bucketName: getEnv('MINIO_BUCKET_NAME'),
     },
   };
 }

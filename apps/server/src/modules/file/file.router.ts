@@ -1,6 +1,4 @@
 import { AsyncResource } from 'node:async_hooks';
-import fs from 'node:fs/promises';
-import path from 'node:path';
 
 import { assert } from '@sel/utils';
 import { eq } from 'drizzle-orm';
@@ -30,11 +28,8 @@ function ensureAsyncContext(middleware: RequestHandler): RequestHandler {
   return (req, res, next) => middleware(req, res, AsyncResource.bind(next));
 }
 
-const fallbackImage =
-  '<svg version="1.1" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="0" width="16" height="16" fill="#CCC"/></svg>';
-
 router.get('/:name', async (req, res, next) => {
-  const config = container.resolve(TOKENS.config);
+  const storage = container.resolve(TOKENS.storage);
 
   const file = await db.query.files.findFirst({
     where: eq(files.name, req.params.name),
@@ -44,21 +39,15 @@ router.get('/:name', async (req, res, next) => {
     return next();
   }
 
-  try {
-    await fs.access(path.join(config.files.uploadDir, file.name), fs.constants.F_OK);
-  } catch {
-    res.set('Content-Type', 'image/svg+xml').send(fallbackImage);
-    return;
-  }
+  const stream = await storage.getFile(file.name);
 
-  const buffer = await fs.readFile(path.join(config.files.uploadDir, file.name));
-
-  res.set('Content-Type', file.mimetype).send(buffer);
+  res.set('Content-Type', file.mimetype);
+  stream.pipe(res);
 });
 
 router.post('/upload', ensureAsyncContext(upload.single('file')), async (req, res) => {
   const generator = container.resolve(TOKENS.generator);
-  const config = container.resolve(TOKENS.config);
+  const storage = container.resolve(TOKENS.storage);
   const member = getAuthenticatedMember();
 
   assert(req.file);
@@ -67,8 +56,7 @@ router.post('/upload', ensureAsyncContext(upload.single('file')), async (req, re
   const ext = getExtension(req.file);
   const name = `${id}.${ext}`;
 
-  await fs.mkdir(config.files.uploadDir, { recursive: true });
-  await fs.writeFile(path.join(config.files.uploadDir, name), req.file.buffer);
+  await storage.storeFile(name, req.file.buffer, req.file.mimetype);
 
   await insertFile({
     id,

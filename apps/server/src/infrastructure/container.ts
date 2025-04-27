@@ -14,6 +14,7 @@ import { CheerioHtmlParser } from './html-parser';
 import { ConsoleLogger } from './logger';
 import { WebPushNotification } from './push-notification';
 import { WebSlackClientAdapter } from './slack';
+import { MinioStorage } from './storage';
 
 export const container = createContainer();
 
@@ -30,3 +31,4 @@ container.bindValue(TOKENS.nodemailer, nodemailer);
 container.bindFactory(TOKENS.pushNotification, WebPushNotification.inject);
 container.bindFactory(TOKENS.slackClient, WebSlackClientAdapter.inject);
 container.bindFactory(TOKENS.transactionService, TransactionService.inject);
+container.bindFactory(TOKENS.storage, MinioStorage.inject);
