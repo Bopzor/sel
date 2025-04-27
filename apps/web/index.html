@@ -1,23 +1,35 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="viewport" content="width=device-width; initial-scale=1; viewport-fit=cover" />
+
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
     <meta http-equiv="Encoding" content="utf-8" />
+
     <title>SEL'ons-nous</title>
+
     <meta
       name="description"
       content="L'application du Système d'Échange Local de Cavaillon et ses environs."
     />
+
+    <meta name="theme-color" content="#005F7E" />
+
     <link rel="icon" href="/favicon.ico" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
     <link rel="mask-icon" href="/mask-icon.svg" color="#FFFFFF" />
-    <meta name="theme-color" content="#005F7E" />
   </head>
+
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
+
     <div id="root"></div>
+
     <script type="module" src="/src/index.tsx"></script>
+
     <script>
       if (window.location.protocol === 'http:' && window.location.hostname !== 'localhost') {
         window.location.href = window.location.href.replace('http', 'https');
