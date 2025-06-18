@@ -380,10 +380,12 @@
         }
       },
       "list": {
-        "title": "Évenements",
+        "title": "Événements",
         "createEvent": "Nouvel événement",
-        "upcoming": "Évenements à venir",
-        "noDate": "Date à définir"
+        "upcoming": "Événements à venir",
+        "outdated": "Événements passés",
+        "noDate": "Date à définir",
+        "empty": "Pas d'événement à venir"
       },
       "create": {
         "title": "Nouvel événement",
