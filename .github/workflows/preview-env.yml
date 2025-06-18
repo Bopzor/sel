@@ -65,6 +65,12 @@ jobs:
             WEB_PUSH_SUBJECT=${{ needs.environment.outputs.app-url }}
             WEB_PUSH_PUBLIC_KEY=@sel-staging-web-push-public-key
             WEB_PUSH_PRIVATE_KEY=@sel-staging-web-push-private-key
+            MINIO_ACCESS_KEY=@sel-staging-storage-access-key
+            MINIO_BUCKET_NAME=user-uploads
+            MINIO_ENDPOINT=storage.sel-staging.internal
+            MINIO_PORT=9000
+            MINIO_SECRET_KEY=@sel-staging-storage-secret-key
+            MINIO_USE_SSL=false
           )
           IFS=, ; echo "env=${variables[*]}" >> $GITHUB_OUTPUT
 
