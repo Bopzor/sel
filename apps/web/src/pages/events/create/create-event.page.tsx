@@ -5,7 +5,7 @@ import { z } from 'zod';
 
 import { api } from 'src/application/api';
 import { notify } from 'src/application/notify';
-import { apiQuery } from 'src/application/query';
+import { apiQuery, useInvalidateApi } from 'src/application/query';
 import { routes } from 'src/application/routes';
 import { Breadcrumb, breadcrumb } from 'src/components/breadcrumb';
 import { createTranslate } from 'src/intl/translate';
@@ -18,13 +18,18 @@ export function CreateEventPage() {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const t = T.useTranslate();
+  const invalidate = useInvalidateApi();
 
   const createEvent = createMutation(() => ({
     async mutationFn(data: z.infer<typeof createEventBodySchema>) {
       return api.createEvent({ body: data });
     },
     async onSuccess(eventId) {
-      await queryClient.prefetchQuery(apiQuery('getEvent', { path: { eventId } }));
+      await Promise.all([
+        invalidate('listEvents'),
+        queryClient.prefetchQuery(apiQuery('getEvent', { path: { eventId } })),
+      ]);
+
       notify.success(t('created'));
       navigate(routes.events.details(eventId));
     },
