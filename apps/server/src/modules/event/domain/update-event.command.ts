@@ -15,7 +15,6 @@ export type UpdateEventCommand = {
   location?: shared.Address;
 };
 
-// todo: check is author
 export async function updateEvent(command: UpdateEventCommand): Promise<void> {
   const htmlParser = container.resolve(TOKENS.htmlParser);
   const events = container.resolve(TOKENS.events);
