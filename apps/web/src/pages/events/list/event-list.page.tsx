@@ -1,5 +1,5 @@
 import { EventsListItem } from '@sel/shared';
-import { isSameDay, isToday, startOfMonth } from '@sel/utils';
+import { isAfter, isSameDay, isToday, startOfMonth } from '@sel/utils';
 import { createQuery } from '@tanstack/solid-query';
 import clsx from 'clsx';
 import { add, sub } from 'date-fns';
@@ -12,7 +12,7 @@ import { routes } from 'src/application/routes';
 import { breadcrumb, Breadcrumb } from 'src/components/breadcrumb';
 import { LinkButton } from 'src/components/button';
 import { Calendar } from 'src/components/calendar';
-import { Card } from 'src/components/card';
+import { Card, CardFallback } from 'src/components/card';
 import { Link } from 'src/components/link';
 import { BoxSkeleton } from 'src/components/skeleton';
 import { FormattedDate } from 'src/intl/formatted';
@@ -43,10 +43,18 @@ export function EventListPage() {
       <Show when={query.data} fallback={<Skeleton />}>
         {(events) => (
           <>
-            <div class="max-w-4xl xl:hidden">
+            <div class="col max-w-4xl gap-4 xl:hidden">
               <Card title={<T id="upcoming" />}>
                 <ul class="divide-y">
-                  <For each={events()}>
+                  <For each={events().filter(upcomingEventPredicate)}>
+                    {(event) => <EventItem event={event} class="py-4 first-of-type:pt-0 last-of-type:pb-0" />}
+                  </For>
+                </ul>
+              </Card>
+
+              <Card title={<T id="outdated" />}>
+                <ul class="divide-y">
+                  <For each={events().filter(outdatedEventPredicate)}>
                     {(event) => <EventItem event={event} class="py-4 first-of-type:pt-0 last-of-type:pb-0" />}
                   </For>
                 </ul>
@@ -56,7 +64,10 @@ export function EventListPage() {
             <div class="xl:row hidden gap-4">
               <Card title={<T id="upcoming" />} class="max-w-80">
                 <ul>
-                  <For each={events()}>
+                  <For
+                    each={events().filter(upcomingEventPredicate)}
+                    fallback={<CardFallback>{<T id="empty" />}</CardFallback>}
+                  >
                     {(event) => <EventItem event={event} class="rounded-md p-2 hover:bg-primary/5" />}
                   </For>
                 </ul>
@@ -152,4 +163,20 @@ function EventItem(props: { event: EventsListItem; class?: string }) {
       </Link>
     </li>
   );
+}
+
+function upcomingEventPredicate(event: EventsListItem) {
+  if (!event.date) {
+    return true;
+  }
+
+  if (isToday(event.date)) {
+    return true;
+  }
+
+  return isAfter(event.date, new Date());
+}
+
+function outdatedEventPredicate(event: EventsListItem) {
+  return !upcomingEventPredicate(event);
 }
