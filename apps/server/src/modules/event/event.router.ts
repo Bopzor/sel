@@ -1,9 +1,12 @@
+import { AsyncLocalStorage } from 'node:async_hooks';
+
 import * as shared from '@sel/shared';
+import { defined } from '@sel/utils';
 import { AnyColumn, eq, sql } from 'drizzle-orm';
-import express from 'express';
+import express, { RequestHandler } from 'express';
 
 import { container } from 'src/infrastructure/container';
-import { HttpStatus, NotFound } from 'src/infrastructure/http';
+import { Forbidden, HttpStatus, NotFound } from 'src/infrastructure/http';
 import { getAuthenticatedMember } from 'src/infrastructure/session';
 import { db, schema } from 'src/persistence';
 import { TOKENS } from 'src/tokens';
@@ -17,8 +20,23 @@ import { createEvent } from './domain/create-event.command';
 import { setEventParticipation } from './domain/set-event-participation.command';
 import { updateEvent } from './domain/update-event.command';
 import { Event, EventParticipation } from './event.entities';
+import { findEventById } from './event.persistence';
 
 export const router = express.Router();
+
+const eventContext = new AsyncLocalStorage<Event>();
+const getEvent = () => defined(eventContext.getStore());
+
+const isOrganizer: RequestHandler<{ eventId: string }> = async (req, res, next) => {
+  const member = getAuthenticatedMember();
+  const event = getEvent();
+
+  if (event.organizerId !== member.id) {
+    throw new Forbidden('Member must be the organizer of the event');
+  }
+
+  next();
+};
 
 router.get('/', async (req, res) => {
   const events = await db.query.events.findMany({
@@ -52,6 +70,16 @@ router.get('/:eventId', async (req, res) => {
   res.json(serializeEvent(event));
 });
 
+router.param('eventId', async (req, res, next) => {
+  const event = await findEventById(req.params.eventId);
+
+  if (!event) {
+    next();
+  } else {
+    eventContext.run(event, next);
+  }
+});
+
 router.post('/', async (req, res) => {
   const body = shared.createEventBodySchema.parse(req.body);
   const member = getAuthenticatedMember();
@@ -70,7 +98,7 @@ router.post('/', async (req, res) => {
   res.status(HttpStatus.created).send(eventId);
 });
 
-router.put('/:eventId', async (req, res) => {
+router.put('/:eventId', isOrganizer, async (req, res) => {
   const eventId = req.params.eventId;
   const body = shared.updateEventBodySchema.parse(req.body);
 
