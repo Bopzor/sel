@@ -52,9 +52,9 @@ export function EventListPage() {
                 </ul>
               </Card>
 
-              <Card title={<T id="outdated" />}>
+              <Card title={<T id="past" />}>
                 <ul class="divide-y">
-                  <For each={events().filter(outdatedEventPredicate)}>
+                  <For each={events().filter(pastEventPredicate)}>
                     {(event) => <EventItem event={event} class="py-4 first-of-type:pt-0 last-of-type:pb-0" />}
                   </For>
                 </ul>
@@ -177,6 +177,6 @@ function upcomingEventPredicate(event: EventsListItem) {
   return isAfter(event.date, new Date());
 }
 
-function outdatedEventPredicate(event: EventsListItem) {
+function pastEventPredicate(event: EventsListItem) {
   return !upcomingEventPredicate(event);
 }
