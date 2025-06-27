@@ -383,7 +383,7 @@
         "title": "Événements",
         "createEvent": "Nouvel événement",
         "upcoming": "Événements à venir",
-        "outdated": "Événements passés",
+        "past": "Événements passés",
         "noDate": "Date à définir",
         "empty": "Pas d'événement à venir"
       },
