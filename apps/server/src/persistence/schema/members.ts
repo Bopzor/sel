@@ -1,6 +1,16 @@
 import * as shared from '@sel/shared';
-import { relations } from 'drizzle-orm';
-import { AnyPgColumn, boolean, integer, json, pgEnum, pgTable, text, varchar } from 'drizzle-orm/pg-core';
+import { relations, sql } from 'drizzle-orm';
+import {
+  AnyPgColumn,
+  boolean,
+  integer,
+  json,
+  pgEnum,
+  pgSequence,
+  pgTable,
+  text,
+  varchar,
+} from 'drizzle-orm/pg-core';
 
 import { createdAt, date, enumValues, id, primaryKey, updatedAt } from '../schema-utils';
 
@@ -11,8 +21,11 @@ import { memberDevices, notificationDeliveryTypeEnum } from './notifications';
 export const memberStatusEnum = pgEnum('member_status', enumValues(shared.MemberStatus));
 export const memberRoleEnum = pgEnum('member_role', enumValues(shared.MemberRole));
 
+export const memberNumberSequence = pgSequence('member_number_seq');
+
 export const members = pgTable('members', {
   id: primaryKey(),
+  number: integer('number').notNull().unique(),
   status: memberStatusEnum('status').notNull(),
   firstName: varchar('first_name', { length: 256 }).notNull(),
   lastName: varchar('last_name', { length: 256 }).notNull(),

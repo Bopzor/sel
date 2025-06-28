@@ -42,6 +42,7 @@ describe('transactions service', () => {
 
   const createMember = createFactory<Member>(() => ({
     id: createId(),
+    number: 1,
     status: shared.MemberStatus.active,
     firstName: '',
     lastName: '',

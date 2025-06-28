@@ -57,6 +57,7 @@ describe('member', () => {
 
     expect(await findMemberById('memberId')).toEqual<Member>({
       id: 'memberId',
+      number: expect.any(Number),
       status: shared.MemberStatus.onboarding,
       firstName: '',
       lastName: '',

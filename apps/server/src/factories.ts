@@ -18,6 +18,7 @@ export const insert = {
 
   member: createFactory<MemberInsert>(() => ({
     id: createId(),
+    number: Math.floor((2 << 16) * Math.random()),
     status: shared.MemberStatus.active,
     firstName: '',
     lastName: '',

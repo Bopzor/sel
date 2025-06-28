@@ -5,6 +5,10 @@ import { db, schema } from 'src/persistence';
 import { TOKENS } from 'src/tokens';
 
 import { MemberCreatedEvent } from '../member.entities';
+import { sql } from 'drizzle-orm';
+import { memberNumberSequence } from 'src/persistence/schema';
+
+// cspell:words nextval
 
 type CreateMemberCommand = {
   memberId: string;
@@ -18,6 +22,7 @@ export async function createMember(command: CreateMemberCommand): Promise<void> 
 
   await db.insert(schema.members).values({
     id: command.memberId,
+    number: sql`nextval(${memberNumberSequence.seqName})`,
     status: shared.MemberStatus.onboarding,
     firstName: command.firstName ?? '',
     lastName: command.lastName ?? '',
