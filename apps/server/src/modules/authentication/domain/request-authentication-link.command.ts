@@ -1,5 +1,5 @@
 import { addDuration } from '@sel/utils';
-import { and, eq } from 'drizzle-orm';
+import { and, eq, inArray } from 'drizzle-orm';
 
 import { container } from 'src/infrastructure/container';
 import { db, schema } from 'src/persistence';
@@ -7,6 +7,7 @@ import { TOKENS } from 'src/tokens';
 
 import { AuthenticationLinkRequestedEvent, TokenType } from '../authentication.entities';
 import { updateToken } from '../token.persistence';
+import { MemberStatus } from '@sel/shared';
 
 type RequestAuthenticationLinkCommand = {
   email: string;
@@ -19,7 +20,10 @@ export async function requestAuthenticationLink(command: RequestAuthenticationLi
   const events = container.resolve(TOKENS.events);
 
   const member = await db.query.members.findFirst({
-    where: eq(schema.members.email, command.email),
+    where: and(
+      eq(schema.members.email, command.email),
+      inArray(schema.members.status, [MemberStatus.active, MemberStatus.onboarding]),
+    ),
   });
 
   if (!member) {

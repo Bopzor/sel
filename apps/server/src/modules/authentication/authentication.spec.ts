@@ -16,6 +16,7 @@ import { Token, TokenType } from './authentication.entities';
 import { requestAuthenticationLink } from './domain/request-authentication-link.command';
 import { verifyAuthenticationToken } from './domain/verify-authentication-token.command';
 import { findTokenById, findTokenByValue, insertToken } from './token.persistence';
+import { MemberStatus } from '@sel/shared';
 
 describe('member', () => {
   beforeAll(resetDatabase);
@@ -123,5 +124,13 @@ describe('member', () => {
     await expect(verifyAuthenticationToken({ tokenValue: 'token', sessionTokenId: '' })).rejects.toThrow(
       'Token was revoked',
     );
+  });
+
+  it('does not create a token when the member is inactive', async () => {
+    await insertMember(insert.member({ id: 'memberId', email: 'email', status: MemberStatus.inactive }));
+
+    await requestAuthenticationLink({ email: 'email' });
+
+    await expect(db.query.tokens.findMany()).resolves.toHaveLength(0);
   });
 });
