@@ -57,6 +57,12 @@ export function DeviceRegistration(props: { push?: boolean }) {
           <T id="notificationPermissionDenied" />
         </p>
       </Show>
+
+      <Show when={registration.latest === 'unsupported'}>
+        <p class="text-yellow-800">
+          <T id="notificationPermissionUnsupported" />
+        </p>
+      </Show>
     </Show>
   );
 }

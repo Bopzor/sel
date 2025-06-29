@@ -532,6 +532,7 @@
             "description": "Pour recevoir des notifications, vous devez donner votre accord. <register>Cliquez ici</register> pour autoriser ce smartphone à recevoir les notifications."
           },
           "notificationPermissionDenied": "Vous avez refusé l'envoi des notifications sur ce smartphone. Pour modifier ce choix, autorisez les notifications dans les paramètres de votre navigateur.",
+          "notificationPermissionUnsupported": "Votre smartphone ne supporte pas la réception de notifications. Vérifiez les paramètres de sécurité de votre navigateur.",
           "registered": "Votre smartphone est correctement configuré pour recevoir les notifications",
           "registrationFailed": "Votre smartphone ne pourra par recevoir de notifications"
         },

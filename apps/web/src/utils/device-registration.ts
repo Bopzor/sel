@@ -23,8 +23,13 @@ export async function registerDevice(deviceType: 'mobile' | 'desktop') {
   return true;
 }
 
-async function getSubscription() {
+async function getSubscription(): Promise<PushSubscription | null> {
   const pushManager = await getPushManager();
+
+  if (!pushManager) {
+    return null;
+  }
+
   let subscription = await pushManager.getSubscription();
 
   try {
@@ -38,8 +43,13 @@ async function getSubscription() {
   return subscription;
 }
 
-export async function getRegistrationState(): Promise<'prompt' | 'granted' | 'denied'> {
+export async function getRegistrationState(): Promise<PermissionState | 'unsupported'> {
   const pushManager = await getPushManager();
+
+  if (!pushManager) {
+    return 'unsupported';
+  }
+
   return pushManager.permissionState(getPushOptions());
 }
 
@@ -52,7 +62,7 @@ function getPushOptions(): PushSubscriptionOptionsInit {
   };
 }
 
-async function getPushManager() {
+async function getPushManager(): Promise<PushManager | undefined> {
   const registration = await serviceWorker().ready;
   return registration.pushManager;
 }
