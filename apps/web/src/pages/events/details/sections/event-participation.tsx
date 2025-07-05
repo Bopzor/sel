@@ -23,7 +23,11 @@ export function EventParticipation(props: { event: Event }) {
         <T id="yes" />
       </AnswerButton>
 
-      <AnswerButton event={props.event} answer="no" start={<Icon path={xMark} class="size-6 text-red-600" />}>
+      <AnswerButton
+        event={props.event}
+        answer="no"
+        start={<Icon path={xMark} class="size-6 text-gray-600" />}
+      >
         <T id="no" />
       </AnswerButton>
     </Card>
@@ -75,7 +79,7 @@ function AnswerButton(props: AnswerButtonProps) {
       class="row items-center gap-1 bg-neutral"
       classList={{
         'border-green-600': isMemberAnswer() && props.answer === 'yes',
-        'border-red-600': isMemberAnswer() && props.answer === 'no',
+        'border-gray-600': isMemberAnswer() && props.answer === 'no',
         'grayscale opacity-75': memberAnswer() && !isMemberAnswer(),
       }}
     >

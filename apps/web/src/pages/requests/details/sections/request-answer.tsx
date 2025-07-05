@@ -30,7 +30,7 @@ export function RequestAnswer(props: { request: Request }) {
         <AnswerButton
           request={props.request}
           answer="negative"
-          start={<Icon path={xMark} class="size-6 text-red-600" />}
+          start={<Icon path={xMark} class="size-6 text-gray-600" />}
         >
           <T id="negative" />
         </AnswerButton>
@@ -89,7 +89,7 @@ function AnswerButton(props: AnswerButtonProps) {
       class="row items-center gap-1 bg-neutral"
       classList={{
         'border-green-600': isMemberAnswer() && props.answer === 'positive',
-        'border-red-600': isMemberAnswer() && props.answer === 'negative',
+        'border-gray-600': isMemberAnswer() && props.answer === 'negative',
         'grayscale opacity-75': memberAnswer() && !isMemberAnswer(),
       }}
     >
