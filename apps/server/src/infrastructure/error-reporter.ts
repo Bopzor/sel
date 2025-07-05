@@ -34,6 +34,7 @@ export class SlackErrorReporter implements ErrorReporter {
     } else if (typeof value === 'object') {
       return code(util.inspect(value));
     } else {
+      // eslint-disable-next-line @typescript-eslint/no-base-to-string
       return String(value);
     }
   }

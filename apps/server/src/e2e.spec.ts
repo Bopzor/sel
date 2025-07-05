@@ -38,8 +38,6 @@ describe('end-to-end', () => {
 
   it('authenticates and retrieves protected resources', async () => {
     const app = server();
-
-    // eslint-disable-next-line @typescript-eslint/no-misused-promises
     const request = supertest.agent(app);
 
     await createMember({
@@ -68,8 +66,6 @@ describe('end-to-end', () => {
 
   it('creates a transaction as a payer', async () => {
     const app = server();
-
-    // eslint-disable-next-line @typescript-eslint/no-misused-promises
     const request = supertest.agent(app);
 
     await db.insert(schema.config).values({ id: createId(), currency: '', currencyPlural: '' });

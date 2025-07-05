@@ -1,3 +1,4 @@
+import { MemberStatus } from '@sel/shared';
 import { addDuration, defined } from '@sel/utils';
 import { and, eq } from 'drizzle-orm';
 import { beforeAll, beforeEach, describe, expect, it } from 'vitest';
@@ -16,7 +17,6 @@ import { Token, TokenType } from './authentication.entities';
 import { requestAuthenticationLink } from './domain/request-authentication-link.command';
 import { verifyAuthenticationToken } from './domain/verify-authentication-token.command';
 import { findTokenById, findTokenByValue, insertToken } from './token.persistence';
-import { MemberStatus } from '@sel/shared';
 
 describe('member', () => {
   beforeAll(resetDatabase);

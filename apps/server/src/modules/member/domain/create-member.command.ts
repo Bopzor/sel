@@ -1,12 +1,12 @@
 import * as shared from '@sel/shared';
+import { sql } from 'drizzle-orm';
 
 import { container } from 'src/infrastructure/container';
 import { db, schema } from 'src/persistence';
+import { memberNumberSequence } from 'src/persistence/schema';
 import { TOKENS } from 'src/tokens';
 
 import { MemberCreatedEvent } from '../member.entities';
-import { sql } from 'drizzle-orm';
-import { memberNumberSequence } from 'src/persistence/schema';
 
 // cspell:words nextval
 

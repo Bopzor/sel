@@ -164,7 +164,6 @@ describe('member', () => {
     const app = express();
     app.use('/', router);
 
-    // eslint-disable-next-line @typescript-eslint/no-misused-promises
     const agent = supertest.agent(app);
 
     const onboardingMemberId = await saveMember({ status: shared.MemberStatus.onboarding });

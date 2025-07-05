@@ -1,3 +1,4 @@
+import { MemberStatus } from '@sel/shared';
 import { addDuration } from '@sel/utils';
 import { and, eq, inArray } from 'drizzle-orm';
 
@@ -7,7 +8,6 @@ import { TOKENS } from 'src/tokens';
 
 import { AuthenticationLinkRequestedEvent, TokenType } from '../authentication.entities';
 import { updateToken } from '../token.persistence';
-import { MemberStatus } from '@sel/shared';
 
 type RequestAuthenticationLinkCommand = {
   email: string;

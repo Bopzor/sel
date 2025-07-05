@@ -1,6 +1,6 @@
 {
   "name": "@sel/web",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "packageManager": "pnpm@9.15.0",
   "private": true,
   "type": "module",
@@ -30,7 +30,7 @@
     "clsx": "^2.1.1",
     "cva": "npm:class-variance-authority@^0.7.1",
     "mapbox-gl": "npm:empty-npm-package@1.0.0",
-    "maplibre-gl": "^5.6.1",
+    "maplibre-gl": "^4.7.1",
     "solid-floating-ui": "^0.3.1",
     "solid-heroicons": "^3.2.4",
     "solid-js": "^1.9.7",
