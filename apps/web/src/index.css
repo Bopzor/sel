@@ -30,31 +30,20 @@
     outline-offset: theme(outlineOffset.4);
   }
 
-  @media screen and (min-width: 640px) {
-    html {
-      overflow-y: scroll;
-    }
-  }
-
   @media screen and (max-width: 639px) {
     html {
       font-size: 14px;
     }
+  }
 
-    body {
-      overflow: hidden;
-    }
+  body {
+    overflow-y: scroll;
   }
 
   html,
   body,
   #root {
     height: 100%;
-  }
-
-  #root {
-    display: flex;
-    flex-direction: column;
   }
 
   body {

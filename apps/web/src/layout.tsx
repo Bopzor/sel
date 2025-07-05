@@ -80,11 +80,9 @@ export function Layout(props: { children?: JSX.Element }) {
           <MemberProfile class="row items-center gap-4 py-4 sm:hidden" onClick={closeDrawer} />
         </Drawer>
 
-        <div class="flex-1 overflow-x-auto overflow-y-scroll sm:overflow-visible">
-          <main class="mx-auto max-w-7xl px-4 py-6">
-            <ErrorBoundary>{props.children}</ErrorBoundary>
-          </main>
-        </div>
+        <main class="mx-auto mt-20 max-w-7xl px-4 py-6 md:mt-0">
+          <ErrorBoundary>{props.children}</ErrorBoundary>
+        </main>
       </Match>
     </Switch>
   );
@@ -105,7 +103,7 @@ function MemberProfile(props: { onClick?: () => void; class?: string }) {
 
 function Header(props: { openDrawer: () => void }) {
   return (
-    <header class="bg-primary text-white shadow-md">
+    <header class="fixed inset-x-0 top-0 z-10 h-20 bg-primary text-white shadow-md md:static md:h-auto">
       {/* eslint-disable-next-line tailwindcss/no-arbitrary-value */}
       <div class="mx-auto grid max-w-7xl grid-cols-[auto_1fr] items-center py-4 sm:grid-cols-1 sm:px-4 sm:py-2 lg:grid-cols-[auto_1fr_auto]">
         <button class="px-2 sm:hidden" onClick={() => props.openDrawer()}>
@@ -141,7 +139,7 @@ function Header(props: { openDrawer: () => void }) {
 function NavigationItem(props: ComponentProps<typeof Link>) {
   return (
     <Link
-      class="rounded-md px-4 py-2 font-semibold hover:bg-neutral/10"
+      class="rounded-md px-4 py-2 font-semibold transition-colors hover:bg-neutral/10"
       activeClass="text-yellow-400"
       {...props}
     />

@@ -58,7 +58,7 @@ export function Backdrop(props: { show: boolean; class?: string; children: JSX.E
           exit={{ opacity: 0 }}
           transition={{ duration: 0.2, easing: 'ease-in-out' }}
           class={clsx(
-            'fixed inset-0 backdrop-blur-sm backdrop-brightness-75 backdrop-grayscale',
+            'fixed inset-0 z-20 backdrop-blur-sm backdrop-brightness-75 backdrop-grayscale',
             props.class,
           )}
         >
