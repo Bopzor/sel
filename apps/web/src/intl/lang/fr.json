@@ -224,7 +224,7 @@
         },
         "end": {
           "title": "C'est tout bon ! 😁",
-          "sentence1": "L'app étant en cours de développement, il est attendu que vous tombiez sur des bugs, ou que certaines fonctionnalités ne soient pas optimales.",
+          "sentence1": "L'app étant toute nouvelle, il est attendu que vous tombiez sur des bugs, ou que certaines fonctionnalités ne soient pas optimales.",
           "sentence2": "N'hésitez pas à <link>partager vos retours d'expérience</link>, pour que nous puissions, ensemble, construire une app qui convient à toutes et tous.",
           "end": "Terminer"
         }
@@ -560,7 +560,7 @@
       },
       "contact": {
         "title": "Contact",
-        "description": "L'app étant toute nouvelle, il est possible que vous tombiez sur des bugs, ou des choses innatendus.\n\nN'hésitez pas à nous faire part de vos retours via le groupe What's App dédié au développment du projet. Pour le rejoindre, <link>contactez-nous</link>."
+        "description": "L'app étant toute nouvelle, il est possible que vous tombiez sur des bugs, ou des choses inattendus.\n\nN'hésitez pas à nous faire part de vos retours via le groupe What's App dédié au développment du projet. Pour le rejoindre, <link>contactez-nous</link>."
       }
     },
     "admin": {
