@@ -383,8 +383,8 @@
       "list": {
         "title": "Événements",
         "createEvent": "Nouvel événement",
-        "upcoming": "Événements à venir",
-        "past": "Événements passés",
+        "upcoming": "À venir",
+        "past": "Passés",
         "noDate": "Date à définir",
         "empty": "Pas d'événement à venir"
       },

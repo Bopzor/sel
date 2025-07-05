@@ -80,7 +80,7 @@ export function Layout(props: { children?: JSX.Element }) {
           <MemberProfile class="row items-center gap-4 py-4 sm:hidden" onClick={closeDrawer} />
         </Drawer>
 
-        <main class="mx-auto mt-20 max-w-7xl px-4 py-6 md:mt-0">
+        <main class="mx-auto mt-20 max-w-7xl px-4 py-6 sm:mt-0">
           <ErrorBoundary>{props.children}</ErrorBoundary>
         </main>
       </Match>

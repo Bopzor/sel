@@ -40,12 +40,6 @@
     overflow-y: scroll;
   }
 
-  html,
-  body,
-  #root {
-    height: 100%;
-  }
-
   body {
     background-color: rgb(var(--color-body));
     color: rgb(var(--color-text));

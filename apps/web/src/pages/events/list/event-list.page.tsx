@@ -25,6 +25,15 @@ export function EventListPage() {
   const query = createQuery(() => apiQuery('listEvents', {}));
 
   const [month, setMonth] = createSignal(startOfMonth(new Date()));
+  const [tab, setTab] = createSignal<'upcoming' | 'past'>('upcoming');
+
+  const filterEvents = (events: EventsListItem[]) => {
+    if (tab() === 'upcoming') {
+      return events.filter(upcomingEventPredicate);
+    } else {
+      return events.filter(pastEventPredicate).reverse();
+    }
+  };
 
   return (
     <>
@@ -42,52 +51,53 @@ export function EventListPage() {
 
       <Show when={query.data} fallback={<Skeleton />}>
         {(events) => (
-          <>
-            <div class="col max-w-4xl gap-4 xl:hidden">
-              <Card title={<T id="upcoming" />}>
-                <ul class="divide-y">
-                  <For each={events().filter(upcomingEventPredicate)}>
-                    {(event) => <EventItem event={event} class="py-4 first-of-type:pt-0 last-of-type:pb-0" />}
-                  </For>
-                </ul>
-              </Card>
+          <div class="row gap-8">
+            <div class="flex-1 lg:max-w-96">
+              <div role="tablist" class="row mb-4 flex-wrap justify-evenly gap-2 text-lg text-dim">
+                <button
+                  type="button"
+                  role="tab"
+                  class={clsx(tab() === 'upcoming' && 'font-bold')}
+                  onClick={() => setTab('upcoming')}
+                >
+                  <T id="upcoming" />
+                </button>
+                <button
+                  type="button"
+                  role="tab"
+                  class={clsx(tab() === 'past' && 'font-bold')}
+                  onClick={() => setTab('past')}
+                >
+                  <T id="past" />
+                </button>
+              </div>
 
-              <Card title={<T id="past" />}>
-                <ul class="divide-y">
-                  <For each={events().filter(pastEventPredicate)}>
-                    {(event) => <EventItem event={event} class="py-4 first-of-type:pt-0 last-of-type:pb-0" />}
-                  </For>
-                </ul>
-              </Card>
-            </div>
-
-            <div class="xl:row hidden gap-4">
-              <Card title={<T id="upcoming" />} class="max-w-80">
+              <Card>
                 <ul>
                   <For
-                    each={events().filter(upcomingEventPredicate)}
+                    each={filterEvents(events())}
                     fallback={<CardFallback>{<T id="empty" />}</CardFallback>}
                   >
                     {(event) => <EventItem event={event} class="rounded-md p-2 hover:bg-primary/5" />}
                   </For>
                 </ul>
               </Card>
-
-              <div class="col flex-1 gap-4">
-                <MonthSelector
-                  month={month()}
-                  previous={() => setMonth(sub(month(), { months: 1 }))}
-                  next={() => setMonth(add(month(), { months: 1 }))}
-                />
-
-                <Calendar
-                  month={month().getMonth() + 1}
-                  year={month().getFullYear()}
-                  renderDay={(date) => <Day events={events()} date={date} />}
-                />
-              </div>
             </div>
-          </>
+
+            <div class="lg:col hidden flex-1 gap-4">
+              <MonthSelector
+                month={month()}
+                previous={() => setMonth(sub(month(), { months: 1 }))}
+                next={() => setMonth(add(month(), { months: 1 }))}
+              />
+
+              <Calendar
+                month={month().getMonth() + 1}
+                year={month().getFullYear()}
+                renderDay={(date) => <Day events={events()} date={date} />}
+              />
+            </div>
+          </div>
         )}
       </Show>
     </>
