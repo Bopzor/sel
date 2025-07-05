@@ -64,7 +64,7 @@ function ProfileEditionForm(props: { initialValues: AuthenticatedMember }) {
       await api.updateMemberProfile({ path: { memberId: props.initialValues.id }, body: data });
     },
     async onSuccess() {
-      await invalidate('getAuthenticatedMember');
+      await Promise.all([invalidate('getAuthenticatedMember'), invalidate('listMembers')]);
 
       const member = queryClient.getQueryData(['getAuthenticatedMember', {}]) as AuthenticatedMember;
       reset(form, { initialValues: getInitialValues(member) });
