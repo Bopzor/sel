@@ -1,5 +1,7 @@
-import { JSX } from 'solid-js';
+import { JSX, Show } from 'solid-js';
 
+import { getLetsConfig } from 'src/application/config';
+import { TextSkeleton } from 'src/components/skeleton';
 import { Flatten } from 'src/utils/types';
 
 import { useIntl } from './intl-provider';
@@ -10,7 +12,19 @@ export const createTranslate = createTranslationHelper<keyof Flatten<typeof tran
   br: () => <br />,
   em: (children) => <em>{children}</em>,
   strong: (children) => <strong class="font-semibold">{children}</strong>,
+  currency: () => <Currency />,
+  currencyPlural: () => <Currency plural />,
 });
+
+function Currency(props: { plural?: true }) {
+  const config = getLetsConfig();
+
+  return (
+    <Show when={config()} fallback={<TextSkeleton width={6} />}>
+      {(config) => (props.plural ? config().currencyPlural : config().currency)}
+    </Show>
+  );
+}
 
 type Prefixes<Key extends string> = Key extends `${infer P}.${infer S}` ? P | `${P}.${Prefixes<S>}` : never;
 type Values = Record<string, Date | JSX.Element | ((children: JSX.Element) => JSX.Element)>;

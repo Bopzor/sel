@@ -4,6 +4,7 @@ import { createQuery } from '@tanstack/solid-query';
 import { Show } from 'solid-js';
 
 import { apiQuery, getAuthenticatedMember } from 'src/application/query';
+import { Card } from 'src/components/card';
 import { Dialog, DialogHeader } from 'src/components/dialog';
 import { BoxSkeleton, TextSkeleton } from 'src/components/skeleton';
 import { TransactionList } from 'src/components/transaction-list';
@@ -38,12 +39,14 @@ export function TransactionsPage() {
       <Show when={query.data} fallback={<Skeleton />}>
         {(transactions) => (
           <Show when={transactions().length > 0} fallback={<T id="empty" />}>
-            <TransactionList
-              showStatus
-              member={member()}
-              transactions={transactions()}
-              onTransactionClick={(transaction) => setTransactionId(transaction.id)}
-            />
+            <Card class="overflow-x-auto px-4 lg:p-0">
+              <TransactionList
+                showStatus
+                member={member()}
+                transactions={transactions()}
+                onTransactionClick={(transaction) => setTransactionId(transaction.id)}
+              />
+            </Card>
           </Show>
         )}
       </Show>

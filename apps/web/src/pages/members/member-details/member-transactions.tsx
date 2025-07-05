@@ -14,12 +14,11 @@ export function MemberTransactions(props: {
   createTransactionButton: JSX.Element;
 }) {
   return (
-    <>
-      <div class="grid grid-cols-1 items-center gap-4 md:grid-cols-3">
-        <div class="row justify-end md:order-2">{props.createTransactionButton}</div>
-        <div class="items-center text-center text-lg font-medium md:col-start-2">
-          <T id="balance" values={{ balance: <FormattedCurrencyAmount amount={props.member.balance} /> }} />
-        </div>
+    <div>
+      {props.createTransactionButton}
+
+      <div class="my-6 text-center text-lg font-medium">
+        <T id="balance" values={{ balance: <FormattedCurrencyAmount amount={props.member.balance} /> }} />
       </div>
 
       <Show
@@ -30,12 +29,10 @@ export function MemberTransactions(props: {
           </CardFallback>
         }
       >
-        <TransactionList
-          member={props.member}
-          transactions={props.transactions}
-          classes={{ root: 'border' }}
-        />
+        <div class="overflow-x-auto rounded border px-4 lg:px-0">
+          <TransactionList member={props.member} transactions={props.transactions} />
+        </div>
       </Show>
-    </>
+    </div>
   );
 }

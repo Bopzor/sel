@@ -1,5 +1,4 @@
 import { Member, Transaction } from '@sel/shared';
-import clsx from 'clsx';
 import { Icon } from 'solid-heroicons';
 import { arrowRight } from 'solid-heroicons/solid';
 import { For, Show } from 'solid-js';
@@ -8,7 +7,6 @@ import { getLetsConfig } from 'src/application/config';
 import { FormattedCurrencyAmount, FormattedDate } from 'src/intl/formatted';
 import { createTranslate } from 'src/intl/translate';
 
-import { Card } from './card';
 import { MemberAvatarName } from './member-avatar-name';
 import { TransactionStatus } from './transaction-status';
 
@@ -19,10 +17,9 @@ export function TransactionList(props: {
   transactions?: Transaction[];
   showStatus?: boolean;
   onTransactionClick?: (transaction: Transaction) => void;
-  classes?: Partial<Record<'root', string>>;
 }) {
   return (
-    <Card class={clsx('overflow-x-auto px-4 lg:p-0', props.classes?.root)}>
+    <>
       <TransactionListDesktop
         member={props.member}
         transactions={props.transactions}
@@ -36,7 +33,7 @@ export function TransactionList(props: {
         showStatus={props.showStatus}
         onTransactionClick={props.onTransactionClick}
       />
-    </Card>
+    </>
   );
 }
 

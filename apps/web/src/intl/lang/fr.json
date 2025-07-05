@@ -51,8 +51,8 @@
       "type": {
         "label": "Type d'échange",
         "readOnly": "Le type d'échange n'est pas modifiable",
-        "send": "Envoyer des {currency}",
-        "request": "Demander des {currency}"
+        "send": "Envoyer des {currencyPlural}",
+        "request": "Demander des {currencyPlural}"
       },
       "member": {
         "label": "Membre",
@@ -274,6 +274,7 @@
         "showOnMap": "Voir sur la carte"
       },
       "details": {
+        "editProfile": "Modifier mes informations",
         "phoneNumber": "Numéro de téléphone",
         "emailAddress": "Adresse email",
         "mailingAddress": "Adresse postale",
@@ -289,7 +290,7 @@
           "title": "Échanges",
           "balance": "Solde: {balance}",
           "noTransactions": "{name} n'a réalisé aucun échange pour le moment.",
-          "create": "Créer un échange"
+          "create": "Échanger des {currencyPlural}"
         }
       }
     },

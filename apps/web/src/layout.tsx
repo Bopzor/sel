@@ -103,7 +103,7 @@ function MemberProfile(props: { onClick?: () => void; class?: string }) {
 
 function Header(props: { openDrawer: () => void }) {
   return (
-    <header class="fixed inset-x-0 top-0 z-10 h-20 bg-primary text-white shadow-md md:static md:h-auto">
+    <header class="fixed inset-x-0 top-0 z-10 h-20 bg-primary text-white shadow-md sm:static sm:h-auto">
       {/* eslint-disable-next-line tailwindcss/no-arbitrary-value */}
       <div class="mx-auto grid max-w-7xl grid-cols-[auto_1fr] items-center py-4 sm:grid-cols-1 sm:px-4 sm:py-2 lg:grid-cols-[auto_1fr_auto]">
         <button class="px-2 sm:hidden" onClick={() => props.openDrawer()}>

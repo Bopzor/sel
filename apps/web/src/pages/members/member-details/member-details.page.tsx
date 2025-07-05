@@ -58,19 +58,17 @@ function MemberDetails(props: { member: Member }) {
 
   return (
     <div class="col gap-8">
-      <Card class="p-4 md:p-8">
+      <h1>
         <MemberAvatarName
           link={false}
           member={props.member}
-          classes={{ avatar: '!size-16 md:!size-24', name: 'text-3xl font-semibold', root: 'gap-8' }}
+          classes={{ avatar: '!size-12 md:!size-24', root: 'gap-4 md:gap-8' }}
         />
+      </h1>
 
-        <hr class="my-4 md:my-6" />
-
-        <div class="grid grid-cols-1 gap-8 md:grid-cols-2">
-          <ContactInformation member={props.member} />
-          <MemberMap member={props.member} />
-        </div>
+      <Card class="grid grid-cols-1 gap-8 md:grid-cols-2">
+        <ContactInformation member={props.member} />
+        <MemberMap member={props.member} />
       </Card>
 
       <Section show={props.member.bio} icon={user} title={<T id="bio" />}>

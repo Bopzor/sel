@@ -44,7 +44,9 @@ export function DialogHeader(props: { title: JSX.Element; onClose: () => void })
 
 export function DialogFooter(props: { class?: string; children: JSX.Element }) {
   return (
-    <footer class={clsx('row mt-6 items-center justify-end gap-4', props.class)}>{props.children}</footer>
+    <footer class={clsx('row mt-6 flex-wrap items-center justify-end gap-4', props.class)}>
+      {props.children}
+    </footer>
   );
 }
 

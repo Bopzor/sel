@@ -1,24 +1,22 @@
 import { Transaction, TransactionStatus as TransactionStatusEnum } from '@sel/shared';
 import { createMutation } from '@tanstack/solid-query';
 import { Icon } from 'solid-heroicons';
-import { check, xMark, arrowRight, minus } from 'solid-heroicons/solid';
+import { arrowRight, check, minus, xMark } from 'solid-heroicons/solid';
 import { Show } from 'solid-js';
 
 import { api } from 'src/application/api';
-import { getLetsConfig } from 'src/application/config';
 import { notify } from 'src/application/notify';
 import { getAuthenticatedMember, getIsAuthenticatedMember, useInvalidateApi } from 'src/application/query';
 import { Button } from 'src/components/button';
 import { DialogFooter } from 'src/components/dialog';
 import { MemberAvatarName } from 'src/components/member-avatar-name';
 import { TransactionStatus } from 'src/components/transaction-status';
-import { FormattedDate, FormattedCurrencyAmount } from 'src/intl/formatted';
+import { FormattedCurrencyAmount, FormattedDate } from 'src/intl/formatted';
 import { createTranslate } from 'src/intl/translate';
 
 const T = createTranslate('pages.profile.transactions');
 
 export function TransactionDetails(props: { transaction: Transaction }) {
-  const config = getLetsConfig();
   const isAuthenticatedMember = getIsAuthenticatedMember();
 
   const accept = createAcceptMutation(() => props.transaction.id);
@@ -42,7 +40,7 @@ export function TransactionDetails(props: { transaction: Transaction }) {
 
       <Show when={props.transaction.status === TransactionStatusEnum.canceled}>
         <div class="text-dim">
-          <T id="canceled" values={{ currency: config()?.currency }} />
+          <T id="canceled" />
         </div>
       </Show>
 

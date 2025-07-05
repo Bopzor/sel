@@ -4,6 +4,8 @@ import { Icon } from 'solid-heroicons';
 import { clock, envelope, home, phone } from 'solid-heroicons/solid';
 import { ComponentProps, For, JSX, Show } from 'solid-js';
 
+import { getIsAuthenticatedMember } from 'src/application/query';
+import { LinkButton } from 'src/components/button';
 import { ExternalLink } from 'src/components/link';
 import { FormattedAddress, FormattedPhoneNumber } from 'src/intl/formatted';
 import { createTranslate } from 'src/intl/translate';
@@ -11,8 +13,16 @@ import { createTranslate } from 'src/intl/translate';
 const T = createTranslate('pages.members.details');
 
 export function ContactInformation(props: { member: Member }) {
+  const isAuthenticatedMember = getIsAuthenticatedMember();
+
   return (
     <div class="col gap-4">
+      <Show when={isAuthenticatedMember(props.member)}>
+        <LinkButton href="/profile" variant="outline" class="self-start">
+          <T id="editProfile" />
+        </LinkButton>
+      </Show>
+
       <PhoneNumbers member={props.member} />
       <Email member={props.member} />
       <Address member={props.member} />

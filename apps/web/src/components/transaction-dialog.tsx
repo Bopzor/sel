@@ -175,9 +175,7 @@ function Fields(props: {
             helperText={props.typeReadOnly && t('type.readOnly')}
             items={['send', 'request'] as const}
             itemToString={(item) => item ?? ''}
-            renderItem={(item) =>
-              item && <T id={`type.${item}`} values={{ currency: config()?.currencyPlural }} />
-            }
+            renderItem={(item) => item && <T id={`type.${item}`} />}
             selectedItem={() => field.value}
             onItemSelected={(item) => item && setValue(props.form, 'type', item)}
           />
@@ -250,7 +248,6 @@ function Confirmation(props: {
   onBack: () => void;
   loading: boolean;
 }) {
-  const config = getLetsConfig();
   const member = () => props.members.find(hasProperty('id', getValue(props.form, 'memberId') ?? ''));
 
   return (
@@ -263,8 +260,6 @@ function Confirmation(props: {
               values={{
                 amount: getValue(props.form, 'amount'),
                 name: [member()?.firstName, member()?.lastName].join(' '),
-                currency: config()?.currency,
-                currencyPlural: config()?.currencyPlural,
               }}
             />
           </p>
