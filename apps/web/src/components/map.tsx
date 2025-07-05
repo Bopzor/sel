@@ -61,7 +61,11 @@ export function Map(props: MapProps) {
         >
           <For each={props.markers}>
             {(marker) => (
-              <Marker lngLat={marker.position} showPopup={marker.isPopupOpen} popup={{ closeButton: false }}>
+              <Marker
+                lngLat={marker.position}
+                showPopup={marker.isPopupOpen}
+                popup={{ closeButton: false, closeOnClick: true }}
+              >
                 {marker.render ? <div>{marker.render()}</div> : <div />}
               </Marker>
             )}
