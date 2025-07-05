@@ -28,5 +28,9 @@ export function Card(props_: {
 }
 
 export function CardFallback(props: { class?: string; children: JSX.Element }) {
-  return <div class={clsx('mx-auto my-4 max-w-48 text-center text-dim', props.class)}>{props.children}</div>;
+  return (
+    <div class={clsx('row min-h-16 items-center justify-center font-medium text-dim', props.class)}>
+      {props.children}
+    </div>
+  );
 }

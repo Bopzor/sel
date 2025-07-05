@@ -270,6 +270,7 @@
     },
     "members": {
       "list": {
+        "empty": "Aucun résultat",
         "sortBy": "Trier par : ",
         "showOnMap": "Voir sur la carte"
       },

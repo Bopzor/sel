@@ -24,9 +24,7 @@ export function MemberTransactions(props: {
       <Show
         when={props.transactions?.length}
         fallback={
-          <CardFallback class="max-w-none">
-            {<T id="noTransactions" values={{ name: props.member.firstName }} />}
-          </CardFallback>
+          <CardFallback>{<T id="noTransactions" values={{ name: props.member.firstName }} />}</CardFallback>
         }
       >
         <div class="overflow-x-auto rounded border px-4 lg:px-0">

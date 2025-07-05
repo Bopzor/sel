@@ -1,16 +1,15 @@
 import { Member, MembersSort } from '@sel/shared';
 import { Icon } from 'solid-heroicons';
 import { magnifyingGlass, mapPin } from 'solid-heroicons/solid';
-import { For } from 'solid-js';
+import { For, Show } from 'solid-js';
 
 import { routes } from 'src/application/routes';
-import { Card } from 'src/components/card';
+import { Card, CardFallback } from 'src/components/card';
+import { Input } from 'src/components/input';
+import { Link } from 'src/components/link';
+import { MemberAvatarName } from 'src/components/member-avatar-name';
 import { TranslateMembersSort } from 'src/intl/enums';
 import { createTranslate } from 'src/intl/translate';
-
-import { Input } from '../../../../components/input';
-import { Link } from '../../../../components/link';
-import { MemberAvatarName } from '../../../../components/member-avatar-name';
 
 const T = createTranslate('pages.members.list');
 const Translate = createTranslate('common');
@@ -34,11 +33,20 @@ export function MemberList(props: MemberListProps) {
           <SortControl sort={props.sort} onSort={props.onSort} />
         </div>
 
-        <ul class="" onMouseLeave={() => props.onHighlight(undefined)}>
-          <For each={props.members}>
-            {(member) => <MemberItem member={member} onHighlight={() => props.onHighlight(member)} />}
-          </For>
-        </ul>
+        <Show
+          when={props.members.length > 0}
+          fallback={
+            <CardFallback>
+              <T id="empty" />
+            </CardFallback>
+          }
+        >
+          <ul onMouseLeave={() => props.onHighlight(undefined)}>
+            <For each={props.members}>
+              {(member) => <MemberItem member={member} onHighlight={() => props.onHighlight(member)} />}
+            </For>
+          </ul>
+        </Show>
       </Card>
     </>
   );

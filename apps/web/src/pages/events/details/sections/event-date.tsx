@@ -13,7 +13,7 @@ export function EventDate(props: { event: Event }) {
       <Show
         when={props.event.date}
         fallback={
-          <CardFallback class="text-lg font-semibold">
+          <CardFallback>
             <T id="empty" />
           </CardFallback>
         }
