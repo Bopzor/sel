@@ -31,22 +31,20 @@ export function AuthenticationPage() {
   }));
 
   return (
-    <>
-      <Switch fallback={<AuthenticationForm onSubmit={(data) => mutation.mutateAsync(data)} />}>
-        <Match when={token()}>
-          {(token) => <VerifyAuthenticationToken token={token()} clearToken={() => setToken(undefined)} />}
-        </Match>
+    <Switch fallback={<AuthenticationForm onSubmit={(data) => mutation.mutateAsync(data)} />}>
+      <Match when={token()}>
+        {(token) => <VerifyAuthenticationToken token={token()} clearToken={() => setToken(undefined)} />}
+      </Match>
 
-        <Match when={mutation.isSuccess}>
-          <p class="my-4">
-            <T id="linkRequested.line1" values={{ email: mutation.variables?.email }} />
-          </p>
-          <p class="my-4 text-sm text-dim">
-            <T id="linkRequested.line2" />
-          </p>
-        </Match>
-      </Switch>
-    </>
+      <Match when={mutation.isSuccess}>
+        <p class="my-4">
+          <T id="linkRequested.line1" values={{ email: mutation.variables?.email }} />
+        </p>
+        <p class="my-4 text-sm text-dim">
+          <T id="linkRequested.line2" />
+        </p>
+      </Match>
+    </Switch>
   );
 }
 
