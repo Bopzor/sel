@@ -35,6 +35,10 @@ export class WebPushNotification implements PushNotification {
   init() {
     const { subject, publicKey, privateKey } = this.config.push;
 
+    if (subject === '') {
+      return;
+    }
+
     this.logger.log('Initializing push notification service');
     setVapidDetails(subject, publicKey, privateKey);
   }
@@ -45,6 +49,10 @@ export class WebPushNotification implements PushNotification {
     content: string,
     link: string,
   ): Promise<void> {
+    if (this.config.push.subject === '') {
+      return;
+    }
+
     try {
       await sendNotification(
         JSON.parse(subscription) as PushSubscription,
