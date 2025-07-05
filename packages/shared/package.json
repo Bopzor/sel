@@ -13,9 +13,9 @@
     "@sel/eslint-config": "workspace:*",
     "@sel/typescript-config": "workspace:*",
     "@sel/utils": "workspace:*",
-    "typescript": "^5.7.2"
+    "typescript": "^5.8.3"
   },
   "dependencies": {
-    "zod": "^3.23.8"
+    "zod": "^3.25.74"
   }
 }
