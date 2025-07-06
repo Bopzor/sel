@@ -104,11 +104,11 @@ function Header(props: { openDrawer: () => void }) {
   return (
     <header class="fixed inset-x-0 top-0 z-10 h-20 bg-primary text-white shadow-md sm:static sm:h-auto">
       <div class="mx-auto grid max-w-7xl grid-cols-[auto_1fr] items-center py-4 sm:grid-cols-1 sm:px-4 sm:py-2 lg:grid-cols-[auto_1fr_auto]">
-        <button class="px-2 sm:hidden" onClick={() => props.openDrawer()}>
+        <button class="px-4 sm:hidden" onClick={() => props.openDrawer()}>
           <Icon path={bars_3} class="size-10" />
         </button>
 
-        <LogoTitle link={routes.home} class="mx-auto hidden w-fit sm:mx-0 sm:flex lg:order-1" />
+        <LogoTitle link={routes.home} class="mx-4 flex w-fit sm:mx-0 lg:order-1" />
 
         <MemberProfile class="hidden items-center gap-1 sm:col lg:order-3" />
 
@@ -138,7 +138,7 @@ function NavigationItem(props: ComponentProps<typeof Link>) {
   return (
     <Link
       class="rounded-md px-4 py-2 font-semibold transition-colors hover:bg-neutral/10"
-      activeClass="text-yellow-400"
+      activeClass="text-amber-400"
       {...props}
     />
   );
@@ -233,7 +233,7 @@ function DrawerNavigationItem(props: {
       href={props.href}
       onClick={props.onClick}
       class="row items-center gap-4 py-4"
-      activeClass="text-yellow-400"
+      activeClass="text-amber-400"
       end={props.href === routes.home}
     >
       <div>
