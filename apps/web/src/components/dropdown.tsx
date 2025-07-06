@@ -23,7 +23,7 @@ export function Dropdown<Item>(props: DropdownProps<Item>) {
         <Show when={props.open && (props.items.length > 0 || props.renderNoItems?.())}>
           <Motion.ul
             ref={props.ref}
-            class="col z-20 rounded border bg-neutral px-2 py-3 shadow"
+            class="col z-20 rounded-sm border bg-neutral px-2 py-3 shadow-sm"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -42,7 +42,7 @@ export function Dropdown<Item>(props: DropdownProps<Item>) {
             >
               {(item, index) => (
                 <li
-                  class="cursor-pointer rounded px-2 py-1"
+                  class="cursor-pointer rounded-sm px-2 py-1"
                   classList={{
                     'font-semibold': item === props.selectedItem,
                     'bg-primary/75 text-white': item === props.highlightedItem,

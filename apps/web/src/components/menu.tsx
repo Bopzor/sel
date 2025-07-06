@@ -90,5 +90,5 @@ export function LinkMenuItem(_props: ComponentProps<typeof Link> & { start?: JSX
 }
 
 const menuItem = cva(
-  'inline-flex min-w-48 flex-row items-center gap-2 rounded px-2 py-1 text-start hover:bg-gray-500/10',
+  'inline-flex min-w-48 flex-row items-center gap-2 rounded-sm px-2 py-1 text-start hover:bg-gray-500/10',
 );

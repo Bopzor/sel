@@ -18,7 +18,7 @@ export function EventParticipation(props: { event: Event }) {
       <AnswerButton
         event={props.event}
         answer="yes"
-        start={<Icon path={check} class="size-6 text-green-600" />}
+        start={<Icon path={check} class="size-6 text-emerald-600" />}
       >
         <T id="yes" />
       </AnswerButton>
@@ -78,7 +78,7 @@ function AnswerButton(props: AnswerButtonProps) {
       start={props.start}
       class="row items-center gap-1 bg-neutral"
       classList={{
-        'border-green-600': isMemberAnswer() && props.answer === 'yes',
+        'border-emerald-600': isMemberAnswer() && props.answer === 'yes',
         'border-gray-600': isMemberAnswer() && props.answer === 'no',
         'grayscale opacity-75': memberAnswer() && !isMemberAnswer(),
       }}

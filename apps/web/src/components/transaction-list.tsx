@@ -87,13 +87,13 @@ function TransactionListDesktop(props: {
               </td>
 
               <td>
-                <MemberAvatarName link={false} classes={{ avatar: '!size-6' }} member={transaction.payer} />
+                <MemberAvatarName link={false} classes={{ avatar: 'size-6!' }} member={transaction.payer} />
               </td>
 
               <td>
                 <MemberAvatarName
                   link={false}
-                  classes={{ avatar: '!size-6' }}
+                  classes={{ avatar: 'size-6!' }}
                   member={transaction.recipient}
                 />
               </td>
@@ -130,7 +130,7 @@ function TransactionListMobile(props: {
   onTransactionClick?: (transaction: Transaction) => void;
 }) {
   return (
-    <ul class="divide-y lg:!hidden">
+    <ul class="divide-y lg:hidden!">
       <For each={props.transactions}>
         {(transaction) => (
           <li
@@ -151,13 +151,13 @@ function TransactionListMobile(props: {
             </div>
 
             <div class="row items-center gap-4">
-              <MemberAvatarName member={transaction.payer} classes={{ avatar: '!size-6' }} />
+              <MemberAvatarName member={transaction.payer} classes={{ avatar: 'size-6!' }} />
 
               <div>
                 <Icon path={arrowRight} class="size-4" />
               </div>
 
-              <MemberAvatarName member={transaction.recipient} classes={{ avatar: '!size-6' }} />
+              <MemberAvatarName member={transaction.recipient} classes={{ avatar: 'size-6!' }} />
             </div>
 
             <div>

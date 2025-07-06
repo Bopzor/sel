@@ -112,7 +112,7 @@ export function TransactionDialog(props: {
           }
         }}
       >
-        <div class={clsx('col gap-4', { '!hidden': showConfirmation() })}>
+        <div class={clsx('col gap-4', { 'hidden!': showConfirmation() })}>
           <Fields
             form={form}
             typeReadOnly={props.initialValues?.type !== undefined}
@@ -121,7 +121,7 @@ export function TransactionDialog(props: {
           />
         </div>
 
-        <div class={clsx({ '!hidden': !showConfirmation() })}>
+        <div class={clsx({ 'hidden!': !showConfirmation() })}>
           <Confirmation
             form={form}
             members={membersQuery.data ?? []}

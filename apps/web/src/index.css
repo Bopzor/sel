@@ -1,33 +1,43 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+
+@plugin "@tailwindcss/typography";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --color-body: rgb(244 244 245);
+  --color-border: rgb(209 213 219);
+  --color-placeholder: rgb(156 163 175);
+  --color-neutral: rgb(255 255 255);
+  --color-inverted: rgb(0 0 0);
+  --color-text: rgb(9 9 11);
+  --color-dim: rgb(82 82 91);
+  --color-link: rgb(59 130 246);
+  --color-primary: #005f7e;
+
+  --spacing-em: 1em;
+  --font-sans: 'Inter Variable', sans-serif;
+}
+
+@layer theme {
+  * {
+    @variant dark {
+      --color-body: rgb(22 22 26);
+      --color-border: rgb(48 48 48);
+      --color-placeholder: rgb(107 114 128);
+      --color-neutral: rgb(32 32 36);
+      --color-inverted: rgb(255 255 255);
+      --color-text: rgb(250 250 250);
+      --color-dim: rgb(161 161 170);
+      --color-link: rgb(96 165 250);
+    }
+  }
+}
 
 @layer base {
-  :root {
-    --color-body: 244 244 245;
-    --color-border: 209 213 219;
-    --color-placeholder: 156 163 175;
-    --color-neutral: 255 255 255;
-    --color-inverted: 0 0 0;
-    --color-text: 9 9 11;
-    --color-dim: 82 82 91;
-    --color-link: 59 130 246;
-  }
-
-  :root.dark {
-    --color-body: 22 22 26;
-    --color-border: 48 48 48;
-    --color-placeholder: 107 114 128;
-    --color-neutral: 32 32 36;
-    --color-inverted: 255 255 255;
-    --color-text: 250 250 250;
-    --color-dim: 161 161 170;
-    --color-link: 96 165 250;
-  }
-
   * {
-    border-color: rgb(var(--color-border));
-    outline-offset: theme(outlineOffset.4);
+    border-color: var(--color-border);
+    outline-offset: var(--spacing-4);
   }
 
   @media screen and (max-width: 639px) {
@@ -37,32 +47,35 @@
   }
 
   body {
+    background-color: var(--color-body);
+    color: var(--color-text);
     overflow-y: scroll;
   }
 
-  body {
-    background-color: rgb(var(--color-body));
-    color: rgb(var(--color-text));
-  }
-
   ::placeholder {
-    color: rgb(var(--color-placeholder));
+    color: var(--color-placeholder);
   }
 
   h1 {
-    font-size: theme(fontSize.3xl);
-    font-weight: theme(fontWeight.semibold);
+    font-size: var(--text-3xl);
+    font-weight: var(--font-weight-semibold);
   }
 
   @media screen and (max-width: 639px) {
     h1 {
-      font-size: theme(fontSize.2xl);
+      font-size: var(--text-2xl);
     }
   }
 
+  button:not(:disabled) {
+    cursor: pointer;
+  }
+
   .prose {
+    color: var(--color-text) !important;
+
     a {
-      color: theme(colors.blue.500);
+      color: var(--color-blue-500);
     }
 
     li,
@@ -74,57 +87,55 @@
 
   .dark .prose {
     a {
-      color: theme(colors.blue.300);
+      color: var(--color-blue-300);
     }
   }
 }
 
-@layer components {
-  .shadow-current-day {
-    box-shadow: inset 0 0 theme(spacing.1) theme(colors.primary);
-  }
+@utility shadow-current-day {
+  box-shadow: inset 0 0 --spacing(1) var(--color-primary);
+}
 
-  table.table {
+@utility row {
+  display: flex;
+  flex-direction: row;
+}
+
+@utility col {
+  display: flex;
+  flex-direction: column;
+}
+
+@utility table {
+  &table {
     thead th {
-      background-color: theme(colors.inverted/0.1);
-      color: theme(colors.dim);
-      font-size: theme(fontSize.sm);
-      font-weight: theme(fontWeight.medium);
+      background-color: --alpha(var(--color-inverted) / 10%);
+      color: var(--color-dim);
+      font-size: var(--text-sm);
+      font-weight: var(--font-weight-medium);
       text-align: start;
-      border-top-left-radius: theme(borderRadius.DEFAULT);
-      border-top-right-radius: theme(borderRadius.DEFAULT);
+      border-top-left-radius: var(--radius);
+      border-top-right-radius: var(--radius);
     }
 
     tbody tr {
       border-top-width: 1px;
 
       &:hover {
-        background-color: theme(colors.primary/0.05);
+        background-color: --alpha(var(--color-primary) / 5%);
       }
     }
 
     th,
     td {
-      padding: theme(spacing.2) theme(spacing.3);
+      padding: --spacing(2) --spacing(3);
     }
-  }
-}
-
-@layer utilities {
-  .row {
-    display: flex;
-    flex-direction: row;
-  }
-
-  .col {
-    display: flex;
-    flex-direction: column;
   }
 }
 
 .tiptap p.is-editor-empty:first-child::before {
   content: attr(data-placeholder);
-  color: rgb(var(--color-placeholder));
+  color: var(--color-placeholder);
   float: left;
   height: 0;
   pointer-events: none;

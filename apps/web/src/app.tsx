@@ -112,7 +112,7 @@ function Providers(props: { children?: JSX.Element }) {
       <IntlProvider>
         <MatomoProvider>
           <QueryClientProvider client={queryClient}>
-            <Toaster toastOptions={{ duration: 5 * 1000, className: '!max-w-xl' }} />
+            <Toaster toastOptions={{ duration: 5 * 1000, className: 'max-w-xl!' }} />
             {props.children}
           </QueryClientProvider>
         </MatomoProvider>

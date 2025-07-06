@@ -41,7 +41,7 @@ export function OnboardingPage() {
     <section class="col gap-2">
       <Header step={step()} stepIndex={stepIndex()} />
 
-      <div class="col gap-8 rounded-lg bg-neutral p-8 shadow">
+      <div class="col gap-8 rounded-lg bg-neutral p-8 shadow-sm">
         <Dynamic {...props()} />
       </div>
     </section>

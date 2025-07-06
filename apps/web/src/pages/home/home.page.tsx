@@ -92,7 +92,7 @@ function LinkCard(props: LinkCardProps) {
     <Link
       href={props.href}
       class={clsx(
-        'row group items-center gap-4 rounded-lg border border-primary bg-gradient-to-tl from-primary/0 to-primary/10 px-6 py-4 transition-all hover:bg-primary/10 hover:shadow-lg',
+        'row group items-center gap-4 rounded-lg border border-primary bg-linear-to-tl from-primary/0 to-primary/10 px-6 py-4 transition-all hover:bg-primary/10 hover:shadow-lg',
         props.class,
       )}
     >

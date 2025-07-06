@@ -54,7 +54,7 @@ export function Input(_props: InputProps) {
   );
 }
 
-const input = cva('size-full self-stretch bg-transparent px-4 outline-none', {
+const input = cva('size-full self-stretch bg-transparent px-4 outline-hidden', {
   variants: {
     start: {
       true: 'ps-0',

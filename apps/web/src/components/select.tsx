@@ -81,7 +81,7 @@ export function Select<Item>(_props: SelectProps<Item>) {
         >
           <div
             aria-disabled={props.disabled}
-            class="row w-full cursor-pointer items-center justify-between px-4 py-3 outline-none"
+            class="row w-full cursor-pointer items-center justify-between px-4 py-3 outline-hidden"
             {...select.getToggleButtonProps()}
           >
             <div>
@@ -89,8 +89,8 @@ export function Select<Item>(_props: SelectProps<Item>) {
                 readOnly
                 tabIndex={-1}
                 placeholder={props.placeholder}
-                class="w-full cursor-pointer outline-none"
-                classList={{ '!hidden': select.selectedItem !== undefined }}
+                class="w-full cursor-pointer outline-hidden"
+                classList={{ 'hidden!': select.selectedItem !== undefined }}
               />
 
               {select.selectedItem && props.renderItem(select.selectedItem)}

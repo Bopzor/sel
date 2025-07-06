@@ -25,7 +25,10 @@ export function MemberAvatarName(props: {
 
   return (
     <Dynamic {...element()} class={clsx('row max-w-fit items-center gap-2', props.classes?.root)}>
-      <MemberAvatar member={props.member} class={clsx('size-8 rounded-full shadow', props.classes?.avatar)} />
+      <MemberAvatar
+        member={props.member}
+        class={clsx('size-8 rounded-full shadow-sm', props.classes?.avatar)}
+      />
       <div class={props.classes?.name}>{memberName(props.member, props.short)}</div>
     </Dynamic>
   );

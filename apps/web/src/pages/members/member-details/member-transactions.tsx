@@ -27,7 +27,7 @@ export function MemberTransactions(props: {
           <CardFallback>{<T id="noTransactions" values={{ name: props.member.firstName }} />}</CardFallback>
         }
       >
-        <div class="overflow-x-auto rounded border px-4 lg:px-0">
+        <div class="overflow-x-auto rounded-sm border px-4 lg:px-0">
           <TransactionList member={props.member} transactions={props.transactions} />
         </div>
       </Show>

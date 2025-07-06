@@ -139,8 +139,8 @@ function MemberStatus(props: { status: MemberStatusEnum }) {
           path={icons[props.status]}
           class="size-5 stroke-2"
           classList={{
-            'text-green-600': props.status === MemberStatusEnum.active,
-            'text-yellow-600': props.status === MemberStatusEnum.onboarding,
+            'text-emerald-600': props.status === MemberStatusEnum.active,
+            'text-amber-600': props.status === MemberStatusEnum.onboarding,
             'text-dim': props.status === MemberStatusEnum.inactive,
           }}
         />

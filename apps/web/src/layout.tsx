@@ -154,7 +154,7 @@ export function LogoTitle(props: { link: string; onClick?: () => void; class?: s
       onClick={() => props.onClick?.()}
     >
       <div>
-        <Logo class="size-12 rounded xl:size-16" />
+        <Logo class="size-12 rounded-sm xl:size-16" />
       </div>
 
       <div class="leading-none">

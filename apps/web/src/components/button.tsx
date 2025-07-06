@@ -69,7 +69,7 @@ const button = cva(
   {
     variants: {
       variant: {
-        solid: 'border-green-600 bg-green-600 text-white',
+        solid: 'border-emerald-600 bg-emerald-600 text-white',
         outline: 'bg-neutral text-dim',
         ghost: 'border-transparent text-dim hover:bg-inverted/5',
       },

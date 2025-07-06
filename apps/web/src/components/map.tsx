@@ -57,7 +57,7 @@ export function Map(props: MapProps) {
           }}
           viewport={viewport()}
           onViewportChange={setViewport}
-          class={clsx('map relative rounded-lg shadow', props.class)}
+          class={clsx('map relative rounded-lg shadow-sm', props.class)}
         >
           <For each={props.markers}>
             {(marker) => (

@@ -35,7 +35,7 @@ type PopupProps = {
 
 function Popup(props: PopupProps) {
   return (
-    <Link href={routes.members.details(props.member.id)} class="col min-w-48 gap-2 outline-none">
+    <Link href={routes.members.details(props.member.id)} class="col min-w-48 gap-2 outline-hidden">
       <div class="row items-center gap-2 text-base font-medium">
         <MemberAvatarName member={props.member} />
       </div>

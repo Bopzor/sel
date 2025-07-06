@@ -29,7 +29,7 @@ export function MemberList(props: MemberListProps) {
       <SearchInput search={props.search} onSearch={props.onSearch} />
 
       <Card padding={false}>
-        <div class="px-4 py-3 shadow">
+        <div class="px-4 py-3 shadow-sm">
           <SortControl sort={props.sort} onSort={props.onSort} />
         </div>
 
@@ -91,7 +91,7 @@ function MemberItem(props: { member: Member; onHighlight: () => void }) {
     <li class="row group items-center hover:bg-inverted/5 focus:bg-inverted/5">
       <Link
         href={routes.members.details(props.member.id)}
-        class="row flex-1 items-center gap-2 px-4 py-2 focus:outline-none"
+        class="row flex-1 items-center gap-2 px-4 py-2 focus:outline-hidden"
       >
         <MemberAvatarName member={props.member} />
       </Link>

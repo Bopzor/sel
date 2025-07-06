@@ -106,7 +106,7 @@ function Header(props: { form: FormStore<FormType> }) {
     <header class="row flex-wrap-reverse items-center gap-4">
       <MemberAvatarName
         member={authenticatedMember()}
-        classes={{ avatar: '!size-20', name: 'text-3xl font-semibold', root: 'gap-6' }}
+        classes={{ avatar: 'size-20!', name: 'text-3xl font-semibold', root: 'gap-6' }}
       />
 
       <div

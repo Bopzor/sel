@@ -46,7 +46,7 @@ export function createRichEditor(props: CreateRichEditorProps) {
     content: props.initialValue,
     editorProps: {
       attributes: {
-        class: 'outline-none grow prose max-w-none dark:prose-invert',
+        class: 'outline-hidden grow prose max-w-none dark:prose-invert',
       },
     },
     onUpdate({ editor }) {
@@ -188,7 +188,7 @@ function ToolbarItem(props: { title: string; icon: ValidComponent; active?: bool
       type="button"
       title={props.title}
       onClick={() => props.onClick()}
-      class="rounded p-0.5"
+      class="rounded-sm p-0.5"
       classList={{
         'fill-icon/75': !props.active,
         'fill-primary bg-dim/10': props.active,

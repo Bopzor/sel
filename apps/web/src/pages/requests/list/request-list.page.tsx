@@ -72,7 +72,7 @@ function RequestItem(props: { request: Request }) {
 
       <Link
         href={`/requests/${props.request.id}`}
-        class="col col-span-2 gap-4 rounded-lg bg-neutral p-4 shadow"
+        class="col col-span-2 gap-4 rounded-lg bg-neutral p-4 shadow-sm"
       >
         <div class="row justify-between gap-4">
           <div class="text-xl font-medium">{props.request.title}</div>

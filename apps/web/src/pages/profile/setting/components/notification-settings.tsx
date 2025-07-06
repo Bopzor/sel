@@ -79,7 +79,7 @@ function NotificationDeliveryOption(props: {
   return (
     <Field of={props.form} name={props.type} type="boolean">
       {(field, fieldProps) => (
-        <label class="cursor-pointer rounded border p-4 ring-primary has-[:checked]:ring">
+        <label class="cursor-pointer rounded-sm border p-4 ring-primary has-checked:ring-3">
           <div class="row items-center gap-2">
             <input
               {...fieldProps}

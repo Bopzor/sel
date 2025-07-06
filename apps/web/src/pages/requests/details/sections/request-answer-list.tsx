@@ -46,7 +46,7 @@ function Answer(props: { answer: RequestAnswer }) {
           <div
             class="row items-center justify-end gap-2 font-medium"
             classList={{
-              'text-green-700': positive(),
+              'text-emerald-700': positive(),
               'text-dim': negative(),
             }}
           >

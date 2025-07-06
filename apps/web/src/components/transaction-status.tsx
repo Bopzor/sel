@@ -15,8 +15,8 @@ export function TransactionStatus(props: { status: TransactionStatusEnum }) {
     <span
       class="inline-flex flex-row items-center gap-2"
       classList={{
-        'text-yellow-600': props.status === TransactionStatusEnum.pending,
-        'text-green-600': props.status === TransactionStatusEnum.completed,
+        'text-amber-600': props.status === TransactionStatusEnum.pending,
+        'text-emerald-600': props.status === TransactionStatusEnum.completed,
         'text-dim': props.status === TransactionStatusEnum.canceled,
       }}
     >

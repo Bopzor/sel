@@ -7,8 +7,8 @@ export function RequestStatus(props: { status: RequestStatusEnum }) {
     <span
       class="text-sm font-medium"
       classList={{
-        'text-green-600': props.status === RequestStatusEnum.pending,
-        'text-yellow-600': props.status === RequestStatusEnum.canceled,
+        'text-emerald-600': props.status === RequestStatusEnum.pending,
+        'text-amber-600': props.status === RequestStatusEnum.canceled,
         'text-gray-600': props.status === RequestStatusEnum.fulfilled,
       }}
     >

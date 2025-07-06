@@ -17,7 +17,7 @@ const T = createTranslate('pages.interests');
 
 export function InterestItem(props: { interest: Interest; expanded: boolean; toggleExpanded: () => void }) {
   return (
-    <li class="divide-y rounded-lg bg-neutral shadow">
+    <li class="divide-y rounded-lg bg-neutral shadow-sm">
       <div class="col md:row">
         <img
           src={`/api/files/${props.interest.image}`}

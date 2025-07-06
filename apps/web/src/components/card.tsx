@@ -18,7 +18,7 @@ export function Card(props_: {
       </Show>
 
       <div
-        class={clsx('rounded-lg bg-neutral shadow', props.class)}
+        class={clsx('rounded-lg bg-neutral shadow-sm', props.class)}
         classList={{ 'p-4 md:p-8': props.padding }}
       >
         {props.children}

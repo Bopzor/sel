@@ -11,7 +11,7 @@ export const field = cva(
   {
     variants: {
       variant: {
-        solid: 'border-transparent bg-neutral shadow',
+        solid: 'border-transparent bg-neutral shadow-sm',
         outlined: 'border-inverted/20',
       },
     },

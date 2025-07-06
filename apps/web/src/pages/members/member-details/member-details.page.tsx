@@ -62,7 +62,7 @@ function MemberDetails(props: { member: Member }) {
         <MemberAvatarName
           link={false}
           member={props.member}
-          classes={{ avatar: '!size-12 md:!size-24', root: 'gap-4 md:gap-8' }}
+          classes={{ avatar: 'size-12! md:size-24!', root: 'gap-4 md:gap-8' }}
         />
       </h1>
 

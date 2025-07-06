@@ -74,7 +74,7 @@ export function CommentForm(props: {
               <MemberAvatarName member={member()} />
             </div>
 
-            <div ref={ref} id={id()} class="col my-2 ml-10 min-h-32 outline-none" />
+            <div ref={ref} id={id()} class="col my-2 ml-10 min-h-32 outline-hidden" />
 
             <Show when={field.error}>
               <div id={`${id()}-helper-text`} class="text-sm text-red-700">

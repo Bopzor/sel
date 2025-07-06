@@ -32,8 +32,8 @@ export function DeviceRegistration(props: { push?: boolean }) {
   return (
     <Show when={device === 'mobile' && props.push}>
       <Show when={registration.latest === 'prompt'}>
-        <div class="rounded border border-yellow-600 p-4">
-          <p class="text-lg font-semibold text-yellow-800">
+        <div class="rounded-sm border border-amber-600 p-4">
+          <p class="text-lg font-semibold text-amber-800">
             <T id="notRegistered.title" />
           </p>
 
@@ -53,13 +53,13 @@ export function DeviceRegistration(props: { push?: boolean }) {
       </Show>
 
       <Show when={registration.latest === 'denied'}>
-        <p class="text-yellow-800">
+        <p class="text-amber-800">
           <T id="notificationPermissionDenied" />
         </p>
       </Show>
 
       <Show when={registration.latest === 'unsupported'}>
-        <p class="text-yellow-800">
+        <p class="text-amber-800">
           <T id="notificationPermissionUnsupported" />
         </p>
       </Show>

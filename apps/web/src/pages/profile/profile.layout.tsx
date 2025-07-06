@@ -61,9 +61,9 @@ function NavigationLink(props: NavigationLinkProps) {
   return (
     <Link
       href={props.href}
-      class="row items-center gap-2 rounded border-l-4 border-transparent p-2 font-medium transition-colors"
+      class="row items-center gap-2 rounded-sm border-l-4 border-transparent p-2 font-medium transition-colors"
       inactiveClass="hover:bg-primary/5 dark:hover:bg-primary/10"
-      activeClass="!border-primary bg-primary/10 dark:bg-primary/20"
+      activeClass="border-primary! bg-primary/10 dark:bg-primary/20"
       end
     >
       <Icon path={props.icon} class="size-5 fill-primary/75 dark:fill-primary" />
