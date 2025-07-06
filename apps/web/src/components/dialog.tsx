@@ -3,7 +3,7 @@ import { Icon } from 'solid-heroicons';
 import { xMark } from 'solid-heroicons/solid';
 import { JSX, Show } from 'solid-js';
 import { Portal } from 'solid-js/web';
-import { Motion, Presence } from 'solid-motionone';
+import { Transition } from 'solid-transition-group';
 
 import { createDismiss } from 'src/utils/event-handlers';
 
@@ -52,21 +52,17 @@ export function DialogFooter(props: { class?: string; children: JSX.Element }) {
 
 export function Backdrop(props: { show: boolean; class?: string; children: JSX.Element }) {
   return (
-    <Presence exitBeforeEnter>
+    <Transition enterActiveClass="animate-in" exitActiveClass="animate-out">
       <Show when={props.show}>
-        <Motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.2, easing: 'ease-in-out' }}
+        <div
           class={clsx(
-            'fixed inset-0 z-20 backdrop-blur-xs backdrop-brightness-75 backdrop-grayscale',
+            'fade-in fade-out fixed inset-0 z-20 backdrop-blur-xs backdrop-brightness-75 backdrop-grayscale',
             props.class,
           )}
         >
           {props.children}
-        </Motion.div>
+        </div>
       </Show>
-    </Presence>
+    </Transition>
   );
 }

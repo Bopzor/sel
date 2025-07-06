@@ -1,7 +1,7 @@
 import { Strategy } from '@floating-ui/dom';
 import { ComponentProps, For, JSX, Show } from 'solid-js';
 import { Portal } from 'solid-js/web';
-import { Motion, Presence } from 'solid-motionone';
+import { Transition } from 'solid-transition-group';
 
 export type DropdownProps<Item> = {
   ref: (element: HTMLUListElement | null) => void;
@@ -19,14 +19,11 @@ export type DropdownProps<Item> = {
 export function Dropdown<Item>(props: DropdownProps<Item>) {
   return (
     <Portal>
-      <Presence>
-        <Show when={props.open && (props.items.length > 0 || props.renderNoItems?.())}>
-          <Motion.ul
+      <Transition enterActiveClass="animate-in" exitActiveClass="animate-out">
+        <Show when={props.open}>
+          <ul
             ref={props.ref}
-            class="z-20 col rounded-sm border bg-neutral px-2 py-3 shadow-sm"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
+            class="z-20 col rounded-sm border bg-neutral px-2 py-3 shadow-sm fade-in fade-out"
             style={{
               position: props.position.strategy,
               top: `${props.position.y ?? 0}px`,
@@ -53,9 +50,9 @@ export function Dropdown<Item>(props: DropdownProps<Item>) {
                 </li>
               )}
             </For>
-          </Motion.ul>
+          </ul>
         </Show>
-      </Presence>
+      </Transition>
     </Portal>
   );
 }

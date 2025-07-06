@@ -35,9 +35,9 @@
     "solid-heroicons": "^3.2.4",
     "solid-js": "^1.9.7",
     "solid-map-gl": "^1.11.3",
-    "solid-motionone": "^1.0.4",
     "solid-tiptap": "^0.7.0",
     "solid-toast": "^0.5.0",
+    "solid-transition-group": "^0.3.0",
     "zod": "^3.25.74"
   },
   "devDependencies": {
@@ -52,6 +52,7 @@
     "eslint-plugin-solid": "^0.14.5",
     "heroicons": "^2.2.0",
     "tailwindcss": "^4.1.11",
+    "tailwindcss-animate": "^1.0.7",
     "typescript": "~5.8.3",
     "typescript-eslint": "^8.35.1",
     "vite": "^6.3.5",

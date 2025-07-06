@@ -15,7 +15,6 @@ import {
   Switch,
 } from 'solid-js';
 import { Portal } from 'solid-js/web';
-import { Motion } from 'solid-motionone';
 
 import { routes } from 'src/application/routes';
 import { Backdrop } from 'src/components/dialog';
@@ -260,16 +259,12 @@ function Drawer(props: { open: boolean; onClose: () => void; children: JSX.Eleme
   return (
     <Portal>
       <Backdrop show={props.open}>
-        <Motion.div
+        <div
           ref={ref}
-          initial={{ opacity: 0, x: -140 }}
-          animate={{ opacity: 1, x: 0 }}
-          exit={{ opacity: 0, x: -140 }}
-          transition={{ duration: 0.2, easing: 'ease-in-out' }}
-          class="fixed inset-y-0 col w-full max-w-80 justify-between gap-4 overflow-y-auto bg-primary p-4 text-white"
+          class="fixed inset-y-0 col w-full max-w-80 justify-between gap-4 overflow-y-auto bg-primary p-4 text-white animate-in slide-in-from-left-24"
         >
           {props.children}
-        </Motion.div>
+        </div>
       </Backdrop>
     </Portal>
   );

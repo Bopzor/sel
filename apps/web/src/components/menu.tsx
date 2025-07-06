@@ -4,7 +4,7 @@ import { useFloating } from 'solid-floating-ui';
 import { Icon } from 'solid-heroicons';
 import { ellipsisVertical } from 'solid-heroicons/solid';
 import { ComponentProps, JSX, Show, createSignal, splitProps } from 'solid-js';
-import { Motion, Presence } from 'solid-motionone';
+import { Transition } from 'solid-transition-group';
 
 import { createDismiss } from 'src/utils/event-handlers';
 
@@ -43,24 +43,21 @@ export function Menu(props: {
         <Icon path={ellipsisVertical} class="size-6" />
       </button>
 
-      <Presence>
+      <Transition enterActiveClass="animate-in" exitActiveClass="animate-out">
         <Show when={props.open}>
-          <Motion.div
+          <div
             ref={setFloating}
-            class="col justify-stretch rounded-md bg-neutral p-2 shadow-lg"
+            class="fade-in fade-out col justify-stretch rounded-md bg-neutral p-2 shadow-lg"
             style={{
               position: position.strategy,
               top: `${position.y ?? 0}px`,
               left: `${position.x ?? 0}px`,
             }}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
           >
             {props.children}
-          </Motion.div>
+          </div>
         </Show>
-      </Presence>
+      </Transition>
     </>
   );
 }
