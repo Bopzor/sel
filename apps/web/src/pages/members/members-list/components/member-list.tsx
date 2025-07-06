@@ -88,7 +88,7 @@ function MemberItem(props: { member: Member; onHighlight: () => void }) {
   const t = T.useTranslate();
 
   return (
-    <li class="row group items-center hover:bg-inverted/5 focus:bg-inverted/5">
+    <li class="group row items-center hover:bg-inverted/5 focus:bg-inverted/5">
       <Link
         href={routes.members.details(props.member.id)}
         class="row flex-1 items-center gap-2 px-4 py-2 focus:outline-hidden"

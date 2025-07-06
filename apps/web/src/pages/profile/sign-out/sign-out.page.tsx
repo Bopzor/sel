@@ -31,7 +31,7 @@ export function SignOutPage() {
           <T id="description" />
         </p>
 
-        <div class="row mb-8 mt-10 justify-center">
+        <div class="mt-10 mb-8 row justify-center">
           <Button onClick={() => mutation.mutate()} loading={mutation.isPending}>
             <T id="button" />
           </Button>

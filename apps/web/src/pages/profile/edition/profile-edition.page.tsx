@@ -110,7 +110,7 @@ function Header(props: { form: FormStore<FormType> }) {
       />
 
       <div
-        class="row ml-auto gap-2 transition-opacity"
+        class="ml-auto row gap-2 transition-opacity"
         classList={{ 'opacity-0 pointer-events-none': !props.form.dirty }}
       >
         <Button variant="outline" onClick={() => reset(props.form)}>

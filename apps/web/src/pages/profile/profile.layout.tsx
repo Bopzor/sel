@@ -14,7 +14,7 @@ export function ProfileLayout(props: { children?: JSX.Element }) {
     <>
       <Breadcrumb items={[breadcrumb.profile()]} />
 
-      <div class="col md:row grow gap-4 lg:gap-8">
+      <div class="col grow gap-4 md:row lg:gap-8">
         <div class="w-full sm:max-w-64">
           <Navigation />
         </div>

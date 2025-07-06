@@ -104,7 +104,6 @@ function MemberProfile(props: { onClick?: () => void; class?: string }) {
 function Header(props: { openDrawer: () => void }) {
   return (
     <header class="fixed inset-x-0 top-0 z-10 h-20 bg-primary text-white shadow-md sm:static sm:h-auto">
-      {/* eslint-disable-next-line tailwindcss/no-arbitrary-value */}
       <div class="mx-auto grid max-w-7xl grid-cols-[auto_1fr] items-center py-4 sm:grid-cols-1 sm:px-4 sm:py-2 lg:grid-cols-[auto_1fr_auto]">
         <button class="px-2 sm:hidden" onClick={() => props.openDrawer()}>
           <Icon path={bars_3} class="size-10" />
@@ -112,9 +111,9 @@ function Header(props: { openDrawer: () => void }) {
 
         <LogoTitle link={routes.home} class="mx-auto hidden w-fit sm:mx-0 sm:flex lg:order-1" />
 
-        <MemberProfile class="sm:col hidden items-center gap-1 lg:order-3" />
+        <MemberProfile class="hidden items-center gap-1 sm:col lg:order-3" />
 
-        <nav class="sm:row col-span-2 hidden flex-1 justify-center whitespace-nowrap lg:order-2 lg:col-span-1 xl:px-8">
+        <nav class="col-span-2 hidden flex-1 justify-center whitespace-nowrap sm:row lg:order-2 lg:col-span-1 xl:px-8">
           <NavigationItem href={routes.home} end>
             <T id="navigation.home.label" />
           </NavigationItem>
@@ -267,7 +266,7 @@ function Drawer(props: { open: boolean; onClose: () => void; children: JSX.Eleme
           animate={{ opacity: 1, x: 0 }}
           exit={{ opacity: 0, x: -140 }}
           transition={{ duration: 0.2, easing: 'ease-in-out' }}
-          class="col fixed inset-y-0 w-full max-w-80 justify-between gap-4 overflow-y-auto bg-primary p-4 text-white"
+          class="fixed inset-y-0 col w-full max-w-80 justify-between gap-4 overflow-y-auto bg-primary p-4 text-white"
         >
           {props.children}
         </Motion.div>

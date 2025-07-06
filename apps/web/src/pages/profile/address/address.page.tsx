@@ -73,7 +73,6 @@ export function AddressPage() {
           (position) => [{ position }],
           () => undefined,
         )}
-        // eslint-disable-next-line tailwindcss/no-arbitrary-value
         class="min-h-128"
       />
     </Form>

@@ -68,7 +68,7 @@ export function EditRequestPage() {
 
 function Skeleton() {
   return (
-    <div class="col my-6 max-w-4xl gap-4">
+    <div class="my-6 col max-w-4xl gap-4">
       <BoxSkeleton height={2} />
       <BoxSkeleton height={16} />
     </div>

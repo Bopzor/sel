@@ -18,7 +18,7 @@ export function RequestAnswer(props: { request: Request }) {
 
   return (
     <Show when={props.request.requester.id !== member()?.id}>
-      <Card title={<T id="title" />} class="row  justify-center gap-4 py-8">
+      <Card title={<T id="title" />} class="row justify-center gap-4 py-8">
         <AnswerButton
           request={props.request}
           answer="positive"

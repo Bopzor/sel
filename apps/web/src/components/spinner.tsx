@@ -18,7 +18,7 @@ export function Spinner(props: JSX.SVGElementTags['svg']) {
 
 export function SpinnerFullScreen() {
   return (
-    <div class="col fixed inset-0 items-center justify-center bg-neutral">
+    <div class="fixed inset-0 col items-center justify-center bg-neutral">
       <Spinner class="size-10" />
     </div>
   );

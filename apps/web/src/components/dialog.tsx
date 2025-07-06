@@ -18,7 +18,7 @@ export function Dialog(props: { open: boolean; onClose: () => void; children: JS
 
   return (
     <Portal mount={document.getElementById('root') ?? undefined}>
-      <Backdrop show={props.open} class="col items-center justify-center p-4 ">
+      <Backdrop show={props.open} class="col items-center justify-center p-4">
         <div
           ref={ref}
           role="dialog"
@@ -33,7 +33,7 @@ export function Dialog(props: { open: boolean; onClose: () => void; children: JS
 
 export function DialogHeader(props: { title: JSX.Element; onClose: () => void }) {
   return (
-    <header class="row mb-4 items-start justify-between">
+    <header class="mb-4 row items-start justify-between">
       <div class="mt-2 text-lg font-medium">{props.title}</div>
       <button onClick={() => props.onClose()}>
         <Icon path={xMark} class="size-6" />
@@ -44,7 +44,7 @@ export function DialogHeader(props: { title: JSX.Element; onClose: () => void })
 
 export function DialogFooter(props: { class?: string; children: JSX.Element }) {
   return (
-    <footer class={clsx('row mt-6 flex-wrap items-center justify-end gap-4', props.class)}>
+    <footer class={clsx('mt-6 row flex-wrap items-center justify-end gap-4', props.class)}>
       {props.children}
     </footer>
   );

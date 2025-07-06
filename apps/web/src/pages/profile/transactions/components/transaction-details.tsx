@@ -126,7 +126,6 @@ function createCancelMutation(transactionId: () => string) {
 
 function TransactionStakeholdersMobile(props: { transaction: Transaction }) {
   return (
-    // eslint-disable-next-line tailwindcss/no-arbitrary-value
     <div class="grid grid-cols-[repeat(3,auto)] gap-4 self-center lg:hidden">
       <div class="text-sm font-medium text-dim">
         <T id="details.payer" />
@@ -157,7 +156,6 @@ function TransactionStakeholdersMobile(props: { transaction: Transaction }) {
 
 function TransactionStakeholdersDesktop(props: { transaction: Transaction }) {
   return (
-    // eslint-disable-next-line tailwindcss/no-arbitrary-value
     <div class="hidden grid-cols-[repeat(3,auto)] gap-x-6 gap-y-2 self-center lg:grid">
       <div class="text-sm font-medium text-dim">
         <T id="details.payer" />

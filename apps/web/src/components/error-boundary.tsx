@@ -59,7 +59,7 @@ function ErrorFallback(props: ErrorFallbackProps) {
   });
 
   return (
-    <div class="col mx-auto my-32 items-center justify-center gap-6 px-4">
+    <div class="mx-auto my-32 col items-center justify-center gap-6 px-4">
       <Switch fallback={<UnknownError {...props} />}>
         <Match when={ApiError.isStatus(props.error, 403) ? props.error : false}>
           {(error) => <Forbidden error={error()} />}

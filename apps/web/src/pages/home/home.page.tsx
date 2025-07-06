@@ -20,7 +20,7 @@ const TNav = createTranslate('layout.navigation');
 
 export function Home() {
   return (
-    <div class="row mt-8 gap-8">
+    <div class="mt-8 row gap-8">
       <Navigation />
 
       <div class="col flex-1 gap-8">
@@ -40,7 +40,7 @@ export function Home() {
 
 function Navigation() {
   return (
-    <nav class="md:col hidden w-full max-w-xs gap-6">
+    <nav class="hidden w-full max-w-xs gap-6 md:col">
       <LinkCard
         href={routes.members.list}
         label={<TNav id="members.label" />}
@@ -92,7 +92,7 @@ function LinkCard(props: LinkCardProps) {
     <Link
       href={props.href}
       class={clsx(
-        'row group items-center gap-4 rounded-lg border border-primary bg-linear-to-tl from-primary/0 to-primary/10 px-6 py-4 transition-all hover:bg-primary/10 hover:shadow-lg',
+        'group row items-center gap-4 rounded-lg border border-primary bg-linear-to-tl from-primary/0 to-primary/10 px-6 py-4 transition-all hover:bg-primary/10 hover:shadow-lg',
         props.class,
       )}
     >

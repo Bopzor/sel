@@ -8,12 +8,12 @@ const T = createTranslate('pages.members.details.interests');
 export function MemberInterests(props: { member: Member }) {
   return (
     <>
-      <div class="sm:row hidden items-start gap-4">
-        <div class="w-full max-w-64 text-xs font-medium uppercase text-dim">
+      <div class="hidden items-start gap-4 sm:row">
+        <div class="w-full max-w-64 text-xs font-medium text-dim uppercase">
           <T id="interest" />
         </div>
 
-        <div class="w-full max-w-64 text-xs font-medium uppercase text-dim">
+        <div class="w-full max-w-64 text-xs font-medium text-dim uppercase">
           <T id="description" />
         </div>
       </div>
@@ -28,7 +28,7 @@ function InterestsList(props: { interests: MemberInterest[] }) {
     <ul class="divide-y">
       <For each={props.interests}>
         {(interest) => (
-          <li class="col sm:row items-start gap-2 py-4 sm:gap-4">
+          <li class="col items-start gap-2 py-4 sm:row sm:gap-4">
             <strong class="w-full max-w-64 text-lg font-medium">{interest.label}</strong>
             <p class="text-dim">{interest.description}</p>
           </li>

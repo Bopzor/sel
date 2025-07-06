@@ -39,7 +39,7 @@ export function EventListPage() {
     <>
       <Breadcrumb items={[breadcrumb.events()]} />
 
-      <div class="row mb-8 items-center justify-between gap-4">
+      <div class="mb-8 row items-center justify-between gap-4">
         <h1>
           <T id="title" />
         </h1>
@@ -53,7 +53,7 @@ export function EventListPage() {
         {(events) => (
           <div class="row gap-8">
             <div class="flex-1 lg:max-w-96">
-              <div role="tablist" class="row mb-4 flex-wrap justify-evenly gap-2 text-lg text-dim">
+              <div role="tablist" class="mb-4 row flex-wrap justify-evenly gap-2 text-lg text-dim">
                 <button
                   type="button"
                   role="tab"
@@ -84,7 +84,7 @@ export function EventListPage() {
               </Card>
             </div>
 
-            <div class="lg:col hidden flex-1 gap-4">
+            <div class="hidden flex-1 gap-4 lg:col">
               <MonthSelector
                 month={month()}
                 previous={() => setMonth(sub(month(), { months: 1 }))}
@@ -111,7 +111,7 @@ function Skeleton() {
         <BoxSkeleton height={16} />
       </div>
 
-      <div class="xl:row hidden gap-4">
+      <div class="hidden gap-4 xl:row">
         <div class="w-full max-w-80">
           <BoxSkeleton height={24} />
         </div>

@@ -91,7 +91,7 @@ function InterestItemMember(props: { interest: Interest; interestMember: Interes
             </p>
           }
         >
-          {(description) => <p class="whitespace-pre-line py-1 pl-10">{description()}</p>}
+          {(description) => <p class="py-1 pl-10 whitespace-pre-line">{description()}</p>}
         </Show>
       </Show>
 

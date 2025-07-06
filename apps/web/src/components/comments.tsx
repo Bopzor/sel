@@ -30,7 +30,7 @@ export function CommentList(props: { comments: Comment[] }) {
                 </div>
               </div>
 
-              <RichText class="ml-10 mt-2">{comment.body}</RichText>
+              <RichText class="mt-2 ml-10">{comment.body}</RichText>
             </div>
           )}
         </For>
@@ -74,7 +74,7 @@ export function CommentForm(props: {
               <MemberAvatarName member={member()} />
             </div>
 
-            <div ref={ref} id={id()} class="col my-2 ml-10 min-h-32 outline-hidden" />
+            <div ref={ref} id={id()} class="my-2 ml-10 col min-h-32 outline-hidden" />
 
             <Show when={field.error}>
               <div id={`${id()}-helper-text`} class="text-sm text-red-700">

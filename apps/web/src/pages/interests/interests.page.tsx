@@ -18,7 +18,7 @@ export function InterestsPage() {
     <>
       <Breadcrumb items={[breadcrumb.interests()]} />
 
-      <div class="row mb-8 items-center justify-between gap-4">
+      <div class="mb-8 row items-center justify-between gap-4">
         <h1>
           <T id="title" />
         </h1>

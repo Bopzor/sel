@@ -33,7 +33,7 @@ export function Calendar(props: CalendarProps) {
       <For each={days()}>
         {(day) => (
           <div
-            class="border-l border-t"
+            class="border-t border-l"
             classList={{
               'border-r': day.isEndOfWeek,
               'border-b': day.isLastWeek,

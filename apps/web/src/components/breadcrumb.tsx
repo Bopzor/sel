@@ -15,7 +15,7 @@ export function Breadcrumb(props: { items: Array<BreadcrumbItem | undefined> }) 
   const home = breadcrumb.home();
 
   return (
-    <nav class="row mb-6 items-center gap-2">
+    <nav class="mb-6 row items-center gap-2">
       <For each={[home, ...props.items]}>
         {(item) => (
           <>

@@ -57,6 +57,7 @@ export function Map(props: MapProps) {
           }}
           viewport={viewport()}
           onViewportChange={setViewport}
+          // eslint-disable-next-line better-tailwindcss/no-unregistered-classes
           class={clsx('map relative rounded-lg shadow-sm', props.class)}
         >
           <For each={props.markers}>

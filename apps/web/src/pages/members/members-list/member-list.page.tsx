@@ -39,7 +39,6 @@ export function MemberListPage() {
               />
             </div>
 
-            {/* eslint-disable-next-line tailwindcss/no-arbitrary-value */}
             <div class="hidden h-128 flex-1 md:block">
               <MembersMap members={members()} openPopupMember={openPopupMember()} />
             </div>
@@ -57,7 +56,6 @@ function Skeleton() {
         <BoxSkeleton height={24} />
       </div>
 
-      {/* eslint-disable-next-line tailwindcss/no-arbitrary-value */}
       <div class="hidden h-128 flex-1 md:block">
         <BoxSkeleton height={32} />
       </div>

@@ -33,7 +33,7 @@ export function RequestForm(props: {
   });
 
   return (
-    <Form class="col my-6 max-w-4xl gap-4" onSubmit={(data) => props.onSubmit(data)}>
+    <Form class="my-6 col max-w-4xl gap-4" onSubmit={(data) => props.onSubmit(data)}>
       <Field name="title">
         {(field, props) => (
           <Input

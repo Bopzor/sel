@@ -51,7 +51,7 @@ export function EventDetailsPage() {
                   <EventParticipantList event={event()} />
                 </div>
 
-                <div class="col col-span-2 gap-12">
+                <div class="col-span-2 col gap-12">
                   <EventHeader event={event()} />
                   <EventDescription event={event()} />
                   <EventParticipation event={event()} />

@@ -123,7 +123,7 @@ function Providers(props: { children?: JSX.Element }) {
 
 function PageNotFound() {
   return (
-    <div class="col mx-auto my-32 items-center justify-center gap-6 px-4">
+    <div class="mx-auto my-32 col items-center justify-center gap-6 px-4">
       <NotFound />
     </div>
   );

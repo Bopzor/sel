@@ -49,7 +49,7 @@ export function EventForm(props: {
 
   return (
     <Form
-      class="col my-6 max-w-4xl gap-4"
+      class="my-6 col max-w-4xl gap-4"
       onSubmit={({ title, body, date, location }) => {
         return props.onSubmit({
           title,

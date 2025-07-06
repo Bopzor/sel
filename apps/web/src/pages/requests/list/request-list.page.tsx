@@ -24,7 +24,7 @@ export function RequestListPage() {
     <>
       <Breadcrumb items={[breadcrumb.requests()]} />
 
-      <div class="row mb-8 items-center justify-between gap-4">
+      <div class="mb-8 row items-center justify-between gap-4">
         <h1>
           <T id="title" />
         </h1>
@@ -72,7 +72,7 @@ function RequestItem(props: { request: Request }) {
 
       <Link
         href={`/requests/${props.request.id}`}
-        class="col col-span-2 gap-4 rounded-lg bg-neutral p-4 shadow-sm"
+        class="col-span-2 col gap-4 rounded-lg bg-neutral p-4 shadow-sm"
       >
         <div class="row justify-between gap-4">
           <div class="text-xl font-medium">{props.request.title}</div>

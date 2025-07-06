@@ -23,7 +23,7 @@ export function Dropdown<Item>(props: DropdownProps<Item>) {
         <Show when={props.open && (props.items.length > 0 || props.renderNoItems?.())}>
           <Motion.ul
             ref={props.ref}
-            class="col z-20 rounded-sm border bg-neutral px-2 py-3 shadow-sm"
+            class="z-20 col rounded-sm border bg-neutral px-2 py-3 shadow-sm"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
