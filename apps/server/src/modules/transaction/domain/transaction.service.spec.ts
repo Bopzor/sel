@@ -61,7 +61,7 @@ describe('transactions service', () => {
   }));
 
   const createTransaction = createFactory<Transaction>(() => ({
-    id: createId(),
+    id: 'transactionId',
     status: shared.TransactionStatus.pending,
     description: '',
     amount: 0,
