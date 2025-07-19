@@ -1,4 +1,4 @@
-import { createForm, setValue } from '@modular-forms/solid';
+import { createForm, reset, setValue } from '@modular-forms/solid';
 import { createInformationBodySchema } from '@sel/shared';
 import { useMutation } from '@tanstack/solid-query';
 
@@ -41,7 +41,7 @@ export function CreateInformationDialog(props: { open: boolean; onClose: () => v
   }));
 
   return (
-    <Dialog open={props.open} onClose={() => props.onClose()} class="max-w-3xl">
+    <Dialog open={props.open} onClose={() => props.onClose()} onClosed={() => reset(form)} class="max-w-3xl">
       <DialogHeader title={<T id="dialogTitle" />} onClose={() => props.onClose()} />
 
       <Form onSubmit={(data) => mutation.mutateAsync(data)} class="col gap-4">
