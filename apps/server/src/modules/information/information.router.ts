@@ -3,13 +3,16 @@ import { desc, eq } from 'drizzle-orm';
 import express from 'express';
 
 import { container } from 'src/infrastructure/container';
+import { HttpStatus } from 'src/infrastructure/http';
 import { getAuthenticatedMember } from 'src/infrastructure/session';
 import { db, schema } from 'src/persistence';
 import { TOKENS } from 'src/tokens';
 
+import { Comment } from '../comment';
 import { MemberWithAvatar, withAvatar } from '../member/member.entities';
 import { serializeMember } from '../member/member.serializer';
 
+import { createInformationComment } from './domain/create-formation-comment.command';
 import { createInformation } from './domain/create-information.command';
 import { Information } from './information.entities';
 
@@ -19,7 +22,7 @@ router.get('/', async (req, res) => {
   const [pinMessages, notPinMessages] = await Promise.all(
     [true, false].map((isPin) =>
       db.query.information.findMany({
-        with: { author: withAvatar },
+        with: { author: withAvatar, comments: { with: { author: withAvatar } } },
         where: eq(schema.information.isPin, isPin),
         orderBy: desc(schema.information.publishedAt),
       }),
@@ -44,12 +47,31 @@ router.post('/', async (req, res) => {
     isPin: isPin ?? false,
   });
 
-  res.status(201).send(id);
+  res.status(HttpStatus.created).send(id);
+});
+
+router.post('/:informationId/comment', async (req, res) => {
+  const informationId = req.params.informationId;
+  const member = getAuthenticatedMember();
+  const data = shared.createCommentBodySchema.parse(req.body);
+  const commentId = container.resolve(TOKENS.generator).id();
+
+  await createInformationComment({
+    commentId,
+    informationId,
+    authorId: member.id,
+    body: data.body,
+  });
+
+  res.status(HttpStatus.created).send(commentId);
 });
 
 function serializeInformation(
   this: void,
-  information: Information & { author: MemberWithAvatar | null },
+  information: Information & {
+    author: MemberWithAvatar | null;
+    comments: Array<Comment & { author: MemberWithAvatar }>;
+  },
 ): shared.Information {
   const author = () => {
     if (information.author) {
@@ -62,5 +84,11 @@ function serializeInformation(
     body: information.html,
     publishedAt: information.publishedAt.toISOString(),
     author: author(),
+    comments: information.comments.map((comment) => ({
+      id: comment.id,
+      date: comment.date.toISOString(),
+      author: serializeMember(comment.author),
+      body: comment.html,
+    })),
   };
 }

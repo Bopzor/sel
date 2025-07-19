@@ -1,5 +1,6 @@
 import { z } from 'zod';
 
+import { Comment } from './comment';
 import { LightMember } from './member';
 
 export type Information = {
@@ -7,6 +8,7 @@ export type Information = {
   body: string;
   author?: LightMember;
   publishedAt: string;
+  comments: Comment[];
 };
 
 export const createInformationBodySchema = z.object({

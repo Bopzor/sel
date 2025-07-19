@@ -218,6 +218,13 @@
       "when": 1751139031954,
       "tag": "0030_add-member-number",
       "breakpoints": true
+    },
+    {
+      "idx": 31,
+      "version": "7",
+      "when": 1752936876882,
+      "tag": "0031_add-information-comments",
+      "breakpoints": true
     }
   ]
 }
