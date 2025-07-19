@@ -59,6 +59,7 @@ const insert = {
 
   information: createFactory<InformationInsert>(() => ({
     id: createId(),
+    title: '',
     text: '',
     html: '',
     isPin: false,

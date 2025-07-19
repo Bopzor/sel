@@ -1,4 +1,4 @@
-import { Event, Member, Request } from '@sel/shared';
+import { Event, Information, Member, Request } from '@sel/shared';
 import { Icon } from 'solid-heroicons';
 import { chevronRight } from 'solid-heroicons/outline';
 import { For, JSX, Show } from 'solid-js';
@@ -49,6 +49,11 @@ export const breadcrumb = {
   home: (): BreadcrumbItem => ({
     label: <T id="home" />,
     href: routes.home,
+  }),
+
+  information: (information: Information): BreadcrumbItem => ({
+    label: information.title,
+    href: routes.information.details(information.id),
   }),
 
   members: (): BreadcrumbItem => ({

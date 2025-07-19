@@ -4,10 +4,10 @@ import { useMutation } from '@tanstack/solid-query';
 
 import { api } from 'src/application/api';
 import { notify } from 'src/application/notify';
-import { getAuthenticatedMember, useInvalidateApi } from 'src/application/query';
+import { useInvalidateApi } from 'src/application/query';
 import { Button } from 'src/components/button';
 import { Dialog, DialogFooter, DialogHeader } from 'src/components/dialog';
-import { MemberAvatarName } from 'src/components/member-avatar-name';
+import { Input } from 'src/components/input';
 import { RichEditor } from 'src/components/rich-editor';
 import { createTranslate } from 'src/intl/translate';
 import { createErrorMap, zodForm } from 'src/utils/validation';
@@ -17,11 +17,11 @@ const Translate = createTranslate('common');
 
 export function CreateInformationDialog(props: { open: boolean; onClose: () => void }) {
   const t = T.useTranslate();
-  const member = getAuthenticatedMember();
   const invalidate = useInvalidateApi();
 
-  const [form, { Form, Field }] = createForm<{ body: string }>({
+  const [form, { Form, Field }] = createForm<{ title: string; body: string }>({
     initialValues: {
+      title: '',
       body: '',
     },
     validate: zodForm(createInformationBodySchema, {
@@ -30,7 +30,7 @@ export function CreateInformationDialog(props: { open: boolean; onClose: () => v
   });
 
   const mutation = useMutation(() => ({
-    async mutationFn(body: { body: string }) {
+    async mutationFn(body: { title: string; body: string }) {
       await api.createInformation({ body });
     },
     async onSuccess() {
@@ -42,14 +42,27 @@ export function CreateInformationDialog(props: { open: boolean; onClose: () => v
 
   return (
     <Dialog open={props.open} onClose={() => props.onClose()} class="max-w-3xl">
-      <DialogHeader title={<T id="title" />} onClose={() => props.onClose()} />
+      <DialogHeader title={<T id="dialogTitle" />} onClose={() => props.onClose()} />
 
-      <Form onSubmit={(data) => mutation.mutateAsync(data)}>
+      <Form onSubmit={(data) => mutation.mutateAsync(data)} class="col gap-4">
+        <Field name="title">
+          {(field) => (
+            <Input
+              variant="outlined"
+              label={<T id="title.label" />}
+              value={field.value}
+              placeholder={t('title.placeholder')}
+              error={field.error}
+              onInput={(event) => setValue(form, 'title', event.target.value)}
+            />
+          )}
+        </Field>
+
         <Field name="body">
           {(field) => (
             <RichEditor
               variant="outlined"
-              label={<MemberAvatarName member={member()} classes={{ root: 'mb-1' }} />}
+              label={<T id="body.label" />}
               initialValue={field.value}
               placeholder={t('body.placeholder')}
               error={field.error}

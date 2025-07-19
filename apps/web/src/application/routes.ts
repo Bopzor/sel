@@ -2,6 +2,9 @@ export const routes = {
   home: '/',
   authentication: '/authentication',
   onboarding: '/onboarding',
+  information: {
+    details: (informationId: string) => `/information/${informationId}`,
+  },
   members: {
     list: '/members',
     details: (memberId: string) => `/members/${memberId}`,

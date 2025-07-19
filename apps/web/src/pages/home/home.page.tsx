@@ -130,7 +130,9 @@ function Information() {
                 </div>
               }
             >
-              <RichText>{info.body}</RichText>
+              <Link href={`/information/${info.id}`}>
+                <RichText>{info.body}</RichText>
+              </Link>
             </Card>
           )}
         </For>

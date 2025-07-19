@@ -60,6 +60,7 @@ function serializeFeedInformation(
 ): shared.FeedInformation {
   return {
     id: information.id,
+    title: information.title,
     body: information.html,
     author: information.author ? serializeMember(information.author) : undefined,
     publishedAt: information.publishedAt.toISOString(),

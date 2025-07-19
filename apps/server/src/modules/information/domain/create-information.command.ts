@@ -7,6 +7,7 @@ import { InformationPublished } from '../information.entities';
 export type CreateInformationCommand = {
   informationId: string;
   authorId: string;
+  title: string;
   body: string;
   isPin: boolean;
 };
@@ -18,6 +19,7 @@ export async function createInformation(command: CreateInformationCommand): Prom
 
   await db.insert(schema.information).values({
     id: command.informationId,
+    title: command.title,
     authorId: command.isPin ? undefined : command.authorId,
     html: command.body,
     text: htmlParser.getTextContent(command.body),

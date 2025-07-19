@@ -20,6 +20,8 @@ import { EventListPage } from './pages/events/list/event-list.page';
 import { preloadEvent, preloadEventList } from './pages/events/preload';
 import { Home } from './pages/home/home.page';
 import { preloadInformationList } from './pages/home/preload';
+import { InformationDetailsPage } from './pages/information/information-details.page';
+import { preloadInformation } from './pages/information/preload';
 import { InterestsPage } from './pages/interests/interests.page';
 import { preloadInterestList } from './pages/interests/preload';
 import { MemberDetailsPage } from './pages/members/member-details/member-details.page';
@@ -59,6 +61,12 @@ export function App() {
 
       <Route component={Layout}>
         <Route path="/" component={Home} preload={preloadInformationList} />
+
+        <Route
+          path="/information/:informationId"
+          component={InformationDetailsPage}
+          preload={preloadInformation}
+        />
 
         <Route path="/members">
           <Route path="/" component={MemberListPage} preload={preloadMemberList} />

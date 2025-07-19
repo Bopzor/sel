@@ -225,6 +225,13 @@
       "when": 1752936876882,
       "tag": "0031_add-information-comments",
       "breakpoints": true
+    },
+    {
+      "idx": 32,
+      "version": "7",
+      "when": 1752941644299,
+      "tag": "0032_add-information-title",
+      "breakpoints": true
     }
   ]
 }

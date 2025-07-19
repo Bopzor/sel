@@ -22,6 +22,7 @@ export type FeedRequest = {
 
 export type FeedInformation = {
   id: string;
+  title: string;
   body: string;
   author?: LightMember;
   publishedAt: string;
