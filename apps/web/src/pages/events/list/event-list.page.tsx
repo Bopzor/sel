@@ -1,6 +1,6 @@
 import { EventsListItem } from '@sel/shared';
 import { isAfter, isSameDay, isToday, startOfMonth } from '@sel/utils';
-import { createQuery } from '@tanstack/solid-query';
+import { useQuery } from '@tanstack/solid-query';
 import clsx from 'clsx';
 import { add, sub } from 'date-fns';
 import { Icon } from 'solid-heroicons';
@@ -22,7 +22,7 @@ import { createTranslate } from 'src/intl/translate';
 const T = createTranslate('pages.events.list');
 
 export function EventListPage() {
-  const query = createQuery(() => apiQuery('listEvents', {}));
+  const query = useQuery(() => apiQuery('listEvents', {}));
 
   const [month, setMonth] = createSignal(startOfMonth(new Date()));
   const [tab, setTab] = createSignal<'upcoming' | 'past'>('upcoming');

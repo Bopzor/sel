@@ -1,5 +1,5 @@
 import { Request } from '@sel/shared';
-import { createMutation } from '@tanstack/solid-query';
+import { useMutation } from '@tanstack/solid-query';
 
 import { api } from 'src/application/api';
 import { notify } from 'src/application/notify';
@@ -14,7 +14,7 @@ export function RequestComments(props: { request: Request }) {
   const t = T.useTranslate();
   const invalidate = useInvalidateApi();
 
-  const mutation = createMutation(() => ({
+  const mutation = useMutation(() => ({
     async mutationFn(body: string) {
       await api.createRequestComment({
         path: { requestId: props.request.id },

@@ -1,9 +1,9 @@
-import { createQuery } from '@tanstack/solid-query';
+import { useQuery } from '@tanstack/solid-query';
 
 import { apiQuery } from './query';
 
 export function getLetsConfig() {
-  const config = createQuery(() => apiQuery('getConfig', {}));
+  const config = useQuery(() => apiQuery('getConfig', {}));
   return () => config.data;
 }
 

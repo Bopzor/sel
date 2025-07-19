@@ -77,7 +77,7 @@ router.post('/', async (req, res) => {
 
   await createMember({ memberId, ...body });
 
-  res.status(201).send(memberId);
+  res.status(HttpStatus.created).send(memberId);
 });
 
 router.get('/:memberId', async (req, res) => {

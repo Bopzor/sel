@@ -1,7 +1,7 @@
 import { Field, FormStore, createForm, getValue, reset, setValue } from '@modular-forms/solid';
 import { CreateTransactionBody, Member, MembersSort } from '@sel/shared';
 import { assert, hasProperty, not, removeDiacriticCharacters } from '@sel/utils';
-import { createMutation, createQuery } from '@tanstack/solid-query';
+import { useMutation, useQuery } from '@tanstack/solid-query';
 import clsx from 'clsx';
 import { Show, createEffect, createSignal } from 'solid-js';
 import { z } from 'zod';
@@ -40,7 +40,7 @@ export function TransactionDialog(props: {
   const t = T.useTranslate();
   const authenticatedMember = getAuthenticatedMember();
 
-  const createTransaction = createMutation(() => ({
+  const createTransaction = useMutation(() => ({
     async mutationFn(data: FormType) {
       const [payer, recipient] =
         data.type === 'send' ? [authenticatedMember(), member()] : [member(), authenticatedMember()];
@@ -81,7 +81,7 @@ export function TransactionDialog(props: {
 
   const [showConfirmation, setShowConfirmation] = createSignal(false);
 
-  const membersQuery = createQuery(() =>
+  const membersQuery = useQuery(() =>
     apiQuery('listMembers', {
       query: { sort: MembersSort.firstName },
     }),

@@ -1,6 +1,6 @@
 import { Request, RequestStatus as RequestStatusEnum } from '@sel/shared';
 import { hasProperty } from '@sel/utils';
-import { createMutation } from '@tanstack/solid-query';
+import { useMutation } from '@tanstack/solid-query';
 import { Icon } from 'solid-heroicons';
 import { bell, check, pencil, xMark } from 'solid-heroicons/solid';
 import { createSignal, Show } from 'solid-js';
@@ -167,7 +167,7 @@ function createCancelMutation({ request, onSuccess }: { request: () => Request; 
   const t = T.useTranslate();
   const invalidate = useInvalidateApi();
 
-  return createMutation(() => ({
+  return useMutation(() => ({
     async mutationFn() {
       await api.cancelRequest({ path: { requestId: request().id } });
     },
@@ -183,7 +183,7 @@ function createFulfilMutation({ request, onSuccess }: { request: () => Request; 
   const t = T.useTranslate();
   const invalidate = useInvalidateApi();
 
-  return createMutation(() => ({
+  return useMutation(() => ({
     async mutationFn() {
       await api.fulfilRequest({ path: { requestId: request().id } });
     },

@@ -1,5 +1,5 @@
 import { Event, EventParticipation as EventParticipationEnum } from '@sel/shared';
-import { createMutation } from '@tanstack/solid-query';
+import { useMutation } from '@tanstack/solid-query';
 import { Icon } from 'solid-heroicons';
 import { check, xMark } from 'solid-heroicons/solid';
 import { JSX } from 'solid-js';
@@ -53,7 +53,7 @@ function AnswerButton(props: AnswerButtonProps) {
     return memberAnswer() === props.answer;
   };
 
-  const mutation = createMutation(() => ({
+  const mutation = useMutation(() => ({
     async mutationFn(participation: EventParticipationEnum | null) {
       await api.setEventParticipation({ path: { eventId: props.event.id }, body: { participation } });
     },

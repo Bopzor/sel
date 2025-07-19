@@ -92,8 +92,19 @@ export const api = {
     result: { pin: shared.Information[]; notPin: shared.Information[] };
   }>(),
 
+  getInformation: endpoint('get', '/information/:informationId').types<{
+    path: { informationId: string };
+    result: shared.Information;
+  }>(),
+
   createInformation: endpoint('post', '/information').types<{
     body: typeof shared.createInformationBodySchema;
+    result: string;
+  }>(),
+
+  createInformationComment: endpoint('post', '/information/:informationId/comment').types<{
+    path: { informationId: string };
+    body: typeof shared.createCommentBodySchema;
     result: string;
   }>(),
 

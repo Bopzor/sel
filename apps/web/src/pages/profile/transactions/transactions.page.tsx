@@ -1,6 +1,6 @@
 import { AuthenticatedMember, Transaction } from '@sel/shared';
 import { hasProperty } from '@sel/utils';
-import { createQuery } from '@tanstack/solid-query';
+import { useQuery } from '@tanstack/solid-query';
 import { Show } from 'solid-js';
 
 import { apiQuery, getAuthenticatedMember } from 'src/application/query';
@@ -20,7 +20,7 @@ export function TransactionsPage() {
   const member = getAuthenticatedMember();
   const [transactionId, setTransactionId] = useSearchParam('transactionId');
 
-  const query = createQuery(() => apiQuery('listTransactions', { query: { memberId: member()?.id } }));
+  const query = useQuery(() => apiQuery('listTransactions', { query: { memberId: member()?.id } }));
 
   const transaction = () => {
     return query.data?.find(hasProperty('id', transactionId() as string));

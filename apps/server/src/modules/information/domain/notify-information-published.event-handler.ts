@@ -71,6 +71,7 @@ function getInformationContext(
         id: author.id,
         name: memberName(author),
       },
+      title: information.title,
       body: {
         html: information.html,
         text: information.text,

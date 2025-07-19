@@ -1,5 +1,5 @@
 import { defined } from '@sel/utils';
-import { QueryOptions, createQuery, useQueryClient } from '@tanstack/solid-query';
+import { QueryOptions, useQuery, useQueryClient } from '@tanstack/solid-query';
 
 import { api, ApiError } from './api';
 
@@ -30,7 +30,7 @@ export function useInvalidateApi() {
 }
 
 export function queryAuthenticatedMember() {
-  return createQuery(() => ({
+  return useQuery(() => ({
     ...apiQuery('getAuthenticatedMember', {}),
     retry(count, error) {
       if (ApiError.isStatus(error, 401)) {

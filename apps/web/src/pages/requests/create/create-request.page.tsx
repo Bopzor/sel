@@ -1,6 +1,6 @@
 import { createRequestBodySchema } from '@sel/shared';
 import { useNavigate } from '@solidjs/router';
-import { createMutation, useQueryClient } from '@tanstack/solid-query';
+import { useMutation, useQueryClient } from '@tanstack/solid-query';
 import { z } from 'zod';
 
 import { api } from 'src/application/api';
@@ -19,7 +19,7 @@ export function CreateRequestPage() {
   const navigate = useNavigate();
   const t = T.useTranslate();
 
-  const createRequest = createMutation(() => ({
+  const createRequest = useMutation(() => ({
     async mutationFn(data: z.infer<typeof createRequestBodySchema>) {
       return api.createRequest({ body: data });
     },

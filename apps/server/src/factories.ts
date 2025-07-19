@@ -1,13 +1,19 @@
 import * as shared from '@sel/shared';
 import { createDate, createFactory, createId } from '@sel/utils';
+import { sql } from 'drizzle-orm';
+import { PgTable, TableConfig } from 'drizzle-orm/pg-core';
 
 import { TokenInsert, TokenType } from './modules/authentication/authentication.entities';
+import { EventInsert } from './modules/event/event.entities';
 import { FileInsert } from './modules/file/file.entity';
+import { InformationInsert } from './modules/information/information.entities';
 import { InterestInsert } from './modules/interest/interest.entities';
 import { MemberInsert } from './modules/member/member.entities';
 import { RequestInsert } from './modules/request/request.entities';
+import { db } from './persistence';
+import { events, files, information, interests, members, requests, tokens } from './persistence/schema';
 
-export const insert = {
+const insert = {
   token: createFactory<TokenInsert>(() => ({
     id: createId(),
     value: '',
@@ -42,6 +48,25 @@ export const insert = {
     html: '',
   })),
 
+  event: createFactory<EventInsert>(() => ({
+    id: createId(),
+    organizerId: '',
+    title: '',
+    text: '',
+    html: '',
+    kind: 'internal',
+  })),
+
+  information: createFactory<InformationInsert>(() => ({
+    id: createId(),
+    title: '',
+    text: '',
+    html: '',
+    isPin: false,
+    authorId: '',
+    publishedAt: createDate(),
+  })),
+
   file: createFactory<FileInsert>(() => ({
     id: createId(),
     name: '',
@@ -51,3 +76,28 @@ export const insert = {
     uploadedBy: '',
   })),
 };
+
+export const persist = {
+  token: persister(tokens, insert.token),
+  file: persister(files, insert.file),
+  interest: persister(interests, insert.interest),
+  member: persister(members, insert.member),
+  request: persister(requests, insert.request),
+  event: persister(events, insert.event),
+  information: persister(information, insert.information),
+};
+
+function persister<T extends TableConfig>(
+  table: PgTable<T>,
+  inserter: (values?: Partial<typeof table.$inferInsert>) => typeof table.$inferInsert,
+) {
+  return async (values?: Partial<typeof table.$inferInsert>) => {
+    const [{ id }] = await db
+      .insert(table)
+      .values(inserter(values))
+      .returning({ id: sql<string>`id` })
+      .execute();
+
+    return id;
+  };
+}

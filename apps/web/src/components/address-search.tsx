@@ -1,6 +1,6 @@
 import { Address } from '@sel/shared';
 import { isDefined, wait } from '@sel/utils';
-import { createQuery } from '@tanstack/solid-query';
+import { useQuery } from '@tanstack/solid-query';
 import { ComponentProps, createSignal, splitProps } from 'solid-js';
 
 import { getAppConfig } from 'src/application/config';
@@ -38,7 +38,7 @@ export function AddressSearch(_props: AddressSearchProps) {
 
   const [searchQuery, setSearchQuery] = createSignal('');
 
-  const query = createQuery(() => ({
+  const query = useQuery(() => ({
     enabled: searchQuery().length >= 5,
     queryKey: ['searchAddress', { query: searchQuery() }],
     refetchOnWindowFocus: false,

@@ -1,6 +1,6 @@
 import { createForm, Field, FormStore, toCustom } from '@modular-forms/solid';
 import { AuthenticatedMember } from '@sel/shared';
-import { createMutation } from '@tanstack/solid-query';
+import { useMutation } from '@tanstack/solid-query';
 import { Icon } from 'solid-heroicons';
 import { arrowRight } from 'solid-heroicons/solid';
 import { Show } from 'solid-js';
@@ -45,7 +45,7 @@ export function ContactStep(props: { next: () => void }) {
     }),
   });
 
-  const mutation = createMutation(() => ({
+  const mutation = useMutation(() => ({
     async mutationFn({ emailVisible, phoneNumber, phoneNumberVisible }: FormType) {
       await api.updateMemberProfile({
         path: { memberId: member().id },

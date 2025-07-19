@@ -4,6 +4,7 @@ export * from './authenticated-member';
 export * from './comment';
 export * from './config';
 export * from './event';
+export * from './feed';
 export * from './information';
 export * from './interest';
 export * from './member';

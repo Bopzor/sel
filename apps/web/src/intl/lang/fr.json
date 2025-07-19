@@ -254,8 +254,13 @@
           }
         },
         "createInformation": {
-          "title": "Publier une information",
+          "dialogTitle": "Publier une information",
+          "title": {
+            "label": "Titre",
+            "placeholder": "Recette des amaretti"
+          },
           "body": {
+            "label": "Message",
             "placeholder": "Écrivez votre message..."
           },
           "create": "Publier",
@@ -293,6 +298,13 @@
           "noTransactions": "{name} n'a réalisé aucun échange pour le moment.",
           "create": "Échanger des {currencyPlural}"
         }
+      }
+    },
+    "information": {
+      "createComment": {
+        "title": "Commentaires",
+        "placeholder": "Écrire un commentaire...",
+        "success": "Votre commentaire a bien été envoyé"
       }
     },
     "requests": {

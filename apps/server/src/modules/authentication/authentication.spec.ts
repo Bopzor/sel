@@ -3,7 +3,7 @@ import { addDuration, defined } from '@sel/utils';
 import { and, eq } from 'drizzle-orm';
 import { beforeAll, beforeEach, describe, expect, it } from 'vitest';
 
-import { insert } from 'src/factories';
+import { persist } from 'src/factories';
 import { container } from 'src/infrastructure/container';
 import { StubEmailSender } from 'src/infrastructure/email';
 import { initialize } from 'src/initialize';
@@ -11,12 +11,10 @@ import { resetDatabase, schema } from 'src/persistence';
 import { clearDatabase, db } from 'src/persistence/database';
 import { TOKENS } from 'src/tokens';
 
-import { insertMember } from '../member';
-
 import { Token, TokenType } from './authentication.entities';
 import { requestAuthenticationLink } from './domain/request-authentication-link.command';
 import { verifyAuthenticationToken } from './domain/verify-authentication-token.command';
-import { findTokenById, findTokenByValue, insertToken } from './token.persistence';
+import { findTokenById, findTokenByValue } from './token.persistence';
 
 describe('member', () => {
   beforeAll(resetDatabase);
@@ -40,7 +38,7 @@ describe('member', () => {
   }
 
   it('authenticates', async () => {
-    await insertMember(insert.member({ id: 'memberId', email: 'email' }));
+    await persist.member({ id: 'memberId', email: 'email' });
 
     await requestAuthenticationLink({
       email: 'email',
@@ -80,7 +78,7 @@ describe('member', () => {
   });
 
   it('revokes the authentication tokens after verifying it', async () => {
-    await insertMember(insert.member({ id: 'memberId', email: 'email' }));
+    await persist.member({ id: 'memberId', email: 'email' });
 
     await requestAuthenticationLink({ email: 'email' });
 
@@ -97,7 +95,7 @@ describe('member', () => {
   });
 
   it('revokes previous authentication tokens when requesting a new authentication token', async () => {
-    await insertMember(insert.member({ id: 'memberId', email: 'email' }));
+    await persist.member({ id: 'memberId', email: 'email' });
 
     await requestAuthenticationLink({ email: 'email' });
     await requestAuthenticationLink({ email: 'email' });
@@ -110,16 +108,14 @@ describe('member', () => {
   });
 
   it('fails when trying to use a revoked token', async () => {
-    await insertMember(insert.member({ id: 'memberId', email: 'email' }));
+    await persist.member({ id: 'memberId', email: 'email' });
 
-    await insertToken(
-      insert.token({
-        memberId: 'memberId',
-        value: 'token',
-        revoked: true,
-        expirationDate: addDuration(new Date(), { hours: 1 }),
-      }),
-    );
+    await persist.token({
+      memberId: 'memberId',
+      value: 'token',
+      revoked: true,
+      expirationDate: addDuration(new Date(), { hours: 1 }),
+    });
 
     await expect(verifyAuthenticationToken({ tokenValue: 'token', sessionTokenId: '' })).rejects.toThrow(
       'Token was revoked',
@@ -127,7 +123,7 @@ describe('member', () => {
   });
 
   it('does not create a token when the member is inactive', async () => {
-    await insertMember(insert.member({ id: 'memberId', email: 'email', status: MemberStatus.inactive }));
+    await persist.member({ id: 'memberId', email: 'email', status: MemberStatus.inactive });
 
     await requestAuthenticationLink({ email: 'email' });
 

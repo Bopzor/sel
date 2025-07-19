@@ -256,6 +256,7 @@ export type NotificationData = {
         id: string;
         name: string;
       };
+      title: string;
       body: {
         html: string;
         text: string;

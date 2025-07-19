@@ -1,6 +1,6 @@
 import { Member } from '@sel/shared';
 import { useParams } from '@solidjs/router';
-import { createQuery } from '@tanstack/solid-query';
+import { useQuery } from '@tanstack/solid-query';
 import clsx from 'clsx';
 import { Icon } from 'solid-heroicons';
 import { arrowsRightLeft, sparkles, user } from 'solid-heroicons/solid';
@@ -26,7 +26,7 @@ const T = createTranslate('pages.members.details');
 
 export function MemberDetailsPage() {
   const params = useParams<{ memberId: string }>();
-  const query = createQuery(() => apiQuery('getMember', { path: { memberId: params.memberId } }));
+  const query = useQuery(() => apiQuery('getMember', { path: { memberId: params.memberId } }));
 
   return (
     <>
@@ -52,9 +52,7 @@ function Skeleton() {
 function MemberDetails(props: { member: Member }) {
   const isAuthenticatedMember = getIsAuthenticatedMember();
 
-  const query = createQuery(() =>
-    apiQuery('listMemberTransactions', { path: { memberId: props.member.id } }),
-  );
+  const query = useQuery(() => apiQuery('listMemberTransactions', { path: { memberId: props.member.id } }));
 
   return (
     <div class="col gap-8">

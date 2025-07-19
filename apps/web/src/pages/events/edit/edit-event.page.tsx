@@ -1,7 +1,7 @@
 import { updateEventBodySchema } from '@sel/shared';
 import { defined } from '@sel/utils';
 import { useNavigate, useParams } from '@solidjs/router';
-import { createMutation, createQuery } from '@tanstack/solid-query';
+import { useMutation, useQuery } from '@tanstack/solid-query';
 import { Show } from 'solid-js';
 import { z } from 'zod';
 
@@ -23,9 +23,9 @@ export function EditEventPage() {
   const invalidate = useInvalidateApi();
 
   const params = useParams<{ eventId: string }>();
-  const query = createQuery(() => apiQuery('getEvent', { path: { eventId: params.eventId } }));
+  const query = useQuery(() => apiQuery('getEvent', { path: { eventId: params.eventId } }));
 
-  const editEvent = createMutation(() => ({
+  const editEvent = useMutation(() => ({
     async mutationFn(data: z.infer<typeof updateEventBodySchema>) {
       const event = defined(query.data);
       return api.updateEvent({ path: { eventId: event.id }, body: data });

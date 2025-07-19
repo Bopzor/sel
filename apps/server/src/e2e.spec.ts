@@ -2,13 +2,12 @@ import { createId, defined } from '@sel/utils';
 import supertest from 'supertest';
 import { beforeAll, beforeEach, describe, it } from 'vitest';
 
-import { insert } from './factories';
+import { persist } from './factories';
 import { container } from './infrastructure/container';
 import { StubEmailSender } from './infrastructure/email';
 import { HttpStatus } from './infrastructure/http';
 import { initialize } from './initialize';
 import { TokenType } from './modules/authentication/authentication.entities';
-import { insertToken } from './modules/authentication/token.persistence';
 import { createMember } from './modules/member/domain/create-member.command';
 import { resetDatabase, schema } from './persistence';
 import { clearDatabase, db } from './persistence/database';
@@ -73,7 +72,7 @@ describe('end-to-end', () => {
     await createMember({ memberId: 'payerId', email: 'payer@domain.tld' });
     await createMember({ memberId: 'recipientId', email: 'recipient@domain.tld' });
 
-    await insertToken(insert.token({ memberId: 'payerId', type: TokenType.session, value: 'token' }));
+    await persist.token({ memberId: 'payerId', type: TokenType.session, value: 'token' });
 
     await request
       .post('/transactions')

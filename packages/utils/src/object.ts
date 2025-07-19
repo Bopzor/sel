@@ -14,13 +14,13 @@ export function hasProperty<T, K extends keyof T>(property: K, value: T[K]) {
 
 export function toObject<T, K extends PropertyKey, V>(
   array: T[],
-  getKey: (item: T) => K,
-  getValue: (item: T) => V,
+  getKey: (item: T, index: number) => K,
+  getValue: (item: T, index: number) => V,
 ): Record<K, V> {
   return array.reduce(
-    (obj, item) => ({
+    (obj, item, index) => ({
       ...obj,
-      [getKey(item)]: getValue(item),
+      [getKey(item, index)]: getValue(item, index),
     }),
     {} as Record<K, V>,
   );
@@ -28,4 +28,14 @@ export function toObject<T, K extends PropertyKey, V>(
 
 export function pick<T, K extends keyof T>(obj: T, keys: K[]): Pick<T, K> {
   return toObject(keys, identity, (key) => obj[key]) as Pick<T, K>;
+}
+
+export async function awaitProperties<T extends object>(obj: T): Promise<{ [K in keyof T]: Awaited<T[K]> }> {
+  const results = await Promise.all(Object.values(obj));
+
+  return toObject(
+    keys(obj),
+    (key) => key,
+    (key, index) => results[index],
+  );
 }

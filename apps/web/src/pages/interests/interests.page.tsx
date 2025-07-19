@@ -1,4 +1,4 @@
-import { createQuery } from '@tanstack/solid-query';
+import { useQuery } from '@tanstack/solid-query';
 import { createSignal, For, Show } from 'solid-js';
 
 import { apiQuery } from 'src/application/query';
@@ -11,7 +11,7 @@ import { InterestItem } from './components/interest-item';
 const T = createTranslate('pages.interests');
 
 export function InterestsPage() {
-  const query = createQuery(() => apiQuery('listInterests', {}));
+  const query = useQuery(() => apiQuery('listInterests', {}));
   const [expanded, setExpanded] = createSignal<string>();
 
   return (

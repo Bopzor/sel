@@ -1,6 +1,6 @@
 import { createForm, reset, setValue, submit } from '@modular-forms/solid';
 import { Address, AuthenticatedMember } from '@sel/shared';
-import { createMutation, useQueryClient } from '@tanstack/solid-query';
+import { useMutation, useQueryClient } from '@tanstack/solid-query';
 
 import { api } from 'src/application/api';
 import { notify } from 'src/application/notify';
@@ -27,7 +27,7 @@ export function AddressPage() {
     },
   });
 
-  const mutation = createMutation(() => ({
+  const mutation = useMutation(() => ({
     async mutationFn(address: Address) {
       await api.updateMemberProfile({ path: { memberId: member().id }, body: { address } });
     },
