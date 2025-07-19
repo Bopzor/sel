@@ -15,6 +15,7 @@ import { TokenType } from './modules/authentication/authentication.entities';
 import { router as authentication } from './modules/authentication/authentication.router';
 import { router as session } from './modules/authentication/session.router';
 import { router as events } from './modules/event/event.router';
+import { router as feed } from './modules/feed/feed.router';
 import { router as files } from './modules/file/file.router';
 import { router as information } from './modules/information/information.router';
 import { router as interests } from './modules/interest/interest.router';
@@ -41,6 +42,7 @@ export function server() {
   app.use('/session', isMember, session);
   app.use('/session/notifications', isMember, sessionNotifications);
   app.use('/files', isMember, files);
+  app.use('/feed', isMember, feed);
   app.use('/events', isMember, events);
   app.use('/information', isMember, information);
   app.use('/interests', isMember, interests);
