@@ -1,5 +1,5 @@
 import { createForm, Field, FormStore, getValue, submit } from '@modular-forms/solid';
-import { createMutation } from '@tanstack/solid-query';
+import { useMutation } from '@tanstack/solid-query';
 import { JSX } from 'solid-js';
 
 import { api } from 'src/application/api';
@@ -36,7 +36,7 @@ export function NotificationSettingsForm() {
     initialValues: member().notificationDelivery,
   });
 
-  const mutation = createMutation(() => ({
+  const mutation = useMutation(() => ({
     async mutationFn(body: FormType) {
       await api.updateNotificationDelivery({ path: { memberId: member().id }, body: body });
     },

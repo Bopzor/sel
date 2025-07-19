@@ -1,7 +1,7 @@
 import { createRequestBodySchema } from '@sel/shared';
 import { defined } from '@sel/utils';
 import { useNavigate, useParams } from '@solidjs/router';
-import { createMutation, createQuery } from '@tanstack/solid-query';
+import { useMutation, useQuery } from '@tanstack/solid-query';
 import { Show } from 'solid-js';
 import { z } from 'zod';
 
@@ -23,9 +23,9 @@ export function EditRequestPage() {
   const invalidate = useInvalidateApi();
 
   const params = useParams<{ requestId: string }>();
-  const query = createQuery(() => apiQuery('getRequest', { path: { requestId: params.requestId } }));
+  const query = useQuery(() => apiQuery('getRequest', { path: { requestId: params.requestId } }));
 
-  const editRequest = createMutation(() => ({
+  const editRequest = useMutation(() => ({
     async mutationFn(data: z.infer<typeof createRequestBodySchema>) {
       const request = defined(query.data);
       return api.updateRequest({ path: { requestId: request.id }, body: data });

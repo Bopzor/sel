@@ -1,6 +1,6 @@
 import { AdminMember, MemberStatus as MemberStatusEnum } from '@sel/shared';
 import { createArray } from '@sel/utils';
-import { createQuery } from '@tanstack/solid-query';
+import { useQuery } from '@tanstack/solid-query';
 import { Icon } from 'solid-heroicons';
 import { check, exclamationTriangle, xMark } from 'solid-heroicons/solid';
 import { For } from 'solid-js';
@@ -23,7 +23,7 @@ const T = createTranslate('pages.admin.members');
 
 export function AdminMemberListPage() {
   const config = getLetsConfig();
-  const members = createQuery(() => apiQuery('listMembersAdmin', {}));
+  const members = useQuery(() => apiQuery('listMembersAdmin', {}));
 
   return (
     <>

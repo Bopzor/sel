@@ -1,6 +1,6 @@
 import { Member, MembersSort } from '@sel/shared';
 import { parseEnumValue, removeDiacriticCharacters } from '@sel/utils';
-import { createQuery, keepPreviousData } from '@tanstack/solid-query';
+import { useQuery, keepPreviousData } from '@tanstack/solid-query';
 import { createSignal, Show } from 'solid-js';
 
 import { apiQuery } from 'src/application/query';
@@ -16,7 +16,7 @@ export function MemberListPage() {
   const [search, setSearch] = useSearchParam('search', (value) => value ?? '');
   const [openPopupMember, setOpenPopupMember] = createSignal<Member>();
 
-  const query = createQuery(() => ({
+  const query = useQuery(() => ({
     ...apiQuery('listMembers', { query: { sort: sort() } }),
     placeholderData: keepPreviousData,
   }));

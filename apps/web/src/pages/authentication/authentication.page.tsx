@@ -1,7 +1,7 @@
 import { createForm } from '@modular-forms/solid';
 import { requestAuthenticationLinkQuerySchema } from '@sel/shared';
 import { useNavigate } from '@solidjs/router';
-import { createMutation } from '@tanstack/solid-query';
+import { useMutation } from '@tanstack/solid-query';
 import { Match, onMount, Switch } from 'solid-js';
 import { z } from 'zod';
 
@@ -24,7 +24,7 @@ type FormType = z.infer<typeof requestAuthenticationLinkQuerySchema>;
 export function AuthenticationPage() {
   const [token, setToken] = useSearchParam('auth-token');
 
-  const mutation = createMutation(() => ({
+  const mutation = useMutation(() => ({
     async mutationFn(query: FormType) {
       await api.requestAuthenticationLink({ query });
     },
@@ -88,7 +88,7 @@ function VerifyAuthenticationToken(props: { token: string; clearToken: () => voi
   const invalidate = useInvalidateApi();
   const navigate = useNavigate();
 
-  const mutation = createMutation(() => ({
+  const mutation = useMutation(() => ({
     async mutationFn(token: string) {
       await api.verifyAuthenticationToken({ query: { token } });
     },

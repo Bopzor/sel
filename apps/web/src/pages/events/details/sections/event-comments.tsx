@@ -1,5 +1,5 @@
 import { Event } from '@sel/shared';
-import { createMutation } from '@tanstack/solid-query';
+import { useMutation } from '@tanstack/solid-query';
 
 import { api } from 'src/application/api';
 import { notify } from 'src/application/notify';
@@ -14,7 +14,7 @@ export function EventComments(props: { event: Event }) {
   const t = T.useTranslate();
   const invalidate = useInvalidateApi();
 
-  const mutation = createMutation(() => ({
+  const mutation = useMutation(() => ({
     async mutationFn(body: string) {
       await api.createEventComment({
         path: { eventId: props.event.id },

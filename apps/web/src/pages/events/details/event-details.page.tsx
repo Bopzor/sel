@@ -1,5 +1,5 @@
 import { useParams } from '@solidjs/router';
-import { createQuery } from '@tanstack/solid-query';
+import { useQuery } from '@tanstack/solid-query';
 import { Show } from 'solid-js';
 
 import { apiQuery } from 'src/application/query';
@@ -18,7 +18,7 @@ import { EventParticipation } from './sections/event-participation';
 
 export function EventDetailsPage() {
   const params = useParams<{ eventId: string }>();
-  const query = createQuery(() => apiQuery('getEvent', { path: { eventId: params.eventId } }));
+  const query = useQuery(() => apiQuery('getEvent', { path: { eventId: params.eventId } }));
 
   const isMobile = createMediaQuery('(max-width: 1024px)');
 

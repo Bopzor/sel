@@ -1,6 +1,6 @@
 import { createForm, setValue } from '@modular-forms/solid';
 import { createInformationBodySchema } from '@sel/shared';
-import { createMutation } from '@tanstack/solid-query';
+import { useMutation } from '@tanstack/solid-query';
 
 import { api } from 'src/application/api';
 import { notify } from 'src/application/notify';
@@ -29,7 +29,7 @@ export function CreateInformationDialog(props: { open: boolean; onClose: () => v
     }),
   });
 
-  const mutation = createMutation(() => ({
+  const mutation = useMutation(() => ({
     async mutationFn(body: { body: string }) {
       await api.createInformation({ body });
     },

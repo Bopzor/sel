@@ -1,5 +1,5 @@
 import { Transaction, TransactionStatus as TransactionStatusEnum } from '@sel/shared';
-import { createMutation } from '@tanstack/solid-query';
+import { useMutation } from '@tanstack/solid-query';
 import { Icon } from 'solid-heroicons';
 import { arrowRight, check, minus, xMark } from 'solid-heroicons/solid';
 import { Show } from 'solid-js';
@@ -93,7 +93,7 @@ function createAcceptMutation(transactionId: () => string) {
   const member = getAuthenticatedMember();
   const invalidate = useInvalidateApi();
 
-  return createMutation(() => ({
+  return useMutation(() => ({
     mutationFn: () => api.acceptTransaction({ path: { transactionId: transactionId() } }),
     async onSuccess() {
       await Promise.all([
@@ -111,7 +111,7 @@ function createCancelMutation(transactionId: () => string) {
   const member = getAuthenticatedMember();
   const invalidate = useInvalidateApi();
 
-  return createMutation(() => ({
+  return useMutation(() => ({
     mutationFn: () => api.cancelTransaction({ path: { transactionId: transactionId() } }),
     async onSuccess() {
       await Promise.all([

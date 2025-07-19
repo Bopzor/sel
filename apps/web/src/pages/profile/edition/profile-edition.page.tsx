@@ -1,7 +1,7 @@
 import { createForm, Field, FormStore, reset } from '@modular-forms/solid';
 import { AuthenticatedMember, UpdateMemberProfileData } from '@sel/shared';
 import { assert } from '@sel/utils';
-import { createMutation, useQueryClient } from '@tanstack/solid-query';
+import { useMutation, useQueryClient } from '@tanstack/solid-query';
 import { createSignal, Show } from 'solid-js';
 import { z } from 'zod';
 
@@ -59,7 +59,7 @@ function ProfileEditionForm(props: { initialValues: AuthenticatedMember }) {
     }),
   });
 
-  const mutation = createMutation(() => ({
+  const mutation = useMutation(() => ({
     async mutationFn(data: UpdateMemberProfileData) {
       await api.updateMemberProfile({ path: { memberId: props.initialValues.id }, body: data });
     },
@@ -236,7 +236,7 @@ function ProfilePictureField() {
   const t = T.useTranslate();
   const invalidate = useInvalidateApi();
 
-  const mutation = createMutation(() => ({
+  const mutation = useMutation(() => ({
     async mutationFn(file: File) {
       const fileName = await api.uploadFile({ files: { file } });
 

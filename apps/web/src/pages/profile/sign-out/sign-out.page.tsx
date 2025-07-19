@@ -1,5 +1,5 @@
 import { useNavigate } from '@solidjs/router';
-import { createMutation } from '@tanstack/solid-query';
+import { useMutation } from '@tanstack/solid-query';
 
 import { api } from 'src/application/api';
 import { useInvalidateApi } from 'src/application/query';
@@ -14,7 +14,7 @@ export function SignOutPage() {
   const invalidate = useInvalidateApi();
   const navigate = useNavigate();
 
-  const mutation = createMutation(() => ({
+  const mutation = useMutation(() => ({
     async mutationFn() {
       await api.signOut({});
     },

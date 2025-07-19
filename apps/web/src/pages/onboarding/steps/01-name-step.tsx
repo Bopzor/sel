@@ -1,5 +1,5 @@
 import { createForm } from '@modular-forms/solid';
-import { createMutation } from '@tanstack/solid-query';
+import { useMutation } from '@tanstack/solid-query';
 import { Icon } from 'solid-heroicons';
 import { arrowRight } from 'solid-heroicons/solid';
 import { z } from 'zod';
@@ -36,7 +36,7 @@ export function NameStep(props: { next: () => void }) {
     }),
   });
 
-  const mutation = createMutation(() => ({
+  const mutation = useMutation(() => ({
     async mutationFn(data: FormType) {
       await api.updateMemberProfile({ path: { memberId: member().id }, body: data });
     },

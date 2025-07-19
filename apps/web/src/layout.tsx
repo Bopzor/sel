@@ -1,5 +1,5 @@
 import { Navigate } from '@solidjs/router';
-import { createMutation } from '@tanstack/solid-query';
+import { useMutation } from '@tanstack/solid-query';
 import clsx from 'clsx';
 import { Icon } from 'solid-heroicons';
 import { bars_3, calendar, handRaised, home, sparkles, star, users } from 'solid-heroicons/solid';
@@ -294,7 +294,7 @@ function CheckDeviceRegistration() {
     }
   });
 
-  const mutation = createMutation(() => ({
+  const mutation = useMutation(() => ({
     async mutationFn() {
       if ((await getRegistrationState()) === 'granted') {
         await registerDevice(detectDevice());

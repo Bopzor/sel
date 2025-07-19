@@ -1,4 +1,4 @@
-import { createMutation } from '@tanstack/solid-query';
+import { useMutation } from '@tanstack/solid-query';
 import { Editor } from '@tiptap/core';
 import Image from '@tiptap/extension-image';
 import Link from '@tiptap/extension-link';
@@ -200,7 +200,7 @@ function ToolbarItem(props: { title: string; icon: ValidComponent; active?: bool
 }
 
 function createFileUploadHandler(editor: () => Editor | undefined) {
-  const fileUpload = createMutation(() => ({
+  const fileUpload = useMutation(() => ({
     async mutationFn(file: File) {
       const fileName = await api.uploadFile({ files: { file } });
 

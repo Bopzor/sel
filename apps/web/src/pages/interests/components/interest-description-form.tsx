@@ -1,6 +1,6 @@
 import { createForm } from '@modular-forms/solid';
 import { Interest, InterestMember, editInterestMemberBodySchema } from '@sel/shared';
-import { createMutation } from '@tanstack/solid-query';
+import { useMutation } from '@tanstack/solid-query';
 
 import { api } from 'src/application/api';
 import { useInvalidateApi } from 'src/application/query';
@@ -30,7 +30,7 @@ export function InterestDescriptionForm(props: {
     }),
   });
 
-  const mutation = createMutation(() => ({
+  const mutation = useMutation(() => ({
     async mutationFn({ description }: { description: string }) {
       await api.editMemberInterestDescription({
         path: { interestId: props.interest.id },

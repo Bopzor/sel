@@ -1,6 +1,6 @@
 import { Interest } from '@sel/shared';
 import { hasProperty } from '@sel/utils';
-import { createMutation } from '@tanstack/solid-query';
+import { useMutation } from '@tanstack/solid-query';
 import { Show } from 'solid-js';
 
 import { api } from 'src/application/api';
@@ -18,7 +18,7 @@ export function InterestMembership(props: { interest: Interest }) {
   const member = getAuthenticatedMember();
   const memberInterest = () => member().interests.find(hasProperty('interestId', props.interest.id));
 
-  const join = createMutation(() => ({
+  const join = useMutation(() => ({
     async mutationFn() {
       await api.joinInterest({ path: { interestId: props.interest.id }, body: {} });
     },
@@ -28,7 +28,7 @@ export function InterestMembership(props: { interest: Interest }) {
     },
   }));
 
-  const leave = createMutation(() => ({
+  const leave = useMutation(() => ({
     async mutationFn() {
       await api.leaveInterest({ path: { interestId: props.interest.id } });
     },

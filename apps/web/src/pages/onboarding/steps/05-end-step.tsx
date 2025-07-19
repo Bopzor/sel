@@ -1,5 +1,5 @@
 import { createForm } from '@modular-forms/solid';
-import { createMutation } from '@tanstack/solid-query';
+import { useMutation } from '@tanstack/solid-query';
 
 import { api } from 'src/application/api';
 import { getAppConfig } from 'src/application/config';
@@ -17,7 +17,7 @@ export function EndStep() {
 
   const [, { Form }] = createForm();
 
-  const mutation = createMutation(() => ({
+  const mutation = useMutation(() => ({
     async mutationFn() {
       await api.updateMemberProfile({ path: { memberId: member().id }, body: { onboardingCompleted: true } });
     },

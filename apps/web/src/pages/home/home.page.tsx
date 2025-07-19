@@ -1,4 +1,4 @@
-import { createQuery } from '@tanstack/solid-query';
+import { useQuery } from '@tanstack/solid-query';
 import clsx from 'clsx';
 import { Icon } from 'solid-heroicons';
 import { calendar, handRaised, sparkles, star, users } from 'solid-heroicons/solid';
@@ -113,7 +113,7 @@ function LinkCard(props: LinkCardProps) {
 }
 
 function Information() {
-  const information = createQuery(() => apiQuery('listInformation', {}));
+  const information = useQuery(() => apiQuery('listInformation', {}));
 
   return (
     <Show when={information.data}>

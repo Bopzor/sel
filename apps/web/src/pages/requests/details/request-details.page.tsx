@@ -1,5 +1,5 @@
 import { useParams } from '@solidjs/router';
-import { createQuery } from '@tanstack/solid-query';
+import { useQuery } from '@tanstack/solid-query';
 import { Show } from 'solid-js';
 
 import { apiQuery } from 'src/application/query';
@@ -16,7 +16,7 @@ import { RequestTransaction } from './sections/request-transaction';
 
 export function RequestDetailsPage() {
   const params = useParams<{ requestId: string }>();
-  const query = createQuery(() => apiQuery('getRequest', { path: { requestId: params.requestId } }));
+  const query = useQuery(() => apiQuery('getRequest', { path: { requestId: params.requestId } }));
 
   return (
     <>

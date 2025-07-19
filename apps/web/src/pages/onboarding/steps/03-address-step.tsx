@@ -1,6 +1,6 @@
 import { createForm, setValue, submit } from '@modular-forms/solid';
 import { Address } from '@sel/shared';
-import { createMutation } from '@tanstack/solid-query';
+import { useMutation } from '@tanstack/solid-query';
 import { Icon } from 'solid-heroicons';
 import { arrowRight } from 'solid-heroicons/solid';
 
@@ -53,7 +53,7 @@ function AddressForm() {
     },
   });
 
-  const mutation = createMutation(() => ({
+  const mutation = useMutation(() => ({
     async mutationFn(address: Address) {
       await api.updateMemberProfile({ path: { memberId: member().id }, body: { address } });
     },

@@ -1,5 +1,5 @@
 import { Request } from '@sel/shared';
-import { createQuery } from '@tanstack/solid-query';
+import { useQuery } from '@tanstack/solid-query';
 import { For, Show } from 'solid-js';
 
 import { apiQuery } from 'src/application/query';
@@ -18,7 +18,7 @@ import { RequestStatus } from '../components/request-status';
 const T = createTranslate('pages.requests.list');
 
 export function RequestListPage() {
-  const query = createQuery(() => apiQuery('listRequests', {}));
+  const query = useQuery(() => apiQuery('listRequests', {}));
 
   return (
     <>

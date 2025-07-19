@@ -1,6 +1,6 @@
 import { createEventBodySchema } from '@sel/shared';
 import { useNavigate } from '@solidjs/router';
-import { createMutation, useQueryClient } from '@tanstack/solid-query';
+import { useMutation, useQueryClient } from '@tanstack/solid-query';
 import { z } from 'zod';
 
 import { api } from 'src/application/api';
@@ -20,7 +20,7 @@ export function CreateEventPage() {
   const t = T.useTranslate();
   const invalidate = useInvalidateApi();
 
-  const createEvent = createMutation(() => ({
+  const createEvent = useMutation(() => ({
     async mutationFn(data: z.infer<typeof createEventBodySchema>) {
       return api.createEvent({ body: data });
     },

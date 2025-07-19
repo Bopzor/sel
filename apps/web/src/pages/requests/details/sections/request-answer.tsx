@@ -1,5 +1,5 @@
 import { Request, type RequestAnswer, RequestStatus } from '@sel/shared';
-import { createMutation } from '@tanstack/solid-query';
+import { useMutation } from '@tanstack/solid-query';
 import { Icon } from 'solid-heroicons';
 import { check, xMark } from 'solid-heroicons/solid';
 import { JSX, Show } from 'solid-js';
@@ -58,7 +58,7 @@ function AnswerButton(props: AnswerButtonProps) {
     return memberAnswer() === props.answer;
   };
 
-  const mutation = createMutation(() => ({
+  const mutation = useMutation(() => ({
     async mutationFn(answer: 'positive' | 'negative' | null) {
       await api.setRequestAnswer({ path: { requestId: props.request.id }, body: { answer } });
     },

@@ -1,4 +1,4 @@
-import { createMutation } from '@tanstack/solid-query';
+import { useMutation } from '@tanstack/solid-query';
 import { createResource, Show } from 'solid-js';
 
 import { notify } from 'src/application/notify';
@@ -13,7 +13,7 @@ export function DeviceRegistration(props: { push?: boolean }) {
   const [registration, { refetch }] = createResource(() => getRegistrationState());
   const t = T.useTranslate();
 
-  const mutation = createMutation(() => ({
+  const mutation = useMutation(() => ({
     async mutationFn() {
       return registerDevice(device);
     },
