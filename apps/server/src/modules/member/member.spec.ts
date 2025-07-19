@@ -4,19 +4,18 @@ import express from 'express';
 import supertest from 'supertest';
 import { beforeAll, beforeEach, describe, expect, it } from 'vitest';
 
-import { insert } from 'src/factories';
+import { persist } from 'src/factories';
 import { container } from 'src/infrastructure/container';
 import { StubEvents } from 'src/infrastructure/events';
-import { db, resetDatabase, schema } from 'src/persistence';
+import { resetDatabase } from 'src/persistence';
 import { clearDatabase } from 'src/persistence/database';
 import { TOKENS } from 'src/tokens';
 
 import { TokenType } from '../authentication/authentication.entities';
-import { insertToken } from '../authentication/token.persistence';
 
 import { createMember } from './domain/create-member.command';
 import { updateMemberProfile } from './domain/update-member-profile.command';
-import { Member, MemberCreatedEvent, MemberInsert, OnboardingCompletedEvent } from './member.entities';
+import { Member, MemberCreatedEvent, OnboardingCompletedEvent } from './member.entities';
 import { findMemberById } from './member.persistence';
 import { router } from './member.router';
 
@@ -30,16 +29,6 @@ describe('member', () => {
     events = new StubEvents();
     container.bindValue(TOKENS.events, events);
   });
-
-  async function saveMember(values: Partial<MemberInsert>) {
-    const [{ id }] = await db
-      .insert(schema.members)
-      .values(insert.member(values))
-      .returning({ id: schema.members.id })
-      .execute();
-
-    return id;
-  }
 
   const createUpdateProfileData = createFactory<shared.UpdateMemberProfileData>(() => ({
     firstName: '',
@@ -97,7 +86,7 @@ describe('member', () => {
   });
 
   it("updates a member's profile", async () => {
-    await saveMember({ id: 'memberId' });
+    await persist.member({ id: 'memberId' });
 
     const data: shared.UpdateMemberProfileData = {
       firstName: 'First',
@@ -122,7 +111,7 @@ describe('member', () => {
   });
 
   it("set the member's status to active when onboarding is completed", async () => {
-    await saveMember({ id: 'memberId', status: shared.MemberStatus.onboarding });
+    await persist.member({ id: 'memberId', status: shared.MemberStatus.onboarding });
 
     await updateMemberProfile({
       memberId: 'memberId',
@@ -133,7 +122,7 @@ describe('member', () => {
   });
 
   it("set the member's status to onboarding when onboardingCompleted is set to false", async () => {
-    await saveMember({ id: 'memberId', status: shared.MemberStatus.active });
+    await persist.member({ id: 'memberId', status: shared.MemberStatus.active });
 
     await updateMemberProfile({
       memberId: 'memberId',
@@ -144,7 +133,7 @@ describe('member', () => {
   });
 
   it('triggers a domain event when the onboarding was completed', async () => {
-    await saveMember({ id: 'memberId', status: shared.MemberStatus.onboarding });
+    await persist.member({ id: 'memberId', status: shared.MemberStatus.onboarding });
 
     await updateMemberProfile({
       memberId: 'memberId',
@@ -155,21 +144,19 @@ describe('member', () => {
   });
 
   it('fails to retrieve a member that is not active', async () => {
-    const authenticatedMemberId = await saveMember({});
+    const authenticatedMemberId = await persist.member({});
 
-    await insertToken(
-      insert.token({ memberId: authenticatedMemberId, value: 'token', type: TokenType.session }),
-    );
+    await persist.token({ memberId: authenticatedMemberId, value: 'token', type: TokenType.session });
 
     const app = express();
     app.use('/', router);
 
     const agent = supertest.agent(app);
 
-    const onboardingMemberId = await saveMember({ status: shared.MemberStatus.onboarding });
+    const onboardingMemberId = await persist.member({ status: shared.MemberStatus.onboarding });
     await agent.get(`/${onboardingMemberId}`).set('Cookie', 'token=token').expect(404);
 
-    const inactiveMemberId = await saveMember({ status: shared.MemberStatus.inactive });
+    const inactiveMemberId = await persist.member({ status: shared.MemberStatus.inactive });
     await agent.get(`/${inactiveMemberId}`).set('Cookie', 'token=token').expect(404);
   });
 });

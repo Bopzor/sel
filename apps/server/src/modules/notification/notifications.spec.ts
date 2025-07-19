@@ -2,12 +2,12 @@ import * as shared from '@sel/shared';
 import { defined, waitFor } from '@sel/utils';
 import { beforeAll, beforeEach, describe, expect, it } from 'vitest';
 
-import { insert } from 'src/factories';
+import { persist } from 'src/factories';
 import { container } from 'src/infrastructure/container';
 import { StubEmailSender } from 'src/infrastructure/email';
 import { StubLogger } from 'src/infrastructure/logger';
 import { StubPushNotification } from 'src/infrastructure/push-notification';
-import { db, resetDatabase, schema } from 'src/persistence';
+import { db, resetDatabase } from 'src/persistence';
 import { TOKENS } from 'src/tokens';
 
 import { Member, updateMember } from '../member';
@@ -23,7 +23,7 @@ describe('notification snapshots', () => {
   beforeAll(async () => {
     await resetDatabase();
 
-    await db.insert(schema.members).values(insert.member({ email: 'member@email' }));
+    await persist.member({ email: 'member@email' });
     member = defined(await db.query.members.findFirst());
     subscription = 'subscription';
 

@@ -11,9 +11,9 @@ import { InterestInsert } from './modules/interest/interest.entities';
 import { MemberInsert } from './modules/member/member.entities';
 import { RequestInsert } from './modules/request/request.entities';
 import { db } from './persistence';
-import { events, information, members, requests } from './persistence/schema';
+import { events, files, information, interests, members, requests, tokens } from './persistence/schema';
 
-export const insert = {
+const insert = {
   token: createFactory<TokenInsert>(() => ({
     id: createId(),
     value: '',
@@ -77,6 +77,9 @@ export const insert = {
 };
 
 export const persist = {
+  token: persister(tokens, insert.token),
+  file: persister(files, insert.file),
+  interest: persister(interests, insert.interest),
   member: persister(members, insert.member),
   request: persister(requests, insert.request),
   event: persister(events, insert.event),

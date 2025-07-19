@@ -1,9 +1,9 @@
 import { beforeEach, describe, expect, it } from 'vitest';
 
-import { insert } from 'src/factories';
+import { persist } from 'src/factories';
 import { container } from 'src/infrastructure/container';
 import { StubEvents } from 'src/infrastructure/events';
-import { db, schema } from 'src/persistence';
+import { db } from 'src/persistence';
 import { clearDatabase } from 'src/persistence/database';
 import { TOKENS } from 'src/tokens';
 
@@ -22,10 +22,10 @@ describe('setRequestAnswer', () => {
   beforeEach(async () => {
     await clearDatabase();
 
-    await db.insert(schema.members).values(insert.member({ id: 'memberId' }));
+    await persist.member({ id: 'memberId' });
 
-    await db.insert(schema.members).values(insert.member({ id: 'requesterId' }));
-    await db.insert(schema.requests).values(insert.request({ id: 'requestId', requesterId: 'requesterId' }));
+    await persist.member({ id: 'requesterId' });
+    await persist.request({ id: 'requestId', requesterId: 'requesterId' });
   });
 
   beforeEach(() => {
@@ -59,7 +59,7 @@ describe('setRequestAnswer', () => {
   });
 
   it('sets a second answer on a request', async () => {
-    await db.insert(schema.members).values(insert.member({ id: 'otherMemberId' }));
+    await persist.member({ id: 'otherMemberId' });
 
     await setRequestAnswer(command);
 
