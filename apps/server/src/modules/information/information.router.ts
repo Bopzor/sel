@@ -19,20 +19,12 @@ import { Information } from './information.entities';
 export const router = express.Router();
 
 router.get('/', async (req, res) => {
-  const [pinMessages, notPinMessages] = await Promise.all(
-    [true, false].map((isPin) =>
-      db.query.information.findMany({
-        with: { author: withAvatar, comments: { with: { author: withAvatar } } },
-        where: eq(schema.information.isPin, isPin),
-        orderBy: desc(schema.information.publishedAt),
-      }),
-    ),
-  );
-
-  res.json({
-    pin: pinMessages.map(serializeInformation),
-    notPin: notPinMessages.map(serializeInformation),
+  const information = await db.query.information.findMany({
+    with: { author: withAvatar, comments: { with: { author: withAvatar } } },
+    orderBy: desc(schema.information.publishedAt),
   });
+
+  res.json(information.map(serializeInformation));
 });
 
 router.get('/:informationId', async (req, res) => {
@@ -51,7 +43,7 @@ router.get('/:informationId', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-  const { isPin, title, body } = shared.createInformationBodySchema.parse(req.body);
+  const { title, body } = shared.createInformationBodySchema.parse(req.body);
   const id = container.resolve(TOKENS.generator).id();
   const member = getAuthenticatedMember();
 
@@ -60,7 +52,6 @@ router.post('/', async (req, res) => {
     authorId: member.id,
     title,
     body,
-    isPin: isPin ?? false,
   });
 
   res.status(HttpStatus.created).send(id);

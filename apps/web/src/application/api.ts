@@ -95,7 +95,7 @@ export const api = {
   // information
 
   listInformation: endpoint('get', '/information').types<{
-    result: { pin: shared.Information[]; notPin: shared.Information[] };
+    result: shared.Information[];
   }>(),
 
   getInformation: endpoint('get', '/information/:informationId').types<{

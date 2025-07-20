@@ -1,0 +1,1 @@
+ALTER TABLE "information" DROP COLUMN "is_pin";

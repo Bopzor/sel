@@ -9,7 +9,6 @@ export type CreateInformationCommand = {
   authorId: string;
   title: string;
   body: string;
-  isPin: boolean;
 };
 
 export async function createInformation(command: CreateInformationCommand): Promise<void> {
@@ -20,10 +19,9 @@ export async function createInformation(command: CreateInformationCommand): Prom
   await db.insert(schema.information).values({
     id: command.informationId,
     title: command.title,
-    authorId: command.isPin ? undefined : command.authorId,
+    authorId: command.authorId,
     html: command.body,
     text: htmlParser.getTextContent(command.body),
-    isPin: command.isPin,
     publishedAt: now,
   });
 

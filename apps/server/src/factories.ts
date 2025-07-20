@@ -62,7 +62,6 @@ const insert = {
     title: '',
     text: '',
     html: '',
-    isPin: false,
     authorId: '',
     publishedAt: createDate(),
   })),

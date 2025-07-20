@@ -232,6 +232,13 @@
       "when": 1752941644299,
       "tag": "0032_add-information-title",
       "breakpoints": true
+    },
+    {
+      "idx": 33,
+      "version": "7",
+      "when": 1753027629841,
+      "tag": "0033_remove-information-is-pin",
+      "breakpoints": true
     }
   ]
 }

@@ -1,7 +1,7 @@
 import { relations } from 'drizzle-orm';
-import { boolean, pgTable, text, varchar } from 'drizzle-orm/pg-core';
+import { pgTable, text, varchar } from 'drizzle-orm/pg-core';
 
-import { id, createdAt, updatedAt, primaryKey, date } from '../schema-utils';
+import { createdAt, date, id, primaryKey, updatedAt } from '../schema-utils';
 
 import { comments } from './comments';
 import { members } from './members';
@@ -11,7 +11,6 @@ export const information = pgTable('information', {
   title: varchar('title', { length: 256 }).notNull(),
   text: text('text').notNull(),
   html: text('html').notNull(),
-  isPin: boolean('is_pin').notNull(),
   authorId: id('author_id').references(() => members.id),
   publishedAt: date('published_at').notNull(),
   createdAt,

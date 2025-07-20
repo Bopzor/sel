@@ -15,5 +15,4 @@ export type Information = {
 export const createInformationBodySchema = z.object({
   title: z.string().trim().min(5).max(255),
   body: z.string().trim().min(15),
-  isPin: z.boolean().optional(),
 });
