@@ -117,30 +117,47 @@
       "title": "Système d'échange local",
       "subtitle": "de Cavaillon et ses environs"
     },
-    "navigation": {
-      "home": {
-        "label": "Actualités",
-        "description": "Actualités du SEL"
+    "drawer": {
+      "navigation": {
+        "title": "Navigation",
+        "items": {
+          "home": {
+            "label": "Accueil",
+            "description": "Fil d'actualités du SEL"
+          },
+          "members": {
+            "label": "Membres",
+            "description": "Liste des membres"
+          },
+          "requests": {
+            "label": "Demandes",
+            "description": "Exprimer une demande"
+          },
+          "events": {
+            "label": "Événements",
+            "description": "Planifier un événement"
+          },
+          "interests": {
+            "label": "Centres d'intérêts",
+            "description": "Voir les centres d'intérêts"
+          },
+          "misc": {
+            "label": "Divers",
+            "description": "Informations et liens utiles"
+          }
+        }
       },
-      "members": {
-        "label": "Membres",
-        "description": "Liste des membres"
-      },
-      "requests": {
-        "label": "Demandes",
-        "description": "Exprimer une demande"
-      },
-      "events": {
-        "label": "Événements",
-        "description": "Planifier un événement"
-      },
-      "interests": {
-        "label": "Centres d'intérêts",
-        "description": "Voir les centres d'intérêts"
-      },
-      "misc": {
-        "label": "Divers",
-        "description": "Informations et liens utiles"
+      "quickAccess": {
+        "title": "Accès rapide",
+        "items": {
+          "createTransaction": "Échanger des {currencyPlural}",
+          "createInformation": "Publier une information",
+          "createRequest": "Créer une demande",
+          "createEvent": "Créer un événement",
+          "search": "Rechercher",
+          "editProfile": "Modifier mes informations",
+          "help": "Aide"
+        }
       }
     },
     "registerDevice": "Vous souhaitez recevoir les notifications sur cet appareil ? Activez-les dans <link>vos paramètres</link>.",
@@ -270,6 +287,18 @@
           "title": "Contacter un membre",
           "description": "Vous pouvez accéder aux informations de contact d'un membre depuis sa page de profil.",
           "button": "Voir la liste des membres"
+        }
+      },
+      "quickAccess": {
+        "title": "Accès rapide",
+        "items": {
+          "createTransaction": "Échanger des {currencyPlural}",
+          "createInformation": "Publier une information",
+          "createRequest": "Créer une demande",
+          "createEvent": "Créer un événement",
+          "search": "Rechercher",
+          "editProfile": "Modifier mes informations",
+          "help": "Aide"
         }
       }
     },

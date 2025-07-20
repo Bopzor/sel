@@ -1,8 +1,9 @@
+import { entries, keys } from '@sel/utils';
 import { Navigate } from '@solidjs/router';
 import { useMutation } from '@tanstack/solid-query';
 import clsx from 'clsx';
 import { Icon } from 'solid-heroicons';
-import { bars_3, calendar, handRaised, home, sparkles, star, users } from 'solid-heroicons/solid';
+import { arrowRight, bars_3, calendar, handRaised, home, sparkles, star, users } from 'solid-heroicons/solid';
 import {
   ComponentProps,
   createEffect,
@@ -13,6 +14,7 @@ import {
   onMount,
   Show,
   Switch,
+  For,
 } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
@@ -74,9 +76,28 @@ export function Layout(props: { children?: JSX.Element }) {
         <Header openDrawer={() => setDrawerOpen(true)} />
 
         <Drawer open={drawerOpen()} onClose={closeDrawer}>
-          <LogoTitle link={routes.home} onClick={closeDrawer} />
-          <DrawerNavigation closeDrawer={closeDrawer} />
-          <MemberProfile class="row items-center gap-4 py-4 sm:hidden" onClick={closeDrawer} />
+          <LogoTitle link={routes.home} onClick={closeDrawer} class="p-4 shadow-lg" />
+
+          <div class="scrollbar flex-1 overflow-y-auto">
+            <section class="mt-6 col gap-2">
+              <h2 class="bg-white/10 px-4 py-1 text-xl font-semibold">
+                <T id="drawer.navigation.title" />
+              </h2>
+              <DrawerNavigation closeDrawer={closeDrawer} />
+            </section>
+
+            <section class="mt-6 col gap-2">
+              <h2 class="bg-white/10 px-4 py-1 text-xl font-semibold">
+                <T id="drawer.quickAccess.title" />
+              </h2>
+              <QuickAccess closeDrawer={closeDrawer} />
+            </section>
+          </div>
+
+          <MemberProfile
+            class="mt-auto row items-center gap-4 border-t-2 border-white/10 p-4"
+            onClick={closeDrawer}
+          />
         </Drawer>
 
         <main class="mx-auto mt-20 max-w-7xl px-4 py-6 sm:mt-0">
@@ -108,25 +129,25 @@ function Header(props: { openDrawer: () => void }) {
           <Icon path={bars_3} class="size-10" />
         </button>
 
-        <LogoTitle link={routes.home} class="mx-4 flex w-fit sm:mx-0 lg:order-1" />
+        <LogoTitle link={routes.home} class="flex w-fit sm:mx-0 lg:order-1" />
 
         <MemberProfile class="hidden items-center gap-1 sm:col lg:order-3" />
 
         <nav class="col-span-2 hidden flex-1 justify-center whitespace-nowrap sm:row lg:order-2 lg:col-span-1 xl:px-8">
           <NavigationItem href={routes.home} end>
-            <T id="navigation.home.label" />
+            <T id="drawer.navigation.items.home.label" />
           </NavigationItem>
           <NavigationItem href={routes.members.list}>
-            <T id="navigation.members.label" />
+            <T id="drawer.navigation.items.members.label" />
           </NavigationItem>
           <NavigationItem href={routes.requests.list}>
-            <T id="navigation.requests.label" />
+            <T id="drawer.navigation.items.requests.label" />
           </NavigationItem>
           <NavigationItem href={routes.events.list}>
-            <T id="navigation.events.label" />
+            <T id="drawer.navigation.items.events.label" />
           </NavigationItem>
           <NavigationItem href={routes.interests}>
-            <T id="navigation.interests.label" />
+            <T id="drawer.navigation.items.interests.label" />
           </NavigationItem>
         </nav>
       </div>
@@ -168,82 +189,51 @@ export function LogoTitle(props: { link: string; onClick?: () => void; class?: s
 }
 
 function DrawerNavigation(props: { closeDrawer: () => void }) {
+  const links = {
+    home: routes.home,
+    members: routes.members.list,
+    requests: routes.requests.list,
+    events: routes.events.list,
+    interests: routes.interests,
+    misc: routes.misc,
+  };
+
+  const icons = {
+    home: home,
+    members: users,
+    requests: handRaised,
+    events: calendar,
+    interests: sparkles,
+    misc: star,
+  };
+
   return (
-    <nav class="col divide-y divide-white/20">
-      <DrawerNavigationItem
-        href={routes.home}
-        icon={home}
-        label={<T id="navigation.home.label" />}
-        description={<T id="navigation.home.description" />}
-        onClick={props.closeDrawer}
-      />
+    <nav class="col gap-2 px-4">
+      <For each={keys(links)}>
+        {(item) => (
+          <Link
+            href={links[item]}
+            onClick={props.closeDrawer}
+            class="row items-center gap-4"
+            activeClass="active group text-amber-400"
+            end={item === 'home'}
+          >
+            <div>
+              <Icon path={icons[item]} class="size-6" />
+            </div>
 
-      <DrawerNavigationItem
-        href={routes.members.list}
-        icon={users}
-        label={<T id="navigation.members.label" />}
-        description={<T id="navigation.members.description" />}
-        onClick={props.closeDrawer}
-      />
-
-      <DrawerNavigationItem
-        href={routes.requests.list}
-        icon={handRaised}
-        label={<T id="navigation.requests.label" />}
-        description={<T id="navigation.requests.description" />}
-        onClick={props.closeDrawer}
-      />
-
-      <DrawerNavigationItem
-        href={routes.events.list}
-        icon={calendar}
-        label={<T id="navigation.events.label" />}
-        description={<T id="navigation.events.description" />}
-        onClick={props.closeDrawer}
-      />
-
-      <DrawerNavigationItem
-        href={routes.interests}
-        icon={sparkles}
-        label={<T id="navigation.interests.label" />}
-        description={<T id="navigation.interests.description" />}
-        onClick={props.closeDrawer}
-      />
-
-      <DrawerNavigationItem
-        href={routes.misc}
-        icon={star}
-        label={<T id="navigation.misc.label" />}
-        description={<T id="navigation.misc.description" />}
-        onClick={props.closeDrawer}
-      />
+            <div>
+              <div class="text-lg leading-6 font-medium">
+                <T id={`drawer.navigation.items.${item}.label`} />
+              </div>
+              <div class="text-sm text-white/80 group-[.active]:text-amber-400">
+                <T id={`drawer.navigation.items.${item}.description`} />
+              </div>
+            </div>
+          </Link>
+        )}
+      </For>
     </nav>
-  );
-}
-
-function DrawerNavigationItem(props: {
-  href: string;
-  icon: ComponentProps<typeof Icon>['path'];
-  label: JSX.Element;
-  description: JSX.Element;
-  onClick: () => void;
-}) {
-  return (
-    <Link
-      href={props.href}
-      onClick={props.onClick}
-      class="row items-center gap-4 py-4"
-      activeClass="text-amber-400"
-      end={props.href === routes.home}
-    >
-      <div>
-        <Icon path={props.icon} class="size-6" />
-      </div>
-      <div>
-        <div class="text-lg">{props.label}</div>
-        <div class="text-sm">{props.description}</div>
-      </div>
-    </Link>
   );
 }
 
@@ -261,12 +251,39 @@ function Drawer(props: { open: boolean; onClose: () => void; children: JSX.Eleme
       <Backdrop show={props.open}>
         <div
           ref={ref}
-          class="fixed inset-y-0 col w-full max-w-80 justify-between gap-4 overflow-y-auto bg-primary p-4 text-white animate-in slide-in-from-left-24"
+          class="fixed inset-y-0 col w-full max-w-80 bg-primary text-white animate-in slide-in-from-left-24"
         >
           {props.children}
         </div>
       </Backdrop>
     </Portal>
+  );
+}
+
+function QuickAccess(props: { closeDrawer: () => void }) {
+  const links = {
+    createTransaction: '/?create=transaction',
+    createInformation: '/?create=information',
+    createRequest: routes.requests.create,
+    createEvent: routes.events.create,
+    editProfile: routes.profile.edition,
+    search: '/',
+    help: routes.misc,
+  };
+
+  return (
+    <ul class="col gap-1.5 px-4">
+      <For each={entries(links)}>
+        {([item, link]) => (
+          <li>
+            <Link href={link} class="row items-center gap-2" onClick={props.closeDrawer}>
+              <Icon path={arrowRight} class="size-4" />
+              <T id={`drawer.quickAccess.items.${item}`} />
+            </Link>
+          </li>
+        )}
+      </For>
+    </ul>
   );
 }
 

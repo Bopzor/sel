@@ -134,6 +134,22 @@
   }
 }
 
+@utility scrollbar {
+  &::-webkit-scrollbar {
+    width: calc(var(--spacing) * 2);
+  }
+
+  &::-webkit-scrollbar-track {
+    background: --alpha(var(--color-white) / 50%);
+    border-radius: 100vh;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: --alpha(var(--color-white) / 100%);
+    border-radius: 100vh;
+  }
+}
+
 .tiptap p.is-editor-empty:first-child::before {
   content: attr(data-placeholder);
   color: var(--color-placeholder);
