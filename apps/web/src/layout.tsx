@@ -276,7 +276,17 @@ function QuickAccess(props: { closeDrawer: () => void }) {
       <For each={entries(links)}>
         {([item, link]) => (
           <li>
-            <Link href={link} class="row items-center gap-2" onClick={props.closeDrawer}>
+            <Link
+              href={link}
+              class="row items-center gap-2"
+              onClick={() => {
+                props.closeDrawer();
+
+                if (item === 'search') {
+                  notify.info('Fonctionnalité à venir !');
+                }
+              }}
+            >
               <Icon path={arrowRight} class="size-4" />
               <T id={`drawer.quickAccess.items.${item}`} />
             </Link>

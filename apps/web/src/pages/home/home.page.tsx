@@ -4,6 +4,7 @@ import { arrowRight } from 'solid-heroicons/solid';
 import { For } from 'solid-js';
 
 import { api } from 'src/application/api';
+import { notify } from 'src/application/notify';
 import { routes } from 'src/application/routes';
 import { Link } from 'src/components/link';
 import { TransactionDialog } from 'src/components/transaction-dialog';
@@ -46,7 +47,7 @@ function QuickAccess() {
   };
 
   return (
-    <section class="sticky top-4 hidden w-full max-w-xs gap-4 self-start rounded-md bg-primary/5 p-6 md:col">
+    <section class="sticky top-4 hidden w-full max-w-xs gap-4 self-start rounded-lg bg-gray-200/50 p-6 shadow-sm md:col">
       <h2 class="text-xl font-semibold text-dim">
         <T id="quickAccess.title" />
       </h2>
@@ -55,7 +56,11 @@ function QuickAccess() {
         <For each={entries(links)}>
           {([item, link]) => (
             <li>
-              <Link href={link} class="row items-center gap-2 hover:underline">
+              <Link
+                href={link}
+                class="inline-flex flex-row items-center gap-2 font-medium text-primary hover:underline"
+                onClick={() => item === 'search' && notify.info('Fonctionnalité à venir !')}
+              >
                 <Icon path={arrowRight} class="size-4" />
                 <T id={`quickAccess.items.${item}`} />
               </Link>
