@@ -39,7 +39,7 @@ export function MemberListPage() {
               />
             </div>
 
-            <div class="hidden h-128 flex-1 md:block">
+            <div class="sticky top-8 hidden h-128 flex-1 md:block">
               <MembersMap members={members()} openPopupMember={openPopupMember()} />
             </div>
           </div>

@@ -51,6 +51,7 @@ function serializeAuthenticatedMember(
     id: member.id,
     firstName: member.firstName,
     lastName: member.lastName,
+    number: member.number,
     membershipStartDate: member.membershipStartDate?.toISOString(),
     balance: member.balance,
     phoneNumbers: member.phoneNumbers,

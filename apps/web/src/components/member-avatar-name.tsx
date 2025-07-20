@@ -1,5 +1,6 @@
 import { Member } from '@sel/shared';
 import clsx from 'clsx';
+import { Show } from 'solid-js';
 import { Dynamic, DynamicProps } from 'solid-js/web';
 
 import { routes } from 'src/application/routes';
@@ -9,7 +10,8 @@ import { Link } from './link';
 export function MemberAvatarName(props: {
   short?: boolean;
   link?: boolean;
-  member?: { id: string; firstName: string; lastName: string; avatar?: string };
+  number?: boolean;
+  member?: { id: string; firstName: string; lastName: string; number?: number; avatar?: string };
   classes?: Partial<Record<'root' | 'avatar' | 'name', string>>;
 }) {
   const element = (): DynamicProps<'div' | typeof Link> => {
@@ -29,7 +31,12 @@ export function MemberAvatarName(props: {
         member={props.member}
         class={clsx('size-8 rounded-full shadow-sm', props.classes?.avatar)}
       />
+
       <div class={props.classes?.name}>{memberName(props.member, props.short)}</div>
+
+      <Show when={props.number && props.member}>
+        {(member) => <div class="text-sm text-dim">({member().number})</div>}
+      </Show>
     </Dynamic>
   );
 }

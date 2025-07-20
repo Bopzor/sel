@@ -25,6 +25,7 @@ function serializeAdminMember(member: Member & { avatar: File | null }): shared.
     status: member.status,
     firstName: member.firstName,
     lastName: member.lastName,
+    number: member.number,
     email: member.email,
     phoneNumbers: member.phoneNumbers,
     avatar: member.avatar?.name,

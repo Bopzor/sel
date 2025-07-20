@@ -35,6 +35,10 @@ export function AdminMemberListPage() {
             items={members.data}
             columns={[
               {
+                header: () => <T id="memberNumber" />,
+                cell: (member) => <>{member.number}</>,
+              },
+              {
                 header: () => <T id="name" />,
                 cell: (member) => (
                   <MemberAvatarName link={member.status === MemberStatusEnum.active} member={member} />

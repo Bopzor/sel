@@ -16,6 +16,7 @@ export const createAuthenticatedMember = createFactory<AuthenticatedMember>(() =
   id: createId(),
   firstName: '',
   lastName: '',
+  number: 0,
   email: '',
   emailVisible: false,
   phoneNumbers: [],

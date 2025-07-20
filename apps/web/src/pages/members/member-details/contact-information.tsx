@@ -1,7 +1,7 @@
 import { Member } from '@sel/shared';
 import { defined, formatDateRelative } from '@sel/utils';
 import { Icon } from 'solid-heroicons';
-import { clock, envelope, home, phone } from 'solid-heroicons/solid';
+import { clock, envelope, home, phone, user } from 'solid-heroicons/solid';
 import { ComponentProps, For, JSX, Show } from 'solid-js';
 
 import { getIsAuthenticatedMember } from 'src/application/query';
@@ -27,6 +27,7 @@ export function ContactInformation(props: { member: Member }) {
       <Email member={props.member} />
       <Address member={props.member} />
       <MembershipDate member={props.member} />
+      <MemberNumber member={props.member} />
     </div>
   );
 }
@@ -80,6 +81,14 @@ function MembershipDate(props: { member: Member }) {
           dim: (children) => <span class="text-sm text-dim">{children}</span>,
         }}
       />
+    </MemberData>
+  );
+}
+
+function MemberNumber(props: { member: Member }) {
+  return (
+    <MemberData when={props.member.membershipStartDate} label={<T id="memberNumber" />} icon={user}>
+      {props.member.number}
     </MemberData>
   );
 }

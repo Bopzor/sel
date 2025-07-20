@@ -21,6 +21,7 @@ export type Member = {
   id: string;
   firstName: string;
   lastName: string;
+  number: number;
   email?: string;
   phoneNumbers: PhoneNumber[];
   bio?: string;
@@ -35,6 +36,7 @@ export type LightMember = {
   id: string;
   firstName: string;
   lastName: string;
+  number: number;
   avatar?: string;
 };
 
@@ -42,6 +44,7 @@ export const createMember = createFactory<Member>(() => ({
   id: createId(),
   firstName: '',
   lastName: '',
+  number: 0,
   phoneNumbers: [],
   membershipStartDate: createDate().toISOString(),
   balance: 0,

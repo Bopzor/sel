@@ -3,10 +3,8 @@ import { Icon } from 'solid-heroicons';
 import { magnifyingGlass, mapPin } from 'solid-heroicons/solid';
 import { For, Show } from 'solid-js';
 
-import { routes } from 'src/application/routes';
 import { Card, CardFallback } from 'src/components/card';
 import { Input } from 'src/components/input';
-import { Link } from 'src/components/link';
 import { MemberAvatarName } from 'src/components/member-avatar-name';
 import { TranslateMembersSort } from 'src/intl/enums';
 import { createTranslate } from 'src/intl/translate';
@@ -88,13 +86,8 @@ function MemberItem(props: { member: Member; onHighlight: () => void }) {
   const t = T.useTranslate();
 
   return (
-    <li class="group row items-center hover:bg-inverted/5 focus:bg-inverted/5">
-      <Link
-        href={routes.members.details(props.member.id)}
-        class="row flex-1 items-center gap-2 px-4 py-2 focus:outline-hidden"
-      >
-        <MemberAvatarName member={props.member} />
-      </Link>
+    <li class="group row items-center justify-between hover:bg-inverted/5 focus:bg-inverted/5">
+      <MemberAvatarName number member={props.member} classes={{ root: 'px-4 py-2' }} />
 
       {props.member.address && (
         <button

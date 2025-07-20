@@ -8,6 +8,7 @@ export type AdminMember = {
   status: MemberStatus;
   firstName: string;
   lastName: string;
+  number: number;
   email: string;
   phoneNumbers: PhoneNumber[];
   avatar?: string;
@@ -19,6 +20,7 @@ export const createAdminMember = createFactory<AdminMember>(() => ({
   status: MemberStatus.active,
   firstName: '',
   lastName: '',
+  number: 0,
   email: '',
   phoneNumbers: [],
   balance: 0,

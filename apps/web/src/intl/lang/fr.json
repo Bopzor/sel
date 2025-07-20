@@ -297,6 +297,7 @@
         "mailingAddress": "Adresse postale",
         "membershipDate": "Date d'adhésion",
         "membershipDateFormatted": "{date, date, long} <dim>(il y a {relative})</dim>",
+        "memberNumber": "Numéro de membre",
         "bio": "À propos de moi",
         "interests": {
           "title": "Centres d'intérêts",
@@ -588,6 +589,7 @@
     },
     "admin": {
       "members": {
+        "memberNumber": "Nº",
         "title": "Liste des membres",
         "name": "Nom",
         "status": "Statut",
