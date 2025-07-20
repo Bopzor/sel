@@ -12,7 +12,7 @@ import { RichEditor } from 'src/components/rich-editor';
 import { createTranslate } from 'src/intl/translate';
 import { createErrorMap, zodForm } from 'src/utils/validation';
 
-const T = createTranslate('pages.home.publish.createInformation');
+const T = createTranslate('pages.home.createInformation');
 const Translate = createTranslate('common');
 
 export function CreateInformationDialog(props: { open: boolean; onClose: () => void }) {

@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { JSX, mergeProps, Show } from 'solid-js';
+import { ComponentProps, JSX, mergeProps, Show } from 'solid-js';
 
 export function Card(props_: {
   padding?: boolean;
@@ -33,4 +33,20 @@ export function CardFallback(props: { class?: string; children: JSX.Element }) {
       {props.children}
     </div>
   );
+}
+
+export function Card2(props: ComponentProps<'section'>) {
+  return <section {...props} />;
+}
+
+export function CardHeader(props: ComponentProps<'header'>) {
+  return <header {...props} class={clsx(props.class, 'mb-2')} />;
+}
+
+export function CardTitle(props: ComponentProps<'h2'>) {
+  return <h2 {...props} class={clsx(props.class, 'text-xl font-semibold text-dim')} />;
+}
+
+export function CardContent(props: ComponentProps<'div'>) {
+  return <div {...props} class={clsx(props.class, 'rounded-lg bg-neutral p-4 shadow-sm md:p-8')} />;
 }

@@ -86,6 +86,12 @@ export const api = {
     result: string;
   }>(),
 
+  // feed
+
+  getFeed: endpoint('get', '/feed').types<{
+    result: shared.Feed;
+  }>(),
+
   // information
 
   listInformation: endpoint('get', '/information').types<{

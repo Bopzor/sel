@@ -34,7 +34,7 @@ export function TransactionDialog(props: {
   open: boolean;
   onClose: () => void;
   onCreate: (body: CreateTransactionBody) => Promise<unknown>;
-  onCreated: () => Promise<unknown>;
+  onCreated?: () => void | Promise<unknown>;
   initialValues?: Partial<FormType>;
 }) {
   const t = T.useTranslate();
@@ -58,7 +58,7 @@ export function TransactionDialog(props: {
       return payer;
     },
     async onSuccess(payer, { type }) {
-      await props.onCreated();
+      await props.onCreated?.();
       props.onClose();
 
       if (type === 'send') {

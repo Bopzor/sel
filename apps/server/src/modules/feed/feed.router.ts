@@ -38,7 +38,7 @@ function serializeFeedEvent(event: Event & { organizer: MemberWithAvatar }): sha
     id: event.id,
     title: event.title,
     body: event.html,
-    date: event.date?.toISOString(),
+    publishedAt: event.createdAt.toISOString(),
     location: event.location ?? undefined,
     organizer: serializeMember(event.organizer),
   };
@@ -48,7 +48,7 @@ function serializeFeedRequest(request: Request & { requester: MemberWithAvatar }
   return {
     id: request.id,
     status: request.status,
-    date: request.date.toISOString(),
+    publishedAt: request.date.toISOString(),
     requester: serializeMember(request.requester),
     title: request.title,
     body: request.html,

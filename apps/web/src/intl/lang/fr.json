@@ -249,45 +249,18 @@
     },
     "home": {
       "title": "Actualités",
-      "publish": {
-        "button": "Nouveau message",
-        "dialog": {
-          "title": "Que souhaitez-vous faire ?",
-          "request": {
-            "label": "Envoyer une demande",
-            "description": "Coup de main, co-voiturage, prêts, ..."
-          },
-          "event": {
-            "label": "Créer un événement",
-            "description": "Soirée jeux, randonnée, sortie vélo, ..."
-          },
-          "information": {
-            "label": "Publier une information",
-            "description": "Concert, recette, informations diverses, ..."
-          },
-          "member": {
-            "label": "Contacter un membre",
-            "description": "Envoyer un message à un membre du SEL"
-          }
+      "createInformation": {
+        "dialogTitle": "Publier une information",
+        "title": {
+          "label": "Titre",
+          "placeholder": "Recette des amaretti"
         },
-        "createInformation": {
-          "dialogTitle": "Publier une information",
-          "title": {
-            "label": "Titre",
-            "placeholder": "Recette des amaretti"
-          },
-          "body": {
-            "label": "Message",
-            "placeholder": "Écrivez votre message..."
-          },
-          "create": "Publier",
-          "created": "Votre information a été publiée."
+        "body": {
+          "label": "Message",
+          "placeholder": "Écrivez votre message..."
         },
-        "contactMember": {
-          "title": "Contacter un membre",
-          "description": "Vous pouvez accéder aux informations de contact d'un membre depuis sa page de profil.",
-          "button": "Voir la liste des membres"
-        }
+        "create": "Publier",
+        "created": "Votre information a été publiée."
       },
       "quickAccess": {
         "title": "Accès rapide",
@@ -300,6 +273,15 @@
           "editProfile": "Modifier mes informations",
           "help": "Aide"
         }
+      },
+      "feed": {
+        "title": "Fil d'actualités",
+        "types": {
+          "request": "Demande",
+          "event": "Événement",
+          "information": "Information"
+        },
+        "itemTitle": "{type} : {title}"
       }
     },
     "members": {

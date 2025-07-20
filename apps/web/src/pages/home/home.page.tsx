@@ -1,38 +1,35 @@
 import { entries } from '@sel/utils';
-import { useQuery } from '@tanstack/solid-query';
 import { Icon } from 'solid-heroicons';
 import { arrowRight } from 'solid-heroicons/solid';
-import { For, Show } from 'solid-js';
+import { For } from 'solid-js';
 
-import { apiQuery } from 'src/application/query';
+import { api } from 'src/application/api';
 import { routes } from 'src/application/routes';
-import { Card } from 'src/components/card';
 import { Link } from 'src/components/link';
-import { MemberAvatarName } from 'src/components/member-avatar-name';
-import { RichText } from 'src/components/rich-text';
-import { FormattedDate } from 'src/intl/formatted';
+import { TransactionDialog } from 'src/components/transaction-dialog';
 import { createTranslate } from 'src/intl/translate';
+import { useSearchParam } from 'src/utils/search-param';
 
-import { PublishButton } from './components/publish-button';
+import { CreateInformationDialog } from './components/create-information-dialog';
+import { Feed } from './components/feed';
 
 const T = createTranslate('pages.home');
 
 export function Home() {
+  const [create, setCreate] = useSearchParam('create');
+
   return (
     <div class="mt-8 row gap-8">
       <QuickAccess />
+      <Feed />
 
-      <div class="col flex-1 gap-8">
-        <div class="row flex-wrap items-center justify-between gap-4">
-          <h1>
-            <T id="title" />
-          </h1>
+      <TransactionDialog
+        open={create() === 'transaction'}
+        onClose={() => setCreate(undefined)}
+        onCreate={(values) => api.createTransaction({ body: values })}
+      />
 
-          <PublishButton />
-        </div>
-
-        <Information />
-      </div>
+      <CreateInformationDialog open={create() === 'information'} onClose={() => setCreate(undefined)} />
     </div>
   );
 }
@@ -67,34 +64,5 @@ function QuickAccess() {
         </For>
       </ul>
     </section>
-  );
-}
-
-function Information() {
-  const information = useQuery(() => apiQuery('listInformation', {}));
-
-  return (
-    <Show when={information.data}>
-      {(information) => (
-        <For each={information().notPin}>
-          {(info) => (
-            <Card
-              title={
-                <div class="row items-end justify-between">
-                  <MemberAvatarName member={info.author} />
-                  <div class="text-sm font-normal">
-                    <FormattedDate date={info.publishedAt} dateStyle="medium" timeStyle="short" />
-                  </div>
-                </div>
-              }
-            >
-              <Link href={`/information/${info.id}`}>
-                <RichText>{info.body}</RichText>
-              </Link>
-            </Card>
-          )}
-        </For>
-      )}
-    </Show>
   );
 }

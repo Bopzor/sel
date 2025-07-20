@@ -63,7 +63,13 @@ export function Backdrop(props: {
   children: JSX.Element;
 }) {
   return (
-    <Transition enterActiveClass="animate-in" exitActiveClass="animate-out" onAfterExit={props.onAfterExit}>
+    <Transition
+      enterActiveClass="animate-in"
+      exitActiveClass="animate-out"
+      onEnter={() => (document.body.style.overflow = 'hidden')}
+      onExit={() => (document.body.style.overflow = '')}
+      onAfterExit={() => props.onAfterExit?.()}
+    >
       <Show when={props.show}>
         <div
           class={clsx(

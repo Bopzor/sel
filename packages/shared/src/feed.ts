@@ -6,18 +6,18 @@ export type FeedEvent = {
   id: string;
   title: string;
   body: string;
-  date?: string;
   location?: Address;
   organizer: LightMember;
+  publishedAt: string;
 };
 
 export type FeedRequest = {
   id: string;
   status: RequestStatus;
-  date: string;
   requester: LightMember;
   title: string;
   body: string;
+  publishedAt: string;
 };
 
 export type FeedInformation = {
@@ -28,4 +28,6 @@ export type FeedInformation = {
   publishedAt: string;
 };
 
-export type Feed = Array<['event', FeedEvent] | ['request', FeedRequest] | ['information', FeedInformation]>;
+export type FeedItem = ['event', FeedEvent] | ['request', FeedRequest] | ['information', FeedInformation];
+
+export type Feed = Array<FeedItem>;
