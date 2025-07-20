@@ -8,6 +8,7 @@ import { FormattedCurrencyAmount, FormattedDate } from 'src/intl/formatted';
 import { createTranslate } from 'src/intl/translate';
 
 import { MemberAvatarName } from './member-avatar-name';
+import { Table } from './table';
 import { TransactionStatus } from './transaction-status';
 
 const T = createTranslate('components.transactionList');
@@ -46,80 +47,62 @@ function TransactionListDesktop(props: {
   const config = getLetsConfig();
 
   return (
-    <table class="hidden w-full lg:table">
-      <thead>
-        <tr>
-          <th>
-            <T id="date" />
-          </th>
-
-          <th>
-            <T id="payer" />
-          </th>
-
-          <th>
-            <T id="recipient" />
-          </th>
-
-          <th class="capitalize">{config()?.currencyPlural}</th>
-
-          <Show when={props.showStatus}>
-            <th>
-              <T id="status" />
-            </th>
-          </Show>
-
-          <th>
-            <T id="description" />
-          </th>
-        </tr>
-      </thead>
-
-      <tbody>
-        <For each={props.transactions}>
-          {(transaction) => (
-            <tr
-              onClick={() => props.onTransactionClick?.(transaction)}
-              classList={{ 'cursor-pointer': props.onTransactionClick !== undefined }}
-            >
-              <td class="truncate">
-                <FormattedDate date={transaction.date} />
-              </td>
-
-              <td>
-                <MemberAvatarName link={false} classes={{ avatar: 'size-6!' }} member={transaction.payer} />
-              </td>
-
-              <td>
-                <MemberAvatarName
-                  link={false}
-                  classes={{ avatar: 'size-6!' }}
-                  member={transaction.recipient}
-                />
-              </td>
-
-              <td class="truncate">
-                <FormattedCurrencyAmount
-                  amount={
-                    props.member?.id === transaction.recipient.id ? transaction.amount : -transaction.amount
-                  }
-                />
-              </td>
-
-              <Show when={props.showStatus}>
-                <td class="truncate">
-                  <TransactionStatus status={transaction.status} />
-                </td>
-              </Show>
-
-              <td>
-                <div class="line-clamp-2">{transaction.description}</div>
-              </td>
-            </tr>
-          )}
-        </For>
-      </tbody>
-    </table>
+    <Table
+      columns={[
+        {
+          header: () => <T id="date" />,
+          cell: (transaction) => <FormattedDate date={transaction.date} />,
+        },
+        {
+          header: () => <T id="payer" />,
+          cell: (transaction) => (
+            <MemberAvatarName
+              short
+              link={false}
+              classes={{ root: 'truncate', avatar: 'size-6!' }}
+              member={transaction.payer}
+            />
+          ),
+        },
+        {
+          header: () => <T id="recipient" />,
+          cell: (transaction) => (
+            <MemberAvatarName
+              short
+              link={false}
+              classes={{ root: 'truncate', avatar: 'size-6!' }}
+              member={transaction.recipient}
+            />
+          ),
+        },
+        {
+          header: () => <div class="capitalize">{config()?.currencyPlural}</div>,
+          cell: (transaction) => (
+            <div class="text-end text-nowrap">
+              <FormattedCurrencyAmount
+                amount={
+                  props.member?.id === transaction.recipient.id ? transaction.amount : -transaction.amount
+                }
+              />
+            </div>
+          ),
+        },
+        {
+          header: () => <T id="status" />,
+          cell: (transaction) => (
+            <div class="text-nowrap">
+              <TransactionStatus status={transaction.status} />
+            </div>
+          ),
+        },
+        {
+          header: () => <T id="description" />,
+          cell: (transaction) => <div class="line-clamp-2 min-w-48">{transaction.description}</div>,
+        },
+      ]}
+      items={props.transactions}
+      class="hidden w-full lg:table"
+    />
   );
 }
 

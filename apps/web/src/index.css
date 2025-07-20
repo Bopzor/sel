@@ -93,10 +93,6 @@
   }
 }
 
-@utility shadow-current-day {
-  box-shadow: inset 0 0 --spacing(1) var(--color-primary);
-}
-
 @utility row {
   display: flex;
   flex-direction: row;
@@ -107,31 +103,8 @@
   flex-direction: column;
 }
 
-@utility table {
-  &table {
-    thead th {
-      background-color: --alpha(var(--color-inverted) / 10%);
-      color: var(--color-dim);
-      font-size: var(--text-sm);
-      font-weight: var(--font-weight-medium);
-      text-align: start;
-      border-top-left-radius: var(--radius);
-      border-top-right-radius: var(--radius);
-    }
-
-    tbody tr {
-      border-top-width: 1px;
-
-      &:hover {
-        background-color: --alpha(var(--color-primary) / 5%);
-      }
-    }
-
-    th,
-    td {
-      padding: --spacing(2) --spacing(3);
-    }
-  }
+@utility shadow-current-day {
+  box-shadow: inset 0 0 --spacing(1) var(--color-primary);
 }
 
 @utility scrollbar {
