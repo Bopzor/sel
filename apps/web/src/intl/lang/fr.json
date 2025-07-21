@@ -155,7 +155,7 @@
           "createRequest": "Créer une demande",
           "createEvent": "Créer un événement",
           "search": "Rechercher",
-          "editProfile": "Modifier mes informations",
+          "editProfile": "Modifier mon profil",
           "help": "Aide"
         }
       }
@@ -274,7 +274,7 @@
           "createRequest": "Créer une demande",
           "createEvent": "Créer un événement",
           "search": "Rechercher",
-          "editProfile": "Modifier mes informations",
+          "editProfile": "Modifier mon profil",
           "help": "Aide"
         }
       },
