@@ -3,7 +3,6 @@ import { useQuery } from '@tanstack/solid-query';
 import { Show } from 'solid-js';
 
 import { apiQuery } from 'src/application/query';
-import { Breadcrumb, breadcrumb } from 'src/components/breadcrumb';
 import { BoxSkeleton, TextSkeleton } from 'src/components/skeleton';
 
 import { RequestAnswer } from './sections/request-answer';
@@ -19,31 +18,27 @@ export function RequestDetailsPage() {
   const query = useQuery(() => apiQuery('getRequest', { path: { requestId: params.requestId } }));
 
   return (
-    <>
-      <Breadcrumb items={[breadcrumb.requests(), query.data && breadcrumb.request(query.data)]} />
-
-      <Show when={query.data} fallback={<Skeleton />}>
-        {(request) => (
-          <div class="grid gap-x-8 gap-y-12 lg:grid-cols-3">
-            <div class="lg:col-span-3">
-              <RequestHeader request={request()} />
-            </div>
-
-            <div class="col gap-12 lg:col-span-2">
-              <RequestDescription request={request()} />
-              <RequestAnswer request={request()} />
-              <RequestComments request={request()} />
-            </div>
-
-            <div class="col max-w-lg gap-12">
-              <RequestAuthor request={request()} />
-              <RequestTransaction request={request()} />
-              <RequestAnswerList request={request()} />
-            </div>
+    <Show when={query.data} fallback={<Skeleton />}>
+      {(request) => (
+        <div class="grid gap-x-8 gap-y-12 lg:grid-cols-3">
+          <div class="lg:col-span-3">
+            <RequestHeader request={request()} />
           </div>
-        )}
-      </Show>
-    </>
+
+          <div class="col gap-12 lg:col-span-2">
+            <RequestDescription request={request()} />
+            <RequestAnswer request={request()} />
+            <RequestComments request={request()} />
+          </div>
+
+          <div class="col max-w-lg gap-12">
+            <RequestAuthor request={request()} />
+            <RequestTransaction request={request()} />
+            <RequestAnswerList request={request()} />
+          </div>
+        </div>
+      )}
+    </Show>
   );
 }
 

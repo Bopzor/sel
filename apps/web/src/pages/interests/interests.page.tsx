@@ -2,7 +2,6 @@ import { useQuery } from '@tanstack/solid-query';
 import { createSignal, For, Show } from 'solid-js';
 
 import { apiQuery } from 'src/application/query';
-import { Breadcrumb, breadcrumb } from 'src/components/breadcrumb';
 import { BoxSkeleton } from 'src/components/skeleton';
 import { createTranslate } from 'src/intl/translate';
 
@@ -16,8 +15,6 @@ export function InterestsPage() {
 
   return (
     <>
-      <Breadcrumb items={[breadcrumb.interests()]} />
-
       <div class="mb-8 row items-center justify-between gap-4">
         <h1>
           <T id="title" />

@@ -7,7 +7,6 @@ import { api } from 'src/application/api';
 import { notify } from 'src/application/notify';
 import { apiQuery, useInvalidateApi } from 'src/application/query';
 import { routes } from 'src/application/routes';
-import { Breadcrumb, breadcrumb } from 'src/components/breadcrumb';
 import { createTranslate } from 'src/intl/translate';
 
 import { EventForm } from '../components/event-form';
@@ -37,8 +36,6 @@ export function CreateEventPage() {
 
   return (
     <>
-      <Breadcrumb items={[breadcrumb.events(), breadcrumb.createEvent()]} />
-
       <h1>
         <T id="title" />
       </h1>

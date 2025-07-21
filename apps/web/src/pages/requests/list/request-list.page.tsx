@@ -4,7 +4,6 @@ import { For, Show } from 'solid-js';
 
 import { apiQuery } from 'src/application/query';
 import { routes } from 'src/application/routes';
-import { Breadcrumb, breadcrumb } from 'src/components/breadcrumb';
 import { LinkButton } from 'src/components/button';
 import { Link } from 'src/components/link';
 import { MemberAvatarName } from 'src/components/member-avatar-name';
@@ -22,8 +21,6 @@ export function RequestListPage() {
 
   return (
     <>
-      <Breadcrumb items={[breadcrumb.requests()]} />
-
       <div class="mb-8 row items-center justify-between gap-4">
         <h1>
           <T id="title" />

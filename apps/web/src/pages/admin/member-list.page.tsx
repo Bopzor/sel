@@ -6,7 +6,6 @@ import { For } from 'solid-js';
 
 import { getLetsConfig } from 'src/application/config';
 import { apiQuery } from 'src/application/query';
-import { breadcrumb, Breadcrumb } from 'src/components/breadcrumb';
 import { Card2, CardContent } from 'src/components/card';
 import { Table } from 'src/components/table';
 import { TranslateMembersStatus } from 'src/intl/enums';
@@ -23,8 +22,6 @@ export function AdminMemberListPage() {
 
   return (
     <>
-      <Breadcrumb items={[breadcrumb.admin(), breadcrumb.adminMembers()]} />
-
       <h1 class="mb-4">
         <T id="title" />
       </h1>

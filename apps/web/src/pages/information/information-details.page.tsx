@@ -6,7 +6,6 @@ import { Show } from 'solid-js';
 import { api } from 'src/application/api';
 import { notify } from 'src/application/notify';
 import { apiQuery, useInvalidateApi } from 'src/application/query';
-import { breadcrumb, Breadcrumb } from 'src/components/breadcrumb';
 import { Card } from 'src/components/card';
 import { CommentForm, CommentList } from 'src/components/comments';
 import { MemberAvatarName } from 'src/components/member-avatar-name';
@@ -20,18 +19,14 @@ export function InformationDetailsPage() {
   const query = useQuery(() => apiQuery('getInformation', { path: { informationId } }));
 
   return (
-    <>
-      <Breadcrumb items={[query.data && breadcrumb.information(query.data)]} />
+    <div class="col gap-8">
+      <Card title={<MemberAvatarName member={query.data?.author} />}>
+        <h1 class="mb-4 text-3xl">{query.data?.title}</h1>
+        <RichText>{query.data?.body}</RichText>
+      </Card>
 
-      <div class="col gap-8">
-        <Card title={<MemberAvatarName member={query.data?.author} />}>
-          <h1 class="mb-4 text-3xl">{query.data?.title}</h1>
-          <RichText>{query.data?.body}</RichText>
-        </Card>
-
-        <Show when={query.data}>{(information) => <InformationComments information={information()} />}</Show>
-      </div>
-    </>
+      <Show when={query.data}>{(information) => <InformationComments information={information()} />}</Show>
+    </div>
   );
 }
 

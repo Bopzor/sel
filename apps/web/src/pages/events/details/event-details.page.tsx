@@ -3,7 +3,6 @@ import { useQuery } from '@tanstack/solid-query';
 import { Show } from 'solid-js';
 
 import { apiQuery } from 'src/application/query';
-import { Breadcrumb, breadcrumb } from 'src/components/breadcrumb';
 import { BoxSkeleton } from 'src/components/skeleton';
 import { createMediaQuery } from 'src/utils/media-query';
 
@@ -23,46 +22,42 @@ export function EventDetailsPage() {
   const isMobile = createMediaQuery('(max-width: 1024px)');
 
   return (
-    <>
-      <Breadcrumb items={[breadcrumb.events(), query.data && breadcrumb.event(query.data)]} />
+    <Show when={query.data} fallback={<Skeleton />}>
+      {(event) => (
+        <>
+          <Show when={isMobile()}>
+            <div class="col gap-12">
+              <EventHeader event={event()} />
+              <EventDescription event={event()} />
+              <EventDate event={event()} />
+              <EventLocation event={event()} />
+              <EventParticipation event={event()} />
+              <EventOrganizer event={event()} />
+              <EventParticipantList event={event()} />
+              <EventComments event={event()} />
+            </div>
+          </Show>
 
-      <Show when={query.data} fallback={<Skeleton />}>
-        {(event) => (
-          <>
-            <Show when={isMobile()}>
+          <Show when={!isMobile()}>
+            <div class="grid grid-cols-3 items-start gap-x-8 gap-y-12">
               <div class="col gap-12">
-                <EventHeader event={event()} />
-                <EventDescription event={event()} />
                 <EventDate event={event()} />
                 <EventLocation event={event()} />
-                <EventParticipation event={event()} />
                 <EventOrganizer event={event()} />
                 <EventParticipantList event={event()} />
+              </div>
+
+              <div class="col-span-2 col gap-12">
+                <EventHeader event={event()} />
+                <EventDescription event={event()} />
+                <EventParticipation event={event()} />
                 <EventComments event={event()} />
               </div>
-            </Show>
-
-            <Show when={!isMobile()}>
-              <div class="grid grid-cols-3 items-start gap-x-8 gap-y-12">
-                <div class="col gap-12">
-                  <EventDate event={event()} />
-                  <EventLocation event={event()} />
-                  <EventOrganizer event={event()} />
-                  <EventParticipantList event={event()} />
-                </div>
-
-                <div class="col-span-2 col gap-12">
-                  <EventHeader event={event()} />
-                  <EventDescription event={event()} />
-                  <EventParticipation event={event()} />
-                  <EventComments event={event()} />
-                </div>
-              </div>
-            </Show>
-          </>
-        )}
-      </Show>
-    </>
+            </div>
+          </Show>
+        </>
+      )}
+    </Show>
   );
 }
 

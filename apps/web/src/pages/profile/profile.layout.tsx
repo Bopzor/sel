@@ -3,7 +3,6 @@ import { arrowRightOnRectangle, arrowsRightLeft, cog_6Tooth, mapPin, user } from
 import { ComponentProps, JSX } from 'solid-js';
 
 import { routes } from 'src/application/routes';
-import { breadcrumb, Breadcrumb } from 'src/components/breadcrumb';
 import { Link } from 'src/components/link';
 import { createTranslate } from 'src/intl/translate';
 
@@ -11,17 +10,13 @@ const T = createTranslate('pages.profile.navigation');
 
 export function ProfileLayout(props: { children?: JSX.Element }) {
   return (
-    <>
-      <Breadcrumb items={[breadcrumb.profile()]} />
-
-      <div class="col grow gap-4 md:row lg:gap-8">
-        <div class="w-full sm:max-w-64">
-          <Navigation />
-        </div>
-
-        <div class="col min-w-0 flex-1 grow gap-4">{props.children}</div>
+    <div class="col grow gap-4 md:row lg:gap-8">
+      <div class="w-full sm:max-w-64">
+        <Navigation />
       </div>
-    </>
+
+      <div class="col min-w-0 flex-1 grow gap-4">{props.children}</div>
+    </div>
   );
 }
 

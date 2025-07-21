@@ -7,6 +7,7 @@ import { MatomoProvider } from './application/matomo';
 import { apiQuery } from './application/query';
 import { queryClient } from './application/query-client';
 import { routes } from './application/routes';
+import { breadcrumbs } from './components/breadcrumb';
 import { NotFound, RootErrorBoundary } from './components/error-boundary';
 import { IntlProvider } from './intl/intl-provider';
 import { Layout } from './layout';
@@ -49,6 +50,10 @@ function rootPreload() {
 }
 
 export function App() {
+  const info = (route: keyof typeof breadcrumbs) => {
+    return { breadcrumb: route };
+  };
+
   return (
     <Router root={Providers} rootPreload={rootPreload}>
       <Route path="/authentication" component={AuthenticationLayout}>
@@ -59,39 +64,60 @@ export function App() {
         <Route path="/" component={OnboardingPage} />
       </Route>
 
-      <Route component={Layout}>
+      <Route component={Layout} info={info('home')}>
         <Route path="/" component={Home} preload={preloadInformationList} />
 
         <Route
           path="/information/:informationId"
           component={InformationDetailsPage}
           preload={preloadInformation}
+          info={info('information')}
         />
 
-        <Route path="/members">
+        <Route path="/members" info={info('members')}>
           <Route path="/" component={MemberListPage} preload={preloadMemberList} />
-          <Route path="/:memberId" component={MemberDetailsPage} preload={preloadMember} />
+          <Route
+            path="/:memberId"
+            component={MemberDetailsPage}
+            preload={preloadMember}
+            info={info('member')}
+          />
         </Route>
 
-        <Route path="/requests">
+        <Route path="/requests" info={info('requests')}>
           <Route path="/" component={RequestListPage} preload={preloadRequestList} />
-          <Route path="/create" component={CreateRequestPage} />
-          <Route path="/:requestId" component={RequestDetailsPage} preload={preloadRequest} />
-          <Route path="/:requestId/edit" component={EditRequestPage} preload={preloadRequest} />
+          <Route path="/create" component={CreateRequestPage} info={info('createRequest')} />
+          <Route
+            path="/:requestId"
+            component={RequestDetailsPage}
+            preload={preloadRequest}
+            info={info('request')}
+          />
+          <Route
+            path="/:requestId/edit"
+            component={EditRequestPage}
+            preload={preloadRequest}
+            info={info('editRequest')}
+          />
         </Route>
 
-        <Route path="/events">
+        <Route path="/events" info={info('events')}>
           <Route path="/" component={EventListPage} preload={preloadEventList} />
-          <Route path="/create" component={CreateEventPage} />
-          <Route path="/:eventId" component={EventDetailsPage} preload={preloadEvent} />
-          <Route path="/:eventId/edit" component={EditEventPage} preload={preloadEvent} />
+          <Route path="/create" component={CreateEventPage} info={info('createEvent')} />
+          <Route path="/:eventId" component={EventDetailsPage} preload={preloadEvent} info={info('event')} />
+          <Route
+            path="/:eventId/edit"
+            component={EditEventPage}
+            preload={preloadEvent}
+            info={info('editEvent')}
+          />
         </Route>
 
-        <Route path="/interests">
+        <Route path="/interests" info={info('interests')}>
           <Route path="/" component={InterestsPage} preload={preloadInterestList} />
         </Route>
 
-        <Route path="/profile" component={ProfileLayout}>
+        <Route path="/profile" component={ProfileLayout} info={info('profile')}>
           <Route path="/" component={ProfileEditionPage} />
           <Route path="/address" component={AddressPage} />
           <Route path="/transactions" component={TransactionsPage} preload={preloadTransactionList} />
@@ -103,9 +129,9 @@ export function App() {
           <Route path="/" component={MiscPage} />
         </Route>
 
-        <Route path="/admin">
+        <Route path="/admin" info={info('admin')}>
           <Route path="/" component={() => <Navigate href={routes.admin.memberList} />} />
-          <Route path="/members" component={AdminMemberListPage} />
+          <Route path="/members" component={AdminMemberListPage} info={info('adminMembers')} />
         </Route>
 
         <Route path="*" component={PageNotFound} />

@@ -9,7 +9,6 @@ import { api } from 'src/application/api';
 import { notify } from 'src/application/notify';
 import { apiQuery, useInvalidateApi } from 'src/application/query';
 import { routes } from 'src/application/routes';
-import { Breadcrumb, breadcrumb } from 'src/components/breadcrumb';
 import { BoxSkeleton, TextSkeleton } from 'src/components/skeleton';
 import { createTranslate } from 'src/intl/translate';
 
@@ -41,14 +40,6 @@ export function EditEventPage() {
 
   return (
     <>
-      <Breadcrumb
-        items={[
-          breadcrumb.events(),
-          query.data && breadcrumb.event(query.data),
-          query.data && breadcrumb.editEvent(query.data),
-        ]}
-      />
-
       <h1>
         <T id="title" values={{ title: query.data?.title ?? <TextSkeleton width={12} /> }} />
       </h1>

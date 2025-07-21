@@ -1,5 +1,5 @@
-import { entries, keys } from '@sel/utils';
-import { Navigate } from '@solidjs/router';
+import { entries, isDefined, keys } from '@sel/utils';
+import { Navigate, useCurrentMatches } from '@solidjs/router';
 import { useMutation } from '@tanstack/solid-query';
 import clsx from 'clsx';
 import { Icon } from 'solid-heroicons';
@@ -7,14 +7,16 @@ import { arrowRight, bars_3, calendar, handRaised, home, sparkles, star, users }
 import {
   ComponentProps,
   createEffect,
+  createMemo,
   createResource,
   createSignal,
+  For,
+  Index,
   JSX,
   Match,
   onMount,
   Show,
   Switch,
-  For,
 } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
@@ -24,6 +26,7 @@ import { Backdrop } from 'src/components/dialog';
 import { ApiError } from './application/api';
 import { notify } from './application/notify';
 import { getAuthenticatedMember, queryAuthenticatedMember } from './application/query';
+import { Breadcrumb, breadcrumbs } from './components/breadcrumb';
 import { ErrorBoundary } from './components/error-boundary';
 import { link, Link } from './components/link';
 import { MemberAvatar } from './components/member-avatar-name';
@@ -37,6 +40,25 @@ import { createDismiss } from './utils/event-handlers';
 import { createMediaQuery } from './utils/media-query';
 
 const T = createTranslate('layout');
+
+function AppBreadcrumb() {
+  const matches = useCurrentMatches();
+
+  const crumbs = createMemo(() =>
+    matches()
+      .map(({ route }) => route.info?.breadcrumb as keyof typeof breadcrumbs | undefined)
+      .map((crumb) => (crumb ? breadcrumbs[crumb] : undefined))
+      .filter(isDefined),
+  );
+
+  return (
+    <Show when={crumbs().length > 1}>
+      <Breadcrumb>
+        <Index each={crumbs()}>{(crumb) => <>{crumb()}</>}</Index>
+      </Breadcrumb>
+    </Show>
+  );
+}
 
 export function Layout(props: { children?: JSX.Element }) {
   const [drawerOpen, setDrawerOpen] = createSignal(false);
@@ -101,6 +123,7 @@ export function Layout(props: { children?: JSX.Element }) {
         </Drawer>
 
         <main class="mx-auto mt-20 max-w-7xl px-4 py-6 sm:mt-0">
+          <AppBreadcrumb />
           <ErrorBoundary>{props.children}</ErrorBoundary>
         </main>
       </Match>

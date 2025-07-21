@@ -7,7 +7,6 @@ import { api } from 'src/application/api';
 import { notify } from 'src/application/notify';
 import { apiQuery } from 'src/application/query';
 import { routes } from 'src/application/routes';
-import { Breadcrumb, breadcrumb } from 'src/components/breadcrumb';
 import { createTranslate } from 'src/intl/translate';
 
 import { RequestForm } from '../components/request-form';
@@ -32,8 +31,6 @@ export function CreateRequestPage() {
 
   return (
     <>
-      <Breadcrumb items={[breadcrumb.requests(), breadcrumb.createRequest()]} />
-
       <h1>
         <T id="title" />
       </h1>

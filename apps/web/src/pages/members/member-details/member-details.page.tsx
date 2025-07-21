@@ -13,7 +13,6 @@ import { BoxSkeleton } from 'src/components/skeleton';
 import { TransactionDialog } from 'src/components/transaction-dialog';
 import { createTranslate } from 'src/intl/translate';
 
-import { breadcrumb, Breadcrumb } from '../../../components/breadcrumb';
 import { Button } from '../../../components/button';
 import { MemberAvatarName } from '../../../components/member-avatar-name';
 import { ContactInformation } from './contact-information';
@@ -29,13 +28,9 @@ export function MemberDetailsPage() {
   const query = useQuery(() => apiQuery('getMember', { path: { memberId: params.memberId } }));
 
   return (
-    <>
-      <Breadcrumb items={[breadcrumb.members(), query.data && breadcrumb.member(query.data)]} />
-
-      <Show when={query.data} fallback={<Skeleton />}>
-        {(member) => <MemberDetails member={member()} />}
-      </Show>
-    </>
+    <Show when={query.data} fallback={<Skeleton />}>
+      {(member) => <MemberDetails member={member()} />}
+    </Show>
   );
 }
 

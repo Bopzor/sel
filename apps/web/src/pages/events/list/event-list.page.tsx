@@ -9,7 +9,6 @@ import { createSignal, For, Show } from 'solid-js';
 
 import { apiQuery } from 'src/application/query';
 import { routes } from 'src/application/routes';
-import { breadcrumb, Breadcrumb } from 'src/components/breadcrumb';
 import { LinkButton } from 'src/components/button';
 import { Calendar } from 'src/components/calendar';
 import { Card, CardFallback } from 'src/components/card';
@@ -37,8 +36,6 @@ export function EventListPage() {
 
   return (
     <>
-      <Breadcrumb items={[breadcrumb.events()]} />
-
       <div class="mb-8 row items-center justify-between gap-4">
         <h1>
           <T id="title" />
