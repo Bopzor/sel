@@ -31,6 +31,7 @@ export async function notifyTransactionCompleted(event: TransactionCompletedEven
         id: transaction.payer.id,
         name: memberName(transaction.payer),
       },
+      creatorId: transaction.creatorId,
     },
     currency: config.currencyPlural,
     currencyAmount: currencyAmount(transaction.amount, config),

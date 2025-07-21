@@ -228,6 +228,7 @@ export type NotificationData = {
         id: string;
         name: string;
       };
+      creatorId: string;
     };
     currencyAmount: string;
   };

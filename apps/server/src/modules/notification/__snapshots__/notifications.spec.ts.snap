@@ -141,6 +141,29 @@ exports[`notification snapshots > TransactionCompleted 1`] = `undefined`;
 exports[`notification snapshots > TransactionCompleted 2`] = `
 [
   {
+    "html": "<p>Bonjour Member,</p><p><strong>Payer</strong> vous a envoyé <strong>123 coins</strong> pour l'échange : <a href="http://localhost/profile/transactions?transactionId=transactionId">Transaction description</a>.</p>",
+    "subject": "Vous avez reçu 123 coins pour l'échange : Transaction description",
+    "text": "Bonjour Member,
+
+Payer vous a envoyé 123 coins pour l'échange : Transaction description (http://localhost/profile/transactions?transactionId=transactionId).",
+    "to": "member@email",
+  },
+]
+`;
+
+exports[`notification snapshots > TransactionCompleted 3`] = `undefined`;
+
+exports[`notification snapshots > TransactionCompleted 4`] = `
+[
+  {
+    "html": "<p>Bonjour Member,</p><p><strong>Payer</strong> vous a envoyé <strong>123 coins</strong> pour l'échange : <a href="http://localhost/profile/transactions?transactionId=transactionId">Transaction description</a>.</p>",
+    "subject": "Vous avez reçu 123 coins pour l'échange : Transaction description",
+    "text": "Bonjour Member,
+
+Payer vous a envoyé 123 coins pour l'échange : Transaction description (http://localhost/profile/transactions?transactionId=transactionId).",
+    "to": "member@email",
+  },
+  {
     "html": "<p>Bonjour Member,</p><p><strong>Payer</strong> a accepté votre demande de <strong>123 coins</strong> pour l'échange : <a href="http://localhost/profile/transactions?transactionId=transactionId">Transaction description</a>.</p>",
     "subject": "Vous avez reçu 123 coins pour l'échange : Transaction description",
     "text": "Bonjour Member,

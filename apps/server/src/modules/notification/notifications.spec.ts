@@ -239,6 +239,21 @@ describe('notification snapshots', () => {
           id: 'payerId',
           name: 'Payer',
         },
+        creatorId: 'payerId',
+      },
+      currencyAmount: '123 coins',
+    });
+
+    await assertNotificationSnapshot('TransactionCompleted', {
+      member: { firstName: 'Member' },
+      transaction: {
+        id: 'transactionId',
+        description: 'Transaction description',
+        payer: {
+          id: 'payerId',
+          name: 'Payer',
+        },
+        creatorId: 'receiverId',
       },
       currencyAmount: '123 coins',
     });
