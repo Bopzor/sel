@@ -161,6 +161,22 @@ export const breadcrumbs = {
     return <Crumb label={<T id="profile" />} link={routes.profile.edition} />;
   },
 
+  profileAddress: () => {
+    return <Crumb label={<T id="profileAddress" />} link={routes.profile.address} />;
+  },
+
+  profileTransactions: () => {
+    return <Crumb label={<T id="profileTransactions" />} link={routes.profile.transactions} />;
+  },
+
+  profileSettings: () => {
+    return <Crumb label={<T id="profileSettings" />} link={routes.profile.settings} />;
+  },
+
+  profileSignOut: () => {
+    return <Crumb label={<T id="profileSignOut" />} link={routes.profile.signOut} />;
+  },
+
   admin: () => {
     return <Crumb label={<T id="admin" />} link={routes.admin.index} />;
   },

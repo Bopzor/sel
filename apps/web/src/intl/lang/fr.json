@@ -172,6 +172,10 @@
       "editEvent": "Édition",
       "interests": "Centres d'intérêts",
       "profile": "Profil",
+      "profileAddress": "Adresse",
+      "profileTransactions": "Échanges",
+      "profileSettings": "Paramètres",
+      "profileSignOut": "Déconnexion",
       "admin": "Admin",
       "adminMembers": "Membres"
     }

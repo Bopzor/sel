@@ -119,10 +119,15 @@ export function App() {
 
         <Route path="/profile" component={ProfileLayout} info={info('profile')}>
           <Route path="/" component={ProfileEditionPage} />
-          <Route path="/address" component={AddressPage} />
-          <Route path="/transactions" component={TransactionsPage} preload={preloadTransactionList} />
-          <Route path="/settings" component={SettingsPage} />
-          <Route path="/sign-out" component={SignOutPage} />
+          <Route path="/address" component={AddressPage} info={info('profileAddress')} />
+          <Route
+            path="/transactions"
+            component={TransactionsPage}
+            preload={preloadTransactionList}
+            info={info('profileTransactions')}
+          />
+          <Route path="/settings" component={SettingsPage} info={info('profileSettings')} />
+          <Route path="/sign-out" component={SignOutPage} info={info('profileSignOut')} />
         </Route>
 
         <Route path="/misc">
