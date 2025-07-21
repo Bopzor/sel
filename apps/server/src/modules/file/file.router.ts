@@ -42,6 +42,8 @@ router.get('/:name', async (req, res, next) => {
   const stream = await storage.getFile(file.name);
 
   res.set('Content-Type', file.mimetype);
+  res.set('Cache-Control', ['private', `max-age=${7 * 24 * 60 * 60}`, 'immutable'].join(', '));
+
   stream.pipe(res);
 });
 
