@@ -7,4 +7,4 @@ subject: Vous avez reçu {currencyAmount} pour l'échange : {transaction.descrip
 
 Bonjour {member.firstName},
 
-**{transaction.payer.name}** a accepté votre demande de **{currencyAmount}** pour l'échange : [{transaction.description}]({appBaseUrl}/profile/transactions?transactionId={transaction.id}).
+**{transaction.payer.name}** {transaction.payer.id === transaction.creatorId ? 'vous a envoyé' : 'a accepté votre demande de'} **{currencyAmount}** pour l'échange : [{transaction.description}]({appBaseUrl}/profile/transactions?transactionId={transaction.id}).
