@@ -22,7 +22,7 @@ export function AuthenticationLayout(props: { children?: JSX.Element }) {
       </Match>
 
       <Match when={true}>
-        <div class="absolute inset-0 col items-center justify-center">
+        <div class="absolute inset-0 col items-center justify-center p-4">
           <div class="w-full max-w-3xl overflow-hidden rounded-lg bg-neutral shadow-lg">
             <Header />
             <main class="p-4">{props.children}</main>
