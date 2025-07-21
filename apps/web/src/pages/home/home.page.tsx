@@ -47,7 +47,7 @@ function QuickAccess() {
   };
 
   return (
-    <section class="sticky top-4 hidden w-full max-w-xs gap-4 self-start rounded-lg bg-gray-200/50 p-6 shadow-sm md:col">
+    <section class="sticky top-4 hidden w-full max-w-xs gap-4 self-start rounded-lg bg-gray-200/50 p-6 shadow-sm md:col dark:bg-neutral/25">
       <h2 class="text-xl font-semibold text-dim">
         <T id="quickAccess.title" />
       </h2>
