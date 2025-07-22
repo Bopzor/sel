@@ -5,7 +5,12 @@ type TableColumn<T> = {
   cell: (item: T) => JSX.Element;
 };
 
-export function Table<T>(props: { columns: TableColumn<T>[]; items?: T[]; class?: string }) {
+export function Table<T>(props: {
+  columns: TableColumn<T>[];
+  items?: T[];
+  onRowClick?: (item: T) => void;
+  class?: string;
+}) {
   return (
     <table class={props.class}>
       <thead>
@@ -23,7 +28,11 @@ export function Table<T>(props: { columns: TableColumn<T>[]; items?: T[]; class?
       <tbody>
         <For each={props.items}>
           {(item) => (
-            <tr class="border-t hover:bg-primary/5">
+            <tr
+              onClick={() => props.onRowClick?.(item)}
+              class="border-t hover:bg-primary/5"
+              classList={{ 'cursor-pointer': props.onRowClick !== undefined }}
+            >
               <For each={props.columns}>{(column) => <td class="px-3 py-2">{column.cell(item)}</td>}</For>
             </tr>
           )}
