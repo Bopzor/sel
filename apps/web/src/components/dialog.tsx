@@ -66,8 +66,6 @@ export function Backdrop(props: {
     <Transition
       enterActiveClass="animate-in"
       exitActiveClass="animate-out"
-      onEnter={() => (document.body.style.overflow = 'hidden')}
-      onExit={() => (document.body.style.overflow = '')}
       onAfterExit={() => props.onAfterExit?.()}
     >
       <Show when={props.show}>
