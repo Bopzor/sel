@@ -1,3 +1,7 @@
+import { initSentry } from './sentry';
+
+initSentry();
+
 /* eslint-disable no-console, prefer-rest-params, @typescript-eslint/ban-ts-comment */
 // https://github.com/facebook/react/issues/11538#issuecomment-417504600
 if (typeof Node === 'function' && Node.prototype) {

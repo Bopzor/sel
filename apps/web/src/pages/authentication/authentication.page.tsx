@@ -9,7 +9,6 @@ import { api, ApiError } from 'src/application/api';
 import { notify } from 'src/application/notify';
 import { useInvalidateApi } from 'src/application/query';
 import { routes } from 'src/application/routes';
-import { reportError } from 'src/application/sentry';
 import { Button } from 'src/components/button';
 import { Input } from 'src/components/input';
 import { SpinnerFullScreen } from 'src/components/spinner';

@@ -9,6 +9,8 @@ export function getLetsConfig() {
 
 export function getAppConfig() {
   return {
+    environment: import.meta.env.VITE_ENVIRONMENT,
+    sentryDsn: import.meta.env.VITE_SENTRY_DSN,
     geoapifyApiKey: import.meta.env.VITE_GEOAPIFY_API_KEY,
     pushPublicKey: import.meta.env.VITE_WEB_PUSH_PUBLIC_KEY,
     analyticsUrl: import.meta.env.VITE_ANALYTICS_URL,

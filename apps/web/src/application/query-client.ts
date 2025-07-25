@@ -1,7 +1,9 @@
-import { MutationCache, QueryClient } from '@tanstack/solid-query';
+import { AuthenticatedMember } from '@sel/shared';
+import { MutationCache, QueryCache, QueryClient } from '@tanstack/solid-query';
 
 import { ApiError } from './api';
 import { notify } from './notify';
+import { setSentryUserId } from './sentry';
 
 export const queryClient = new QueryClient({
   defaultOptions: {
@@ -17,6 +19,15 @@ export const queryClient = new QueryClient({
       },
     },
   },
+
+  queryCache: new QueryCache({
+    onSuccess(data, query) {
+      if (query.queryKey[0] === 'getAuthenticatedMember') {
+        setSentryUserId((data as AuthenticatedMember).id);
+      }
+    },
+  }),
+
   mutationCache: new MutationCache({
     onError(error, _variables, _context, mutation) {
       if (mutation.options.onError === undefined) {

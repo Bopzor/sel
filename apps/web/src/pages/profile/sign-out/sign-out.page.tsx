@@ -4,6 +4,7 @@ import { useMutation } from '@tanstack/solid-query';
 import { api } from 'src/application/api';
 import { useInvalidateApi } from 'src/application/query';
 import { routes } from 'src/application/routes';
+import { setSentryUserId } from 'src/application/sentry';
 import { Button } from 'src/components/button';
 import { Card } from 'src/components/card';
 import { createTranslate } from 'src/intl/translate';
@@ -20,6 +21,7 @@ export function SignOutPage() {
     },
     async onSuccess() {
       await invalidate('getAuthenticatedMember');
+      setSentryUserId(null);
       navigate(routes.home);
     },
   }));

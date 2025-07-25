@@ -1,26 +1,43 @@
 import * as Sentry from '@sentry/solid';
 
+import pkg from '../../package.json';
 import { ApiError } from './api';
+import { getAppConfig } from './config';
 
-Sentry.init({
-  dsn: import.meta.env.VITE_SENTRY_DSN,
-  environment: import.meta.env.VITE_ENVIRONMENT,
-  integrations: [Sentry.browserTracingIntegration(), Sentry.replayIntegration()],
-  tracesSampleRate: 1.0,
-  replaysSessionSampleRate: 0.1,
-  replaysOnErrorSampleRate: 1.0,
-});
+export function initSentry() {
+  const { environment, sentryDsn } = getAppConfig();
 
-export function reportError(error: Error) {
-  if (ApiError.is(error) && Math.floor(error.status / 100) === 4) {
-    return;
-  }
+  Sentry.init({
+    dsn: sentryDsn,
+    environment,
+    integrations: [Sentry.browserTracingIntegration(), Sentry.replayIntegration({ maskAllText: false })],
+    tracesSampleRate: 1.0,
+    replaysSessionSampleRate: 0.1,
+    replaysOnErrorSampleRate: 1.0,
+    beforeSend(event, hint) {
+      const error = hint.originalException;
 
-  if (ApiError.is(error)) {
-    Sentry.captureException(error, {
-      contexts: { response: { status_code: error.status, body: error.body } },
-    });
-  } else {
-    Sentry.captureException(error);
-  }
+      event.contexts ??= {};
+      event.contexts.app ??= {};
+      event.contexts.app.app_version = pkg.version;
+
+      if (ApiError.is(error)) {
+        if (Math.floor(error.status / 100) === 4) {
+          return null;
+        }
+
+        event.contexts.response ??= {};
+        event.contexts.response.status_code = error.status;
+
+        event.extra ??= {};
+        event.extra.body = error.body;
+      }
+
+      return event;
+    },
+  });
+}
+
+export function setSentryUserId(id: string | null) {
+  Sentry.setUser(id ? { id } : null);
 }
