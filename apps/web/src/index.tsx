@@ -1,5 +1,6 @@
 /* @refresh reload */
 import './application/sentry';
+import './application/side-effects';
 
 import { render } from 'solid-js/web';
 
