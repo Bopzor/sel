@@ -98,10 +98,10 @@ export function Layout(props: { children?: JSX.Element }) {
         <Header openDrawer={() => setDrawerOpen(true)} />
 
         <Drawer open={drawerOpen()} onClose={closeDrawer}>
-          <LogoTitle link={routes.home} onClick={closeDrawer} class="p-4 shadow-lg" />
+          <MemberProfile class="row items-center gap-4 p-4" onClick={closeDrawer} />
 
           <div class="scrollbar flex-1 overflow-y-auto">
-            <section class="mt-6 col gap-2">
+            <section class="col gap-2">
               <h2 class="bg-white/10 px-4 py-1 text-xl font-semibold">
                 <T id="drawer.navigation.title" />
               </h2>
@@ -115,11 +115,6 @@ export function Layout(props: { children?: JSX.Element }) {
               <QuickAccess closeDrawer={closeDrawer} />
             </section>
           </div>
-
-          <MemberProfile
-            class="mt-auto row items-center gap-4 border-t-2 border-white/10 p-4"
-            onClick={closeDrawer}
-          />
         </Drawer>
 
         <main class="mx-auto mt-20 max-w-7xl px-4 py-6 sm:mt-0">
@@ -295,7 +290,7 @@ function QuickAccess(props: { closeDrawer: () => void }) {
   };
 
   return (
-    <ul class="col gap-1.5 px-4">
+    <ul class="col gap-3 px-4">
       <For each={entries(links)}>
         {([item, link]) => (
           <li>
