@@ -2,6 +2,7 @@ import { assert, defined, hasProperty, unique } from '@sel/utils';
 import { eq } from 'drizzle-orm';
 
 import { memberName } from 'src/infrastructure/format';
+import { Message } from 'src/modules/messages/message.entities';
 import { db, schema } from 'src/persistence';
 
 import { Comment } from '../../comment';
@@ -14,7 +15,7 @@ export async function notifyRequestCommentCreated(event: RequestCommentCreatedEv
     where: eq(schema.requests.id, event.entityId),
     with: {
       requester: true,
-      comments: true,
+      comments: { with: { message: true } },
       answers: { where: eq(schema.requestAnswers.answer, 'positive') },
     },
   });
@@ -38,7 +39,7 @@ export async function notifyRequestCommentCreated(event: RequestCommentCreatedEv
 function getContext(
   member: Member,
   request: Request & { requester: Member },
-  comment: Comment,
+  comment: Comment & { message: Message },
   author: Member,
 ): ReturnType<GetNotificationContext<'RequestCommentCreated'>> {
   if (member.id === author.id) {
@@ -65,8 +66,8 @@ function getContext(
         name: memberName(author),
       },
       body: {
-        html: comment.html,
-        text: comment.text,
+        html: comment.message.html,
+        text: comment.message.text,
       },
     },
   };

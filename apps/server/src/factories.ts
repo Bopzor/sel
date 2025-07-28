@@ -44,24 +44,21 @@ const insert = {
     status: shared.RequestStatus.pending,
     requesterId: '',
     title: '',
-    text: '',
-    html: '',
+    messageId: '',
   })),
 
   event: createFactory<EventInsert>(() => ({
     id: createId(),
     organizerId: '',
     title: '',
-    text: '',
-    html: '',
+    messageId: '',
     kind: 'internal',
   })),
 
   information: createFactory<InformationInsert>(() => ({
     id: createId(),
     title: '',
-    text: '',
-    html: '',
+    messageId: '',
     authorId: '',
     publishedAt: createDate(),
   })),

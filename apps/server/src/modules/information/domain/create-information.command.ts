@@ -1,4 +1,5 @@
 import { container } from 'src/infrastructure/container';
+import { insertMessage } from 'src/modules/messages/message.persistence';
 import { db, schema } from 'src/persistence';
 import { TOKENS } from 'src/tokens';
 
@@ -13,15 +14,13 @@ export type CreateInformationCommand = {
 
 export async function createInformation(command: CreateInformationCommand): Promise<void> {
   const now = container.resolve(TOKENS.date).now();
-  const htmlParser = container.resolve(TOKENS.htmlParser);
   const events = container.resolve(TOKENS.events);
 
   await db.insert(schema.information).values({
     id: command.informationId,
     title: command.title,
     authorId: command.authorId,
-    html: command.body,
-    text: htmlParser.getTextContent(command.body),
+    messageId: await insertMessage(command.body),
     publishedAt: now,
   });
 

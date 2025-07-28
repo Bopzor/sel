@@ -44,21 +44,21 @@ export async function getFeed() {
       eventIds.length > 0
         ? db.query.events.findMany({
             where: inArray(events.id, eventIds),
-            with: { organizer: withAvatar },
+            with: { organizer: withAvatar, message: true },
           })
         : [],
     requests:
       requestIds.length > 0
         ? db.query.requests.findMany({
             where: inArray(requests.id, requestIds),
-            with: { requester: withAvatar },
+            with: { requester: withAvatar, message: true },
           })
         : [],
     informations:
       informationIds.length > 0
         ? db.query.information.findMany({
             where: inArray(information.id, informationIds),
-            with: { author: withAvatar },
+            with: { author: withAvatar, message: true },
           })
         : [],
   });

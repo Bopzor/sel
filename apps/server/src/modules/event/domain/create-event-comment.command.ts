@@ -1,4 +1,5 @@
 import { container } from 'src/infrastructure/container';
+import { insertMessage } from 'src/modules/messages/message.persistence';
 import { db, schema } from 'src/persistence';
 import { TOKENS } from 'src/tokens';
 
@@ -16,15 +17,13 @@ export async function createEventComment(command: CreateEventCommentCommand): Pr
 
   const events = container.resolve(TOKENS.events);
   const now = container.resolve(TOKENS.date).now();
-  const htmlParser = container.resolve(TOKENS.htmlParser);
 
   await db.insert(schema.comments).values({
     id: commentId,
     eventId,
     authorId,
+    messageId: await insertMessage(body),
     date: now,
-    html: body,
-    text: htmlParser.getTextContent(body),
   });
 
   events.publish(new EventCommentCreatedEvent(eventId, { commentId, authorId }));
