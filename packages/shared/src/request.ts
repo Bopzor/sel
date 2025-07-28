@@ -2,6 +2,7 @@ import { z } from 'zod';
 
 import { Comment } from './comment';
 import { LightMember } from './member';
+import { Message } from './message';
 import { PhoneNumber } from './phone-number';
 
 export enum RequestStatus {
@@ -16,7 +17,7 @@ export type Request = {
   date: string;
   requester: Requester;
   title: string;
-  body: string;
+  message: Message;
   hasTransactions: boolean;
   answers: RequestAnswer[];
   comments: Comment[];

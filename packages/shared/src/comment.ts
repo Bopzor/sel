@@ -1,10 +1,12 @@
 import { z } from 'zod';
 
+import { Message } from './message';
+
 export type Comment = {
   id: string;
   author: CommentAuthor;
   date: string;
-  body: string;
+  message: Message;
 };
 
 export type CommentAuthor = {

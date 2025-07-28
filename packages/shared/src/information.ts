@@ -2,11 +2,12 @@ import { z } from 'zod';
 
 import { Comment } from './comment';
 import { LightMember } from './member';
+import { Message } from './message';
 
 export type Information = {
   id: string;
   title: string;
-  body: string;
+  message: Message;
   author?: LightMember;
   publishedAt: string;
   comments: Comment[];

@@ -3,6 +3,7 @@ import { z } from 'zod';
 import { Address, addressSchema } from './address';
 import { Comment } from './comment';
 import { LightMember } from './member';
+import { Message } from './message';
 import { PhoneNumber } from './phone-number';
 
 export enum EventKind {
@@ -21,7 +22,7 @@ export type EventsListItem = {
 export type Event = {
   id: string;
   title: string;
-  body: string;
+  message: Message;
   kind: EventKind;
   date?: string;
   location?: Address;

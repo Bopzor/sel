@@ -22,7 +22,7 @@ export function InformationDetailsPage() {
     <div class="col gap-8">
       <Card title={<MemberAvatarName member={query.data?.author} />}>
         <h1 class="mb-4 text-3xl">{query.data?.title}</h1>
-        <RichText>{query.data?.body}</RichText>
+        <RichText>{query.data?.message.body}</RichText>
       </Card>
 
       <Show when={query.data}>{(information) => <InformationComments information={information()} />}</Show>
