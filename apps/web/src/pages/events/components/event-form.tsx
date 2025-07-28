@@ -34,7 +34,7 @@ export function EventForm(props: {
   const [form, { Form, Field }] = createForm<FormType>({
     initialValues: {
       title: props.initialValues?.title,
-      body: props.initialValues?.body,
+      body: props.initialValues?.message.body,
       location: props.initialValues?.location ?? null,
       date: props.initialValues?.date ? new Date(props.initialValues.date) : undefined,
     },

@@ -30,7 +30,7 @@ export function CommentList(props: { comments: Comment[] }) {
                 </div>
               </div>
 
-              <RichText class="mt-2 ml-10">{comment.body}</RichText>
+              <RichText class="mt-2 ml-10">{comment.message.body}</RichText>
             </div>
           )}
         </For>

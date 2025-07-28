@@ -15,7 +15,7 @@ export function RequestDescription(props: { request: Request }) {
       }
       class="lg:p-8"
     >
-      <RichText>{props.request.body}</RichText>
+      <RichText>{props.request.message.body}</RichText>
     </Card>
   );
 }

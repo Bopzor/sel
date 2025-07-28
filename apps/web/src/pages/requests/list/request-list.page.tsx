@@ -76,7 +76,7 @@ function RequestItem(props: { request: Request }) {
           <RequestStatus status={props.request.status} />
         </div>
 
-        <RichText class="line-clamp-3">{props.request.body}</RichText>
+        <RichText class="line-clamp-3">{props.request.message.body}</RichText>
       </Link>
     </li>
   );

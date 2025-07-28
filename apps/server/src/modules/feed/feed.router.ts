@@ -5,7 +5,8 @@ import { Event } from '../event/event.entities';
 import { Information } from '../information/information.entities';
 import { MemberWithAvatar } from '../member/member.entities';
 import { serializeMember } from '../member/member.serializer';
-import { Message } from '../messages/message.entities';
+import { MessageWithAttachements } from '../messages/message.entities';
+import { serializeMessage } from '../messages/message.serializer';
 import { Request } from '../request/request.entities';
 
 import { getFeed } from './domain/get-feed.query';
@@ -35,12 +36,12 @@ router.get('/', async (req, res) => {
 });
 
 function serializeFeedEvent(
-  event: Event & { organizer: MemberWithAvatar; message: Message },
+  event: Event & { organizer: MemberWithAvatar; message: MessageWithAttachements },
 ): shared.FeedEvent {
   return {
     id: event.id,
     title: event.title,
-    body: event.message.html,
+    message: serializeMessage(event.message),
     publishedAt: event.createdAt.toISOString(),
     location: event.location ?? undefined,
     organizer: serializeMember(event.organizer),
@@ -48,7 +49,7 @@ function serializeFeedEvent(
 }
 
 function serializeFeedRequest(
-  request: Request & { requester: MemberWithAvatar; message: Message },
+  request: Request & { requester: MemberWithAvatar; message: MessageWithAttachements },
 ): shared.FeedRequest {
   return {
     id: request.id,
@@ -56,17 +57,17 @@ function serializeFeedRequest(
     publishedAt: request.date.toISOString(),
     requester: serializeMember(request.requester),
     title: request.title,
-    body: request.message.html,
+    message: serializeMessage(request.message),
   };
 }
 
 function serializeFeedInformation(
-  information: Information & { author: MemberWithAvatar | null; message: Message },
+  information: Information & { author: MemberWithAvatar | null; message: MessageWithAttachements },
 ): shared.FeedInformation {
   return {
     id: information.id,
     title: information.title,
-    body: information.message.html,
+    message: serializeMessage(information.message),
     author: information.author ? serializeMember(information.author) : undefined,
     publishedAt: information.publishedAt.toISOString(),
   };

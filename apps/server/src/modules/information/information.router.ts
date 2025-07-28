@@ -11,7 +11,8 @@ import { TOKENS } from 'src/tokens';
 import { Comment } from '../comment';
 import { MemberWithAvatar, withAvatar } from '../member/member.entities';
 import { serializeMember } from '../member/member.serializer';
-import { Message } from '../messages/message.entities';
+import { MessageWithAttachements, withAttachements } from '../messages/message.entities';
+import { serializeMessage } from '../messages/message.serializer';
 
 import { createInformationComment } from './domain/create-information-comment.command';
 import { createInformation } from './domain/create-information.command';
@@ -23,9 +24,9 @@ router.get('/', async (req, res) => {
   const information = await db.query.information.findMany({
     with: {
       author: withAvatar,
-      message: true,
+      message: withAttachements,
       comments: {
-        with: { author: withAvatar, message: true },
+        with: { author: withAvatar, message: withAttachements },
       },
     },
     orderBy: desc(schema.information.publishedAt),
@@ -40,9 +41,9 @@ router.get('/:informationId', async (req, res) => {
   const information = await db.query.information.findFirst({
     with: {
       author: withAvatar,
-      message: true,
+      message: withAttachements,
       comments: {
-        with: { author: withAvatar, message: true },
+        with: { author: withAvatar, message: withAttachements },
       },
     },
     where: eq(schema.information.id, informationId),
@@ -90,8 +91,8 @@ function serializeInformation(
   this: void,
   information: Information & {
     author: MemberWithAvatar | null;
-    message: Message;
-    comments: Array<Comment & { author: MemberWithAvatar; message: Message }>;
+    message: MessageWithAttachements;
+    comments: Array<Comment & { author: MemberWithAvatar; message: MessageWithAttachements }>;
   },
 ): shared.Information {
   const author = () => {
@@ -103,14 +104,14 @@ function serializeInformation(
   return {
     id: information.id,
     title: information.title,
-    body: information.message.html,
+    message: serializeMessage(information.message),
     publishedAt: information.publishedAt.toISOString(),
     author: author(),
     comments: information.comments.map((comment) => ({
       id: comment.id,
       date: comment.date.toISOString(),
       author: serializeMember(comment.author),
-      body: comment.message.html,
+      message: serializeMessage(comment.message),
     })),
   };
 }

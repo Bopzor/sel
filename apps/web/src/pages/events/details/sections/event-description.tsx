@@ -6,7 +6,7 @@ import { RichText } from 'src/components/rich-text';
 export function EventDescription(props: { event: Event }) {
   return (
     <Card>
-      <RichText>{props.event.body}</RichText>
+      <RichText>{props.event.message.body}</RichText>
     </Card>
   );
 }

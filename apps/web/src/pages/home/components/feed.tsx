@@ -26,7 +26,7 @@ export function Feed() {
         member: entity.requester,
         date: entity.publishedAt,
         title: entity.title,
-        content: entity.body,
+        content: entity.message.body,
         link: routes.requests.details(entity.id),
       };
     }
@@ -37,7 +37,7 @@ export function Feed() {
         member: entity.organizer,
         date: entity.publishedAt,
         title: entity.title,
-        content: entity.body,
+        content: entity.message.body,
         link: routes.events.details(entity.id),
       };
     }
@@ -48,7 +48,7 @@ export function Feed() {
         member: entity.author,
         date: entity.publishedAt,
         title: entity.title,
-        content: entity.body,
+        content: entity.message.body,
         link: routes.information.details(entity.id),
       };
     }

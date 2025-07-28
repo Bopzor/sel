@@ -14,7 +14,8 @@ import { TOKENS } from 'src/tokens';
 import { Comment } from '../comment';
 import { MemberWithAvatar, withAvatar } from '../member/member.entities';
 import { serializeMember } from '../member/member.serializer';
-import { Message } from '../messages/message.entities';
+import { MessageWithAttachements, withAttachements } from '../messages/message.entities';
+import { serializeMessage } from '../messages/message.serializer';
 import { createTransaction } from '../transaction/domain/create-transaction.command';
 import { Transaction } from '../transaction/transaction.entities';
 
@@ -49,7 +50,7 @@ router.get('/', async (req, res) => {
     },
     with: {
       requester: withAvatar,
-      message: true,
+      message: withAttachements,
       answers: {
         with: {
           member: withAvatar,
@@ -58,7 +59,7 @@ router.get('/', async (req, res) => {
       comments: {
         with: {
           author: withAvatar,
-          message: true,
+          message: withAttachements,
         },
       },
       transactions: true,
@@ -74,7 +75,7 @@ router.get('/:requestId', async (req, res) => {
     where: eq(schema.requests.id, req.params.requestId),
     with: {
       requester: withAvatar,
-      message: true,
+      message: withAttachements,
       answers: {
         with: {
           member: withAvatar,
@@ -83,7 +84,7 @@ router.get('/:requestId', async (req, res) => {
       comments: {
         with: {
           author: withAvatar,
-          message: true,
+          message: withAttachements,
         },
       },
       transactions: true,
@@ -205,8 +206,8 @@ router.post('/:requestId/transaction', async (req, res) => {
 function serializeRequest(
   request: Request & {
     requester: MemberWithAvatar;
-    message: Message;
-    comments: Array<Comment & { author: MemberWithAvatar; message: Message }>;
+    message: MessageWithAttachements;
+    comments: Array<Comment & { author: MemberWithAvatar; message: MessageWithAttachements }>;
     answers: Array<RequestAnswer & { member: MemberWithAvatar }>;
     transactions: Array<Transaction>;
   },
@@ -223,7 +224,7 @@ function serializeRequest(
       phoneNumbers: (requester.phoneNumbers as shared.PhoneNumber[]).filter(({ visible }) => visible),
     },
     title: request.title,
-    body: request.message.html,
+    message: serializeMessage(request.message),
     hasTransactions: request.transactions.length > 0,
     answers: answers.map((answer) => ({
       id: answer.id,
@@ -234,7 +235,7 @@ function serializeRequest(
       id: comment.id,
       date: comment.date.toISOString(),
       author: serializeMember(comment.author),
-      body: comment.message.html,
+      message: serializeMessage(comment.message),
     })),
   };
 }
