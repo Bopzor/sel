@@ -2,6 +2,7 @@ import { assert } from '@sel/utils';
 import { eq } from 'drizzle-orm';
 
 import { memberName } from 'src/infrastructure/format';
+import { Message } from 'src/modules/messages/message.entities';
 import { db, schema } from 'src/persistence';
 
 import { Member } from '../../member';
@@ -13,6 +14,7 @@ export async function notifyRequestCreated(event: RequestCreatedEvent) {
     where: eq(schema.requests.id, event.entityId),
     with: {
       requester: true,
+      message: true,
     },
   });
 
@@ -23,7 +25,7 @@ export async function notifyRequestCreated(event: RequestCreatedEvent) {
 
 function getContext(
   member: Member,
-  request: Request & { requester: Member },
+  request: Request & { requester: Member; message: Message },
 ): ReturnType<GetNotificationContext<'RequestCreated'>> {
   if (member.id === request.requester.id) {
     return null;
@@ -41,8 +43,8 @@ function getContext(
         name: memberName(request.requester),
       },
       body: {
-        html: request.html,
-        text: request.text,
+        html: request.message.html,
+        text: request.message.text,
       },
     },
   };

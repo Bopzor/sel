@@ -1,8 +1,11 @@
+import { defined } from '@sel/utils';
+
 import { container } from 'src/infrastructure/container';
+import { updateMessage } from 'src/modules/messages/message.persistence';
 import { TOKENS } from 'src/tokens';
 
 import { RequestEditedEvent } from '../request.entities';
-import { updateRequest } from '../request.persistence';
+import { findRequestById, updateRequest } from '../request.persistence';
 
 export type EditRequestCommand = {
   requestId: string;
@@ -11,14 +14,15 @@ export type EditRequestCommand = {
 };
 
 export async function editRequest(command: EditRequestCommand): Promise<void> {
-  const htmlParser = container.resolve(TOKENS.htmlParser);
   const events = container.resolve(TOKENS.events);
 
-  await updateRequest(command.requestId, {
+  const request = defined(await findRequestById(command.requestId));
+
+  await updateRequest(request.id, {
     title: command.title,
-    html: command.body,
-    text: htmlParser.getTextContent(command.body),
   });
+
+  await updateMessage(request.messageId, command.body);
 
   events.publish(new RequestEditedEvent(command.requestId));
 }

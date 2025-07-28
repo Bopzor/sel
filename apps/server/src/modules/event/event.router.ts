@@ -14,6 +14,7 @@ import { TOKENS } from 'src/tokens';
 import { Comment } from '../comment';
 import { MemberWithAvatar, withAvatar } from '../member/member.entities';
 import { serializeMember } from '../member/member.serializer';
+import { Message } from '../messages/message.entities';
 
 import { createEventComment } from './domain/create-event-comment.command';
 import { createEvent } from './domain/create-event.command';
@@ -53,12 +54,16 @@ router.get('/:eventId', async (req, res) => {
   const event = await db.query.events.findFirst({
     where: eq(schema.events.id, req.params.eventId),
     with: {
+      message: true,
       organizer: withAvatar,
       participants: {
         with: { member: withAvatar },
       },
       comments: {
-        with: { author: withAvatar },
+        with: {
+          author: withAvatar,
+          message: true,
+        },
       },
     },
   });
@@ -157,14 +162,15 @@ function serializeEvents(events: Array<Event & { organizer: MemberWithAvatar }>)
 function serializeEvent(
   event: Event & {
     organizer: MemberWithAvatar;
+    message: Message;
     participants: Array<EventParticipation & { member: MemberWithAvatar }>;
-    comments: Array<Comment & { author: MemberWithAvatar }>;
+    comments: Array<Comment & { author: MemberWithAvatar; message: Message }>;
   },
 ): shared.Event {
   return {
     id: event.id,
     title: event.title,
-    body: event.html,
+    body: event.message.html,
     kind: event.kind as shared.EventKind,
     date: event.date?.toISOString() ?? undefined,
     location: event.location ?? undefined,
@@ -177,7 +183,7 @@ function serializeEvent(
       id: comment.id,
       date: comment.date.toISOString(),
       author: serializeMember(comment.author),
-      body: comment.html,
+      body: comment.message.html,
     })),
   };
 }

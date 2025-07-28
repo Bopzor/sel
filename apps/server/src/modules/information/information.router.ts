@@ -11,6 +11,7 @@ import { TOKENS } from 'src/tokens';
 import { Comment } from '../comment';
 import { MemberWithAvatar, withAvatar } from '../member/member.entities';
 import { serializeMember } from '../member/member.serializer';
+import { Message } from '../messages/message.entities';
 
 import { createInformationComment } from './domain/create-information-comment.command';
 import { createInformation } from './domain/create-information.command';
@@ -20,7 +21,13 @@ export const router = express.Router();
 
 router.get('/', async (req, res) => {
   const information = await db.query.information.findMany({
-    with: { author: withAvatar, comments: { with: { author: withAvatar } } },
+    with: {
+      author: withAvatar,
+      message: true,
+      comments: {
+        with: { author: withAvatar, message: true },
+      },
+    },
     orderBy: desc(schema.information.publishedAt),
   });
 
@@ -31,7 +38,13 @@ router.get('/:informationId', async (req, res) => {
   const informationId = req.params.informationId;
 
   const information = await db.query.information.findFirst({
-    with: { author: withAvatar, comments: { with: { author: withAvatar } } },
+    with: {
+      author: withAvatar,
+      message: true,
+      comments: {
+        with: { author: withAvatar, message: true },
+      },
+    },
     where: eq(schema.information.id, informationId),
   });
 
@@ -77,7 +90,8 @@ function serializeInformation(
   this: void,
   information: Information & {
     author: MemberWithAvatar | null;
-    comments: Array<Comment & { author: MemberWithAvatar }>;
+    message: Message;
+    comments: Array<Comment & { author: MemberWithAvatar; message: Message }>;
   },
 ): shared.Information {
   const author = () => {
@@ -89,14 +103,14 @@ function serializeInformation(
   return {
     id: information.id,
     title: information.title,
-    body: information.html,
+    body: information.message.html,
     publishedAt: information.publishedAt.toISOString(),
     author: author(),
     comments: information.comments.map((comment) => ({
       id: comment.id,
       date: comment.date.toISOString(),
       author: serializeMember(comment.author),
-      body: comment.html,
+      body: comment.message.html,
     })),
   };
 }

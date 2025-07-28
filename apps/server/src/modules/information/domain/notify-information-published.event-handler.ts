@@ -3,6 +3,7 @@ import { eq } from 'drizzle-orm';
 
 import { memberName } from 'src/infrastructure/format';
 import { Member } from 'src/modules/member';
+import { Message } from 'src/modules/messages/message.entities';
 import { GetNotificationContext, notify } from 'src/modules/notification';
 import { db, schema } from 'src/persistence';
 
@@ -16,6 +17,7 @@ export async function notifyInformationPublished({
       where: eq(schema.information.id, informationId),
       with: {
         author: true,
+        message: true,
       },
     }),
   );
@@ -34,7 +36,7 @@ export async function notifyInformationPublished({
 
 function getNewsContext(
   member: Member,
-  information: Information,
+  information: Information & { message: Message },
   letsName: string,
 ): ReturnType<GetNotificationContext<'NewsPublished'>> {
   return {
@@ -45,8 +47,8 @@ function getNewsContext(
       id: information.id,
       letsName,
       body: {
-        html: information.html,
-        text: information.text,
+        html: information.message.html,
+        text: information.message.text,
       },
     },
   };
@@ -54,7 +56,7 @@ function getNewsContext(
 
 function getInformationContext(
   member: Member,
-  information: Information,
+  information: Information & { message: Message },
   author: Member,
 ): ReturnType<GetNotificationContext<'InformationPublished'>> {
   if (member.id === author.id) {
@@ -73,8 +75,8 @@ function getInformationContext(
       },
       title: information.title,
       body: {
-        html: information.html,
-        text: information.text,
+        html: information.message.html,
+        text: information.message.text,
       },
     },
   };

@@ -1,11 +1,12 @@
 import * as shared from '@sel/shared';
 import { relations } from 'drizzle-orm';
-import { json, pgEnum, pgTable, text, unique, varchar } from 'drizzle-orm/pg-core';
+import { json, pgEnum, pgTable, unique, varchar } from 'drizzle-orm/pg-core';
 
-import { id, createdAt, updatedAt, primaryKey, date } from '../schema-utils';
+import { createdAt, date, id, primaryKey, updatedAt } from '../schema-utils';
 
 import { comments } from './comments';
 import { members } from './members';
+import { messages } from './messages';
 
 export const eventKindEnum = pgEnum('event_kind', ['internal', 'external']);
 
@@ -15,8 +16,7 @@ export const events = pgTable('events', {
     .references(() => members.id)
     .notNull(),
   title: varchar('title', { length: 256 }).notNull(),
-  text: text('text').notNull(),
-  html: text('html').notNull(),
+  messageId: id('message_id').notNull(),
   date: date('date'),
   location: json('location').$type<shared.Address>(),
   kind: eventKindEnum('kind').notNull(),
@@ -25,6 +25,10 @@ export const events = pgTable('events', {
 });
 
 export const eventsRelations = relations(events, ({ one, many }) => ({
+  message: one(messages, {
+    fields: [events.messageId],
+    references: [messages.id],
+  }),
   organizer: one(members, {
     fields: [events.organizerId],
     references: [members.id],
