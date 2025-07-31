@@ -11,7 +11,9 @@ import { unified } from 'unified';
 import { reporter } from 'vfile-reporter';
 
 import { container } from 'src/infrastructure/container';
+import { Email } from 'src/infrastructure/email';
 import { PushDeviceSubscription } from 'src/infrastructure/push-notification';
+import { File } from 'src/modules/file/file.entity';
 import { db, schema } from 'src/persistence';
 import { TOKENS } from 'src/tokens';
 
@@ -42,11 +44,19 @@ export interface GetNotificationContext<Type extends shared.NotificationType> {
   (member: Member): shared.NotificationData[Type] | null;
 }
 
-export async function notify<Type extends shared.NotificationType>(
-  memberIds: string[] | null,
-  type: Type,
-  getContext: GetNotificationContext<Type>,
-) {
+type NotifyParams<Type extends shared.NotificationType> = {
+  memberIds?: string[];
+  type: Type;
+  getContext: GetNotificationContext<Type>;
+  attachments?: Array<{ file: File }>;
+};
+
+export async function notify<Type extends shared.NotificationType>({
+  memberIds,
+  type,
+  getContext,
+  attachments,
+}: NotifyParams<Type>) {
   const config = container.resolve(TOKENS.config);
   const dateAdapter = container.resolve(TOKENS.date);
   const generator = container.resolve(TOKENS.generator);
@@ -123,7 +133,12 @@ export async function notify<Type extends shared.NotificationType>(
       const notification = notifications.find(hasProperty('id', delivery.notificationId));
       const context = defined(notification).context;
 
-      await deliverNotification(delivery, template, context);
+      await deliverNotification(
+        delivery,
+        template,
+        context,
+        attachments?.map(({ file }) => file),
+      );
     }),
   );
 
@@ -173,6 +188,7 @@ async function deliverNotification(
   delivery: typeof schema.notificationDeliveries.$inferInsert,
   template: NotificationTemplate,
   context: Context,
+  attachments?: File[],
 ) {
   try {
     if (delivery.type === NotificationDeliveryType.push) {
@@ -180,7 +196,7 @@ async function deliverNotification(
     }
 
     if (delivery.type === NotificationDeliveryType.email) {
-      await deliverEmailNotification(delivery.target, template.email, context);
+      await deliverEmailNotification(delivery.target, template.email, context, attachments);
     }
   } catch (error) {
     await handleDeliveryError(delivery.id, error);
@@ -224,15 +240,18 @@ async function deliverEmailNotification(
   emailAddress: string,
   template: NotificationTemplate['email'],
   context: Context,
+  attachments?: File[],
 ) {
   const emailSender = container.resolve(TOKENS.emailSender);
   const { subject, html, text } = await getEmailContent(template, context);
+  const emailAttachments = await getEmailAttachments(attachments);
 
   await emailSender.send({
     to: emailAddress,
     subject,
     html,
     text,
+    attachments: emailAttachments,
   });
 }
 
@@ -260,6 +279,21 @@ async function getEmailContent(template: NotificationTemplate['email'], context:
     ),
     text: emailRenderer.renderText(text),
   };
+}
+
+async function getEmailAttachments(attachments?: File[]): Promise<Email['attachments']> {
+  const storage = container.resolve(TOKENS.storage);
+
+  if (!attachments || attachments.length === 0) {
+    return;
+  }
+
+  return Promise.all(
+    attachments.map(async (file) => ({
+      filename: file.name,
+      content: await storage.getFile(file.name),
+    })),
+  );
 }
 
 function replaceVariables(template: string, context: Context): string {

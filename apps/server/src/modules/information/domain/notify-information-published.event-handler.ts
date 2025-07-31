@@ -3,7 +3,7 @@ import { eq } from 'drizzle-orm';
 
 import { memberName } from 'src/infrastructure/format';
 import { Member } from 'src/modules/member';
-import { Message } from 'src/modules/messages/message.entities';
+import { Message, withAttachments } from 'src/modules/messages/message.entities';
 import { GetNotificationContext, notify } from 'src/modules/notification';
 import { db, schema } from 'src/persistence';
 
@@ -17,7 +17,7 @@ export async function notifyInformationPublished({
       where: eq(schema.information.id, informationId),
       with: {
         author: true,
-        message: true,
+        message: withAttachments,
       },
     }),
   );
@@ -25,12 +25,19 @@ export async function notifyInformationPublished({
   const author = information.author;
 
   if (author) {
-    await notify(null, 'InformationPublished', (member) =>
-      getInformationContext(member, information, author),
-    );
+    await notify({
+      type: 'InformationPublished',
+      getContext: (member) => getInformationContext(member, information, author),
+      attachments: information.message.attachments,
+    });
   } else {
     const config = defined(await db.query.config.findFirst());
-    await notify(null, 'NewsPublished', (member) => getNewsContext(member, information, config.letsName));
+
+    await notify({
+      type: 'NewsPublished',
+      getContext: (member) => getNewsContext(member, information, config.letsName),
+      attachments: information.message.attachments,
+    });
   }
 }
 

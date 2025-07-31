@@ -20,18 +20,22 @@ export async function notifyTransactionCanceled(event: TransactionCanceledEvent)
 
   const config = defined(await db.query.config.findFirst());
 
-  await notify([transaction.recipient.id], 'TransactionCanceled', (member) => ({
-    member: {
-      firstName: member.firstName,
-    },
-    transaction: {
-      id: transaction.id,
-      description: transaction.description,
-      payer: {
-        id: transaction.payer.id,
-        name: memberName(transaction.payer),
+  await notify({
+    memberIds: [transaction.recipient.id],
+    type: 'TransactionCanceled',
+    getContext: (member) => ({
+      member: {
+        firstName: member.firstName,
       },
-    },
-    currency: config.currencyPlural,
-  }));
+      transaction: {
+        id: transaction.id,
+        description: transaction.description,
+        payer: {
+          id: transaction.payer.id,
+          name: memberName(transaction.payer),
+        },
+      },
+      currency: config.currencyPlural,
+    }),
+  });
 }

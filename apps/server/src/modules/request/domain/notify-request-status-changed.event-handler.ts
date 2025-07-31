@@ -26,7 +26,11 @@ export async function notifyRequestStatusChanged(event: RequestFulfilledEvent | 
     ...request.comments.map((comment) => comment.authorId),
   ]);
 
-  await notify(stakeholderIds, 'RequestStatusChanged', (member) => getContext(member, request));
+  await notify({
+    memberIds: stakeholderIds,
+    type: 'RequestStatusChanged',
+    getContext: (member) => getContext(member, request),
+  });
 }
 
 function getContext(

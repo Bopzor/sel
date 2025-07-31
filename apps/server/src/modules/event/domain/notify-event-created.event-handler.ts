@@ -3,7 +3,7 @@ import { eq } from 'drizzle-orm';
 
 import { memberName } from 'src/infrastructure/format';
 import { Member } from 'src/modules/member';
-import { Message } from 'src/modules/messages/message.entities';
+import { Message, withAttachments } from 'src/modules/messages/message.entities';
 import { GetNotificationContext, notify } from 'src/modules/notification';
 import { db, schema } from 'src/persistence';
 
@@ -15,12 +15,16 @@ export async function notifyEventCreated({ entityId: eventId }: EventCreatedEven
       where: eq(schema.events.id, eventId),
       with: {
         organizer: true,
-        message: true,
+        message: withAttachments,
       },
     }),
   );
 
-  await notify(null, 'EventCreated', (member) => getContext(member, event));
+  await notify({
+    type: 'EventCreated',
+    getContext: (member) => getContext(member, event),
+    attachments: event.message.attachments,
+  });
 }
 
 function getContext(
