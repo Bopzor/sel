@@ -4,7 +4,7 @@ import { eq } from 'drizzle-orm';
 import { memberName } from 'src/infrastructure/format';
 import { Comment } from 'src/modules/comment';
 import { findMemberById, Member } from 'src/modules/member';
-import { Message } from 'src/modules/messages/message.entities';
+import { Message, withAttachments } from 'src/modules/messages/message.entities';
 import { GetNotificationContext, notify } from 'src/modules/notification';
 import { db, schema } from 'src/persistence';
 
@@ -19,7 +19,7 @@ export async function notifyEventCommentCreated(domainEvent: EventCommentCreated
       where: eq(schema.events.id, eventId),
       with: {
         organizer: true,
-        comments: { with: { message: true } },
+        comments: { with: { message: withAttachments } },
         participants: { where: eq(schema.eventParticipations.participation, 'yes') },
       },
     }),
@@ -34,7 +34,12 @@ export async function notifyEventCommentCreated(domainEvent: EventCommentCreated
     ...event.comments.map((comment) => comment.authorId),
   ]);
 
-  await notify(stakeholderIds, 'EventCommentCreated', (member) => getContext(member, event, comment, author));
+  await notify({
+    memberIds: stakeholderIds,
+    type: 'EventCommentCreated',
+    getContext: (member) => getContext(member, event, comment, author),
+    attachments: comment.message.attachments,
+  });
 }
 
 function getContext(

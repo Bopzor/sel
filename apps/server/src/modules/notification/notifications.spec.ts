@@ -7,6 +7,7 @@ import { container } from 'src/infrastructure/container';
 import { StubEmailSender } from 'src/infrastructure/email';
 import { StubLogger } from 'src/infrastructure/logger';
 import { StubPushNotification } from 'src/infrastructure/push-notification';
+import { StubStorage } from 'src/infrastructure/storage';
 import { db, resetDatabase } from 'src/persistence';
 import { TOKENS } from 'src/tokens';
 
@@ -41,22 +42,25 @@ describe('notification snapshots', () => {
   let logger: StubLogger;
   let pushNotification: StubPushNotification;
   let emailSender: StubEmailSender;
+  let storage: StubStorage;
 
   beforeEach(async () => {
     logger = new StubLogger();
     pushNotification = new StubPushNotification();
     emailSender = new StubEmailSender();
+    storage = new StubStorage();
 
     container.bindValue(TOKENS.logger, logger);
     container.bindValue(TOKENS.pushNotification, pushNotification);
     container.bindValue(TOKENS.emailSender, emailSender);
+    container.bindValue(TOKENS.storage, storage);
   });
 
   async function assertNotificationSnapshot<Type extends shared.NotificationType>(
     type: Type,
     context: shared.NotificationData[Type],
   ) {
-    await notify([member.id], type, () => context);
+    await notify({ memberIds: [member.id], type, getContext: () => context });
 
     expect(logger.lines.error, logger.lines.error.join('\n')).toHaveLength(0);
     expect(pushNotification.notifications.get('"subscription"')).toMatchSnapshot();

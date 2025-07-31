@@ -2,7 +2,7 @@ import { assert } from '@sel/utils';
 import { eq } from 'drizzle-orm';
 
 import { memberName } from 'src/infrastructure/format';
-import { Message } from 'src/modules/messages/message.entities';
+import { Message, withAttachments } from 'src/modules/messages/message.entities';
 import { db, schema } from 'src/persistence';
 
 import { Member } from '../../member';
@@ -14,13 +14,17 @@ export async function notifyRequestCreated(event: RequestCreatedEvent) {
     where: eq(schema.requests.id, event.entityId),
     with: {
       requester: true,
-      message: true,
+      message: withAttachments,
     },
   });
 
   assert(request !== undefined);
 
-  await notify(null, 'RequestCreated', (member) => getContext(member, request));
+  await notify({
+    type: 'RequestCreated',
+    getContext: (member) => getContext(member, request),
+    attachments: request.message.attachments,
+  });
 }
 
 function getContext(

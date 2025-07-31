@@ -24,9 +24,11 @@ export async function notifyEventParticipationSet(domainEvent: EventParticipatio
 
   const participant = defined(await findMemberById(participantId));
 
-  await notify([event.organizer.id], 'EventParticipationSet', (member) =>
-    getContext(member, event, participant, participation, previousParticipation),
-  );
+  await notify({
+    memberIds: [event.organizer.id],
+    type: 'EventParticipationSet',
+    getContext: (member) => getContext(member, event, participant, participation, previousParticipation),
+  });
 }
 
 function getContext(

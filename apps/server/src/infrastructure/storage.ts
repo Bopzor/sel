@@ -1,5 +1,6 @@
 import * as stream from 'node:stream';
 
+import { assert } from '@sel/utils';
 import { injectableClass } from 'ditox';
 import * as minio from 'minio';
 
@@ -43,5 +44,21 @@ export class MinioStorage implements Storage {
 
       throw error;
     }
+  }
+}
+
+export class StubStorage implements Storage {
+  private files = new Map<string, { contentType: string; content: Buffer }>();
+
+  async storeFile(name: string, buffer: Buffer, contentType: string): Promise<void> {
+    this.files.set(name, { contentType, content: buffer });
+  }
+
+  async getFile(name: string): Promise<stream.Readable> {
+    const buffer = this.files.get(name);
+
+    assert(buffer);
+
+    return stream.Readable.from(buffer.content);
   }
 }

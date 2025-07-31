@@ -20,19 +20,23 @@ export async function notifyTransactionPending(event: TransactionPendingEvent): 
 
   const config = defined(await db.query.config.findFirst());
 
-  await notify([transaction.payer.id], 'TransactionPending', (member) => ({
-    member: {
-      firstName: member.firstName,
-    },
-    transaction: {
-      id: transaction.id,
-      description: transaction.description,
-      recipient: {
-        id: transaction.recipient.id,
-        name: memberName(transaction.recipient),
+  await notify({
+    memberIds: [transaction.payer.id],
+    type: 'TransactionPending',
+    getContext: (member) => ({
+      member: {
+        firstName: member.firstName,
       },
-    },
-    currency: config.currencyPlural,
-    currencyAmount: currencyAmount(transaction.amount, config),
-  }));
+      transaction: {
+        id: transaction.id,
+        description: transaction.description,
+        recipient: {
+          id: transaction.recipient.id,
+          name: memberName(transaction.recipient),
+        },
+      },
+      currency: config.currencyPlural,
+      currencyAmount: currencyAmount(transaction.amount, config),
+    }),
+  });
 }

@@ -1,3 +1,5 @@
+import { Readable } from 'node:stream';
+
 import { injectableClass } from 'ditox';
 import mjml2html from 'mjml';
 
@@ -11,6 +13,7 @@ export type Email = {
   subject: string;
   text: string;
   html: string;
+  attachments?: Array<{ filename: string; content: Readable | Buffer }>;
 };
 
 export interface EmailRenderer {
@@ -183,6 +186,7 @@ type MessageConfiguration = {
   subject: string;
   text: string;
   html: string;
+  attachments?: Email['attachments'];
 };
 
 type Transporter = {
@@ -214,13 +218,10 @@ export class NodemailerEmailSender implements EmailSender {
     });
   }
 
-  async send({ to, subject, text, html }: Email): Promise<void> {
+  async send(email: Email): Promise<void> {
     const message: MessageConfiguration = {
       from: this.from,
-      to,
-      subject,
-      text,
-      html,
+      ...email,
     };
 
     return new Promise<void>((resolve, reject) => {

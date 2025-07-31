@@ -40,6 +40,10 @@ export async function updateMessage(messageId: string, html: string, fileIds: st
 async function insertAttachments(messageId: string, fileIds: string[]) {
   const generator = container.resolve(TOKENS.generator);
 
+  if (fileIds.length === 0) {
+    return;
+  }
+
   await db.insert(schema.attachments).values(
     fileIds.map((fileId) => ({
       id: generator.id(),

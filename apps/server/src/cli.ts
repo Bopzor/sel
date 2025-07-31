@@ -1,7 +1,12 @@
+import { readFile } from 'node:fs/promises';
+import { basename } from 'node:path';
+import { Readable } from 'node:stream';
+
 import { program } from 'commander';
 import { eq } from 'drizzle-orm';
 
 import { container } from './infrastructure/container';
+import { Email } from './infrastructure/email';
 import { createMember } from './modules/member/domain/create-member.command';
 import { db, schema } from './persistence';
 import { TOKENS } from './tokens';
@@ -47,14 +52,24 @@ program
   .argument('<email>', "Recipient's email address")
   .requiredOption('-s, --subject <subject>', 'Email subject')
   .requiredOption('-b, --body <body>', 'Email body')
-  .action(async (email, { subject, body }) => {
+  .option('-f, --file <path...>', 'Email attachments')
+  .action(async (email, { subject, body, file = [] }) => {
     const emailSender = container.resolve(TOKENS.emailSender);
+    const files: string[] = file;
+
+    const attachments: Email['attachments'] = await Promise.all(
+      files.map(async (path) => ({
+        filename: basename(path),
+        content: Readable.from(await readFile(path)),
+      })),
+    );
 
     await emailSender.send({
       to: email,
       subject,
       text: body,
       html: body,
+      attachments,
     });
   });
 

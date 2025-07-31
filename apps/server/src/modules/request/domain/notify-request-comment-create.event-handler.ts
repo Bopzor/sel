@@ -2,7 +2,7 @@ import { assert, defined, hasProperty, unique } from '@sel/utils';
 import { eq } from 'drizzle-orm';
 
 import { memberName } from 'src/infrastructure/format';
-import { Message } from 'src/modules/messages/message.entities';
+import { Message, withAttachments } from 'src/modules/messages/message.entities';
 import { db, schema } from 'src/persistence';
 
 import { Comment } from '../../comment';
@@ -15,7 +15,7 @@ export async function notifyRequestCommentCreated(event: RequestCommentCreatedEv
     where: eq(schema.requests.id, event.entityId),
     with: {
       requester: true,
-      comments: { with: { message: true } },
+      comments: { with: { message: withAttachments } },
       answers: { where: eq(schema.requestAnswers.answer, 'positive') },
     },
   });
@@ -31,9 +31,12 @@ export async function notifyRequestCommentCreated(event: RequestCommentCreatedEv
     ...request.comments.map((comment) => comment.authorId),
   ]);
 
-  await notify(stakeholderIds, 'RequestCommentCreated', (member) =>
-    getContext(member, request, comment, author),
-  );
+  await notify({
+    memberIds: stakeholderIds,
+    type: 'RequestCommentCreated',
+    getContext: (member) => getContext(member, request, comment, author),
+    attachments: comment.message.attachments,
+  });
 }
 
 function getContext(
