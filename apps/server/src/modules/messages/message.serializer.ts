@@ -1,11 +1,11 @@
 import { Message } from '@sel/shared';
 
-import { MessageWithAttachements } from './message.entities';
+import { MessageWithAttachments } from './message.entities';
 
-export function serializeMessage(message: MessageWithAttachements): Message {
+export function serializeMessage(message: MessageWithAttachments): Message {
   return {
     body: message.html,
-    attachements: message.attachements.map(({ file }) => ({
+    attachments: message.attachments.map(({ file }) => ({
       fileId: file.id,
       name: file.name,
       originalName: file.originalName,

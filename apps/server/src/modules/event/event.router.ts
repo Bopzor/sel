@@ -14,7 +14,7 @@ import { TOKENS } from 'src/tokens';
 import { Comment } from '../comment';
 import { MemberWithAvatar, withAvatar } from '../member/member.entities';
 import { serializeMember } from '../member/member.serializer';
-import { MessageWithAttachements, withAttachements } from '../messages/message.entities';
+import { MessageWithAttachments, withAttachments } from '../messages/message.entities';
 import { serializeMessage } from '../messages/message.serializer';
 
 import { createEventComment } from './domain/create-event-comment.command';
@@ -56,14 +56,14 @@ router.get('/:eventId', async (req, res) => {
     where: eq(schema.events.id, req.params.eventId),
     with: {
       organizer: withAvatar,
-      message: withAttachements,
+      message: withAttachments,
       participants: {
         with: { member: withAvatar },
       },
       comments: {
         with: {
           author: withAvatar,
-          message: withAttachements,
+          message: withAttachments,
         },
       },
     },
@@ -155,9 +155,9 @@ function serializeEvents(events: Array<Event & { organizer: MemberWithAvatar }>)
 function serializeEvent(
   event: Event & {
     organizer: MemberWithAvatar;
-    message: MessageWithAttachements;
+    message: MessageWithAttachments;
     participants: Array<EventParticipation & { member: MemberWithAvatar }>;
-    comments: Array<Comment & { author: MemberWithAvatar; message: MessageWithAttachements }>;
+    comments: Array<Comment & { author: MemberWithAvatar; message: MessageWithAttachments }>;
   },
 ): shared.Event {
   return {

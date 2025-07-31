@@ -11,7 +11,7 @@ import { TOKENS } from 'src/tokens';
 import { Comment } from '../comment';
 import { MemberWithAvatar, withAvatar } from '../member/member.entities';
 import { serializeMember } from '../member/member.serializer';
-import { MessageWithAttachements, withAttachements } from '../messages/message.entities';
+import { MessageWithAttachments, withAttachments } from '../messages/message.entities';
 import { serializeMessage } from '../messages/message.serializer';
 
 import { createInformationComment } from './domain/create-information-comment.command';
@@ -24,9 +24,9 @@ router.get('/', async (req, res) => {
   const information = await db.query.information.findMany({
     with: {
       author: withAvatar,
-      message: withAttachements,
+      message: withAttachments,
       comments: {
-        with: { author: withAvatar, message: withAttachements },
+        with: { author: withAvatar, message: withAttachments },
       },
     },
     orderBy: desc(schema.information.publishedAt),
@@ -41,9 +41,9 @@ router.get('/:informationId', async (req, res) => {
   const information = await db.query.information.findFirst({
     with: {
       author: withAvatar,
-      message: withAttachements,
+      message: withAttachments,
       comments: {
-        with: { author: withAvatar, message: withAttachements },
+        with: { author: withAvatar, message: withAttachments },
       },
     },
     where: eq(schema.information.id, informationId),
@@ -90,8 +90,8 @@ function serializeInformation(
   this: void,
   information: Information & {
     author: MemberWithAvatar | null;
-    message: MessageWithAttachements;
-    comments: Array<Comment & { author: MemberWithAvatar; message: MessageWithAttachements }>;
+    message: MessageWithAttachments;
+    comments: Array<Comment & { author: MemberWithAvatar; message: MessageWithAttachments }>;
   },
 ): shared.Information {
   const author = () => {

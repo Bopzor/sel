@@ -5,7 +5,7 @@ import { JSX } from 'solid-js';
 import { z } from 'zod';
 
 import { AddressSearch } from 'src/components/address-search';
-import { AttachementsEditorField } from 'src/components/attachements-editor';
+import { AttachmentsEditorField } from 'src/components/attachments-editor';
 import { Button } from 'src/components/button';
 import { Input } from 'src/components/input';
 import { RichEditor } from 'src/components/rich-editor';
@@ -37,7 +37,7 @@ export function EventForm(props: {
       body: props.initialValue?.message.body,
       location: props.initialValue?.location ?? null,
       date: props.initialValue?.date ? new Date(props.initialValue.date) : undefined,
-      fileIds: props.initialValue?.message.attachements.map(({ fileId }) => fileId) ?? [],
+      fileIds: props.initialValue?.message.attachments.map(({ fileId }) => fileId) ?? [],
     },
     validate: zodForm(schema, {
       errorMap: createErrorMap((error) => {
@@ -88,9 +88,9 @@ export function EventForm(props: {
 
       <Field name="fileIds" type="string[]">
         {() => (
-          <AttachementsEditorField
-            label={<T id="attachements.label" />}
-            initialValue={props.initialValue?.message.attachements}
+          <AttachmentsEditorField
+            label={<T id="attachments.label" />}
+            initialValue={props.initialValue?.message.attachments}
             onChange={(fileIds) => setValue(form, 'fileIds', fileIds)}
           />
         )}

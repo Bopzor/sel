@@ -1,5 +1,5 @@
 import { createForm, reset, setValue } from '@modular-forms/solid';
-import { Attachement, CreateInformationBody, createInformationBodySchema } from '@sel/shared';
+import { Attachment, CreateInformationBody, createInformationBodySchema } from '@sel/shared';
 import { ReactiveMap } from '@solid-primitives/map';
 import { useMutation } from '@tanstack/solid-query';
 
@@ -30,7 +30,7 @@ export function CreateInformationDialog(props: { open: boolean; onClose: () => v
     }),
   });
 
-  const attachements = new ReactiveMap<string, Attachement>();
+  const attachments = new ReactiveMap<string, Attachment>();
 
   const mutation = useMutation(() => ({
     async mutationFn(body: CreateInformationBody) {
@@ -46,7 +46,7 @@ export function CreateInformationDialog(props: { open: boolean; onClose: () => v
   const onSubmit = (data: { title: string; body: string }) => {
     return mutation.mutateAsync({
       ...data,
-      fileIds: Array.from(attachements.keys()),
+      fileIds: Array.from(attachments.keys()),
     });
   };
 

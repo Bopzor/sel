@@ -71,12 +71,8 @@
           "name": "comments_author_id_members_id_fk",
           "tableFrom": "comments",
           "tableTo": "members",
-          "columnsFrom": [
-            "author_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["author_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -84,12 +80,8 @@
           "name": "comments_request_id_requests_id_fk",
           "tableFrom": "comments",
           "tableTo": "requests",
-          "columnsFrom": [
-            "request_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["request_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -97,12 +89,8 @@
           "name": "comments_event_id_events_id_fk",
           "tableFrom": "comments",
           "tableTo": "events",
-          "columnsFrom": [
-            "event_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["event_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -110,12 +98,8 @@
           "name": "comments_information_id_information_id_fk",
           "tableFrom": "comments",
           "tableTo": "information",
-          "columnsFrom": [
-            "information_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["information_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -300,12 +284,8 @@
           "name": "event_participations_event_id_events_id_fk",
           "tableFrom": "event_participations",
           "tableTo": "events",
-          "columnsFrom": [
-            "event_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["event_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -313,12 +293,8 @@
           "name": "event_participations_participant_id_members_id_fk",
           "tableFrom": "event_participations",
           "tableTo": "members",
-          "columnsFrom": [
-            "participant_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["participant_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -328,10 +304,7 @@
         "event_participations_event_id_participant_id_unique": {
           "name": "event_participations_event_id_participant_id_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "event_id",
-            "participant_id"
-          ]
+          "columns": ["event_id", "participant_id"]
         }
       },
       "policies": {},
@@ -406,12 +379,8 @@
           "name": "events_organizer_id_members_id_fk",
           "tableFrom": "events",
           "tableTo": "members",
-          "columnsFrom": [
-            "organizer_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["organizer_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -483,12 +452,8 @@
           "name": "files_uploaded_by_members_id_fk",
           "tableFrom": "files",
           "tableTo": "members",
-          "columnsFrom": [
-            "uploaded_by"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["uploaded_by"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -554,12 +519,8 @@
           "name": "information_author_id_members_id_fk",
           "tableFrom": "information",
           "tableTo": "members",
-          "columnsFrom": [
-            "author_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["author_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -619,12 +580,8 @@
           "name": "interests_image_id_files_id_fk",
           "tableFrom": "interests",
           "tableTo": "files",
-          "columnsFrom": [
-            "image_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["image_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -684,12 +641,8 @@
           "name": "members_interests_member_id_members_id_fk",
           "tableFrom": "members_interests",
           "tableTo": "members",
-          "columnsFrom": [
-            "member_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["member_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -697,12 +650,8 @@
           "name": "members_interests_interest_id_interests_id_fk",
           "tableFrom": "members_interests",
           "tableTo": "interests",
-          "columnsFrom": [
-            "interest_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["interest_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -836,12 +785,8 @@
           "name": "members_avatar_id_files_id_fk",
           "tableFrom": "members",
           "tableTo": "files",
-          "columnsFrom": [
-            "avatar_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["avatar_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -851,24 +796,20 @@
         "members_number_unique": {
           "name": "members_number_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "number"
-          ]
+          "columns": ["number"]
         },
         "members_email_unique": {
           "name": "members_email_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "email"
-          ]
+          "columns": ["email"]
         }
       },
       "policies": {},
       "checkConstraints": {},
       "isRLSEnabled": false
     },
-    "public.attachements": {
-      "name": "attachements",
+    "public.attachments": {
+      "name": "attachments",
       "schema": "",
       "columns": {
         "id": {
@@ -992,12 +933,8 @@
           "name": "member_device_member_id_members_id_fk",
           "tableFrom": "member_device",
           "tableTo": "members",
-          "columnsFrom": [
-            "member_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["member_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -1007,10 +944,7 @@
         "member_device_member_id_device_subscription_unique": {
           "name": "member_device_member_id_device_subscription_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "member_id",
-            "device_subscription"
-          ]
+          "columns": ["member_id", "device_subscription"]
         }
       },
       "policies": {},
@@ -1080,12 +1014,8 @@
           "name": "notification_deliveries_notification_id_notifications_id_fk",
           "tableFrom": "notification_deliveries",
           "tableTo": "notifications",
-          "columnsFrom": [
-            "notification_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["notification_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -1151,12 +1081,8 @@
           "name": "notifications_member_id_members_id_fk",
           "tableFrom": "notifications",
           "tableTo": "members",
-          "columnsFrom": [
-            "member_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["member_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -1222,12 +1148,8 @@
           "name": "request_answers_request_id_requests_id_fk",
           "tableFrom": "request_answers",
           "tableTo": "requests",
-          "columnsFrom": [
-            "request_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["request_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -1235,12 +1157,8 @@
           "name": "request_answers_member_id_members_id_fk",
           "tableFrom": "request_answers",
           "tableTo": "members",
-          "columnsFrom": [
-            "member_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["member_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -1314,12 +1232,8 @@
           "name": "requests_requester_id_members_id_fk",
           "tableFrom": "requests",
           "tableTo": "members",
-          "columnsFrom": [
-            "requester_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["requester_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -1393,12 +1307,8 @@
           "name": "tokens_member_id_members_id_fk",
           "tableFrom": "tokens",
           "tableTo": "members",
-          "columnsFrom": [
-            "member_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["member_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -1408,9 +1318,7 @@
         "tokens_value_unique": {
           "name": "tokens_value_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "value"
-          ]
+          "columns": ["value"]
         }
       },
       "policies": {},
@@ -1509,12 +1417,8 @@
           "name": "transactions_payer_id_members_id_fk",
           "tableFrom": "transactions",
           "tableTo": "members",
-          "columnsFrom": [
-            "payer_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["payer_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -1522,12 +1426,8 @@
           "name": "transactions_recipient_id_members_id_fk",
           "tableFrom": "transactions",
           "tableTo": "members",
-          "columnsFrom": [
-            "recipient_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["recipient_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -1535,12 +1435,8 @@
           "name": "transactions_creator_id_members_id_fk",
           "tableFrom": "transactions",
           "tableTo": "members",
-          "columnsFrom": [
-            "creator_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["creator_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -1548,12 +1444,8 @@
           "name": "transactions_request_id_requests_id_fk",
           "tableFrom": "transactions",
           "tableTo": "requests",
-          "columnsFrom": [
-            "request_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["request_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -1561,12 +1453,8 @@
           "name": "transactions_event_id_events_id_fk",
           "tableFrom": "transactions",
           "tableTo": "events",
-          "columnsFrom": [
-            "event_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["event_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -1582,69 +1470,42 @@
     "public.event_kind": {
       "name": "event_kind",
       "schema": "public",
-      "values": [
-        "internal",
-        "external"
-      ]
+      "values": ["internal", "external"]
     },
     "public.event_participation": {
       "name": "event_participation",
       "schema": "public",
-      "values": [
-        "yes",
-        "no"
-      ]
+      "values": ["yes", "no"]
     },
     "public.member_role": {
       "name": "member_role",
       "schema": "public",
-      "values": [
-        "member",
-        "admin"
-      ]
+      "values": ["member", "admin"]
     },
     "public.member_status": {
       "name": "member_status",
       "schema": "public",
-      "values": [
-        "onboarding",
-        "inactive",
-        "active"
-      ]
+      "values": ["onboarding", "inactive", "active"]
     },
     "public.notification_delivery_type": {
       "name": "notification_delivery_type",
       "schema": "public",
-      "values": [
-        "email",
-        "push"
-      ]
+      "values": ["email", "push"]
     },
     "public.request_status": {
       "name": "request_status",
       "schema": "public",
-      "values": [
-        "pending",
-        "fulfilled",
-        "canceled"
-      ]
+      "values": ["pending", "fulfilled", "canceled"]
     },
     "public.token_type": {
       "name": "token_type",
       "schema": "public",
-      "values": [
-        "authentication",
-        "session"
-      ]
+      "values": ["authentication", "session"]
     },
     "public.transaction_status": {
       "name": "transaction_status",
       "schema": "public",
-      "values": [
-        "pending",
-        "completed",
-        "canceled"
-      ]
+      "values": ["pending", "completed", "canceled"]
     }
   },
   "schemas": {},

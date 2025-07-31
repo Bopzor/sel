@@ -14,16 +14,16 @@ export const messages = pgTable('messages', {
 });
 
 export const messagesRelations = relations(messages, ({ many }) => ({
-  attachements: many(attachements),
+  attachments: many(attachments),
 }));
 
-export const attachements = pgTable('attachements', {
+export const attachments = pgTable('attachments', {
   id: primaryKey(),
   messageId: id('message_id').notNull(),
   fileId: id('file_id').notNull(),
 });
 
-export const attachementsRelations = relations(attachements, ({ one }) => ({
-  message: one(messages, { fields: [attachements.messageId], references: [messages.id] }),
-  file: one(files, { fields: [attachements.fileId], references: [files.id] }),
+export const attachmentsRelations = relations(attachments, ({ one }) => ({
+  message: one(messages, { fields: [attachments.messageId], references: [messages.id] }),
+  file: one(files, { fields: [attachments.fileId], references: [files.id] }),
 }));

@@ -14,7 +14,7 @@ import { TOKENS } from 'src/tokens';
 import { Comment } from '../comment';
 import { MemberWithAvatar, withAvatar } from '../member/member.entities';
 import { serializeMember } from '../member/member.serializer';
-import { MessageWithAttachements, withAttachements } from '../messages/message.entities';
+import { MessageWithAttachments, withAttachments } from '../messages/message.entities';
 import { serializeMessage } from '../messages/message.serializer';
 import { createTransaction } from '../transaction/domain/create-transaction.command';
 import { Transaction } from '../transaction/transaction.entities';
@@ -50,7 +50,7 @@ router.get('/', async (req, res) => {
     },
     with: {
       requester: withAvatar,
-      message: withAttachements,
+      message: withAttachments,
       answers: {
         with: {
           member: withAvatar,
@@ -59,7 +59,7 @@ router.get('/', async (req, res) => {
       comments: {
         with: {
           author: withAvatar,
-          message: withAttachements,
+          message: withAttachments,
         },
       },
       transactions: true,
@@ -75,7 +75,7 @@ router.get('/:requestId', async (req, res) => {
     where: eq(schema.requests.id, req.params.requestId),
     with: {
       requester: withAvatar,
-      message: withAttachements,
+      message: withAttachments,
       answers: {
         with: {
           member: withAvatar,
@@ -84,7 +84,7 @@ router.get('/:requestId', async (req, res) => {
       comments: {
         with: {
           author: withAvatar,
-          message: withAttachements,
+          message: withAttachments,
         },
       },
       transactions: true,
@@ -206,8 +206,8 @@ router.post('/:requestId/transaction', async (req, res) => {
 function serializeRequest(
   request: Request & {
     requester: MemberWithAvatar;
-    message: MessageWithAttachements;
-    comments: Array<Comment & { author: MemberWithAvatar; message: MessageWithAttachements }>;
+    message: MessageWithAttachments;
+    comments: Array<Comment & { author: MemberWithAvatar; message: MessageWithAttachments }>;
     answers: Array<RequestAnswer & { member: MemberWithAvatar }>;
     transactions: Array<Transaction>;
   },

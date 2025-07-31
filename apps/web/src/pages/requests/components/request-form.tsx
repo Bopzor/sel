@@ -2,7 +2,7 @@ import { createForm, setValue } from '@modular-forms/solid';
 import { createRequestBodySchema, Request } from '@sel/shared';
 import { JSX } from 'solid-js';
 
-import { AttachementsEditorField } from 'src/components/attachements-editor';
+import { AttachmentsEditorField } from 'src/components/attachments-editor';
 import { Button } from 'src/components/button';
 import { Input } from 'src/components/input';
 import { RichEditor } from 'src/components/rich-editor';
@@ -28,7 +28,7 @@ export function RequestForm(props: {
     initialValues: {
       title: props.initialValue?.title ?? '',
       body: props.initialValue?.message.body ?? '',
-      fileIds: props.initialValue?.message.attachements.map(({ fileId }) => fileId),
+      fileIds: props.initialValue?.message.attachments.map(({ fileId }) => fileId),
     },
     validate: zodForm(createRequestBodySchema.omit({ fileIds: true }), {
       errorMap: createErrorMap(),
@@ -63,9 +63,9 @@ export function RequestForm(props: {
 
       <Field name="fileIds" type="string[]">
         {() => (
-          <AttachementsEditorField
-            label={<T id="attachements.label" />}
-            initialValue={props.initialValue?.message.attachements}
+          <AttachmentsEditorField
+            label={<T id="attachments.label" />}
+            initialValue={props.initialValue?.message.attachments}
             onChange={(fileIds) => setValue(form, 'fileIds', fileIds)}
           />
         )}

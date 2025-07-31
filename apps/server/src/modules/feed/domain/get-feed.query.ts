@@ -3,7 +3,7 @@ import { desc, inArray, sql } from 'drizzle-orm';
 import { union } from 'drizzle-orm/pg-core';
 
 import { withAvatar } from 'src/modules/member/member.entities';
-import { withAttachements } from 'src/modules/messages/message.entities';
+import { withAttachments } from 'src/modules/messages/message.entities';
 import { db } from 'src/persistence';
 import { events, information, requests } from 'src/persistence/schema';
 
@@ -45,21 +45,21 @@ export async function getFeed() {
       eventIds.length > 0
         ? db.query.events.findMany({
             where: inArray(events.id, eventIds),
-            with: { organizer: withAvatar, message: withAttachements },
+            with: { organizer: withAvatar, message: withAttachments },
           })
         : [],
     requests:
       requestIds.length > 0
         ? db.query.requests.findMany({
             where: inArray(requests.id, requestIds),
-            with: { requester: withAvatar, message: withAttachements },
+            with: { requester: withAvatar, message: withAttachments },
           })
         : [],
     informations:
       informationIds.length > 0
         ? db.query.information.findMany({
             where: inArray(information.id, informationIds),
-            with: { author: withAvatar, message: withAttachements },
+            with: { author: withAvatar, message: withAttachments },
           })
         : [],
   });

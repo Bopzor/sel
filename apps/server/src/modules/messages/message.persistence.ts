@@ -17,7 +17,7 @@ export async function insertMessage(html: string, fileIds: string[]) {
     })
     .returning({ id: schema.messages.id });
 
-  await insertAttachements(messageId, fileIds);
+  await insertAttachments(messageId, fileIds);
 
   return messageId;
 }
@@ -33,14 +33,14 @@ export async function updateMessage(messageId: string, html: string, fileIds: st
     })
     .where(eq(schema.messages.id, messageId));
 
-  await db.delete(schema.attachements).where(eq(schema.attachements.messageId, messageId));
-  await insertAttachements(messageId, fileIds);
+  await db.delete(schema.attachments).where(eq(schema.attachments.messageId, messageId));
+  await insertAttachments(messageId, fileIds);
 }
 
-async function insertAttachements(messageId: string, fileIds: string[]) {
+async function insertAttachments(messageId: string, fileIds: string[]) {
   const generator = container.resolve(TOKENS.generator);
 
-  await db.insert(schema.attachements).values(
+  await db.insert(schema.attachments).values(
     fileIds.map((fileId) => ({
       id: generator.id(),
       messageId,
