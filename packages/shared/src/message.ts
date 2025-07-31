@@ -1,15 +1,15 @@
 export type Message = {
   body: string;
-  attachements: Attachement[];
+  attachments: Attachment[];
 };
 
-export type Attachement = {
+export type Attachment = {
   fileId: string;
   name: string;
   originalName: string;
   mimetype: string;
 };
 
-export function isImage({ mimetype }: Attachement) {
+export function isImage({ mimetype }: Attachment) {
   return mimetype.startsWith('image/');
 }

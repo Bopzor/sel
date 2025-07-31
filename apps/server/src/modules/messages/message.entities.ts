@@ -5,7 +5,7 @@ import { File } from '../file/file.entity';
 export type Message = typeof schema.messages.$inferSelect;
 export type MessageInsert = typeof schema.messages.$inferInsert;
 
-export type Attachement = typeof schema.attachements.$inferSelect;
+export type Attachment = typeof schema.attachments.$inferSelect;
 
-export const withAttachements = { with: { attachements: { with: { file: true as const } } } };
-export type MessageWithAttachements = Message & { attachements: Array<Attachement & { file: File }> };
+export const withAttachments = { with: { attachments: { with: { file: true as const } } } };
+export type MessageWithAttachments = Message & { attachments: Array<Attachment & { file: File }> };

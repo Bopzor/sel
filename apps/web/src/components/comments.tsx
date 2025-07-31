@@ -1,5 +1,5 @@
 import { createForm, setValue } from '@modular-forms/solid';
-import { Attachement, Comment, CreateCommentBody, createCommentBodySchema } from '@sel/shared';
+import { Attachment, Comment, CreateCommentBody, createCommentBodySchema } from '@sel/shared';
 import { ReactiveMap } from '@solid-primitives/map';
 import { For, Show } from 'solid-js';
 
@@ -10,7 +10,7 @@ import { createFileUploadHandler } from 'src/utils/file-upload';
 import { createId } from 'src/utils/id';
 import { createErrorMap, zodForm } from 'src/utils/validation';
 
-import { AttachementEditorList } from './attachements-editor';
+import { AttachmentEditorList } from './attachments-editor';
 import { Button } from './button';
 import { MemberAvatarName } from './member-avatar-name';
 import { Message } from './message';
@@ -33,7 +33,7 @@ export function CommentList(props: { comments: Comment[] }) {
                 </div>
               </div>
 
-              <Message class="mt-2 ml-10" message={comment.message} attachementsSeparator={false} />
+              <Message class="mt-2 ml-10" message={comment.message} attachmentsSeparator={false} />
             </div>
           )}
         </For>
@@ -63,13 +63,13 @@ export function CommentForm(props: {
     onChange: (body) => setValue(form, 'body', body),
   });
 
-  const attachements = new ReactiveMap<string, Attachement>();
-  const upload = createFileUploadHandler((file) => attachements.set(file.id, { fileId: file.id, ...file }));
+  const attachments = new ReactiveMap<string, Attachment>();
+  const upload = createFileUploadHandler((file) => attachments.set(file.id, { fileId: file.id, ...file }));
 
   const onSubmit = (values: { body: string }) => {
-    return props.onSubmit({ ...values, fileIds: Array.from(attachements.keys()) }).then(() => {
+    return props.onSubmit({ ...values, fileIds: Array.from(attachments.keys()) }).then(() => {
       editor()?.chain().clearContent().run();
-      attachements.clear();
+      attachments.clear();
     });
   };
 
@@ -81,10 +81,10 @@ export function CommentForm(props: {
 
       <div ref={ref} id={id()} class="my-2 ml-10 col min-h-32 outline-hidden" />
 
-      <Show when={attachements.size > 0}>
-        <AttachementEditorList
-          value={Array.from(attachements.values())}
-          onRemove={(attachement) => attachements.delete(attachement.fileId)}
+      <Show when={attachments.size > 0}>
+        <AttachmentEditorList
+          value={Array.from(attachments.values())}
+          onRemove={(attachment) => attachments.delete(attachment.fileId)}
           class="mb-4 col gap-2"
         />
       </Show>

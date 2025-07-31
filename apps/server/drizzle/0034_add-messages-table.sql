@@ -1,4 +1,4 @@
-CREATE TABLE "attachements" (
+CREATE TABLE "attachments" (
 	"id" varchar(16) PRIMARY KEY NOT NULL,
 	"message_id" varchar(16) NOT NULL,
 	"file_id" varchar(16) NOT NULL

@@ -1,4 +1,4 @@
-import { Attachement, isImage } from '@sel/shared';
+import { Attachment, isImage } from '@sel/shared';
 import { not } from '@sel/utils';
 import { ReactiveMap } from '@solid-primitives/map';
 import { Icon } from 'solid-heroicons';
@@ -12,49 +12,49 @@ import { createId } from 'src/utils/id';
 import { FormControl } from './form-control';
 import { FilePreview, ImagePreview } from './message';
 
-const T = createTranslate('components.attachementsEditor');
+const T = createTranslate('components.attachmentsEditor');
 
-export function AttachementsEditorField(props: {
+export function AttachmentsEditorField(props: {
   label?: JSX.Element;
-  initialValue?: Attachement[];
+  initialValue?: Attachment[];
   onChange: (fileIds: string[]) => void;
 }) {
-  const attachements = new ReactiveMap<string, Attachement>(
-    props.initialValue?.map((attachement) => [attachement.fileId, attachement]),
+  const attachments = new ReactiveMap<string, Attachment>(
+    props.initialValue?.map((attachment) => [attachment.fileId, attachment]),
   );
 
-  const onAdd = (attachement: Attachement) => {
-    attachements.set(attachement.fileId, attachement);
-    props.onChange(Array.from(attachements.keys()));
+  const onAdd = (attachment: Attachment) => {
+    attachments.set(attachment.fileId, attachment);
+    props.onChange(Array.from(attachments.keys()));
   };
 
-  const onRemove = (attachement: Attachement) => {
-    attachements.delete(attachement.fileId);
-    props.onChange(Array.from(attachements.keys()));
+  const onRemove = (attachment: Attachment) => {
+    attachments.delete(attachment.fileId);
+    props.onChange(Array.from(attachments.keys()));
   };
 
   return (
-    <AttachementEditor
+    <AttachmentEditor
       label={props.label}
-      value={Array.from(attachements.values())}
+      value={Array.from(attachments.values())}
       onAdd={onAdd}
       onRemove={onRemove}
     />
   );
 }
 
-export function AttachementEditor(props: {
+export function AttachmentEditor(props: {
   id?: string;
   label?: JSX.Element;
-  value: Attachement[];
-  onAdd?: (attachement: Attachement) => void;
-  onRemove: (attachement: Attachement) => void;
+  value: Attachment[];
+  onAdd?: (attachment: Attachment) => void;
+  onRemove: (attachment: Attachment) => void;
 }) {
   const id = createId(() => props.id);
 
   return (
     <FormControl id={id()} label={props.label}>
-      <AttachementEditorList
+      <AttachmentEditorList
         value={props.value}
         onAdd={props.onAdd}
         onRemove={props.onRemove}
@@ -64,10 +64,10 @@ export function AttachementEditor(props: {
   );
 }
 
-export function AttachementEditorList(props: {
-  value: Attachement[];
-  onAdd?: (attachement: Attachement) => void;
-  onRemove: (attachement: Attachement) => void;
+export function AttachmentEditorList(props: {
+  value: Attachment[];
+  onAdd?: (attachment: Attachment) => void;
+  onRemove: (attachment: Attachment) => void;
   class?: string;
 }) {
   const t = T.useTranslate();
@@ -94,10 +94,10 @@ export function AttachementEditorList(props: {
         </Show>
 
         <For each={images()}>
-          {(attachement) => (
+          {(attachment) => (
             <div class="relative">
-              <RemoveButton onClick={() => props.onRemove(attachement)} />
-              <ImagePreview name={attachement.name} />
+              <RemoveButton onClick={() => props.onRemove(attachment)} />
+              <ImagePreview name={attachment.name} />
             </div>
           )}
         </For>
@@ -106,10 +106,10 @@ export function AttachementEditorList(props: {
       <Show when={notImages().length > 0}>
         <div class="row flex-wrap gap-4">
           <For each={notImages()}>
-            {(attachement) => (
+            {(attachment) => (
               <div class="relative rounded-md border-2 px-4 py-1 shadow">
-                <RemoveButton onClick={() => props.onRemove(attachement)} />
-                <FilePreview name={attachement.name} originalName={attachement.originalName} />
+                <RemoveButton onClick={() => props.onRemove(attachment)} />
+                <FilePreview name={attachment.name} originalName={attachment.originalName} />
               </div>
             )}
           </For>

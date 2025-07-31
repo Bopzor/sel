@@ -5,7 +5,7 @@ import { Event } from '../event/event.entities';
 import { Information } from '../information/information.entities';
 import { MemberWithAvatar } from '../member/member.entities';
 import { serializeMember } from '../member/member.serializer';
-import { MessageWithAttachements } from '../messages/message.entities';
+import { MessageWithAttachments } from '../messages/message.entities';
 import { serializeMessage } from '../messages/message.serializer';
 import { Request } from '../request/request.entities';
 
@@ -36,7 +36,7 @@ router.get('/', async (req, res) => {
 });
 
 function serializeFeedEvent(
-  event: Event & { organizer: MemberWithAvatar; message: MessageWithAttachements },
+  event: Event & { organizer: MemberWithAvatar; message: MessageWithAttachments },
 ): shared.FeedEvent {
   return {
     id: event.id,
@@ -49,7 +49,7 @@ function serializeFeedEvent(
 }
 
 function serializeFeedRequest(
-  request: Request & { requester: MemberWithAvatar; message: MessageWithAttachements },
+  request: Request & { requester: MemberWithAvatar; message: MessageWithAttachments },
 ): shared.FeedRequest {
   return {
     id: request.id,
@@ -62,7 +62,7 @@ function serializeFeedRequest(
 }
 
 function serializeFeedInformation(
-  information: Information & { author: MemberWithAvatar | null; message: MessageWithAttachements },
+  information: Information & { author: MemberWithAvatar | null; message: MessageWithAttachments },
 ): shared.FeedInformation {
   return {
     id: information.id,
