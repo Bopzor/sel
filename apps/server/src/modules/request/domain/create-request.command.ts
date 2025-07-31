@@ -12,6 +12,7 @@ export type CreateRequestCommand = {
   requesterId: string;
   title: string;
   body: string;
+  fileIds: string[];
 };
 
 export async function createRequest(command: CreateRequestCommand): Promise<void> {
@@ -23,7 +24,7 @@ export async function createRequest(command: CreateRequestCommand): Promise<void
     requesterId: command.requesterId,
     status: RequestStatus.pending,
     title: command.title,
-    messageId: await insertMessage(command.body),
+    messageId: await insertMessage(command.body, command.fileIds),
     date: dateAdapter.now(),
   });
 

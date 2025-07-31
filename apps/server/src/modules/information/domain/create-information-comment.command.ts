@@ -10,6 +10,7 @@ export type CreateInformationCommentCommand = {
   informationId: string;
   authorId: string;
   body: string;
+  fileIds: string[];
 };
 
 export async function createInformationComment(command: CreateInformationCommentCommand): Promise<void> {
@@ -22,7 +23,7 @@ export async function createInformationComment(command: CreateInformationComment
     id: commentId,
     informationId,
     authorId,
-    messageId: await insertMessage(body),
+    messageId: await insertMessage(body, command.fileIds),
     date: now,
   });
 

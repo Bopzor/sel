@@ -111,12 +111,12 @@ router.param('requestId', async (req, res, next) => {
 router.post('/', async (req, res) => {
   const requestId = container.resolve(TOKENS.generator).id();
   const member = getAuthenticatedMember();
-  const data = shared.createRequestBodySchema.parse(req.body);
+  const body = shared.createRequestBodySchema.parse(req.body);
 
   await createRequest({
     requestId,
     requesterId: member.id,
-    ...data,
+    ...body,
   });
 
   res.status(HttpStatus.created).send(requestId);
@@ -138,13 +138,13 @@ router.post('/:requestId/comment', async (req, res) => {
   const commentId = container.resolve(TOKENS.generator).id();
   const requestId = req.params.requestId;
   const member = getAuthenticatedMember();
-  const data = shared.createCommentBodySchema.parse(req.body);
+  const body = shared.createCommentBodySchema.parse(req.body);
 
   await createRequestComment({
     commentId,
     requestId,
     authorId: member.id,
-    body: data.body,
+    ...body,
   });
 
   res.status(HttpStatus.created).send(commentId);
@@ -153,12 +153,12 @@ router.post('/:requestId/comment', async (req, res) => {
 router.post('/:requestId/answer', async (req, res) => {
   const requestId = req.params.requestId;
   const member = getAuthenticatedMember();
-  const data = shared.setRequestAnswerBodySchema.parse(req.body);
+  const body = shared.setRequestAnswerBodySchema.parse(req.body);
 
   await setRequestAnswer({
     requestId,
     memberId: member.id,
-    answer: data.answer,
+    ...body,
   });
 
   res.status(HttpStatus.noContent).end();

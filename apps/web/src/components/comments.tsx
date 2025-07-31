@@ -1,17 +1,20 @@
 import { createForm, setValue } from '@modular-forms/solid';
-import { Comment, createCommentBodySchema } from '@sel/shared';
+import { Attachement, Comment, CreateCommentBody, createCommentBodySchema } from '@sel/shared';
+import { ReactiveMap } from '@solid-primitives/map';
 import { For, Show } from 'solid-js';
 
 import { getAuthenticatedMember } from 'src/application/query';
 import { FormattedDate } from 'src/intl/formatted';
 import { createTranslate } from 'src/intl/translate';
+import { createFileUploadHandler } from 'src/utils/file-upload';
 import { createId } from 'src/utils/id';
 import { createErrorMap, zodForm } from 'src/utils/validation';
 
+import { AttachementEditorList } from './attachements-editor';
 import { Button } from './button';
 import { MemberAvatarName } from './member-avatar-name';
-import { RichEditorToolbar, createRichEditor } from './rich-editor';
-import { RichText } from './rich-text';
+import { Message } from './message';
+import { createRichEditor, RichEditorToolbar } from './rich-editor';
 
 const T = createTranslate('common');
 
@@ -30,7 +33,7 @@ export function CommentList(props: { comments: Comment[] }) {
                 </div>
               </div>
 
-              <RichText class="mt-2 ml-10">{comment.message.body}</RichText>
+              <Message class="mt-2 ml-10" message={comment.message} attachementsSeparator={false} />
             </div>
           )}
         </For>
@@ -42,7 +45,7 @@ export function CommentList(props: { comments: Comment[] }) {
 export function CommentForm(props: {
   placeholder: string;
   loading: boolean;
-  onSubmit: (html: string) => Promise<void>;
+  onSubmit: (body: CreateCommentBody) => Promise<void>;
 }) {
   const member = getAuthenticatedMember();
   const id = createId(() => undefined);
@@ -51,7 +54,7 @@ export function CommentForm(props: {
 
   const [form, { Form, Field }] = createForm<{ body: string }>({
     initialValues: { body: '' },
-    validate: zodForm(createCommentBodySchema, { errorMap: createErrorMap() }),
+    validate: zodForm(createCommentBodySchema.omit({ fileIds: true }), { errorMap: createErrorMap() }),
   });
 
   const editor = createRichEditor({
@@ -60,38 +63,49 @@ export function CommentForm(props: {
     onChange: (body) => setValue(form, 'body', body),
   });
 
+  const attachements = new ReactiveMap<string, Attachement>();
+  const upload = createFileUploadHandler((file) => attachements.set(file.id, { fileId: file.id, ...file }));
+
+  const onSubmit = (values: { body: string }) => {
+    return props.onSubmit({ ...values, fileIds: Array.from(attachements.keys()) }).then(() => {
+      editor()?.chain().clearContent().run();
+      attachements.clear();
+    });
+  };
+
   return (
-    <Form
-      class="p-4 pb-2"
-      onSubmit={(values) => {
-        props.onSubmit(values.body).then(() => editor()?.chain().clearContent().run());
-      }}
-    >
+    <Form class="p-4 pb-2" onSubmit={onSubmit}>
+      <div class="row items-center justify-between">
+        <MemberAvatarName member={member()} />
+      </div>
+
+      <div ref={ref} id={id()} class="my-2 ml-10 col min-h-32 outline-hidden" />
+
+      <Show when={attachements.size > 0}>
+        <AttachementEditorList
+          value={Array.from(attachements.values())}
+          onRemove={(attachement) => attachements.delete(attachement.fileId)}
+          class="mb-4 col gap-2"
+        />
+      </Show>
+
       <Field name="body">
         {(field) => (
-          <>
-            <div class="row items-center justify-between">
-              <MemberAvatarName member={member()} />
+          <Show when={field.error}>
+            <div id={`${id()}-helper-text`} class="text-sm text-red-700">
+              {field.error}
             </div>
-
-            <div ref={ref} id={id()} class="my-2 ml-10 col min-h-32 outline-hidden" />
-
-            <Show when={field.error}>
-              <div id={`${id()}-helper-text`} class="text-sm text-red-700">
-                {field.error}
-              </div>
-            </Show>
-
-            <div class="row flex-wrap items-center justify-between gap-4">
-              <RichEditorToolbar editor={editor()} />
-
-              <Button type="submit" variant="outline" loading={props.loading}>
-                <T id="send" />
-              </Button>
-            </div>
-          </>
+          </Show>
         )}
       </Field>
+
+      <div class="row flex-wrap items-center justify-between gap-4">
+        <RichEditorToolbar editor={editor()} onFileAdded={upload} />
+
+        <Button type="submit" variant="outline" loading={props.loading}>
+          <T id="send" />
+        </Button>
+      </div>
     </Form>
   );
 }

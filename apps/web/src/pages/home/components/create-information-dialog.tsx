@@ -1,5 +1,6 @@
 import { createForm, reset, setValue } from '@modular-forms/solid';
-import { createInformationBodySchema } from '@sel/shared';
+import { Attachement, CreateInformationBody, createInformationBodySchema } from '@sel/shared';
+import { ReactiveMap } from '@solid-primitives/map';
 import { useMutation } from '@tanstack/solid-query';
 
 import { api } from 'src/application/api';
@@ -24,13 +25,15 @@ export function CreateInformationDialog(props: { open: boolean; onClose: () => v
       title: '',
       body: '',
     },
-    validate: zodForm(createInformationBodySchema, {
+    validate: zodForm(createInformationBodySchema.omit({ fileIds: true }), {
       errorMap: createErrorMap(),
     }),
   });
 
+  const attachements = new ReactiveMap<string, Attachement>();
+
   const mutation = useMutation(() => ({
-    async mutationFn(body: { title: string; body: string }) {
+    async mutationFn(body: CreateInformationBody) {
       await api.createInformation({ body });
     },
     async onSuccess() {
@@ -40,11 +43,18 @@ export function CreateInformationDialog(props: { open: boolean; onClose: () => v
     },
   }));
 
+  const onSubmit = (data: { title: string; body: string }) => {
+    return mutation.mutateAsync({
+      ...data,
+      fileIds: Array.from(attachements.keys()),
+    });
+  };
+
   return (
     <Dialog open={props.open} onClose={() => props.onClose()} onClosed={() => reset(form)} class="max-w-3xl">
       <DialogHeader title={<T id="dialogTitle" />} onClose={() => props.onClose()} />
 
-      <Form onSubmit={(data) => mutation.mutateAsync(data)} class="col gap-4">
+      <Form onSubmit={onSubmit} class="col gap-4">
         <Field name="title">
           {(field) => (
             <Input

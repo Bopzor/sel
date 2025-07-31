@@ -47,7 +47,7 @@ export function EditEventPage() {
       <Show when={query.data} fallback={<Skeleton />}>
         {(event) => (
           <EventForm
-            initialValues={event()}
+            initialValue={event()}
             onSubmit={(data) => editEvent.mutateAsync(data)}
             submit={<T id="submit" />}
           />

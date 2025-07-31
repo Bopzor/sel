@@ -12,6 +12,7 @@ export type UpdateEventCommand = {
   eventId: string;
   title?: string;
   body?: string;
+  fileIds: string[];
   kind?: shared.EventKind;
   date?: string;
   location?: shared.Address;
@@ -30,7 +31,7 @@ export async function updateEvent(command: UpdateEventCommand): Promise<void> {
   });
 
   if (command.body) {
-    await updateMessage(event.messageId, command.body);
+    await updateMessage(event.messageId, command.body, command.fileIds);
   }
 
   events.publish(new EventUpdatedEvent(command.eventId));

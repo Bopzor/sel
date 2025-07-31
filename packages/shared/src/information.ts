@@ -16,4 +16,7 @@ export type Information = {
 export const createInformationBodySchema = z.object({
   title: z.string().trim().min(5).max(255),
   body: z.string().trim().min(15),
+  fileIds: z.array(z.string()),
 });
+
+export type CreateInformationBody = z.infer<typeof createInformationBodySchema>;

@@ -47,7 +47,7 @@ export function Menu(props: {
         <Show when={props.open}>
           <div
             ref={setFloating}
-            class="fade-in fade-out col justify-stretch rounded-md bg-neutral p-2 shadow-lg"
+            class="col justify-stretch rounded-md bg-neutral p-2 shadow-lg fade-in fade-out"
             style={{
               position: position.strategy,
               top: `${position.y ?? 0}px`,

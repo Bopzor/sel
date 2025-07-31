@@ -238,11 +238,12 @@ function ProfilePictureField() {
 
   const mutation = useMutation(() => ({
     async mutationFn(file: File) {
-      const fileName = await api.uploadFile({ files: { file } });
+      const uploadedFile = await api.uploadFile({ files: { file } });
 
       await api.updateMemberProfile({
         path: { memberId: member().id },
-        body: { avatarFileName: fileName },
+        // todo: send file id
+        body: { avatarFileName: uploadedFile.name },
       });
     },
     async onSuccess() {

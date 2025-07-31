@@ -15,22 +15,23 @@ export type CreateEventCommand = {
   kind: shared.EventKind;
   date?: string;
   location?: shared.Address;
+  fileIds: string[];
 };
 
 export async function createEvent(command: CreateEventCommand): Promise<void> {
-  const { eventId, organizerId, title, body, kind, date, location } = command;
+  const { eventId, organizerId, title, body, fileIds, kind, date, location } = command;
 
   const events = container.resolve(TOKENS.events);
   const now = container.resolve(TOKENS.date).now();
 
   await db.insert(schema.events).values({
     id: eventId,
-    organizerId: organizerId,
-    title: title,
-    messageId: await insertMessage(body),
+    organizerId,
+    title,
+    messageId: await insertMessage(body, fileIds),
     date: date ? new Date(date) : undefined,
-    location: location,
-    kind: kind,
+    location,
+    kind,
     createdAt: now,
     updatedAt: now,
   });

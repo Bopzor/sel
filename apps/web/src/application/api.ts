@@ -83,7 +83,7 @@ export const api = {
 
   uploadFile: endpoint('post', '/files/upload').types<{
     files: { file: File };
-    result: string;
+    result: shared.File;
   }>(),
 
   // feed

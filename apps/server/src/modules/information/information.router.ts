@@ -57,15 +57,14 @@ router.get('/:informationId', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-  const { title, body } = shared.createInformationBodySchema.parse(req.body);
+  const body = shared.createInformationBodySchema.parse(req.body);
   const id = container.resolve(TOKENS.generator).id();
   const member = getAuthenticatedMember();
 
   await createInformation({
     informationId: id,
     authorId: member.id,
-    title,
-    body,
+    ...body,
   });
 
   res.status(HttpStatus.created).send(id);
@@ -74,14 +73,14 @@ router.post('/', async (req, res) => {
 router.post('/:informationId/comment', async (req, res) => {
   const informationId = req.params.informationId;
   const member = getAuthenticatedMember();
-  const data = shared.createCommentBodySchema.parse(req.body);
+  const body = shared.createCommentBodySchema.parse(req.body);
   const commentId = container.resolve(TOKENS.generator).id();
 
   await createInformationComment({
     commentId,
     informationId,
     authorId: member.id,
-    body: data.body,
+    ...body,
   });
 
   res.status(HttpStatus.created).send(commentId);

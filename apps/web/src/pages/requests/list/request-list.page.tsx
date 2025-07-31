@@ -7,7 +7,7 @@ import { routes } from 'src/application/routes';
 import { LinkButton } from 'src/components/button';
 import { Link } from 'src/components/link';
 import { MemberAvatarName } from 'src/components/member-avatar-name';
-import { RichText } from 'src/components/rich-text';
+import { Message } from 'src/components/message';
 import { BoxSkeleton, TextSkeleton } from 'src/components/skeleton';
 import { FormattedDate } from 'src/intl/formatted';
 import { createTranslate } from 'src/intl/translate';
@@ -76,7 +76,7 @@ function RequestItem(props: { request: Request }) {
           <RequestStatus status={props.request.status} />
         </div>
 
-        <RichText class="line-clamp-3">{props.request.message.body}</RichText>
+        <Message class="line-clamp-3" message={props.request.message} />
       </Link>
     </li>
   );

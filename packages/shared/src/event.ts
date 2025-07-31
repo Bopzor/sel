@@ -43,6 +43,7 @@ type EventParticipant = LightMember & {
 export const createEventBodySchema = z.object({
   title: z.string().trim().min(5).max(200),
   body: z.string().trim().min(10),
+  fileIds: z.array(z.string()),
   date: z.string().datetime().optional(),
   location: addressSchema.optional(),
   kind: z.nativeEnum(EventKind),
@@ -53,6 +54,7 @@ export type CreateEventBody = z.infer<typeof createEventBodySchema>;
 export const updateEventBodySchema = z.object({
   title: z.string().trim().min(5).max(200),
   body: z.string().trim().min(10),
+  fileIds: z.array(z.string()),
   date: z.string().datetime().optional(),
   location: addressSchema.optional(),
   kind: z.nativeEnum(EventKind).optional(),
