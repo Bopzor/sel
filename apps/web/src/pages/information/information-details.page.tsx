@@ -1,4 +1,4 @@
-import { Information } from '@sel/shared';
+import { CreateCommentBody, Information } from '@sel/shared';
 import { useParams } from '@solidjs/router';
 import { useMutation, useQuery } from '@tanstack/solid-query';
 import { Show } from 'solid-js';
@@ -9,7 +9,7 @@ import { apiQuery, useInvalidateApi } from 'src/application/query';
 import { Card } from 'src/components/card';
 import { CommentForm, CommentList } from 'src/components/comments';
 import { MemberAvatarName } from 'src/components/member-avatar-name';
-import { RichText } from 'src/components/rich-text';
+import { Message } from 'src/components/message';
 import { createTranslate } from 'src/intl/translate';
 
 const T = createTranslate('pages.information');
@@ -22,7 +22,7 @@ export function InformationDetailsPage() {
     <div class="col gap-8">
       <Card title={<MemberAvatarName member={query.data?.author} />}>
         <h1 class="mb-4 text-3xl">{query.data?.title}</h1>
-        <RichText>{query.data?.message.body}</RichText>
+        <Message message={query.data?.message} />
       </Card>
 
       <Show when={query.data}>{(information) => <InformationComments information={information()} />}</Show>
@@ -35,10 +35,10 @@ export function InformationComments(props: { information: Information }) {
   const invalidate = useInvalidateApi();
 
   const mutation = useMutation(() => ({
-    async mutationFn(body: string) {
+    async mutationFn(body: CreateCommentBody) {
       await api.createInformationComment({
         path: { informationId: props.information.id },
-        body: { body },
+        body,
       });
     },
     async onSuccess() {
@@ -53,7 +53,7 @@ export function InformationComments(props: { information: Information }) {
       <CommentForm
         placeholder={t('createComment.placeholder')}
         loading={mutation.isPending}
-        onSubmit={(html) => mutation.mutateAsync(html)}
+        onSubmit={(body) => mutation.mutateAsync(body)}
       />
     </Card>
   );

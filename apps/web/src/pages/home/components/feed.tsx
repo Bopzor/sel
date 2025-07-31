@@ -1,4 +1,4 @@
-import { FeedItem as FeedItemType, LightMember } from '@sel/shared';
+import { FeedItem as FeedItemType, LightMember, Message as MessageType } from '@sel/shared';
 import { useQuery } from '@tanstack/solid-query';
 import { Icon } from 'solid-heroicons';
 import { calendar, chatBubbleBottomCenterText, handRaised } from 'solid-heroicons/solid';
@@ -10,7 +10,7 @@ import { routes } from 'src/application/routes';
 import { Card2, CardContent, CardHeader, CardTitle } from 'src/components/card';
 import { Link } from 'src/components/link';
 import { MemberAvatarName } from 'src/components/member-avatar-name';
-import { RichText } from 'src/components/rich-text';
+import { Message } from 'src/components/message';
 import { FormattedRelativeDate } from 'src/intl/formatted';
 import { createTranslate } from 'src/intl/translate';
 
@@ -26,7 +26,7 @@ export function Feed() {
         member: entity.requester,
         date: entity.publishedAt,
         title: entity.title,
-        content: entity.message.body,
+        message: entity.message,
         link: routes.requests.details(entity.id),
       };
     }
@@ -37,7 +37,7 @@ export function Feed() {
         member: entity.organizer,
         date: entity.publishedAt,
         title: entity.title,
-        content: entity.message.body,
+        message: entity.message,
         link: routes.events.details(entity.id),
       };
     }
@@ -48,7 +48,7 @@ export function Feed() {
         member: entity.author,
         date: entity.publishedAt,
         title: entity.title,
-        content: entity.message.body,
+        message: entity.message,
         link: routes.information.details(entity.id),
       };
     }
@@ -72,7 +72,7 @@ function FeedItem(props: {
   member?: LightMember;
   date: string;
   title: JSX.Element;
-  content: string;
+  message: MessageType;
   link: string;
 }) {
   const iconMap = {
@@ -108,7 +108,7 @@ function FeedItem(props: {
               classes={{ root: 'mb-4', name: 'text-lg' }}
               link={false}
             />
-            <RichText class="line-clamp-6">{props.content}</RichText>
+            <Message class="line-clamp-6" message={props.message} />
           </CardContent>
         </Card2>
       </Link>

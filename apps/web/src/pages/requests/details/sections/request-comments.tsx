@@ -1,4 +1,4 @@
-import { Request } from '@sel/shared';
+import { CreateCommentBody, Request } from '@sel/shared';
 import { useMutation } from '@tanstack/solid-query';
 
 import { api } from 'src/application/api';
@@ -15,10 +15,10 @@ export function RequestComments(props: { request: Request }) {
   const invalidate = useInvalidateApi();
 
   const mutation = useMutation(() => ({
-    async mutationFn(body: string) {
+    async mutationFn(body: CreateCommentBody) {
       await api.createRequestComment({
         path: { requestId: props.request.id },
-        body: { body },
+        body,
       });
     },
     async onSuccess() {
@@ -33,7 +33,7 @@ export function RequestComments(props: { request: Request }) {
       <CommentForm
         placeholder={t('createComment.placeholder')}
         loading={mutation.isPending}
-        onSubmit={(html) => mutation.mutateAsync(html)}
+        onSubmit={(body) => mutation.mutateAsync(body)}
       />
     </Card>
   );

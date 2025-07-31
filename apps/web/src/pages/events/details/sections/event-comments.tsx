@@ -1,4 +1,4 @@
-import { Event } from '@sel/shared';
+import { CreateCommentBody, Event } from '@sel/shared';
 import { useMutation } from '@tanstack/solid-query';
 
 import { api } from 'src/application/api';
@@ -15,10 +15,10 @@ export function EventComments(props: { event: Event }) {
   const invalidate = useInvalidateApi();
 
   const mutation = useMutation(() => ({
-    async mutationFn(body: string) {
+    async mutationFn(body: CreateCommentBody) {
       await api.createEventComment({
         path: { eventId: props.event.id },
-        body: { body },
+        body,
       });
     },
     async onSuccess() {
@@ -33,7 +33,7 @@ export function EventComments(props: { event: Event }) {
       <CommentForm
         placeholder={t('createComment.placeholder')}
         loading={mutation.isPending}
-        onSubmit={(html) => mutation.mutateAsync(html)}
+        onSubmit={(body) => mutation.mutateAsync(body)}
       />
     </Card>
   );

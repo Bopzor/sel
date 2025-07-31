@@ -10,10 +10,11 @@ export type CreateEventCommentCommand = {
   eventId: string;
   authorId: string;
   body: string;
+  fileIds: string[];
 };
 
 export async function createEventComment(command: CreateEventCommentCommand): Promise<void> {
-  const { commentId, eventId, authorId, body } = command;
+  const { commentId, eventId, authorId, body, fileIds } = command;
 
   const events = container.resolve(TOKENS.events);
   const now = container.resolve(TOKENS.date).now();
@@ -22,7 +23,7 @@ export async function createEventComment(command: CreateEventCommentCommand): Pr
     id: commentId,
     eventId,
     authorId,
-    messageId: await insertMessage(body),
+    messageId: await insertMessage(body, fileIds),
     date: now,
   });
 

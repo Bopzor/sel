@@ -5,6 +5,7 @@ import { JSX } from 'solid-js';
 import { z } from 'zod';
 
 import { AddressSearch } from 'src/components/address-search';
+import { AttachementsEditorField } from 'src/components/attachements-editor';
 import { Button } from 'src/components/button';
 import { Input } from 'src/components/input';
 import { RichEditor } from 'src/components/rich-editor';
@@ -13,8 +14,7 @@ import { createErrorMap, zodForm } from 'src/utils/validation';
 
 const T = createTranslate('pages.events.form');
 
-const schema = createEventBodySchema.extend({
-  kind: z.undefined(),
+const schema = createEventBodySchema.omit({ kind: true }).extend({
   date: z
     .date()
     .optional()
@@ -25,7 +25,7 @@ const schema = createEventBodySchema.extend({
 type FormType = z.infer<typeof schema>;
 
 export function EventForm(props: {
-  initialValues?: Event;
+  initialValue?: Event;
   onSubmit: (data: CreateEventBody) => Promise<unknown>;
   submit: JSX.Element;
 }) {
@@ -33,10 +33,11 @@ export function EventForm(props: {
 
   const [form, { Form, Field }] = createForm<FormType>({
     initialValues: {
-      title: props.initialValues?.title,
-      body: props.initialValues?.message.body,
-      location: props.initialValues?.location ?? null,
-      date: props.initialValues?.date ? new Date(props.initialValues.date) : undefined,
+      title: props.initialValue?.title,
+      body: props.initialValue?.message.body,
+      location: props.initialValue?.location ?? null,
+      date: props.initialValue?.date ? new Date(props.initialValue.date) : undefined,
+      fileIds: props.initialValue?.message.attachements.map(({ fileId }) => fileId) ?? [],
     },
     validate: zodForm(schema, {
       errorMap: createErrorMap((error) => {
@@ -47,19 +48,19 @@ export function EventForm(props: {
     }),
   });
 
+  const onSubmit = ({ title, body, date, location, fileIds }: FormType) => {
+    return props.onSubmit({
+      title,
+      body,
+      date: date ? date.toISOString() : undefined,
+      location: location ?? undefined,
+      kind: EventKind.internal,
+      fileIds,
+    });
+  };
+
   return (
-    <Form
-      class="my-6 col max-w-4xl gap-4"
-      onSubmit={({ title, body, date, location }) => {
-        return props.onSubmit({
-          title,
-          body,
-          date: date ? date.toISOString() : undefined,
-          location: location ?? undefined,
-          kind: EventKind.internal,
-        });
-      }}
-    >
+    <Form class="my-6 col max-w-4xl gap-4" onSubmit={onSubmit}>
       <Field name="title">
         {(field, props) => (
           <Input
@@ -81,6 +82,16 @@ export function EventForm(props: {
             error={field.error}
             initialValue={field.value}
             onChange={(html) => setValue(form, 'body', html)}
+          />
+        )}
+      </Field>
+
+      <Field name="fileIds" type="string[]">
+        {() => (
+          <AttachementsEditorField
+            label={<T id="attachements.label" />}
+            initialValue={props.initialValue?.message.attachements}
+            onChange={(fileIds) => setValue(form, 'fileIds', fileIds)}
           />
         )}
       </Field>

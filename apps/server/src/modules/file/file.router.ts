@@ -1,6 +1,7 @@
 import { AsyncResource } from 'node:async_hooks';
 
-import { assert } from '@sel/utils';
+import * as shared from '@sel/shared';
+import { assert, pick } from '@sel/utils';
 import { eq } from 'drizzle-orm';
 import { RequestHandler, Router } from 'express';
 import multer from 'multer';
@@ -12,6 +13,7 @@ import { db } from 'src/persistence';
 import { files } from 'src/persistence/schema';
 import { TOKENS } from 'src/tokens';
 
+import { FileInsert } from './file.entity';
 import { insertFile } from './file.persistence';
 
 // cspell:word originalname
@@ -60,16 +62,20 @@ router.post('/upload', ensureAsyncContext(upload.single('file')), async (req, re
 
   await storage.storeFile(name, req.file.buffer, req.file.mimetype);
 
-  await insertFile({
+  const file: FileInsert = {
     id,
     name,
     originalName: req.file.originalname,
     mimetype: req.file.mimetype,
     size: req.file.size,
     uploadedBy: member.id,
-  });
+  };
 
-  res.status(HttpStatus.created).send(name);
+  await insertFile(file);
+
+  res
+    .status(HttpStatus.created)
+    .send(pick(file, ['id', 'name', 'originalName', 'mimetype']) satisfies shared.File);
 });
 
 function getExtension(file: Express.Multer.File) {

@@ -10,6 +10,7 @@ export type CreateRequestCommentCommand = {
   requestId: string;
   authorId: string;
   body: string;
+  fileIds: string[];
 };
 
 export async function createRequestComment(command: CreateRequestCommentCommand): Promise<void> {
@@ -22,7 +23,7 @@ export async function createRequestComment(command: CreateRequestCommentCommand)
     id: commentId,
     requestId,
     authorId,
-    messageId: await insertMessage(body),
+    messageId: await insertMessage(body, command.fileIds),
     date: now,
   });
 

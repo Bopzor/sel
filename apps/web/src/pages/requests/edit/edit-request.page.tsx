@@ -47,7 +47,7 @@ export function EditRequestPage() {
       <Show when={query.data} fallback={<Skeleton />}>
         {(request) => (
           <RequestForm
-            initialValues={{ title: request().title, body: request().message.body }}
+            initialValue={request()}
             onSubmit={(data) => editRequest.mutateAsync(data)}
             submit={<T id="submit" />}
           />

@@ -42,6 +42,7 @@ export type RequestAnswer = {
 export const createRequestBodySchema = z.object({
   title: z.string().trim().min(5).max(200),
   body: z.string().trim().min(15),
+  fileIds: z.array(z.string()),
 });
 
 export const updateRequestBodySchema = createRequestBodySchema;

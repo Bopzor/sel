@@ -10,6 +10,7 @@ export type CreateInformationCommand = {
   authorId: string;
   title: string;
   body: string;
+  fileIds: string[];
 };
 
 export async function createInformation(command: CreateInformationCommand): Promise<void> {
@@ -20,7 +21,7 @@ export async function createInformation(command: CreateInformationCommand): Prom
     id: command.informationId,
     title: command.title,
     authorId: command.authorId,
-    messageId: await insertMessage(command.body),
+    messageId: await insertMessage(command.body, command.fileIds),
     publishedAt: now,
   });
 

@@ -92,13 +92,9 @@ router.post('/', async (req, res) => {
   const eventId = container.resolve(TOKENS.generator).id();
 
   await createEvent({
-    eventId: eventId,
+    eventId,
     organizerId: member.id,
-    title: body.title,
-    body: body.body,
-    date: body.date,
-    location: body.location,
-    kind: body.kind,
+    ...body,
   });
 
   res.status(HttpStatus.created).send(eventId);
@@ -109,12 +105,8 @@ router.put('/:eventId', isOrganizer, async (req, res) => {
   const body = shared.updateEventBodySchema.parse(req.body);
 
   await updateEvent({
-    eventId: eventId,
-    title: body.title,
-    body: body.body,
-    date: body.date,
-    location: body.location,
-    kind: body.kind,
+    eventId,
+    ...body,
   });
 
   res.status(HttpStatus.noContent).end();
@@ -137,14 +129,14 @@ router.put('/:eventId/participation', async (req, res) => {
 router.post('/:eventId/comment', async (req, res) => {
   const eventId = req.params.eventId;
   const member = getAuthenticatedMember();
-  const data = shared.createCommentBodySchema.parse(req.body);
+  const body = shared.createCommentBodySchema.parse(req.body);
   const commentId = container.resolve(TOKENS.generator).id();
 
   await createEventComment({
     commentId,
     eventId,
     authorId: member.id,
-    body: data.body,
+    ...body,
   });
 
   res.status(HttpStatus.created).send(commentId);

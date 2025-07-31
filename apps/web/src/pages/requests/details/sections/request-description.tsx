@@ -2,7 +2,7 @@ import { Request } from '@sel/shared';
 
 import { Card } from 'src/components/card';
 import { MemberAvatarName } from 'src/components/member-avatar-name';
-import { RichText } from 'src/components/rich-text';
+import { Message } from 'src/components/message';
 
 export function RequestDescription(props: { request: Request }) {
   return (
@@ -15,7 +15,7 @@ export function RequestDescription(props: { request: Request }) {
       }
       class="lg:p-8"
     >
-      <RichText>{props.request.message.body}</RichText>
+      <Message message={props.request.message} />
     </Card>
   );
 }

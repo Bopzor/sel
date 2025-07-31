@@ -11,6 +11,7 @@ export type EditRequestCommand = {
   requestId: string;
   title: string;
   body: string;
+  fileIds: string[];
 };
 
 export async function editRequest(command: EditRequestCommand): Promise<void> {
@@ -22,7 +23,7 @@ export async function editRequest(command: EditRequestCommand): Promise<void> {
     title: command.title,
   });
 
-  await updateMessage(request.messageId, command.body);
+  await updateMessage(request.messageId, command.body, command.fileIds);
 
   events.publish(new RequestEditedEvent(command.requestId));
 }

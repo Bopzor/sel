@@ -1,4 +1,3 @@
-import { useMutation } from '@tanstack/solid-query';
 import { Editor } from '@tiptap/core';
 import Image from '@tiptap/extension-image';
 import Link from '@tiptap/extension-link';
@@ -13,11 +12,10 @@ import { default as IconListBullet } from 'heroicons/24/solid/list-bullet.svg';
 import { default as IconNumberedList } from 'heroicons/24/solid/numbered-list.svg';
 import { default as IconPaperClip } from 'heroicons/24/solid/paper-clip.svg';
 import { default as IconUnderline } from 'heroicons/24/solid/underline.svg';
-import { JSX, splitProps, ValidComponent } from 'solid-js';
+import { JSX, Show, splitProps, ValidComponent } from 'solid-js';
 import { Dynamic } from 'solid-js/web';
 import { createEditorTransaction, createTiptapEditor } from 'solid-tiptap';
 
-import { api } from 'src/application/api';
 import { createTranslate } from 'src/intl/translate';
 import { createId } from 'src/utils/id';
 
@@ -72,7 +70,7 @@ export function RichEditor(_props: Omit<RichEditorProps, 'element'>) {
 
   return (
     <FormControl id={id()} {...formControlProps}>
-      <div class={field({ ...fieldProps, class: 'col items-stretch h-48 resize-y overflow-auto' })}>
+      <div class={field({ ...fieldProps, class: 'col! items-stretch h-48 resize-y overflow-auto' })}>
         <div
           ref={ref}
           aria-invalid={Boolean(formControlProps.error)}
@@ -89,7 +87,11 @@ export function RichEditor(_props: Omit<RichEditorProps, 'element'>) {
   );
 }
 
-export function RichEditorToolbar(props: { editor?: Editor; class?: string }) {
+export function RichEditorToolbar(props: {
+  editor?: Editor;
+  onFileAdded?: (event: { target: HTMLInputElement }) => void;
+  class?: string;
+}) {
   const t = T.useTranslate();
 
   const [isBold, isItalic, isUnderline, isBulletList, isOrderedList, isLink] = [
@@ -120,9 +122,6 @@ export function RichEditorToolbar(props: { editor?: Editor; class?: string }) {
       props.editor?.chain().focus().extendMarkRange('link').setLink({ href: url }).run();
     }
   };
-
-  let fileInput!: HTMLInputElement;
-  const handleFileUpload = createFileUploadHandler(() => props.editor);
 
   return (
     <div class={clsx('row gap-1', props.class)}>
@@ -163,31 +162,22 @@ export function RichEditorToolbar(props: { editor?: Editor; class?: string }) {
         onClick={() => props.editor?.chain().focus().toggleOrderedList().run()}
       />
 
-      <ToolbarItem
-        title={t('upload')}
-        icon={IconPaperClip}
-        active={false}
-        onClick={() => fileInput.click()}
-      />
-
-      <form onSubmit={handleFileUpload} class="sr-only">
-        <input
-          ref={fileInput}
-          name="file"
-          type="file"
-          onChange={(event) => event.target.form?.requestSubmit()}
-        />
-      </form>
+      <Show when={props.onFileAdded !== undefined}>
+        <label role="button" class="rounded-sm p-0.5">
+          <Dynamic component={IconPaperClip} class="size-5 text-dim transition-colors hover:text-text" />
+          <input type="file" onChange={(event) => props.onFileAdded?.(event)} class="sr-only" />
+        </label>
+      </Show>
     </div>
   );
 }
 
-function ToolbarItem(props: { title: string; icon: ValidComponent; active?: boolean; onClick: () => void }) {
+function ToolbarItem(props: { title: string; icon: ValidComponent; active?: boolean; onClick?: () => void }) {
   return (
     <button
       type="button"
       title={props.title}
-      onClick={() => props.onClick()}
+      onClick={() => props.onClick?.()}
       class="rounded-sm p-0.5"
       classList={{
         'fill-icon/75': !props.active,
@@ -197,48 +187,4 @@ function ToolbarItem(props: { title: string; icon: ValidComponent; active?: bool
       <Dynamic component={props.icon} class="size-5 text-dim transition-colors hover:text-text" />
     </button>
   );
-}
-
-function createFileUploadHandler(editor: () => Editor | undefined) {
-  const fileUpload = useMutation(() => ({
-    async mutationFn(file: File) {
-      const fileName = await api.uploadFile({ files: { file } });
-
-      return {
-        originalFileName: file.name,
-        fileName,
-      };
-    },
-    onSuccess({ originalFileName, fileName }) {
-      const chain = editor()?.chain();
-
-      if (!chain) {
-        return;
-      }
-
-      chain.createParagraphNear().focus().run();
-
-      if (fileName.endsWith('.pdf')) {
-        chain
-          .insertContent({ type: 'text', text: originalFileName })
-          .selectParentNode()
-          .setLink({ href: `/api/files/${fileName}`, target: '_blank' });
-      } else {
-        chain.setImage({ src: `/api/files/${fileName}` });
-      }
-
-      chain.run();
-    },
-  }));
-
-  return (event: SubmitEvent) => {
-    event.preventDefault();
-
-    const form = event.target as HTMLFormElement;
-    const file = new FormData(form).get('file') as File;
-
-    fileUpload.mutate(file);
-
-    form.reset();
-  };
 }

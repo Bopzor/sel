@@ -20,4 +20,5 @@ export type CreateCommentBody = z.infer<typeof createCommentBodySchema>;
 
 export const createCommentBodySchema = z.object({
   body: z.string().trim().min(10),
+  fileIds: z.array(z.string()),
 });

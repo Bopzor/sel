@@ -41,6 +41,12 @@
       "linkTarget": "Cible du lien :",
       "upload": "Envoyer un fichier"
     },
+    "attachementsEditor": {
+      "add": "Ajouter un fichier"
+    },
+    "message": {
+      "attachements": "Pièces jointes"
+    },
     "transactionDialog": {
       "title": "Créer un échange {name, select, undefined {} other {avec <strong>{name}</strong>}}",
       "next": "Continuer",
@@ -332,6 +338,9 @@
         "body": {
           "label": "Message",
           "placeholder": "J'ai besoin d'un coup de main pour..."
+        },
+        "attachements": {
+          "label": "Pièces jointes"
         }
       },
       "create": {
@@ -400,6 +409,9 @@
         "body": {
           "label": "Message",
           "placeholder": "J'organise une activité..."
+        },
+        "attachements": {
+          "label": "Pièces jointes"
         },
         "date": {
           "label": "Date",
