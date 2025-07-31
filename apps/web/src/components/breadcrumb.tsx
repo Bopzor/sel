@@ -59,8 +59,13 @@ function Crumb<T>(props: {
       }
     >
       {chevron}
+
       <Show when={props.query?.isSuccess ? props.query.data : false} fallback={<TextSkeleton width={12} />}>
-        {(data) => <Link href={link(data())}>{label(data())}</Link>}
+        {(data) => (
+          <Link href={link(data())} classList={{ truncate: props.truncate }}>
+            {label(data())}
+          </Link>
+        )}
       </Show>
     </Show>
   );
