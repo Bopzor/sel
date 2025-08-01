@@ -36,9 +36,8 @@ export function InformationComments(props: { information: Information }) {
 
   const mutation = useMutation(() => ({
     async mutationFn(body: CreateCommentBody) {
-      await api.createInformationComment({
-        path: { informationId: props.information.id },
-        body,
+      await api.createComment({
+        body: { ...body, informationId: props.information.id },
       });
     },
     async onSuccess() {

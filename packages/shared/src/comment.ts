@@ -22,3 +22,9 @@ export const createCommentBodySchema = z.object({
   body: z.string().trim().min(10),
   fileIds: z.array(z.string()).optional(),
 });
+
+export const createCommentBodyWithEntitySchema = z.union([
+  createCommentBodySchema.merge(z.object({ informationId: z.string() })),
+  createCommentBodySchema.merge(z.object({ eventId: z.string() })),
+  createCommentBodySchema.merge(z.object({ requestId: z.string() })),
+]);

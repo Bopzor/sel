@@ -14,7 +14,6 @@ import { serializeMember } from '../member/member.serializer';
 import { MessageWithAttachments, withAttachments } from '../messages/message.entities';
 import { serializeMessage } from '../messages/message.serializer';
 
-import { createInformationComment } from './domain/create-information-comment.command';
 import { createInformation } from './domain/create-information.command';
 import { Information } from './information.entities';
 
@@ -69,23 +68,6 @@ router.post('/', async (req, res) => {
   });
 
   res.status(HttpStatus.created).send(id);
-});
-
-router.post('/:informationId/comment', async (req, res) => {
-  const informationId = req.params.informationId;
-  const member = getAuthenticatedMember();
-  const body = shared.createCommentBodySchema.parse(req.body);
-  const commentId = container.resolve(TOKENS.generator).id();
-
-  await createInformationComment({
-    commentId,
-    informationId,
-    authorId: member.id,
-    ...body,
-    fileIds: body.fileIds ?? [],
-  });
-
-  res.status(HttpStatus.created).send(commentId);
 });
 
 function serializeInformation(
