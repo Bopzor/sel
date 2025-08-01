@@ -21,6 +21,7 @@ const notificationTypes = [
   'TransactionCompleted',
   'TransactionCanceled',
   'InformationPublished',
+  'InformationCommentCreated',
   'NewsPublished',
 ] as const;
 
@@ -258,6 +259,32 @@ export type NotificationData = {
         name: string;
       };
       title: string;
+      body: {
+        html: string;
+        text: string;
+      };
+    };
+  };
+
+  InformationCommentCreated: {
+    member: {
+      firstName: string;
+    };
+    isPublisher: boolean;
+    information: {
+      id: string;
+      title: string;
+      author?: {
+        id: string;
+        name: string;
+      };
+    };
+    comment: {
+      id: string;
+      author: {
+        id: string;
+        name: string;
+      };
       body: {
         html: string;
         text: string;
