@@ -10,8 +10,12 @@ import {
   EventCreatedEvent,
   EventParticipationSetEvent,
 } from './modules/event/event.entities';
+import { notifyInformationCommentCreated } from './modules/information/domain/notify-information-comment-create.event-handler';
 import { notifyInformationPublished } from './modules/information/domain/notify-information-published.event-handler';
-import { InformationPublished } from './modules/information/information.entities';
+import {
+  InformationCommentCreatedEvent,
+  InformationPublished as InformationPublishedEvent,
+} from './modules/information/information.entities';
 import { reportOnboardingCompleted } from './modules/member/domain/report-onboarding-completed.event-handler';
 import { OnboardingCompletedEvent } from './modules/member/member.entities';
 import { notifyRequestCommentCreated } from './modules/request/domain/notify-request-comment-create.event-handler';
@@ -68,7 +72,8 @@ function bindEventListeners() {
   events.addListener(TransactionCompletedEvent, notifyTransactionCompleted);
   events.addListener(TransactionCanceledEvent, notifyTransactionCanceled);
 
-  events.addListener(InformationPublished, notifyInformationPublished);
+  events.addListener(InformationPublishedEvent, notifyInformationPublished);
+  events.addListener(InformationCommentCreatedEvent, notifyInformationCommentCreated);
 }
 
 async function logDomainEvent(event: DomainEvent<unknown>) {

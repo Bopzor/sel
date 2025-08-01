@@ -17,7 +17,6 @@ import { serializeMember } from '../member/member.serializer';
 import { MessageWithAttachments, withAttachments } from '../messages/message.entities';
 import { serializeMessage } from '../messages/message.serializer';
 
-import { createEventComment } from './domain/create-event-comment.command';
 import { createEvent } from './domain/create-event.command';
 import { setEventParticipation } from './domain/set-event-participation.command';
 import { updateEvent } from './domain/update-event.command';
@@ -124,22 +123,6 @@ router.put('/:eventId/participation', async (req, res) => {
   });
 
   res.status(HttpStatus.noContent).end();
-});
-
-router.post('/:eventId/comment', async (req, res) => {
-  const eventId = req.params.eventId;
-  const member = getAuthenticatedMember();
-  const body = shared.createCommentBodySchema.parse(req.body);
-  const commentId = container.resolve(TOKENS.generator).id();
-
-  await createEventComment({
-    commentId,
-    eventId,
-    authorId: member.id,
-    ...body,
-  });
-
-  res.status(HttpStatus.created).send(commentId);
 });
 
 function serializeEvents(events: Array<Event & { organizer: MemberWithAvatar }>): shared.EventsListItem[] {
