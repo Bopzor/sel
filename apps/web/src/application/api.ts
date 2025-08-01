@@ -86,6 +86,13 @@ export const api = {
     result: shared.File;
   }>(),
 
+  // comment
+
+  createComment: endpoint('post', '/comment').types<{
+    body: typeof shared.createCommentBodyWithEntitySchema;
+    result: string;
+  }>(),
+
   // feed
 
   getFeed: endpoint('get', '/feed').types<{
@@ -105,12 +112,6 @@ export const api = {
 
   createInformation: endpoint('post', '/information').types<{
     body: typeof shared.createInformationBodySchema;
-    result: string;
-  }>(),
-
-  createInformationComment: endpoint('post', '/information/:informationId/comment').types<{
-    path: { informationId: string };
-    body: typeof shared.createCommentBodySchema;
     result: string;
   }>(),
 
@@ -148,12 +149,6 @@ export const api = {
     body: typeof shared.setRequestAnswerBodySchema;
   }>(),
 
-  createRequestComment: endpoint('post', '/requests/:requestId/comment').types<{
-    path: { requestId: string };
-    body: typeof shared.createCommentBodySchema;
-    result: string;
-  }>(),
-
   createRequestTransaction: endpoint('post', '/requests/:requestId/transaction').types<{
     path: { requestId: string };
     body: typeof shared.createTransactionBodySchema;
@@ -183,12 +178,6 @@ export const api = {
   setEventParticipation: endpoint('put', '/events/:eventId/participation').types<{
     path: { eventId: string };
     body: typeof shared.setEventParticipationBodySchema;
-  }>(),
-
-  createEventComment: endpoint('post', '/events/:eventId/comment').types<{
-    path: { eventId: string };
-    body: typeof shared.createCommentBodySchema;
-    result: string;
   }>(),
 
   // interests

@@ -20,7 +20,6 @@ import { createTransaction } from '../transaction/domain/create-transaction.comm
 import { Transaction } from '../transaction/transaction.entities';
 
 import { changeRequestStatus } from './domain/change-request-status.command';
-import { createRequestComment } from './domain/create-request-comment.command';
 import { createRequest } from './domain/create-request.command';
 import { editRequest } from './domain/edit-request.command';
 import { setRequestAnswer } from './domain/set-request-answer.command';
@@ -134,23 +133,6 @@ router.put('/:requestId', isRequester, async (req, res) => {
   });
 
   res.status(HttpStatus.noContent).end();
-});
-
-router.post('/:requestId/comment', async (req, res) => {
-  const commentId = container.resolve(TOKENS.generator).id();
-  const requestId = req.params.requestId;
-  const member = getAuthenticatedMember();
-  const body = shared.createCommentBodySchema.parse(req.body);
-
-  await createRequestComment({
-    commentId,
-    requestId,
-    authorId: member.id,
-    ...body,
-    fileIds: body.fileIds ?? [],
-  });
-
-  res.status(HttpStatus.created).send(commentId);
 });
 
 router.post('/:requestId/answer', async (req, res) => {
