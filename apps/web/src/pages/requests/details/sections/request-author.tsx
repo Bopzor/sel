@@ -9,7 +9,7 @@ export function RequestAuthor(props: { request: Request }) {
     <Card>
       <MemberAvatarName
         member={props.request.requester}
-        classes={{ root: 'col my-8 mx-auto', avatar: 'size-32!', name: 'text-xl' }}
+        classes={{ root: 'col! my-8 mx-auto', avatar: 'size-24 sm:size-32', name: 'text-xl' }}
       />
 
       <MemberContactInfo member={props.request.requester} />

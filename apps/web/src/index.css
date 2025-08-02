@@ -78,6 +78,7 @@
 
     a {
       color: var(--color-blue-500);
+      word-break: break-all;
     }
 
     li,
