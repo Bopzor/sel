@@ -11,7 +11,7 @@ import { apiQuery } from 'src/application/query';
 import { routes } from 'src/application/routes';
 import { LinkButton } from 'src/components/button';
 import { Calendar } from 'src/components/calendar';
-import { Card, CardFallback } from 'src/components/card';
+import { card } from 'src/components/card';
 import { Link } from 'src/components/link';
 import { BoxSkeleton } from 'src/components/skeleton';
 import { FormattedDate } from 'src/intl/formatted';
@@ -69,16 +69,16 @@ export function EventListPage() {
                 </button>
               </div>
 
-              <Card>
+              <div class={card.content()}>
                 <ul>
                   <For
                     each={filterEvents(events())}
-                    fallback={<CardFallback>{<T id="empty" />}</CardFallback>}
+                    fallback={<div class={card.fallback()}>{<T id="empty" />}</div>}
                   >
                     {(event) => <EventItem event={event} class="rounded-md p-2 hover:bg-primary/5" />}
                   </For>
                 </ul>
-              </Card>
+              </div>
             </div>
 
             <div class="hidden flex-1 gap-4 lg:col">

@@ -3,7 +3,7 @@ import { Icon } from 'solid-heroicons';
 import { check, xMark } from 'solid-heroicons/solid';
 import { For } from 'solid-js';
 
-import { Card, CardFallback } from 'src/components/card';
+import { card, Card } from 'src/components/card';
 import { MemberAvatarName } from 'src/components/member-avatar-name';
 import { TranslateRequestAnswer } from 'src/intl/enums';
 import { createTranslate } from 'src/intl/translate';
@@ -17,9 +17,9 @@ export function RequestAnswerList(props: { request: Request }) {
         <For
           each={props.request.answers}
           fallback={
-            <CardFallback>
+            <div class={card.fallback()}>
               <T id="empty" />
-            </CardFallback>
+            </div>
           }
         >
           {(answer) => (

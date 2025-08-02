@@ -1,52 +1,44 @@
-import clsx from 'clsx';
-import { ComponentProps, JSX, mergeProps, Show } from 'solid-js';
+import { cva } from 'cva';
+import { JSX, Show } from 'solid-js';
 
-export function Card(props_: {
+type CardProps = {
+  classes?: Partial<Record<keyof typeof card, string>>;
   padding?: boolean;
-  title?: JSX.Element;
+  title: JSX.Element;
   children: JSX.Element;
-  class?: string;
-}) {
-  const props = mergeProps({ padding: true }, props_);
+};
 
+export function Card(props: CardProps) {
   return (
     <section>
       <Show when={props.title}>
-        <header class="mb-2">
-          <h2 class="text-xl font-semibold text-dim">{props.title}</h2>
+        <header class={card.header({ class: props.classes?.header })}>
+          <h2 class={card.title({ class: props.classes?.title })}>{props.title}</h2>
         </header>
       </Show>
 
-      <div
-        class={clsx('rounded-lg bg-neutral shadow-sm', props.class)}
-        classList={{ 'p-4 md:p-8': props.padding }}
-      >
+      <div class={card.content({ class: props.classes?.content, padding: props.padding })}>
         {props.children}
       </div>
     </section>
   );
 }
 
-export function CardFallback(props: { class?: string; children: JSX.Element }) {
-  return (
-    <div class={clsx('row min-h-16 items-center justify-center font-medium text-dim', props.class)}>
-      {props.children}
-    </div>
-  );
-}
+export const card = {
+  header: cva('mb-2'),
 
-export function Card2(props: ComponentProps<'section'>) {
-  return <section {...props} />;
-}
+  title: cva('text-xl font-semibold text-dim'),
 
-export function CardHeader(props: ComponentProps<'header'>) {
-  return <header {...props} class={clsx(props.class, 'mb-2')} />;
-}
+  content: cva('rounded-lg bg-neutral shadow-sm', {
+    variants: {
+      padding: {
+        true: 'p-4 md:p-8',
+      },
+    },
+    defaultVariants: {
+      padding: true,
+    },
+  }),
 
-export function CardTitle(props: ComponentProps<'h2'>) {
-  return <h2 {...props} class={clsx(props.class, 'text-xl font-semibold text-dim')} />;
-}
-
-export function CardContent(props: ComponentProps<'div'>) {
-  return <div {...props} class={clsx(props.class, 'rounded-lg bg-neutral p-4 shadow-sm md:p-8')} />;
-}
+  fallback: cva('row min-h-16 items-center justify-center font-medium text-dim'),
+};

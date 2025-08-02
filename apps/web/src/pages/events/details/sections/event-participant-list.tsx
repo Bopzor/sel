@@ -2,7 +2,7 @@ import { Event } from '@sel/shared';
 import { hasProperty } from '@sel/utils';
 import { For } from 'solid-js';
 
-import { Card, CardFallback } from 'src/components/card';
+import { card, Card } from 'src/components/card';
 import { MemberAvatarName } from 'src/components/member-avatar-name';
 import { createTranslate } from 'src/intl/translate';
 
@@ -17,9 +17,9 @@ export function EventParticipantList(props: { event: Event }) {
         <For
           each={participants()}
           fallback={
-            <CardFallback>
+            <div class={card.fallback()}>
               <T id="empty" />
-            </CardFallback>
+            </div>
           }
         >
           {(participant) => (

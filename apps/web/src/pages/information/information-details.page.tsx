@@ -48,7 +48,7 @@ export function InformationComments(props: { information: Information }) {
   }));
 
   return (
-    <Card title={<T id="createComment.title" />} padding={false} class="divide-y">
+    <Card title={<T id="createComment.title" />} padding={false} classes={{ content: 'divide-y' }}>
       <CommentList comments={props.information.comments} />
       <CommentForm
         placeholder={t('createComment.placeholder')}

@@ -7,7 +7,7 @@ const T = createTranslate('pages.profile.settings.appVersion');
 
 export function AppVersion() {
   return (
-    <Card title={<T id="title" />} class="max-w-xl">
+    <Card title={<T id="title" />} classes={{ content: 'max-w-xl' }}>
       {pkg.version}
     </Card>
   );

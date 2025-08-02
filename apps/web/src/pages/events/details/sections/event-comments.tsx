@@ -28,7 +28,7 @@ export function EventComments(props: { event: Event }) {
   }));
 
   return (
-    <Card title={<T id="title" />} padding={false} class="divide-y">
+    <Card title={<T id="title" />} padding={false} classes={{ content: 'divide-y' }}>
       <CommentList comments={props.event.comments} />
       <CommentForm
         placeholder={t('createComment.placeholder')}

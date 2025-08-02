@@ -7,7 +7,7 @@ import { Dynamic } from 'solid-js/web';
 
 import { apiQuery } from 'src/application/query';
 import { routes } from 'src/application/routes';
-import { Card2, CardContent, CardHeader, CardTitle } from 'src/components/card';
+import { card } from 'src/components/card';
 import { Link } from 'src/components/link';
 import { MemberAvatarName } from 'src/components/member-avatar-name';
 import { Message } from 'src/components/message';
@@ -91,26 +91,26 @@ function FeedItem(props: {
       </div>
 
       <Link href={props.link} class="mt-2 mb-6 flex-1 group-last-of-type:mb-0">
-        <Card2>
-          <CardHeader class="col justify-between gap-1 sm:row sm:gap-4">
-            <CardTitle>
+        <section>
+          <header class={card.header({ class: 'col justify-between gap-1 sm:row sm:gap-4' })}>
+            <h2 class={card.title()}>
               <T id="itemTitle" values={{ type: <T id={`types.${props.type}`} />, title: props.title }} />
-            </CardTitle>
+            </h2>
 
             <div class="text-xs text-nowrap text-dim sm:self-end">
               <FormattedRelativeDate date={props.date} />
             </div>
-          </CardHeader>
+          </header>
 
-          <CardContent>
+          <div class={card.content()}>
             <MemberAvatarName
               member={props.member}
               classes={{ root: 'mb-4', name: 'text-lg' }}
               link={false}
             />
             <Message class="line-clamp-6" message={props.message} />
-          </CardContent>
-        </Card2>
+          </div>
+        </section>
       </Link>
     </div>
   );

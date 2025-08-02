@@ -19,7 +19,7 @@ export function UISettings() {
   });
 
   return (
-    <Card title={<T id="title" />} class="max-w-xl">
+    <Card title={<T id="title" />} classes={{ content: 'max-w-xl' }}>
       <Switch checked={darkMode()} onChange={() => setDarkMode(!darkMode())}>
         <T id="darkMode" />
       </Switch>

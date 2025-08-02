@@ -3,7 +3,7 @@ import { Icon } from 'solid-heroicons';
 import { magnifyingGlass, mapPin } from 'solid-heroicons/solid';
 import { For, Show } from 'solid-js';
 
-import { Card, CardFallback } from 'src/components/card';
+import { card } from 'src/components/card';
 import { Input } from 'src/components/input';
 import { MemberAvatarName } from 'src/components/member-avatar-name';
 import { TranslateMembersSort } from 'src/intl/enums';
@@ -26,7 +26,7 @@ export function MemberList(props: MemberListProps) {
     <>
       <SearchInput search={props.search} onSearch={props.onSearch} />
 
-      <Card padding={false}>
+      <div class={card.content({ padding: false })}>
         <div class="px-4 py-3 shadow-sm">
           <SortControl sort={props.sort} onSort={props.onSort} />
         </div>
@@ -34,9 +34,9 @@ export function MemberList(props: MemberListProps) {
         <Show
           when={props.members.length > 0}
           fallback={
-            <CardFallback>
+            <div class={card.fallback()}>
               <T id="empty" />
-            </CardFallback>
+            </div>
           }
         >
           <ul onMouseLeave={() => props.onHighlight(undefined)}>
@@ -45,7 +45,7 @@ export function MemberList(props: MemberListProps) {
             </For>
           </ul>
         </Show>
-      </Card>
+      </div>
     </>
   );
 }

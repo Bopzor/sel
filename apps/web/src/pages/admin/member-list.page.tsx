@@ -6,7 +6,7 @@ import { For } from 'solid-js';
 
 import { getLetsConfig } from 'src/application/config';
 import { apiQuery } from 'src/application/query';
-import { Card2, CardContent } from 'src/components/card';
+import { card } from 'src/components/card';
 import { Table } from 'src/components/table';
 import { TranslateMembersStatus } from 'src/intl/enums';
 import { FormattedPhoneNumber } from 'src/intl/formatted';
@@ -26,52 +26,50 @@ export function AdminMemberListPage() {
         <T id="title" />
       </h1>
 
-      <Card2>
-        <CardContent class="p-0!">
-          <Table
-            items={members.data}
-            columns={[
-              {
-                header: () => <T id="memberNumber" />,
-                cell: (member) => <>{member.number}</>,
-              },
-              {
-                header: () => <T id="name" />,
-                cell: (member) => (
-                  <MemberAvatarName link={member.status === MemberStatusEnum.active} member={member} />
-                ),
-              },
-              {
-                header: () => <T id="status" />,
-                cell: (member) => <MemberStatus status={member.status} />,
-              },
-              {
-                header: () => <T id="email" />,
-                cell: (member) => <>{member.email}</>,
-              },
-              {
-                header: () => <T id="phoneNumber" />,
-                cell: (member) => (
-                  <ul>
-                    <For each={member.phoneNumbers}>
-                      {({ number }) => (
-                        <li>
-                          <FormattedPhoneNumber phoneNumber={number} />
-                        </li>
-                      )}
-                    </For>
-                  </ul>
-                ),
-              },
-              {
-                header: () => <div class="capitalize">{config()?.currencyPlural}</div>,
-                cell: (member) => <div class="text-end">{member.balance}</div>,
-              },
-            ]}
-            class="table w-full"
-          />
-        </CardContent>
-      </Card2>
+      <section class={card.content({ padding: false })}>
+        <Table
+          items={members.data}
+          columns={[
+            {
+              header: () => <T id="memberNumber" />,
+              cell: (member) => <>{member.number}</>,
+            },
+            {
+              header: () => <T id="name" />,
+              cell: (member) => (
+                <MemberAvatarName link={member.status === MemberStatusEnum.active} member={member} />
+              ),
+            },
+            {
+              header: () => <T id="status" />,
+              cell: (member) => <MemberStatus status={member.status} />,
+            },
+            {
+              header: () => <T id="email" />,
+              cell: (member) => <>{member.email}</>,
+            },
+            {
+              header: () => <T id="phoneNumber" />,
+              cell: (member) => (
+                <ul>
+                  <For each={member.phoneNumbers}>
+                    {({ number }) => (
+                      <li>
+                        <FormattedPhoneNumber phoneNumber={number} />
+                      </li>
+                    )}
+                  </For>
+                </ul>
+              ),
+            },
+            {
+              header: () => <div class="capitalize">{config()?.currencyPlural}</div>,
+              cell: (member) => <div class="text-end">{member.balance}</div>,
+            },
+          ]}
+          class="table w-full"
+        />
+      </section>
     </>
   );
 }

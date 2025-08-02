@@ -9,7 +9,7 @@ const T = createTranslate('pages.events.details.organizer');
 
 export function EventOrganizer(props: { event: Event }) {
   return (
-    <Card title={<T id="title" />} class="col gap-4">
+    <Card title={<T id="title" />} classes={{ content: 'col gap-4' }}>
       <MemberAvatarName member={props.event.organizer} />
       <MemberContactInfo member={props.event.organizer} />
     </Card>

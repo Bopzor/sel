@@ -14,7 +14,7 @@ const T = createTranslate('pages.events.details.participation');
 
 export function EventParticipation(props: { event: Event }) {
   return (
-    <Card title={<T id="title" />} class="row justify-center gap-4 py-8">
+    <Card title={<T id="title" />} classes={{ content: 'row justify-center gap-4 py-8' }}>
       <AnswerButton
         event={props.event}
         answer="yes"
