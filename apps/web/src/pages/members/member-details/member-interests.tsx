@@ -1,6 +1,6 @@
 import { Member, MemberInterest } from '@sel/shared';
-import { For } from 'solid-js';
 
+import { List } from 'src/components/list';
 import { createTranslate } from 'src/intl/translate';
 
 const T = createTranslate('pages.members.details.interests');
@@ -25,15 +25,13 @@ export function MemberInterests(props: { member: Member }) {
 
 function InterestsList(props: { interests: MemberInterest[] }) {
   return (
-    <ul class="divide-y">
-      <For each={props.interests}>
-        {(interest) => (
-          <li class="col items-start gap-2 py-4 sm:row sm:gap-4">
-            <strong class="w-full max-w-64 text-lg font-medium">{interest.label}</strong>
-            <p class="text-dim">{interest.description}</p>
-          </li>
-        )}
-      </For>
-    </ul>
+    <List each={props.interests} class="divide-y">
+      {(interest) => (
+        <li class="col items-start gap-2 py-4 sm:row sm:gap-4">
+          <strong class="w-full max-w-64 text-lg font-medium">{interest.label}</strong>
+          <p class="text-dim">{interest.description}</p>
+        </li>
+      )}
+    </List>
   );
 }

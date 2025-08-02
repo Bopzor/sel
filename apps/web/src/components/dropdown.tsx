@@ -1,7 +1,9 @@
 import { Strategy } from '@floating-ui/dom';
-import { ComponentProps, For, JSX, Show } from 'solid-js';
+import { ComponentProps, JSX, Show } from 'solid-js';
 import { Portal } from 'solid-js/web';
 import { Transition } from 'solid-transition-group';
+
+import { List } from './list';
 
 export type DropdownProps<Item> = {
   ref: (element: HTMLUListElement | null) => void;
@@ -21,7 +23,7 @@ export function Dropdown<Item>(props: DropdownProps<Item>) {
     <Portal>
       <Transition enterActiveClass="animate-in" exitActiveClass="animate-out">
         <Show when={props.open}>
-          <ul
+          <List
             ref={props.ref}
             class="z-20 col rounded-sm border bg-neutral px-2 py-3 shadow-sm fade-in fade-out"
             style={{
@@ -31,26 +33,23 @@ export function Dropdown<Item>(props: DropdownProps<Item>) {
             }}
             // avoid triggering click outside handler (dialog)
             onClick={(event) => event.stopImmediatePropagation()}
+            each={props.items}
+            fallback={props.renderNoItems?.()}
             {...props.getMenuProps()}
           >
-            <For
-              each={props.items}
-              fallback={props.renderNoItems ? <li>{props.renderNoItems()}</li> : undefined}
-            >
-              {(item, index) => (
-                <li
-                  class="cursor-pointer rounded-sm px-2 py-1"
-                  classList={{
-                    'font-semibold': item === props.selectedItem,
-                    'bg-primary/75 text-white': item === props.highlightedItem,
-                  }}
-                  {...props.getItemProps({ item, index: index() })}
-                >
-                  {props.renderItem(item)}
-                </li>
-              )}
-            </For>
-          </ul>
+            {(item, index) => (
+              <li
+                class="cursor-pointer rounded-sm px-2 py-1"
+                classList={{
+                  'font-semibold': item === props.selectedItem,
+                  'bg-primary/75 text-white': item === props.highlightedItem,
+                }}
+                {...props.getItemProps({ item, index: index() })}
+              >
+                {props.renderItem(item)}
+              </li>
+            )}
+          </List>
         </Show>
       </Transition>
     </Portal>

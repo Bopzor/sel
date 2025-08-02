@@ -1,9 +1,9 @@
 import { Request, RequestAnswer } from '@sel/shared';
 import { Icon } from 'solid-heroicons';
 import { check, xMark } from 'solid-heroicons/solid';
-import { For } from 'solid-js';
 
 import { card, Card } from 'src/components/card';
+import { List } from 'src/components/list';
 import { MemberAvatarName } from 'src/components/member-avatar-name';
 import { TranslateRequestAnswer } from 'src/intl/enums';
 import { createTranslate } from 'src/intl/translate';
@@ -13,22 +13,21 @@ const T = createTranslate('pages.requests.details.answerList');
 export function RequestAnswerList(props: { request: Request }) {
   return (
     <Card title={<T id="title" />}>
-      <ul class="col gap-4">
-        <For
-          each={props.request.answers}
-          fallback={
-            <div class={card.fallback()}>
-              <T id="empty" />
-            </div>
-          }
-        >
-          {(answer) => (
-            <li class="row flex-wrap items-center gap-2">
-              <Answer answer={answer} />
-            </li>
-          )}
-        </For>
-      </ul>
+      <List
+        each={props.request.answers}
+        fallback={
+          <div class={card.fallback()}>
+            <T id="empty" />
+          </div>
+        }
+        class="col gap-4"
+      >
+        {(answer) => (
+          <li class="row flex-wrap items-center gap-2">
+            <Answer answer={answer} />
+          </li>
+        )}
+      </List>
     </Card>
   );
 }
