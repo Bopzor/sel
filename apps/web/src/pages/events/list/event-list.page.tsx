@@ -13,6 +13,7 @@ import { LinkButton } from 'src/components/button';
 import { Calendar } from 'src/components/calendar';
 import { card } from 'src/components/card';
 import { Link } from 'src/components/link';
+import { List } from 'src/components/list';
 import { BoxSkeleton } from 'src/components/skeleton';
 import { FormattedDate } from 'src/intl/formatted';
 import { useIntl } from 'src/intl/intl-provider';
@@ -70,14 +71,12 @@ export function EventListPage() {
               </div>
 
               <div class={card.content()}>
-                <ul>
-                  <For
-                    each={filterEvents(events())}
-                    fallback={<div class={card.fallback()}>{<T id="empty" />}</div>}
-                  >
-                    {(event) => <EventItem event={event} class="rounded-md p-2 hover:bg-primary/5" />}
-                  </For>
-                </ul>
+                <List
+                  each={filterEvents(events())}
+                  fallback={<div class={card.fallback()}>{<T id="empty" />}</div>}
+                >
+                  {(event) => <EventItem event={event} class="rounded-md p-2 hover:bg-primary/5" />}
+                </List>
               </div>
             </div>
 

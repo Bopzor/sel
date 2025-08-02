@@ -1,8 +1,8 @@
 import { Event } from '@sel/shared';
 import { hasProperty } from '@sel/utils';
-import { For } from 'solid-js';
 
 import { card, Card } from 'src/components/card';
+import { List } from 'src/components/list';
 import { MemberAvatarName } from 'src/components/member-avatar-name';
 import { createTranslate } from 'src/intl/translate';
 
@@ -13,22 +13,21 @@ export function EventParticipantList(props: { event: Event }) {
 
   return (
     <Card title={<T id="title" values={{ count: participants().length }} />}>
-      <ul class="col gap-2">
-        <For
-          each={participants()}
-          fallback={
-            <div class={card.fallback()}>
-              <T id="empty" />
-            </div>
-          }
-        >
-          {(participant) => (
-            <li>
-              <MemberAvatarName member={participant} />
-            </li>
-          )}
-        </For>
-      </ul>
+      <List
+        each={participants()}
+        fallback={
+          <div class={card.fallback()}>
+            <T id="empty" />
+          </div>
+        }
+        class="col gap-2"
+      >
+        {(participant) => (
+          <li>
+            <MemberAvatarName member={participant} />
+          </li>
+        )}
+      </List>
     </Card>
   );
 }

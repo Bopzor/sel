@@ -29,6 +29,7 @@ import { getAuthenticatedMember, queryAuthenticatedMember } from './application/
 import { Breadcrumb, breadcrumbs } from './components/breadcrumb';
 import { ErrorBoundary } from './components/error-boundary';
 import { link, Link } from './components/link';
+import { List } from './components/list';
 import { MemberAvatar } from './components/member-avatar-name';
 import { TextSkeleton } from './components/skeleton';
 import { SpinnerFullScreen } from './components/spinner';
@@ -290,28 +291,26 @@ function QuickAccess(props: { closeDrawer: () => void }) {
   };
 
   return (
-    <ul class="col gap-3 px-4">
-      <For each={entries(links)}>
-        {([item, link]) => (
-          <li>
-            <Link
-              href={link}
-              class="row items-center gap-2"
-              onClick={() => {
-                props.closeDrawer();
+    <List each={entries(links)} class="col gap-3 px-4">
+      {([item, link]) => (
+        <li>
+          <Link
+            href={link}
+            class="row items-center gap-2"
+            onClick={() => {
+              props.closeDrawer();
 
-                if (item === 'search') {
-                  notify.info('Fonctionnalité à venir !');
-                }
-              }}
-            >
-              <Icon path={arrowRight} class="size-4" />
-              <T id={`drawer.quickAccess.items.${item}`} />
-            </Link>
-          </li>
-        )}
-      </For>
-    </ul>
+              if (item === 'search') {
+                notify.info('Fonctionnalité à venir !');
+              }
+            }}
+          >
+            <Icon path={arrowRight} class="size-4" />
+            <T id={`drawer.quickAccess.items.${item}`} />
+          </Link>
+        </li>
+      )}
+    </List>
   );
 }
 

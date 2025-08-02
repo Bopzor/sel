@@ -2,11 +2,12 @@ import { Member } from '@sel/shared';
 import { defined, formatDateRelative } from '@sel/utils';
 import { Icon } from 'solid-heroicons';
 import { clock, envelope, home, phone, user } from 'solid-heroicons/solid';
-import { ComponentProps, For, JSX, Show } from 'solid-js';
+import { ComponentProps, JSX, Show } from 'solid-js';
 
 import { getIsAuthenticatedMember } from 'src/application/query';
 import { LinkButton } from 'src/components/button';
 import { ExternalLink } from 'src/components/link';
+import { List } from 'src/components/list';
 import { FormattedAddress, FormattedPhoneNumber } from 'src/intl/formatted';
 import { createTranslate } from 'src/intl/translate';
 
@@ -39,17 +40,15 @@ function PhoneNumbers(props: { member: Member }) {
       label={<T id="phoneNumber" />}
       icon={phone}
     >
-      <ul>
-        <For each={props.member.phoneNumbers}>
-          {({ number }) => (
-            <li>
-              <ExternalLink href={`tel:${number}`}>
-                <FormattedPhoneNumber phoneNumber={number} />
-              </ExternalLink>
-            </li>
-          )}
-        </For>
-      </ul>
+      <List each={props.member.phoneNumbers}>
+        {({ number }) => (
+          <li>
+            <ExternalLink href={`tel:${number}`}>
+              <FormattedPhoneNumber phoneNumber={number} />
+            </ExternalLink>
+          </li>
+        )}
+      </List>
     </MemberData>
   );
 }

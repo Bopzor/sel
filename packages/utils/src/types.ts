@@ -6,3 +6,5 @@ export type OmitNever<T> = Pick<T, { [K in keyof T]: IfNever<T[K], never, K> }[k
 export type ClassType<T, CtorParams extends any[] = any[]> = {
   new (...params: CtorParams): T;
 };
+
+export type Extend<A, B> = Omit<A, keyof B> & B;

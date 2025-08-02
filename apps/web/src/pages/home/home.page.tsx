@@ -1,12 +1,12 @@
 import { entries } from '@sel/utils';
 import { Icon } from 'solid-heroicons';
 import { arrowRight } from 'solid-heroicons/solid';
-import { For } from 'solid-js';
 
 import { api } from 'src/application/api';
 import { notify } from 'src/application/notify';
 import { routes } from 'src/application/routes';
 import { Link } from 'src/components/link';
+import { List } from 'src/components/list';
 import { TransactionDialog } from 'src/components/transaction-dialog';
 import { createTranslate } from 'src/intl/translate';
 import { useSearchParam } from 'src/utils/search-param';
@@ -52,22 +52,20 @@ function QuickAccess() {
         <T id="quickAccess.title" />
       </h2>
 
-      <ul class="col gap-3">
-        <For each={entries(links)}>
-          {([item, link]) => (
-            <li>
-              <Link
-                href={link}
-                class="inline-flex flex-row items-center gap-2 font-medium text-primary hover:underline"
-                onClick={() => item === 'search' && notify.info('Fonctionnalité à venir !')}
-              >
-                <Icon path={arrowRight} class="size-4" />
-                <T id={`quickAccess.items.${item}`} />
-              </Link>
-            </li>
-          )}
-        </For>
-      </ul>
+      <List each={entries(links)} class="col gap-3">
+        {([item, link]) => (
+          <li>
+            <Link
+              href={link}
+              class="inline-flex flex-row items-center gap-2 font-medium text-primary hover:underline"
+              onClick={() => item === 'search' && notify.info('Fonctionnalité à venir !')}
+            >
+              <Icon path={arrowRight} class="size-4" />
+              <T id={`quickAccess.items.${item}`} />
+            </Link>
+          </li>
+        )}
+      </List>
     </section>
   );
 }

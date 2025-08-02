@@ -1,12 +1,13 @@
 import { Member, Transaction } from '@sel/shared';
 import { Icon } from 'solid-heroicons';
 import { arrowRight } from 'solid-heroicons/solid';
-import { For, Show } from 'solid-js';
+import { Show } from 'solid-js';
 
 import { getLetsConfig } from 'src/application/config';
 import { FormattedCurrencyAmount, FormattedDate } from 'src/intl/formatted';
 import { createTranslate } from 'src/intl/translate';
 
+import { List } from './list';
 import { MemberAvatarName } from './member-avatar-name';
 import { Table } from './table';
 import { TransactionStatus } from './transaction-status';
@@ -114,58 +115,56 @@ function TransactionListMobile(props: {
   onTransactionClick?: (transaction: Transaction) => void;
 }) {
   return (
-    <ul class="divide-y lg:hidden!">
-      <For each={props.transactions}>
-        {(transaction) => (
-          <li
-            class="col gap-4 py-6"
-            onClick={() => props.onTransactionClick?.(transaction)}
-            classList={{ 'cursor-pointer': props.onTransactionClick !== undefined }}
-          >
-            <div class="row justify-between gap-4">
-              <div class="text-sm text-dim">
-                <FormattedDate date={transaction.date} />
-              </div>
-
-              <Show when={props.showStatus}>
-                <div class="text-sm">
-                  <TransactionStatus status={transaction.status} />
-                </div>
-              </Show>
+    <List each={props.transactions} class="divide-y lg:hidden!">
+      {(transaction) => (
+        <li
+          class="col gap-4 py-6"
+          onClick={() => props.onTransactionClick?.(transaction)}
+          classList={{ 'cursor-pointer': props.onTransactionClick !== undefined }}
+        >
+          <div class="row justify-between gap-4">
+            <div class="text-sm text-dim">
+              <FormattedDate date={transaction.date} />
             </div>
 
-            <div class="row items-center gap-4">
-              <MemberAvatarName member={transaction.payer} classes={{ avatar: 'size-6!' }} />
-
-              <div>
-                <Icon path={arrowRight} class="size-4" />
+            <Show when={props.showStatus}>
+              <div class="text-sm">
+                <TransactionStatus status={transaction.status} />
               </div>
+            </Show>
+          </div>
 
-              <MemberAvatarName member={transaction.recipient} classes={{ avatar: 'size-6!' }} />
-            </div>
+          <div class="row items-center gap-4">
+            <MemberAvatarName member={transaction.payer} classes={{ avatar: 'size-6!' }} />
 
             <div>
-              <T
-                id="amountDescription"
-                values={{
-                  amount: (
-                    <span class="font-medium">
-                      <FormattedCurrencyAmount
-                        amount={
-                          props.member?.id === transaction.recipient.id
-                            ? transaction.amount
-                            : -transaction.amount
-                        }
-                      />
-                    </span>
-                  ),
-                  description: <span>{transaction.description}</span>,
-                }}
-              />
+              <Icon path={arrowRight} class="size-4" />
             </div>
-          </li>
-        )}
-      </For>
-    </ul>
+
+            <MemberAvatarName member={transaction.recipient} classes={{ avatar: 'size-6!' }} />
+          </div>
+
+          <div>
+            <T
+              id="amountDescription"
+              values={{
+                amount: (
+                  <span class="font-medium">
+                    <FormattedCurrencyAmount
+                      amount={
+                        props.member?.id === transaction.recipient.id
+                          ? transaction.amount
+                          : -transaction.amount
+                      }
+                    />
+                  </span>
+                ),
+                description: <span>{transaction.description}</span>,
+              }}
+            />
+          </div>
+        </li>
+      )}
+    </List>
   );
 }

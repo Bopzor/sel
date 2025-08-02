@@ -1,7 +1,8 @@
 import { useQuery } from '@tanstack/solid-query';
-import { createSignal, For, Show } from 'solid-js';
+import { createSignal, Show } from 'solid-js';
 
 import { apiQuery } from 'src/application/query';
+import { List } from 'src/components/list';
 import { BoxSkeleton } from 'src/components/skeleton';
 import { createTranslate } from 'src/intl/translate';
 
@@ -23,19 +24,15 @@ export function InterestsPage() {
 
       <Show when={query.data} fallback={<Skeleton />}>
         {(interests) => (
-          <ul class="col gap-8">
-            <For each={interests()}>
-              {(interest) => (
-                <InterestItem
-                  interest={interest}
-                  expanded={expanded() === interest.id}
-                  toggleExpanded={() =>
-                    expanded() === interest.id ? setExpanded() : setExpanded(interest.id)
-                  }
-                />
-              )}
-            </For>
-          </ul>
+          <List each={interests()} class="col gap-8">
+            {(interest) => (
+              <InterestItem
+                interest={interest}
+                expanded={expanded() === interest.id}
+                toggleExpanded={() => (expanded() === interest.id ? setExpanded() : setExpanded(interest.id))}
+              />
+            )}
+          </List>
         )}
       </Show>
     </>

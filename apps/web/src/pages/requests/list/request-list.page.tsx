@@ -1,11 +1,12 @@
 import { Request } from '@sel/shared';
 import { useQuery } from '@tanstack/solid-query';
-import { For, Show } from 'solid-js';
+import { For } from 'solid-js';
 
 import { apiQuery } from 'src/application/query';
 import { routes } from 'src/application/routes';
 import { LinkButton } from 'src/components/button';
 import { Link } from 'src/components/link';
+import { List } from 'src/components/list';
 import { MemberAvatarName } from 'src/components/member-avatar-name';
 import { Message } from 'src/components/message';
 import { BoxSkeleton, TextSkeleton } from 'src/components/skeleton';
@@ -31,13 +32,9 @@ export function RequestListPage() {
         </LinkButton>
       </div>
 
-      <Show when={query.data} fallback={<Skeleton />}>
-        {(requests) => (
-          <ul class="col max-w-4xl gap-8">
-            <For each={requests()}>{(request) => <RequestItem request={request} />}</For>
-          </ul>
-        )}
-      </Show>
+      <List each={query.data} fallback={<Skeleton />} class="col max-w-4xl gap-8">
+        {(request) => <RequestItem request={request} />}
+      </List>
     </>
   );
 }

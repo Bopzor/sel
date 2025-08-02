@@ -5,6 +5,7 @@ import { For, Show } from 'solid-js';
 
 import { card } from 'src/components/card';
 import { Input } from 'src/components/input';
+import { List } from 'src/components/list';
 import { MemberAvatarName } from 'src/components/member-avatar-name';
 import { TranslateMembersSort } from 'src/intl/enums';
 import { createTranslate } from 'src/intl/translate';
@@ -39,11 +40,9 @@ export function MemberList(props: MemberListProps) {
             </div>
           }
         >
-          <ul onMouseLeave={() => props.onHighlight(undefined)}>
-            <For each={props.members}>
-              {(member) => <MemberItem member={member} onHighlight={() => props.onHighlight(member)} />}
-            </For>
-          </ul>
+          <List each={props.members} onMouseLeave={() => props.onHighlight(undefined)}>
+            {(member) => <MemberItem member={member} onHighlight={() => props.onHighlight(member)} />}
+          </List>
         </Show>
       </div>
     </>

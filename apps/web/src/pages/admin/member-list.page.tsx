@@ -2,11 +2,11 @@ import { MemberStatus as MemberStatusEnum } from '@sel/shared';
 import { useQuery } from '@tanstack/solid-query';
 import { Icon } from 'solid-heroicons';
 import { check, exclamationTriangle, xMark } from 'solid-heroicons/solid';
-import { For } from 'solid-js';
 
 import { getLetsConfig } from 'src/application/config';
 import { apiQuery } from 'src/application/query';
 import { card } from 'src/components/card';
+import { List } from 'src/components/list';
 import { Table } from 'src/components/table';
 import { TranslateMembersStatus } from 'src/intl/enums';
 import { FormattedPhoneNumber } from 'src/intl/formatted';
@@ -51,15 +51,13 @@ export function AdminMemberListPage() {
             {
               header: () => <T id="phoneNumber" />,
               cell: (member) => (
-                <ul>
-                  <For each={member.phoneNumbers}>
-                    {({ number }) => (
-                      <li>
-                        <FormattedPhoneNumber phoneNumber={number} />
-                      </li>
-                    )}
-                  </For>
-                </ul>
+                <List each={member.phoneNumbers}>
+                  {({ number }) => (
+                    <li>
+                      <FormattedPhoneNumber phoneNumber={number} />
+                    </li>
+                  )}
+                </List>
               ),
             },
             {
