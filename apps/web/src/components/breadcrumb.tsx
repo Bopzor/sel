@@ -82,6 +82,7 @@ export const breadcrumbs = {
 
     return (
       <Crumb
+        truncate
         query={query}
         label={(information) => information.title}
         link={(information) => routes.information.details(information.id)}
