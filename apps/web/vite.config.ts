@@ -10,7 +10,7 @@ import tsconfigPaths from 'vite-tsconfig-paths';
 import pkg from './package.json';
 
 export default defineConfig({
-  plugins: [qrcode(), tsconfigPaths(), solid(), solidSvg(), tailwindcss(), version(() => pkg.version)],
+  plugins: [qrcode(), tsconfigPaths(), solid(), solidSvg(), tailwindcss(), version(pkg.version)],
   server: {
     port: 8000,
     proxy: {
@@ -49,16 +49,23 @@ export default defineConfig({
   },
 });
 
-function version(getVersion: () => string | Promise<string>): Plugin {
+function version(version: string): Plugin {
   let dist = '';
 
   return {
     name: 'version',
+
+    config(config) {
+      config.define ??= {};
+      config.define.__APP_VERSION__ = JSON.stringify(version);
+    },
+
     configResolved(config) {
       dist = path.resolve(config.root, config.build.outDir);
     },
+
     async closeBundle() {
-      await fs.writeFile(path.join(dist, 'version.txt'), await getVersion());
+      await fs.writeFile(path.join(dist, 'version.txt'), version);
     },
   };
 }
