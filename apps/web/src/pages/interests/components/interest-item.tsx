@@ -6,7 +6,7 @@ import { For, Show, createSignal } from 'solid-js';
 
 import { getIsAuthenticatedMember } from 'src/application/query';
 import { Button } from 'src/components/button';
-import { CardFallback } from 'src/components/card';
+import { card } from 'src/components/card';
 import { MemberAvatarName } from 'src/components/member-avatar-name';
 import { createTranslate } from 'src/intl/translate';
 
@@ -47,7 +47,7 @@ export function InterestItem(props: { interest: Interest; expanded: boolean; tog
 
       <Show when={props.expanded}>
         <div class="col gap-4 p-8">
-          <For each={props.interest.members} fallback={<CardFallback>{<T id="empty" />}</CardFallback>}>
+          <For each={props.interest.members} fallback={<div class={card.fallback()}>{<T id="empty" />}</div>}>
             {(interestMember) => (
               <InterestItemMember interest={props.interest} interestMember={interestMember} />
             )}

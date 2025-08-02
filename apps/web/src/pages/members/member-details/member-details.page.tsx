@@ -8,7 +8,7 @@ import { ComponentProps, createSignal, JSX, Show } from 'solid-js';
 
 import { api } from 'src/application/api';
 import { apiQuery, getIsAuthenticatedMember } from 'src/application/query';
-import { Card } from 'src/components/card';
+import { card, Card } from 'src/components/card';
 import { BoxSkeleton } from 'src/components/skeleton';
 import { TransactionDialog } from 'src/components/transaction-dialog';
 import { createTranslate } from 'src/intl/translate';
@@ -59,10 +59,10 @@ function MemberDetails(props: { member: Member }) {
         />
       </h1>
 
-      <Card class="grid grid-cols-1 gap-8 md:grid-cols-2">
+      <section class={card.content({ class: 'grid grid-cols-1 gap-8 md:grid-cols-2' })}>
         <ContactInformation member={props.member} />
         <MemberMap member={props.member} />
-      </Card>
+      </section>
 
       <Section show={props.member.bio} icon={user} title={<T id="bio" />}>
         <MemberBio member={props.member} />
@@ -105,7 +105,7 @@ function Section(props: {
             <h2>{props.title}</h2>
           </div>
         }
-        class={clsx('max-w-4xl p-4 md:p-8', props.class)}
+        classes={{ content: clsx(props.class, 'max-w-4xl') }}
       >
         {props.children}
       </Card>

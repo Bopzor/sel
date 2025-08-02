@@ -13,7 +13,7 @@ export function RequestDescription(props: { request: Request }) {
           classes={{ name: 'font-medium text-text', root: 'lg:hidden' }}
         />
       }
-      class="lg:p-8"
+      classes={{ content: 'lg:p-8' }}
     >
       <Message message={props.request.message} />
     </Card>

@@ -28,7 +28,7 @@ export function RequestComments(props: { request: Request }) {
   }));
 
   return (
-    <Card title={<T id="title" />} padding={false} class="divide-y">
+    <Card title={<T id="title" />} padding={false} classes={{ content: 'divide-y' }}>
       <CommentList comments={props.request.comments} />
       <CommentForm
         placeholder={t('createComment.placeholder')}

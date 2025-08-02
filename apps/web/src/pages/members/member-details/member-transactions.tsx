@@ -1,7 +1,7 @@
 import { Member, Transaction } from '@sel/shared';
 import { JSX, Show } from 'solid-js';
 
-import { CardFallback } from 'src/components/card';
+import { card } from 'src/components/card';
 import { TransactionList } from 'src/components/transaction-list';
 import { FormattedCurrencyAmount } from 'src/intl/formatted';
 import { createTranslate } from 'src/intl/translate';
@@ -24,7 +24,9 @@ export function MemberTransactions(props: {
       <Show
         when={props.transactions?.length}
         fallback={
-          <CardFallback>{<T id="noTransactions" values={{ name: props.member.firstName }} />}</CardFallback>
+          <div class={card.fallback()}>
+            <T id="noTransactions" values={{ name: props.member.firstName }} />
+          </div>
         }
       >
         <div class="overflow-x-auto rounded-sm border px-4 lg:px-0">
