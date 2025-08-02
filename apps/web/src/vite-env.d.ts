@@ -1,6 +1,8 @@
 /// <reference types="vite-plugin-solid-svg/types-component-solid" />
 /// <reference types="vite/client" />
 
+declare const __APP_VERSION__: string;
+
 interface ImportMetaEnv {
   readonly VITE_ENVIRONMENT: string;
   readonly VITE_GEOAPIFY_API_KEY: string;
