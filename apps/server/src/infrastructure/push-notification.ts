@@ -1,5 +1,5 @@
 import { injectableClass } from 'ditox';
-import { PushSubscription, sendNotification, setVapidDetails } from 'web-push';
+import webPush from 'web-push';
 
 import { TOKENS } from 'src/tokens';
 
@@ -40,7 +40,7 @@ export class WebPushNotification implements PushNotification {
     }
 
     this.logger.log('Initializing push notification service');
-    setVapidDetails(subject, publicKey, privateKey);
+    webPush.setVapidDetails(subject, publicKey, privateKey);
   }
 
   async send(
@@ -54,8 +54,8 @@ export class WebPushNotification implements PushNotification {
     }
 
     try {
-      await sendNotification(
-        JSON.parse(subscription) as PushSubscription,
+      await webPush.sendNotification(
+        JSON.parse(subscription) as webPush.PushSubscription,
         JSON.stringify({ title, content, link }),
       );
     } catch (error) {
