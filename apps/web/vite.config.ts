@@ -1,3 +1,4 @@
+/// <reference types="vitest/config" />
 import tailwindcss from '@tailwindcss/vite';
 import fs from 'node:fs/promises';
 import path from 'node:path';
@@ -46,6 +47,9 @@ export default defineConfig({
       '@sel/shared': path.resolve('../../packages/shared/src'),
       '@sel/utils': path.resolve('../../packages/utils/src'),
     },
+  },
+  test: {
+    environment: 'node',
   },
 });
 

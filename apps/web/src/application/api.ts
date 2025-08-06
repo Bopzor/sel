@@ -350,4 +350,6 @@ declare global {
   }
 }
 
-window.api = api;
+if (typeof window !== 'undefined') {
+  window.api = api;
+}
