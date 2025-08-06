@@ -112,7 +112,7 @@ const fallbackRequestHandler: RequestHandler = (req, res) => {
 
 const zodErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
   if (err instanceof z.ZodError) {
-    res.status(HttpStatus.badRequest).json(err.format());
+    res.status(HttpStatus.badRequest).json({ error: 'Validation error', ...err.format() });
   } else {
     next(err);
   }
