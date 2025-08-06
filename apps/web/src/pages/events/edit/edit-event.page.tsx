@@ -32,7 +32,11 @@ export function EditEventPage() {
     async onSuccess() {
       const event = defined(query.data);
 
-      await invalidate('getEvent', { path: { eventId: event.id } });
+      await Promise.all([
+        invalidate('getEvent', { path: { eventId: event.id } }),
+        invalidate('listEvents'),
+        invalidate('getFeed'),
+      ]);
       notify.success(t('edited'));
       navigate(routes.events.details(event.id));
     },

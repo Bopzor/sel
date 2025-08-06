@@ -38,7 +38,7 @@ export function CreateInformationDialog(props: { open: boolean; onClose: () => v
       await api.createInformation({ body });
     },
     async onSuccess() {
-      await invalidate('listInformation');
+      await invalidate('getFeed');
       notify.success(t('created'));
       props.onClose();
     },

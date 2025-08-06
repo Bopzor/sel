@@ -5,7 +5,7 @@ import { z } from 'zod';
 
 import { api } from 'src/application/api';
 import { notify } from 'src/application/notify';
-import { apiQuery } from 'src/application/query';
+import { apiQuery, useInvalidateApi } from 'src/application/query';
 import { routes } from 'src/application/routes';
 import { createTranslate } from 'src/intl/translate';
 
@@ -17,13 +17,18 @@ export function CreateRequestPage() {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const t = T.useTranslate();
+  const invalidate = useInvalidateApi();
 
   const createRequest = useMutation(() => ({
     async mutationFn(data: z.infer<typeof createRequestBodySchema>) {
       return api.createRequest({ body: data });
     },
     async onSuccess(requestId) {
-      await queryClient.prefetchQuery(apiQuery('getRequest', { path: { requestId } }));
+      await Promise.all([
+        queryClient.prefetchQuery(apiQuery('getRequest', { path: { requestId } })),
+        invalidate('listRequests'),
+        invalidate('getFeed'),
+      ]);
       notify.success(t('created'));
       navigate(routes.requests.details(requestId));
     },

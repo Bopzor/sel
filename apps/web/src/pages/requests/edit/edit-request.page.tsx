@@ -32,7 +32,11 @@ export function EditRequestPage() {
     async onSuccess() {
       const request = defined(query.data);
 
-      await invalidate('getRequest', { path: { requestId: request.id } });
+      await Promise.all([
+        invalidate('getRequest', { path: { requestId: request.id } }),
+        invalidate('listRequests'),
+        invalidate('getFeed'),
+      ]);
       notify.success(t('edited'));
       navigate(routes.requests.details(request.id));
     },

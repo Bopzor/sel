@@ -25,8 +25,9 @@ export function CreateEventPage() {
     },
     async onSuccess(eventId) {
       await Promise.all([
-        invalidate('listEvents'),
         queryClient.prefetchQuery(apiQuery('getEvent', { path: { eventId } })),
+        invalidate('listEvents'),
+        invalidate('getFeed'),
       ]);
 
       notify.success(t('created'));
