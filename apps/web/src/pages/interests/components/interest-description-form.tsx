@@ -7,7 +7,7 @@ import { useInvalidateApi } from 'src/application/query';
 import { Button } from 'src/components/button';
 import { TextArea } from 'src/components/text-area';
 import { createTranslate } from 'src/intl/translate';
-import { createErrorMap, zodForm } from 'src/utils/validation';
+import { zodForm } from 'src/utils/validation';
 
 const T = createTranslate('pages.interests.memberInterest');
 const Translate = createTranslate('common');
@@ -25,9 +25,7 @@ export function InterestDescriptionForm(props: {
       // eslint-disable-next-line solid/reactivity
       description: props.interestMember.description,
     },
-    validate: zodForm(editInterestMemberBodySchema, {
-      errorMap: createErrorMap(),
-    }),
+    validate: zodForm(editInterestMemberBodySchema),
   });
 
   const mutation = useMutation(() => ({

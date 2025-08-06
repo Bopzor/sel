@@ -12,7 +12,7 @@ import { Dialog, DialogFooter, DialogHeader } from 'src/components/dialog';
 import { Input } from 'src/components/input';
 import { RichEditor } from 'src/components/rich-editor';
 import { createTranslate } from 'src/intl/translate';
-import { createErrorMap, zodForm } from 'src/utils/validation';
+import { zodForm } from 'src/utils/validation';
 
 const T = createTranslate('pages.home.createInformation');
 const Translate = createTranslate('common');
@@ -26,9 +26,7 @@ export function CreateInformationDialog(props: { open: boolean; onClose: () => v
       title: '',
       body: '',
     },
-    validate: zodForm(createInformationBodySchema, {
-      errorMap: createErrorMap(),
-    }),
+    validate: zodForm(createInformationBodySchema),
   });
 
   const attachments = new ReactiveMap<string, Attachment>();

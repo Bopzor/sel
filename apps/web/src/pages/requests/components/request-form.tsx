@@ -7,7 +7,7 @@ import { Button } from 'src/components/button';
 import { Input } from 'src/components/input';
 import { RichEditor } from 'src/components/rich-editor';
 import { createTranslate } from 'src/intl/translate';
-import { createErrorMap, zodForm } from 'src/utils/validation';
+import { zodForm } from 'src/utils/validation';
 
 const T = createTranslate('pages.requests.form');
 
@@ -24,9 +24,7 @@ export function RequestForm(props: {
       body: props.initialValue?.message.body ?? '',
       fileIds: props.initialValue?.message.attachments.map(({ fileId }) => fileId),
     },
-    validate: zodForm(createRequestBodySchema, {
-      errorMap: createErrorMap(),
-    }),
+    validate: zodForm(createRequestBodySchema),
   });
 
   return (

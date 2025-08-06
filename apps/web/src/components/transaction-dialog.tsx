@@ -10,7 +10,7 @@ import { getLetsConfig } from 'src/application/config';
 import { notify } from 'src/application/notify';
 import { apiQuery, getAuthenticatedMember } from 'src/application/query';
 import { createTranslate } from 'src/intl/translate';
-import { createErrorMap, zodForm } from 'src/utils/validation';
+import { zodForm } from 'src/utils/validation';
 
 import { Autocomplete } from './autocomplete';
 import { Button } from './button';
@@ -74,9 +74,7 @@ export function TransactionDialog(props: {
       type: 'send',
       ...props.initialValues,
     },
-    validate: zodForm(schema, {
-      errorMap: createErrorMap(),
-    }),
+    validate: zodForm(schema),
   });
 
   const [showConfirmation, setShowConfirmation] = createSignal(false);

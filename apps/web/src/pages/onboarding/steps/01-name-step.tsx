@@ -9,7 +9,7 @@ import { getAuthenticatedMember, useInvalidateApi } from 'src/application/query'
 import { Button } from 'src/components/button';
 import { Input } from 'src/components/input';
 import { createTranslate } from 'src/intl/translate';
-import { createErrorMap, zodForm } from 'src/utils/validation';
+import { zodForm } from 'src/utils/validation';
 
 const T = createTranslate('pages.onboarding.steps.name');
 const Translate = createTranslate('common');
@@ -31,9 +31,7 @@ export function NameStep(props: { next: () => void }) {
       firstName: member().firstName,
       lastName: member().lastName,
     },
-    validate: zodForm(schema, {
-      errorMap: createErrorMap(),
-    }),
+    validate: zodForm(schema),
   });
 
   const mutation = useMutation(() => ({

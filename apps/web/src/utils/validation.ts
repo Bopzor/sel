@@ -1,15 +1,12 @@
 import { FieldValues, FormErrors, PartialValues, ValidateForm } from '@modular-forms/solid';
 import { JSX } from 'solid-js';
-import { ParseParams, ZodErrorMap, ZodIssueOptionalMessage, ZodType } from 'zod';
+import z from 'zod';
 
 import { createTranslate } from 'src/intl/translate';
 
-// copied from https://github.com/fabian-hiller/modular-forms/blob/b8dd18b8487c9d41e7fe4aa67aa2e736f1d1fd37/packages/solid/src/adapters/zodForm.ts
-// to add support for zod's parse params
 export function zodForm<TFieldValues extends FieldValues>(
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  schema: ZodType<any, any, TFieldValues>,
-  params?: Partial<ParseParams>,
+  schema: z.ZodType<FieldValues>,
+  params: z.core.ParseContext<z.core.$ZodIssue> = { error: createErrorMap() },
 ): ValidateForm<TFieldValues> {
   return async (values: PartialValues<TFieldValues>) => {
     const result = await schema.safeParseAsync(values, params);
@@ -32,29 +29,25 @@ export function zodForm<TFieldValues extends FieldValues>(
 const T = createTranslate('common.validation');
 
 export function createErrorMap(
-  getCustomMessage?: (error: ZodIssueOptionalMessage) => JSX.Element | void,
-): ZodErrorMap {
+  getCustomMessage?: (error: z.core.$ZodRawIssue) => JSX.Element | void,
+): z.ZodErrorMap {
   const t = T.useTranslate();
 
-  return (error, ctx) => {
-    const message = (getCustomMessage?.(error) ?? getMessage(error)) as string | undefined;
-
-    return {
-      message: message ?? ctx.defaultError,
-    };
+  return (error) => {
+    return (getCustomMessage?.(error) ?? getMessage(error)) as string | undefined;
   };
 
-  function getMessage(error: ZodIssueOptionalMessage) {
-    if (error.code === 'invalid_type' && ['undefined', 'nan'].includes(error.received)) {
+  function getMessage(error: z.core.$ZodRawIssue) {
+    if (error.code === 'invalid_type' && new Array<unknown>(undefined, NaN).includes(error.input)) {
       return t('required');
     }
 
-    if (error.code === 'invalid_string' && error.validation === 'email') {
+    if (error.code === 'invalid_format' && error.format === 'email') {
       return t('invalidEmail');
     }
 
     if (error.code === 'too_small') {
-      if (error.type === 'number') {
+      if (error.origin === 'number') {
         return t('tooSmall', { min: Number(error.minimum) });
       }
 
@@ -66,7 +59,7 @@ export function createErrorMap(
     }
 
     if (error.code === 'too_big') {
-      if (error.type === 'number') {
+      if (error.origin === 'number') {
         return t('tooBig', { max: Number(error.maximum) });
       }
 

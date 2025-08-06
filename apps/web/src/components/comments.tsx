@@ -8,7 +8,7 @@ import { FormattedDate } from 'src/intl/formatted';
 import { createTranslate } from 'src/intl/translate';
 import { createFileUploadHandler } from 'src/utils/file-upload';
 import { createId } from 'src/utils/id';
-import { createErrorMap, zodForm } from 'src/utils/validation';
+import { zodForm } from 'src/utils/validation';
 
 import { AttachmentEditorList } from './attachments-editor';
 import { Button } from './button';
@@ -54,7 +54,7 @@ export function CommentForm(props: {
 
   const [form, { Form, Field }] = createForm<{ body: string }>({
     initialValues: { body: '' },
-    validate: zodForm(createCommentBodySchema.omit({ fileIds: true }), { errorMap: createErrorMap() }),
+    validate: zodForm(createCommentBodySchema.omit({ fileIds: true })),
   });
 
   const editor = createRichEditor({

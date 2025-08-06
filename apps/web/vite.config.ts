@@ -1,12 +1,12 @@
-/// <reference types="vitest/config" />
 import tailwindcss from '@tailwindcss/vite';
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import { defineConfig, Plugin } from 'vite';
+import { Plugin } from 'vite';
 import { qrcode } from 'vite-plugin-qrcode';
 import solid from 'vite-plugin-solid';
 import solidSvg from 'vite-plugin-solid-svg';
 import tsconfigPaths from 'vite-tsconfig-paths';
+import { defineConfig } from 'vitest/config';
 
 import pkg from './package.json';
 

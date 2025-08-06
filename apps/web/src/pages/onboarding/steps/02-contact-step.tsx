@@ -37,8 +37,8 @@ export function ContactStep(props: { next: () => void }) {
   const [form, { Form, Field }] = createForm<FormType>({
     initialValues: getInitialValues(member()),
     validate: zodForm(schema, {
-      errorMap: createErrorMap((error) => {
-        if (error.path.join('.') === 'phoneNumber' && error.code === 'custom' && error.params?.invalid) {
+      error: createErrorMap((error) => {
+        if (error.path?.join('.') === 'phoneNumber' && error.code === 'custom' && error.params?.invalid) {
           return t('phoneNumber.invalid');
         }
       }),
