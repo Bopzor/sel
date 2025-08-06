@@ -1,0 +1,36 @@
+name: Versioning
+
+on:
+  pull_request:
+
+jobs:
+  bump-version:
+    name: Check version has been bumped
+    runs-on: ubuntu-latest
+    env:
+      PACKAGE_JSON: 'apps/web/package.json'
+
+    steps:
+      - name: Checkout to BASE
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.base_ref }}
+
+      - name: Get BASE_VERSION
+        run: |
+          echo "BASE_VERSION=$(grep '"version"' $PACKAGE_JSON | sed -E 's/.*"version": "([^"]+)".*/\1/')" >> $GITHUB_ENV
+
+      - name: Checkout to HEAD
+        uses: actions/checkout@v4
+
+      - name: Get HEAD_VERSION
+        run: |
+          echo "HEAD_VERSION=$(grep '"version"' $PACKAGE_JSON | sed -E 's/.*"version": "([^"]+)".*/\1/')" >> $GITHUB_ENV
+
+      - name: Compare versions
+        run: |
+          if [[ ! "$HEAD_VERSION" > "$BASE_VERSION" ]]; then
+            echo ""$HEAD_VERSION" is not greater than "$BASE_VERSION"" && exit 1;
+          else
+            echo "New version is: "$HEAD_VERSION""
+          fi;
