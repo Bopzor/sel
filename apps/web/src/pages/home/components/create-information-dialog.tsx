@@ -6,6 +6,7 @@ import { useMutation } from '@tanstack/solid-query';
 import { api } from 'src/application/api';
 import { notify } from 'src/application/notify';
 import { useInvalidateApi } from 'src/application/query';
+import { AttachmentsEditorField } from 'src/components/attachments-editor';
 import { Button } from 'src/components/button';
 import { Dialog, DialogFooter, DialogHeader } from 'src/components/dialog';
 import { Input } from 'src/components/input';
@@ -20,12 +21,12 @@ export function CreateInformationDialog(props: { open: boolean; onClose: () => v
   const t = T.useTranslate();
   const invalidate = useInvalidateApi();
 
-  const [form, { Form, Field }] = createForm<{ title: string; body: string }>({
+  const [form, { Form, Field }] = createForm<CreateInformationBody>({
     initialValues: {
       title: '',
       body: '',
     },
-    validate: zodForm(createInformationBodySchema.omit({ fileIds: true }), {
+    validate: zodForm(createInformationBodySchema, {
       errorMap: createErrorMap(),
     }),
   });
@@ -77,6 +78,15 @@ export function CreateInformationDialog(props: { open: boolean; onClose: () => v
               placeholder={t('body.placeholder')}
               error={field.error}
               onChange={(html) => setValue(form, 'body', html)}
+            />
+          )}
+        </Field>
+
+        <Field name="fileIds" type="string[]">
+          {() => (
+            <AttachmentsEditorField
+              label={<T id="attachments.label" />}
+              onChange={(fileIds) => setValue(form, 'fileIds', fileIds)}
             />
           )}
         </Field>

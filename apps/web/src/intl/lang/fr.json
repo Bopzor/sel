@@ -269,6 +269,9 @@
           "label": "Message",
           "placeholder": "Écrivez votre message..."
         },
+        "attachments": {
+          "label": "Pièces jointes"
+        },
         "create": "Publier",
         "created": "Votre information a été publiée."
       },
