@@ -14,7 +14,7 @@ import { Input } from 'src/components/input';
 import { SpinnerFullScreen } from 'src/components/spinner';
 import { createTranslate } from 'src/intl/translate';
 import { useSearchParam } from 'src/utils/search-param';
-import { createErrorMap, zodForm } from 'src/utils/validation';
+import { zodForm } from 'src/utils/validation';
 
 const T = createTranslate('pages.authentication');
 
@@ -51,9 +51,7 @@ function AuthenticationForm(props: { onSubmit: (data: FormType) => Promise<void>
   const t = T.useTranslate();
 
   const [form, { Form, Field }] = createForm<FormType>({
-    validate: zodForm(requestAuthenticationLinkQuerySchema, {
-      errorMap: createErrorMap(),
-    }),
+    validate: zodForm(requestAuthenticationLinkQuerySchema),
   });
 
   return (

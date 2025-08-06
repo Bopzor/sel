@@ -51,7 +51,7 @@ function ProfileEditionForm(props: { initialValues: AuthenticatedMember }) {
   const [form, { Form }] = createForm<FormType>({
     initialValues: getInitialValues(props.initialValues),
     validate: zodForm(schema, {
-      errorMap: createErrorMap((error) => {
+      error: createErrorMap((error) => {
         if (error.code === 'custom' && error.params?.phoneNumberInvalid) {
           return t('phoneNumber.invalid');
         }

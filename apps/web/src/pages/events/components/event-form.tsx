@@ -40,7 +40,7 @@ export function EventForm(props: {
       fileIds: props.initialValue?.message.attachments.map(({ fileId }) => fileId),
     },
     validate: zodForm(schema, {
-      errorMap: createErrorMap((error) => {
+      error: createErrorMap((error) => {
         if (error.code === 'custom' && error.params?.dateIsPast) {
           return t('date.isPast');
         }

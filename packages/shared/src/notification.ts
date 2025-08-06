@@ -4,7 +4,7 @@ import { EventParticipation } from './event';
 import { RequestStatus } from './request';
 
 export const registerDeviceBodySchema = z.object({
-  subscription: z.record(z.any()),
+  subscription: z.record(z.any(), z.any()),
   deviceType: z.union([z.literal('mobile'), z.literal('desktop')]),
 });
 

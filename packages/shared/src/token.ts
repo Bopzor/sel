@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 export const requestAuthenticationLinkQuerySchema = z.object({
-  email: z.string().min(1).email(),
+  email: z.email().min(1),
 });
 
 export const verifyAuthenticationTokenQuerySchema = z.object({

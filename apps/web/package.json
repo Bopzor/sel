@@ -9,7 +9,7 @@
     "build": "tsc -b && vite build",
     "preview": "vite preview",
     "lint": "eslint",
-    "test": "vitest"
+    "test": "vitest run"
   },
   "dependencies": {
     "@floating-ui/dom": "^1.7.2",
@@ -40,7 +40,7 @@
     "solid-tiptap": "^0.7.0",
     "solid-toast": "^0.5.0",
     "solid-transition-group": "^0.3.0",
-    "zod": "^3.25.74"
+    "zod": "^4.0.15"
   },
   "devDependencies": {
     "@eslint/js": "^9.30.1",
