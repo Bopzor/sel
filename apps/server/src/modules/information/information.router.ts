@@ -65,6 +65,7 @@ router.post('/', async (req, res) => {
     informationId: id,
     authorId: member.id,
     ...body,
+    fileIds: body.fileIds ?? [],
   });
 
   res.status(HttpStatus.created).send(id);
@@ -81,6 +82,7 @@ router.post('/:informationId/comment', async (req, res) => {
     informationId,
     authorId: member.id,
     ...body,
+    fileIds: body.fileIds ?? [],
   });
 
   res.status(HttpStatus.created).send(commentId);

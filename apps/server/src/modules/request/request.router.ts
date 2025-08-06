@@ -117,6 +117,7 @@ router.post('/', async (req, res) => {
     requestId,
     requesterId: member.id,
     ...body,
+    fileIds: body.fileIds ?? [],
   });
 
   res.status(HttpStatus.created).send(requestId);
@@ -124,11 +125,12 @@ router.post('/', async (req, res) => {
 
 router.put('/:requestId', isRequester, async (req, res) => {
   const requestId = req.params.requestId;
-  const data = shared.updateRequestBodySchema.parse(req.body);
+  const body = shared.updateRequestBodySchema.parse(req.body);
 
   await editRequest({
     requestId,
-    ...data,
+    ...body,
+    fileIds: body.fileIds ?? [],
   });
 
   res.status(HttpStatus.noContent).end();
@@ -145,6 +147,7 @@ router.post('/:requestId/comment', async (req, res) => {
     requestId,
     authorId: member.id,
     ...body,
+    fileIds: body.fileIds ?? [],
   });
 
   res.status(HttpStatus.created).send(commentId);

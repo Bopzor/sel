@@ -37,7 +37,7 @@ export function EventForm(props: {
       body: props.initialValue?.message.body,
       location: props.initialValue?.location ?? null,
       date: props.initialValue?.date ? new Date(props.initialValue.date) : undefined,
-      fileIds: props.initialValue?.message.attachments.map(({ fileId }) => fileId) ?? [],
+      fileIds: props.initialValue?.message.attachments.map(({ fileId }) => fileId),
     },
     validate: zodForm(schema, {
       errorMap: createErrorMap((error) => {

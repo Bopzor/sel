@@ -22,7 +22,7 @@ export function RequestForm(props: {
     initialValues: {
       title: props.initialValue?.title ?? '',
       body: props.initialValue?.message.body ?? '',
-      fileIds: props.initialValue?.message.attachments.map(({ fileId }) => fileId) ?? [],
+      fileIds: props.initialValue?.message.attachments.map(({ fileId }) => fileId),
     },
     validate: zodForm(createRequestBodySchema, {
       errorMap: createErrorMap(),

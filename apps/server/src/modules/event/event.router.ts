@@ -95,6 +95,7 @@ router.post('/', async (req, res) => {
     eventId,
     organizerId: member.id,
     ...body,
+    fileIds: body.fileIds ?? [],
   });
 
   res.status(HttpStatus.created).send(eventId);
@@ -107,6 +108,7 @@ router.put('/:eventId', isOrganizer, async (req, res) => {
   await updateEvent({
     eventId,
     ...body,
+    fileIds: body.fileIds ?? [],
   });
 
   res.status(HttpStatus.noContent).end();
@@ -137,6 +139,7 @@ router.post('/:eventId/comment', async (req, res) => {
     eventId,
     authorId: member.id,
     ...body,
+    fileIds: body.fileIds ?? [],
   });
 
   res.status(HttpStatus.created).send(commentId);
