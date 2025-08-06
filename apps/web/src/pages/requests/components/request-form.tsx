@@ -1,5 +1,5 @@
 import { createForm, setValue } from '@modular-forms/solid';
-import { createRequestBodySchema, Request } from '@sel/shared';
+import { CreateRequestBody, createRequestBodySchema, Request } from '@sel/shared';
 import { JSX } from 'solid-js';
 
 import { AttachmentsEditorField } from 'src/components/attachments-editor';
@@ -11,26 +11,20 @@ import { createErrorMap, zodForm } from 'src/utils/validation';
 
 const T = createTranslate('pages.requests.form');
 
-type FormType = {
-  title: string;
-  body: string;
-  fileIds: string[];
-};
-
 export function RequestForm(props: {
   initialValue?: Request;
-  onSubmit: (data: FormType & { fileIds: string[] }) => Promise<unknown>;
+  onSubmit: (data: CreateRequestBody) => Promise<unknown>;
   submit: JSX.Element;
 }) {
   const t = T.useTranslate();
 
-  const [form, { Form, Field }] = createForm<FormType>({
+  const [form, { Form, Field }] = createForm<CreateRequestBody>({
     initialValues: {
       title: props.initialValue?.title ?? '',
       body: props.initialValue?.message.body ?? '',
-      fileIds: props.initialValue?.message.attachments.map(({ fileId }) => fileId),
+      fileIds: props.initialValue?.message.attachments.map(({ fileId }) => fileId) ?? [],
     },
-    validate: zodForm(createRequestBodySchema.omit({ fileIds: true }), {
+    validate: zodForm(createRequestBodySchema, {
       errorMap: createErrorMap(),
     }),
   });

@@ -45,6 +45,8 @@ export const createRequestBodySchema = z.object({
   fileIds: z.array(z.string()),
 });
 
+export type CreateRequestBody = z.infer<typeof createRequestBodySchema>;
+
 export const updateRequestBodySchema = createRequestBodySchema;
 
 export const setRequestAnswerBodySchema = z.object({
