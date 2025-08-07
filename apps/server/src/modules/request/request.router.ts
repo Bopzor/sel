@@ -116,7 +116,6 @@ router.post('/', async (req, res) => {
     requestId,
     requesterId: member.id,
     ...body,
-    fileIds: body.fileIds ?? [],
   });
 
   res.status(HttpStatus.created).send(requestId);

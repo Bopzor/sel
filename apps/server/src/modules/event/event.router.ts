@@ -107,7 +107,6 @@ router.put('/:eventId', isOrganizer, async (req, res) => {
   await updateEvent({
     eventId,
     ...body,
-    fileIds: body.fileIds ?? [],
   });
 
   res.status(HttpStatus.noContent).end();
