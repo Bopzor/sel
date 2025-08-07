@@ -88,17 +88,14 @@ export function AttachmentEditorList(props: {
           <label
             role="button"
             title={t('add')}
-            class="flex size-16 items-center justify-center rounded-md border transition-shadow hover:shadow-md"
+            class="flex size-16 items-center justify-center rounded-md border transition-shadow hover:shadow-md aria-disabled:cursor-default"
+            aria-disabled={isPending()}
           >
-            <Icon path={plus} class="size-8" />
-            <input type="file" onChange={upload} class="sr-only" />
+            <Show when={!isPending()} fallback={<Spinner class="size-8" />}>
+              <Icon path={plus} class="size-8" />
+            </Show>
+            <input type="file" disabled={isPending()} onChange={upload} class="sr-only" />
           </label>
-        </Show>
-
-        <Show when={props.loading || isPending()}>
-          <div class="flex items-center justify-center">
-            <Spinner class="size-8" />
-          </div>
         </Show>
 
         <For each={images()}>
