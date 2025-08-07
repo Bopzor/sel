@@ -11,6 +11,7 @@ import { createId } from 'src/utils/id';
 
 import { FormControl } from './form-control';
 import { FilePreview, ImagePreview } from './message';
+import { Spinner } from './spinner';
 
 const T = createTranslate('components.attachmentsEditor');
 
@@ -68,11 +69,12 @@ export function AttachmentEditorList(props: {
   value: Attachment[];
   onAdd?: (attachment: Attachment) => void;
   onRemove: (attachment: Attachment) => void;
+  loading?: boolean;
   class?: string;
 }) {
   const t = T.useTranslate();
 
-  const upload = createFileUploadHandler(({ id, name, originalName, mimetype }) => {
+  const [upload, isPending] = createFileUploadHandler(({ id, name, originalName, mimetype }) => {
     props.onAdd?.({ fileId: id, name, originalName, mimetype });
   });
 
@@ -86,10 +88,13 @@ export function AttachmentEditorList(props: {
           <label
             role="button"
             title={t('add')}
-            class="flex size-16 items-center justify-center rounded-md border transition-shadow hover:shadow-md"
+            class="flex size-16 items-center justify-center rounded-md border transition-shadow hover:shadow-md aria-disabled:cursor-default"
+            aria-disabled={isPending()}
           >
-            <Icon path={plus} class="size-8" />
-            <input type="file" onChange={upload} class="sr-only" />
+            <Show when={!isPending()} fallback={<Spinner class="size-8" />}>
+              <Icon path={plus} class="size-8" />
+            </Show>
+            <input type="file" disabled={isPending()} onChange={upload} class="sr-only" />
           </label>
         </Show>
 

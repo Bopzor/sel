@@ -64,7 +64,9 @@ export function CommentForm(props: {
   });
 
   const attachments = new ReactiveMap<string, Attachment>();
-  const upload = createFileUploadHandler((file) => attachments.set(file.id, { fileId: file.id, ...file }));
+  const [upload, isPending] = createFileUploadHandler((file) =>
+    attachments.set(file.id, { fileId: file.id, ...file }),
+  );
 
   const onSubmit = (values: { body: string }) => {
     return props.onSubmit({ ...values, fileIds: Array.from(attachments.keys()) }).then(() => {
@@ -81,7 +83,7 @@ export function CommentForm(props: {
 
       <div ref={ref} id={id()} class="my-2 ml-10 col min-h-32 outline-hidden" />
 
-      <Show when={attachments.size > 0}>
+      <Show when={attachments.size > 0 || isPending()}>
         <AttachmentEditorList
           value={Array.from(attachments.values())}
           onRemove={(attachment) => attachments.delete(attachment.fileId)}
@@ -100,7 +102,7 @@ export function CommentForm(props: {
       </Field>
 
       <div class="row flex-wrap items-center justify-between gap-4">
-        <RichEditorToolbar editor={editor()} onFileAdded={upload} />
+        <RichEditorToolbar editor={editor()} onFileAdded={upload} isFileUploading={isPending()} />
 
         <Button type="submit" variant="outline" loading={props.loading}>
           <T id="send" />
