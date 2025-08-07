@@ -11,11 +11,14 @@ export function createFileUploadHandler(onSuccess: (file: File) => void) {
     onSuccess,
   }));
 
-  return (event: { target: HTMLInputElement }) => {
-    const [file] = event.target.files ?? [];
+  return [
+    (event: { target: HTMLInputElement }) => {
+      const [file] = event.target.files ?? [];
 
-    if (file) {
-      fileUpload.mutate(file);
-    }
-  };
+      if (file) {
+        fileUpload.mutateAsync(file);
+      }
+    },
+    () => fileUpload.isPending,
+  ] as const;
 }
