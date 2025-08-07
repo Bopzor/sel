@@ -17,7 +17,7 @@ export function EventComments(props: { event: Event }) {
   const mutation = useMutation(() => ({
     async mutationFn(body: CreateCommentBody) {
       await api.createComment({
-        body: { ...body, eventId: props.event.id },
+        body: { ...body, type: 'event', entityId: props.event.id },
       });
     },
     async onSuccess() {

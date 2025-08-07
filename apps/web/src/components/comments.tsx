@@ -45,7 +45,7 @@ export function CommentList(props: { comments: Comment[] }) {
 export function CommentForm(props: {
   placeholder: string;
   loading: boolean;
-  onSubmit: (body: CreateCommentBody) => Promise<void>;
+  onSubmit: (body: Omit<CreateCommentBody, 'type' | 'entityId'>) => Promise<void>;
 }) {
   const member = getAuthenticatedMember();
   const id = createId(() => undefined);
@@ -54,7 +54,7 @@ export function CommentForm(props: {
 
   const [form, { Form, Field }] = createForm<{ body: string }>({
     initialValues: { body: '' },
-    validate: zodForm(createCommentBodySchema.omit({ fileIds: true })),
+    validate: zodForm(createCommentBodySchema),
   });
 
   const editor = createRichEditor({
