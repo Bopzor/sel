@@ -142,7 +142,6 @@ export function CommentForm(props: {
         <AttachmentEditorList
           value={Array.from(attachments.values())}
           onRemove={(attachment) => attachments.delete(attachment.fileId)}
-          loading={isPending()}
           class="mb-4 col gap-2"
         />
       </Show>
@@ -158,7 +157,7 @@ export function CommentForm(props: {
       </Field>
 
       <div class="row flex-wrap items-center justify-between gap-4">
-        <RichEditorToolbar editor={editor()} onFileAdded={upload} />
+        <RichEditorToolbar editor={editor()} onFileAdded={upload} isFileUploading={isPending()} />
 
         <Button type="submit" variant="outline" loading={props.loading}>
           <Translate id="send" />
