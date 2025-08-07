@@ -1,6 +1,6 @@
 {
   "name": "@sel/web",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "packageManager": "pnpm@9.15.0",
   "private": true,
   "type": "module",
