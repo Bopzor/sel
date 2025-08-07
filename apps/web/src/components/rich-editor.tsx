@@ -21,6 +21,7 @@ import { createId } from 'src/utils/id';
 
 import { field, FieldVariant } from './field';
 import { FormControl } from './form-control';
+import { Spinner } from './spinner';
 
 const T = createTranslate('components.richEditor');
 
@@ -90,6 +91,7 @@ export function RichEditor(_props: Omit<RichEditorProps, 'element'>) {
 export function RichEditorToolbar(props: {
   editor?: Editor;
   onFileAdded?: (event: { target: HTMLInputElement }) => void;
+  isFileUploading?: boolean;
   class?: string;
 }) {
   const t = T.useTranslate();
@@ -163,9 +165,21 @@ export function RichEditorToolbar(props: {
       />
 
       <Show when={props.onFileAdded !== undefined}>
-        <label role="button" class="rounded-sm p-0.5">
-          <Dynamic component={IconPaperClip} class="size-5 text-dim transition-colors hover:text-text" />
-          <input type="file" onChange={(event) => props.onFileAdded?.(event)} class="sr-only" />
+        <label
+          role="button"
+          class="rounded-sm p-0.5 aria-disabled:cursor-default"
+          aria-disabled={props.isFileUploading}
+        >
+          <Dynamic
+            component={props.isFileUploading ? Spinner : IconPaperClip}
+            class="size-5 text-dim transition-colors hover:text-text"
+          />
+          <input
+            type="file"
+            onChange={(event) => props.onFileAdded?.(event)}
+            disabled={props.isFileUploading}
+            class="sr-only"
+          />
         </label>
       </Show>
     </div>
