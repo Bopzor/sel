@@ -277,4 +277,48 @@ describe('notification snapshots', () => {
       currency: 'coins',
     });
   });
+
+  it('InformationPublished', async () => {
+    await assertNotificationSnapshot('InformationPublished', {
+      member: { firstName: 'Member' },
+      information: {
+        id: 'infoId',
+        title: 'Info title',
+        author: {
+          id: 'publisherId',
+          name: 'Publisher',
+        },
+        body: {
+          html: '<p>Info body</p>',
+          text: 'Info body',
+        },
+      },
+    });
+  });
+
+  it('InformationCommentCreated', async () => {
+    await assertNotificationSnapshot('InformationCommentCreated', {
+      member: { firstName: 'Member' },
+      isPublisher: true,
+      information: {
+        id: 'infoId',
+        title: 'Info title',
+        author: {
+          id: 'publisherId',
+          name: 'Publisher',
+        },
+      },
+      comment: {
+        id: 'commentId',
+        author: {
+          id: 'authorId',
+          name: 'Author',
+        },
+        body: {
+          html: '<p>Comment body</p>',
+          text: 'Comment body',
+        },
+      },
+    });
+  });
 });

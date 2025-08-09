@@ -4,54 +4,52 @@ import { eq } from 'drizzle-orm';
 import { memberName } from 'src/infrastructure/format';
 import { Comment } from 'src/modules/comment';
 import { CommentCreatedEvent } from 'src/modules/comment/comment.entities';
+import { Information } from 'src/modules/information/information.entities';
 import { findMemberById, Member } from 'src/modules/member';
 import { Message, withAttachments } from 'src/modules/messages/message.entities';
 import { GetNotificationContext, notify } from 'src/modules/notification';
-import { Request } from 'src/modules/request/request.entities';
 import { db, schema } from 'src/persistence';
 
-export async function notifyRequestCommentCreated(event: CommentCreatedEvent) {
-  if (event.payload.entityType !== 'request') {
+export async function notifyInformationCommentCreated(event: CommentCreatedEvent) {
+  if (event.payload.entityType !== 'information') {
     return;
   }
 
   const { entityId: commentId } = event;
-  const { entityId: requestId, commentAuthorId } = event.payload;
+  const { entityId: informationId, commentAuthorId } = event.payload;
 
-  const request = await db.query.requests.findFirst({
-    where: eq(schema.requests.id, requestId),
+  const information = await db.query.information.findFirst({
+    where: eq(schema.information.id, informationId),
     with: {
-      requester: true,
+      author: true,
       comments: { with: { message: withAttachments } },
-      answers: { where: eq(schema.requestAnswers.answer, 'positive') },
     },
   });
 
-  assert(request !== undefined);
+  assert(information !== undefined);
 
-  const comment = defined(request.comments.find(hasProperty('id', commentId)));
+  const comment = defined(information.comments.find(hasProperty('id', commentId)));
   const author = defined(await findMemberById(commentAuthorId));
 
   const stakeholderIds = unique([
-    request.requester.id,
-    ...request.answers.map((answer) => answer.memberId),
-    ...request.comments.map((comment) => comment.authorId),
+    ...(information.author ? [information.author.id] : []),
+    ...information.comments.map((comment) => comment.authorId),
   ]);
 
   await notify({
     memberIds: stakeholderIds,
-    type: 'RequestCommentCreated',
-    getContext: (member) => getContext(member, request, comment, author),
+    type: 'InformationCommentCreated',
+    getContext: (member) => getContext(member, information, comment, author),
     attachments: comment.message.attachments,
   });
 }
 
 function getContext(
   member: Member,
-  request: Request & { requester: Member },
+  information: Information & { author: Member | null },
   comment: Comment & { message: Message },
   author: Member,
-): ReturnType<GetNotificationContext<'RequestCommentCreated'>> {
+): ReturnType<GetNotificationContext<'InformationCommentCreated'>> {
   if (member.id === author.id) {
     return null;
   }
@@ -60,14 +58,16 @@ function getContext(
     member: {
       firstName: member.firstName,
     },
-    isRequester: request.requester.id === member.id,
-    request: {
-      id: request.id,
-      title: request.title,
-      requester: {
-        id: request.requester.id,
-        name: memberName(request.requester),
-      },
+    isPublisher: information.author?.id === member.id,
+    information: {
+      id: information.id,
+      title: information.title,
+      author: information.author
+        ? {
+            id: information.author.id,
+            name: memberName(information.author),
+          }
+        : undefined,
     },
     comment: {
       id: comment.id,
