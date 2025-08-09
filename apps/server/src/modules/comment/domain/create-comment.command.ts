@@ -34,5 +34,7 @@ export async function createComment(command: CreateCommentCommand): Promise<void
     [entityTypeToName]: entityId,
   });
 
-  events.publish(new CommentCreatedEvent(commentId, { type, entityId, authorId }));
+  events.publish(
+    new CommentCreatedEvent(commentId, { entityType: type, entityId, commentAuthorId: authorId }),
+  );
 }

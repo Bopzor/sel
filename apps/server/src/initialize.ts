@@ -2,20 +2,14 @@ import { container } from './infrastructure/container';
 import { DomainEvent } from './infrastructure/events';
 import { AuthenticationLinkRequestedEvent } from './modules/authentication/authentication.entities';
 import { sendAuthenticationEmail } from './modules/authentication/domain/send-authentication-link.event-handler';
+import { CommentCreatedEvent } from './modules/comment/comment.entities';
 import { notifyEventCommentCreated } from './modules/event/domain/notify-event-comment-created.handler';
 import { notifyEventCreated } from './modules/event/domain/notify-event-created.event-handler';
 import { notifyEventParticipationSet } from './modules/event/domain/notify-event-participant-set.event-handler';
-import {
-  EventCommentCreatedEvent,
-  EventCreatedEvent,
-  EventParticipationSetEvent,
-} from './modules/event/event.entities';
+import { EventCreatedEvent, EventParticipationSetEvent } from './modules/event/event.entities';
 import { notifyInformationCommentCreated } from './modules/information/domain/notify-information-comment-create.event-handler';
 import { notifyInformationPublished } from './modules/information/domain/notify-information-published.event-handler';
-import {
-  InformationCommentCreatedEvent,
-  InformationPublished as InformationPublishedEvent,
-} from './modules/information/information.entities';
+import { InformationPublished as InformationPublishedEvent } from './modules/information/information.entities';
 import { reportOnboardingCompleted } from './modules/member/domain/report-onboarding-completed.event-handler';
 import { OnboardingCompletedEvent } from './modules/member/member.entities';
 import { notifyRequestCommentCreated } from './modules/request/domain/notify-request-comment-create.event-handler';
@@ -23,7 +17,6 @@ import { notifyRequestCreated } from './modules/request/domain/notify-request-cr
 import { notifyRequestStatusChanged } from './modules/request/domain/notify-request-status-changed.event-handler';
 import {
   RequestCanceledEvent,
-  RequestCommentCreatedEvent,
   RequestCreatedEvent,
   RequestFulfilledEvent,
 } from './modules/request/request.entities';
@@ -60,20 +53,20 @@ function bindEventListeners() {
   events.addListener(AuthenticationLinkRequestedEvent, sendAuthenticationEmail);
 
   events.addListener(RequestCreatedEvent, notifyRequestCreated);
-  events.addListener(RequestCommentCreatedEvent, notifyRequestCommentCreated);
+  events.addListener(CommentCreatedEvent, notifyRequestCommentCreated);
   events.addListener(RequestFulfilledEvent, notifyRequestStatusChanged);
   events.addListener(RequestCanceledEvent, notifyRequestStatusChanged);
 
   events.addListener(EventCreatedEvent, notifyEventCreated);
   events.addListener(EventParticipationSetEvent, notifyEventParticipationSet);
-  events.addListener(EventCommentCreatedEvent, notifyEventCommentCreated);
+  events.addListener(CommentCreatedEvent, notifyEventCommentCreated);
 
   events.addListener(TransactionPendingEvent, notifyTransactionPending);
   events.addListener(TransactionCompletedEvent, notifyTransactionCompleted);
   events.addListener(TransactionCanceledEvent, notifyTransactionCanceled);
 
   events.addListener(InformationPublishedEvent, notifyInformationPublished);
-  events.addListener(InformationCommentCreatedEvent, notifyInformationCommentCreated);
+  events.addListener(CommentCreatedEvent, notifyInformationCommentCreated);
 }
 
 async function logDomainEvent(event: DomainEvent<unknown>) {

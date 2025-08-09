@@ -19,8 +19,3 @@ export class EventParticipationSetEvent extends DomainEvent<{
   previousParticipation: shared.EventParticipation | null;
   participation: shared.EventParticipation | null;
 }> {}
-
-export class EventCommentCreatedEvent extends DomainEvent<{
-  commentId: string;
-  authorId: string;
-}> {}

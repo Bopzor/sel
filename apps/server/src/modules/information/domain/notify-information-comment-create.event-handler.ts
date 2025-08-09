@@ -2,17 +2,24 @@ import { assert, defined, hasProperty, unique } from '@sel/utils';
 import { eq } from 'drizzle-orm';
 
 import { memberName } from 'src/infrastructure/format';
+import { Comment } from 'src/modules/comment';
+import { CommentCreatedEvent } from 'src/modules/comment/comment.entities';
+import { Information } from 'src/modules/information/information.entities';
+import { findMemberById, Member } from 'src/modules/member';
 import { Message, withAttachments } from 'src/modules/messages/message.entities';
+import { GetNotificationContext, notify } from 'src/modules/notification';
 import { db, schema } from 'src/persistence';
 
-import { Comment } from '../../comment';
-import { findMemberById, Member } from '../../member';
-import { GetNotificationContext, notify } from '../../notification';
-import { Information, InformationCommentCreatedEvent } from '../information.entities';
+export async function notifyInformationCommentCreated(event: CommentCreatedEvent) {
+  if (event.payload.entityType !== 'information') {
+    return;
+  }
 
-export async function notifyInformationCommentCreated(event: InformationCommentCreatedEvent) {
+  const { entityId: commentId } = event;
+  const { entityId: informationId, commentAuthorId } = event.payload;
+
   const information = await db.query.information.findFirst({
-    where: eq(schema.information.id, event.entityId),
+    where: eq(schema.information.id, informationId),
     with: {
       author: true,
       comments: { with: { message: withAttachments } },
@@ -21,8 +28,8 @@ export async function notifyInformationCommentCreated(event: InformationCommentC
 
   assert(information !== undefined);
 
-  const comment = defined(information.comments.find(hasProperty('id', event.payload.commentId)));
-  const author = defined(await findMemberById(event.payload.authorId));
+  const comment = defined(information.comments.find(hasProperty('id', commentId)));
+  const author = defined(await findMemberById(commentAuthorId));
 
   const stakeholderIds = unique([
     ...(information.author ? [information.author.id] : []),
