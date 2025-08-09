@@ -5,7 +5,7 @@ export type Comment = typeof schema.comments.$inferSelect;
 
 export type CommentEntityType = 'request' | 'event' | 'information';
 export class CommentCreatedEvent extends DomainEvent<{
-  type: CommentEntityType;
+  entityType: CommentEntityType;
   entityId: string;
-  authorId: string;
+  commentAuthorId: string;
 }> {}

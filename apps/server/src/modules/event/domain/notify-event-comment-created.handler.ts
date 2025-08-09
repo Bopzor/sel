@@ -3,16 +3,20 @@ import { eq } from 'drizzle-orm';
 
 import { memberName } from 'src/infrastructure/format';
 import { Comment } from 'src/modules/comment';
+import { CommentCreatedEvent } from 'src/modules/comment/comment.entities';
+import { Event } from 'src/modules/event/event.entities';
 import { findMemberById, Member } from 'src/modules/member';
 import { Message, withAttachments } from 'src/modules/messages/message.entities';
 import { GetNotificationContext, notify } from 'src/modules/notification';
 import { db, schema } from 'src/persistence';
 
-import { Event, EventCommentCreatedEvent } from '../event.entities';
+export async function notifyEventCommentCreated(domainEvent: CommentCreatedEvent): Promise<void> {
+  if (domainEvent.payload.entityType !== 'event') {
+    return;
+  }
 
-export async function notifyEventCommentCreated(domainEvent: EventCommentCreatedEvent): Promise<void> {
-  const { entityId: eventId } = domainEvent;
-  const { commentId, authorId } = domainEvent.payload;
+  const { entityId: commentId } = domainEvent;
+  const { entityId: eventId, commentAuthorId } = domainEvent.payload;
 
   const event = defined(
     await db.query.events.findFirst({
@@ -26,7 +30,7 @@ export async function notifyEventCommentCreated(domainEvent: EventCommentCreated
   );
 
   const comment = defined(event.comments.find(hasProperty('id', commentId)));
-  const author = defined(await findMemberById(authorId));
+  const author = defined(await findMemberById(commentAuthorId));
 
   const stakeholderIds = unique([
     event.organizer.id,

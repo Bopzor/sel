@@ -10,8 +10,6 @@ export class RequestCreatedEvent extends DomainEvent<{ requesterId: string }> {}
 
 export class RequestEditedEvent extends DomainEvent {}
 
-export class RequestCommentCreatedEvent extends DomainEvent<{ commentId: string; authorId: string }> {}
-
 export class RequestFulfilledEvent extends DomainEvent {}
 
 export class RequestCanceledEvent extends DomainEvent {}

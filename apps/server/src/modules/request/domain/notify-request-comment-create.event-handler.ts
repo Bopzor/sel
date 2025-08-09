@@ -2,17 +2,24 @@ import { assert, defined, hasProperty, unique } from '@sel/utils';
 import { eq } from 'drizzle-orm';
 
 import { memberName } from 'src/infrastructure/format';
+import { Comment } from 'src/modules/comment';
+import { CommentCreatedEvent } from 'src/modules/comment/comment.entities';
+import { findMemberById, Member } from 'src/modules/member';
 import { Message, withAttachments } from 'src/modules/messages/message.entities';
+import { GetNotificationContext, notify } from 'src/modules/notification';
+import { Request } from 'src/modules/request/request.entities';
 import { db, schema } from 'src/persistence';
 
-import { Comment } from '../../comment';
-import { findMemberById, Member } from '../../member';
-import { GetNotificationContext, notify } from '../../notification';
-import { Request, RequestCommentCreatedEvent } from '../request.entities';
+export async function notifyRequestCommentCreated(event: CommentCreatedEvent) {
+  if (event.payload.entityType !== 'request') {
+    return;
+  }
 
-export async function notifyRequestCommentCreated(event: RequestCommentCreatedEvent) {
+  const { entityId: commentId } = event;
+  const { entityId: requestId, commentAuthorId } = event.payload;
+
   const request = await db.query.requests.findFirst({
-    where: eq(schema.requests.id, event.entityId),
+    where: eq(schema.requests.id, requestId),
     with: {
       requester: true,
       comments: { with: { message: withAttachments } },
@@ -22,8 +29,8 @@ export async function notifyRequestCommentCreated(event: RequestCommentCreatedEv
 
   assert(request !== undefined);
 
-  const comment = defined(request.comments.find(hasProperty('id', event.payload.commentId)));
-  const author = defined(await findMemberById(event.payload.authorId));
+  const comment = defined(request.comments.find(hasProperty('id', commentId)));
+  const author = defined(await findMemberById(commentAuthorId));
 
   const stakeholderIds = unique([
     request.requester.id,
