@@ -28,7 +28,7 @@ export function RequestDetailsPage() {
           <div class="col gap-12 lg:col-span-2">
             <RequestDescription request={request()} />
             <RequestAnswer request={request()} />
-            <Comments type="request" entityId={request().id} />
+            <Comments entityType="request" entityId={request().id} />
           </div>
 
           <div class="col max-w-lg gap-12">

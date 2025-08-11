@@ -19,7 +19,7 @@ export type CommentAuthor = {
 export type CommentEntityType = 'request' | 'event' | 'information';
 
 export const commentForEntitySchema = z.object({
-  type: z.literal<CommentEntityType[]>(['request', 'event', 'information']),
+  entityType: z.literal<CommentEntityType[]>(['request', 'event', 'information']),
   entityId: z.string(),
 });
 

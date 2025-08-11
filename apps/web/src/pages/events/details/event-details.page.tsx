@@ -34,7 +34,7 @@ export function EventDetailsPage() {
               <EventParticipation event={event()} />
               <EventOrganizer event={event()} />
               <EventParticipantList event={event()} />
-              <Comments type="event" entityId={event().id} />
+              <Comments entityType="event" entityId={event().id} />
             </div>
           </Show>
 
@@ -51,7 +51,7 @@ export function EventDetailsPage() {
                 <EventHeader event={event()} />
                 <EventDescription event={event()} />
                 <EventParticipation event={event()} />
-                <Comments type="event" entityId={event().id} />
+                <Comments entityType="event" entityId={event().id} />
               </div>
             </div>
           </Show>
