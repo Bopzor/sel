@@ -48,6 +48,7 @@
     "@tailwindcss/typography": "^0.5.16",
     "@tailwindcss/vite": "^4.1.11",
     "@tanstack/eslint-plugin-query": "^5.81.2",
+    "@tanstack/solid-query-devtools": "^5.84.0",
     "@trivago/prettier-plugin-sort-imports": "^5.2.2",
     "@types/node": "^22.16.0",
     "date-fns": "^4.1.0",

@@ -250,6 +250,9 @@ importers:
       '@tanstack/eslint-plugin-query':
         specifier: ^5.81.2
         version: 5.81.2(eslint@9.30.1(jiti@2.4.2))(typescript@5.8.3)
+      '@tanstack/solid-query-devtools':
+        specifier: ^5.84.0
+        version: 5.84.0(@tanstack/solid-query@5.81.5(solid-js@1.9.7))(solid-js@1.9.7)
       '@trivago/prettier-plugin-sort-imports':
         specifier: ^5.2.2
         version: 5.2.2(prettier@3.6.2)
@@ -1389,6 +1392,15 @@ packages:
 
   '@tanstack/query-core@5.81.5':
     resolution: {integrity: sha512-ZJOgCy/z2qpZXWaj/oxvodDx07XcQa9BF92c0oINjHkoqUPsmm3uG08HpTaviviZ/N9eP1f9CM7mKSEkIo7O1Q==}
+
+  '@tanstack/query-devtools@5.84.0':
+    resolution: {integrity: sha512-fbF3n+z1rqhvd9EoGp5knHkv3p5B2Zml1yNRjh7sNXklngYI5RVIWUrUjZ1RIcEoscarUb0+bOvIs5x9dwzOXQ==}
+
+  '@tanstack/solid-query-devtools@5.84.0':
+    resolution: {integrity: sha512-RsmPhxD0t6o1mkeYnynrP0nueJ+2Sj/LccQu8hgpwzNctNpak2QFbl0r/ppnzkvBGT8d3gUmrWzWlqPYAQPs9Q==}
+    peerDependencies:
+      '@tanstack/solid-query': ^5.83.1
+      solid-js: ^1.6.0
 
   '@tanstack/solid-query@5.81.5':
     resolution: {integrity: sha512-VqVXaxiJIsKA6B45uApF+RUD3g8Roj/vdAuGpHMjR+RyHqlyQ+hOwgmALkzlbkbIaWCQi8CJOvrbU6WOBuMOxA==}
@@ -5556,6 +5568,14 @@ snapshots:
       - typescript
 
   '@tanstack/query-core@5.81.5': {}
+
+  '@tanstack/query-devtools@5.84.0': {}
+
+  '@tanstack/solid-query-devtools@5.84.0(@tanstack/solid-query@5.81.5(solid-js@1.9.7))(solid-js@1.9.7)':
+    dependencies:
+      '@tanstack/query-devtools': 5.84.0
+      '@tanstack/solid-query': 5.81.5(solid-js@1.9.7)
+      solid-js: 1.9.7
 
   '@tanstack/solid-query@5.81.5(solid-js@1.9.7)':
     dependencies:
