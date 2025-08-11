@@ -394,6 +394,9 @@
         }
       }
     },
+    "information": {
+      "date": "Publiée le {date}"
+    },
     "requests": {
       "form": {
         "title": {
