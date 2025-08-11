@@ -28,22 +28,22 @@ import { createRichEditor, RichEditorToolbar } from './rich-editor';
 
 const T = createTranslate('components.comments');
 
-export function Comments(props: { type: CommentEntityType; entityId: string }) {
+export function Comments(props: { entityType: CommentEntityType; entityId: string }) {
   const t = T.useTranslate();
   const invalidate = useInvalidateApi();
 
   const query = useQuery(() =>
-    apiQuery('getComments', { query: { type: props.type, entityId: props.entityId } }),
+    apiQuery('getComments', { query: { entityType: props.entityType, entityId: props.entityId } }),
   );
 
   const mutation = useMutation(() => ({
     async mutationFn(body: CreateCommentBody) {
       await api.createComment({
-        body: { ...body, type: props.type, entityId: props.entityId },
+        body: { ...body, entityType: props.entityType, entityId: props.entityId },
       });
     },
     async onSuccess() {
-      await invalidate('getComments', { query: { type: props.type, entityId: props.entityId } });
+      await invalidate('getComments', { query: { entityType: props.entityType, entityId: props.entityId } });
       notify.success(t('createComment.success'));
     },
   }));
@@ -89,7 +89,7 @@ const TCommon = createTranslate('common');
 export function CommentForm(props: {
   placeholder: string;
   loading: boolean;
-  onSubmit: (body: Omit<CreateCommentBody, 'type' | 'entityId'>) => Promise<void>;
+  onSubmit: (body: Omit<CreateCommentBody, 'entityType' | 'entityId'>) => Promise<void>;
 }) {
   const member = getAuthenticatedMember();
   const id = createId(() => undefined);

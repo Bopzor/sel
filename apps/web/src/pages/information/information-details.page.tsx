@@ -21,7 +21,7 @@ export function InformationDetailsPage() {
             <Message message={query.data?.message} />
           </Card>
 
-          <Comments type="information" entityId={information().id} />
+          <Comments entityType="information" entityId={information().id} />
         </div>
       )}
     </Show>

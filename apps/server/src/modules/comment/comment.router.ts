@@ -19,14 +19,8 @@ export const router = express.Router();
 router.get('/', async (req, res) => {
   const query = shared.commentForEntitySchema.parse(req.query);
 
-  const commentEntityToField = {
-    request: 'requestId' as const,
-    event: 'eventId' as const,
-    information: 'informationId' as const,
-  }[query.type];
-
   const comments = await db.query.comments.findMany({
-    where: eq(schema.comments[commentEntityToField], query.entityId),
+    where: eq(schema.comments[`${query.entityType}Id`], query.entityId),
     with: {
       author: withAvatar,
       message: withAttachments,
