@@ -1,6 +1,5 @@
 import { z } from 'zod';
 
-import { Comment } from './comment';
 import { LightMember } from './member';
 import { Message } from './message';
 import { PhoneNumber } from './phone-number';
@@ -20,7 +19,6 @@ export type Request = {
   message: Message;
   hasTransactions: boolean;
   answers: RequestAnswer[];
-  comments: Comment[];
 };
 
 export type Requester = LightMember & {

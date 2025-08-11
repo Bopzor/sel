@@ -90,6 +90,13 @@
       "status": "État",
       "description": "Motif",
       "amountDescription": "{amount} : {description}"
+    },
+    "comments": {
+      "title": "Commentaires",
+      "createComment": {
+        "placeholder": "Écrire un commentaire...",
+        "success": "Votre commentaire a bien été envoyé"
+      }
     }
   },
   "enums": {
@@ -325,13 +332,6 @@
         }
       }
     },
-    "information": {
-      "createComment": {
-        "title": "Commentaires",
-        "placeholder": "Écrire un commentaire...",
-        "success": "Votre commentaire a bien été envoyé"
-      }
-    },
     "requests": {
       "form": {
         "title": {
@@ -385,13 +385,6 @@
           "positive": "OK",
           "negative": "Je ne peux pas",
           "requestIsNotPending": "Cette demande n'est pas en cours"
-        },
-        "comments": {
-          "title": "Commentaires",
-          "createComment": {
-            "placeholder": "Écrire un commentaire...",
-            "success": "Votre commentaire a bien été envoyé"
-          }
         },
         "actions": {
           "createTransaction": "Créer un échange"
@@ -461,13 +454,6 @@
             "edit": "Éditer",
             "notifications": "Notifications",
             "notificationsSettingsUnavailable": "La gestion des notification n'est pas encore possible"
-          }
-        },
-        "comments": {
-          "title": "Commentaires",
-          "createComment": {
-            "placeholder": "Écrire un commentaire...",
-            "success": "Votre commentaire a bien été envoyé"
           }
         },
         "organizer": {

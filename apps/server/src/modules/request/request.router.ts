@@ -11,7 +11,6 @@ import { getAuthenticatedMember } from 'src/infrastructure/session';
 import { db, schema } from 'src/persistence';
 import { TOKENS } from 'src/tokens';
 
-import { Comment } from '../comment';
 import { MemberWithAvatar, withAvatar } from '../member/member.entities';
 import { serializeMember } from '../member/member.serializer';
 import { MessageWithAttachments, withAttachments } from '../messages/message.entities';
@@ -55,12 +54,6 @@ router.get('/', async (req, res) => {
           member: withAvatar,
         },
       },
-      comments: {
-        with: {
-          author: withAvatar,
-          message: withAttachments,
-        },
-      },
       transactions: true,
     },
     orderBy: [sql`position`, desc(schema.requests.createdAt)],
@@ -78,12 +71,6 @@ router.get('/:requestId', async (req, res) => {
       answers: {
         with: {
           member: withAvatar,
-        },
-      },
-      comments: {
-        with: {
-          author: withAvatar,
-          message: withAttachments,
         },
       },
       transactions: true,
@@ -191,12 +178,11 @@ function serializeRequest(
   request: Request & {
     requester: MemberWithAvatar;
     message: MessageWithAttachments;
-    comments: Array<Comment & { author: MemberWithAvatar; message: MessageWithAttachments }>;
     answers: Array<RequestAnswer & { member: MemberWithAvatar }>;
     transactions: Array<Transaction>;
   },
 ): shared.Request {
-  const { requester, comments, answers } = request;
+  const { requester, answers } = request;
 
   return {
     id: request.id,
@@ -214,12 +200,6 @@ function serializeRequest(
       id: answer.id,
       member: serializeMember(answer.member),
       answer: answer.answer,
-    })),
-    comments: comments.map((comment) => ({
-      id: comment.id,
-      date: comment.date.toISOString(),
-      author: serializeMember(comment.author),
-      message: serializeMessage(comment.message),
     })),
   };
 }

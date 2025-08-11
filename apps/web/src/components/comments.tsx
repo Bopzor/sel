@@ -1,9 +1,18 @@
 import { createForm, setValue } from '@modular-forms/solid';
-import { Attachment, Comment, CreateCommentBody, createCommentBodySchema } from '@sel/shared';
+import {
+  Attachment,
+  Comment,
+  CommentEntityType,
+  CreateCommentBody,
+  createCommentBodySchema,
+} from '@sel/shared';
 import { ReactiveMap } from '@solid-primitives/map';
+import { useMutation, useQuery } from '@tanstack/solid-query';
 import { For, Show } from 'solid-js';
 
-import { getAuthenticatedMember } from 'src/application/query';
+import { api } from 'src/application/api';
+import { notify } from 'src/application/notify';
+import { apiQuery, getAuthenticatedMember, useInvalidateApi } from 'src/application/query';
 import { FormattedDate } from 'src/intl/formatted';
 import { createTranslate } from 'src/intl/translate';
 import { createFileUploadHandler } from 'src/utils/file-upload';
@@ -12,11 +21,44 @@ import { zodForm } from 'src/utils/validation';
 
 import { AttachmentEditorList } from './attachments-editor';
 import { Button } from './button';
+import { Card } from './card';
 import { MemberAvatarName } from './member-avatar-name';
 import { Message } from './message';
 import { createRichEditor, RichEditorToolbar } from './rich-editor';
 
-const T = createTranslate('common');
+const T = createTranslate('components.comments');
+
+export function Comments(props: { type: CommentEntityType; entityId: string }) {
+  const t = T.useTranslate();
+  const invalidate = useInvalidateApi();
+
+  const query = useQuery(() =>
+    apiQuery('getComments', { query: { type: props.type, entityId: props.entityId } }),
+  );
+
+  const mutation = useMutation(() => ({
+    async mutationFn(body: CreateCommentBody) {
+      await api.createComment({
+        body: { ...body, type: props.type, entityId: props.entityId },
+      });
+    },
+    async onSuccess() {
+      await invalidate('getComments', { query: { type: props.type, entityId: props.entityId } });
+      notify.success(t('createComment.success'));
+    },
+  }));
+
+  return (
+    <Card title={<T id="title" />} padding={false} classes={{ content: 'divide-y' }}>
+      <Show when={query.data}>{(comments) => <CommentList comments={comments()} />}</Show>
+      <CommentForm
+        placeholder={t('createComment.placeholder')}
+        loading={mutation.isPending}
+        onSubmit={(body) => mutation.mutateAsync(body)}
+      />
+    </Card>
+  );
+}
 
 export function CommentList(props: { comments: Comment[] }) {
   return (
@@ -41,6 +83,8 @@ export function CommentList(props: { comments: Comment[] }) {
     </Show>
   );
 }
+
+const TCommon = createTranslate('common');
 
 export function CommentForm(props: {
   placeholder: string;
@@ -103,7 +147,7 @@ export function CommentForm(props: {
         <RichEditorToolbar editor={editor()} onFileAdded={upload} />
 
         <Button type="submit" variant="outline" loading={props.loading}>
-          <T id="send" />
+          <TCommon id="send" />
         </Button>
       </div>
     </Form>

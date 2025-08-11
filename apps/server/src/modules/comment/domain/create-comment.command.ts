@@ -1,16 +1,18 @@
+import * as shared from '@sel/shared';
+
 import { container } from 'src/infrastructure/container';
 import { insertMessage } from 'src/modules/messages/message.persistence';
 import { db, schema } from 'src/persistence';
 import { TOKENS } from 'src/tokens';
 
-import { CommentCreatedEvent, CommentEntityType } from '../comment.entities';
+import { CommentCreatedEvent } from '../comment.entities';
 
 export type CreateCommentCommand = {
   commentId: string;
   authorId: string;
   body: string;
   fileIds: string[];
-  type: CommentEntityType;
+  type: shared.CommentEntityType;
   entityId: string;
 };
 

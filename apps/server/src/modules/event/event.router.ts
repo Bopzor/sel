@@ -11,7 +11,6 @@ import { getAuthenticatedMember } from 'src/infrastructure/session';
 import { db, schema } from 'src/persistence';
 import { TOKENS } from 'src/tokens';
 
-import { Comment } from '../comment';
 import { MemberWithAvatar, withAvatar } from '../member/member.entities';
 import { serializeMember } from '../member/member.serializer';
 import { MessageWithAttachments, withAttachments } from '../messages/message.entities';
@@ -58,12 +57,6 @@ router.get('/:eventId', async (req, res) => {
       message: withAttachments,
       participants: {
         with: { member: withAvatar },
-      },
-      comments: {
-        with: {
-          author: withAvatar,
-          message: withAttachments,
-        },
       },
     },
   });
@@ -141,7 +134,6 @@ function serializeEvent(
     organizer: MemberWithAvatar;
     message: MessageWithAttachments;
     participants: Array<EventParticipation & { member: MemberWithAvatar }>;
-    comments: Array<Comment & { author: MemberWithAvatar; message: MessageWithAttachments }>;
   },
 ): shared.Event {
   return {
@@ -155,12 +147,6 @@ function serializeEvent(
     participants: event.participants.map(({ member, participation }) => ({
       ...serializeMember(member),
       participation,
-    })),
-    comments: event.comments.map((comment) => ({
-      id: comment.id,
-      date: comment.date.toISOString(),
-      author: serializeMember(comment.author),
-      message: serializeMessage(comment.message),
     })),
   };
 }
