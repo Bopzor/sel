@@ -6,6 +6,7 @@ import {
   CreateCommentBody,
   createCommentBodySchema,
 } from '@sel/shared';
+import { pick } from '@sel/utils';
 import { ReactiveMap } from '@solid-primitives/map';
 import { useMutation, useQuery } from '@tanstack/solid-query';
 import { For, Show } from 'solid-js';
@@ -25,38 +26,42 @@ import { Card } from './card';
 import { MemberAvatarName } from './member-avatar-name';
 import { Message } from './message';
 import { createRichEditor, RichEditorToolbar } from './rich-editor';
+import { BoxSkeleton } from './skeleton';
 
 const T = createTranslate('components.comments');
+const Translate = createTranslate('common');
 
 export function Comments(props: { entityType: CommentEntityType; entityId: string }) {
   const t = T.useTranslate();
   const invalidate = useInvalidateApi();
 
-  const query = useQuery(() =>
-    apiQuery('getComments', { query: { entityType: props.entityType, entityId: props.entityId } }),
-  );
+  const query = useQuery(() => apiQuery('getComments', { query: pick(props, ['entityType', 'entityId']) }));
 
   const mutation = useMutation(() => ({
     async mutationFn(body: CreateCommentBody) {
-      await api.createComment({
-        body: { ...body, entityType: props.entityType, entityId: props.entityId },
-      });
+      await api.createComment({ body });
     },
     async onSuccess() {
-      await invalidate('getComments', { query: { entityType: props.entityType, entityId: props.entityId } });
+      await invalidate('getComments', { query: pick(props, ['entityType', 'entityId']) });
       notify.success(t('createComment.success'));
     },
   }));
 
   return (
-    <Card title={<T id="title" />} padding={false} classes={{ content: 'divide-y' }}>
-      <Show when={query.data}>{(comments) => <CommentList comments={comments()} />}</Show>
-      <CommentForm
-        placeholder={t('createComment.placeholder')}
-        loading={mutation.isPending}
-        onSubmit={(body) => mutation.mutateAsync(body)}
-      />
-    </Card>
+    <Show when={query.data} fallback={<BoxSkeleton height={12} />}>
+      {(comments) => (
+        <Card title={<T id="title" />} padding={false} classes={{ content: 'divide-y' }}>
+          <CommentList comments={comments()} />
+          <CommentForm
+            placeholder={t('createComment.placeholder')}
+            loading={mutation.isPending}
+            entityType={props.entityType}
+            entityId={props.entityId}
+            onSubmit={(body) => mutation.mutateAsync(body)}
+          />
+        </Card>
+      )}
+    </Show>
   );
 }
 
@@ -84,12 +89,12 @@ export function CommentList(props: { comments: Comment[] }) {
   );
 }
 
-const TCommon = createTranslate('common');
-
 export function CommentForm(props: {
   placeholder: string;
   loading: boolean;
-  onSubmit: (body: Omit<CreateCommentBody, 'entityType' | 'entityId'>) => Promise<void>;
+  entityType: CommentEntityType;
+  entityId: string;
+  onSubmit: (body: CreateCommentBody) => Promise<void>;
 }) {
   const member = getAuthenticatedMember();
   const id = createId(() => undefined);
@@ -98,7 +103,7 @@ export function CommentForm(props: {
 
   const [form, { Form, Field }] = createForm<{ body: string }>({
     initialValues: { body: '' },
-    validate: zodForm(createCommentBodySchema),
+    validate: zodForm(createCommentBodySchema.omit({ entityId: true, entityType: true })),
   });
 
   const editor = createRichEditor({
@@ -111,10 +116,16 @@ export function CommentForm(props: {
   const upload = createFileUploadHandler((file) => attachments.set(file.id, { fileId: file.id, ...file }));
 
   const onSubmit = (values: { body: string }) => {
-    return props.onSubmit({ ...values, fileIds: Array.from(attachments.keys()) }).then(() => {
-      editor()?.chain().clearContent().run();
-      attachments.clear();
-    });
+    return props
+      .onSubmit({
+        ...pick(props, ['entityType', 'entityId']),
+        ...values,
+        fileIds: Array.from(attachments.keys()),
+      })
+      .then(() => {
+        editor()?.chain().clearContent().run();
+        attachments.clear();
+      });
   };
 
   return (
@@ -147,7 +158,7 @@ export function CommentForm(props: {
         <RichEditorToolbar editor={editor()} onFileAdded={upload} />
 
         <Button type="submit" variant="outline" loading={props.loading}>
-          <TCommon id="send" />
+          <Translate id="send" />
         </Button>
       </div>
     </Form>

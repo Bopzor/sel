@@ -5,8 +5,11 @@ import { apiQuery } from 'src/application/query';
 
 export async function preloadInformation({ params }: { params: Params }) {
   const queryClient = useQueryClient();
+  const informationId = params.informationId!;
 
-  await queryClient.prefetchQuery(
-    apiQuery('getInformation', { path: { informationId: params.informationId! } }),
+  void queryClient.prefetchQuery(apiQuery('getInformation', { path: { informationId } }));
+
+  void queryClient.prefetchQuery(
+    apiQuery('getComments', { query: { entityType: 'information', entityId: informationId } }),
   );
 }

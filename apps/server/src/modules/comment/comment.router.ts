@@ -17,7 +17,7 @@ import { TOKENS } from 'src/tokens';
 export const router = express.Router();
 
 router.get('/', async (req, res) => {
-  const query = shared.commentForEntitySchema.parse(req.query);
+  const query = shared.getCommentsQuerySchema.parse(req.query);
 
   const comments = await db.query.comments.findMany({
     where: eq(schema.comments[`${query.entityType}Id`], query.entityId),
@@ -32,7 +32,7 @@ router.get('/', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-  const body = shared.createCommentBodyWithEntitySchema.parse(req.body);
+  const body = shared.createCommentBodySchema.parse(req.body);
   const member = getAuthenticatedMember();
   const commentId = container.resolve(TOKENS.generator).id();
 
