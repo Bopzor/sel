@@ -8,7 +8,6 @@ import { getAuthenticatedMember } from 'src/infrastructure/session';
 import { db, schema } from 'src/persistence';
 import { TOKENS } from 'src/tokens';
 
-import { Comment } from '../comment';
 import { MemberWithAvatar, withAvatar } from '../member/member.entities';
 import { serializeMember } from '../member/member.serializer';
 import { MessageWithAttachments, withAttachments } from '../messages/message.entities';
@@ -41,9 +40,6 @@ router.get('/:informationId', async (req, res) => {
     with: {
       author: withAvatar,
       message: withAttachments,
-      comments: {
-        with: { author: withAvatar, message: withAttachments },
-      },
     },
     where: eq(schema.information.id, informationId),
   });
@@ -74,7 +70,6 @@ function serializeInformation(
   information: Information & {
     author: MemberWithAvatar | null;
     message: MessageWithAttachments;
-    comments: Array<Comment & { author: MemberWithAvatar; message: MessageWithAttachments }>;
   },
 ): shared.Information {
   const author = () => {
@@ -89,11 +84,5 @@ function serializeInformation(
     message: serializeMessage(information.message),
     publishedAt: information.publishedAt.toISOString(),
     author: author(),
-    comments: information.comments.map((comment) => ({
-      id: comment.id,
-      date: comment.date.toISOString(),
-      author: serializeMember(comment.author),
-      message: serializeMessage(comment.message),
-    })),
   };
 }

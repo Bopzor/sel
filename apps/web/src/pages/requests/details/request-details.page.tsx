@@ -3,12 +3,12 @@ import { useQuery } from '@tanstack/solid-query';
 import { Show } from 'solid-js';
 
 import { apiQuery } from 'src/application/query';
+import { Comments } from 'src/components/comments';
 import { BoxSkeleton, TextSkeleton } from 'src/components/skeleton';
 
 import { RequestAnswer } from './sections/request-answer';
 import { RequestAnswerList } from './sections/request-answer-list';
 import { RequestAuthor } from './sections/request-author';
-import { RequestComments } from './sections/request-comments';
 import { RequestDescription } from './sections/request-description';
 import { RequestHeader } from './sections/request-header';
 import { RequestTransaction } from './sections/request-transaction';
@@ -28,7 +28,7 @@ export function RequestDetailsPage() {
           <div class="col gap-12 lg:col-span-2">
             <RequestDescription request={request()} />
             <RequestAnswer request={request()} />
-            <RequestComments request={request()} />
+            <Comments type="request" entityId={request().id} />
           </div>
 
           <div class="col max-w-lg gap-12">

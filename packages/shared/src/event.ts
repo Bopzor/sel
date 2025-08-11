@@ -1,7 +1,6 @@
 import { z } from 'zod';
 
 import { Address, addressSchema } from './address';
-import { Comment } from './comment';
 import { LightMember } from './member';
 import { Message } from './message';
 import { PhoneNumber } from './phone-number';
@@ -28,7 +27,6 @@ export type Event = {
   location?: Address;
   organizer: EventOrganizer;
   participants: EventParticipant[];
-  comments: Comment[];
 };
 
 export type EventOrganizer = LightMember & {

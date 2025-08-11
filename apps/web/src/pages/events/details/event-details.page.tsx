@@ -3,10 +3,10 @@ import { useQuery } from '@tanstack/solid-query';
 import { Show } from 'solid-js';
 
 import { apiQuery } from 'src/application/query';
+import { Comments } from 'src/components/comments';
 import { BoxSkeleton } from 'src/components/skeleton';
 import { createMediaQuery } from 'src/utils/media-query';
 
-import { EventComments } from './sections/event-comments';
 import { EventDate } from './sections/event-date';
 import { EventDescription } from './sections/event-description';
 import { EventHeader } from './sections/event-header';
@@ -34,7 +34,7 @@ export function EventDetailsPage() {
               <EventParticipation event={event()} />
               <EventOrganizer event={event()} />
               <EventParticipantList event={event()} />
-              <EventComments event={event()} />
+              <Comments type="event" entityId={event().id} />
             </div>
           </Show>
 
@@ -51,7 +51,7 @@ export function EventDetailsPage() {
                 <EventHeader event={event()} />
                 <EventDescription event={event()} />
                 <EventParticipation event={event()} />
-                <EventComments event={event()} />
+                <Comments type="event" entityId={event().id} />
               </div>
             </div>
           </Show>

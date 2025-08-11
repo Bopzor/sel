@@ -16,14 +16,18 @@ export type CommentAuthor = {
   lastName: string;
 };
 
+export type CommentEntityType = 'request' | 'event' | 'information';
+
+export const commentForEntitySchema = z.object({
+  type: z.literal<CommentEntityType[]>(['request', 'event', 'information']),
+  entityId: z.string(),
+});
+
 export const createCommentBodySchema = z.object({
   body: z.string().trim().min(10),
   fileIds: z.array(z.string()).default([]),
 });
 export type CreateCommentBody = z.infer<typeof createCommentBodySchema>;
 
-export const createCommentBodyWithEntitySchema = createCommentBodySchema.extend({
-  type: z.literal(['request', 'event', 'information']),
-  entityId: z.string(),
-});
+export const createCommentBodyWithEntitySchema = createCommentBodySchema.extend(commentForEntitySchema.shape);
 export type CreateCommentBodyWithEntity = z.infer<typeof createCommentBodyWithEntitySchema>;

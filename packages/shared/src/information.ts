@@ -1,6 +1,5 @@
 import { z } from 'zod';
 
-import { Comment } from './comment';
 import { LightMember } from './member';
 import { Message } from './message';
 
@@ -10,7 +9,6 @@ export type Information = {
   message: Message;
   author?: LightMember;
   publishedAt: string;
-  comments: Comment[];
 };
 
 export const createInformationBodySchema = z.object({
