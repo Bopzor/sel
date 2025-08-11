@@ -89,12 +89,12 @@ export const api = {
   // comment
 
   getComments: endpoint('get', '/comment').types<{
-    query: typeof shared.commentForEntitySchema;
+    query: typeof shared.getCommentsQuerySchema;
     result: shared.Comment[];
   }>(),
 
   createComment: endpoint('post', '/comment').types<{
-    body: typeof shared.createCommentBodyWithEntitySchema;
+    body: typeof shared.createCommentBodySchema;
     result: string;
   }>(),
 

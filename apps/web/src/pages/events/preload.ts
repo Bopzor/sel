@@ -10,5 +10,11 @@ export function preloadEventList() {
 
 export function preloadEvent({ params }: { params: Params }) {
   const queryClient = useQueryClient();
-  void queryClient.prefetchQuery(apiQuery('getEvent', { path: { eventId: params.eventId! } }));
+  const eventId = params.eventId!;
+
+  void queryClient.prefetchQuery(apiQuery('getEvent', { path: { eventId } }));
+
+  void queryClient.prefetchQuery(
+    apiQuery('getComments', { query: { entityType: 'event', entityId: eventId } }),
+  );
 }

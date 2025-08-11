@@ -10,5 +10,11 @@ export function preloadRequestList() {
 
 export function preloadRequest({ params }: { params: Params }) {
   const queryClient = useQueryClient();
-  void queryClient.prefetchQuery(apiQuery('getRequest', { path: { requestId: params.requestId! } }));
+  const requestId = params.requestId!;
+
+  void queryClient.prefetchQuery(apiQuery('getRequest', { path: { requestId } }));
+
+  void queryClient.prefetchQuery(
+    apiQuery('getComments', { query: { entityType: 'request', entityId: requestId } }),
+  );
 }
