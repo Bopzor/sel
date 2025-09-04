@@ -28,6 +28,7 @@ export async function notifyEventParticipationSet(domainEvent: EventParticipatio
     memberIds: [event.organizer.id],
     type: 'EventParticipationSet',
     getContext: (member) => getContext(member, event, participant, participation, previousParticipation),
+    sender: participant,
   });
 }
 

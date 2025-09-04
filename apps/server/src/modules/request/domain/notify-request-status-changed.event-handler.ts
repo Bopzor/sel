@@ -29,6 +29,7 @@ export async function notifyRequestStatusChanged(event: RequestFulfilledEvent | 
   await notify({
     memberIds: stakeholderIds,
     type: 'RequestStatusChanged',
+    sender: request.requester,
     getContext: (member) => getContext(member, request),
   });
 }

@@ -23,6 +23,7 @@ export async function notifyEventCreated({ entityId: eventId }: EventCreatedEven
   await notify({
     type: 'EventCreated',
     getContext: (member) => getContext(member, event),
+    sender: event.organizer,
     attachments: event.message.attachments,
   });
 }
