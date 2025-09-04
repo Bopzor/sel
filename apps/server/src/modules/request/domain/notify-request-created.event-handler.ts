@@ -23,6 +23,7 @@ export async function notifyRequestCreated(event: RequestCreatedEvent) {
   await notify({
     type: 'RequestCreated',
     getContext: (member) => getContext(member, request),
+    sender: request.requester,
     attachments: request.message.attachments,
   });
 }

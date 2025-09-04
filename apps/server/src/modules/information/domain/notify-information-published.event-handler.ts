@@ -28,6 +28,7 @@ export async function notifyInformationPublished({
     await notify({
       type: 'InformationPublished',
       getContext: (member) => getInformationContext(member, information, author),
+      sender: author,
       attachments: information.message.attachments,
     });
   } else {

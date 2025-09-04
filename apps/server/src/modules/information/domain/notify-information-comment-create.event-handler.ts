@@ -40,6 +40,7 @@ export async function notifyInformationCommentCreated(event: CommentCreatedEvent
     memberIds: stakeholderIds,
     type: 'InformationCommentCreated',
     getContext: (member) => getContext(member, information, comment, author),
+    sender: author,
     attachments: comment.message.attachments,
   });
 }

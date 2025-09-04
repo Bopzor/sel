@@ -48,6 +48,7 @@ type NotifyParams<Type extends shared.NotificationType> = {
   memberIds?: string[];
   type: Type;
   getContext: GetNotificationContext<Type>;
+  sender?: Member;
   attachments?: Array<{ file: File }>;
 };
 
@@ -55,6 +56,7 @@ export async function notify<Type extends shared.NotificationType>({
   memberIds,
   type,
   getContext,
+  sender,
   attachments,
 }: NotifyParams<Type>) {
   const config = container.resolve(TOKENS.config);
@@ -130,15 +132,12 @@ export async function notify<Type extends shared.NotificationType>({
 
   const results = await Promise.allSettled(
     deliveries.map(async (delivery) => {
-      const notification = notifications.find(hasProperty('id', delivery.notificationId));
-      const context = defined(notification).context;
+      const notification = defined(notifications.find(hasProperty('id', delivery.notificationId)));
 
-      await deliverNotification(
-        delivery,
-        template,
-        context,
-        attachments?.map(({ file }) => file),
-      );
+      await deliverNotification(delivery, template, notification.context, {
+        replyTo: sender?.emailVisible ? sender.email : undefined,
+        attachments: attachments?.map(({ file }) => file),
+      });
     }),
   );
 
@@ -188,7 +187,7 @@ async function deliverNotification(
   delivery: typeof schema.notificationDeliveries.$inferInsert,
   template: NotificationTemplate,
   context: Context,
-  attachments?: File[],
+  emailData: { replyTo?: string; attachments?: File[] },
 ) {
   try {
     if (delivery.type === NotificationDeliveryType.push) {
@@ -196,7 +195,7 @@ async function deliverNotification(
     }
 
     if (delivery.type === NotificationDeliveryType.email) {
-      await deliverEmailNotification(delivery.target, template.email, context, attachments);
+      await deliverEmailNotification(delivery.target, template.email, context, emailData);
     }
   } catch (error) {
     await handleDeliveryError(delivery.id, error);
@@ -240,7 +239,7 @@ async function deliverEmailNotification(
   emailAddress: string,
   template: NotificationTemplate['email'],
   context: Context,
-  attachments?: File[],
+  { replyTo, attachments }: { replyTo?: string; attachments?: File[] },
 ) {
   const emailSender = container.resolve(TOKENS.emailSender);
   const { subject, html, text } = await getEmailContent(template, context);
@@ -248,6 +247,7 @@ async function deliverEmailNotification(
 
   await emailSender.send({
     to: emailAddress,
+    replyTo,
     subject,
     html,
     text,

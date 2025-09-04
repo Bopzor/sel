@@ -10,6 +10,7 @@ import { Logger } from './logger';
 
 export type Email = {
   to: string;
+  replyTo?: string;
   subject: string;
   text: string;
   html: string;
@@ -183,6 +184,7 @@ type TransportOptions = {
 type MessageConfiguration = {
   from: string;
   to: string;
+  replyTo?: string;
   subject: string;
   text: string;
   html: string;

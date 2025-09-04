@@ -42,6 +42,7 @@ export async function notifyEventCommentCreated(domainEvent: CommentCreatedEvent
     memberIds: stakeholderIds,
     type: 'EventCommentCreated',
     getContext: (member) => getContext(member, event, comment, author),
+    sender: author,
     attachments: comment.message.attachments,
   });
 }
