@@ -1,7 +1,7 @@
 import { MemberStatus as MemberStatusEnum } from '@sel/shared';
 import { useQuery } from '@tanstack/solid-query';
 import { Icon } from 'solid-heroicons';
-import { check, exclamationTriangle, xMark } from 'solid-heroicons/solid';
+import { check, cog_6Tooth, exclamationTriangle, xMark } from 'solid-heroicons/solid';
 
 import { getLetsConfig } from 'src/application/config';
 import { apiQuery } from 'src/application/query';
@@ -77,6 +77,7 @@ function MemberStatus(props: { status: MemberStatusEnum }) {
     [MemberStatusEnum.active]: check,
     [MemberStatusEnum.onboarding]: exclamationTriangle,
     [MemberStatusEnum.inactive]: xMark,
+    [MemberStatusEnum.system]: cog_6Tooth,
   };
 
   return (

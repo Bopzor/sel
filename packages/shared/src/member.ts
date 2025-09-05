@@ -1,4 +1,4 @@
-import { createFactory, createId, createDate } from '@sel/utils';
+import { createDate, createFactory, createId } from '@sel/utils';
 import { z } from 'zod';
 
 import { Address } from './address';
@@ -10,11 +10,13 @@ export enum MemberStatus {
   onboarding = 'onboarding',
   inactive = 'inactive',
   active = 'active',
+  system = 'system',
 }
 
 export enum MemberRole {
   member = 'member',
   admin = 'admin',
+  system = 'system',
 }
 
 export type Member = {
