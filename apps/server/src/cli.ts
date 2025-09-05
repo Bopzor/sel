@@ -2,11 +2,13 @@ import { readFile } from 'node:fs/promises';
 import { basename } from 'node:path';
 import { Readable } from 'node:stream';
 
+import { MemberRole } from '@sel/shared';
 import { program } from 'commander';
 import { eq } from 'drizzle-orm';
 
 import { container } from './infrastructure/container';
 import { Email } from './infrastructure/email';
+import { changeMemberRole } from './modules/member/domain/change-member-role.command';
 import { createMember } from './modules/member/domain/create-member.command';
 import { db, schema } from './persistence';
 import { TOKENS } from './tokens';
@@ -79,7 +81,8 @@ program
   .requiredOption('-e, --email <email>', "Recipient's email address")
   .option('-f, --first-name [firstName]', "Member's first name")
   .option('-l, --last-name [lastName]', "Member's last name")
-  .action(async ({ email, firstName, lastName }) => {
+  .option('-s, --system', 'Create a system member')
+  .action(async ({ email, firstName, lastName, system }) => {
     const memberId = container.resolve(TOKENS.generator).id();
 
     await createMember({
@@ -88,6 +91,13 @@ program
       firstName,
       lastName,
     });
+
+    if (system) {
+      await changeMemberRole({
+        memberId,
+        roles: [MemberRole.system],
+      });
+    }
   });
 
 await program.parseAsync();
