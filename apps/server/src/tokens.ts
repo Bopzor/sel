@@ -27,5 +27,5 @@ export const TOKENS = {
   pushNotification: token<PushNotification>('pushNotification'),
   transactionService: token<TransactionService>('transactionService'),
   slackClient: token<SlackClient>('slackClient'),
-  storage: token<Storage>('slackClient'),
+  storage: token<Storage>('storage'),
 };
