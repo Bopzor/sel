@@ -28,11 +28,11 @@ export async function createTransaction(command: CreateTransactionCommand): Prom
   const recipient = await findMemberById(recipientId);
 
   if (!payer) {
-    throw new NotFound('Payer not found');
+    throw new NotFound('Payer not found', { payerId });
   }
 
   if (!recipient) {
-    throw new NotFound('Recipient not found');
+    throw new NotFound('Recipient not found', { recipientId });
   }
 
   const creator = creatorId === payerId ? payer : recipient;

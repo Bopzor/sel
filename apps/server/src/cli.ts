@@ -10,6 +10,7 @@ import { container } from './infrastructure/container';
 import { Email } from './infrastructure/email';
 import { changeMemberRole } from './modules/member/domain/change-member-role.command';
 import { createMember } from './modules/member/domain/create-member.command';
+import { createTransaction } from './modules/transaction/domain/create-transaction.command';
 import { db, schema } from './persistence';
 import { TOKENS } from './tokens';
 
@@ -99,5 +100,28 @@ program
       });
     }
   });
+
+program
+  .command('create-transaction')
+  .description('Create a transaction between two members')
+  .argument('<amount>', 'Amount', Number.parseInt)
+  .argument('<description>', 'Description')
+  .requiredOption('-p, --payer <id>', 'Payer id')
+  .requiredOption('-r, --recipient <id>', 'Recipient id')
+  .option('-c, --creator <id>', 'Creator id (defaults to payer)')
+  .action(
+    async (amount, description, { payer: payerId, recipient: recipientId, creator: creatorId = payerId }) => {
+      const transactionId = container.resolve(TOKENS.generator).id();
+
+      await createTransaction({
+        transactionId,
+        payerId,
+        recipientId,
+        creatorId,
+        amount,
+        description,
+      });
+    },
+  );
 
 await program.parseAsync();
