@@ -1,8 +1,7 @@
 import { useNavigate } from '@solidjs/router';
-import { useMutation } from '@tanstack/solid-query';
+import { useMutation, useQueryClient } from '@tanstack/solid-query';
 
 import { api } from 'src/application/api';
-import { useInvalidateApi } from 'src/application/query';
 import { routes } from 'src/application/routes';
 import { setSentryUserId } from 'src/application/sentry';
 import { Button } from 'src/components/button';
@@ -12,7 +11,7 @@ import { createTranslate } from 'src/intl/translate';
 const T = createTranslate('pages.profile.signOut');
 
 export function SignOutPage() {
-  const invalidate = useInvalidateApi();
+  const queryClient = useQueryClient();
   const navigate = useNavigate();
 
   const mutation = useMutation(() => ({
@@ -20,7 +19,7 @@ export function SignOutPage() {
       await api.signOut({});
     },
     async onSuccess() {
-      await invalidate('getAuthenticatedMember');
+      queryClient.clear();
       setSentryUserId(null);
       navigate(routes.home);
     },

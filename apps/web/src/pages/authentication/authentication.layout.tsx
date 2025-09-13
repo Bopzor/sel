@@ -13,7 +13,7 @@ export function AuthenticationLayout(props: { children?: JSX.Element }) {
 
   return (
     <Switch>
-      <Match when={memberQuery.isPending}>
+      <Match when={!memberQuery.isFetched}>
         <SpinnerFullScreen />
       </Match>
 
