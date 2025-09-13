@@ -281,12 +281,12 @@ function Drawer(props: { open: boolean; onClose: () => void; children: JSX.Eleme
 
 function QuickAccess(props: { closeDrawer: () => void }) {
   const links = {
-    createTransaction: '/?create=transaction',
-    createInformation: '/?create=information',
+    createTransaction: `${routes.home}?create=transaction`,
+    createInformation: `${routes.home}?create=information`,
     createRequest: routes.requests.create,
     createEvent: routes.events.create,
     editProfile: routes.profile.edition,
-    search: '/',
+    search: routes.home,
     help: routes.misc,
   };
 
