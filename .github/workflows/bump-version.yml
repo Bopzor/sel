@@ -29,8 +29,8 @@ jobs:
 
       - name: Compare versions
         run: |
-          if [ $(echo "$BASE_VERSION\n$HEAD_VERSION" | sort -V | head -1) = "$HEAD_VERSION" ]; then
-            echo ""$HEAD_VERSION" is not greater than "$BASE_VERSION"" && exit 1;
+          if [ $(echo -e "$BASE_VERSION\n$HEAD_VERSION" | sort -V | head -1) = "$HEAD_VERSION" ]; then
+            echo "$HEAD_VERSION is not greater than $BASE_VERSION" && exit 1;
           else
-            echo "New version is: "$HEAD_VERSION""
+            echo "New version is: $HEAD_VERSION"
           fi;
