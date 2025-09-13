@@ -291,7 +291,7 @@ async function getEmailAttachments(attachments?: File[]): Promise<Email['attachm
   return Promise.all(
     attachments.map(async (file) => ({
       filename: file.name,
-      content: await storage.getFile(file.name),
+      content: await storage.getFile('userUploads', file.name),
     })),
   );
 }

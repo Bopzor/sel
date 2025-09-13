@@ -15,9 +15,11 @@ class FileNotFound extends NotFound {
   }
 }
 
+type Bucket = keyof Config['minio']['buckets'];
+
 export interface Storage {
-  storeFile(name: string, buffer: Buffer, contentType: string): Promise<void>;
-  getFile(name: string): Promise<stream.Readable>;
+  storeFile(bucket: Bucket, name: string, buffer: Buffer, contentType: string): Promise<void>;
+  getFile(bucket: Bucket, name: string): Promise<stream.Readable>;
 }
 
 export class MinioStorage implements Storage {
@@ -28,15 +30,15 @@ export class MinioStorage implements Storage {
     this.minio = new minio.Client(config.minio);
   }
 
-  async storeFile(name: string, buffer: Buffer, contentType: string): Promise<void> {
-    await this.minio.putObject(this.config.minio.bucketName, name, buffer, buffer.byteLength, {
+  async storeFile(bucket: Bucket, name: string, buffer: Buffer, contentType: string): Promise<void> {
+    await this.minio.putObject(this.config.minio.buckets[bucket], name, buffer, buffer.byteLength, {
       'Content-Type': contentType,
     });
   }
 
-  async getFile(name: string): Promise<stream.Readable> {
+  async getFile(bucket: Bucket, name: string): Promise<stream.Readable> {
     try {
-      return await this.minio.getObject(this.config.minio.bucketName, name);
+      return await this.minio.getObject(this.config.minio.buckets[bucket], name);
     } catch (error) {
       if (error instanceof minio.S3Error && error.code === 'NoSuchKey') {
         throw new FileNotFound();
@@ -50,7 +52,7 @@ export class MinioStorage implements Storage {
 export class StubStorage implements Storage {
   private files = new Map<string, { contentType: string; content: Buffer }>();
 
-  async storeFile(name: string, buffer: Buffer, contentType: string): Promise<void> {
+  async storeFile(bucket: Bucket, name: string, buffer: Buffer, contentType: string): Promise<void> {
     this.files.set(name, { contentType, content: buffer });
   }
 

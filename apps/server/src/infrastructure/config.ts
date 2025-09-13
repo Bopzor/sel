@@ -48,7 +48,10 @@ export interface Config {
     useSSL: boolean;
     accessKey: string;
     secretKey: string;
-    bucketName: string;
+    buckets: {
+      documents: string;
+      userUploads: string;
+    };
   };
 }
 
@@ -101,7 +104,10 @@ export function createEnvConfig(): Config {
       useSSL: getEnv('MINIO_USE_SSL', parseBoolean),
       accessKey: getEnv('MINIO_ACCESS_KEY'),
       secretKey: getEnv('MINIO_SECRET_KEY'),
-      bucketName: getEnv('MINIO_BUCKET_NAME'),
+      buckets: {
+        documents: getEnv('MINIO_BUCKET_DOCUMENTS'),
+        userUploads: getEnv('MINIO_BUCKET_USER_UPLOADS'),
+      },
     },
   };
 }

@@ -41,7 +41,7 @@ router.get('/:name', async (req, res, next) => {
     return next();
   }
 
-  const stream = await storage.getFile(file.name);
+  const stream = await storage.getFile('userUploads', file.name);
 
   res.set('Content-Type', file.mimetype);
   res.set('Cache-Control', ['private', `max-age=${7 * 24 * 60 * 60}`, 'immutable'].join(', '));
@@ -60,7 +60,7 @@ router.post('/upload', ensureAsyncContext(upload.single('file')), async (req, re
   const ext = getExtension(req.file);
   const name = `${id}.${ext}`;
 
-  await storage.storeFile(name, req.file.buffer, req.file.mimetype);
+  await storage.storeFile('userUploads', name, req.file.buffer, req.file.mimetype);
 
   const file: FileInsert = {
     id,
