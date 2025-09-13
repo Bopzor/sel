@@ -26,6 +26,7 @@ import { InformationDetailsPage } from './pages/information/information-details.
 import { preloadInformation } from './pages/information/preload';
 import { InterestsPage } from './pages/interests/interests.page';
 import { preloadInterestList } from './pages/interests/preload';
+import { LandingPage } from './pages/landing/landing.page';
 import { MemberDetailsPage } from './pages/members/member-details/member-details.page';
 import { MemberListPage } from './pages/members/members-list/member-list.page';
 import { preloadMember, preloadMemberList } from './pages/members/preload';
@@ -57,6 +58,8 @@ export function App() {
 
   return (
     <Router root={Providers}>
+      <Route path="/" component={LandingPage} />
+
       <Route path="/authentication" component={AuthenticationLayout}>
         <Route path="/" component={AuthenticationPage} />
       </Route>

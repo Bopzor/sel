@@ -1,4 +1,5 @@
 export const routes = {
+  landing: '/',
   home: '/home',
   authentication: '/authentication',
   onboarding: '/onboarding',

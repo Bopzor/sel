@@ -14,6 +14,8 @@
   "dependencies": {
     "@floating-ui/dom": "^1.7.2",
     "@fontsource-variable/inter": "^5.2.6",
+    "@fontsource-variable/nunito": "^5.2.6",
+    "@fontsource-variable/playpen-sans": "^5.2.7",
     "@formatjs/intl": "^3.1.6",
     "@modular-forms/solid": "^0.25.1",
     "@sel/shared": "workspace:*",

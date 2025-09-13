@@ -18,6 +18,8 @@
 
   --spacing-em: 1em;
   --font-sans: 'Inter Variable', sans-serif;
+  --font-nunito: 'Nunito Variable', sans-serif;
+  --font-cursive: 'Playpen Sans Variable', cursive;
 }
 
 @layer theme {
@@ -103,6 +105,10 @@
 @utility col {
   display: flex;
   flex-direction: column;
+}
+
+@utility grid-cols-auto-* {
+  grid-template-columns: repeat(--value(integer), minmax(0, auto));
 }
 
 @utility shadow-current-day {

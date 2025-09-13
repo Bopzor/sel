@@ -5,6 +5,10 @@ import { render } from 'solid-js/web';
 
 // @ts-expect-error font import
 import '@fontsource-variable/inter';
+// @ts-expect-error font import
+import '@fontsource-variable/nunito';
+// @ts-expect-error font import
+import '@fontsource-variable/playpen-sans';
 import './index.css';
 
 import { App } from './app';

@@ -87,3 +87,5 @@ const button = cva(
     },
   },
 );
+
+Button.class = button;

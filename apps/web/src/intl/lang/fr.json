@@ -194,6 +194,66 @@
     }
   },
   "pages": {
+    "landing": {
+      "logoText": {
+        "line1": "SEL'ons-nous",
+        "line2": "Cavaillon et ses environs"
+      },
+      "header": {
+        "overview": "Présentation",
+        "how": "Fonctionnement",
+        "infos": "Infos pratiques",
+        "signIn": "Connexion"
+      },
+      "hero": {
+        "heading": "SEL'ons-nous : le Système d'Échange Local de Cavaillon et ses environs",
+        "title": "Échangeons localement,\net avec le sourire !",
+        "cta": "Rejoindre le SEL"
+      },
+      "overview": {
+        "title": "Qu'est-ce qu'un SEL ?",
+        "services": "Échanger des services",
+        "bonding": "Créer du lien",
+        "talents": "Partager ses talents",
+        "paragraph1": "Un SEL, c'est une association dont les membres échangent des services, des savoir-faire ou des biens… sans argent. On utilise une unité symbolique (chez nous, le \"sourire\"), qui permet de rendre compte de la valeur des échanges.",
+        "paragraph2": "L'idée, c'est de partager ce qu'on sait faire, créer du lien et de la solidarité au quotidien. Le SEL valorise le temps et les talents de chacun, tout en rendant les échanges simples et conviviaux."
+      },
+      "how": {
+        "title": "Comment ça marche ?",
+        "image": "Application de SEL'ons-nous",
+        "paragraph1": "Une application dédiée au SEL permet de créer des demandes, planifier des événements, partager des informations, etc.",
+        "paragraph2": "Les échanges sont enregistrés directement dans l'app, ce qui permet de garder une trace claire et transparente de ce qui a été donné et reçu.",
+        "paragraph3": "Des notifications tiennent tout le monde informé de la vie du SEL, pour ne rien manquer !"
+      },
+      "infos": {
+        "title": "Informations pratiques",
+        "contact": {
+          "title": "Contact",
+          "sentence": "Si vous souhaitez rejoindre notre SEL, ou pour en savoir plus, n'hésitez pas à nous contacter."
+        },
+        "documents": {
+          "title": "Documents",
+          "charter": "La charte des SELs",
+          "rules": "Règlement intérieur",
+          "statutes": "Statuts de l'association"
+        }
+      },
+      "footer": {
+        "navigation": {
+          "title": "Navigation",
+          "home": "Accueil",
+          "overview": "Présentation",
+          "how": "Fonctionnement",
+          "infos": "Infos pratiques"
+        },
+        "technical": {
+          "title": "Pour les geeks",
+          "source": "Ce site est open source ! Voir le code <link>sur github</link>.",
+          "host": "Hébergé sur <link>Koyeb</link>.",
+          "devs": "Développé avec 💝 par <nilscox>nilscox</nilscox> et <bopzor>bopzor</bopzor>."
+        }
+      }
+    },
     "authentication": {
       "description": "Entrez l'adresse email de votre compte du SEL pour accéder à l'app.",
       "email": {
