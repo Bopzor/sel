@@ -3,6 +3,7 @@ export * from './admin-member';
 export * from './authenticated-member';
 export * from './comment';
 export * from './config';
+export * from './documents';
 export * from './event';
 export * from './feed';
 export * from './file';

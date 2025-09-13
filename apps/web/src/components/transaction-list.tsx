@@ -103,7 +103,9 @@ function TransactionListDesktop(props: {
       ]}
       items={props.transactions}
       onRowClick={props.onTransactionClick}
-      class="hidden w-full lg:table"
+      classes={{
+        root: 'hidden w-full lg:table',
+      }}
     />
   );
 }

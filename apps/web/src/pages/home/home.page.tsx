@@ -43,6 +43,7 @@ function QuickAccess() {
     createEvent: routes.events.create,
     editProfile: routes.profile.edition,
     search: routes.home,
+    documents: routes.documents,
     help: routes.misc,
   };
 

@@ -23,6 +23,7 @@ export const routes = {
     edit: (eventId: string) => `/events/${eventId}/edit`,
   },
   interests: '/interests',
+  documents: '/documents',
   misc: '/misc',
   profile: {
     edition: '/profile',

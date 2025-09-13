@@ -98,6 +98,12 @@ export const api = {
     result: string;
   }>(),
 
+  // documents
+
+  listDocuments: endpoint('get', '/documents').types<{
+    result: shared.DocumentsGroup[];
+  }>(),
+
   // feed
 
   getFeed: endpoint('get', '/feed').types<{

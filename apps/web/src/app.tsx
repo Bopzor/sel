@@ -15,6 +15,7 @@ import { Layout } from './layout';
 import { AdminMemberListPage } from './pages/admin/member-list.page';
 import { AuthenticationLayout } from './pages/authentication/authentication.layout';
 import { AuthenticationPage } from './pages/authentication/authentication.page';
+import { DocumentsPage } from './pages/documents/documents.page';
 import { CreateEventPage } from './pages/events/create/create-event.page';
 import { EventDetailsPage } from './pages/events/details/event-details.page';
 import { EditEventPage } from './pages/events/edit/edit-event.page';
@@ -132,6 +133,10 @@ export function App() {
           />
           <Route path="/settings" component={SettingsPage} info={info('profileSettings')} />
           <Route path="/sign-out" component={SignOutPage} info={info('profileSignOut')} />
+        </Route>
+
+        <Route path="/documents">
+          <Route path="/" component={DocumentsPage} />
         </Route>
 
         <Route path="/misc">

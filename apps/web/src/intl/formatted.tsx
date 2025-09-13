@@ -14,6 +14,18 @@ export function FormattedDate(
   return <>{intl.formatDate(props.date, props)}</>;
 }
 
+export function FormattedBytes(props: { bytes: number }) {
+  return <>{humanFileSize(props.bytes)}</>;
+}
+
+function humanFileSize(size: number) {
+  const i = size == 0 ? 0 : Math.floor(Math.log(size) / Math.log(1024));
+  const value = Number(size / Math.pow(1024, i)).toFixed(2);
+  const unit = ['B', 'kB', 'MB', 'GB', 'TB'][i];
+
+  return [value, unit].join(' ');
+}
+
 export function FormattedRelativeDate(props: { date: string; addSuffix?: boolean }) {
   return <>{formatDateRelative(props.date, props.addSuffix)}</>;
 }

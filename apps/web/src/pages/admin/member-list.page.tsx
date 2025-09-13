@@ -65,7 +65,9 @@ export function AdminMemberListPage() {
               cell: (member) => <div class="text-end">{member.balance}</div>,
             },
           ]}
-          class="table w-full"
+          classes={{
+            root: 'w-full',
+          }}
         />
       </section>
     </>

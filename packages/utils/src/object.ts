@@ -39,3 +39,17 @@ export async function awaitProperties<T extends object>(obj: T): Promise<{ [K in
     (key, index) => results[index],
   );
 }
+
+type RecursiveObject = { [key: string]: string | RecursiveObject };
+
+export function createObjectFromPath(path: string[]) {
+  const [result] = path.reduce<[RecursiveObject, RecursiveObject?]>(
+    ([root, obj = root], key) => {
+      obj[key] = {};
+      return [root, obj[key]];
+    },
+    [{}],
+  );
+
+  return result;
+}

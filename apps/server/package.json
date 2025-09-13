@@ -52,6 +52,7 @@
     "rehype-stringify": "^10.0.1",
     "remark-parse": "^11.0.0",
     "remark-rehype": "^11.1.2",
+    "remeda": "^2.31.1",
     "unified": "^11.0.5",
     "vfile-reporter": "^8.1.1",
     "web-push": "^3.6.7",

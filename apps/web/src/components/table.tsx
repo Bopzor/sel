@@ -1,7 +1,9 @@
+import { cva } from 'cva';
 import { For, JSX } from 'solid-js';
 
-type TableColumn<T> = {
+export type TableColumn<T> = {
   header: () => JSX.Element;
+  headerClass?: string;
   cell: (item: T) => JSX.Element;
 };
 
@@ -9,18 +11,17 @@ export function Table<T>(props: {
   columns: TableColumn<T>[];
   items?: T[];
   onRowClick?: (item: T) => void;
-  class?: string;
+  classes?: Partial<{
+    root: string;
+    td: (item: T, column: TableColumn<T>) => string;
+  }>;
 }) {
   return (
-    <table class={props.class}>
+    <table class={props.classes?.root}>
       <thead>
         <tr>
           <For each={props.columns}>
-            {(column) => (
-              <th class="bg-inverted/10 px-3 py-2 text-start font-medium text-dim first-of-type:rounded-tl-lg last-of-type:rounded-tr-lg">
-                {column.header()}
-              </th>
-            )}
+            {(column) => <th class={th({ class: column.headerClass })}>{column.header()}</th>}
           </For>
         </tr>
       </thead>
@@ -30,10 +31,14 @@ export function Table<T>(props: {
           {(item) => (
             <tr
               onClick={() => props.onRowClick?.(item)}
-              class="border-t hover:bg-primary/5"
+              class={tr()}
               classList={{ 'cursor-pointer': props.onRowClick !== undefined }}
             >
-              <For each={props.columns}>{(column) => <td class="px-3 py-2">{column.cell(item)}</td>}</For>
+              <For each={props.columns}>
+                {(column) => (
+                  <td class={td({ class: props.classes?.td?.(item, column) })}>{column.cell(item)}</td>
+                )}
+              </For>
             </tr>
           )}
         </For>
@@ -41,3 +46,12 @@ export function Table<T>(props: {
     </table>
   );
 }
+
+const th = cva([
+  'bg-inverted/10 px-3 py-2 text-start font-medium text-dim',
+  'first-of-type:rounded-tl-lg last-of-type:rounded-tr-lg',
+]);
+
+const tr = cva('border-t hover:bg-primary/5');
+
+const td = cva('px-3 py-2');

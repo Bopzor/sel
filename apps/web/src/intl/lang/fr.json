@@ -169,6 +169,7 @@
           "createEvent": "Créer un événement",
           "search": "Rechercher",
           "editProfile": "Modifier mon profil",
+          "documents": "Documents",
           "help": "Aide"
         }
       }
@@ -351,6 +352,7 @@
           "createEvent": "Créer un événement",
           "search": "Rechercher",
           "editProfile": "Modifier mon profil",
+          "documents": "Documents",
           "help": "Aide"
         }
       },
@@ -640,6 +642,9 @@
         "description": "Pour vous déconnecter de l'app, cliquez sur le bouton ci-dessous.",
         "button": "Déconnexion"
       }
+    },
+    "documents": {
+      "title": "Documents"
     },
     "misc": {
       "title": "Divers",
