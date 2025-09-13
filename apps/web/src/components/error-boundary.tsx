@@ -1,4 +1,5 @@
 import { useNavigate } from '@solidjs/router';
+import clsx from 'clsx';
 import { JSX, Match, onMount, Show, ErrorBoundary as SolidErrorBoundary, Switch } from 'solid-js';
 
 import { ApiError } from 'src/application/api';
@@ -33,6 +34,7 @@ export function ErrorBoundary(props: ErrorBoundaryProps) {
     <SolidErrorBoundary
       fallback={(error, reset) => (
         <ErrorFallback
+          class="my-32"
           error={error}
           reset={(redirect) => {
             if (redirect !== undefined) {
@@ -50,16 +52,17 @@ export function ErrorBoundary(props: ErrorBoundaryProps) {
 
 type ErrorFallbackProps = {
   error: unknown;
-  reset: (redirect?: string) => void;
+  reset?: (redirect?: string) => void;
+  class?: string;
 };
 
-function ErrorFallback(props: ErrorFallbackProps) {
+export function ErrorFallback(props: ErrorFallbackProps) {
   onMount(() => {
     reportError(props.error);
   });
 
   return (
-    <div class="mx-auto my-32 col items-center justify-center gap-6 px-4">
+    <div class={clsx('mx-auto col items-center justify-center gap-6 px-4', props.class)}>
       <Switch fallback={<UnknownError {...props} />}>
         <Match when={ApiError.isStatus(props.error, 403) ? props.error : false}>
           {(error) => <Forbidden error={error()} />}
@@ -120,14 +123,16 @@ function UnknownError(props: ErrorFallbackProps) {
         </p>
       </div>
 
-      <div class="row items-center gap-4">
-        <Button variant="outline" onClick={() => props.reset(routes.home)}>
-          <T id="resetToHome" />
-        </Button>
-        <Button onClick={() => props.reset()}>
-          <T id="reset" />
-        </Button>
-      </div>
+      {props.reset && (
+        <div class="row items-center gap-4">
+          <Button variant="outline" onClick={() => props.reset?.(routes.home)}>
+            <T id="resetToHome" />
+          </Button>
+          <Button onClick={() => props.reset?.()}>
+            <T id="reset" />
+          </Button>
+        </div>
+      )}
     </>
   );
 }

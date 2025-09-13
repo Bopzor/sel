@@ -1,11 +1,13 @@
 import clsx from 'clsx';
 import { Icon } from 'solid-heroicons';
 import { xMark } from 'solid-heroicons/solid';
-import { JSX, Show } from 'solid-js';
+import { ErrorBoundary, JSX, Show } from 'solid-js';
 import { Portal } from 'solid-js/web';
 import { Transition } from 'solid-transition-group';
 
 import { createDismiss } from 'src/utils/event-handlers';
+
+import { ErrorFallback } from './error-boundary';
 
 export function Dialog(props: {
   open: boolean;
@@ -30,7 +32,9 @@ export function Dialog(props: {
           role="dialog"
           class={clsx('w-full overflow-auto rounded-lg bg-neutral p-4', props.class)}
         >
-          {props.children}
+          <ErrorBoundary fallback={(error) => <ErrorFallback error={error} class="my-6" />}>
+            {props.children}
+          </ErrorBoundary>
         </div>
       </Backdrop>
     </Portal>
