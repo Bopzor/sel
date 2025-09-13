@@ -8,7 +8,7 @@ self.addEventListener('push', function (event) {
   event.waitUntil(
     self.registration.showNotification(title, {
       body: content,
-      icon: '/logo-512.png',
+      icon: '/pwa-512x512.png',
       badge: '/logo-monochrome.png',
       data: { link },
     }),
