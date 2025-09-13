@@ -11,7 +11,7 @@ import { createTranslate } from 'src/intl/translate';
 const T = createTranslate('pages.onboarding.steps.end');
 
 export function EndStep() {
-  const { contactLink } = getAppConfig();
+  const { contactEmail } = getAppConfig();
   const member = getAuthenticatedMember();
   const invalidate = useInvalidateApi();
 
@@ -37,7 +37,10 @@ export function EndStep() {
           <T id="sentence1" />
         </p>
         <p>
-          <T id="sentence2" values={{ link: externalLink(contactLink, { class: 'text-link' }) }} />
+          <T
+            id="sentence2"
+            values={{ link: externalLink(`mailto:${contactEmail}`, { class: 'text-link' }) }}
+          />
         </p>
       </div>
 

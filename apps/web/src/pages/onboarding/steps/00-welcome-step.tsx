@@ -10,7 +10,7 @@ import { createTranslate } from 'src/intl/translate';
 const T = createTranslate('pages.onboarding.steps.welcome');
 
 export function WelcomeStep(props: { next: () => void }) {
-  const { contactLink } = getAppConfig();
+  const { contactEmail } = getAppConfig();
   const [, { Form }] = createForm();
 
   return (
@@ -25,7 +25,10 @@ export function WelcomeStep(props: { next: () => void }) {
         </p>
 
         <p class="text-sm text-dim">
-          <T id="sentence2" values={{ link: externalLink(contactLink, { class: 'text-link' }) }} />
+          <T
+            id="sentence2"
+            values={{ link: externalLink(`mailto:${contactEmail}`, { class: 'text-link' }) }}
+          />
         </p>
       </div>
 

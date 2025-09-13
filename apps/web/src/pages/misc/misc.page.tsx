@@ -6,7 +6,7 @@ import { createTranslate } from 'src/intl/translate';
 const T = createTranslate('pages.misc');
 
 export function MiscPage() {
-  const { contactLink } = getAppConfig();
+  const { contactEmail } = getAppConfig();
 
   return (
     <div class="col max-w-4xl gap-8">
@@ -22,7 +22,10 @@ export function MiscPage() {
 
       <Card title={<T id="contact.title" />}>
         <p class="whitespace-pre-line">
-          <T id="contact.description" values={{ link: externalLink(contactLink, { class: 'text-link' }) }} />
+          <T
+            id="contact.description"
+            values={{ link: externalLink(`mailto:${contactEmail}`, { class: 'text-link' }) }}
+          />
         </p>
       </Card>
     </div>

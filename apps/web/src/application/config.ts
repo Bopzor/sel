@@ -16,6 +16,7 @@ export function getAppConfig() {
     pushPublicKey: import.meta.env.VITE_WEB_PUSH_PUBLIC_KEY,
     analyticsUrl: import.meta.env.VITE_ANALYTICS_URL,
     analyticsSiteId: import.meta.env.VITE_ANALYTICS_SITE_ID,
-    contactLink: import.meta.env.VITE_CONTACT_LINK,
+    contactEmail: import.meta.env.VITE_CONTACT_EMAIL,
+    contactPhone: import.meta.env.VITE_CONTACT_PHONE,
   };
 }

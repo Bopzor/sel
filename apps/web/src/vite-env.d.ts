@@ -10,7 +10,8 @@ interface ImportMetaEnv {
   readonly VITE_ANALYTICS_URL: string;
   readonly VITE_ANALYTICS_SITE_ID: string;
   readonly VITE_SENTRY_DSN: string;
-  readonly VITE_CONTACT_LINK: string;
+  readonly VITE_CONTACT_EMAIL: string;
+  readonly VITE_CONTACT_PHONE: string;
 }
 
 interface ImportMeta {
