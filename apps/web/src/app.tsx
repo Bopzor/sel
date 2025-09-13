@@ -21,7 +21,7 @@ import { EditEventPage } from './pages/events/edit/edit-event.page';
 import { EventListPage } from './pages/events/list/event-list.page';
 import { preloadEvent, preloadEventList } from './pages/events/preload';
 import { Home } from './pages/home/home.page';
-import { preloadInformationList } from './pages/home/preload';
+import { preloadHome } from './pages/home/preload';
 import { InformationDetailsPage } from './pages/information/information-details.page';
 import { preloadInformation } from './pages/information/preload';
 import { InterestsPage } from './pages/interests/interests.page';
@@ -45,7 +45,7 @@ import { EditRequestPage } from './pages/requests/edit/edit-request.page';
 import { RequestListPage } from './pages/requests/list/request-list.page';
 import { preloadRequest, preloadRequestList } from './pages/requests/preload';
 
-function rootPreload() {
+function mainPreload() {
   void queryClient.prefetchQuery(apiQuery('getConfig', {}));
   void queryClient.prefetchQuery(apiQuery('getAuthenticatedMember', {}));
 }
@@ -56,7 +56,7 @@ export function App() {
   };
 
   return (
-    <Router root={Providers} rootPreload={rootPreload}>
+    <Router root={Providers}>
       <Route path="/authentication" component={AuthenticationLayout}>
         <Route path="/" component={AuthenticationPage} />
       </Route>
@@ -65,8 +65,8 @@ export function App() {
         <Route path="/" component={OnboardingPage} />
       </Route>
 
-      <Route component={Layout} info={info('home')}>
-        <Route path="/" component={Home} preload={preloadInformationList} />
+      <Route component={Layout} preload={mainPreload} info={info('home')}>
+        <Route path="/home" component={Home} preload={preloadHome} />
 
         <Route
           path="/information/:informationId"

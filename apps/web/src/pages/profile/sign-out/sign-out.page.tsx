@@ -21,7 +21,7 @@ export function SignOutPage() {
     async onSuccess() {
       queryClient.clear();
       setSentryUserId(null);
-      navigate(routes.home);
+      navigate(routes.landing);
     },
   }));
 

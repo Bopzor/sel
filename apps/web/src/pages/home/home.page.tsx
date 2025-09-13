@@ -37,12 +37,12 @@ export function Home() {
 
 function QuickAccess() {
   const links = {
-    createTransaction: '/?create=transaction',
-    createInformation: '/?create=information',
+    createTransaction: `${routes.home}?create=transaction`,
+    createInformation: `${routes.home}?create=information`,
     createRequest: routes.requests.create,
     createEvent: routes.events.create,
     editProfile: routes.profile.edition,
-    search: '/',
+    search: routes.home,
     help: routes.misc,
   };
 
