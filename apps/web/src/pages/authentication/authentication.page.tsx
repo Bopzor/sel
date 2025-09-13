@@ -6,11 +6,13 @@ import { Match, onMount, Switch } from 'solid-js';
 import { z } from 'zod';
 
 import { api, ApiError } from 'src/application/api';
+import { getAppConfig } from 'src/application/config';
 import { notify } from 'src/application/notify';
 import { useInvalidateApi } from 'src/application/query';
 import { routes } from 'src/application/routes';
 import { Button } from 'src/components/button';
 import { Input } from 'src/components/input';
+import { externalLink } from 'src/components/link';
 import { SpinnerFullScreen } from 'src/components/spinner';
 import { createTranslate } from 'src/intl/translate';
 import { useSearchParam } from 'src/utils/search-param';
@@ -21,6 +23,7 @@ const T = createTranslate('pages.authentication');
 type FormType = z.infer<typeof requestAuthenticationLinkQuerySchema>;
 
 export function AuthenticationPage() {
+  const { contactEmail } = getAppConfig();
   const [token, setToken] = useSearchParam('auth-token');
 
   const mutation = useMutation(() => ({
@@ -40,7 +43,10 @@ export function AuthenticationPage() {
           <T id="linkRequested.line1" values={{ email: mutation.variables?.email }} />
         </p>
         <p class="my-4 text-sm text-dim">
-          <T id="linkRequested.line2" />
+          <T
+            id="linkRequested.line2"
+            values={{ link: externalLink(`mailto:${contactEmail}`, { class: 'hover:underline' }) }}
+          />
         </p>
       </Match>
     </Switch>
