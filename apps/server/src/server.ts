@@ -35,6 +35,7 @@ export function server() {
   app.use(morgan(import.meta.env.PROD ? 'short' : 'dev', {}));
   app.use(cookieParser(config.session.secret));
   app.use(express.json());
+  app.use(cacheControl);
   app.use(authenticationProvider);
 
   app.use('/health', health);
@@ -65,6 +66,11 @@ export function server() {
 
   return app;
 }
+
+const cacheControl: RequestHandler = (req, res, next) => {
+  res.setHeader('Cache-Control', 'no-store');
+  next();
+};
 
 const isMember = hasRoles([MemberRole.member]);
 const isAdmin = hasRoles([MemberRole.admin]);
