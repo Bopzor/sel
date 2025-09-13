@@ -17,8 +17,8 @@ jobs:
         run: |
           pnpm add -g cspell @cspell/dict-fr-fr
           pnpm exec cspell link add @cspell/dict-fr-fr
-          pnpm exec cspell 'packages/*/src/**/*.{ts,tsx}'
-          pnpm exec cspell 'apps/*/src/**/*.{ts,tsx}'
+          pnpm exec cspell 'packages/*/src/**/*.{ts,tsx}' 2> /dev/null
+          pnpm exec cspell 'apps/*/src/**/*.{ts,tsx}' 2> /dev/null
 
   format:
     name: Format
