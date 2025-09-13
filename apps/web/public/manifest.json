@@ -3,7 +3,7 @@
   "short_name": "SEL'ons-nous",
   "description": "L'application du Système d'Échange Local de Cavaillon et ses environs.",
   "lang": "fr",
-  "start_url": "/",
+  "start_url": "/home",
   "display": "standalone",
   "background_color": "#FFFFFF",
   "theme_color": "#005F7E",
