@@ -56,7 +56,7 @@ function DocumentsTable(props: { group: string; documents: Document[] }) {
     {
       header: () => 'Document',
       cell: (doc) => (
-        <ExternalLink openInNewTab href={`/api/${doc.url}`} class="text-link underline">
+        <ExternalLink openInNewTab href={`/api${doc.url}`} class="text-link underline">
           {doc.name}
         </ExternalLink>
       ),
