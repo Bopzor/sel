@@ -1,6 +1,5 @@
 import { createForm, reset, setValue } from '@modular-forms/solid';
-import { Attachment, CreateInformationBody, createInformationBodySchema } from '@sel/shared';
-import { ReactiveMap } from '@solid-primitives/map';
+import { CreateInformationBody, createInformationBodySchema } from '@sel/shared';
 import { useMutation } from '@tanstack/solid-query';
 
 import { api } from 'src/application/api';
@@ -29,8 +28,6 @@ export function CreateInformationDialog(props: { open: boolean; onClose: () => v
     validate: zodForm(createInformationBodySchema),
   });
 
-  const attachments = new ReactiveMap<string, Attachment>();
-
   const mutation = useMutation(() => ({
     async mutationFn(body: CreateInformationBody) {
       await api.createInformation({ body });
@@ -42,11 +39,8 @@ export function CreateInformationDialog(props: { open: boolean; onClose: () => v
     },
   }));
 
-  const onSubmit = (data: { title: string; body: string }) => {
-    return mutation.mutateAsync({
-      ...data,
-      fileIds: Array.from(attachments.keys()),
-    });
+  const onSubmit = (data: CreateInformationBody) => {
+    return mutation.mutateAsync(data);
   };
 
   return (
