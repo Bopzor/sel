@@ -10,6 +10,7 @@ import { container } from './infrastructure/container';
 import { Email } from './infrastructure/email';
 import { changeMemberRole } from './modules/member/domain/change-member-role.command';
 import { createMember } from './modules/member/domain/create-member.command';
+import { setAttachments } from './modules/messages/domain/insert-attachments.command';
 import { createTransaction } from './modules/transaction/domain/create-transaction.command';
 import { db, schema } from './persistence';
 import { TOKENS } from './tokens';
@@ -123,5 +124,14 @@ program
       });
     },
   );
+
+program
+  .command('set-attachments')
+  .description('Set existing files as attachments to an existing message')
+  .requiredOption('-f, --files <id...>', 'File ids')
+  .requiredOption('-m, --message <id>', 'Message id')
+  .action(async ({ files: fileIds, message: messageId }) => {
+    await setAttachments({ messageId, fileIds });
+  });
 
 await program.parseAsync();

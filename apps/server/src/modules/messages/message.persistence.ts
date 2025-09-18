@@ -33,6 +33,10 @@ export async function updateMessage(messageId: string, html: string, fileIds: st
     })
     .where(eq(schema.messages.id, messageId));
 
+  await setAttachments(messageId, fileIds);
+}
+
+export async function setAttachments(messageId: string, fileIds: string[]) {
   await db.delete(schema.attachments).where(eq(schema.attachments.messageId, messageId));
   await insertAttachments(messageId, fileIds);
 }
