@@ -17,6 +17,8 @@ export function InformationDetailsPage() {
   const { informationId } = useParams<{ informationId: string }>();
   const query = useQuery(() => apiQuery('getInformation', { path: { informationId } }));
 
+  const publishedAt = (date: string) => <FormattedDate date={date} dateStyle="long" timeStyle="short" />;
+
   return (
     <Show when={query.data} fallback={<Skeleton />}>
       {(information) => (
@@ -25,14 +27,7 @@ export function InformationDetailsPage() {
             <header class={card.header({ class: 'col gap-2 md:row md:items-end md:justify-between' })}>
               <MemberAvatarName member={information().author} classes={{ root: card.title() }} />
               <div class="text-sm text-dim">
-                <T
-                  id="date"
-                  values={{
-                    date: (
-                      <FormattedDate date={information().publishedAt} dateStyle="long" timeStyle="short" />
-                    ),
-                  }}
-                />
+                <T id="date" values={{ date: publishedAt(information().publishedAt) }} />
               </div>
             </header>
 
