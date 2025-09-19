@@ -22,7 +22,7 @@ export function InformationDetailsPage() {
       {(information) => (
         <div class="col gap-8">
           <section>
-            <header class={card.header({ class: 'row items-end justify-between gap-2' })}>
+            <header class={card.header({ class: 'col gap-2 md:row md:items-end md:justify-between' })}>
               <MemberAvatarName member={information().author} classes={{ root: card.title() }} />
               <div class="text-sm text-dim">
                 <T
