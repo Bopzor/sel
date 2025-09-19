@@ -54,11 +54,11 @@ exports[`notification snapshots > InformationCommentCreated 1`] = `undefined`;
 exports[`notification snapshots > InformationCommentCreated 2`] = `
 [
   {
-    "html": "<p>Bonjour Member,</p><p><strong>Author</strong> a écrit un commentaire sur votre information <a href="http://localhost/informations/infoId">Info title</a> :</p><blockquote style="margin: 0; padding: 8px 16px; border: 1px solid #CCC; border-radius: 4px; background: #fafafc;"><p>Comment body</p></blockquote>",
+    "html": "<p>Bonjour Member,</p><p><strong>Author</strong> a écrit un commentaire sur votre information <a href="http://localhost/information/infoId">Info title</a> :</p><blockquote style="margin: 0; padding: 8px 16px; border: 1px solid #CCC; border-radius: 4px; background: #fafafc;"><p>Comment body</p></blockquote>",
     "subject": "Commentaire de Author sur votre information "Info title"",
     "text": "Bonjour Member,
 
-Author a écrit un commentaire sur votre information Info title (http://localhost/informations/infoId) :
+Author a écrit un commentaire sur votre information Info title (http://localhost/information/infoId) :
 
 Comment body",
     "to": "member@email",

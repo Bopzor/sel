@@ -7,6 +7,6 @@ subject: Commentaire de {comment.author.name} sur {isPublisher ? 'votre informat
 
 Bonjour {member.firstName},
 
-**{comment.author.name}** a écrit un commentaire sur {isPublisher ? 'votre information' : 'l\'information'} [{information.title}]({appBaseUrl}/informations/{information.id}) :
+**{comment.author.name}** a écrit un commentaire sur {isPublisher ? 'votre information' : 'l\'information'} [{information.title}]({appBaseUrl}/information/{information.id}) :
 
 > {verbatim(comment.body)}
