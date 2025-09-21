@@ -15,6 +15,7 @@ export * from './message';
 export * from './notification';
 export * from './phone-number';
 export * from './request';
+export * from './search';
 export * from './token';
 export * from './transaction';
 export * from './update-notification-delivery-data';

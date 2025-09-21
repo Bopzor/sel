@@ -25,6 +25,7 @@ import { router as adminMembersRouter } from './modules/member/member.admin-rout
 import { router as members } from './modules/member/member.router';
 import { router as sessionNotifications } from './modules/notification/notification.router';
 import { router as requests } from './modules/request/request.router';
+import { router as search } from './modules/search/search.router';
 import { router as transactions } from './modules/transaction/transaction.router';
 import { db, schema } from './persistence';
 import { TOKENS } from './tokens';
@@ -54,6 +55,7 @@ export function server() {
   app.use('/members', isMember, members);
   app.use('/requests', isMember, requests);
   app.use('/transactions', isMember, transactions);
+  app.use('/search', isMember, search);
 
   const adminRouter = express.Router();
 
