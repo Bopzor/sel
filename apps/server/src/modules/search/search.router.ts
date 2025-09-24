@@ -19,35 +19,19 @@ router.get('/', async (req, res) => {
   res.json({
     requests: {
       ...results.requests,
-      items: results.requests.items.map(({ item, commentIds, commentsOnly }) => ({
-        item: serializeSearchRequest(item),
-        commentIds,
-        commentsOnly,
-      })),
+      items: results.requests.items?.map(serializeSearchRequest),
     },
     events: {
       ...results.events,
-      items: results.events.items.map(({ item, commentIds, commentsOnly }) => ({
-        item: serializeSearchEvent(item),
-        commentIds,
-        commentsOnly,
-      })),
+      items: results.events.items?.map(serializeSearchEvent),
     },
     information: {
       ...results.information,
-      items: results.information.items.map(({ item, commentIds, commentsOnly }) => ({
-        item: serializeSearchInformation(item),
-        commentIds,
-        commentsOnly,
-      })),
+      items: results.information.items?.map(serializeSearchInformation),
     },
     members: {
       ...results.members,
-      items: results.members.items.map(({ item, commentIds, commentsOnly }) => ({
-        item: serializeMember(item),
-        commentIds,
-        commentsOnly,
-      })),
+      items: results.members.items?.map(serializeMember),
     },
   });
 });

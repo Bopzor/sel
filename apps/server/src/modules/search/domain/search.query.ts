@@ -1,130 +1,122 @@
-import { awaitProperties } from '@sel/utils';
-import { and, eq, ilike, inArray, or, sql } from 'drizzle-orm';
+import { awaitProperties, defined, hasProperty } from '@sel/utils';
+import { and, countDistinct, desc, eq, ilike, inArray, max, or } from 'drizzle-orm';
 
 import { db } from 'src/persistence';
-import { events, information, members, requests, searchView } from 'src/persistence/schema';
+import * as schema from 'src/persistence/schema';
 
-import { Event } from '../../event/event.entities';
-import { Information } from '../../information/information.entities';
-import { MemberWithAvatar, withAvatar } from '../../member/member.entities';
-import { Request } from '../../request/request.entities';
+import { withAvatar } from '../../member/member.entities';
 
-const SEARCH_RESULT_LIMIT = 20;
-
-type ResourceType = 'request' | 'event' | 'information' | 'member';
+const SEARCH_RESULT_LIMIT = 10;
 
 type SearchQuery = {
   search: string;
   page?: number;
-  resourceType?: ResourceType;
 };
 
-export async function searchQuery({ search, page = 1, resourceType }: SearchQuery) {
-  let filterQuery = or(ilike(searchView.title, `%${search}%`), ilike(searchView.text, `%${search}%`));
-
-  if (resourceType) {
-    filterQuery = and(
-      filterQuery,
-      or(eq(searchView.resourceType, resourceType), eq(searchView.parentResourceType, resourceType)),
-    );
-  }
-
-  const effectiveResourceId = sql<string>`coalesce(${searchView.parentId}, ${searchView.id})`;
-  const effectiveResourceType = sql<string>`coalesce(${searchView.parentResourceType}, ${searchView.resourceType})`;
+export async function searchQuery({ search, page = 1 }: SearchQuery) {
+  const filterQuery = or(
+    ilike(schema.searchView.title, `%${search}%`),
+    ilike(schema.searchView.text, `%${search}%`),
+  );
 
   const matchingResources = await db
     .select({
-      id: effectiveResourceId,
-      resourceType: effectiveResourceType,
-      commentIds: sql<
-        string[]
-      >`array_agg(${searchView.id}) filter (where ${searchView.resourceType} = 'comment')`,
-      commentsOnly: sql<boolean>`NOT(bool_or(${searchView.resourceType} != 'comment'))`,
+      id: schema.searchView.id,
+      resourceType: schema.searchView.type,
     })
-    .from(searchView)
+    .from(schema.searchView)
     .where(filterQuery)
-    .groupBy(effectiveResourceId, effectiveResourceType)
+    .groupBy(schema.searchView.id, schema.searchView.type)
+    .orderBy(desc(max(schema.searchView.createdAt)))
     .limit(SEARCH_RESULT_LIMIT)
     .offset(SEARCH_RESULT_LIMIT * (page - 1));
 
   const countMatchingResources = await db
     .select({
-      count: sql`count(distinct coalesce(${searchView.parentId}, ${searchView.id}))`.mapWith(Number),
-      resourceType: effectiveResourceType,
+      count: countDistinct(schema.searchView.id),
+      resourceType: schema.searchView.type,
     })
-    .from(searchView)
+    .from(schema.searchView)
     .where(filterQuery)
-    .groupBy(effectiveResourceType);
+    .groupBy(schema.searchView.type);
 
-  const matchingResourcesByType = {
-    event: matchingResources.filter(({ resourceType }) => resourceType === 'event'),
-    request: matchingResources.filter(({ resourceType }) => resourceType === 'request'),
-    information: matchingResources.filter(({ resourceType }) => resourceType === 'information'),
-    member: matchingResources.filter(({ resourceType }) => resourceType === 'member'),
-  } as const;
+  const requests = matchingResources.filter(({ resourceType }) => resourceType === 'request');
+  const events = matchingResources.filter(({ resourceType }) => resourceType === 'event');
+  const information = matchingResources.filter(({ resourceType }) => resourceType === 'information');
+  const members = matchingResources.filter(({ resourceType }) => resourceType === 'member');
 
   const resources = await awaitProperties({
-    request:
-      matchingResourcesByType.request.length > 0
+    requests:
+      requests.length > 0
         ? db.query.requests.findMany({
             where: inArray(
-              requests.id,
-              matchingResourcesByType.request.map(({ id }) => id),
+              schema.requests.id,
+              requests.map(({ id }) => id),
             ),
             with: { requester: withAvatar },
           })
         : [],
-    event:
-      matchingResourcesByType.event.length > 0
+    events:
+      events.length > 0
         ? db.query.events.findMany({
             where: inArray(
-              events.id,
-              matchingResourcesByType.event.map(({ id }) => id),
+              schema.events.id,
+              events.map(({ id }) => id),
             ),
             with: { organizer: withAvatar },
           })
         : [],
     information:
-      matchingResourcesByType.information.length > 0
+      information.length > 0
         ? db.query.information.findMany({
             where: inArray(
-              information.id,
-              matchingResourcesByType.information.map(({ id }) => id),
+              schema.information.id,
+              information.map(({ id }) => id),
             ),
             with: { author: withAvatar },
           })
         : [],
-    member:
-      matchingResourcesByType.member.length > 0
+    members:
+      members.length > 0
         ? db.query.members.findMany({
             where: inArray(
-              members.id,
-              matchingResourcesByType.member.map(({ id }) => id),
+              schema.members.id,
+              members.map(({ id }) => id),
             ),
             ...withAvatar,
           })
         : [],
   });
 
-  const formatResources = <T>(resourceType: ResourceType) => {
-    return {
-      items: resources[resourceType].map((item) => {
-        const matchingItem = matchingResourcesByType[resourceType].find(({ id }) => item.id === id);
-
-        return {
-          item: item as T,
-          commentsOnly: matchingItem?.commentsOnly,
-          commentIds: matchingItem?.commentIds,
-        };
-      }),
-      total: countMatchingResources.find((item) => item.resourceType === resourceType)?.count,
-    };
-  };
-
   return {
-    requests: formatResources<Request & { requester: MemberWithAvatar }>('request'),
-    events: formatResources<Event & { organizer: MemberWithAvatar }>('event'),
-    information: formatResources<Information & { author: MemberWithAvatar | null }>('information'),
-    members: formatResources<MemberWithAvatar>('member'),
+    requests: {
+      items:
+        requests.length > 0
+          ? requests.map(({ id }) => defined(resources.requests.find(hasProperty('id', id))))
+          : undefined,
+      total: countMatchingResources.find(hasProperty('resourceType', 'request'))?.count ?? 0,
+    },
+
+    events: {
+      items:
+        events.length > 0
+          ? events.map(({ id }) => defined(resources.events.find(hasProperty('id', id))))
+          : undefined,
+      total: countMatchingResources.find(hasProperty('resourceType', 'event'))?.count ?? 0,
+    },
+    information: {
+      items:
+        information.length > 0
+          ? information.map(({ id }) => defined(resources.information.find(hasProperty('id', id))))
+          : undefined,
+      total: countMatchingResources.find(hasProperty('resourceType', 'information'))?.count ?? 0,
+    },
+    members: {
+      items:
+        members.length > 0
+          ? members.map(({ id }) => defined(resources.members.find(hasProperty('id', id))))
+          : undefined,
+      total: countMatchingResources.find(hasProperty('resourceType', 'member'))?.count ?? 0,
+    },
   };
 }

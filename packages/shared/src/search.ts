@@ -4,8 +4,7 @@ import { LightMember } from './member';
 
 export const searchQuerySchema = z.object({
   search: z.string(),
-  page: z.number().optional(),
-  resourceType: z.literal(['request', 'event', 'information', 'member']).optional(),
+  page: z.coerce.number().optional(),
 });
 
 export type SearchEvent = {
@@ -29,12 +28,10 @@ export type SearchInformation = {
   publishedAt: string;
 };
 
-export type SearchResult<T extends SearchRequest | SearchEvent | SearchInformation | LightMember> = {
-  items: {
-    item: T;
-    commentsOnly?: boolean;
-    commentIds?: string[];
-  }[];
+export type SearchItem = SearchRequest | SearchEvent | SearchInformation | LightMember;
+
+export type SearchResult<T extends SearchItem> = {
+  items?: T[];
   total: number;
 };
 
