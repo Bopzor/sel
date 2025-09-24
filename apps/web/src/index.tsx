@@ -1,5 +1,6 @@
 /* @refresh reload */
 import './application/side-effects';
+import 'solid-devtools';
 
 import { render } from 'solid-js/web';
 

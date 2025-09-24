@@ -235,6 +235,13 @@ export const api = {
   cancelTransaction: endpoint('put', '/transactions/:transactionId/cancel').types<{
     path: { transactionId: string };
   }>(),
+
+  // search
+
+  search: endpoint('get', '/search').types<{
+    query: typeof shared.searchQuerySchema;
+    result: shared.SearchResults;
+  }>(),
 };
 
 function endpoint(method: HttpMethod, path: string) {

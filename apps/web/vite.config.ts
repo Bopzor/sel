@@ -1,6 +1,7 @@
 import tailwindcss from '@tailwindcss/vite';
 import fs from 'node:fs/promises';
 import path from 'node:path';
+import devtools from 'solid-devtools/vite';
 import { Plugin } from 'vite';
 import { qrcode } from 'vite-plugin-qrcode';
 import solid from 'vite-plugin-solid';
@@ -11,7 +12,7 @@ import { defineConfig } from 'vitest/config';
 import pkg from './package.json';
 
 export default defineConfig({
-  plugins: [qrcode(), tsconfigPaths(), solid(), solidSvg(), tailwindcss(), version(pkg.version)],
+  plugins: [qrcode(), tsconfigPaths(), solid(), solidSvg(), tailwindcss(), version(pkg.version), devtools()],
   server: {
     port: 8000,
     proxy: {

@@ -286,7 +286,7 @@ function QuickAccess(props: { closeDrawer: () => void }) {
     createRequest: routes.requests.create,
     createEvent: routes.events.create,
     editProfile: routes.profile.edition,
-    search: routes.home,
+    search: `${routes.home}?search=open`,
     documents: routes.documents,
     help: routes.misc,
   };
@@ -295,17 +295,7 @@ function QuickAccess(props: { closeDrawer: () => void }) {
     <List each={entries(links)} class="col gap-3 px-4">
       {([item, link]) => (
         <li>
-          <Link
-            href={link}
-            class="row items-center gap-2"
-            onClick={() => {
-              props.closeDrawer();
-
-              if (item === 'search') {
-                notify.info('Fonctionnalité à venir !');
-              }
-            }}
-          >
+          <Link href={link} class="row items-center gap-2" onClick={() => props.closeDrawer()}>
             <Icon path={arrowRight} class="size-4" />
             <T id={`drawer.quickAccess.items.${item}`} />
           </Link>

@@ -97,6 +97,21 @@
         "placeholder": "Écrire un commentaire...",
         "success": "Votre commentaire a bien été envoyé"
       }
+    },
+    "searchDialog": {
+      "title": "Rechercher sur SEL'ons nous",
+      "placeholder": "Rechercher...",
+      "membersExample": "Membres <wrap>(ex: \"Violaine\")</wrap>",
+      "requestsExample": "Demandes <wrap>(ex: \"Covoiturage\")</wrap>",
+      "eventsExample": "Événements <wrap>(ex: \"Jeu\")</wrap>",
+      "informationExample": "Information <wrap>(ex: \"Concert\")</wrap>",
+      "all": "Tous",
+      "requests": "Demandes",
+      "events": "Événements",
+      "members": "Membres",
+      "information": "Informations",
+      "withoutTitle": "sans titre",
+      "empty": "Aucun résultat"
     }
   },
   "enums": {
