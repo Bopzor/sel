@@ -41,7 +41,7 @@ export function MemberAvatarName(props: {
   );
 }
 
-function memberName(member?: Pick<Member, 'firstName' | 'lastName'>, short?: boolean) {
+export function memberName(member?: Pick<Member, 'firstName' | 'lastName'>, short?: boolean) {
   if (!member) {
     return '';
   }

@@ -3,10 +3,10 @@ import { Icon } from 'solid-heroicons';
 import { arrowRight } from 'solid-heroicons/solid';
 
 import { api } from 'src/application/api';
-import { notify } from 'src/application/notify';
 import { routes } from 'src/application/routes';
 import { Link } from 'src/components/link';
 import { List } from 'src/components/list';
+import { SearchDialog } from 'src/components/search-dialog';
 import { TransactionDialog } from 'src/components/transaction-dialog';
 import { createTranslate } from 'src/intl/translate';
 import { useSearchParam } from 'src/utils/search-param';
@@ -18,6 +18,7 @@ const T = createTranslate('pages.home');
 
 export function Home() {
   const [create, setCreate] = useSearchParam('create');
+  const [search, setSearch] = useSearchParam('search');
 
   return (
     <div class="mt-8 row gap-8">
@@ -31,6 +32,8 @@ export function Home() {
       />
 
       <CreateInformationDialog open={create() === 'information'} onClose={() => setCreate(undefined)} />
+
+      <SearchDialog open={search() === 'open'} onClose={() => setSearch(undefined)} />
     </div>
   );
 }
@@ -42,7 +45,7 @@ function QuickAccess() {
     createRequest: routes.requests.create,
     createEvent: routes.events.create,
     editProfile: routes.profile.edition,
-    search: routes.home,
+    search: `${routes.home}?search=open`,
     documents: routes.documents,
     help: routes.misc,
   };
@@ -59,7 +62,6 @@ function QuickAccess() {
             <Link
               href={link}
               class="inline-flex flex-row items-center gap-2 font-medium text-primary hover:underline"
-              onClick={() => item === 'search' && notify.info('Fonctionnalité à venir !')}
             >
               <Icon path={arrowRight} class="size-4" />
               <T id={`quickAccess.items.${item}`} />
