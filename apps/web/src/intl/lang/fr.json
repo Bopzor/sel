@@ -108,7 +108,8 @@
     "memberStatus": {
       "onboarding": "On-boarding",
       "inactive": "Désactivé",
-      "active": "Actif"
+      "active": "Actif",
+      "system": "Système"
     },
     "requestStatus": {
       "pending": "En cours",
