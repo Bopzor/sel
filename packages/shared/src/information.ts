@@ -18,3 +18,5 @@ export const createInformationBodySchema = z.object({
 });
 
 export type CreateInformationBody = z.infer<typeof createInformationBodySchema>;
+
+export const updateInformationBodySchema = createInformationBodySchema;

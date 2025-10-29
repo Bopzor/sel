@@ -126,6 +126,11 @@ export const api = {
     result: string;
   }>(),
 
+  updateInformation: endpoint('put', '/information/:informationId').types<{
+    path: { informationId: string };
+    body: typeof shared.updateInformationBodySchema;
+  }>(),
+
   // requests
 
   listRequests: endpoint('get', '/requests').types<{

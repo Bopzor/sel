@@ -11,7 +11,6 @@ import { TransactionDialog } from 'src/components/transaction-dialog';
 import { createTranslate } from 'src/intl/translate';
 import { useSearchParam } from 'src/utils/search-param';
 
-import { CreateInformationDialog } from './components/create-information-dialog';
 import { Feed } from './components/feed';
 
 const T = createTranslate('pages.home');
@@ -29,8 +28,6 @@ export function Home() {
         onClose={() => setCreate(undefined)}
         onCreate={(values) => api.createTransaction({ body: values })}
       />
-
-      <CreateInformationDialog open={create() === 'information'} onClose={() => setCreate(undefined)} />
     </div>
   );
 }
@@ -38,7 +35,7 @@ export function Home() {
 function QuickAccess() {
   const links = {
     createTransaction: `${routes.home}?create=transaction`,
-    createInformation: `${routes.home}?create=information`,
+    createInformation: routes.information.create,
     createRequest: routes.requests.create,
     createEvent: routes.events.create,
     editProfile: routes.profile.edition,

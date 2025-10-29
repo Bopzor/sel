@@ -4,7 +4,9 @@ export const routes = {
   authentication: '/authentication',
   onboarding: '/onboarding',
   information: {
+    create: '/information/create',
     details: (informationId: string) => `/information/${informationId}`,
+    edit: (informationId: string) => `/information/${informationId}/edit`,
   },
   members: {
     list: '/members',

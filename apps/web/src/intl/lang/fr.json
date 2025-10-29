@@ -178,6 +178,8 @@
     "breadcrumb": {
       "home": "Accueil",
       "members": "Membres",
+      "createInformation": "Nouvelle information",
+      "editInformation": "Édition",
       "requests": "Demandes",
       "createRequest": "Nouvelle demande",
       "editRequest": "Édition",
@@ -327,22 +329,6 @@
     },
     "home": {
       "title": "Actualités",
-      "createInformation": {
-        "dialogTitle": "Publier une information",
-        "title": {
-          "label": "Titre",
-          "placeholder": "Recette des amaretti"
-        },
-        "body": {
-          "label": "Message",
-          "placeholder": "Écrivez votre message..."
-        },
-        "attachments": {
-          "label": "Pièces jointes"
-        },
-        "create": "Publier",
-        "created": "Votre information a été publiée."
-      },
       "quickAccess": {
         "title": "Accès rapide",
         "items": {
@@ -395,7 +381,39 @@
       }
     },
     "information": {
-      "date": "Publiée le {date}"
+      "details": {
+        "header": {
+          "date": "Publiée le {date}",
+          "actions": {
+            "edit": "Éditer",
+            "notifications": "Notifications",
+            "notificationsSettingsUnavailable": "La gestion des notification n'est pas encore possible"
+          }
+        }
+      },
+      "form": {
+        "title": {
+          "label": "Titre",
+          "placeholder": "Recette des amaretti"
+        },
+        "body": {
+          "label": "Message",
+          "placeholder": "Écrivez votre message..."
+        },
+        "attachments": {
+          "label": "Pièces jointes"
+        }
+      },
+      "create": {
+        "title": "Publier une information",
+        "submit": "Publier",
+        "created": "Votre information a été publiée."
+      },
+      "edit": {
+        "title": "Edition de l'information : {title}",
+        "submit": "Enregistrer",
+        "edited": "L'information a bien été mise à jour"
+      }
     },
     "requests": {
       "form": {

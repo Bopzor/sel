@@ -5,3 +5,5 @@ export type Information = typeof schema.information.$inferSelect;
 export type InformationInsert = typeof schema.information.$inferInsert;
 
 export class InformationPublished extends DomainEvent {}
+
+export class InformationUpdatedEvent extends DomainEvent {}

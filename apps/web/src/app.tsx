@@ -23,7 +23,9 @@ import { EventListPage } from './pages/events/list/event-list.page';
 import { preloadEvent, preloadEventList } from './pages/events/preload';
 import { Home } from './pages/home/home.page';
 import { preloadHome } from './pages/home/preload';
-import { InformationDetailsPage } from './pages/information/information-details.page';
+import { CreateInformationPage } from './pages/information/create/create-information.page';
+import { InformationDetailsPage } from './pages/information/detail/information-details.page';
+import { EditInformationPage } from './pages/information/edit/edit-information.page';
 import { preloadInformation } from './pages/information/preload';
 import { InterestsPage } from './pages/interests/interests.page';
 import { preloadInterestList } from './pages/interests/preload';
@@ -72,12 +74,21 @@ export function App() {
       <Route component={Layout} preload={mainPreload} info={info('home')}>
         <Route path="/home" component={Home} preload={preloadHome} />
 
-        <Route
-          path="/information/:informationId"
-          component={InformationDetailsPage}
-          preload={preloadInformation}
-          info={info('information')}
-        />
+        <Route path="/information">
+          <Route path="/create" component={CreateInformationPage} info={info('createInformation')} />
+          <Route
+            path=":informationId"
+            component={InformationDetailsPage}
+            preload={preloadInformation}
+            info={info('information')}
+          />
+          <Route
+            path=":informationId/edit"
+            component={EditInformationPage}
+            preload={preloadInformation}
+            info={info('information')}
+          />
+        </Route>
 
         <Route path="/members" info={info('members')}>
           <Route path="/" component={MemberListPage} preload={preloadMemberList} />

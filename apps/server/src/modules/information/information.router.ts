@@ -1,9 +1,12 @@
+import { AsyncLocalStorage } from 'node:async_hooks';
+
 import * as shared from '@sel/shared';
+import { defined } from '@sel/utils';
 import { desc, eq } from 'drizzle-orm';
-import express from 'express';
+import express, { RequestHandler } from 'express';
 
 import { container } from 'src/infrastructure/container';
-import { HttpStatus, NotFound } from 'src/infrastructure/http';
+import { Forbidden, HttpStatus, NotFound } from 'src/infrastructure/http';
 import { getAuthenticatedMember } from 'src/infrastructure/session';
 import { db, schema } from 'src/persistence';
 import { TOKENS } from 'src/tokens';
@@ -14,9 +17,25 @@ import { MessageWithAttachments, withAttachments } from '../messages/message.ent
 import { serializeMessage } from '../messages/message.serializer';
 
 import { createInformation } from './domain/create-information.command';
+import { updateInformation } from './domain/update-information.command';
 import { Information } from './information.entities';
+import { findInformationById } from './information.persistence';
 
 export const router = express.Router();
+
+const informationContext = new AsyncLocalStorage<Information>();
+const getInformation = () => defined(informationContext.getStore());
+
+const isAuthor: RequestHandler<{ informationId: string }> = async (req, res, next) => {
+  const member = getAuthenticatedMember();
+  const information = getInformation();
+
+  if (information.authorId !== member.id) {
+    throw new Forbidden('Member must be the author of the information');
+  }
+
+  next();
+};
 
 router.get('/', async (req, res) => {
   const information = await db.query.information.findMany({
@@ -31,6 +50,16 @@ router.get('/', async (req, res) => {
   });
 
   res.json(information.map(serializeInformation));
+});
+
+router.param('informationId', async (req, res, next) => {
+  const information = await findInformationById(req.params.informationId);
+
+  if (!information) {
+    next();
+  } else {
+    informationContext.run(information, next);
+  }
 });
 
 router.get('/:informationId', async (req, res) => {
@@ -63,6 +92,19 @@ router.post('/', async (req, res) => {
   });
 
   res.status(HttpStatus.created).send(id);
+});
+
+router.put('/:informationId', isAuthor, async (req, res) => {
+  const informationId = req.params.informationId;
+  const body = shared.updateInformationBodySchema.parse(req.body);
+
+  await updateInformation({
+    informationId,
+    ...body,
+    fileIds: body.fileIds ?? [],
+  });
+
+  res.status(HttpStatus.noContent).end();
 });
 
 function serializeInformation(

@@ -5,31 +5,21 @@ import { Show } from 'solid-js';
 import { apiQuery } from 'src/application/query';
 import { card } from 'src/components/card';
 import { Comments } from 'src/components/comments';
-import { MemberAvatarName } from 'src/components/member-avatar-name';
 import { Message } from 'src/components/message';
 import { BoxSkeleton, TextSkeleton } from 'src/components/skeleton';
-import { FormattedDate } from 'src/intl/formatted';
-import { createTranslate } from 'src/intl/translate';
 
-const T = createTranslate('pages.information');
+import { InformationHeader } from './sections/information-header';
 
 export function InformationDetailsPage() {
   const { informationId } = useParams<{ informationId: string }>();
   const query = useQuery(() => apiQuery('getInformation', { path: { informationId } }));
-
-  const publishedAt = (date: string) => <FormattedDate date={date} dateStyle="long" timeStyle="short" />;
 
   return (
     <Show when={query.data} fallback={<Skeleton />}>
       {(information) => (
         <div class="col gap-8">
           <section>
-            <header class={card.header({ class: 'col gap-2 md:row md:items-end md:justify-between' })}>
-              <MemberAvatarName member={information().author} classes={{ root: card.title() }} />
-              <div class="text-sm text-dim">
-                <T id="date" values={{ date: publishedAt(information().publishedAt) }} />
-              </div>
-            </header>
+            <InformationHeader information={information()} />
 
             <div class={card.content()}>
               <h1 class="mb-4 text-3xl">{query.data?.title}</h1>

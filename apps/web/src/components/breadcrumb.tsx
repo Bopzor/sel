@@ -90,6 +90,16 @@ export const breadcrumbs = {
     );
   },
 
+  createInformation: () => {
+    return <Crumb label={<T id="createInformation" />} link={routes.information.create} />;
+  },
+
+  editInformation: () => {
+    const { informationId } = useParams<{ informationId: string }>();
+
+    return <Crumb label={<T id="editInformation" />} link={routes.information.edit(informationId)} />;
+  },
+
   members: () => {
     return <Crumb label={<T id="members" />} link={routes.members.list} />;
   },
