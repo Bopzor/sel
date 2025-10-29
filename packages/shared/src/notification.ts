@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 import { EventParticipation } from './event';
-import { RequestStatus } from './request';
+import { RequestAnswer, RequestStatus } from './request';
 
 export const registerDeviceBodySchema = z.object({
   subscription: z.record(z.any(), z.any()),
@@ -14,6 +14,7 @@ const notificationTypes = [
   'RequestCreated',
   'RequestCommentCreated',
   'RequestStatusChanged',
+  'RequestAnswerSet',
   'EventCreated',
   'EventCommentCreated',
   'EventParticipationSet',
@@ -122,6 +123,25 @@ export type NotificationData = {
         name: string;
       };
     };
+  };
+
+  RequestAnswerSet: {
+    member: {
+      firstName: string;
+    };
+    request: {
+      id: string;
+      title: string;
+      requester: {
+        id: string;
+      };
+    };
+    respondent: {
+      id: string;
+      name: string;
+    };
+    previousAnswer: RequestAnswer['answer'] | null;
+    answer: RequestAnswer['answer'] | null;
   };
 
   EventCreated: {

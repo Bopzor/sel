@@ -7,11 +7,7 @@ import { db } from 'src/persistence';
 import { clearDatabase } from 'src/persistence/database';
 import { TOKENS } from 'src/tokens';
 
-import {
-  RequestAnswerChangedEvent,
-  RequestAnswerCreatedEvent,
-  RequestAnswerDeletedEvent,
-} from '../request.entities';
+import { RequestAnswerSetEvent } from '../request.entities';
 
 import { setRequestAnswer, SetRequestAnswerCommand } from './set-request-answer.command';
 
@@ -50,10 +46,10 @@ describe('setRequestAnswer', () => {
     expect(requestAnswer).toHaveProperty('answer', 'positive');
 
     expect(events.events).toContainEqual(
-      new RequestAnswerCreatedEvent('requestId', {
-        requestAnswerId: expect.any(String),
-        memberId: 'memberId',
+      new RequestAnswerSetEvent('requestId', {
+        respondentId: 'memberId',
         answer: 'positive',
+        previousAnswer: null,
       }),
     );
   });
@@ -82,8 +78,9 @@ describe('setRequestAnswer', () => {
     expect(requestAnswer).toHaveProperty('answer', 'negative');
 
     expect(events.events).toContainEqual(
-      new RequestAnswerChangedEvent('requestId', {
-        requestAnswerId: expect.any(String),
+      new RequestAnswerSetEvent('requestId', {
+        respondentId: 'memberId',
+        previousAnswer: 'positive',
         answer: 'negative',
       }),
     );
@@ -98,7 +95,11 @@ describe('setRequestAnswer', () => {
     await expect(db.query.requestAnswers.findFirst()).resolves.toBeUndefined();
 
     expect(events.events).toContainEqual(
-      new RequestAnswerDeletedEvent('requestId', { requestAnswerId: expect.any(String) }),
+      new RequestAnswerSetEvent('requestId', {
+        respondentId: 'memberId',
+        answer: null,
+        previousAnswer: 'positive',
+      }),
     );
   });
 });

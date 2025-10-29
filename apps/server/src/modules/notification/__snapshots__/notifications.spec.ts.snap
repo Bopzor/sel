@@ -83,6 +83,21 @@ Info body",
 ]
 `;
 
+exports[`notification snapshots > RequestAnswerSet 1`] = `undefined`;
+
+exports[`notification snapshots > RequestAnswerSet 2`] = `
+[
+  {
+    "html": "<p>Bonjour Member,</p><p><strong>Respondent</strong> a répondu positivement à votre demande <a href="http://localhost/requests/requestId">Request title</a>.</p>",
+    "subject": "Réponse à votre demande Request title",
+    "text": "Bonjour Member,
+
+Respondent a répondu positivement à votre demande Request title (http://localhost/requests/requestId).",
+    "to": "member@email",
+  },
+]
+`;
+
 exports[`notification snapshots > RequestCommentCreated 1`] = `undefined`;
 
 exports[`notification snapshots > RequestCommentCreated 2`] = `

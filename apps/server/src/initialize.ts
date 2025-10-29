@@ -12,10 +12,12 @@ import { notifyInformationPublished } from './modules/information/domain/notify-
 import { InformationPublished as InformationPublishedEvent } from './modules/information/information.entities';
 import { reportOnboardingCompleted } from './modules/member/domain/report-onboarding-completed.event-handler';
 import { OnboardingCompletedEvent } from './modules/member/member.entities';
+import { notifyRequestAnswerSet } from './modules/request/domain/notify-request-answer-set.event-handler';
 import { notifyRequestCommentCreated } from './modules/request/domain/notify-request-comment-create.event-handler';
 import { notifyRequestCreated } from './modules/request/domain/notify-request-created.event-handler';
 import { notifyRequestStatusChanged } from './modules/request/domain/notify-request-status-changed.event-handler';
 import {
+  RequestAnswerSetEvent,
   RequestCanceledEvent,
   RequestCreatedEvent,
   RequestFulfilledEvent,
@@ -56,6 +58,7 @@ function bindEventListeners() {
   events.addListener(CommentCreatedEvent, notifyRequestCommentCreated);
   events.addListener(RequestFulfilledEvent, notifyRequestStatusChanged);
   events.addListener(RequestCanceledEvent, notifyRequestStatusChanged);
+  events.addListener(RequestAnswerSetEvent, notifyRequestAnswerSet);
 
   events.addListener(EventCreatedEvent, notifyEventCreated);
   events.addListener(EventParticipationSetEvent, notifyEventParticipationSet);

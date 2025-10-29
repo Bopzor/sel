@@ -6,12 +6,7 @@ import { BadRequest, NotFound } from 'src/infrastructure/http';
 import { db, schema } from 'src/persistence';
 import { TOKENS } from 'src/tokens';
 
-import {
-  RequestAnswerChangedEvent,
-  RequestAnswerCreatedEvent,
-  RequestAnswerDeletedEvent,
-  RequestEditedEvent,
-} from '../request.entities';
+import { RequestAnswerSetEvent } from '../request.entities';
 import { findRequestById } from '../request.persistence';
 
 export type SetRequestAnswerCommand = {
@@ -38,7 +33,7 @@ export async function setRequestAnswer(command: SetRequestAnswerCommand): Promis
   }
 
   if (memberId === request.requesterId) {
-    throw new BadRequest('Member is not requester');
+    throw new BadRequest('Member is requester');
   }
 
   const requestAnswer = await db.query.requestAnswers.findFirst({
@@ -66,17 +61,24 @@ export async function setRequestAnswer(command: SetRequestAnswerCommand): Promis
         set: { answer, updatedAt: now },
       });
 
-    if (requestAnswer) {
-      events.publish(new RequestAnswerChangedEvent(request.id, { requestAnswerId, answer }));
-    } else {
-      events.publish(new RequestAnswerCreatedEvent(request.id, { requestAnswerId, memberId, answer }));
-    }
+    events.publish(
+      new RequestAnswerSetEvent(request.id, {
+        respondentId: memberId,
+        answer,
+        previousAnswer: requestAnswer?.answer ?? null,
+      }),
+    );
   }
 
   if (requestAnswer && answer === null) {
     await db.delete(schema.requestAnswers).where(eq(schema.requestAnswers.id, requestAnswer.id));
-    events.publish(new RequestAnswerDeletedEvent(request.id, { requestAnswerId: requestAnswer.id }));
-  }
 
-  events.publish(new RequestEditedEvent(command.requestId));
+    events.publish(
+      new RequestAnswerSetEvent(request.id, {
+        respondentId: memberId,
+        answer,
+        previousAnswer: requestAnswer.answer,
+      }),
+    );
+  }
 }

@@ -154,6 +154,25 @@ describe('notification snapshots', () => {
     });
   });
 
+  it('RequestAnswerSet', async () => {
+    await assertNotificationSnapshot('RequestAnswerSet', {
+      member: { firstName: 'Member' },
+      request: {
+        id: 'requestId',
+        title: 'Request title',
+        requester: {
+          id: 'requesterId',
+        },
+      },
+      respondent: {
+        id: 'respondentId',
+        name: 'Respondent',
+      },
+      answer: 'positive',
+      previousAnswer: null,
+    });
+  });
+
   it('EventCreated', async () => {
     await assertNotificationSnapshot('EventCreated', {
       member: { firstName: 'Member' },
