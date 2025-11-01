@@ -17,10 +17,13 @@ import { notifyRequestCommentCreated } from './modules/request/domain/notify-req
 import { notifyRequestCreated } from './modules/request/domain/notify-request-created.event-handler';
 import { notifyRequestStatusChanged } from './modules/request/domain/notify-request-status-changed.event-handler';
 import {
-  RequestAnswerSetEvent,
+  RequestAnswerChangedToNegativeEvent,
+  RequestAnswerChangedToPositiveEvent,
   RequestCanceledEvent,
   RequestCreatedEvent,
   RequestFulfilledEvent,
+  RequestPositiveAnswerGivenEvent,
+  RequestPositiveAnswerWithdrawnEvent,
 } from './modules/request/request.entities';
 import { notifyTransactionCanceled } from './modules/transaction/domain/notify-transaction-canceled.event-handler';
 import { notifyTransactionCompleted } from './modules/transaction/domain/notify-transaction-completed.event-handler';
@@ -58,7 +61,10 @@ function bindEventListeners() {
   events.addListener(CommentCreatedEvent, notifyRequestCommentCreated);
   events.addListener(RequestFulfilledEvent, notifyRequestStatusChanged);
   events.addListener(RequestCanceledEvent, notifyRequestStatusChanged);
-  events.addListener(RequestAnswerSetEvent, notifyRequestAnswerSet);
+  events.addListener(RequestPositiveAnswerGivenEvent, notifyRequestAnswerSet);
+  events.addListener(RequestAnswerChangedToPositiveEvent, notifyRequestAnswerSet);
+  events.addListener(RequestAnswerChangedToNegativeEvent, notifyRequestAnswerSet);
+  events.addListener(RequestPositiveAnswerWithdrawnEvent, notifyRequestAnswerSet);
 
   events.addListener(EventCreatedEvent, notifyEventCreated);
   events.addListener(EventParticipationSetEvent, notifyEventParticipationSet);

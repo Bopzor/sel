@@ -6,7 +6,14 @@ import { BadRequest, NotFound } from 'src/infrastructure/http';
 import { db, schema } from 'src/persistence';
 import { TOKENS } from 'src/tokens';
 
-import { RequestAnswerSetEvent } from '../request.entities';
+import {
+  RequestAnswerChangedToNegativeEvent,
+  RequestAnswerChangedToPositiveEvent,
+  RequestNegativeAnswerGivenEvent,
+  RequestNegativeAnswerWithdrawnEvent,
+  RequestPositiveAnswerGivenEvent,
+  RequestPositiveAnswerWithdrawnEvent,
+} from '../request.entities';
 import { findRequestById } from '../request.persistence';
 
 export type SetRequestAnswerCommand = {
@@ -41,10 +48,6 @@ export async function setRequestAnswer(command: SetRequestAnswerCommand): Promis
   });
 
   if (answer !== null) {
-    if (answer === requestAnswer?.answer) {
-      return;
-    }
-
     const requestAnswerId = requestAnswer?.id ?? generator.id();
 
     await db
@@ -60,25 +63,61 @@ export async function setRequestAnswer(command: SetRequestAnswerCommand): Promis
         target: schema.requestAnswers.id,
         set: { answer, updatedAt: now },
       });
-
-    events.publish(
-      new RequestAnswerSetEvent(request.id, {
-        respondentId: memberId,
-        answer,
-        previousAnswer: requestAnswer?.answer ?? null,
-      }),
-    );
   }
 
-  if (requestAnswer && answer === null) {
+  const isNewAnswer = !requestAnswer && answer !== null;
+
+  if (answer === 'positive') {
+    if (isNewAnswer) {
+      events.publish(
+        new RequestPositiveAnswerGivenEvent(request.id, {
+          respondentId: memberId,
+        }),
+      );
+    } else {
+      events.publish(
+        new RequestAnswerChangedToPositiveEvent(request.id, {
+          respondentId: memberId,
+        }),
+      );
+    }
+  }
+
+  if (answer === 'negative') {
+    if (isNewAnswer) {
+      events.publish(
+        new RequestNegativeAnswerGivenEvent(request.id, {
+          respondentId: memberId,
+        }),
+      );
+    } else {
+      events.publish(
+        new RequestAnswerChangedToNegativeEvent(request.id, {
+          respondentId: memberId,
+        }),
+      );
+    }
+  }
+
+  const isAnswerWithdrawn = requestAnswer && answer === null;
+
+  if (isAnswerWithdrawn) {
     await db.delete(schema.requestAnswers).where(eq(schema.requestAnswers.id, requestAnswer.id));
 
-    events.publish(
-      new RequestAnswerSetEvent(request.id, {
-        respondentId: memberId,
-        answer,
-        previousAnswer: requestAnswer.answer,
-      }),
-    );
+    if (requestAnswer.answer === 'positive') {
+      events.publish(
+        new RequestPositiveAnswerWithdrawnEvent(request.id, {
+          respondentId: memberId,
+        }),
+      );
+    }
+
+    if (requestAnswer.answer === 'negative') {
+      events.publish(
+        new RequestNegativeAnswerWithdrawnEvent(request.id, {
+          respondentId: memberId,
+        }),
+      );
+    }
   }
 }

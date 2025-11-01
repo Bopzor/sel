@@ -98,6 +98,36 @@ Respondent a répondu positivement à votre demande Request title (http://localh
 ]
 `;
 
+exports[`notification snapshots > RequestAnswerSet 3`] = `undefined`;
+
+exports[`notification snapshots > RequestAnswerSet 4`] = `
+[
+  {
+    "html": "<p>Bonjour Member,</p><p><strong>Respondent</strong> ne peut finalement pas répondre à votre demande <a href="http://localhost/requests/requestId">Request title</a>.</p>",
+    "subject": "Réponse à votre demande Request title",
+    "text": "Bonjour Member,
+
+Respondent ne peut finalement pas répondre à votre demande Request title (http://localhost/requests/requestId).",
+    "to": "member@email",
+  },
+]
+`;
+
+exports[`notification snapshots > RequestAnswerSet 5`] = `undefined`;
+
+exports[`notification snapshots > RequestAnswerSet 6`] = `
+[
+  {
+    "html": "<p>Bonjour Member,</p><p><strong>Respondent</strong> ne peut finalement pas répondre à votre demande <a href="http://localhost/requests/requestId">Request title</a>.</p>",
+    "subject": "Réponse à votre demande Request title",
+    "text": "Bonjour Member,
+
+Respondent ne peut finalement pas répondre à votre demande Request title (http://localhost/requests/requestId).",
+    "to": "member@email",
+  },
+]
+`;
+
 exports[`notification snapshots > RequestCommentCreated 1`] = `undefined`;
 
 exports[`notification snapshots > RequestCommentCreated 2`] = `

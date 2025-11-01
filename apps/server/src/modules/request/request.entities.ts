@@ -14,8 +14,26 @@ export class RequestFulfilledEvent extends DomainEvent {}
 
 export class RequestCanceledEvent extends DomainEvent {}
 
-export class RequestAnswerSetEvent extends DomainEvent<{
+export class RequestPositiveAnswerGivenEvent extends DomainEvent<{
   respondentId: string;
-  previousAnswer: RequestAnswer['answer'] | null;
-  answer: RequestAnswer['answer'] | null;
+}> {}
+
+export class RequestNegativeAnswerGivenEvent extends DomainEvent<{
+  respondentId: string;
+}> {}
+
+export class RequestPositiveAnswerWithdrawnEvent extends DomainEvent<{
+  respondentId: string;
+}> {}
+
+export class RequestNegativeAnswerWithdrawnEvent extends DomainEvent<{
+  respondentId: string;
+}> {}
+
+export class RequestAnswerChangedToPositiveEvent extends DomainEvent<{
+  respondentId: string;
+}> {}
+
+export class RequestAnswerChangedToNegativeEvent extends DomainEvent<{
+  respondentId: string;
 }> {}

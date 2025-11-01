@@ -169,7 +169,42 @@ describe('notification snapshots', () => {
         name: 'Respondent',
       },
       answer: 'positive',
-      previousAnswer: null,
+    });
+  });
+
+  it('RequestAnswerSet', async () => {
+    await assertNotificationSnapshot('RequestAnswerSet', {
+      member: { firstName: 'Member' },
+      request: {
+        id: 'requestId',
+        title: 'Request title',
+        requester: {
+          id: 'requesterId',
+        },
+      },
+      respondent: {
+        id: 'respondentId',
+        name: 'Respondent',
+      },
+      answer: 'negative',
+    });
+  });
+
+  it('RequestAnswerSet', async () => {
+    await assertNotificationSnapshot('RequestAnswerSet', {
+      member: { firstName: 'Member' },
+      request: {
+        id: 'requestId',
+        title: 'Request title',
+        requester: {
+          id: 'requesterId',
+        },
+      },
+      respondent: {
+        id: 'respondentId',
+        name: 'Respondent',
+      },
+      answer: null,
     });
   });
 

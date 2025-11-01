@@ -140,7 +140,6 @@ export type NotificationData = {
       id: string;
       name: string;
     };
-    previousAnswer: RequestAnswer['answer'] | null;
     answer: RequestAnswer['answer'] | null;
   };
 

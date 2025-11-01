@@ -7,7 +7,14 @@ import { db } from 'src/persistence';
 import { clearDatabase } from 'src/persistence/database';
 import { TOKENS } from 'src/tokens';
 
-import { RequestAnswerSetEvent } from '../request.entities';
+import {
+  RequestAnswerChangedToNegativeEvent,
+  RequestAnswerChangedToPositiveEvent,
+  RequestNegativeAnswerGivenEvent,
+  RequestNegativeAnswerWithdrawnEvent,
+  RequestPositiveAnswerGivenEvent,
+  RequestPositiveAnswerWithdrawnEvent,
+} from '../request.entities';
 
 import { setRequestAnswer, SetRequestAnswerCommand } from './set-request-answer.command';
 
@@ -46,10 +53,8 @@ describe('setRequestAnswer', () => {
     expect(requestAnswer).toHaveProperty('answer', 'positive');
 
     expect(events.events).toContainEqual(
-      new RequestAnswerSetEvent('requestId', {
+      new RequestPositiveAnswerGivenEvent('requestId', {
         respondentId: 'memberId',
-        answer: 'positive',
-        previousAnswer: null,
       }),
     );
   });
@@ -60,14 +65,20 @@ describe('setRequestAnswer', () => {
     await setRequestAnswer(command);
 
     command.memberId = 'otherMemberId';
+    command.answer = 'negative';
     await setRequestAnswer(command);
 
     const requestAnswers = await db.query.requestAnswers.findMany();
 
     expect(requestAnswers).toHaveLength(2);
+    expect(events.events).toContainEqual(
+      new RequestNegativeAnswerGivenEvent('requestId', {
+        respondentId: 'otherMemberId',
+      }),
+    );
   });
 
-  it('changes an answer on a request', async () => {
+  it('changes a positive answer on a request to a negative one', async () => {
     await setRequestAnswer(command);
 
     command.answer = 'negative';
@@ -78,15 +89,31 @@ describe('setRequestAnswer', () => {
     expect(requestAnswer).toHaveProperty('answer', 'negative');
 
     expect(events.events).toContainEqual(
-      new RequestAnswerSetEvent('requestId', {
+      new RequestAnswerChangedToNegativeEvent('requestId', {
         respondentId: 'memberId',
-        previousAnswer: 'positive',
-        answer: 'negative',
       }),
     );
   });
 
-  it('deletes an answer to a request', async () => {
+  it('changes a negative answer on a request to a positive one', async () => {
+    command.answer = 'negative';
+    await setRequestAnswer(command);
+
+    command.answer = 'positive';
+    await setRequestAnswer(command);
+
+    const requestAnswer = await db.query.requestAnswers.findFirst();
+
+    expect(requestAnswer).toHaveProperty('answer', 'positive');
+
+    expect(events.events).toContainEqual(
+      new RequestAnswerChangedToPositiveEvent('requestId', {
+        respondentId: 'memberId',
+      }),
+    );
+  });
+
+  it('deletes a positive answer to a request', async () => {
     await setRequestAnswer(command);
 
     command.answer = null;
@@ -95,10 +122,24 @@ describe('setRequestAnswer', () => {
     await expect(db.query.requestAnswers.findFirst()).resolves.toBeUndefined();
 
     expect(events.events).toContainEqual(
-      new RequestAnswerSetEvent('requestId', {
+      new RequestPositiveAnswerWithdrawnEvent('requestId', {
         respondentId: 'memberId',
-        answer: null,
-        previousAnswer: 'positive',
+      }),
+    );
+  });
+
+  it('deletes a negative answer to a request', async () => {
+    command.answer = 'negative';
+    await setRequestAnswer(command);
+
+    command.answer = null;
+    await setRequestAnswer(command);
+
+    await expect(db.query.requestAnswers.findFirst()).resolves.toBeUndefined();
+
+    expect(events.events).toContainEqual(
+      new RequestNegativeAnswerWithdrawnEvent('requestId', {
+        respondentId: 'memberId',
       }),
     );
   });

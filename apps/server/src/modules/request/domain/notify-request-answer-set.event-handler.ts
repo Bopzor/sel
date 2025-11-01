@@ -6,11 +6,24 @@ import { findMemberById, Member } from 'src/modules/member';
 import { GetNotificationContext, notify } from 'src/modules/notification';
 import { db, schema } from 'src/persistence';
 
-import { Request, RequestAnswer, RequestAnswerSetEvent } from '../request.entities';
+import {
+  Request,
+  RequestAnswer,
+  RequestPositiveAnswerGivenEvent,
+  RequestAnswerChangedToPositiveEvent,
+  RequestAnswerChangedToNegativeEvent,
+  RequestPositiveAnswerWithdrawnEvent,
+} from '../request.entities';
 
-export async function notifyRequestAnswerSet(domainEvent: RequestAnswerSetEvent): Promise<void> {
+export async function notifyRequestAnswerSet(
+  domainEvent:
+    | RequestPositiveAnswerGivenEvent
+    | RequestAnswerChangedToPositiveEvent
+    | RequestAnswerChangedToNegativeEvent
+    | RequestPositiveAnswerWithdrawnEvent,
+): Promise<void> {
   const { entityId: requestId } = domainEvent;
-  const { respondentId, previousAnswer, answer } = domainEvent.payload;
+  const { respondentId } = domainEvent.payload;
 
   const request = defined(
     await db.query.requests.findFirst({
@@ -21,13 +34,21 @@ export async function notifyRequestAnswerSet(domainEvent: RequestAnswerSetEvent)
     }),
   );
 
-  const participant = defined(await findMemberById(respondentId));
+  const respondent = defined(await findMemberById(respondentId));
+
+  const domainEventTypeToAnswer: Record<(typeof domainEvent)['type'], RequestAnswer['answer'] | null> = {
+    [RequestPositiveAnswerGivenEvent.type]: 'positive',
+    [RequestAnswerChangedToPositiveEvent.type]: 'positive',
+    [RequestAnswerChangedToNegativeEvent.type]: 'negative',
+    [RequestPositiveAnswerWithdrawnEvent.type]: null,
+  };
 
   await notify({
     memberIds: [request.requester.id],
     type: 'RequestAnswerSet',
-    getContext: (member) => getContext(member, request, participant, answer, previousAnswer),
-    sender: participant,
+    getContext: (member) =>
+      getContext(member, request, respondent, domainEventTypeToAnswer[domainEvent.type]),
+    sender: respondent,
   });
 }
 
@@ -36,13 +57,8 @@ function getContext(
   request: Request & { requester: Member },
   respondent: Member,
   answer: RequestAnswer['answer'] | null,
-  previousAnswer: RequestAnswer['answer'] | null,
 ): ReturnType<GetNotificationContext<'RequestAnswerSet'>> {
   if (member.id !== request.requester.id || respondent.id === request.requester.id) {
-    return null;
-  }
-
-  if (answer !== 'positive' && previousAnswer !== 'positive') {
     return null;
   }
 
@@ -61,7 +77,6 @@ function getContext(
       id: respondent.id,
       name: memberName(respondent),
     },
-    previousAnswer,
     answer,
   };
 }
