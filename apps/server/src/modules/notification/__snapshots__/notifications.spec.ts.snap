@@ -128,6 +128,36 @@ Respondent ne peut finalement pas répondre à votre demande Request title (http
 ]
 `;
 
+exports[`notification snapshots > RequestAnswerSet 7`] = `undefined`;
+
+exports[`notification snapshots > RequestAnswerSet 8`] = `
+[
+  {
+    "html": "<p>Bonjour Member,</p><p><strong>Respondent</strong> ne peut finalement pas répondre à votre demande <a href="http://localhost/requests/requestId">Request title</a>.</p>",
+    "subject": "Réponse à votre demande Request title",
+    "text": "Bonjour Member,
+
+Respondent ne peut finalement pas répondre à votre demande Request title (http://localhost/requests/requestId).",
+    "to": "member@email",
+  },
+]
+`;
+
+exports[`notification snapshots > RequestAnswerSet 9`] = `undefined`;
+
+exports[`notification snapshots > RequestAnswerSet 10`] = `
+[
+  {
+    "html": "<p>Bonjour Member,</p><p><strong>Respondent</strong> ne peut finalement pas répondre à votre demande <a href="http://localhost/requests/requestId">Request title</a>.</p>",
+    "subject": "Réponse à votre demande Request title",
+    "text": "Bonjour Member,
+
+Respondent ne peut finalement pas répondre à votre demande Request title (http://localhost/requests/requestId).",
+    "to": "member@email",
+  },
+]
+`;
+
 exports[`notification snapshots > RequestCommentCreated 1`] = `undefined`;
 
 exports[`notification snapshots > RequestCommentCreated 2`] = `

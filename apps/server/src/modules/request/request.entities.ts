@@ -16,24 +16,15 @@ export class RequestCanceledEvent extends DomainEvent {}
 
 export class RequestPositiveAnswerGivenEvent extends DomainEvent<{
   respondentId: string;
+  previousAnswer: RequestAnswer['answer'] | null;
 }> {}
 
 export class RequestNegativeAnswerGivenEvent extends DomainEvent<{
   respondentId: string;
+  previousAnswer: RequestAnswer['answer'] | null;
 }> {}
 
-export class RequestPositiveAnswerWithdrawnEvent extends DomainEvent<{
+export class RequestAnswerWithdrawnEvent extends DomainEvent<{
   respondentId: string;
-}> {}
-
-export class RequestNegativeAnswerWithdrawnEvent extends DomainEvent<{
-  respondentId: string;
-}> {}
-
-export class RequestAnswerChangedToPositiveEvent extends DomainEvent<{
-  respondentId: string;
-}> {}
-
-export class RequestAnswerChangedToNegativeEvent extends DomainEvent<{
-  respondentId: string;
+  previousAnswer: RequestAnswer['answer'];
 }> {}

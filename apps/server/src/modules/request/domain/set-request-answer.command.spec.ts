@@ -8,12 +8,9 @@ import { clearDatabase } from 'src/persistence/database';
 import { TOKENS } from 'src/tokens';
 
 import {
-  RequestAnswerChangedToNegativeEvent,
-  RequestAnswerChangedToPositiveEvent,
+  RequestAnswerWithdrawnEvent,
   RequestNegativeAnswerGivenEvent,
-  RequestNegativeAnswerWithdrawnEvent,
   RequestPositiveAnswerGivenEvent,
-  RequestPositiveAnswerWithdrawnEvent,
 } from '../request.entities';
 
 import { setRequestAnswer, SetRequestAnswerCommand } from './set-request-answer.command';
@@ -55,6 +52,7 @@ describe('setRequestAnswer', () => {
     expect(events.events).toContainEqual(
       new RequestPositiveAnswerGivenEvent('requestId', {
         respondentId: 'memberId',
+        previousAnswer: null,
       }),
     );
   });
@@ -74,6 +72,7 @@ describe('setRequestAnswer', () => {
     expect(events.events).toContainEqual(
       new RequestNegativeAnswerGivenEvent('requestId', {
         respondentId: 'otherMemberId',
+        previousAnswer: null,
       }),
     );
   });
@@ -89,8 +88,9 @@ describe('setRequestAnswer', () => {
     expect(requestAnswer).toHaveProperty('answer', 'negative');
 
     expect(events.events).toContainEqual(
-      new RequestAnswerChangedToNegativeEvent('requestId', {
+      new RequestNegativeAnswerGivenEvent('requestId', {
         respondentId: 'memberId',
+        previousAnswer: 'positive',
       }),
     );
   });
@@ -107,8 +107,9 @@ describe('setRequestAnswer', () => {
     expect(requestAnswer).toHaveProperty('answer', 'positive');
 
     expect(events.events).toContainEqual(
-      new RequestAnswerChangedToPositiveEvent('requestId', {
+      new RequestPositiveAnswerGivenEvent('requestId', {
         respondentId: 'memberId',
+        previousAnswer: 'negative',
       }),
     );
   });
@@ -122,8 +123,9 @@ describe('setRequestAnswer', () => {
     await expect(db.query.requestAnswers.findFirst()).resolves.toBeUndefined();
 
     expect(events.events).toContainEqual(
-      new RequestPositiveAnswerWithdrawnEvent('requestId', {
+      new RequestAnswerWithdrawnEvent('requestId', {
         respondentId: 'memberId',
+        previousAnswer: 'positive',
       }),
     );
   });
@@ -138,8 +140,9 @@ describe('setRequestAnswer', () => {
     await expect(db.query.requestAnswers.findFirst()).resolves.toBeUndefined();
 
     expect(events.events).toContainEqual(
-      new RequestNegativeAnswerWithdrawnEvent('requestId', {
+      new RequestAnswerWithdrawnEvent('requestId', {
         respondentId: 'memberId',
+        previousAnswer: 'negative',
       }),
     );
   });

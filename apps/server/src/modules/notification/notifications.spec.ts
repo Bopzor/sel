@@ -169,6 +169,7 @@ describe('notification snapshots', () => {
         name: 'Respondent',
       },
       answer: 'positive',
+      previousAnswer: null,
     });
   });
 
@@ -187,6 +188,26 @@ describe('notification snapshots', () => {
         name: 'Respondent',
       },
       answer: 'negative',
+      previousAnswer: null,
+    });
+  });
+
+  it('RequestAnswerSet', async () => {
+    await assertNotificationSnapshot('RequestAnswerSet', {
+      member: { firstName: 'Member' },
+      request: {
+        id: 'requestId',
+        title: 'Request title',
+        requester: {
+          id: 'requesterId',
+        },
+      },
+      respondent: {
+        id: 'respondentId',
+        name: 'Respondent',
+      },
+      answer: 'negative',
+      previousAnswer: 'positive',
     });
   });
 
@@ -205,6 +226,26 @@ describe('notification snapshots', () => {
         name: 'Respondent',
       },
       answer: null,
+      previousAnswer: 'positive',
+    });
+  });
+
+  it('RequestAnswerSet', async () => {
+    await assertNotificationSnapshot('RequestAnswerSet', {
+      member: { firstName: 'Member' },
+      request: {
+        id: 'requestId',
+        title: 'Request title',
+        requester: {
+          id: 'requesterId',
+        },
+      },
+      respondent: {
+        id: 'respondentId',
+        name: 'Respondent',
+      },
+      answer: null,
+      previousAnswer: 'negative',
     });
   });
 

@@ -141,6 +141,7 @@ export type NotificationData = {
       name: string;
     };
     answer: RequestAnswer['answer'] | null;
+    previousAnswer: RequestAnswer['answer'] | null;
   };
 
   EventCreated: {

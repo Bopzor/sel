@@ -7,12 +7,9 @@ import { db, schema } from 'src/persistence';
 import { TOKENS } from 'src/tokens';
 
 import {
-  RequestAnswerChangedToNegativeEvent,
-  RequestAnswerChangedToPositiveEvent,
   RequestNegativeAnswerGivenEvent,
-  RequestNegativeAnswerWithdrawnEvent,
   RequestPositiveAnswerGivenEvent,
-  RequestPositiveAnswerWithdrawnEvent,
+  RequestAnswerWithdrawnEvent,
 } from '../request.entities';
 import { findRequestById } from '../request.persistence';
 
@@ -63,61 +60,26 @@ export async function setRequestAnswer(command: SetRequestAnswerCommand): Promis
         target: schema.requestAnswers.id,
         set: { answer, updatedAt: now },
       });
+
+    const DomainEvent =
+      answer === 'positive' ? RequestPositiveAnswerGivenEvent : RequestNegativeAnswerGivenEvent;
+
+    events.publish(
+      new DomainEvent(request.id, {
+        respondentId: memberId,
+        previousAnswer: requestAnswer ? requestAnswer.answer : null,
+      }),
+    );
   }
 
-  const isNewAnswer = !requestAnswer && answer !== null;
-
-  if (answer === 'positive') {
-    if (isNewAnswer) {
-      events.publish(
-        new RequestPositiveAnswerGivenEvent(request.id, {
-          respondentId: memberId,
-        }),
-      );
-    } else {
-      events.publish(
-        new RequestAnswerChangedToPositiveEvent(request.id, {
-          respondentId: memberId,
-        }),
-      );
-    }
-  }
-
-  if (answer === 'negative') {
-    if (isNewAnswer) {
-      events.publish(
-        new RequestNegativeAnswerGivenEvent(request.id, {
-          respondentId: memberId,
-        }),
-      );
-    } else {
-      events.publish(
-        new RequestAnswerChangedToNegativeEvent(request.id, {
-          respondentId: memberId,
-        }),
-      );
-    }
-  }
-
-  const isAnswerWithdrawn = requestAnswer && answer === null;
-
-  if (isAnswerWithdrawn) {
+  if (requestAnswer && answer === null) {
     await db.delete(schema.requestAnswers).where(eq(schema.requestAnswers.id, requestAnswer.id));
 
-    if (requestAnswer.answer === 'positive') {
-      events.publish(
-        new RequestPositiveAnswerWithdrawnEvent(request.id, {
-          respondentId: memberId,
-        }),
-      );
-    }
-
-    if (requestAnswer.answer === 'negative') {
-      events.publish(
-        new RequestNegativeAnswerWithdrawnEvent(request.id, {
-          respondentId: memberId,
-        }),
-      );
-    }
+    events.publish(
+      new RequestAnswerWithdrawnEvent(request.id, {
+        respondentId: memberId,
+        previousAnswer: requestAnswer.answer,
+      }),
+    );
   }
 }
