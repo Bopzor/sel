@@ -1,5 +1,4 @@
 import { updateInformationBodySchema } from '@sel/shared';
-import { defined } from '@sel/utils';
 import { useNavigate, useParams } from '@solidjs/router';
 import { useMutation, useQuery } from '@tanstack/solid-query';
 import { Show } from 'solid-js';
@@ -26,18 +25,15 @@ export function EditInformationPage() {
 
   const editInformation = useMutation(() => ({
     async mutationFn(data: z.infer<typeof updateInformationBodySchema>) {
-      const information = defined(query.data);
-      return api.updateInformation({ path: { informationId: information.id }, body: data });
+      return api.updateInformation({ path: { informationId: params.informationId }, body: data });
     },
     async onSuccess() {
-      const information = defined(query.data);
-
       await Promise.all([
-        invalidate('getInformation', { path: { informationId: information.id } }),
+        invalidate('getInformation', { path: { informationId: params.informationId } }),
         invalidate('getFeed'),
       ]);
       notify.success(t('edited'));
-      navigate(routes.information.details(information.id));
+      navigate(routes.information.details(params.informationId));
     },
   }));
 

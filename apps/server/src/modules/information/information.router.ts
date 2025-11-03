@@ -96,12 +96,12 @@ router.post('/', async (req, res) => {
 
 router.put('/:informationId', isAuthor, async (req, res) => {
   const informationId = req.params.informationId;
-  const body = shared.updateInformationBodySchema.parse(req.body);
+  const { fileIds = [], ...body } = shared.updateInformationBodySchema.parse(req.body);
 
   await updateInformation({
     informationId,
+    fileIds,
     ...body,
-    fileIds: body.fileIds ?? [],
   });
 
   res.status(HttpStatus.noContent).end();

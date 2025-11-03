@@ -82,12 +82,14 @@ export function App() {
             preload={preloadInformation}
             info={info('information')}
           />
-          <Route
-            path=":informationId/edit"
-            component={EditInformationPage}
-            preload={preloadInformation}
-            info={info('information')}
-          />
+          <Route info={info('information')}>
+            <Route
+              path=":informationId/edit"
+              component={EditInformationPage}
+              preload={preloadInformation}
+              info={info('editInformation')}
+            />
+          </Route>
         </Route>
 
         <Route path="/members" info={info('members')}>

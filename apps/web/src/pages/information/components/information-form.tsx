@@ -1,5 +1,5 @@
 import { createForm, setValue } from '@modular-forms/solid';
-import { CreateInformationBody, createInformationBodySchema, Information } from '@sel/shared';
+import { CreateInformationBody, Information, createInformationBodySchema } from '@sel/shared';
 import { JSX } from 'solid-js';
 
 import { AttachmentsEditorField } from 'src/components/attachments-editor';
