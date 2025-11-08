@@ -17,7 +17,13 @@ import { createTranslate } from 'src/intl/translate';
 const T = createTranslate('pages.home.feed');
 
 export function Feed() {
-  const feedQuery = useQuery(() => apiQuery('getFeed', {}));
+  const feedQuery = useQuery(() =>
+    apiQuery('getFeed', {
+      query: {
+        sortOrder: 'desc',
+      },
+    }),
+  );
 
   const feedProps = ([type, entity]: FeedItemType): ComponentProps<typeof FeedItem> => {
     if (type === 'request') {
