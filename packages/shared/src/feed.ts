@@ -31,7 +31,12 @@ export type FeedInformation = {
   publishedAt: string;
 };
 
-export type FeedItem = ['event', FeedEvent] | ['request', FeedRequest] | ['information', FeedInformation];
+export type ResourceType = 'event' | 'request' | 'information';
+
+export type FeedItem =
+  | [Extract<ResourceType, 'event'>, FeedEvent]
+  | [Extract<ResourceType, 'request'>, FeedRequest]
+  | [Extract<ResourceType, 'information'>, FeedInformation];
 
 export type Feed = Array<FeedItem>;
 
@@ -41,5 +46,5 @@ export const feedQuerySchema = z.object({
     .union([z.literal('desc'), z.literal('asc')])
     .optional()
     .default('desc'),
-  resourceType: z.union([z.literal('event'), z.literal('request'), z.literal('information')]).optional(),
+  resourceType: z.literal<ResourceType[]>(['event', 'request', 'information']).optional(),
 });

@@ -3,7 +3,6 @@ import { Icon } from 'solid-heroicons';
 import { arrowRight } from 'solid-heroicons/solid';
 
 import { api } from 'src/application/api';
-import { notify } from 'src/application/notify';
 import { routes } from 'src/application/routes';
 import { Link } from 'src/components/link';
 import { List } from 'src/components/list';
@@ -39,7 +38,6 @@ function QuickAccess() {
     createRequest: routes.requests.create,
     createEvent: routes.events.create,
     editProfile: routes.profile.edition,
-    search: routes.home,
     documents: routes.documents,
     help: routes.misc,
   };
@@ -56,7 +54,6 @@ function QuickAccess() {
             <Link
               href={link}
               class="inline-flex flex-row items-center gap-2 font-medium text-primary hover:underline"
-              onClick={() => item === 'search' && notify.info('Fonctionnalité à venir !')}
             >
               <Icon path={arrowRight} class="size-4" />
               <T id={`quickAccess.items.${item}`} />

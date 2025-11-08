@@ -349,7 +349,15 @@
           "event": "Événement",
           "information": "Information"
         },
-        "itemTitle": "{type} : {title}"
+        "itemTitle": "{type} : {title}",
+        "filters": {
+          "search": "Rechercher...",
+          "request": "Demandes",
+          "event": "Événements",
+          "information": "Informations",
+          "desc": "Plus récents en premier",
+          "asc": "Plus anciens en premier"
+        }
       }
     },
     "members": {

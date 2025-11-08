@@ -1,29 +1,50 @@
+import { createForm, Field, FormStore, getValue, setValue } from '@modular-forms/solid';
 import { FeedItem as FeedItemType, LightMember, Message as MessageType } from '@sel/shared';
-import { useQuery } from '@tanstack/solid-query';
+import { keepPreviousData, useQuery } from '@tanstack/solid-query';
 import { Icon } from 'solid-heroicons';
-import { calendar, chatBubbleBottomCenterText, handRaised } from 'solid-heroicons/solid';
+import { magnifyingGlass } from 'solid-heroicons/solid';
 import { ComponentProps, For, JSX } from 'solid-js';
-import { Dynamic } from 'solid-js/web';
 
 import { apiQuery } from 'src/application/query';
 import { routes } from 'src/application/routes';
 import { card } from 'src/components/card';
+import { Chip } from 'src/components/chip';
+import { Input } from 'src/components/input';
 import { Link } from 'src/components/link';
 import { MemberAvatarName } from 'src/components/member-avatar-name';
 import { Message } from 'src/components/message';
+import { ResourceIcon } from 'src/components/resource-icon';
+import { Select } from 'src/components/select';
 import { FormattedRelativeDate } from 'src/intl/formatted';
 import { createTranslate } from 'src/intl/translate';
 
 const T = createTranslate('pages.home.feed');
 
+type FeedFiltersForm = {
+  resourceType: 'event' | 'request' | 'information' | null;
+  sortOrder: 'desc' | 'asc';
+  search: string;
+};
+
 export function Feed() {
-  const feedQuery = useQuery(() =>
-    apiQuery('getFeed', {
+  const [form] = createForm<FeedFiltersForm>({
+    initialValues: {
+      resourceType: null,
+      sortOrder: 'desc',
+      search: '',
+    },
+  });
+
+  const feedQuery = useQuery(() => ({
+    ...apiQuery('getFeed', {
       query: {
-        sortOrder: 'desc',
+        sortOrder: getValue(form, 'sortOrder') ?? 'desc',
+        resourceType: getValue(form, 'resourceType') ?? undefined,
+        search: getValue(form, 'search'),
       },
     }),
-  );
+    placeholderData: keepPreviousData,
+  }));
 
   const feedProps = ([type, entity]: FeedItemType): ComponentProps<typeof FeedItem> => {
     if (type === 'request') {
@@ -64,12 +85,71 @@ export function Feed() {
 
   return (
     <div class="col flex-1">
-      <h1 class="mb-4 row items-center justify-between gap-4">
-        <T id="title" />
-      </h1>
+      <FeedFilters form={form} />
 
       <For each={feedQuery.data}>{(data) => <FeedItem {...feedProps(data)} />}</For>
     </div>
+  );
+}
+
+function FeedFilters(props: { form: FormStore<FeedFiltersForm> }) {
+  const t = T.useTranslate();
+
+  return (
+    <form class="mb-8 col gap-4">
+      <div class="row gap-2">
+        <For each={['request', 'event', 'information'] as const}>
+          {(resourceType) => (
+            <Field name="resourceType" of={props.form} type="string">
+              {(field, fieldProps) => (
+                <Chip
+                  {...fieldProps}
+                  onClick={(event) => {
+                    if (event.currentTarget.checked) {
+                      setValue(props.form, 'resourceType', null);
+                    }
+                  }}
+                  type="radio"
+                  value={resourceType}
+                  checked={field.value === resourceType}
+                  classes={{ root: 'row items-center gap-2' }}
+                >
+                  <ResourceIcon type={resourceType} class="size-4 text-dim peer-checked:text-primary" />
+                  <T id={`filters.${resourceType}`} />
+                </Chip>
+              )}
+            </Field>
+          )}
+        </For>
+      </div>
+
+      <div class="col gap-4 lg:row">
+        <Field name="search" of={props.form}>
+          {(_, props) => (
+            <Input
+              classes={{ root: 'flex-1' }}
+              start={<Icon path={magnifyingGlass} class="size-5 text-dim" />}
+              placeholder={t('filters.search')}
+              {...props}
+            />
+          )}
+        </Field>
+
+        <Field name="sortOrder" of={props.form}>
+          {(field, fieldProps) => (
+            <Select
+              classes={{ root: 'max-md:hidden' }}
+              ref={fieldProps.ref}
+              items={['desc', 'asc'] as const}
+              selectedItem={() => field.value}
+              onItemSelected={(item) => item && setValue(props.form, 'sortOrder', item)}
+              renderItem={(item) => <T id={`filters.${item!}`} />}
+              itemToString={(item) => t(`filters.${item!}`)}
+            />
+          )}
+        </Field>
+      </div>
+    </form>
   );
 }
 
@@ -81,17 +161,11 @@ function FeedItem(props: {
   message: MessageType;
   link: string;
 }) {
-  const iconMap = {
-    request: handRaised,
-    event: calendar,
-    information: chatBubbleBottomCenterText,
-  };
-
   return (
     <div class="group row">
       <div class="mr-2 col items-center sm:mr-4">
         <div class="rounded-full border-2 border-primary/50 bg-neutral p-1.5 sm:p-2">
-          <Dynamic component={Icon} path={iconMap[props.type]} class="size-6 text-primary" />
+          <ResourceIcon type={props.type} class="size-6 text-primary" />
         </div>
         <div class="flex-1 border-l-2 border-primary/50" />
       </div>
