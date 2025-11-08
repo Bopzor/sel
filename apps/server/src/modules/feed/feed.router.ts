@@ -14,11 +14,16 @@ import { getFeed } from './domain/get-feed.query';
 export const router = express.Router();
 
 router.get('/', async (req, res) => {
+  const pageSize = 10;
+
   const query = shared.feedQuerySchema.parse(req.query);
-  const resources = await getFeed(query);
+  const { total, items } = await getFeed({ ...query, pageSize });
+
+  res.setHeader('x-pagination-total', total);
+  res.setHeader('x-pagination-page-size', pageSize);
 
   res.json(
-    resources.map(([type, resource]) => {
+    items.map(([type, resource]) => {
       if (type === 'event') {
         return ['event', serializeFeedEvent(resource)];
       }

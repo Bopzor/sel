@@ -47,4 +47,5 @@ export const feedQuerySchema = z.object({
     .optional()
     .default('desc'),
   resourceType: z.literal<ResourceType[]>(['event', 'request', 'information']).optional(),
+  page: z.coerce.number().optional().default(1),
 });

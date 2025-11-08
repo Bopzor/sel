@@ -1,3 +1,5 @@
+// cspell:words ilike;
+
 import * as shared from '@sel/shared';
 import { awaitProperties, defined, hasProperty } from '@sel/utils';
 import { and, asc, desc, eq, ilike, inArray, SQL, sql } from 'drizzle-orm';
@@ -6,11 +8,14 @@ import { withAvatar } from 'src/modules/member/member.entities';
 import { withAttachments } from 'src/modules/messages/message.entities';
 import { db } from 'src/persistence';
 import { events, feedView, information, requests, searchView } from 'src/persistence/schema';
+import { paginated } from 'src/persistence/utils';
 
 type FeedQuery = {
   resourceType?: shared.ResourceType;
   sortOrder: 'desc' | 'asc';
   search?: string;
+  page: number;
+  pageSize: number;
 };
 
 export async function getFeed(query: FeedQuery) {
@@ -36,7 +41,7 @@ export async function getFeed(query: FeedQuery) {
     qb.orderBy(desc(sql`"created_at"`));
   }
 
-  const unionResults = await qb.limit(10);
+  const [total, unionResults] = await paginated(qb.$dynamic(), query);
 
   const eventIds = unionResults.filter(({ type }) => type === 'event').map(({ id }) => id);
   const requestIds = unionResults.filter(({ type }) => type === 'request').map(({ id }) => id);
@@ -66,19 +71,22 @@ export async function getFeed(query: FeedQuery) {
         : [],
   });
 
-  return unionResults.map(({ type, id }) => {
-    if (type === 'event') {
-      return ['event', defined(resources.events.find(hasProperty('id', id)))] as const;
-    }
+  return {
+    total,
+    items: unionResults.map(({ type, id }) => {
+      if (type === 'event') {
+        return ['event', defined(resources.events.find(hasProperty('id', id)))] as const;
+      }
 
-    if (type === 'request') {
-      return ['request', defined(resources.requests.find(hasProperty('id', id)))] as const;
-    }
+      if (type === 'request') {
+        return ['request', defined(resources.requests.find(hasProperty('id', id)))] as const;
+      }
 
-    if (type === 'information') {
-      return ['information', defined(resources.informations.find(hasProperty('id', id)))] as const;
-    }
+      if (type === 'information') {
+        return ['information', defined(resources.informations.find(hasProperty('id', id)))] as const;
+      }
 
-    return type;
-  });
+      return type;
+    }),
+  };
 }

@@ -6,6 +6,12 @@ const delay = 0;
 
 type HttpMethod = 'get' | 'post' | 'put' | 'delete';
 
+type Paginated<T> = {
+  items: T[];
+  total: number;
+  pageSize: number;
+};
+
 type EndpointConfig = Partial<{
   path: Record<string, string>;
   query: z.ZodSchema;
@@ -106,8 +112,8 @@ export const api = {
 
   // feed
 
-  getFeed: endpoint('get', '/feed').types<{
-    result: shared.Feed;
+  getFeed: endpoint('get', '/feed', { paginated: true }).types<{
+    result: Paginated<shared.FeedItem>;
     query: typeof shared.feedQuerySchema;
   }>(),
 
@@ -243,7 +249,7 @@ export const api = {
   }>(),
 };
 
-function endpoint(method: HttpMethod, path: string) {
+function endpoint(method: HttpMethod, path: string, options: { paginated?: true } = {}) {
   type Endpoint<Config extends EndpointConfig, Result> = (param: EndpointParam<Config>) => Promise<Result>;
 
   const endpoint: Endpoint<EndpointConfig, unknown> = async (param) => {
@@ -308,9 +314,19 @@ function endpoint(method: HttpMethod, path: string) {
     return url.toString();
   }
 
-  function getBody(response: Response) {
+  async function getBody(response: Response) {
     if (response.headers.get('Content-Type')?.startsWith('application/json')) {
-      return response.json();
+      const result = await response.json();
+
+      if (options.paginated) {
+        return {
+          items: result,
+          total: response.headers.get('x-pagination-total'),
+          pageSize: response.headers.get('x-pagination-page-size'),
+        };
+      }
+
+      return result;
     }
 
     return response.text();

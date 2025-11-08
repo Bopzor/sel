@@ -3,7 +3,7 @@ import { FeedItem as FeedItemType, LightMember, Message as MessageType } from '@
 import { keepPreviousData, useQuery } from '@tanstack/solid-query';
 import { Icon } from 'solid-heroicons';
 import { magnifyingGlass } from 'solid-heroicons/solid';
-import { ComponentProps, For, JSX } from 'solid-js';
+import { ComponentProps, createSignal, For, JSX, Show } from 'solid-js';
 
 import { apiQuery } from 'src/application/query';
 import { routes } from 'src/application/routes';
@@ -13,6 +13,7 @@ import { Input } from 'src/components/input';
 import { Link } from 'src/components/link';
 import { MemberAvatarName } from 'src/components/member-avatar-name';
 import { Message } from 'src/components/message';
+import { Pagination } from 'src/components/pagination';
 import { ResourceIcon } from 'src/components/resource-icon';
 import { Select } from 'src/components/select';
 import { FormattedRelativeDate } from 'src/intl/formatted';
@@ -27,6 +28,7 @@ type FeedFiltersForm = {
 };
 
 export function Feed() {
+  const [page, setPage] = createSignal(1);
   const [form] = createForm<FeedFiltersForm>({
     initialValues: {
       resourceType: null,
@@ -41,6 +43,7 @@ export function Feed() {
         sortOrder: getValue(form, 'sortOrder') ?? 'desc',
         resourceType: getValue(form, 'resourceType') ?? undefined,
         search: getValue(form, 'search'),
+        page: page(),
       },
     }),
     placeholderData: keepPreviousData,
@@ -84,15 +87,30 @@ export function Feed() {
   };
 
   return (
-    <div class="col flex-1">
-      <FeedFilters form={form} />
+    <div class="col flex-1 gap-4">
+      <FeedFilters form={form} resetPagination={() => setPage(1)} />
 
-      <For each={feedQuery.data}>{(data) => <FeedItem {...feedProps(data)} />}</For>
+      <Show when={feedQuery.data}>
+        {(data) => (
+          <Show
+            when={data().items.length > 0}
+            fallback={
+              <div class={card.fallback()}>
+                <T id="empty" />
+              </div>
+            }
+          >
+            <For each={data().items}>{(item) => <FeedItem {...feedProps(item)} />}</For>
+
+            <Pagination page={page()} onChange={setPage} pages={Math.ceil(data().total / data().pageSize)} />
+          </Show>
+        )}
+      </Show>
     </div>
   );
 }
 
-function FeedFilters(props: { form: FormStore<FeedFiltersForm> }) {
+function FeedFilters(props: { form: FormStore<FeedFiltersForm>; resetPagination: () => void }) {
   const t = T.useTranslate();
 
   return (
@@ -107,12 +125,17 @@ function FeedFilters(props: { form: FormStore<FeedFiltersForm> }) {
                   onClick={(event) => {
                     if (event.currentTarget.checked) {
                       setValue(props.form, 'resourceType', null);
+                      props.resetPagination();
                     }
                   }}
                   type="radio"
                   value={resourceType}
                   checked={field.value === resourceType}
                   classes={{ root: 'row items-center gap-2' }}
+                  onChange={(event) => {
+                    fieldProps.onChange(event);
+                    props.resetPagination();
+                  }}
                 >
                   <ResourceIcon type={resourceType} class="size-4 text-dim peer-checked:text-primary" />
                   <T id={`filters.${resourceType}`} />
@@ -125,12 +148,17 @@ function FeedFilters(props: { form: FormStore<FeedFiltersForm> }) {
 
       <div class="col gap-4 lg:row">
         <Field name="search" of={props.form}>
-          {(_, props) => (
+          {(_, fieldProps) => (
             <Input
               classes={{ root: 'flex-1' }}
+              type="search"
               start={<Icon path={magnifyingGlass} class="size-5 text-dim" />}
               placeholder={t('filters.search')}
-              {...props}
+              {...fieldProps}
+              onInput={(event) => {
+                fieldProps.onInput(event);
+                props.resetPagination();
+              }}
             />
           )}
         </Field>
@@ -142,7 +170,12 @@ function FeedFilters(props: { form: FormStore<FeedFiltersForm> }) {
               ref={fieldProps.ref}
               items={['desc', 'asc'] as const}
               selectedItem={() => field.value}
-              onItemSelected={(item) => item && setValue(props.form, 'sortOrder', item)}
+              onItemSelected={(item) => {
+                if (item) {
+                  setValue(props.form, 'sortOrder', item);
+                  props.resetPagination();
+                }
+              }}
               renderItem={(item) => <T id={`filters.${item!}`} />}
               itemToString={(item) => t(`filters.${item!}`)}
             />

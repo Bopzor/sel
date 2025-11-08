@@ -29,10 +29,13 @@ describe('feed', () => {
       createdAt: createDate('2025-01-03'),
     });
 
-    expect(await getFeed()).toEqual([
-      ['information', expect.objectContaining({ id: informationId })],
-      ['event', expect.objectContaining({ id: eventId })],
-      ['request', expect.objectContaining({ id: requestId })],
-    ]);
+    expect(await getFeed({ pageSize: 10, page: 1, sortOrder: 'desc' })).toEqual({
+      total: 3,
+      items: [
+        ['information', expect.objectContaining({ id: informationId })],
+        ['event', expect.objectContaining({ id: eventId })],
+        ['request', expect.objectContaining({ id: requestId })],
+      ],
+    });
   });
 });
