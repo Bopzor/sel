@@ -357,7 +357,8 @@
           "information": "Informations",
           "desc": "Plus récents en premier",
           "asc": "Plus anciens en premier"
-        }
+        },
+        "empty": "Pas de résultats"
       }
     },
     "members": {
