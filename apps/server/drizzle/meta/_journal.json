@@ -253,6 +253,13 @@
       "when": 1757099409076,
       "tag": "0035_add-system-role",
       "breakpoints": true
+    },
+    {
+      "idx": 36,
+      "version": "7",
+      "when": 1762614743121,
+      "tag": "0036_create-feed-view",
+      "breakpoints": true
     }
   ]
 }
