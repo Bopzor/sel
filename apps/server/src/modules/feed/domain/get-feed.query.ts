@@ -1,38 +1,15 @@
 import { awaitProperties, defined, hasProperty } from '@sel/utils';
 import { desc, inArray, sql } from 'drizzle-orm';
-import { union } from 'drizzle-orm/pg-core';
 
 import { withAvatar } from 'src/modules/member/member.entities';
 import { withAttachments } from 'src/modules/messages/message.entities';
 import { db } from 'src/persistence';
-import { events, information, requests } from 'src/persistence/schema';
+import { events, feedView, information, requests } from 'src/persistence/schema';
 
 export async function getFeed() {
-  type ResourceType = 'event' | 'information' | 'request';
-
-  const unionResults = await union(
-    db
-      .select({
-        type: sql<ResourceType>`'event'`.as('type'),
-        id: events.id,
-        createdAt: events.createdAt,
-      })
-      .from(events),
-    db
-      .select({
-        type: sql<ResourceType>`'information'`.as('type'),
-        id: information.id,
-        createdAt: information.createdAt,
-      })
-      .from(information),
-    db
-      .select({
-        type: sql<ResourceType>`'request'`.as('type'),
-        id: requests.id,
-        createdAt: requests.createdAt,
-      })
-      .from(requests),
-  )
+  const unionResults = await db
+    .select()
+    .from(feedView)
     .orderBy(desc(sql`"created_at"`))
     .limit(10);
 
