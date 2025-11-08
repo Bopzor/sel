@@ -14,7 +14,8 @@ import { getFeed } from './domain/get-feed.query';
 export const router = express.Router();
 
 router.get('/', async (req, res) => {
-  const resources = await getFeed();
+  const query = shared.feedQuerySchema.parse(req.query);
+  const resources = await getFeed(query);
 
   res.json(
     resources.map(([type, resource]) => {

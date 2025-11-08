@@ -108,6 +108,7 @@ export const api = {
 
   getFeed: endpoint('get', '/feed').types<{
     result: shared.Feed;
+    query: typeof shared.feedQuerySchema;
   }>(),
 
   // information

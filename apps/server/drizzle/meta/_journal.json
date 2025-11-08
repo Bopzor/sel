@@ -260,6 +260,13 @@
       "when": 1762614743121,
       "tag": "0036_create-feed-view",
       "breakpoints": true
+    },
+    {
+      "idx": 37,
+      "version": "7",
+      "when": 1762617788411,
+      "tag": "0037_create-search-view",
+      "breakpoints": true
     }
   ]
 }
