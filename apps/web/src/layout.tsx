@@ -286,7 +286,6 @@ function QuickAccess(props: { closeDrawer: () => void }) {
     createRequest: routes.requests.create,
     createEvent: routes.events.create,
     editProfile: routes.profile.edition,
-    search: routes.home,
     documents: routes.documents,
     help: routes.misc,
   };
@@ -300,10 +299,6 @@ function QuickAccess(props: { closeDrawer: () => void }) {
             class="row items-center gap-2"
             onClick={() => {
               props.closeDrawer();
-
-              if (item === 'search') {
-                notify.info('Fonctionnalité à venir !');
-              }
             }}
           >
             <Icon path={arrowRight} class="size-4" />

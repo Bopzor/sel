@@ -81,7 +81,7 @@ export function Select<Item>(_props: SelectProps<Item>) {
         >
           <div
             aria-disabled={props.disabled}
-            class="row w-full cursor-pointer items-center justify-between px-4 py-3 outline-hidden"
+            class="row w-full cursor-pointer items-center justify-between gap-2 px-4 py-3 outline-hidden"
             {...select.getToggleButtonProps()}
           >
             <div>

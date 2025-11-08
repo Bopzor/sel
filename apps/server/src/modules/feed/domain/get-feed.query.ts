@@ -1,3 +1,4 @@
+import * as shared from '@sel/shared';
 import { awaitProperties, defined, hasProperty } from '@sel/utils';
 import { and, asc, desc, eq, ilike, inArray, SQL, sql } from 'drizzle-orm';
 
@@ -6,10 +7,8 @@ import { withAttachments } from 'src/modules/messages/message.entities';
 import { db } from 'src/persistence';
 import { events, feedView, information, requests, searchView } from 'src/persistence/schema';
 
-type ResourceType = 'request' | 'event' | 'information';
-
 type FeedQuery = {
-  resourceType?: ResourceType;
+  resourceType?: shared.ResourceType;
   sortOrder: 'desc' | 'asc';
   search?: string;
 };
