@@ -1,6 +1,6 @@
 {
   "name": "@sel/web",
-  "version": "1.1.9",
+  "version": "1.1.10",
   "packageManager": "pnpm@9.15.0",
   "private": true,
   "type": "module",
@@ -23,6 +23,7 @@
     "@sel/utils": "workspace:*",
     "@sentry/solid": "^9.35.0",
     "@solid-primitives/map": "^0.7.2",
+    "@solid-primitives/scheduled": "^1.5.2",
     "@solidjs/router": "^0.15.3",
     "@tanstack/solid-query": "^5.81.5",
     "@tiptap/core": "^2.24.2",

@@ -1,9 +1,10 @@
 import { createForm, Field, FormStore, getValue, setValue } from '@modular-forms/solid';
 import { FeedItem as FeedItemType, LightMember, Message as MessageType } from '@sel/shared';
+import { debounce } from '@solid-primitives/scheduled';
 import { keepPreviousData, useQuery } from '@tanstack/solid-query';
 import { Icon } from 'solid-heroicons';
 import { magnifyingGlass } from 'solid-heroicons/solid';
-import { ComponentProps, createSignal, For, JSX, Show } from 'solid-js';
+import { ComponentProps, createEffect, createSignal, For, JSX, Show } from 'solid-js';
 
 import { apiQuery } from 'src/application/query';
 import { routes } from 'src/application/routes';
@@ -28,6 +29,8 @@ type FeedFiltersForm = {
 };
 
 export function Feed() {
+  const [search, setSearch] = createSignal<string>();
+  const debounceSearch = debounce(setSearch, 500);
   const [page, setPage] = createSignal(1);
   const [form] = createForm<FeedFiltersForm>({
     initialValues: {
@@ -37,12 +40,16 @@ export function Feed() {
     },
   });
 
+  createEffect(() => {
+    debounceSearch(getValue(form, 'search'));
+  });
+
   const feedQuery = useQuery(() => ({
     ...apiQuery('getFeed', {
       query: {
         sortOrder: getValue(form, 'sortOrder') ?? 'desc',
         resourceType: getValue(form, 'resourceType') ?? undefined,
-        search: getValue(form, 'search'),
+        search: search(),
         page: page(),
       },
     }),
