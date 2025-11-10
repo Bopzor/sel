@@ -24,9 +24,24 @@ export async function sendAuthenticationCode(event: AuthenticationCodeRequestedE
       subject: 'Code de connexion',
       html: [
         `Bonjour ${member.firstName},`,
-        `Voici votre code pour vous connecter à l'app du SEL : <a href="${url.toString()}" style="font-weight: bold; color: unset; text-decoration: none; letter-spacing: 6px;">${code}</a>.`,
+        "Voici votre code pour vous connecter à l'app du SEL :",
+        `<mj-spacer height="50px" />`,
+        `<a href="${url.toString()}" class="code">${code}</a>`,
+        `<mj-spacer height="50px" />`,
         `Si vous n'êtes pas à l'origine de cette demande, vous pouvez ignorer cet email.`,
       ],
+      style: `
+        .code {
+          color: #111111;
+          font-weight: bold;
+          font-size: 24px;
+          text-decoration: none;
+          letter-spacing: 4px;
+          padding: 8px 16px;
+          border: 1px solid #CCC;
+          border-radius: 4px;
+          background: #fafafc;
+        }`,
       text: [
         `Bonjour ${member.firstName},`,
         `Voici votre code pour vous connecter à l'app du SEL : ${code}`,
