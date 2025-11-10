@@ -2,7 +2,7 @@
 
 import * as shared from '@sel/shared';
 import { awaitProperties, defined, hasProperty } from '@sel/utils';
-import { and, asc, desc, eq, ilike, inArray, SQL, sql } from 'drizzle-orm';
+import { and, asc, desc, eq, ilike, inArray, max, SQL, sql } from 'drizzle-orm';
 
 import { withAvatar } from 'src/modules/member/member.entities';
 import { withAttachments } from 'src/modules/messages/message.entities';
@@ -19,28 +19,7 @@ type FeedQuery = {
 };
 
 export async function getFeed(query: FeedQuery) {
-  const qb = query.search ? db.select().from(searchView) : db.select().from(feedView);
-
-  if (query.search) {
-    let where: SQL | undefined = ilike(searchView.text, `%${query.search}%`);
-
-    if (query.resourceType) {
-      where = and(where, eq(searchView.type, query.resourceType));
-    }
-
-    qb.where(where);
-  } else {
-    if (query.resourceType) {
-      qb.where(eq(feedView.type, query.resourceType));
-    }
-  }
-
-  if (query.sortOrder === 'asc') {
-    qb.orderBy(asc(sql`"created_at"`));
-  } else {
-    qb.orderBy(desc(sql`"created_at"`));
-  }
-
+  const qb = query.search ? getSearchQB(query) : getFeedQB(query);
   const [total, unionResults] = await paginated(qb.$dynamic(), query);
 
   const eventIds = unionResults.filter(({ type }) => type === 'event').map(({ id }) => id);
@@ -89,4 +68,47 @@ export async function getFeed(query: FeedQuery) {
       return type;
     }),
   };
+}
+
+function getFeedQB(query: FeedQuery) {
+  const qb = db.select().from(feedView);
+
+  if (query.resourceType) {
+    qb.where(eq(feedView.type, query.resourceType));
+  }
+
+  if (query.sortOrder === 'asc') {
+    qb.orderBy(asc(feedView.createdAt));
+  } else {
+    qb.orderBy(desc(feedView.createdAt));
+  }
+
+  return qb;
+}
+
+function getSearchQB(query: FeedQuery) {
+  const qb = db
+    .select({
+      id: searchView.id,
+      type: searchView.type,
+      createdAt: max(searchView.createdAt),
+    })
+    .from(searchView)
+    .groupBy(searchView.id, searchView.type);
+
+  let where: SQL | undefined = ilike(searchView.text, `%${query.search}%`);
+
+  if (query.resourceType) {
+    where = and(where, eq(searchView.type, query.resourceType));
+  }
+
+  qb.where(where);
+
+  if (query.sortOrder === 'asc') {
+    qb.orderBy(asc(max(searchView.createdAt)));
+  } else {
+    qb.orderBy(desc(max(searchView.createdAt)));
+  }
+
+  return qb;
 }
