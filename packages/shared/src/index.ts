@@ -1,6 +1,7 @@
 export * from './address';
 export * from './admin-member';
 export * from './authenticated-member';
+export * from './authentication-code';
 export * from './comment';
 export * from './config';
 export * from './documents';
@@ -15,6 +16,5 @@ export * from './message';
 export * from './notification';
 export * from './phone-number';
 export * from './request';
-export * from './token';
 export * from './transaction';
 export * from './update-notification-delivery-data';
