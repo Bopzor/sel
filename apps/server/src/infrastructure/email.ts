@@ -18,7 +18,7 @@ export type Email = {
 };
 
 export interface EmailRenderer {
-  render(props: { subject: string; html: string[]; text: string[] }): Omit<Email, 'to'>;
+  render(props: { subject: string; html: string[]; style?: string; text: string[] }): Omit<Email, 'to'>;
   renderHtml(preview: string, html: string): string;
   renderText(text: string): string;
   userContent(children: string): string;
@@ -32,9 +32,9 @@ export class MjmlEmailRenderer implements EmailRenderer {
     private readonly logger: Logger,
   ) {}
 
-  render(props: { subject: string; html: string[]; text: string[] }): Omit<Email, 'to'> {
+  render(props: { subject: string; html: string[]; style?: string; text: string[] }): Omit<Email, 'to'> {
     const { subject, html, text } = props;
-    const result = mjml2html(this.renderEmail(subject, html));
+    const result = mjml2html(this.renderEmail(subject, html, props.style));
 
     if (result.errors.length > 0) {
       this.logger.warn(result.errors.map((error) => error.formattedMessage).join('\n'));
@@ -68,16 +68,16 @@ export class MjmlEmailRenderer implements EmailRenderer {
     return `<div style="padding: 8px 16px; border: 1px solid #CCC; border-radius: 4px; background: #fafafc">${children}</div>`;
   }
 
-  private renderEmail(preview: string, sections: string[]) {
+  private renderEmail(preview: string, sections: string[], style?: string) {
     return `
       <mjml>
-        ${this.renderHead(preview)}
+        ${this.renderHead(preview, style)}
         ${this.renderBody(sections)}
       </mjml>
     `;
   }
 
-  private renderHead(preview: string) {
+  private renderHead(preview: string, style = '') {
     const styles = `
       blockquote {
         margin: 0;
@@ -91,6 +91,8 @@ export class MjmlEmailRenderer implements EmailRenderer {
         font-weight: 600;
         color: #333;
       }
+
+      ${style}
     `;
 
     return `
