@@ -26,13 +26,13 @@ describe('end-to-end', () => {
     container.bindValue(TOKENS.emailSender, emailSender);
   });
 
-  async function findAuthenticationToken() {
+  async function findAuthenticationCode() {
     await container.resolve(TOKENS.events).waitForListeners();
 
     const email = defined(emailSender.emails[0]);
-    const link = defined(email.text.match(/(http:\/\/.*)\n/)?.[1]);
+    const code = defined(email.text.match(/: ([0-9]{6})\n/)?.[1]);
 
-    return new URL(link).searchParams.get('auth-token') as string;
+    return code;
   }
 
   it('authenticates and retrieves protected resources', async () => {
@@ -47,13 +47,13 @@ describe('end-to-end', () => {
     await request.get('/members').expect(HttpStatus.unauthorized);
 
     await request
-      .post('/authentication/request-authentication-link')
+      .post('/authentication/request-authentication-code')
       .query({ email: 'email@domain.tld' })
       .expect(HttpStatus.noContent);
 
     await request
-      .get('/authentication/verify-authentication-token')
-      .query({ token: await findAuthenticationToken() })
+      .get('/authentication/verify-authentication-code')
+      .query({ code: await findAuthenticationCode() })
       .expect(HttpStatus.noContent);
 
     await request.get('/members').expect(HttpStatus.ok);

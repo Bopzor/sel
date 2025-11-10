@@ -9,6 +9,6 @@ export enum TokenType {
 export type Token = typeof schema.tokens.$inferSelect;
 export type TokenInsert = typeof schema.tokens.$inferInsert;
 
-export class AuthenticationLinkRequestedEvent extends DomainEvent<{ link: string }> {}
+export class AuthenticationCodeRequestedEvent extends DomainEvent<{ code: string }> {}
 
 export class MemberAuthenticatedEvent extends DomainEvent {}

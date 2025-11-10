@@ -26,6 +26,7 @@ export function formatDateRelative(date: string, addSuffix = true) {
 }
 
 export type Duration = {
+  minutes?: number;
   hours?: number;
   days?: number;
   months?: number;
