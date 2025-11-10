@@ -1,7 +1,7 @@
 import { container } from './infrastructure/container';
 import { DomainEvent } from './infrastructure/events';
-import { AuthenticationLinkRequestedEvent } from './modules/authentication/authentication.entities';
-import { sendAuthenticationEmail } from './modules/authentication/domain/send-authentication-link.event-handler';
+import { AuthenticationCodeRequestedEvent } from './modules/authentication/authentication.entities';
+import { sendAuthenticationCode } from './modules/authentication/domain/send-authentication-code.event-handler';
 import { CommentCreatedEvent } from './modules/comment/comment.entities';
 import { notifyEventCommentCreated } from './modules/event/domain/notify-event-comment-created.handler';
 import { notifyEventCreated } from './modules/event/domain/notify-event-created.event-handler';
@@ -54,7 +54,7 @@ function bindEventListeners() {
 
   events.addListener(OnboardingCompletedEvent, reportOnboardingCompleted);
 
-  events.addListener(AuthenticationLinkRequestedEvent, sendAuthenticationEmail);
+  events.addListener(AuthenticationCodeRequestedEvent, sendAuthenticationCode);
 
   events.addListener(RequestCreatedEvent, notifyRequestCreated);
   events.addListener(CommentCreatedEvent, notifyRequestCommentCreated);

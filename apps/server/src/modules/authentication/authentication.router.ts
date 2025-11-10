@@ -1,4 +1,4 @@
-import { requestAuthenticationLinkQuerySchema, verifyAuthenticationTokenQuerySchema } from '@sel/shared';
+import { requestAuthenticationCodeQuerySchema, verifyAuthenticationCodeQuerySchema } from '@sel/shared';
 import { defined } from '@sel/utils';
 import express from 'express';
 
@@ -7,30 +7,30 @@ import { setCookie } from 'src/infrastructure/cookie';
 import { HttpStatus } from 'src/infrastructure/http';
 import { TOKENS } from 'src/tokens';
 
-import { requestAuthenticationLink } from './domain/request-authentication-link.command';
-import { verifyAuthenticationToken } from './domain/verify-authentication-token.command';
+import { requestAuthenticationCode } from './domain/request-authentication-code.command';
+import { verifyAuthenticationCode } from './domain/verify-authentication-code.command';
 import { findTokenById } from './token.persistence';
 
 export const router = express.Router();
 
-router.post('/request-authentication-link', async (req, res) => {
-  const { email } = requestAuthenticationLinkQuerySchema.parse(req.query);
+router.post('/request-authentication-code', async (req, res) => {
+  const { email } = requestAuthenticationCodeQuerySchema.parse(req.query);
 
-  await requestAuthenticationLink({
+  await requestAuthenticationCode({
     email,
   });
 
   res.status(HttpStatus.noContent).end();
 });
 
-router.get('/verify-authentication-token', async (req, res) => {
+router.get('/verify-authentication-code', async (req, res) => {
   const generator = container.resolve(TOKENS.generator);
 
-  const { token } = verifyAuthenticationTokenQuerySchema.parse(req.query);
+  const { code } = verifyAuthenticationCodeQuerySchema.parse(req.query);
   const sessionTokenId = generator.id();
 
-  await verifyAuthenticationToken({
-    tokenValue: token,
+  await verifyAuthenticationCode({
+    code,
     sessionTokenId,
   });
 

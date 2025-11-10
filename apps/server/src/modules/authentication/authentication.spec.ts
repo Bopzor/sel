@@ -12,8 +12,8 @@ import { clearDatabase, db } from 'src/persistence/database';
 import { TOKENS } from 'src/tokens';
 
 import { Token, TokenType } from './authentication.entities';
-import { requestAuthenticationLink } from './domain/request-authentication-link.command';
-import { verifyAuthenticationToken } from './domain/verify-authentication-token.command';
+import { requestAuthenticationCode } from './domain/request-authentication-code.command';
+import { verifyAuthenticationCode } from './domain/verify-authentication-code.command';
 import { findTokenById, findTokenByValue } from './token.persistence';
 
 describe('member', () => {
@@ -28,28 +28,28 @@ describe('member', () => {
     container.bindValue(TOKENS.emailSender, emailSender);
   });
 
-  async function getAuthenticationToken() {
+  async function getAuthenticationCode() {
     await container.resolve(TOKENS.events).waitForListeners();
 
     const email = defined(emailSender.emails[0]);
-    const link = defined(email.text.match(/(http:\/\/.*)\n/)?.[1]);
+    const match = defined(email.text.match(/: (\d{6})\n/)?.[1]);
 
-    return new URL(link).searchParams.get('auth-token') as string;
+    return match;
   }
 
   it('authenticates', async () => {
     await persist.member({ id: 'memberId', email: 'email' });
 
-    await requestAuthenticationLink({
+    await requestAuthenticationCode({
       email: 'email',
     });
 
-    const authenticationTokenValue = await getAuthenticationToken();
-    const authenticationToken = await findTokenByValue(authenticationTokenValue);
+    const code = await getAuthenticationCode();
+    const token = await findTokenByValue(code);
 
-    expect(authenticationToken).toEqual<Token>({
+    expect(token).toEqual<Token>({
       id: expect.any(String),
-      value: authenticationTokenValue,
+      value: code,
       type: TokenType.authentication,
       memberId: 'memberId',
       expirationDate: expect.any(Date),
@@ -58,8 +58,8 @@ describe('member', () => {
       updatedAt: expect.any(Date),
     });
 
-    await verifyAuthenticationToken({
-      tokenValue: authenticationTokenValue,
+    await verifyAuthenticationCode({
+      code,
       sessionTokenId: 'sessionTokenId',
     });
 
@@ -80,16 +80,16 @@ describe('member', () => {
   it('revokes the authentication tokens after verifying it', async () => {
     await persist.member({ id: 'memberId', email: 'email' });
 
-    await requestAuthenticationLink({ email: 'email' });
+    await requestAuthenticationCode({ email: 'email' });
 
-    const authenticationTokenValue = await getAuthenticationToken();
+    const code = await getAuthenticationCode();
 
-    await verifyAuthenticationToken({
-      tokenValue: authenticationTokenValue,
+    await verifyAuthenticationCode({
+      code,
       sessionTokenId: 'sessionTokenId',
     });
 
-    const authenticationToken = await findTokenByValue(await getAuthenticationToken());
+    const authenticationToken = await findTokenByValue(await getAuthenticationCode());
 
     expect(authenticationToken).toHaveProperty('revoked', true);
   });
@@ -97,8 +97,8 @@ describe('member', () => {
   it('revokes previous authentication tokens when requesting a new authentication token', async () => {
     await persist.member({ id: 'memberId', email: 'email' });
 
-    await requestAuthenticationLink({ email: 'email' });
-    await requestAuthenticationLink({ email: 'email' });
+    await requestAuthenticationCode({ email: 'email' });
+    await requestAuthenticationCode({ email: 'email' });
 
     const tokens = await db.query.tokens.findMany({
       where: and(eq(schema.tokens.type, TokenType.authentication), eq(schema.tokens.revoked, false)),
@@ -112,20 +112,20 @@ describe('member', () => {
 
     await persist.token({
       memberId: 'memberId',
-      value: 'token',
+      value: 'code',
       revoked: true,
       expirationDate: addDuration(new Date(), { hours: 1 }),
     });
 
-    await expect(verifyAuthenticationToken({ tokenValue: 'token', sessionTokenId: '' })).rejects.toThrow(
-      'Token was revoked',
+    await expect(verifyAuthenticationCode({ code: 'code', sessionTokenId: '' })).rejects.toThrow(
+      'Code was revoked',
     );
   });
 
   it('does not create a token when the member is inactive', async () => {
     await persist.member({ id: 'memberId', email: 'email', status: MemberStatus.inactive });
 
-    await requestAuthenticationLink({ email: 'email' });
+    await requestAuthenticationCode({ email: 'email' });
 
     await expect(db.query.tokens.findMany()).resolves.toHaveLength(0);
   });

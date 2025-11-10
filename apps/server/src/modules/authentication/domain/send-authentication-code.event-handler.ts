@@ -4,27 +4,32 @@ import { container } from 'src/infrastructure/container';
 import { TOKENS } from 'src/tokens';
 
 import { findMemberById } from '../../member';
-import { AuthenticationLinkRequestedEvent } from '../authentication.entities';
+import { AuthenticationCodeRequestedEvent } from '../authentication.entities';
 
-export async function sendAuthenticationEmail(event: AuthenticationLinkRequestedEvent) {
+export async function sendAuthenticationCode(event: AuthenticationCodeRequestedEvent) {
+  const config = container.resolve(TOKENS.config);
   const emailRenderer = container.resolve(TOKENS.emailRenderer);
   const emailSender = container.resolve(TOKENS.emailSender);
 
   const member = defined(await findMemberById(event.entityId));
-  const { link } = event.payload;
+  const { code } = event.payload;
+
+  const url = new URL('/authentication', config.app.baseUrl);
+
+  url.searchParams.set('code', code);
 
   await emailSender.send({
     to: member.email,
     ...emailRenderer.render({
-      subject: 'Lien de connexion',
+      subject: 'Code de connexion',
       html: [
         `Bonjour ${member.firstName},`,
-        `Pour vous connecter à l'app du SEL, cliquez sur le lien suivant : <a href="${link}">${link}</a>`,
+        `Voici votre code pour vous connecter à l'app du SEL : <a href="${url.toString()}" style="font-weight: bold; color: unset; text-decoration: none; letter-spacing: 6px;">${code}</a>.`,
         `Si vous n'êtes pas à l'origine de cette demande, vous pouvez ignorer cet email.`,
       ],
       text: [
         `Bonjour ${member.firstName},`,
-        `Pour vous connecter à l'app du SEL, ouvrez le lien suivant depuis un navigateur : ${link}`,
+        `Voici votre code pour vous connecter à l'app du SEL : ${code}`,
         `Si vous n'êtes pas à l'origine de cette demande, vous pouvez ignorer cet email.`,
       ],
     }),

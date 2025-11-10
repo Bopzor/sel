@@ -4,6 +4,7 @@ import { customAlphabet } from 'nanoid';
 export interface Generator {
   id(): string;
   token(): string;
+  numeric(length: number): string;
 }
 
 export class NanoIdGenerator implements Generator {
@@ -18,4 +19,5 @@ export class NanoIdGenerator implements Generator {
 
   id = customAlphabet(NanoIdGenerator.alphabet, 16);
   token = customAlphabet(NanoIdGenerator.alphabet, 24);
+  numeric = customAlphabet('0123456789');
 }
