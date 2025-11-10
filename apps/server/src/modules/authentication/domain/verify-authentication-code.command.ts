@@ -41,7 +41,7 @@ export async function verifyAuthenticationCode(command: VerifyAuthenticationCode
   await db.insert(schema.tokens).values({
     id: command.sessionTokenId,
     value: generator.token(),
-    expirationDate: addDuration(now, { months: 1 }),
+    expirationDate: addDuration(now, { years: 1 }),
     memberId: authenticationCode.memberId,
     type: TokenType.session,
     revoked: false,

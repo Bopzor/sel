@@ -30,6 +30,7 @@ export type Duration = {
   hours?: number;
   days?: number;
   months?: number;
+  years?: number;
 };
 
 export function addDuration(date: Date, duration: Duration): Date {
