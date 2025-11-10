@@ -264,12 +264,15 @@
         "placeholder": "mon@email.com"
       },
       "submit": "Connexion",
-      "linkRequested": {
-        "line1": "Si votre adresse email est autorisée, un email contenant un lien de connexion vous a été envoyé à l'adresse <strong>{email}</strong>.",
+      "codeRequested": {
+        "line1": "Si votre adresse email est autorisée, un email contenant un code de connexion vous a été envoyé à l'adresse <strong>{email}</strong>.",
         "line2": "Si vous n'avez rien reçu dans les prochaines minutes, vérifiez dans vos spams ou <link>contactez-nous</link>."
       },
-      "invalidLink": "Le lien de connexion que vous avez utilisé n'est pas valide, veuillez en demander un nouveau.",
-      "linkExpired": "Le lien de connexion que vous avez utilisé a expiré, veuillez en demander un nouveau."
+      "invalidCode": "Le code de connexion que vous avez utilisé n'est pas valide, veuillez en demander un nouveau.",
+      "codeExpired": "Le code de connexion que vous avez utilisé a expiré, veuillez en demander un nouveau.",
+      "codeLabel": "Code",
+      "codePlaceholder": "123456",
+      "goBack": "Retour"
     },
     "onboarding": {
       "signOut": "Déconnexion",

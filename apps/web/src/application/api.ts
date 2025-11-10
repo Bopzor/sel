@@ -34,12 +34,12 @@ export const api = {
 
   // authentication
 
-  requestAuthenticationLink: endpoint('post', '/authentication/request-authentication-link').types<{
-    query: typeof shared.requestAuthenticationLinkQuerySchema;
+  requestAuthenticationCode: endpoint('post', '/authentication/request-authentication-code').types<{
+    query: typeof shared.requestAuthenticationCodeQuerySchema;
   }>(),
 
-  verifyAuthenticationToken: endpoint('get', '/authentication/verify-authentication-token').types<{
-    query: typeof shared.verifyAuthenticationTokenQuerySchema;
+  verifyAuthenticationCode: endpoint('get', '/authentication/verify-authentication-code').types<{
+    query: typeof shared.verifyAuthenticationCodeQuerySchema;
   }>(),
 
   getAuthenticatedMember: endpoint('get', '/session/member').types<{
