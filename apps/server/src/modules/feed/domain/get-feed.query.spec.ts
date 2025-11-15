@@ -1,5 +1,5 @@
 import { createDate } from '@sel/utils';
-import { beforeAll, beforeEach, describe, expect, it } from 'vitest';
+import { afterEach, beforeAll, describe, expect, it } from 'vitest';
 
 import { persist } from 'src/factories';
 import { resetDatabase } from 'src/persistence';
@@ -9,7 +9,7 @@ import { getFeed } from './get-feed.query';
 
 describe('feed', () => {
   beforeAll(resetDatabase);
-  beforeEach(clearDatabase);
+  afterEach(clearDatabase);
 
   it('retrieves the latest resources', async () => {
     const memberId = await persist.member();

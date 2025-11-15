@@ -1,7 +1,7 @@
 import { MemberStatus } from '@sel/shared';
 import { addDuration, defined } from '@sel/utils';
 import { and, eq } from 'drizzle-orm';
-import { beforeAll, beforeEach, describe, expect, it } from 'vitest';
+import { afterEach, beforeAll, beforeEach, describe, expect, it } from 'vitest';
 
 import { persist } from 'src/factories';
 import { container } from 'src/infrastructure/container';
@@ -18,8 +18,8 @@ import { findTokenById, findTokenByValue } from './token.persistence';
 
 describe('member', () => {
   beforeAll(resetDatabase);
-  beforeEach(clearDatabase);
   beforeEach(initialize);
+  afterEach(clearDatabase);
 
   let emailSender: StubEmailSender;
 

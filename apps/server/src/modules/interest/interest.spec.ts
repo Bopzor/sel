@@ -1,4 +1,4 @@
-import { beforeAll, beforeEach, describe, expect, it } from 'vitest';
+import { afterEach, beforeAll, beforeEach, describe, expect, it } from 'vitest';
 
 import { persist } from 'src/factories';
 import { container } from 'src/infrastructure/container';
@@ -23,7 +23,7 @@ import { findInterestById } from './interest.persistence';
 
 describe('interest', () => {
   beforeAll(resetDatabase);
-  beforeEach(clearDatabase);
+  afterEach(clearDatabase);
 
   let events: StubEvents;
 

@@ -8,8 +8,6 @@ import pg, { Pool } from 'pg';
 import { container } from 'src/infrastructure/container';
 import { TOKENS } from 'src/tokens';
 
-import drizzleConfig from '../../drizzle.config';
-
 import * as schema from './schema';
 
 const config = container.resolve(TOKENS.config);
@@ -40,7 +38,7 @@ export async function resetDatabase() {
   await client.end();
 
   const base = path.resolve(__dirname, '..', '..');
-  const out = drizzleConfig.out as string;
+  const out = './drizzle';
 
   await migrate(db, {
     migrationsFolder: path.join(base, out),
@@ -65,4 +63,5 @@ export async function clearDatabase() {
   await db.delete(schema.tokens);
   await db.delete(schema.members);
   await db.delete(schema.domainEvents);
+  await db.delete(schema.config);
 }

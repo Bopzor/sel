@@ -31,8 +31,18 @@ const config: Config = {
 
 container.bindValue(TOKENS.config, config);
 
-beforeEach(() => {
+beforeEach(async () => {
   container.bindValue(TOKENS.config, config);
   container.bindValue(TOKENS.logger, new NoopLogger());
   container.bindValue(TOKENS.errorReporter, new TestErrorReporter());
+
+  const generator = container.resolve(TOKENS.generator);
+
+  const { createLetsConfig } = await import('./modules/lets-config/lets-config.persistence');
+
+  await createLetsConfig({
+    id: generator.id(),
+    currency: '',
+    currencyPlural: '',
+  });
 });

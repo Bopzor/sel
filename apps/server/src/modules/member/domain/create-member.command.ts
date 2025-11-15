@@ -2,6 +2,7 @@ import * as shared from '@sel/shared';
 import { sql } from 'drizzle-orm';
 
 import { container } from 'src/infrastructure/container';
+import { getLetsConfig } from 'src/modules/lets-config/lets-config.persistence';
 import { db, schema } from 'src/persistence';
 import { memberNumberSequence } from 'src/persistence/schema';
 import { TOKENS } from 'src/tokens';
@@ -19,6 +20,7 @@ type CreateMemberCommand = {
 
 export async function createMember(command: CreateMemberCommand): Promise<void> {
   const events = container.resolve(TOKENS.events);
+  const config = await getLetsConfig();
 
   await db.insert(schema.members).values({
     id: command.memberId,
@@ -29,6 +31,7 @@ export async function createMember(command: CreateMemberCommand): Promise<void> 
     email: command.email,
     emailVisible: false,
     roles: [shared.MemberRole.member],
+    balance: config.initialMemberBalance,
   });
 
   events.publish(new MemberCreatedEvent(command.memberId));
