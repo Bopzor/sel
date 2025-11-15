@@ -2,7 +2,7 @@ import * as shared from '@sel/shared';
 import { createFactory } from '@sel/utils';
 import express from 'express';
 import supertest from 'supertest';
-import { beforeAll, beforeEach, describe, expect, it } from 'vitest';
+import { afterEach, beforeAll, beforeEach, describe, expect, it } from 'vitest';
 
 import { persist } from 'src/factories';
 import { container } from 'src/infrastructure/container';
@@ -12,6 +12,7 @@ import { clearDatabase } from 'src/persistence/database';
 import { TOKENS } from 'src/tokens';
 
 import { TokenType } from '../authentication/authentication.entities';
+import { updateLetsConfig } from '../lets-config/lets-config.persistence';
 
 import { createMember } from './domain/create-member.command';
 import { updateMemberProfile } from './domain/update-member-profile.command';
@@ -21,7 +22,7 @@ import { router } from './member.router';
 
 describe('member', () => {
   beforeAll(resetDatabase);
-  beforeEach(clearDatabase);
+  afterEach(clearDatabase);
 
   let events: StubEvents;
 
@@ -66,6 +67,8 @@ describe('member', () => {
   });
 
   it('creates a member with the given values', async () => {
+    await updateLetsConfig({ initialMemberBalance: 120 });
+
     await createMember({
       memberId: 'memberId',
       email: 'me@domain.tld',
@@ -76,6 +79,7 @@ describe('member', () => {
     expect(await findMemberById('memberId')).toMatchObject<Partial<Member>>({
       firstName: 'First',
       lastName: 'Last',
+      balance: 120,
     });
   });
 

@@ -1,6 +1,6 @@
 import { createId, defined } from '@sel/utils';
 import supertest from 'supertest';
-import { beforeAll, beforeEach, describe, it } from 'vitest';
+import { afterEach, beforeAll, beforeEach, describe, it } from 'vitest';
 
 import { persist } from './factories';
 import { container } from './infrastructure/container';
@@ -16,8 +16,8 @@ import { TOKENS } from './tokens';
 
 describe('end-to-end', () => {
   beforeAll(resetDatabase);
-  beforeEach(clearDatabase);
   beforeEach(initialize);
+  afterEach(clearDatabase);
 
   let emailSender: StubEmailSender;
 

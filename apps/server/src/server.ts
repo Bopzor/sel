@@ -1,5 +1,5 @@
 import { Config, MemberRole } from '@sel/shared';
-import { defined, pick } from '@sel/utils';
+import { pick } from '@sel/utils';
 import cookieParser from 'cookie-parser';
 import { eq } from 'drizzle-orm';
 import express, { ErrorRequestHandler, RequestHandler } from 'express';
@@ -21,6 +21,7 @@ import { router as feed } from './modules/feed/feed.router';
 import { router as files } from './modules/file/file.router';
 import { router as information } from './modules/information/information.router';
 import { router as interests } from './modules/interest/interest.router';
+import { getLetsConfig } from './modules/lets-config/lets-config.persistence';
 import { router as adminMembersRouter } from './modules/member/member.admin-router';
 import { router as members } from './modules/member/member.router';
 import { router as sessionNotifications } from './modules/notification/notification.router';
@@ -102,7 +103,7 @@ const health: RequestHandler = (req, res) => {
 };
 
 const configHandler: RequestHandler = async (req, res) => {
-  const config = defined(await db.query.config.findFirst());
+  const config = await getLetsConfig();
 
   const result: Config = {
     ...pick(config, ['letsName', 'logoUrl', 'currency', 'currencyPlural']),

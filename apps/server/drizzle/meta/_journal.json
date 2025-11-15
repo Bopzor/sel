@@ -267,6 +267,13 @@
       "when": 1762617788411,
       "tag": "0037_create-search-view",
       "breakpoints": true
+    },
+    {
+      "idx": 38,
+      "version": "7",
+      "when": 1763223753429,
+      "tag": "0038_add-config-initial-member-balance",
+      "breakpoints": true
     }
   ]
 }

@@ -1,0 +1,1 @@
+ALTER TABLE "config" ADD COLUMN "initial_member_balance" integer DEFAULT 0 NOT NULL;
