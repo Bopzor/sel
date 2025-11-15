@@ -122,7 +122,7 @@ function FeedFilters(props: { form: FormStore<FeedFiltersForm>; resetPagination:
 
   return (
     <form class="mb-8 col gap-4">
-      <div class="row gap-2">
+      <div class="row flex-wrap gap-2">
         <For each={['request', 'event', 'information'] as const}>
           {(resourceType) => (
             <Field name="resourceType" of={props.form} type="string">
