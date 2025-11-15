@@ -55,7 +55,7 @@ function Header() {
 
   return (
     <header class="bg-primary text-white shadow-md">
-      <div class="mx-auto row grid max-w-7xl flex-wrap items-center justify-between gap-4 p-4 sm:grid-cols-1 sm:px-4 sm:py-2">
+      <div class="mx-auto row max-w-7xl flex-wrap justify-between gap-4 p-4 sm:items-center sm:py-2">
         <LogoTitle link={routes.authentication} />
 
         <Button
