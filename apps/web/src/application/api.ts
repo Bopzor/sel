@@ -198,6 +198,11 @@ export const api = {
     body: typeof shared.updateEventBodySchema;
   }>(),
 
+  sendEventNotification: endpoint('post', '/events/:eventId/notify').types<{
+    path: { eventId: string };
+    body: typeof shared.sendEventNotificationBodySchema;
+  }>(),
+
   setEventParticipation: endpoint('put', '/events/:eventId/participation').types<{
     path: { eventId: string };
     body: typeof shared.setEventParticipationBodySchema;

@@ -3,11 +3,13 @@ import { Icon } from 'solid-heroicons';
 import { bell, pencil } from 'solid-heroicons/solid';
 import { createSignal, Show } from 'solid-js';
 
-import { notify } from 'src/application/notify';
 import { getIsAuthenticatedMember } from 'src/application/query';
 import { routes } from 'src/application/routes';
+import { Dialog, DialogHeader } from 'src/components/dialog';
 import { ButtonMenuItem, LinkMenuItem, Menu } from 'src/components/menu';
 import { createTranslate } from 'src/intl/translate';
+
+import { EventNotificationForm } from './event-notification-form';
 
 const T = createTranslate('pages.events.details.header');
 
@@ -23,33 +25,47 @@ export function EventHeader(props: { event: Event }) {
 }
 
 function EventActions(props: { event: Event }) {
-  const t = T.useTranslate();
   const [open, setOpen] = createSignal(false);
+  const [notificationDialogOpen, setNotificationDialogOpen] = createSignal(false);
 
   const isAuthenticatedMember = getIsAuthenticatedMember();
   const isOrganizer = () => isAuthenticatedMember(props.event.organizer);
 
   return (
-    <Menu open={open()} setOpen={setOpen} placement="bottom-end">
-      <Show when={isOrganizer()}>
-        <LinkMenuItem
-          href={routes.events.edit(props.event.id)}
-          start={<Icon path={pencil} class="size-4 text-dim" />}
-          onClick={() => setOpen(false)}
-        >
-          <T id="actions.edit" />
-        </LinkMenuItem>
-      </Show>
-
-      <ButtonMenuItem
-        start={<Icon path={bell} class="size-4 text-dim" />}
-        onClick={() => {
-          notify.info(t('actions.notificationsSettingsUnavailable'));
-          setOpen(false);
-        }}
+    <>
+      <Dialog
+        open={notificationDialogOpen()}
+        onClose={() => setNotificationDialogOpen(false)}
+        class="max-w-3xl"
       >
-        <T id="actions.notifications" />
-      </ButtonMenuItem>
-    </Menu>
+        <DialogHeader
+          title={<T id="notificationDialog.title" />}
+          onClose={() => setNotificationDialogOpen(false)}
+        />
+        <EventNotificationForm event={props.event} onSuccess={() => setNotificationDialogOpen(false)} />
+      </Dialog>
+
+      <Menu open={open()} setOpen={setOpen} placement="bottom-end">
+        <Show when={isOrganizer()}>
+          <LinkMenuItem
+            href={routes.events.edit(props.event.id)}
+            start={<Icon path={pencil} class="size-4 text-dim" />}
+            onClick={() => setOpen(false)}
+          >
+            <T id="actions.edit" />
+          </LinkMenuItem>
+        </Show>
+
+        <ButtonMenuItem
+          start={<Icon path={bell} class="size-4 text-dim" />}
+          onClick={() => {
+            setNotificationDialogOpen(true);
+            setOpen(false);
+          }}
+        >
+          <T id="actions.notifications" />
+        </ButtonMenuItem>
+      </Menu>
+    </>
   );
 }
