@@ -8,6 +8,10 @@ export function entries<T extends object>(obj: T) {
   return Object.entries(obj) as Array<[keyof T, T[keyof T]]>;
 }
 
+export function get<T, K extends keyof T>(property: K) {
+  return (element: T) => element[property];
+}
+
 export function hasProperty<T, K extends keyof T>(property: K, value: T[K]) {
   return (element: T) => element[property] === value;
 }

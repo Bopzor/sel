@@ -60,6 +60,14 @@ export const updateEventBodySchema = z.object({
 
 export type UpdateEventBody = z.infer<typeof updateEventBodySchema>;
 
+export const sendEventNotificationBodySchema = z.object({
+  recipients: z.union([z.literal('participants'), z.literal('non-participants'), z.literal('all')]),
+  title: z.string().min(5).max(65),
+  content: z.string().min(5).max(225),
+});
+
+export type SendEventNotificationBody = z.infer<typeof sendEventNotificationBodySchema>;
+
 const eventParticipationSchema = z.enum(['yes', 'no']);
 export type EventParticipation = z.infer<typeof eventParticipationSchema>;
 
