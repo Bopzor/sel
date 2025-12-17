@@ -548,9 +548,27 @@
         "header": {
           "actions": {
             "edit": "Éditer",
-            "notifications": "Notifications",
-            "notificationsSettingsUnavailable": "La gestion des notification n'est pas encore possible"
+            "notifications": "Notifications"
+          },
+          "notificationDialog": {
+            "title": "Envoyer un message concernant cet événement"
           }
+        },
+        "notificationForm": {
+          "recipients": {
+            "label": "Destinataires",
+            "participants": "Participants ({count, plural, =1 {{count} membre} other {{count} membres}})",
+            "nonParticipants": "Non participants ({count, plural, =1 {{count} membre} other {{count} membres}})",
+            "all": "Tous les membres"
+          },
+          "title": {
+            "label": "Titre / sujet"
+          },
+          "content": {
+            "label": "Message"
+          },
+          "submit": "Envoyer",
+          "sent": "Votre message a bien été envoyé"
         },
         "organizer": {
           "title": "Organisé par"

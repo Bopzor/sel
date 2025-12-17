@@ -18,6 +18,7 @@ const notificationTypes = [
   'EventCreated',
   'EventCommentCreated',
   'EventParticipationSet',
+  'EventCustomNotification',
   'TransactionPending',
   'TransactionCompleted',
   'TransactionCanceled',
@@ -44,6 +45,11 @@ export type Notification<Type extends NotificationType = NotificationType> = {
   type: Type;
   date: string;
   context: NotificationData[NotificationType];
+};
+
+type Verbatim = {
+  text: string;
+  html: string;
 };
 
 export type NotificationData = {
@@ -77,10 +83,7 @@ export type NotificationData = {
         id: string;
         name: string;
       };
-      body: {
-        html: string;
-        text: string;
-      };
+      body: Verbatim;
     };
   };
 
@@ -103,10 +106,7 @@ export type NotificationData = {
         id: string;
         name: string;
       };
-      body: {
-        html: string;
-        text: string;
-      };
+      body: Verbatim;
     };
   };
 
@@ -155,10 +155,7 @@ export type NotificationData = {
         id: string;
         name: string;
       };
-      body: {
-        html: string;
-        text: string;
-      };
+      body: Verbatim;
     };
   };
 
@@ -200,10 +197,24 @@ export type NotificationData = {
         id: string;
         name: string;
       };
-      body: {
-        html: string;
-        text: string;
-      };
+      body: Verbatim;
+    };
+  };
+
+  EventCustomNotification: {
+    member: {
+      firstName: string;
+    };
+    sender: {
+      name: string;
+    };
+    event: {
+      id: string;
+      title: string;
+    };
+    notification: {
+      title: string;
+      content: Verbatim;
     };
   };
 
@@ -261,10 +272,7 @@ export type NotificationData = {
     information: {
       id: string;
       letsName: string;
-      body: {
-        html: string;
-        text: string;
-      };
+      body: Verbatim;
     };
   };
 
@@ -279,10 +287,7 @@ export type NotificationData = {
         name: string;
       };
       title: string;
-      body: {
-        html: string;
-        text: string;
-      };
+      body: Verbatim;
     };
   };
 
@@ -305,10 +310,7 @@ export type NotificationData = {
         id: string;
         name: string;
       };
-      body: {
-        html: string;
-        text: string;
-      };
+      body: Verbatim;
     };
   };
 };
