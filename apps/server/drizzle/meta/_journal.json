@@ -274,6 +274,13 @@
       "when": 1763223753429,
       "tag": "0038_add-config-initial-member-balance",
       "breakpoints": true
+    },
+    {
+      "idx": 39,
+      "version": "7",
+      "when": 1765967538779,
+      "tag": "0039_increase-file-mimetype-length",
+      "breakpoints": true
     }
   ]
 }

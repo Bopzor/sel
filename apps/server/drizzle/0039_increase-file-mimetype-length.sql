@@ -1,0 +1,1 @@
+ALTER TABLE "files" ALTER COLUMN "mimetype" SET DATA TYPE varchar(1024);

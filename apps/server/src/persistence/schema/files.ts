@@ -8,7 +8,7 @@ export const files = pgTable('files', {
   id: primaryKey(),
   name: varchar('name', { length: 256 }).notNull(),
   originalName: varchar('original_name', { length: 1024 }).notNull(),
-  mimetype: varchar('mimetype', { length: 32 }).notNull(),
+  mimetype: varchar('mimetype', { length: 1024 }).notNull(),
   size: integer('size').notNull(),
   uploadedBy: id('uploaded_by')
     .references(() => members.id)
