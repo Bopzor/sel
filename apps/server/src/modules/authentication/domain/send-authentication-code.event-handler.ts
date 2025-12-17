@@ -21,7 +21,7 @@ export async function sendAuthenticationCode(event: AuthenticationCodeRequestedE
   await emailSender.send({
     to: member.email,
     ...emailRenderer.render({
-      subject: 'Code de connexion',
+      subject: `${code} - Code de connexion`,
       html: [
         `Bonjour ${member.firstName},`,
         "Voici votre code pour vous connecter à l'app du SEL :",
