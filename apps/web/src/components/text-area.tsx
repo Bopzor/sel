@@ -26,7 +26,7 @@ export function TextArea(_props: TextAreaProps) {
   return (
     <FormControl id={id()} {...formControlProps} class={props.classes?.root}>
       <div class={field({ ...fieldProps, class: props.classes?.field })}>
-        <textarea class="w-full bg-neutral px-4 py-3" {...textAreaProps} />
+        <textarea class="outline-none w-full bg-neutral px-4 py-3" {...textAreaProps} />
       </div>
     </FormControl>
   );

@@ -17,6 +17,7 @@ import { MessageWithAttachments, withAttachments } from '../messages/message.ent
 import { serializeMessage } from '../messages/message.serializer';
 
 import { createEvent } from './domain/create-event.command';
+import { sendEventNotification } from './domain/send-event-notification.command';
 import { setEventParticipation } from './domain/set-event-participation.command';
 import { updateEvent } from './domain/update-event.command';
 import { Event, EventParticipation } from './event.entities';
@@ -99,6 +100,20 @@ router.put('/:eventId', isOrganizer, async (req, res) => {
 
   await updateEvent({
     eventId,
+    ...body,
+  });
+
+  res.status(HttpStatus.noContent).end();
+});
+
+router.post('/:eventId/notify', isOrganizer, async (req, res) => {
+  const eventId = req.params.eventId;
+  const member = getAuthenticatedMember();
+  const body = shared.sendEventNotificationBodySchema.parse(req.body);
+
+  await sendEventNotification({
+    eventId,
+    senderId: member.id,
     ...body,
   });
 
