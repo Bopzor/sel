@@ -64,7 +64,7 @@ const button = cva(
   [
     'inline-flex flex-row items-center justify-center gap-2',
     'rounded-lg border-2 transition hover:shadow-md',
-    'font-medium whitespace-nowrap',
+    'font-semibold whitespace-nowrap',
   ],
   {
     variants: {

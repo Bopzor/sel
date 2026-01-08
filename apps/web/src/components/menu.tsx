@@ -2,14 +2,19 @@ import { Placement, autoUpdate, flip, offset, shift } from '@floating-ui/dom';
 import { cva } from 'cva';
 import { useFloating } from 'solid-floating-ui';
 import { Icon } from 'solid-heroicons';
-import { ellipsisVertical } from 'solid-heroicons/solid';
+import { chevronDown } from 'solid-heroicons/solid';
 import { ComponentProps, JSX, Show, createSignal, splitProps } from 'solid-js';
 import { Transition } from 'solid-transition-group';
 
+import { createTranslate } from 'src/intl/translate';
 import { createDismiss } from 'src/utils/event-handlers';
+import { createMediaQuery } from 'src/utils/media-query';
 
+import { Button } from './button';
 import { Link } from './link';
 import { Spinner } from './spinner';
+
+const Translate = createTranslate('common');
 
 export function Menu(props: {
   open: boolean;
@@ -32,16 +37,21 @@ export function Menu(props: {
     () => props.setOpen(false),
   );
 
+  const isMobile = createMediaQuery('(max-width: 640px)');
+
   return (
     <>
-      <button
+      <Button
         ref={setReference}
-        type="button"
         onClick={() => props.setOpen(true)}
-        class="rounded-md p-2 transition-colors hover:bg-gray-500/10"
+        size={isMobile() ? 'small' : 'medium'}
+        variant="outline"
       >
-        <Icon path={ellipsisVertical} class="size-6" />
-      </button>
+        <span class="max-sm:hidden">
+          <Translate id="actions" />
+        </span>
+        <Icon path={chevronDown} class="size-6 sm:size-4" />
+      </Button>
 
       <Transition enterActiveClass="animate-in" exitActiveClass="animate-out">
         <Show when={props.open}>
