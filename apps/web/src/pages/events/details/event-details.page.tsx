@@ -25,9 +25,10 @@ export function EventDetailsPage() {
     <Show when={query.data} fallback={<Skeleton />}>
       {(event) => (
         <>
+          <EventHeader event={event()} />
+
           <Show when={isMobile()}>
             <div class="col gap-12">
-              <EventHeader event={event()} />
               <EventDescription event={event()} />
               <EventDate event={event()} />
               <EventLocation event={event()} />
@@ -48,7 +49,6 @@ export function EventDetailsPage() {
               </div>
 
               <div class="col-span-2 col gap-12">
-                <EventHeader event={event()} />
                 <EventDescription event={event()} />
                 <EventParticipation event={event()} />
                 <Comments entityType="event" entityId={event().id} />

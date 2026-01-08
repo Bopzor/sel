@@ -15,11 +15,9 @@ const T = createTranslate('pages.events.details.header');
 
 export function EventHeader(props: { event: Event }) {
   return (
-    <header>
-      <div class="row items-center justify-between">
-        <h2 class="text-2xl font-semibold lg:text-3xl">{props.event.title}</h2>
-        <EventActions event={props.event} />
-      </div>
+    <header class="row items-center justify-between pb-4">
+      <h2 class="text-2xl font-semibold lg:text-3xl">{props.event.title}</h2>
+      <EventActions event={props.event} />
     </header>
   );
 }
