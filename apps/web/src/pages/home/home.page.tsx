@@ -4,6 +4,7 @@ import { arrowRight } from 'solid-heroicons/solid';
 
 import { api } from 'src/application/api';
 import { routes } from 'src/application/routes';
+import { card } from 'src/components/card';
 import { Link } from 'src/components/link';
 import { List } from 'src/components/list';
 import { TransactionDialog } from 'src/components/transaction-dialog';
@@ -43,8 +44,8 @@ function QuickAccess() {
   };
 
   return (
-    <section class="sticky top-4 hidden w-full max-w-xs gap-4 self-start rounded-lg bg-gray-200/50 p-6 shadow-sm md:col dark:bg-neutral/25">
-      <h2 class="text-xl font-semibold text-dim">
+    <section class={card.content({ class: 'sticky top-4 hidden w-full max-w-xs gap-4 self-start md:col' })}>
+      <h2 class={card.title()}>
         <T id="quickAccess.title" />
       </h2>
 
