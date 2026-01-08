@@ -3,7 +3,6 @@ import clsx from 'clsx';
 import { Icon } from 'solid-heroicons';
 import { check, chevronDown, xMark } from 'solid-heroicons/solid';
 import { ComponentProps, For, JSX, mergeProps } from 'solid-js';
-import { Portal } from 'solid-js/web';
 
 import { Spinner } from './spinner';
 
@@ -19,10 +18,17 @@ export function Combobox<T>(_props: {
   onClear?: () => void;
   onInputValueChange?: (value: string) => void;
   loading?: boolean;
+  renderItem?: (item: T) => JSX.Element;
   renderNoItems?: () => JSX.Element;
   classes?: Partial<Record<'root', string>>;
 }) {
-  const props = mergeProps({ variant: 'solid' } satisfies Partial<ComponentProps<typeof Combobox>>, _props);
+  const props = mergeProps(
+    {
+      variant: 'solid',
+      renderItem: (item) => <DefaultRenderItem item={item} stringifyItem={props.collection.stringifyItem} />,
+    } satisfies Partial<ComponentProps<typeof Combobox<T>>>,
+    _props,
+  );
 
   const getItem = (value: string) => {
     return props.collection.find(value);
@@ -73,31 +79,30 @@ export function Combobox<T>(_props: {
         </ArkCombobox.ClearTrigger>
 
         <ArkCombobox.Trigger class="px-4 data-[state=open]:-scale-y-100">
-          {props.loading ? <Spinner class="size-4" /> : <Icon path={chevronDown} class="size-4" />}
+          {props.loading ? <Spinner class="size-5" /> : <Icon path={chevronDown} class="size-5" />}
         </ArkCombobox.Trigger>
       </ArkCombobox.Control>
 
-      <Portal>
-        <ArkCombobox.Positioner>
-          <ArkCombobox.Content class="rounded-lg bg-neutral p-4 shadow-sm">
-            <ArkCombobox.Empty>{props.renderNoItems?.()}</ArkCombobox.Empty>
-
-            <For each={props.collection.items}>
-              {(item) => (
-                <ArkCombobox.Item
-                  item={item}
-                  class="row cursor-pointer items-center gap-2 rounded-sm px-2 py-1 hover:bg-primary/5"
-                >
-                  <ArkCombobox.ItemText>{props.collection.stringifyItem(item)}</ArkCombobox.ItemText>
-                  <ArkCombobox.ItemIndicator class="ms-auto">
-                    <Icon path={check} class="size-4" />
-                  </ArkCombobox.ItemIndicator>
-                </ArkCombobox.Item>
-              )}
-            </For>
-          </ArkCombobox.Content>
-        </ArkCombobox.Positioner>
-      </Portal>
+      <ArkCombobox.Positioner class="z-20!">
+        <ArkCombobox.Content class="max-h-64 overflow-auto rounded-lg border bg-neutral p-2 shadow-sm">
+          <ArkCombobox.Empty>{props.renderNoItems?.()}</ArkCombobox.Empty>
+          <For each={props.collection.items}>{props.renderItem}</For>
+        </ArkCombobox.Content>
+      </ArkCombobox.Positioner>
     </ArkCombobox.Root>
+  );
+}
+
+function DefaultRenderItem<T>(props: { item: T; stringifyItem: (item: T | null) => string | null }) {
+  return (
+    <ArkCombobox.Item
+      item={props.item}
+      class="row cursor-pointer items-center gap-2 rounded-sm px-2 py-1 hover:bg-primary hover:text-body"
+    >
+      <ArkCombobox.ItemText>{props.stringifyItem(props.item)}</ArkCombobox.ItemText>
+      <ArkCombobox.ItemIndicator class="ms-auto">
+        <Icon path={check} class="size-5" />
+      </ArkCombobox.ItemIndicator>
+    </ArkCombobox.Item>
   );
 }

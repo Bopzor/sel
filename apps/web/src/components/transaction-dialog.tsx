@@ -1,8 +1,12 @@
+import { useListCollection } from '@ark-ui/solid';
+import { Combobox as ArkCombobox } from '@ark-ui/solid/combobox';
 import { Field, FormStore, createForm, getValue, reset, setValue } from '@modular-forms/solid';
 import { CreateTransactionBody, Member, MembersSort } from '@sel/shared';
 import { assert, hasProperty, not, removeDiacriticCharacters } from '@sel/utils';
 import { useMutation, useQuery } from '@tanstack/solid-query';
 import clsx from 'clsx';
+import { Icon } from 'solid-heroicons';
+import { check } from 'solid-heroicons/solid';
 import { Show, createEffect, createSignal } from 'solid-js';
 import { z } from 'zod';
 
@@ -12,8 +16,8 @@ import { apiQuery, getAuthenticatedMember } from 'src/application/query';
 import { createTranslate } from 'src/intl/translate';
 import { zodForm } from 'src/utils/validation';
 
-import { Autocomplete } from './autocomplete';
 import { Button } from './button';
+import { Combobox } from './combobox';
 import { Dialog, DialogFooter, DialogHeader } from './dialog';
 import { Input } from './input';
 import { MemberAvatarName } from './member-avatar-name';
@@ -153,12 +157,20 @@ function Fields(props: {
   const [memberSearch, setMemberSearch] = createSignal('');
 
   const membersList = () => {
-    return filteredMemberList(props.members, memberSearch())
-      .filter(not(hasProperty('id', authenticatedMember().id)))
-      .slice(0, 6);
+    return filteredMemberList(props.members, memberSearch()).filter(
+      not(hasProperty('id', authenticatedMember().id)),
+    );
   };
 
-  const member = () => props.members.find(hasProperty('id', getValue(props.form, 'memberId') ?? ''));
+  const { collection, set } = useListCollection<Member>({
+    initialItems: [],
+    itemToString: (member) => (member ? [member.firstName, member.lastName].join(' ') : ''),
+    itemToValue: (member) => member.id,
+  });
+
+  createEffect(() => {
+    set(membersList());
+  });
 
   return (
     <>
@@ -183,21 +195,30 @@ function Fields(props: {
       <Field of={props.form} name="memberId">
         {(field, fieldProps) => (
           <Show when={props.showMemberSelector}>
-            <Autocomplete<Member>
-              ref={fieldProps.ref}
+            <Combobox
+              collection={collection()}
               name={fieldProps.name}
               autofocus={fieldProps.autofocus}
-              onBlur={fieldProps.onBlur}
-              error={field.error}
+              // todo
+              // error={field.error}
               variant="outlined"
               label={<T id="member.label" />}
               placeholder={t('member.placeholder')}
-              items={membersList()}
-              itemToString={(member) => (member ? [member.firstName, member.lastName].join(' ') : '')}
-              renderItem={(member) => <MemberAvatarName link={false} member={member} />}
-              selectedItem={() => member() ?? null}
-              onItemSelected={(member) => setValue(props.form, 'memberId', member.id)}
-              onSearch={(value) => setMemberSearch(value)}
+              renderItem={(member) => (
+                <ArkCombobox.Item
+                  item={member}
+                  class="row cursor-pointer items-center gap-2 rounded-sm px-2 py-1 hover:bg-primary hover:text-body"
+                >
+                  <MemberAvatarName link={false} member={member} />
+                  <ArkCombobox.ItemIndicator class="ms-auto">
+                    <Icon path={check} class="size-4" />
+                  </ArkCombobox.ItemIndicator>
+                </ArkCombobox.Item>
+              )}
+              value={field.value}
+              onChange={(member) => setValue(props.form, 'memberId', member!.id)}
+              onInputValueChange={setMemberSearch}
+              onClear={() => reset(props.form, 'memberId')}
             />
           </Show>
         )}
