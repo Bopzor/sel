@@ -7,7 +7,6 @@ import { notify } from 'src/application/notify';
 import { getAuthenticatedMember, useInvalidateApi } from 'src/application/query';
 import { AddressSearch } from 'src/components/address-search';
 import { Map } from 'src/components/map';
-import { formatAddressInline } from 'src/intl/formatted';
 import { createTranslate } from 'src/intl/translate';
 import { when } from 'src/utils/when';
 
@@ -28,7 +27,7 @@ export function AddressPage() {
   });
 
   const mutation = useMutation(() => ({
-    async mutationFn(address: Address) {
+    async mutationFn(address: Address | null) {
       await api.updateMemberProfile({ path: { memberId: member().id }, body: { address } });
     },
     async onSuccess() {
@@ -43,23 +42,17 @@ export function AddressPage() {
 
   return (
     <Form onSubmit={({ address }) => mutation.mutateAsync(address)} class="col gap-4">
-      <p>
-        <T id="description" />
-      </p>
-
       <Field name="address">
         {(field, props) => (
           <AddressSearch
-            ref={props.ref}
             name={props.name}
+            placeholder={t('placeholder')}
             autofocus={props.autofocus}
             error={field.error}
-            selected={field.value}
-            onSelected={(address) => {
-              if (formatAddressInline(address) !== formatAddressInline(field.value)) {
-                setValue(form, 'address', address);
-                submit(form);
-              }
+            value={field.value}
+            onChange={(address) => {
+              setValue(form, 'address', address);
+              submit(form);
             }}
           />
         )}

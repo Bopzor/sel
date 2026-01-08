@@ -18,7 +18,7 @@
   },
   "components": {
     "addressSearch": {
-      "noResults": "Aucun résultat trouvé"
+      "noResults": "Aucun résultat"
     },
     "errorBoundary": {
       "forbidden": "🚫<nbsp></nbsp>Access non autorisé",
@@ -638,7 +638,7 @@
         "saved": "Vos informations de profil ont bien été mises à jour."
       },
       "address": {
-        "description": "Cherchez votre adresse et sélectionnez un résultat pour la mettre à jour sur votre page de profil. Si vous ne la trouvez pas, contactez-nous pour que nous la mettions à jour manuellement.",
+        "placeholder": "Recherchez l'adresse à afficher sur votre page de profil",
         "changed": "Votre adresse a été mise à jour"
       },
       "transactions": {

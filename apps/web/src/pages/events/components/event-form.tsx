@@ -109,7 +109,7 @@ export function EventForm(props: {
               onChange={(event) =>
                 setValue(form, 'date', event.target.value ? new Date(event.target.value) : undefined)
               }
-              classes={{ root: 'w-1/3' }}
+              classes={{ root: 'flex-1' }}
             />
           )}
         </Field>
@@ -122,9 +122,9 @@ export function EventForm(props: {
               autofocus={props.autofocus}
               label={<T id="location.label" />}
               error={field.error}
-              selected={field.value}
-              onSelected={(location) => setValue(form, 'location', location)}
-              classes={{ root: 'w-2/3' }}
+              value={field.value}
+              onChange={(location) => setValue(form, 'location', location)}
+              classes={{ root: 'flex-2' }}
             />
           )}
         </Field>

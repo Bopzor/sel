@@ -1,45 +1,36 @@
+import { useListCollection } from '@ark-ui/solid';
 import { Address } from '@sel/shared';
-import { isDefined, wait } from '@sel/utils';
+import { assert, createId, isDefined, wait } from '@sel/utils';
 import { useQuery } from '@tanstack/solid-query';
-import { ComponentProps, createSignal, splitProps } from 'solid-js';
+import { createEffect, createRenderEffect, createSignal, JSX, untrack } from 'solid-js';
 
 import { getAppConfig } from 'src/application/config';
 import { formatAddressInline } from 'src/intl/formatted';
 import { createTranslate } from 'src/intl/translate';
 
-import { Autocomplete } from './autocomplete';
+import { Combobox } from './combobox';
 
 const T = createTranslate('components.addressSearch');
 
-const forwardedAutocompleteProps = [
-  'ref',
-  'name',
-  'label',
-  'placeholder',
-  'error',
-  'variant',
-  'width',
-  'autofocus',
-  'onBlur',
-  'classes',
-] satisfies Array<keyof ComponentProps<typeof Autocomplete>>;
+type WithId<T> = T & { id: string };
 
-type AddressSearchProps = Pick<
-  ComponentProps<typeof Autocomplete>,
-  (typeof forwardedAutocompleteProps)[number]
-> & {
+type AddressSearchProps = {
+  variant?: 'solid' | 'outlined';
+  name?: string;
+  label?: JSX.Element;
   placeholder?: string;
-  selected?: Address;
-  onSelected: (address: Address) => void;
+  error?: JSX.Element; // todo
+  autofocus?: boolean;
+  value?: Address;
+  onChange: (address: Address | null) => void;
+  classes?: Partial<Record<'root', string>>;
 };
 
-export function AddressSearch(_props: AddressSearchProps) {
-  const [autocompleteProps, props] = splitProps(_props, forwardedAutocompleteProps);
-
+export function AddressSearch(props: AddressSearchProps) {
   const [searchQuery, setSearchQuery] = createSignal('');
 
   const query = useQuery(() => ({
-    enabled: searchQuery().length >= 5,
+    enabled: searchQuery().length >= 3,
     queryKey: ['searchAddress', { query: searchQuery() }],
     refetchOnWindowFocus: false,
     refetchOnMount: false,
@@ -53,24 +44,57 @@ export function AddressSearch(_props: AddressSearchProps) {
     },
   }));
 
-  return (
-    <Autocomplete<Address>
-      {...autocompleteProps}
-      loading={query.isFetching}
-      items={query.data ?? []}
-      itemToString={(result) => (result ? formatAddressInline(result) : '')}
-      selectedItem={() => props.selected ?? null}
-      onItemSelected={(address) => props.onSelected(address)}
-      onSearch={(value) => setSearchQuery(value)}
-      renderItem={formatAddressInline}
-      renderNoItems={({ inputValue }) =>
-        inputValue.length >= 5 &&
-        !query.isFetching && (
-          <div class="w-full py-6 text-center text-dim">
-            <T id="noResults" />
-          </div>
-        )
+  const [selectedId, setSelectedId] = createSignal<string>();
+
+  const { collection, set } = useListCollection<WithId<Address>>({
+    initialItems: [],
+    itemToString: formatAddressInline,
+    itemToValue: (address) => address.id,
+  });
+
+  createRenderEffect(() => {
+    untrack(() => {
+      if (props.value) {
+        const id = createId();
+
+        setSelectedId(id);
+        set([{ id, ...props.value }]);
       }
+    });
+  });
+
+  createEffect(() => {
+    if (query.isSuccess) {
+      set(query.data);
+    }
+  });
+
+  return (
+    <Combobox
+      collection={collection()}
+      variant={props.variant}
+      label={props.label}
+      name={props.name}
+      autofocus={props.autofocus}
+      placeholder={props.placeholder}
+      value={selectedId()}
+      onChange={(address) => {
+        assert(address !== null);
+        setSelectedId(address.id);
+        props.onChange(address);
+      }}
+      onClear={() => {
+        setSelectedId(undefined);
+        props.onChange(null);
+      }}
+      onInputValueChange={setSearchQuery}
+      loading={query.isFetching}
+      renderNoItems={() => (
+        <div class="w-full py-6 text-center text-dim">
+          <T id="noResults" />
+        </div>
+      )}
+      classes={props.classes}
     />
   );
 }
@@ -91,7 +115,7 @@ type QueryResult = {
   features?: Feature[];
 };
 
-async function search(query: string): Promise<Address[]> {
+async function search(query: string): Promise<WithId<Address>[]> {
   const { geoapifyApiKey } = getAppConfig();
 
   const params = new URLSearchParams({
@@ -112,7 +136,7 @@ async function search(query: string): Promise<Address[]> {
     return [];
   }
 
-  const getAddress = ({ properties }: Feature): Address | undefined => {
+  const getAddress = ({ properties }: Feature): WithId<Address> | undefined => {
     const { address_line1, city, postcode, country, lon, lat } = properties;
 
     if (!address_line1 || !city || !postcode || !country || !lon || !lat) {
@@ -120,6 +144,7 @@ async function search(query: string): Promise<Address[]> {
     }
 
     return {
+      id: createId(),
       line1: address_line1,
       city: city,
       postalCode: postcode,

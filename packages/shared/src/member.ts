@@ -78,6 +78,7 @@ export const updateMemberProfileBodySchema = z.object({
       country: z.string().trim().max(256),
       position: z.tuple([z.number(), z.number()]).optional(),
     })
+    .nullable()
     .optional(),
   avatarFileName: z.string().optional(),
   onboardingCompleted: z.boolean().optional(),

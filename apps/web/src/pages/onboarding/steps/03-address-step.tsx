@@ -9,7 +9,6 @@ import { getAuthenticatedMember, useInvalidateApi } from 'src/application/query'
 import { AddressSearch } from 'src/components/address-search';
 import { Button } from 'src/components/button';
 import { Map } from 'src/components/map';
-import { formatAddressInline } from 'src/intl/formatted';
 import { createTranslate } from 'src/intl/translate';
 import { when } from 'src/utils/when';
 
@@ -71,14 +70,12 @@ function AddressForm() {
             name={props.name}
             autofocus={props.autofocus}
             error={field.error}
-            selected={field.value}
+            value={field.value}
             variant="outlined"
             placeholder={t('address.placeholder')}
-            onSelected={(address) => {
-              if (formatAddressInline(address) !== formatAddressInline(field.value)) {
-                setValue(form, 'address', address);
-                submit(form);
-              }
+            onChange={(address) => {
+              setValue(form, 'address', address);
+              submit(form);
             }}
           />
         )}
