@@ -94,7 +94,7 @@ export function Feed() {
   };
 
   return (
-    <div class="col flex-1 gap-4">
+    <div>
       <FeedFilters form={form} resetPagination={() => setPage(1)} />
 
       <Show when={feedQuery.data}>
@@ -107,9 +107,20 @@ export function Feed() {
               </div>
             }
           >
-            <For each={data().items}>{(item) => <FeedItem {...feedProps(item)} />}</For>
+            <div class="col flex-1 gap-4">
+              <For each={data().items}>{(item) => <FeedItem {...feedProps(item)} />}</For>
+            </div>
 
-            <Pagination page={page()} onChange={setPage} pages={Math.ceil(data().total / data().pageSize)} />
+            <div class="mt-6 row justify-center">
+              <Pagination
+                page={page()}
+                onChange={(page) => {
+                  setPage(page);
+                  window.scrollTo({ top: 0, behavior: 'instant' });
+                }}
+                pages={Math.ceil(data().total / data().pageSize)}
+              />
+            </div>
           </Show>
         )}
       </Show>

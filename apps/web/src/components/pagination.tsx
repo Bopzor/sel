@@ -1,6 +1,4 @@
 import clsx from 'clsx';
-import { Icon } from 'solid-heroicons';
-import { chevronLeft, chevronRight } from 'solid-heroicons/solid';
 import { createMemo, For } from 'solid-js';
 
 import { pagination } from '../utils/pagination';
@@ -15,22 +13,12 @@ export function Pagination(props: PaginationProps) {
   const pages = createMemo<(number | '...')[]>(() => pagination({ pages: props.pages, current: props.page }));
 
   return (
-    <ul class="row gap-2 self-center rounded">
-      <li class="inline-flex w-10 p-2 text-center">
-        <button
-          disabled={props.page === 1}
-          onClick={() => props.onChange(props.page - 1)}
-          class="disabled:opacity-30"
-        >
-          <Icon path={chevronLeft} class="size-6" />
-        </button>
-      </li>
-
+    <ul class="row gap-1 self-center rounded sm:gap-2">
       <For each={pages()}>
         {(page) => (
           <li
             class={clsx(
-              'w-10 rounded-full text-center',
+              'inline-flex size-8 items-center justify-center rounded-full sm:size-10',
               'cursor-pointer rounded-full border border-transparent font-medium',
               'transition-all',
             )}
@@ -39,7 +27,7 @@ export function Pagination(props: PaginationProps) {
             }}
           >
             <button
-              class="p-2"
+              class="p-1"
               disabled={props.page === page || page === '...'}
               onClick={() => {
                 if (page !== '...') {
@@ -52,16 +40,6 @@ export function Pagination(props: PaginationProps) {
           </li>
         )}
       </For>
-
-      <li class="inline-flex w-10 p-2 text-center">
-        <button
-          onClick={() => props.onChange(props.page + 1)}
-          disabled={props.page === props.pages}
-          class="disabled:opacity-30"
-        >
-          <Icon path={chevronRight} class="size-6" />
-        </button>
-      </li>
     </ul>
   );
 }
