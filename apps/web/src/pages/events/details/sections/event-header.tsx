@@ -43,8 +43,8 @@ function EventActions(props: { event: Event }) {
         <EventNotificationForm event={props.event} onSuccess={() => setNotificationDialogOpen(false)} />
       </Dialog>
 
-      <Menu open={open()} setOpen={setOpen} placement="bottom-end">
-        <Show when={isOrganizer()}>
+      <Show when={isOrganizer()}>
+        <Menu open={open()} setOpen={setOpen} placement="bottom-end">
           <LinkMenuItem
             href={routes.events.edit(props.event.id)}
             start={<Icon path={pencil} class="size-4 text-dim" />}
@@ -52,18 +52,18 @@ function EventActions(props: { event: Event }) {
           >
             <T id="actions.edit" />
           </LinkMenuItem>
-        </Show>
 
-        <ButtonMenuItem
-          start={<Icon path={bell} class="size-4 text-dim" />}
-          onClick={() => {
-            setNotificationDialogOpen(true);
-            setOpen(false);
-          }}
-        >
-          <T id="actions.notifications" />
-        </ButtonMenuItem>
-      </Menu>
+          <ButtonMenuItem
+            start={<Icon path={bell} class="size-4 text-dim" />}
+            onClick={() => {
+              setNotificationDialogOpen(true);
+              setOpen(false);
+            }}
+          >
+            <T id="actions.notifications" />
+          </ButtonMenuItem>
+        </Menu>
+      </Show>
     </>
   );
 }
