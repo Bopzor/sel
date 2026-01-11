@@ -104,6 +104,7 @@ function RecipientsField(props: {
           <Radio
             label={<T id="recipients.participants" values={{ count: props.participantsCount }} />}
             checked={field.value === 'participants'}
+            value="participants"
             {...fieldProps}
           />
         )}
@@ -114,6 +115,7 @@ function RecipientsField(props: {
           <Radio
             label={<T id="recipients.nonParticipants" values={{ count: nonParticipantsCount() }} />}
             checked={field.value === 'non-participants'}
+            value="non-participants"
             {...fieldProps}
           />
         )}
@@ -123,7 +125,8 @@ function RecipientsField(props: {
         {(field, fieldProps) => (
           <Radio
             label={<T id="recipients.all" values={{ count: props.membersCount }} />}
-            checked={field.value === 'non-participants'}
+            checked={field.value === 'all'}
+            value="all"
             {...fieldProps}
           />
         )}
