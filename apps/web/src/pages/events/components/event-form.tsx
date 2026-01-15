@@ -1,6 +1,5 @@
 import { createForm, setValue } from '@modular-forms/solid';
 import { CreateEventBody, createEventBodySchema, Event, EventKind } from '@sel/shared';
-import { isPast, isToday } from '@sel/utils';
 import { JSX } from 'solid-js';
 import { z } from 'zod';
 
@@ -15,10 +14,7 @@ import { createErrorMap, zodForm } from 'src/utils/validation';
 const T = createTranslate('pages.events.form');
 
 const schema = createEventBodySchema.omit({ kind: true }).extend({
-  date: z
-    .date()
-    .optional()
-    .refine((date) => (date ? !isPast(date) || isToday(date) : true), { params: { dateIsPast: true } }),
+  date: z.string().optional(),
   location: z.any(),
 });
 
@@ -36,7 +32,7 @@ export function EventForm(props: {
       title: props.initialValue?.title,
       body: props.initialValue?.message.body,
       location: props.initialValue?.location ?? null,
-      date: props.initialValue?.date ? new Date(props.initialValue.date) : undefined,
+      date: props.initialValue?.date ? formatDateToInput(new Date(props.initialValue.date)) : undefined,
       fileIds: props.initialValue?.message.attachments.map(({ fileId }) => fileId),
     },
     validate: zodForm(schema, {
@@ -52,7 +48,7 @@ export function EventForm(props: {
     return props.onSubmit({
       title,
       body,
-      date: date ? date.toISOString() : undefined,
+      date: date ? new Date(date).toISOString() : undefined,
       location: location ?? undefined,
       kind: EventKind.internal,
       fileIds,
@@ -96,19 +92,17 @@ export function EventForm(props: {
         )}
       </Field>
 
-      <div class="row gap-4">
-        <Field name="date" type="Date">
+      <div class="col gap-4 sm:row">
+        <Field name="date">
           {(field, props) => (
             <Input
               {...props}
               type="datetime-local"
-              min={formatDateToInput(new Date())}
               label={<T id="date.label" />}
               error={field.error}
-              value={formatDateToInput(field.value)}
-              onChange={(event) =>
-                setValue(form, 'date', event.target.value ? new Date(event.target.value) : undefined)
-              }
+              value={field.value}
+              min={formatDateToInput(new Date())}
+              onChange={(event) => setValue(form, 'date', event.target.value)}
               classes={{ root: 'flex-1' }}
             />
           )}
