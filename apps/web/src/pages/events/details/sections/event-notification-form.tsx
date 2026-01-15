@@ -1,5 +1,6 @@
 import { createForm, Field, FormStore } from '@modular-forms/solid';
 import { Event, SendEventNotificationBody, sendEventNotificationBodySchema } from '@sel/shared';
+import { hasProperty } from '@sel/utils';
 import { useMutation, useQuery } from '@tanstack/solid-query';
 import { Show } from 'solid-js';
 
@@ -75,7 +76,7 @@ export function EventNotificationForm(props: { event: Event; onSuccess: () => vo
             <RecipientsField
               form={form}
               membersCount={membersCount()}
-              participantsCount={props.event.participants.length}
+              participantsCount={props.event.participants.filter(hasProperty('participation', 'yes')).length}
             />
           </FormControl>
         )}
