@@ -1,4 +1,4 @@
-import { entries, isDefined, keys } from '@sel/utils';
+import { entries, keys } from '@sel/utils';
 import { Navigate, useCurrentMatches } from '@solidjs/router';
 import { useMutation } from '@tanstack/solid-query';
 import clsx from 'clsx';
@@ -11,7 +11,6 @@ import {
   createResource,
   createSignal,
   For,
-  Index,
   JSX,
   Match,
   onMount,
@@ -26,7 +25,7 @@ import { Backdrop } from 'src/components/dialog';
 import { ApiError } from './application/api';
 import { notify } from './application/notify';
 import { getAuthenticatedMember, queryAuthenticatedMember } from './application/query';
-import { Breadcrumb, breadcrumbs } from './components/breadcrumb';
+import { Breadcrumb } from './components/breadcrumb';
 import { ErrorBoundary } from './components/error-boundary';
 import { link, Link } from './components/link';
 import { List } from './components/list';
@@ -42,26 +41,19 @@ import { createMediaQuery } from './utils/media-query';
 
 const T = createTranslate('layout');
 
-function AppBreadcrumb() {
-  const matches = useCurrentMatches();
-
-  const crumbs = createMemo(() =>
-    matches()
-      .map(({ route }) => route.info?.breadcrumb as keyof typeof breadcrumbs | undefined)
-      .map((crumb) => (crumb ? breadcrumbs[crumb] : undefined))
-      .filter(isDefined),
-  );
-
-  return (
-    <Show when={crumbs().length > 1}>
-      <Breadcrumb>
-        <Index each={crumbs()}>{(crumb) => <>{crumb()}</>}</Index>
-      </Breadcrumb>
-    </Show>
-  );
-}
+type RouteInfo = {
+  breadcrumb?: () => JSX.Element;
+};
 
 export function Layout(props: { children?: JSX.Element }) {
+  const matches = useCurrentMatches();
+
+  const crumbs = createMemo(() => {
+    return matches()
+      .map(({ route }: { route: { info?: RouteInfo } }) => route.info?.breadcrumb?.())
+      .filter((value) => value !== undefined);
+  });
+
   const [drawerOpen, setDrawerOpen] = createSignal(false);
   const closeDrawer = () => setDrawerOpen(false);
 
@@ -119,7 +111,7 @@ export function Layout(props: { children?: JSX.Element }) {
         </Drawer>
 
         <main class="mx-auto mt-20 max-w-7xl px-4 py-6 sm:mt-0">
-          <AppBreadcrumb />
+          <Breadcrumb crumbs={crumbs()} class="mb-6" />
           <ErrorBoundary>{props.children}</ErrorBoundary>
         </main>
       </Match>
