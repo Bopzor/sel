@@ -71,7 +71,7 @@ export function RichEditor(_props: Omit<RichEditorProps, 'element'>) {
 
   return (
     <FormControl id={id()} {...formControlProps}>
-      <div class={field({ ...fieldProps, class: 'col! items-stretch h-48 resize-y overflow-auto' })}>
+      <div class={field({ ...fieldProps, class: 'col! items-stretch h-64 resize-y overflow-auto' })}>
         <div
           ref={ref}
           aria-invalid={Boolean(formControlProps.error)}
