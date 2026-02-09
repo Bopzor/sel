@@ -2,8 +2,11 @@ import { useParams } from '@solidjs/router';
 import { useQuery } from '@tanstack/solid-query';
 import { Show } from 'solid-js';
 
+import { ApiError } from 'src/application/api';
 import { apiQuery } from 'src/application/query';
 import { Comments } from 'src/components/comments';
+import { ErrorFallback } from 'src/components/error-boundary';
+import { Query, QueryError } from 'src/components/query';
 import { BoxSkeleton } from 'src/components/skeleton';
 import { createMediaQuery } from 'src/utils/media-query';
 
@@ -21,43 +24,51 @@ export function EventDetailsPage() {
 
   const isMobile = createMediaQuery('(max-width: 1024px)');
 
+  const error = (error: Error) => {
+    if (ApiError.is(error) && error.status === 404) {
+      return <ErrorFallback error={error} class="my-32" />;
+    }
+
+    return <QueryError error={error} />;
+  };
+
   return (
-    <Show when={query.data} fallback={<Skeleton />}>
+    <Query query={query} pending={<Skeleton />} error={error}>
       {(event) => (
         <>
-          <EventHeader event={event()} />
+          <EventHeader event={event} />
 
           <Show when={isMobile()}>
             <div class="col gap-12">
-              <EventDescription event={event()} />
-              <EventDate event={event()} />
-              <EventLocation event={event()} />
-              <EventParticipation event={event()} />
-              <EventOrganizer event={event()} />
-              <EventParticipantList event={event()} />
-              <Comments entityType="event" entityId={event().id} />
+              <EventDescription event={event} />
+              <EventDate event={event} />
+              <EventLocation event={event} />
+              <EventParticipation event={event} />
+              <EventOrganizer event={event} />
+              <EventParticipantList event={event} />
+              <Comments entityType="event" entityId={event.id} />
             </div>
           </Show>
 
           <Show when={!isMobile()}>
             <div class="grid grid-cols-3 items-start gap-x-8 gap-y-12">
               <div class="col gap-12">
-                <EventDate event={event()} />
-                <EventLocation event={event()} />
-                <EventOrganizer event={event()} />
-                <EventParticipantList event={event()} />
+                <EventDate event={event} />
+                <EventLocation event={event} />
+                <EventOrganizer event={event} />
+                <EventParticipantList event={event} />
               </div>
 
               <div class="col-span-2 col gap-12">
-                <EventDescription event={event()} />
-                <EventParticipation event={event()} />
-                <Comments entityType="event" entityId={event().id} />
+                <EventDescription event={event} />
+                <EventParticipation event={event} />
+                <Comments entityType="event" entityId={event.id} />
               </div>
             </div>
           </Show>
         </>
       )}
-    </Show>
+    </Query>
   );
 }
 

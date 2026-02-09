@@ -21,6 +21,10 @@
     "addressSearch": {
       "noResults": "Aucun résultat"
     },
+    "query": {
+      "error": "Erreur : {message}",
+      "errorDetails": "Détails"
+    },
     "errorBoundary": {
       "forbidden": "🚫<nbsp></nbsp>Access non autorisé",
       "pageNotFound": "🧐<nbsp></nbsp>Page non trouvée.",

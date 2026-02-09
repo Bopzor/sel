@@ -32,7 +32,7 @@ export function Dialog(props: {
           role="dialog"
           class={clsx('w-full overflow-auto rounded-lg bg-neutral p-4', props.class)}
         >
-          <ErrorBoundary fallback={(error) => <ErrorFallback error={error} class="my-6" />}>
+          <ErrorBoundary fallback={(error) => <ErrorFallback report error={error} class="my-6" />}>
             {props.children}
           </ErrorBoundary>
         </div>

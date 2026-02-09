@@ -83,11 +83,11 @@ export function TransactionDialog(props: {
 
   const [showConfirmation, setShowConfirmation] = createSignal(false);
 
-  const membersQuery = useQuery(() =>
-    apiQuery('listMembers', {
+  const membersQuery = useQuery(() => ({
+    ...apiQuery('listMembers', {
       query: { sort: MembersSort.firstName },
     }),
-  );
+  }));
 
   const member = () => membersQuery.data?.find(hasProperty('id', getValue(form, 'memberId') ?? ''));
 

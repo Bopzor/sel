@@ -15,6 +15,7 @@ import { Link } from 'src/components/link';
 import { MemberAvatarName } from 'src/components/member-avatar-name';
 import { Message } from 'src/components/message';
 import { Pagination } from 'src/components/pagination';
+import { Query } from 'src/components/query';
 import { ResourceIcon } from 'src/components/resource-icon';
 import { Select } from 'src/components/select';
 import { FormattedRelativeDate } from 'src/intl/formatted';
@@ -44,7 +45,7 @@ export function Feed() {
     debounceSearch(getValue(form, 'search'));
   });
 
-  const feedQuery = useQuery(() => ({
+  const query = useQuery(() => ({
     ...apiQuery('getFeed', {
       query: {
         sortOrder: getValue(form, 'sortOrder') ?? 'desc',
@@ -97,10 +98,10 @@ export function Feed() {
     <div>
       <FeedFilters form={form} resetPagination={() => setPage(1)} />
 
-      <Show when={feedQuery.data}>
-        {(data) => (
+      <Query query={query}>
+        {(feed) => (
           <Show
-            when={data().items.length > 0}
+            when={feed.items.length > 0}
             fallback={
               <div class={card.fallback()}>
                 <T id="empty" />
@@ -108,7 +109,7 @@ export function Feed() {
             }
           >
             <div class="col flex-1 gap-4">
-              <For each={data().items}>{(item) => <FeedItem {...feedProps(item)} />}</For>
+              <For each={feed.items}>{(item) => <FeedItem {...feedProps(item)} />}</For>
             </div>
 
             <div class="mt-6 row justify-center">
@@ -118,12 +119,12 @@ export function Feed() {
                   setPage(page);
                   window.scrollTo({ top: 0, behavior: 'instant' });
                 }}
-                pages={Math.ceil(data().total / data().pageSize)}
+                pages={Math.ceil(feed.total / feed.pageSize)}
               />
             </div>
           </Show>
         )}
-      </Show>
+      </Query>
     </div>
   );
 }

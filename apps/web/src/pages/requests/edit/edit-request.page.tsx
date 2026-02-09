@@ -1,15 +1,14 @@
 import { createRequestBodySchema } from '@sel/shared';
-import { defined } from '@sel/utils';
 import { useNavigate, useParams } from '@solidjs/router';
 import { useMutation, useQuery } from '@tanstack/solid-query';
-import { Show } from 'solid-js';
 import { z } from 'zod';
 
 import { api } from 'src/application/api';
 import { notify } from 'src/application/notify';
 import { apiQuery, useInvalidateApi } from 'src/application/query';
 import { routes } from 'src/application/routes';
-import { BoxSkeleton, TextSkeleton } from 'src/components/skeleton';
+import { Query } from 'src/components/query';
+import { BoxSkeleton } from 'src/components/skeleton';
 import { createTranslate } from 'src/intl/translate';
 
 import { RequestForm } from '../components/request-form';
@@ -26,38 +25,36 @@ export function EditRequestPage() {
 
   const editRequest = useMutation(() => ({
     async mutationFn(data: z.infer<typeof createRequestBodySchema>) {
-      const request = defined(query.data);
-      return api.updateRequest({ path: { requestId: request.id }, body: data });
+      return api.updateRequest({ path: { requestId: params.requestId }, body: data });
     },
     async onSuccess() {
-      const request = defined(query.data);
-
       await Promise.all([
-        invalidate('getRequest', { path: { requestId: request.id } }),
+        invalidate('getRequest', { path: { requestId: params.requestId } }),
         invalidate('listRequests'),
         invalidate('getFeed'),
       ]);
+
       notify.success(t('edited'));
-      navigate(routes.requests.details(request.id));
+      navigate(routes.requests.details(params.requestId));
     },
   }));
 
   return (
-    <>
-      <h1>
-        <T id="title" values={{ title: query.data?.title ?? <TextSkeleton width={12} /> }} />
-      </h1>
+    <Query query={query} pending={<Skeleton />}>
+      {(request) => (
+        <>
+          <h1>
+            <T id="title" values={{ title: request.title }} />
+          </h1>
 
-      <Show when={query.data} fallback={<Skeleton />}>
-        {(request) => (
           <RequestForm
-            initialValue={request()}
+            initialValue={request}
             onSubmit={(data) => editRequest.mutateAsync(data)}
             submit={<T id="submit" />}
           />
-        )}
-      </Show>
-    </>
+        </>
+      )}
+    </Query>
   );
 }
 

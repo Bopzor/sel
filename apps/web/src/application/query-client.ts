@@ -9,7 +9,6 @@ export const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       staleTime: 1000 * 60 * 5,
-      throwOnError: true,
       retry(failureCount: number, error: Error) {
         if (ApiError.is(error) && Math.floor(error.status / 100) === 4) {
           return false;

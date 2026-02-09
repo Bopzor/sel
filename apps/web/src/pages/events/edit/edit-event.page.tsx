@@ -1,14 +1,13 @@
 import { updateEventBodySchema } from '@sel/shared';
-import { defined } from '@sel/utils';
 import { useNavigate, useParams } from '@solidjs/router';
 import { useMutation, useQuery } from '@tanstack/solid-query';
-import { Show } from 'solid-js';
 import { z } from 'zod';
 
 import { api } from 'src/application/api';
 import { notify } from 'src/application/notify';
 import { apiQuery, useInvalidateApi } from 'src/application/query';
 import { routes } from 'src/application/routes';
+import { Query } from 'src/components/query';
 import { BoxSkeleton, TextSkeleton } from 'src/components/skeleton';
 import { createTranslate } from 'src/intl/translate';
 
@@ -26,46 +25,56 @@ export function EditEventPage() {
 
   const editEvent = useMutation(() => ({
     async mutationFn(data: z.infer<typeof updateEventBodySchema>) {
-      const event = defined(query.data);
-      return api.updateEvent({ path: { eventId: event.id }, body: data });
+      return api.updateEvent({ path: { eventId: params.eventId }, body: data });
     },
     async onSuccess() {
-      const event = defined(query.data);
-
       await Promise.all([
-        invalidate('getEvent', { path: { eventId: event.id } }),
+        invalidate('getEvent', { path: { eventId: params.eventId } }),
         invalidate('listEvents'),
         invalidate('getFeed'),
       ]);
+
       notify.success(t('edited'));
-      navigate(routes.events.details(event.id));
+      navigate(routes.events.details(params.eventId));
     },
   }));
 
   return (
-    <>
-      <h1>
-        <T id="title" values={{ title: query.data?.title ?? <TextSkeleton width={12} /> }} />
-      </h1>
+    <Query query={query} pending={<Skeleton />}>
+      {(event) => (
+        <>
+          <h1>
+            <T id="title" values={{ title: event.title }} />
+          </h1>
 
-      <Show when={query.data} fallback={<Skeleton />}>
-        {(event) => (
           <EventForm
-            initialValue={event()}
+            initialValue={event}
             onSubmit={(data) => editEvent.mutateAsync(data)}
             submit={<T id="submit" />}
           />
-        )}
-      </Show>
-    </>
+        </>
+      )}
+    </Query>
   );
 }
 
 function Skeleton() {
   return (
-    <div class="my-6 col max-w-4xl gap-4">
-      <BoxSkeleton height={2} />
-      <BoxSkeleton height={16} />
-    </div>
+    <>
+      <div class="text-3xl">
+        <TextSkeleton width={32} />
+      </div>
+
+      <div class="my-6 col max-w-4xl gap-4">
+        <BoxSkeleton height={4} />
+        <BoxSkeleton height={16} />
+        <BoxSkeleton height={6} />
+
+        <div class="row items-center gap-4">
+          <BoxSkeleton height={4} />
+          <BoxSkeleton height={4} />
+        </div>
+      </div>
+    </>
   );
 }
