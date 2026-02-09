@@ -1,87 +1,73 @@
 import { useParams } from '@solidjs/router';
 import { useQuery, UseQueryResult } from '@tanstack/solid-query';
+import clsx from 'clsx';
 import { Icon } from 'solid-heroicons';
 import { chevronRight } from 'solid-heroicons/solid';
-import { JSX, Show } from 'solid-js';
+import { Index, JSX } from 'solid-js';
 
 import { apiQuery } from 'src/application/query';
 import { routes } from 'src/application/routes';
 import { createTranslate } from 'src/intl/translate';
 
 import { Link } from './link';
+import { Query } from './query';
 import { TextSkeleton } from './skeleton';
 
-export function Breadcrumb(props: { children: JSX.Element }) {
-  return <nav class="mb-6 row items-center gap-2">{props.children}</nav>;
+export function Breadcrumb(props: { crumbs: Array<JSX.Element>; class?: string }) {
+  return (
+    <nav class={clsx('row items-center gap-2', props.class)}>
+      <Index each={props.crumbs}>
+        {(crumb, index) => (
+          <>
+            {index > 0 && <Chevron />}
+            {crumb()}
+          </>
+        )}
+      </Index>
+    </nav>
+  );
 }
 
-function Crumb(props: { first?: boolean; truncate?: boolean; label: JSX.Element; link: string }): JSX.Element;
+function Chevron() {
+  return (
+    <div>
+      <Icon path={chevronRight} class="size-4 stroke-2 text-dim" />
+    </div>
+  );
+}
 
-function Crumb<T>(props: {
-  first?: boolean;
+function Crumb(props: { truncate?: boolean; label: JSX.Element; link: string }): JSX.Element {
+  return (
+    <Link href={props.link} classList={{ truncate: props.truncate }}>
+      {props.label}
+    </Link>
+  );
+}
+
+function QueryCrumb<T>(props: {
   truncate?: boolean;
   query: UseQueryResult<T>;
-  label: JSX.Element | ((data: T) => JSX.Element);
-  link: string | ((data: T) => string);
-}): JSX.Element;
-
-function Crumb<T>(props: {
-  first?: boolean;
-  truncate?: boolean;
-  query?: UseQueryResult<T>;
-  label: JSX.Element | ((data: T) => JSX.Element);
-  link: string | ((data: T) => string);
-}) {
-  const link = (data?: T) => {
-    return typeof props.link === 'function' ? props.link(data as T) : props.link;
-  };
-
-  const label = (data?: T) => {
-    return typeof props.label === 'function' ? props.label(data as T) : props.label;
-  };
-
-  const chevron = (
-    <Show when={!props.first}>
-      <div>
-        <Icon path={chevronRight} class="size-4 stroke-2 text-dim" />
-      </div>
-    </Show>
-  );
-
+  label: (data: T) => JSX.Element;
+  link: (data: T) => string;
+}): JSX.Element {
   return (
-    <Show
-      when={props.query}
-      fallback={
-        <>
-          {chevron}
-          <Link href={link()}>{label()}</Link>
-        </>
-      }
-    >
-      {chevron}
-
-      <Show when={props.query?.isSuccess ? props.query.data : false} fallback={<TextSkeleton width={12} />}>
-        {(data) => (
-          <Link href={link(data())} classList={{ truncate: props.truncate }}>
-            {label(data())}
-          </Link>
-        )}
-      </Show>
-    </Show>
+    <Query query={props.query} error={() => '-'} pending={<TextSkeleton width={12} />}>
+      {(data) => <Crumb truncate={props.truncate} label={props.label(data)} link={props.link(data)} />}
+    </Query>
   );
 }
 
 const T = createTranslate('layout.breadcrumb');
 
 export const breadcrumbs = {
-  home: () => <Crumb first label={<T id="home" />} link={routes.home} />,
+  home: () => <Crumb label={<T id="home" />} link={routes.home} />,
 
   information: () => {
-    const { informationId } = useParams<{ informationId: string }>();
-    const query = useQuery(() => apiQuery('getInformation', { path: { informationId } }));
+    const params = useParams<{ informationId: string }>();
+    const query = useQuery(() => apiQuery('getInformation', { path: params }));
 
     return (
-      <Crumb
+      <QueryCrumb
         truncate
         query={query}
         label={(information) => information.title}
@@ -105,15 +91,15 @@ export const breadcrumbs = {
   },
 
   member: () => {
-    const { memberId } = useParams<{ memberId: string }>();
-    const query = useQuery(() => apiQuery('getMember', { path: { memberId } }));
+    const params = useParams<{ memberId: string }>();
+    const query = useQuery(() => apiQuery('getMember', { path: params }));
 
     return (
-      <Crumb
+      <QueryCrumb
         truncate
         query={query}
         label={(member) => [member.firstName, member.lastName].join(' ')}
-        link={routes.members.details(memberId)}
+        link={(member) => routes.members.details(member.id)}
       />
     );
   },
@@ -123,15 +109,15 @@ export const breadcrumbs = {
   },
 
   request: () => {
-    const { requestId } = useParams<{ requestId: string }>();
-    const query = useQuery(() => apiQuery('getRequest', { path: { requestId } }));
+    const params = useParams<{ requestId: string }>();
+    const query = useQuery(() => apiQuery('getRequest', { path: params }));
 
     return (
-      <Crumb
+      <QueryCrumb
         truncate
         query={query}
         label={(request) => request.title}
-        link={routes.requests.details(requestId)}
+        link={(request) => routes.requests.details(request.id)}
       />
     );
   },
@@ -141,9 +127,9 @@ export const breadcrumbs = {
   },
 
   editRequest: () => {
-    const { requestId } = useParams<{ requestId: string }>();
+    const params = useParams<{ requestId: string }>();
 
-    return <Crumb label={<T id="editRequest" />} link={routes.requests.edit(requestId)} />;
+    return <Crumb label={<T id="editRequest" />} link={routes.requests.edit(params.requestId)} />;
   },
 
   events: () => {
@@ -151,11 +137,16 @@ export const breadcrumbs = {
   },
 
   event: () => {
-    const { eventId } = useParams<{ eventId: string }>();
-    const query = useQuery(() => apiQuery('getEvent', { path: { eventId } }));
+    const params = useParams<{ eventId: string }>();
+    const query = useQuery(() => apiQuery('getEvent', { path: params }));
 
     return (
-      <Crumb truncate query={query} label={(event) => event.title} link={routes.events.details(eventId)} />
+      <QueryCrumb
+        truncate
+        query={query}
+        label={(event) => event.title}
+        link={(event) => routes.events.details(event.id)}
+      />
     );
   },
 
@@ -164,9 +155,9 @@ export const breadcrumbs = {
   },
 
   editEvent: () => {
-    const { eventId } = useParams<{ eventId: string }>();
+    const params = useParams<{ eventId: string }>();
 
-    return <Crumb label={<T id="editEvent" />} link={routes.events.edit(eventId)} />;
+    return <Crumb label={<T id="editEvent" />} link={routes.events.edit(params.eventId)} />;
   },
 
   interests: () => {
@@ -202,15 +193,15 @@ export const breadcrumbs = {
   },
 
   adminMember: () => {
-    const { memberId } = useParams<{ memberId: string }>();
-    const query = useQuery(() => apiQuery('getMemberAdmin', { path: { memberId } }));
+    const params = useParams<{ memberId: string }>();
+    const query = useQuery(() => apiQuery('getMemberAdmin', { path: params }));
 
     return (
-      <Crumb
+      <QueryCrumb
         truncate
         query={query}
         label={(member) => [member.firstName, member.lastName].join(' ')}
-        link={routes.admin.memberDetails(memberId)}
+        link={(member) => routes.admin.memberDetails(member.id)}
       />
     );
   },

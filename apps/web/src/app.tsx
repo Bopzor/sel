@@ -56,10 +56,6 @@ function mainPreload() {
 }
 
 export function App() {
-  const info = (route: keyof typeof breadcrumbs) => {
-    return { breadcrumb: route };
-  };
-
   return (
     <Router root={Providers}>
       <Route path="/" component={LandingPage} />
@@ -72,81 +68,91 @@ export function App() {
         <Route path="/" component={OnboardingPage} />
       </Route>
 
-      <Route component={Layout} preload={mainPreload} info={info('home')}>
+      <Route component={Layout} preload={mainPreload} info={{ breadcrumb: breadcrumbs.home }}>
         <Route path="/home" component={Home} preload={preloadHome} />
 
         <Route path="/information">
-          <Route path="/create" component={CreateInformationPage} info={info('createInformation')} />
           <Route
-            path=":informationId"
-            component={InformationDetailsPage}
-            preload={preloadInformation}
-            info={info('information')}
+            path="/create"
+            component={CreateInformationPage}
+            info={{ breadcrumb: breadcrumbs.createInformation }}
           />
-          <Route info={info('information')}>
+          <Route
+            path="/:informationId"
+            preload={preloadInformation}
+            info={{ breadcrumb: breadcrumbs.information }}
+          >
+            <Route component={InformationDetailsPage} />
             <Route
-              path=":informationId/edit"
+              path="edit"
               component={EditInformationPage}
               preload={preloadInformation}
-              info={info('editInformation')}
+              info={{ breadcrumb: breadcrumbs.editInformation }}
             />
           </Route>
         </Route>
 
-        <Route path="/members" info={info('members')}>
+        <Route path="/members" info={{ breadcrumb: breadcrumbs.members }}>
           <Route path="/" component={MemberListPage} preload={preloadMemberList} />
           <Route
             path="/:memberId"
             component={MemberDetailsPage}
             preload={preloadMember}
-            info={info('member')}
+            info={{ breadcrumb: breadcrumbs.member }}
           />
         </Route>
 
-        <Route path="/requests" info={info('requests')}>
+        <Route path="/requests" info={{ breadcrumb: breadcrumbs.requests }}>
           <Route path="/" component={RequestListPage} preload={preloadRequestList} />
-          <Route path="/create" component={CreateRequestPage} info={info('createRequest')} />
           <Route
-            path="/:requestId"
-            component={RequestDetailsPage}
-            preload={preloadRequest}
-            info={info('request')}
+            path="/create"
+            component={CreateRequestPage}
+            info={{ breadcrumb: breadcrumbs.createRequest }}
           />
-          <Route
-            path="/:requestId/edit"
-            component={EditRequestPage}
-            preload={preloadRequest}
-            info={info('editRequest')}
-          />
+          <Route path="/:requestId" preload={preloadRequest} info={{ breadcrumb: breadcrumbs.request }}>
+            <Route component={RequestDetailsPage} />
+            <Route
+              path="/edit"
+              component={EditRequestPage}
+              preload={preloadRequest}
+              info={{ breadcrumb: breadcrumbs.editRequest }}
+            />
+          </Route>
         </Route>
 
-        <Route path="/events" info={info('events')}>
+        <Route path="/events" info={{ breadcrumb: breadcrumbs.events }}>
           <Route path="/" component={EventListPage} preload={preloadEventList} />
-          <Route path="/create" component={CreateEventPage} info={info('createEvent')} />
-          <Route path="/:eventId" component={EventDetailsPage} preload={preloadEvent} info={info('event')} />
-          <Route
-            path="/:eventId/edit"
-            component={EditEventPage}
-            preload={preloadEvent}
-            info={info('editEvent')}
-          />
+          <Route path="/create" component={CreateEventPage} info={{ breadcrumb: breadcrumbs.createEvent }} />
+          <Route path="/:eventId" preload={preloadEvent} info={{ breadcrumb: breadcrumbs.event }}>
+            <Route component={EventDetailsPage} />
+            <Route
+              path="/edit"
+              component={EditEventPage}
+              preload={preloadEvent}
+              info={{ breadcrumb: breadcrumbs.editEvent }}
+            />
+          </Route>
         </Route>
 
-        <Route path="/interests" info={info('interests')}>
+        <Route path="/interests" info={{ breadcrumb: breadcrumbs.interests }}>
           <Route path="/" component={InterestsPage} preload={preloadInterestList} />
         </Route>
 
-        <Route path="/profile" component={ProfileLayout} info={info('profile')}>
+        <Route path="/profile" component={ProfileLayout} info={{ breadcrumb: breadcrumbs.profile }}>
           <Route path="/" component={ProfileEditionPage} />
-          <Route path="/address" component={AddressPage} info={info('profileAddress')} />
+          <Route path="/address" component={AddressPage} info={{ breadcrumb: breadcrumbs.profileAddress }} />
           <Route
             path="/transactions"
             component={TransactionsPage}
             preload={preloadTransactionList}
-            info={info('profileTransactions')}
+            info={{ breadcrumb: breadcrumbs.profileTransactions }}
           />
-          <Route path="/settings" component={SettingsPage} info={info('profileSettings')} />
-          <Route path="/sign-out" component={SignOutPage} info={info('profileSignOut')} />
+          <Route
+            path="/settings"
+            component={SettingsPage}
+            info={{ breadcrumb: breadcrumbs.profileSettings }}
+          />
+          <Route path="/sign-out" component={SignOutPage} info={{ breadcrumb: breadcrumbs.profileSignOut }} />
         </Route>
 
         <Route path="/documents">
@@ -157,10 +163,16 @@ export function App() {
           <Route path="/" component={MiscPage} />
         </Route>
 
-        <Route path="/admin" info={info('admin')}>
+        <Route path="/admin" info={{ breadcrumb: breadcrumbs.admin }}>
           <Route path="/" component={() => <Navigate href={routes.admin.memberList} />} />
-          <Route path="/members" component={AdminMemberListPage} info={info('adminMembers')} />
-          <Route path="/members/:memberId" component={AdminMemberDetailsPage} info={info('adminMember')} />
+          <Route path="/members" info={{ breadcrumb: breadcrumbs.adminMembers }}>
+            <Route component={AdminMemberListPage} />
+            <Route
+              path="/:memberId"
+              component={AdminMemberDetailsPage}
+              info={{ breadcrumb: breadcrumbs.adminMember }}
+            />
+          </Route>
         </Route>
 
         <Route path="*" component={PageNotFound} />
