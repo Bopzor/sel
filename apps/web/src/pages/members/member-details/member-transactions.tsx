@@ -29,7 +29,7 @@ export function MemberTransactions(props: {
           </div>
         }
       >
-        <div class="overflow-x-auto rounded-sm border px-4 lg:px-0">
+        <div class="overflow-x-auto rounded-md border px-4 lg:px-0">
           <TransactionList member={props.member} transactions={props.transactions} />
         </div>
       </Show>

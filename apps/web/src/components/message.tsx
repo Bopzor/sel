@@ -64,7 +64,7 @@ export function FilePreview(props: { name: string; originalName: string }) {
   const src = () => `/api/files/${props.name}`;
 
   return (
-    <a href={src()} target="_blank" class="text-sm leading-none font-medium text-primary underline">
+    <a href={src()} target="_blank" class="text-sm leading-none font-medium text-link underline">
       {props.originalName}
     </a>
   );

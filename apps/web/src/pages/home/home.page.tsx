@@ -54,7 +54,7 @@ function QuickAccess() {
           <li>
             <Link
               href={link}
-              class="inline-flex flex-row items-center gap-2 font-medium text-primary hover:underline"
+              class="inline-flex flex-row items-center gap-2 font-medium text-link hover:underline"
             >
               <Icon path={arrowRight} class="size-4" />
               <T id={`quickAccess.items.${item}`} />

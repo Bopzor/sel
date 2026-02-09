@@ -1,4 +1,5 @@
-import { Member, MemberInterest } from '@sel/shared';
+import { Member } from '@sel/shared';
+import clsx from 'clsx';
 
 import { List } from 'src/components/list';
 import { createTranslate } from 'src/intl/translate';
@@ -7,29 +8,13 @@ const T = createTranslate('pages.members.details.interests');
 
 export function MemberInterests(props: { member: Member }) {
   return (
-    <>
-      <div class="hidden items-start gap-4 sm:row">
-        <div class="w-full max-w-64 text-xs font-medium text-dim uppercase">
-          <T id="interest" />
-        </div>
-
-        <div class="w-full max-w-64 text-xs font-medium text-dim uppercase">
-          <T id="description" />
-        </div>
-      </div>
-
-      <InterestsList interests={props.member.interests.sort((a, b) => a.label.localeCompare(b.label))} />
-    </>
-  );
-}
-
-function InterestsList(props: { interests: MemberInterest[] }) {
-  return (
-    <List each={props.interests} class="divide-y">
+    <List each={props.member.interests}>
       {(interest) => (
-        <li class="col items-start gap-2 py-4 sm:row sm:gap-4">
-          <strong class="w-full max-w-64 text-lg font-medium">{interest.label}</strong>
-          <p class="text-dim">{interest.description}</p>
+        <li class="py-4">
+          <strong class="text-lg font-medium">{interest.label}</strong>
+          <p class={clsx('text-dim', { italic: !interest.description })}>
+            {interest.description ?? <T id="noDescription" />}
+          </p>
         </li>
       )}
     </List>

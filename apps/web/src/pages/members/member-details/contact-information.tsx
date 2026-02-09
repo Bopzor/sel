@@ -103,7 +103,7 @@ function MemberData(props: MemberDataProps) {
   return (
     <Show when={props.when}>
       <div>
-        <div class="mb-2 text-primary dark:text-blue-400">
+        <div class="mb-2 text-primary">
           <Icon path={props.icon} class="inline-block h-em" />
           <span class="ml-2 align-middle font-semibold">{props.label}</span>
         </div>
