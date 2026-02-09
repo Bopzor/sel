@@ -61,6 +61,7 @@
     "eslint-plugin-better-tailwindcss": "^3.4.4",
     "eslint-plugin-solid": "^0.14.5",
     "heroicons": "^2.2.0",
+    "solid-devtools": "^0.34.5",
     "tailwindcss": "^4.1.11",
     "tailwindcss-animate": "^1.0.7",
     "typescript": "~5.8.3",
