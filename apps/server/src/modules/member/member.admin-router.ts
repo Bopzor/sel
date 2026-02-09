@@ -10,7 +10,15 @@ import { Member } from './member.entities';
 export const router = express.Router();
 
 router.get('/', async (req, res) => {
+  const { sort = 'name', order = 'asc' } = shared.listAdminMembersQuerySchema.parse(req.query);
+
   const members = await db.query.members.findMany({
+    orderBy: ({ number, firstName, balance }, { asc, desc }) => {
+      const column = { number, name: firstName, balance }[sort];
+      const fn = { asc, desc }[order];
+
+      return fn(column);
+    },
     with: {
       avatar: true,
     },

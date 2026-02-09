@@ -21,8 +21,8 @@ type EndpointConfig = Partial<{
 
 type EndpointParam<Config extends EndpointConfig> = OmitNever<{
   path: Config['path'] extends Record<string, string> ? Config['path'] : never;
-  query: Config['query'] extends z.ZodType ? z.infer<Config['query']> : never;
-  body: Config['body'] extends z.ZodType ? z.infer<Config['body']> : never;
+  query: Config['query'] extends z.ZodType ? z.input<Config['query']> : never;
+  body: Config['body'] extends z.ZodType ? z.input<Config['body']> : never;
 }>;
 
 export const api = {
@@ -56,6 +56,7 @@ export const api = {
   }>(),
 
   listMembersAdmin: endpoint('get', '/admin/members').types<{
+    query: typeof shared.listAdminMembersQuerySchema;
     result: shared.AdminMember[];
   }>(),
 

@@ -1,4 +1,5 @@
 import { createFactory, createId } from '@sel/utils';
+import z from 'zod';
 
 import { MemberStatus } from './member';
 import { PhoneNumber } from './phone-number';
@@ -25,3 +26,8 @@ export const createAdminMember = createFactory<AdminMember>(() => ({
   phoneNumbers: [],
   balance: 0,
 }));
+
+export const listAdminMembersQuerySchema = z.object({
+  sort: z.literal(['number', 'name', 'balance']).optional(),
+  order: z.literal(['asc', 'desc']).optional(),
+});
