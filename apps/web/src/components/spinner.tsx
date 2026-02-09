@@ -1,4 +1,5 @@
-import { JSX } from 'solid-js';
+import { debounce } from '@solid-primitives/scheduled';
+import { createSignal, JSX, onCleanup, onMount } from 'solid-js';
 
 export function Spinner(props: JSX.SVGElementTags['svg']) {
   return (
@@ -17,9 +18,15 @@ export function Spinner(props: JSX.SVGElementTags['svg']) {
 }
 
 export function SpinnerFullScreen() {
+  const [show, setShow] = createSignal(false);
+  const setShowDebounce = debounce(() => setShow(true), 250);
+
+  onMount(setShowDebounce);
+  onCleanup(setShowDebounce.clear);
+
   return (
     <div class="fixed inset-0 col items-center justify-center bg-neutral">
-      <Spinner class="size-10" />
+      {show() && <Spinner class="size-10" />}
     </div>
   );
 }
