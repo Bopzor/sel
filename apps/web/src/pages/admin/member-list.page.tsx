@@ -1,14 +1,13 @@
-import { MemberStatus as MemberStatusEnum } from '@sel/shared';
 import { useQuery } from '@tanstack/solid-query';
-import { Icon } from 'solid-heroicons';
-import { check, cog_6Tooth, exclamationTriangle, xMark } from 'solid-heroicons/solid';
 
 import { getLetsConfig } from 'src/application/config';
 import { apiQuery } from 'src/application/query';
+import { routes } from 'src/application/routes';
 import { card } from 'src/components/card';
+import { Link } from 'src/components/link';
 import { List } from 'src/components/list';
+import { MemberStatus } from 'src/components/member-status';
 import { Table } from 'src/components/table';
-import { TranslateMembersStatus } from 'src/intl/enums';
 import { FormattedPhoneNumber } from 'src/intl/formatted';
 import { createTranslate } from 'src/intl/translate';
 
@@ -37,7 +36,9 @@ export function AdminMemberListPage() {
             {
               header: () => <T id="name" />,
               cell: (member) => (
-                <MemberAvatarName link={member.status === MemberStatusEnum.active} member={member} />
+                <Link href={routes.admin.memberDetails(member.id)} class="row items-center gap-2">
+                  <MemberAvatarName link={false} member={member} />
+                </Link>
               ),
             },
             {
@@ -71,32 +72,5 @@ export function AdminMemberListPage() {
         />
       </section>
     </>
-  );
-}
-
-function MemberStatus(props: { status: MemberStatusEnum }) {
-  const icons = {
-    [MemberStatusEnum.active]: check,
-    [MemberStatusEnum.onboarding]: exclamationTriangle,
-    [MemberStatusEnum.inactive]: xMark,
-    [MemberStatusEnum.system]: cog_6Tooth,
-  };
-
-  return (
-    <div class="inline-flex flex-row items-center gap-2">
-      <div>
-        <Icon
-          path={icons[props.status]}
-          class="size-5 stroke-2"
-          classList={{
-            'text-emerald-600': props.status === MemberStatusEnum.active,
-            'text-amber-600': props.status === MemberStatusEnum.onboarding,
-            'text-dim': props.status === MemberStatusEnum.inactive,
-          }}
-        />
-      </div>
-
-      <TranslateMembersStatus value={props.status} />
-    </div>
   );
 }

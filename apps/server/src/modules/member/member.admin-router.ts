@@ -1,6 +1,6 @@
 import * as shared from '@sel/shared';
 import express from 'express';
-
+import { NotFound } from 'src/infrastructure/http';
 import { db } from 'src/persistence';
 
 import { File } from '../file/file.entity';
@@ -17,6 +17,21 @@ router.get('/', async (req, res) => {
   });
 
   res.json(members.map(serializeAdminMember));
+});
+
+router.get('/:memberId', async (req, res) => {
+  const member = await db.query.members.findFirst({
+    where: (members, { eq }) => eq(members.id, req.params.memberId),
+    with: {
+      avatar: true,
+    },
+  });
+
+  if (!member) {
+    throw new NotFound('Member not found');
+  }
+
+  res.json(serializeAdminMember(member));
 });
 
 function serializeAdminMember(member: Member & { avatar: File | null }): shared.AdminMember {

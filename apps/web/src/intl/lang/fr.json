@@ -718,6 +718,12 @@
         "status": "Statut",
         "email": "Adresse email",
         "phoneNumber": "Téléphone"
+      },
+      "memberDetails": {
+        "memberNumber": "Numéro de membre",
+        "status": "Statut",
+        "email": "Adresse email",
+        "phoneNumbers": "Numéros de téléphone"
       }
     }
   }

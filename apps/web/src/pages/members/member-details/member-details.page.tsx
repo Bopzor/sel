@@ -47,7 +47,11 @@ function Skeleton() {
 function MemberDetails(props: { member: Member }) {
   const isAuthenticatedMember = getIsAuthenticatedMember();
 
-  const query = useQuery(() => apiQuery('listMemberTransactions', { path: { memberId: props.member.id } }));
+  const query = useQuery(() =>
+    apiQuery('listMemberTransactions', {
+      path: { memberId: props.member.id },
+    }),
+  );
 
   return (
     <div class="col gap-8">

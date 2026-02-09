@@ -12,6 +12,7 @@ import { breadcrumbs } from './components/breadcrumb';
 import { NotFound, RootErrorBoundary } from './components/error-boundary';
 import { IntlProvider } from './intl/intl-provider';
 import { Layout } from './layout';
+import { AdminMemberDetailsPage } from './pages/admin/member-details.page';
 import { AdminMemberListPage } from './pages/admin/member-list.page';
 import { AuthenticationLayout } from './pages/authentication/authentication.layout';
 import { AuthenticationPage } from './pages/authentication/authentication.page';
@@ -159,6 +160,7 @@ export function App() {
         <Route path="/admin" info={info('admin')}>
           <Route path="/" component={() => <Navigate href={routes.admin.memberList} />} />
           <Route path="/members" component={AdminMemberListPage} info={info('adminMembers')} />
+          <Route path="/members/:memberId" component={AdminMemberDetailsPage} info={info('adminMember')} />
         </Route>
 
         <Route path="*" component={PageNotFound} />

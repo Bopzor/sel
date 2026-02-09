@@ -200,4 +200,18 @@ export const breadcrumbs = {
   adminMembers: () => {
     return <Crumb label={<T id="adminMembers" />} link={routes.admin.memberList} />;
   },
+
+  adminMember: () => {
+    const { memberId } = useParams<{ memberId: string }>();
+    const query = useQuery(() => apiQuery('getMemberAdmin', { path: { memberId } }));
+
+    return (
+      <Crumb
+        truncate
+        query={query}
+        label={(member) => [member.firstName, member.lastName].join(' ')}
+        link={routes.admin.memberDetails(memberId)}
+      />
+    );
+  },
 };

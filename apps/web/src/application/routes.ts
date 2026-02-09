@@ -38,5 +38,6 @@ export const routes = {
   admin: {
     index: '/admin',
     memberList: '/admin/members',
+    memberDetails: (memberId: string) => `/admin/members/${memberId}`,
   },
 };

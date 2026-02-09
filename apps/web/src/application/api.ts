@@ -59,6 +59,11 @@ export const api = {
     result: shared.AdminMember[];
   }>(),
 
+  getMemberAdmin: endpoint('get', '/admin/members/:memberId').types<{
+    path: { memberId: string };
+    result: shared.AdminMember;
+  }>(),
+
   getMember: endpoint('get', '/members/:memberId').types<{
     path: { memberId: string };
     result: shared.Member;
