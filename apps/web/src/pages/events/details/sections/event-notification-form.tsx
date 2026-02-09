@@ -2,7 +2,6 @@ import { createForm, Field, FormStore } from '@modular-forms/solid';
 import { Event, SendEventNotificationBody, sendEventNotificationBodySchema } from '@sel/shared';
 import { hasProperty } from '@sel/utils';
 import { useMutation, useQuery } from '@tanstack/solid-query';
-import { Show } from 'solid-js';
 
 import { api } from 'src/application/api';
 import { notify } from 'src/application/notify';
@@ -11,6 +10,7 @@ import { Button } from 'src/components/button';
 import { DialogFooter } from 'src/components/dialog';
 import { FormControl } from 'src/components/form-control';
 import { Input } from 'src/components/input';
+import { Query } from 'src/components/query';
 import { Radio } from 'src/components/radio';
 import { TextArea } from 'src/components/text-area';
 import { createTranslate } from 'src/intl/translate';
@@ -21,7 +21,10 @@ const T = createTranslate('pages.events.details.notificationForm');
 export function EventNotificationForm(props: { event: Event; onSuccess: () => void }) {
   const t = T.useTranslate();
 
-  const membersQuery = useQuery(() => apiQuery('listMembers', { query: {} }));
+  const membersCountQuery = useQuery(() => ({
+    ...apiQuery('listMembers', { query: {} }),
+    select: (members) => members.length,
+  }));
 
   const [form, { Form, Field }] = createForm<SendEventNotificationBody>({
     initialValues: {
@@ -70,17 +73,17 @@ export function EventNotificationForm(props: { event: Event; onSuccess: () => vo
         )}
       </Field>
 
-      <Show when={membersQuery.isSuccess ? membersQuery.data.length : false}>
+      <Query query={membersCountQuery}>
         {(membersCount) => (
           <FormControl id="" label={<T id="recipients.label" />}>
             <RecipientsField
               form={form}
-              membersCount={membersCount()}
+              membersCount={membersCount}
               participantsCount={props.event.participants.filter(hasProperty('participation', 'yes')).length}
             />
           </FormControl>
         )}
-      </Show>
+      </Query>
 
       <DialogFooter>
         <Button loading={mutation.isPending} type="submit">

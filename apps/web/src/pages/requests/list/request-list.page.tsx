@@ -9,6 +9,7 @@ import { Link } from 'src/components/link';
 import { List } from 'src/components/list';
 import { MemberAvatarName } from 'src/components/member-avatar-name';
 import { Message } from 'src/components/message';
+import { Query } from 'src/components/query';
 import { BoxSkeleton, TextSkeleton } from 'src/components/skeleton';
 import { FormattedDate } from 'src/intl/formatted';
 import { createTranslate } from 'src/intl/translate';
@@ -32,9 +33,13 @@ export function RequestListPage() {
         </LinkButton>
       </div>
 
-      <List each={query.data} fallback={<Skeleton />} class="col max-w-4xl gap-8">
-        {(request) => <RequestItem request={request} />}
-      </List>
+      <Query query={query}>
+        {(requests) => (
+          <List each={requests} fallback={<Skeleton />} class="col max-w-4xl gap-8">
+            {(request) => <RequestItem request={request} />}
+          </List>
+        )}
+      </Query>
     </>
   );
 }

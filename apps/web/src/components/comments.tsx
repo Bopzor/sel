@@ -25,6 +25,7 @@ import { Button } from './button';
 import { Card } from './card';
 import { MemberAvatarName } from './member-avatar-name';
 import { Message } from './message';
+import { Query } from './query';
 import { createRichEditor, RichEditorToolbar } from './rich-editor';
 import { BoxSkeleton } from './skeleton';
 
@@ -48,10 +49,10 @@ export function Comments(props: { entityType: CommentEntityType; entityId: strin
   }));
 
   return (
-    <Show when={query.data} fallback={<BoxSkeleton height={12} />}>
+    <Query query={query} pending={<BoxSkeleton height={12} />}>
       {(comments) => (
         <Card title={<T id="title" />} padding={false} classes={{ content: 'divide-y' }}>
-          <CommentList comments={comments()} />
+          <CommentList comments={comments} />
           <CommentForm
             placeholder={t('createComment.placeholder')}
             loading={mutation.isPending}
@@ -61,7 +62,7 @@ export function Comments(props: { entityType: CommentEntityType; entityId: strin
           />
         </Card>
       )}
-    </Show>
+    </Query>
   );
 }
 

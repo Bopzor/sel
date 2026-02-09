@@ -14,6 +14,7 @@ import { Calendar } from 'src/components/calendar';
 import { card } from 'src/components/card';
 import { Link } from 'src/components/link';
 import { List } from 'src/components/list';
+import { Query } from 'src/components/query';
 import { BoxSkeleton } from 'src/components/skeleton';
 import { FormattedDate } from 'src/intl/formatted';
 import { useIntl } from 'src/intl/intl-provider';
@@ -47,7 +48,7 @@ export function EventListPage() {
         </LinkButton>
       </div>
 
-      <Show when={query.data} fallback={<Skeleton />}>
+      <Query query={query} pending={<Skeleton />}>
         {(events) => (
           <div class="row gap-8">
             <div class="flex-1 lg:max-w-96">
@@ -72,7 +73,7 @@ export function EventListPage() {
 
               <div class={card.content()}>
                 <List
-                  each={filterEvents(events())}
+                  each={filterEvents(events)}
                   fallback={<div class={card.fallback()}>{<T id="empty" />}</div>}
                 >
                   {(event) => <EventItem event={event} class="rounded-md p-2 hover:bg-primary/5" />}
@@ -90,12 +91,12 @@ export function EventListPage() {
               <Calendar
                 month={month().getMonth() + 1}
                 year={month().getFullYear()}
-                renderDay={(date) => <Day events={events()} date={date} />}
+                renderDay={(date) => <Day events={events} date={date} />}
               />
             </div>
           </div>
         )}
-      </Show>
+      </Query>
     </>
   );
 }

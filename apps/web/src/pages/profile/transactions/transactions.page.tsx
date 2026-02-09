@@ -6,7 +6,8 @@ import { Show } from 'solid-js';
 import { apiQuery, getAuthenticatedMember } from 'src/application/query';
 import { card } from 'src/components/card';
 import { Dialog, DialogHeader } from 'src/components/dialog';
-import { BoxSkeleton, TextSkeleton } from 'src/components/skeleton';
+import { Query } from 'src/components/query';
+import { BoxSkeleton } from 'src/components/skeleton';
 import { TransactionList } from 'src/components/transaction-list';
 import { FormattedCurrencyAmount } from 'src/intl/formatted';
 import { createTranslate } from 'src/intl/translate';
@@ -28,39 +29,31 @@ export function TransactionsPage() {
 
   return (
     <>
-      <Show when={member()} fallback={<TextSkeleton width={12} />}>
-        {(member) => (
-          <div class="font-medium text-dim">
-            <T id="balance" values={{ balance: <FormattedCurrencyAmount amount={member().balance} /> }} />
-          </div>
-        )}
-      </Show>
+      <div class="font-medium text-dim">
+        <T id="balance" values={{ balance: <FormattedCurrencyAmount amount={member().balance} /> }} />
+      </div>
 
-      <Show when={query.data} fallback={<Skeleton />}>
+      <Query query={query} pending={<Skeleton />}>
         {(transactions) => (
-          <Show when={transactions().length > 0} fallback={<T id="empty" />}>
+          <Show when={transactions.length > 0} fallback={<T id="empty" />}>
             <div class={card.content({ class: 'overflow-x-auto lg:p-0' })}>
               <TransactionList
                 showStatus
                 member={member()}
-                transactions={transactions()}
+                transactions={transactions}
                 onTransactionClick={(transaction) => setTransactionId(transaction.id)}
               />
             </div>
+
+            <TransactionDetailsDialog
+              open={transactionId() !== undefined}
+              onClose={() => setTransactionId(undefined)}
+              member={member()}
+              transaction={transaction()}
+            />
           </Show>
         )}
-      </Show>
-
-      <Show when={member()}>
-        {(member) => (
-          <TransactionDetailsDialog
-            open={transactionId() !== undefined}
-            onClose={() => setTransactionId(undefined)}
-            member={member()}
-            transaction={transaction()}
-          />
-        )}
-      </Show>
+      </Query>
     </>
   );
 }

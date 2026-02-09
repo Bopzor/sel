@@ -1,4 +1,4 @@
-import { Document } from '@sel/shared';
+import { Document, DocumentsGroup } from '@sel/shared';
 import { useQuery } from '@tanstack/solid-query';
 import clsx from 'clsx';
 import { For } from 'solid-js';
@@ -6,6 +6,7 @@ import { For } from 'solid-js';
 import { apiQuery } from 'src/application/query';
 import { Card } from 'src/components/card';
 import { ExternalLink } from 'src/components/link';
+import { Query } from 'src/components/query';
 import { BoxSkeleton } from 'src/components/skeleton';
 import { Table, TableColumn } from 'src/components/table';
 import { FormattedBytes, FormattedDate } from 'src/intl/formatted';
@@ -14,7 +15,7 @@ import { createTranslate } from 'src/intl/translate';
 const T = createTranslate('pages.documents');
 
 export function DocumentsPage() {
-  const documentsQuery = useQuery(() => ({
+  const query = useQuery(() => ({
     ...apiQuery('listDocuments', {}),
   }));
 
@@ -25,13 +26,9 @@ export function DocumentsPage() {
       </h1>
 
       <div class="col gap-8">
-        <For each={documentsQuery.data} fallback={<Skeleton />}>
-          {(group) => (
-            <Card title={group.name} padding={false}>
-              <DocumentsTable group={group.name} documents={group.documents} />
-            </Card>
-          )}
-        </For>
+        <Query query={query} pending={<Skeleton />}>
+          {(documents) => <DocumentsGroups documents={documents} />}
+        </Query>
       </div>
     </div>
   );
@@ -48,6 +45,18 @@ function Skeleton() {
         )}
       </For>
     </ul>
+  );
+}
+
+function DocumentsGroups(props: { documents: DocumentsGroup[] }) {
+  return (
+    <For each={props.documents}>
+      {(group) => (
+        <Card title={group.name} padding={false}>
+          <DocumentsTable group={group.name} documents={group.documents} />
+        </Card>
+      )}
+    </For>
   );
 }
 

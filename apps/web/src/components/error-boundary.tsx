@@ -35,6 +35,7 @@ export function ErrorBoundary(props: ErrorBoundaryProps) {
       fallback={(error, reset) => (
         <ErrorFallback
           class="my-32"
+          report
           error={error}
           reset={(redirect) => {
             if (redirect !== undefined) {
@@ -52,13 +53,16 @@ export function ErrorBoundary(props: ErrorBoundaryProps) {
 
 type ErrorFallbackProps = {
   error: unknown;
+  report?: boolean;
   reset?: (redirect?: string) => void;
   class?: string;
 };
 
 export function ErrorFallback(props: ErrorFallbackProps) {
   onMount(() => {
-    reportError(props.error);
+    if (props.report) {
+      reportError(props.error);
+    }
   });
 
   return (

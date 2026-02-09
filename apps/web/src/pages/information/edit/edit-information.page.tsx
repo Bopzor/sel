@@ -1,14 +1,14 @@
 import { updateInformationBodySchema } from '@sel/shared';
 import { useNavigate, useParams } from '@solidjs/router';
 import { useMutation, useQuery } from '@tanstack/solid-query';
-import { Show } from 'solid-js';
 import { z } from 'zod';
 
 import { api } from 'src/application/api';
 import { notify } from 'src/application/notify';
 import { apiQuery, useInvalidateApi } from 'src/application/query';
 import { routes } from 'src/application/routes';
-import { BoxSkeleton, TextSkeleton } from 'src/components/skeleton';
+import { Query } from 'src/components/query';
+import { BoxSkeleton } from 'src/components/skeleton';
 import { createTranslate } from 'src/intl/translate';
 
 import { InformationForm } from '../components/information-form';
@@ -38,21 +38,21 @@ export function EditInformationPage() {
   }));
 
   return (
-    <>
-      <h1>
-        <T id="title" values={{ title: query.data?.title ?? <TextSkeleton width={12} /> }} />
-      </h1>
+    <Query query={query} pending={<Skeleton />}>
+      {(information) => (
+        <>
+          <h1>
+            <T id="title" values={{ title: information.title }} />
+          </h1>
 
-      <Show when={query.data} fallback={<Skeleton />}>
-        {(event) => (
           <InformationForm
-            initialValue={event()}
+            initialValue={information}
             onSubmit={(data) => editInformation.mutateAsync(data)}
             submit={<T id="submit" />}
           />
-        )}
-      </Show>
-    </>
+        </>
+      )}
+    </Query>
   );
 }
 

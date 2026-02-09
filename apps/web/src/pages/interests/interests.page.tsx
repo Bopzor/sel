@@ -1,8 +1,9 @@
 import { useQuery } from '@tanstack/solid-query';
-import { createSignal, Show } from 'solid-js';
+import { createSignal } from 'solid-js';
 
 import { apiQuery } from 'src/application/query';
 import { List } from 'src/components/list';
+import { Query } from 'src/components/query';
 import { BoxSkeleton } from 'src/components/skeleton';
 import { createTranslate } from 'src/intl/translate';
 
@@ -16,15 +17,13 @@ export function InterestsPage() {
 
   return (
     <>
-      <div class="mb-8 row items-center justify-between gap-4">
-        <h1>
-          <T id="title" />
-        </h1>
-      </div>
+      <h1 class="mb-8">
+        <T id="title" />
+      </h1>
 
-      <Show when={query.data} fallback={<Skeleton />}>
+      <Query query={query} pending={<Skeleton />}>
         {(interests) => (
-          <List each={interests()} class="col gap-8">
+          <List each={interests} class="col gap-8">
             {(interest) => (
               <InterestItem
                 interest={interest}
@@ -34,7 +33,7 @@ export function InterestsPage() {
             )}
           </List>
         )}
-      </Show>
+      </Query>
     </>
   );
 }

@@ -6,9 +6,11 @@ import { Icon } from 'solid-heroicons';
 import { arrowsRightLeft, sparkles, user } from 'solid-heroicons/solid';
 import { ComponentProps, createSignal, JSX, Show } from 'solid-js';
 
-import { api } from 'src/application/api';
+import { api, ApiError } from 'src/application/api';
 import { apiQuery, getIsAuthenticatedMember } from 'src/application/query';
 import { card, Card } from 'src/components/card';
+import { ErrorFallback } from 'src/components/error-boundary';
+import { Query, QueryError } from 'src/components/query';
 import { BoxSkeleton } from 'src/components/skeleton';
 import { TransactionDialog } from 'src/components/transaction-dialog';
 import { createTranslate } from 'src/intl/translate';
@@ -27,10 +29,18 @@ export function MemberDetailsPage() {
   const params = useParams<{ memberId: string }>();
   const query = useQuery(() => apiQuery('getMember', { path: { memberId: params.memberId } }));
 
+  const error = (error: Error) => {
+    if (ApiError.is(error) && error.status === 404) {
+      return <ErrorFallback error={error} class="my-32" />;
+    }
+
+    return <QueryError error={error} />;
+  };
+
   return (
-    <Show when={query.data} fallback={<Skeleton />}>
-      {(member) => <MemberDetails member={member()} />}
-    </Show>
+    <Query query={query} pending={<Skeleton />} error={error}>
+      {(member) => <MemberDetails member={member} />}
+    </Query>
   );
 }
 
@@ -77,15 +87,19 @@ function MemberDetails(props: { member: Member }) {
       </Section>
 
       <Section show icon={arrowsRightLeft} title={<T id="transactions.title" />} class="col md:gap-8">
-        <MemberTransactions
-          member={props.member}
-          transactions={query.data}
-          createTransactionButton={
-            <Show when={!isAuthenticatedMember(props.member)}>
-              <CreateTransactionButton member={props.member} onCreated={() => query.refetch()} />
-            </Show>
-          }
-        />
+        <Query query={query}>
+          {(transactions) => (
+            <MemberTransactions
+              member={props.member}
+              transactions={transactions}
+              createTransactionButton={
+                <Show when={!isAuthenticatedMember(props.member)}>
+                  <CreateTransactionButton member={props.member} onCreated={() => query.refetch()} />
+                </Show>
+              }
+            />
+          )}
+        </Query>
       </Section>
     </div>
   );

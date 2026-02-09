@@ -9,6 +9,7 @@ import { card } from 'src/components/card';
 import { List } from 'src/components/list';
 import { MemberAvatarName } from 'src/components/member-avatar-name';
 import { MemberStatus } from 'src/components/member-status';
+import { Query } from 'src/components/query';
 import { BoxSkeleton, CircleSkeleton, TextSkeleton } from 'src/components/skeleton';
 import { FormattedPhoneNumber } from 'src/intl/formatted';
 import { createTranslate } from 'src/intl/translate';
@@ -18,16 +19,16 @@ const T = createTranslate('pages.admin.memberDetails');
 export function AdminMemberDetailsPage() {
   const params = useParams<{ memberId: string }>();
 
-  const query = useQuery(() =>
-    apiQuery('getMemberAdmin', {
+  const query = useQuery(() => ({
+    ...apiQuery('getMemberAdmin', {
       path: { memberId: params.memberId },
     }),
-  );
+  }));
 
   return (
-    <Show when={query.data} fallback={<Skeleton />}>
-      {(member) => <MemberDetails member={member()} />}
-    </Show>
+    <Query query={query} pending={<Skeleton />}>
+      {(member) => <MemberDetails member={member} />}
+    </Query>
   );
 }
 
