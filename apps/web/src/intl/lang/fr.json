@@ -383,8 +383,7 @@
         "bio": "À propos de moi",
         "interests": {
           "title": "Centres d'intérêts",
-          "interest": "Centre d'intérêt",
-          "description": "Description"
+          "noDescription": "— Aucune description —"
         },
         "transactions": {
           "title": "Échanges",

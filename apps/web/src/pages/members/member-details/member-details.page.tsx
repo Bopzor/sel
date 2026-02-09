@@ -102,7 +102,7 @@ function Section(props: {
     <Show when={props.show}>
       <Card
         title={
-          <div class="row gap-2 text-primary dark:text-blue-400">
+          <div class="row gap-2 text-primary">
             <div>
               <Icon path={props.icon} class="size-6" />
             </div>

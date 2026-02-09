@@ -25,14 +25,15 @@
 @layer theme {
   * {
     @variant dark {
-      --color-body: rgb(22 22 26);
-      --color-border: rgb(48 48 48);
-      --color-placeholder: rgb(107 114 128);
-      --color-neutral: rgb(32 32 36);
+      --color-body: rgb(38 38 40);
+      --color-border: rgb(67, 67, 70);
+      --color-placeholder: rgb(100, 105, 112);
+      --color-neutral: rgb(32 32 34);
       --color-inverted: rgb(255 255 255);
-      --color-text: rgb(250 250 250);
-      --color-dim: rgb(161 161 170);
-      --color-link: rgb(96 165 250);
+      --color-text: rgb(250 250 252);
+      --color-dim: rgb(190 190 192);
+      --color-link: rgb(99, 142, 213);
+      --color-primary: #1f7997;
     }
   }
 }
@@ -140,6 +141,6 @@
 }
 
 .dark .map {
-  filter: brightness(60%) contrast(140%) grayscale(25%);
+  filter: brightness(75%) contrast(150%);
   color: #666;
 }
