@@ -78,7 +78,7 @@ export function EventNotificationForm(props: { event: Event; onSuccess: () => vo
           <FormControl id="" label={<T id="recipients.label" />}>
             <RecipientsField
               form={form}
-              membersCount={membersCount}
+              membersCount={membersCount()}
               participantsCount={props.event.participants.filter(hasProperty('participation', 'yes')).length}
             />
           </FormControl>

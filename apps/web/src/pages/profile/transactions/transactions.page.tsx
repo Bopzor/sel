@@ -40,7 +40,7 @@ export function TransactionsPage() {
               <TransactionList
                 showStatus
                 member={member()}
-                transactions={transactions}
+                transactions={transactions()}
                 onTransactionClick={(transaction) => setTransactionId(transaction.id)}
               />
             </div>

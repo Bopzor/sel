@@ -101,7 +101,7 @@ export function Feed() {
       <Query query={query}>
         {(feed) => (
           <Show
-            when={feed.items.length > 0}
+            when={feed().items.length > 0}
             fallback={
               <div class={card.fallback()}>
                 <T id="empty" />
@@ -109,7 +109,7 @@ export function Feed() {
             }
           >
             <div class="col flex-1 gap-4">
-              <For each={feed.items}>{(item) => <FeedItem {...feedProps(item)} />}</For>
+              <For each={feed().items}>{(item) => <FeedItem {...feedProps(item)} />}</For>
             </div>
 
             <div class="mt-6 row justify-center">
@@ -119,7 +119,7 @@ export function Feed() {
                   setPage(page);
                   window.scrollTo({ top: 0, behavior: 'instant' });
                 }}
-                pages={Math.ceil(feed.total / feed.pageSize)}
+                pages={Math.ceil(feed().total / feed().pageSize)}
               />
             </div>
           </Show>

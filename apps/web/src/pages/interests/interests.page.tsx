@@ -23,7 +23,7 @@ export function InterestsPage() {
 
       <Query query={query} pending={<Skeleton />}>
         {(interests) => (
-          <List each={interests} class="col gap-8">
+          <List each={interests()} class="col gap-8">
             {(interest) => (
               <InterestItem
                 interest={interest}

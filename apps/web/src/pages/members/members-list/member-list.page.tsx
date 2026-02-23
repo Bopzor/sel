@@ -27,7 +27,7 @@ export function MemberListPage() {
         <div class="row gap-6">
           <div class="col grow gap-4 md:max-w-96">
             <MemberList
-              members={filteredMemberList(members, search())}
+              members={filteredMemberList(members(), search())}
               onHighlight={setOpenPopupMember}
               sort={sort()}
               onSort={setSort}
@@ -37,7 +37,7 @@ export function MemberListPage() {
           </div>
 
           <div class="sticky top-8 hidden h-128 flex-1 md:block">
-            <MembersMap members={members} openPopupMember={openPopupMember()} />
+            <MembersMap members={members()} openPopupMember={openPopupMember()} />
           </div>
         </div>
       )}

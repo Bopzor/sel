@@ -1,6 +1,16 @@
 import { debounce } from '@solid-primitives/scheduled';
 import { UseQueryResult } from '@tanstack/solid-query';
-import { ComponentProps, createSignal, JSX, Match, mergeProps, onCleanup, onMount, Switch } from 'solid-js';
+import {
+  Accessor,
+  ComponentProps,
+  createSignal,
+  JSX,
+  Match,
+  mergeProps,
+  onCleanup,
+  onMount,
+  Switch,
+} from 'solid-js';
 
 import { createTranslate } from 'src/intl/translate';
 
@@ -12,7 +22,7 @@ export function Query<Data>(props_: {
   query: UseQueryResult<Data>;
   pending?: JSX.Element;
   error?: (error: Error) => JSX.Element;
-  children: (data: Data) => JSX.Element;
+  children: (data: Accessor<Data>) => JSX.Element;
 }) {
   const props = mergeProps(
     {
@@ -32,9 +42,7 @@ export function Query<Data>(props_: {
     <Switch>
       <Match when={props.query.isPending}>{showPending() && props.pending}</Match>
       <Match when={props.query.isError ? props.query.error : false}>{(error) => props.error(error())}</Match>
-      <Match when={props.query.isSuccess ? props.query.data : false}>
-        {(data) => props.children(data())}
-      </Match>
+      <Match when={props.query.isSuccess ? props.query.data : false}>{props.children}</Match>
     </Switch>
   );
 }

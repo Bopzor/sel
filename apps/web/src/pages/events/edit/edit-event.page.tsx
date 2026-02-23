@@ -44,11 +44,11 @@ export function EditEventPage() {
       {(event) => (
         <>
           <h1>
-            <T id="title" values={{ title: event.title }} />
+            <T id="title" values={{ title: event().title }} />
           </h1>
 
           <EventForm
-            initialValue={event}
+            initialValue={event()}
             onSubmit={(data) => editEvent.mutateAsync(data)}
             submit={<T id="submit" />}
           />

@@ -52,7 +52,7 @@ function QueryCrumb<T>(props: {
 }): JSX.Element {
   return (
     <Query query={props.query} error={() => '-'} pending={<TextSkeleton width={12} />}>
-      {(data) => <Crumb truncate={props.truncate} label={props.label(data)} link={props.link(data)} />}
+      {(data) => <Crumb truncate={props.truncate} label={props.label(data())} link={props.link(data())} />}
     </Query>
   );
 }

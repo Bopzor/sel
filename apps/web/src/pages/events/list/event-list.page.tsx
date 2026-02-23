@@ -73,7 +73,7 @@ export function EventListPage() {
 
               <div class={card.content()}>
                 <List
-                  each={filterEvents(events)}
+                  each={filterEvents(events())}
                   fallback={<div class={card.fallback()}>{<T id="empty" />}</div>}
                 >
                   {(event) => <EventItem event={event} class="rounded-md p-2 hover:bg-primary/5" />}
@@ -91,7 +91,7 @@ export function EventListPage() {
               <Calendar
                 month={month().getMonth() + 1}
                 year={month().getFullYear()}
-                renderDay={(date) => <Day events={events} date={date} />}
+                renderDay={(date) => <Day events={events()} date={date} />}
               />
             </div>
           </div>

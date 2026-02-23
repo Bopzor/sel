@@ -27,7 +27,7 @@ export function AdminMemberDetailsPage() {
 
   return (
     <Query query={query} pending={<Skeleton />}>
-      {(member) => <MemberDetails member={member} />}
+      {(member) => <MemberDetails member={member()} />}
     </Query>
   );
 }

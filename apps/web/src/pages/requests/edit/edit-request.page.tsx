@@ -44,11 +44,11 @@ export function EditRequestPage() {
       {(request) => (
         <>
           <h1>
-            <T id="title" values={{ title: request.title }} />
+            <T id="title" values={{ title: request().title }} />
           </h1>
 
           <RequestForm
-            initialValue={request}
+            initialValue={request()}
             onSubmit={(data) => editRequest.mutateAsync(data)}
             submit={<T id="submit" />}
           />

@@ -39,7 +39,7 @@ export function MemberDetailsPage() {
 
   return (
     <Query query={query} pending={<Skeleton />} error={error}>
-      {(member) => <MemberDetails member={member} />}
+      {(member) => <MemberDetails member={member()} />}
     </Query>
   );
 }
@@ -91,7 +91,7 @@ function MemberDetails(props: { member: Member }) {
           {(transactions) => (
             <MemberTransactions
               member={props.member}
-              transactions={transactions}
+              transactions={transactions()}
               createTransactionButton={
                 <Show when={!isAuthenticatedMember(props.member)}>
                   <CreateTransactionButton member={props.member} onCreated={() => query.refetch()} />

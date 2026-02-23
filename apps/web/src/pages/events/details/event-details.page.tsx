@@ -36,33 +36,33 @@ export function EventDetailsPage() {
     <Query query={query} pending={<Skeleton />} error={error}>
       {(event) => (
         <>
-          <EventHeader event={event} />
+          <EventHeader event={event()} />
 
           <Show when={isMobile()}>
             <div class="col gap-12">
-              <EventDescription event={event} />
-              <EventDate event={event} />
-              <EventLocation event={event} />
-              <EventParticipation event={event} />
-              <EventOrganizer event={event} />
-              <EventParticipantList event={event} />
-              <Comments entityType="event" entityId={event.id} />
+              <EventDescription event={event()} />
+              <EventDate event={event()} />
+              <EventLocation event={event()} />
+              <EventParticipation event={event()} />
+              <EventOrganizer event={event()} />
+              <EventParticipantList event={event()} />
+              <Comments entityType="event" entityId={event().id} />
             </div>
           </Show>
 
           <Show when={!isMobile()}>
             <div class="grid grid-cols-3 items-start gap-x-8 gap-y-12">
               <div class="col gap-12">
-                <EventDate event={event} />
-                <EventLocation event={event} />
-                <EventOrganizer event={event} />
-                <EventParticipantList event={event} />
+                <EventDate event={event()} />
+                <EventLocation event={event()} />
+                <EventOrganizer event={event()} />
+                <EventParticipantList event={event()} />
               </div>
 
               <div class="col-span-2 col gap-12">
-                <EventDescription event={event} />
-                <EventParticipation event={event} />
-                <Comments entityType="event" entityId={event.id} />
+                <EventDescription event={event()} />
+                <EventParticipation event={event()} />
+                <Comments entityType="event" entityId={event().id} />
               </div>
             </div>
           </Show>

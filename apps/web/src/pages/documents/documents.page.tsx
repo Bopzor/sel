@@ -27,7 +27,7 @@ export function DocumentsPage() {
 
       <div class="col gap-8">
         <Query query={query} pending={<Skeleton />}>
-          {(documents) => <DocumentsGroups documents={documents} />}
+          {(documents) => <DocumentsGroups documents={documents()} />}
         </Query>
       </div>
     </div>
