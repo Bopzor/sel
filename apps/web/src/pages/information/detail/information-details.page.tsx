@@ -29,7 +29,7 @@ export function InformationDetailsPage() {
       {(information) => (
         <div class="col gap-8">
           <section>
-            <InformationHeader information={information} />
+            <InformationHeader information={information()} />
 
             <div class={card.content()}>
               <h1 class="mb-4 text-3xl">{query.data?.title}</h1>
@@ -37,7 +37,7 @@ export function InformationDetailsPage() {
             </div>
           </section>
 
-          <Comments entityType="information" entityId={information.id} />
+          <Comments entityType="information" entityId={information().id} />
         </div>
       )}
     </Query>

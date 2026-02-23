@@ -52,7 +52,7 @@ export function Comments(props: { entityType: CommentEntityType; entityId: strin
     <Query query={query} pending={<BoxSkeleton height={12} />}>
       {(comments) => (
         <Card title={<T id="title" />} padding={false} classes={{ content: 'divide-y' }}>
-          <CommentList comments={comments} />
+          <CommentList comments={comments()} />
           <CommentForm
             placeholder={t('createComment.placeholder')}
             loading={mutation.isPending}

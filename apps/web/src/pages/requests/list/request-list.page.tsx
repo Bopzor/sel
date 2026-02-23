@@ -35,7 +35,7 @@ export function RequestListPage() {
 
       <Query query={query}>
         {(requests) => (
-          <List each={requests} fallback={<Skeleton />} class="col max-w-4xl gap-8">
+          <List each={requests()} fallback={<Skeleton />} class="col max-w-4xl gap-8">
             {(request) => <RequestItem request={request} />}
           </List>
         )}

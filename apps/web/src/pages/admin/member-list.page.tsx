@@ -47,7 +47,7 @@ export function AdminMemberListPage() {
         <Query query={query}>
           {(members) => (
             <MembersTable
-              members={members}
+              members={members()}
               sort={{ column: sort(), order: order() }}
               onSort={(sort, order) => setSearchParams({ sort, order }, { replace: true })}
             />

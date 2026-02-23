@@ -42,11 +42,11 @@ export function EditInformationPage() {
       {(information) => (
         <>
           <h1>
-            <T id="title" values={{ title: information.title }} />
+            <T id="title" values={{ title: information().title }} />
           </h1>
 
           <InformationForm
-            initialValue={information}
+            initialValue={information()}
             onSubmit={(data) => editInformation.mutateAsync(data)}
             submit={<T id="submit" />}
           />

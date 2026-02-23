@@ -32,19 +32,19 @@ export function RequestDetailsPage() {
       {(request) => (
         <div class="grid gap-x-8 gap-y-12 lg:grid-cols-3">
           <div class="lg:col-span-3">
-            <RequestHeader request={request} />
+            <RequestHeader request={request()} />
           </div>
 
           <div class="col gap-12 lg:col-span-2">
-            <RequestDescription request={request} />
-            <RequestAnswer request={request} />
-            <Comments entityType="request" entityId={request.id} />
+            <RequestDescription request={request()} />
+            <RequestAnswer request={request()} />
+            <Comments entityType="request" entityId={request().id} />
           </div>
 
           <div class="col max-w-lg gap-12">
-            <RequestAuthor request={request} />
-            <RequestTransaction request={request} />
-            <RequestAnswerList request={request} />
+            <RequestAuthor request={request()} />
+            <RequestTransaction request={request()} />
+            <RequestAnswerList request={request()} />
           </div>
         </div>
       )}
