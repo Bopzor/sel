@@ -35,7 +35,7 @@ export function TransactionsPage() {
 
       <Query query={query} pending={<Skeleton />}>
         {(transactions) => (
-          <Show when={transactions.length > 0} fallback={<T id="empty" />}>
+          <Show when={transactions().length > 0} fallback={<T id="empty" />}>
             <div class={card.content({ class: 'overflow-x-auto lg:p-0' })}>
               <TransactionList
                 showStatus
