@@ -345,10 +345,12 @@ function endpoint(method: HttpMethod, path: string, options: { paginated?: true 
 }
 
 export class ApiError extends Error {
-  private static errorSchema = z.object({
-    error: z.string(),
-    code: z.string().optional(),
-  });
+  private static errorSchema = z
+    .object({
+      error: z.string(),
+      code: z.string().optional(),
+    })
+    .loose();
 
   public readonly body?: z.infer<typeof ApiError.errorSchema>;
 
@@ -370,6 +372,10 @@ export class ApiError extends Error {
 
   static isStatus(value: unknown, status: number): value is ApiError {
     return this.is(value) && value.status === status;
+  }
+
+  static isCode(value: unknown, code: string): value is ApiError {
+    return this.is(value) && value.body?.code === code;
   }
 
   get status() {
