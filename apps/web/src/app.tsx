@@ -9,7 +9,7 @@ import { apiQuery } from './application/query';
 import { queryClient } from './application/query-client';
 import { routes } from './application/routes';
 import { breadcrumbs } from './components/breadcrumb';
-import { NotFound, RootErrorBoundary } from './components/error-boundary';
+import { ErrorBoundary, NotFound } from './components/error-boundary';
 import { IntlProvider } from './intl/intl-provider';
 import { Layout } from './layout';
 import { AdminMemberDetailsPage } from './pages/admin/member-details.page';
@@ -183,8 +183,8 @@ export function App() {
 
 function Providers(props: { children?: JSX.Element }) {
   return (
-    <RootErrorBoundary>
-      <IntlProvider>
+    <IntlProvider>
+      <ErrorBoundary>
         <MatomoProvider>
           <QueryClientProvider client={queryClient}>
             <SolidQueryDevtools initialIsOpen={false} />
@@ -192,8 +192,8 @@ function Providers(props: { children?: JSX.Element }) {
             {props.children}
           </QueryClientProvider>
         </MatomoProvider>
-      </IntlProvider>
-    </RootErrorBoundary>
+      </ErrorBoundary>
+    </IntlProvider>
   );
 }
 

@@ -10,19 +10,6 @@ import { Button } from './button';
 
 const T = createTranslate('components.errorBoundary');
 
-export function RootErrorBoundary(props: { children: JSX.Element }) {
-  return (
-    <SolidErrorBoundary
-      fallback={(error) => {
-        reportError(error);
-        return <>{error?.message ?? 'Unknown error'}</>;
-      }}
-    >
-      {props.children}
-    </SolidErrorBoundary>
-  );
-}
-
 type ErrorBoundaryProps = {
   children: JSX.Element;
 };
