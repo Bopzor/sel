@@ -9,6 +9,13 @@ export const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       staleTime: 1000 * 60 * 5,
+      throwOnError: (error) => {
+        if (ApiError.is(error)) {
+          return error.body?.code === 'MaintenanceMode';
+        }
+
+        return false;
+      },
       retry(failureCount: number, error: Error) {
         if (ApiError.is(error) && Math.floor(error.status / 100) === 4) {
           return false;

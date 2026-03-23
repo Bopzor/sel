@@ -53,8 +53,13 @@ export function ErrorFallback(props: ErrorFallbackProps) {
   });
 
   return (
-    <div class={clsx('mx-auto col items-center justify-center gap-6 px-4', props.class)}>
+    <div
+      class={clsx('mx-auto col max-w-2xl items-center justify-center gap-6 px-4 text-center', props.class)}
+    >
       <Switch fallback={<UnknownError {...props} />}>
+        <Match when={ApiError.isCode(props.error, 'MaintenanceMode') ? props.error : false}>
+          {(error) => <MaintenanceMode error={error()} />}
+        </Match>
         <Match when={ApiError.isStatus(props.error, 403) ? props.error : false}>
           {(error) => <Forbidden error={error()} />}
         </Match>
@@ -63,6 +68,28 @@ export function ErrorFallback(props: ErrorFallbackProps) {
         </Match>
       </Switch>
     </div>
+  );
+}
+
+function MaintenanceMode(props: { error: ApiError }) {
+  const end = () => {
+    if (props.error.body && typeof props.error.body.end === 'string') {
+      return new Date(props.error.body.end);
+    }
+  };
+
+  return (
+    <>
+      <h1>
+        <T id="maintenance" values={{ nbsp: () => <>&nbsp;</> }} />
+      </h1>
+
+      <p class="text-dim">
+        <T id="maintenanceMessage" values={{ end: end() }} />
+        <br />
+        <Show when={end()}>{(end) => <T id="maintenanceEnd" values={{ end: end() }} />}</Show>
+      </p>
+    </>
   );
 }
 
