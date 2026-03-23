@@ -38,10 +38,10 @@ export function server() {
   app.use(cookieParser(config.session.secret));
   app.use(express.json());
   app.use(cacheControl);
+  app.use('/health', health);
   app.use(maintenanceHandler);
   app.use(authenticationProvider);
 
-  app.use('/health', health);
   app.use('/config', isMember, configHandler);
   app.use('/authentication', authentication);
   app.use('/session', isMember, session);
