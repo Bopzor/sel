@@ -1,6 +1,6 @@
-import { integer, pgTable, real, varchar } from 'drizzle-orm/pg-core';
+import { boolean, integer, pgTable, real, varchar } from 'drizzle-orm/pg-core';
 
-import { createdAt, primaryKey, updatedAt } from '../schema-utils';
+import { createdAt, date, primaryKey, updatedAt } from '../schema-utils';
 
 export const config = pgTable('config', {
   id: primaryKey(),
@@ -12,6 +12,8 @@ export const config = pgTable('config', {
   mapLatitude: real('map_latitude').notNull().default(0),
   mapZoom: varchar('map_zoom', { length: 256 }).notNull().default(''),
   initialMemberBalance: integer('initial_member_balance').default(0).notNull(),
+  maintenance: boolean().default(false).notNull(),
+  maintenanceEnd: date('maintenance_end'),
   createdAt,
   updatedAt,
 });
