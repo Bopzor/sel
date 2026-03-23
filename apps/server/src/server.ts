@@ -9,7 +9,7 @@ import { z } from 'zod';
 import { container } from './infrastructure/container';
 import { unsetCookie } from './infrastructure/cookie';
 import { DomainError } from './infrastructure/domain-error';
-import { HttpStatus, Unauthorized } from './infrastructure/http';
+import { BadRequest, HttpStatus, Unauthorized } from './infrastructure/http';
 import { hasRoles, provideAuthenticatedMember } from './infrastructure/session';
 import { TokenType } from './modules/authentication/authentication.entities';
 import { router as authentication } from './modules/authentication/authentication.router';
@@ -38,6 +38,7 @@ export function server() {
   app.use(cookieParser(config.session.secret));
   app.use(express.json());
   app.use(cacheControl);
+  app.use(maintenanceHandler);
   app.use(authenticationProvider);
 
   app.use('/health', health);
@@ -75,6 +76,16 @@ const cacheControl: RequestHandler = (req, res, next) => {
   next();
 };
 
+const maintenanceHandler: RequestHandler = async (req, res, next) => {
+  const config = await getLetsConfig();
+
+  if (config.maintenance) {
+    throw new BadRequest('Maintenance mode', { code: 'MaintenanceMode', end: config.maintenanceEnd });
+  } else {
+    next();
+  }
+};
+
 const isMember = hasRoles([MemberRole.member]);
 const isAdmin = hasRoles([MemberRole.admin]);
 
@@ -106,7 +117,7 @@ const configHandler: RequestHandler = async (req, res) => {
   const config = await getLetsConfig();
 
   const result: Config = {
-    ...pick(config, ['letsName', 'logoUrl', 'currency', 'currencyPlural']),
+    ...pick(config, ['maintenance', 'letsName', 'logoUrl', 'currency', 'currencyPlural']),
     map: {
       center: [config.mapLongitude, config.mapLatitude],
       zoom: Number(config.mapZoom),

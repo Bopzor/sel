@@ -1,4 +1,5 @@
 export type Config = {
+  maintenance: boolean;
   letsName: string;
   logoUrl: string;
   currency: string;
