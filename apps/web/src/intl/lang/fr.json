@@ -26,6 +26,9 @@
       "errorDetails": "Détails"
     },
     "errorBoundary": {
+      "maintenance": "⚠️<nbsp></nbsp>Site en maintenance",
+      "maintenanceMessage": "Ce site n'est pas accessible pour le moment, merci de revenir plus tard.",
+      "maintenanceEnd": "Date de fin estimée : {end, date, long} à {end, time, short}.",
       "forbidden": "🚫<nbsp></nbsp>Access non autorisé",
       "pageNotFound": "🧐<nbsp></nbsp>Page non trouvée.",
       "unknownErrorMessage": "🫨<nbsp></nbsp>Il s'est passé quelque chose qui n'était pas prévu...<nbsp></nbsp>🥲",
@@ -382,7 +385,7 @@
         "emailAddress": "Adresse email",
         "mailingAddress": "Adresse postale",
         "membershipDate": "Date d'adhésion",
-        "membershipDateFormatted": "{date, date, long} <dim>(il y a {relative})</dim>",
+        "membershipDateFormatted": "{date, long, long} <dim>(il y a {relative})</dim>",
         "memberNumber": "Numéro de membre",
         "bio": "À propos de moi",
         "interests": {

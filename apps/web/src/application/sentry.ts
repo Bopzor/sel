@@ -17,6 +17,10 @@ export function initSentry() {
     beforeSend(event, hint) {
       const error = hint.originalException;
 
+      if (ApiError.isCode(error, 'MaintenanceMode')) {
+        return null;
+      }
+
       event.contexts ??= {};
       event.contexts.app ??= {};
       event.contexts.app.app_version = pkg.version;
