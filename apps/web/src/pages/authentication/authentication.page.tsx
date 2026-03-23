@@ -152,9 +152,9 @@ function useVerifyAuthenticationCode(clearCode: () => void) {
         throw error;
       }
 
-      if (error.body?.code === 'AuthenticationCodeNotFound' || error.body?.code === 'CodeRevoked') {
+      if (ApiError.isCode(error, 'AuthenticationCodeNotFound') || ApiError.isCode(error, 'CodeRevoked')) {
         notify.error(t('invalidCode'));
-      } else if (error.body?.code === 'CodeExpired') {
+      } else if (ApiError.isCode(error, 'CodeExpired')) {
         notify.error(t('codeExpired'));
       } else {
         reportError(error);
