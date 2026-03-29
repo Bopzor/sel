@@ -20,8 +20,13 @@ export function Home() {
 
   return (
     <div class="mt-8 row gap-8">
-      <QuickAccess />
-      <Feed />
+      <div class="w-full max-w-xs max-md:hidden">
+        <QuickAccess />
+      </div>
+
+      <div class="flex-1">
+        <Feed />
+      </div>
 
       <TransactionDialog
         open={create() === 'transaction'}
@@ -44,7 +49,7 @@ function QuickAccess() {
   };
 
   return (
-    <section class={card.content({ class: 'sticky top-4 hidden w-full max-w-xs gap-4 self-start md:col' })}>
+    <section class={card.content({ class: 'sticky top-4 gap-4 self-start col' })}>
       <h2 class={card.title()}>
         <T id="quickAccess.title" />
       </h2>

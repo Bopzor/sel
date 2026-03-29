@@ -1,15 +1,14 @@
-import { createForm, Field, FormStore, getValue, setValue } from '@modular-forms/solid';
+import { createForm, getValue, setValue } from '@modular-forms/solid';
 import { FeedItem as FeedItemType, LightMember, Message as MessageType } from '@sel/shared';
 import { debounce } from '@solid-primitives/scheduled';
 import { keepPreviousData, useQuery } from '@tanstack/solid-query';
 import { Icon } from 'solid-heroicons';
 import { magnifyingGlass } from 'solid-heroicons/solid';
-import { ComponentProps, createEffect, createSignal, For, JSX, Show } from 'solid-js';
+import { ComponentProps, createSignal, For, JSX, Show } from 'solid-js';
 
 import { apiQuery } from 'src/application/query';
 import { routes } from 'src/application/routes';
 import { card } from 'src/components/card';
-import { Chip } from 'src/components/chip';
 import { Input } from 'src/components/input';
 import { Link } from 'src/components/link';
 import { MemberAvatarName } from 'src/components/member-avatar-name';
@@ -17,40 +16,31 @@ import { Message } from 'src/components/message';
 import { Pagination } from 'src/components/pagination';
 import { Query } from 'src/components/query';
 import { ResourceIcon } from 'src/components/resource-icon';
-import { Select } from 'src/components/select';
 import { FormattedRelativeDate } from 'src/intl/formatted';
 import { createTranslate } from 'src/intl/translate';
 
 const T = createTranslate('pages.home.feed');
 
-type FeedFiltersForm = {
-  resourceType: 'event' | 'request' | 'information' | null;
-  sortOrder: 'desc' | 'asc';
-  search: string;
-};
-
 export function Feed() {
-  const [search, setSearch] = createSignal<string>();
-  const debounceSearch = debounce(setSearch, 500);
+  const t = T.useTranslate();
+
   const [page, setPage] = createSignal(1);
-  const [form] = createForm<FeedFiltersForm>({
+
+  const [form, { Field }] = createForm<{ search: string }>({
     initialValues: {
-      resourceType: null,
-      sortOrder: 'desc',
       search: '',
     },
   });
 
-  createEffect(() => {
-    debounceSearch(getValue(form, 'search'));
-  });
+  const debounceSearch = debounce((value: string) => {
+    setValue(form, 'search', value);
+    setPage(1);
+  }, 500);
 
   const query = useQuery(() => ({
     ...apiQuery('getFeed', {
       query: {
-        sortOrder: getValue(form, 'sortOrder') ?? 'desc',
-        resourceType: getValue(form, 'resourceType') ?? undefined,
-        search: search(),
+        search: getValue(form, 'search'),
         page: page(),
       },
     }),
@@ -95,8 +85,21 @@ export function Feed() {
   };
 
   return (
-    <div>
-      <FeedFilters form={form} resetPagination={() => setPage(1)} />
+    <>
+      <form class="mb-8">
+        <Field name="search">
+          {(_, fieldProps) => (
+            <Input
+              classes={{ root: 'flex-1' }}
+              type="search"
+              start={<Icon path={magnifyingGlass} class="size-5 text-dim" />}
+              placeholder={t('filters.search')}
+              {...fieldProps}
+              onInput={(event) => debounceSearch(event.target.value)}
+            />
+          )}
+        </Field>
+      </form>
 
       <Query query={query}>
         {(feed) => (
@@ -125,83 +128,7 @@ export function Feed() {
           </Show>
         )}
       </Query>
-    </div>
-  );
-}
-
-function FeedFilters(props: { form: FormStore<FeedFiltersForm>; resetPagination: () => void }) {
-  const t = T.useTranslate();
-
-  return (
-    <form class="mb-8 col gap-4">
-      <div class="row flex-wrap gap-2">
-        <For each={['request', 'event', 'information'] as const}>
-          {(resourceType) => (
-            <Field name="resourceType" of={props.form} type="string">
-              {(field, fieldProps) => (
-                <Chip
-                  {...fieldProps}
-                  onClick={(event) => {
-                    if (event.currentTarget.checked) {
-                      setValue(props.form, 'resourceType', null);
-                      props.resetPagination();
-                    }
-                  }}
-                  type="radio"
-                  value={resourceType}
-                  checked={field.value === resourceType}
-                  classes={{ root: 'row items-center gap-2' }}
-                  onChange={(event) => {
-                    fieldProps.onChange(event);
-                    props.resetPagination();
-                  }}
-                >
-                  <ResourceIcon type={resourceType} class="size-4 text-dim peer-checked:text-primary" />
-                  <T id={`filters.${resourceType}`} />
-                </Chip>
-              )}
-            </Field>
-          )}
-        </For>
-      </div>
-
-      <div class="col gap-4 lg:row">
-        <Field name="search" of={props.form}>
-          {(_, fieldProps) => (
-            <Input
-              classes={{ root: 'flex-1' }}
-              type="search"
-              start={<Icon path={magnifyingGlass} class="size-5 text-dim" />}
-              placeholder={t('filters.search')}
-              {...fieldProps}
-              onInput={(event) => {
-                fieldProps.onInput(event);
-                props.resetPagination();
-              }}
-            />
-          )}
-        </Field>
-
-        <Field name="sortOrder" of={props.form}>
-          {(field, fieldProps) => (
-            <Select
-              classes={{ root: 'max-md:hidden' }}
-              ref={fieldProps.ref}
-              items={['desc', 'asc'] as const}
-              selectedItem={() => field.value}
-              onItemSelected={(item) => {
-                if (item) {
-                  setValue(props.form, 'sortOrder', item);
-                  props.resetPagination();
-                }
-              }}
-              renderItem={(item) => <T id={`filters.${item!}`} />}
-              itemToString={(item) => t(`filters.${item!}`)}
-            />
-          )}
-        </Field>
-      </div>
-    </form>
+    </>
   );
 }
 
