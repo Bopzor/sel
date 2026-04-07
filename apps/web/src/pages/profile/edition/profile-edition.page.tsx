@@ -9,14 +9,11 @@ import { api } from 'src/application/api';
 import { notify } from 'src/application/notify';
 import { getAuthenticatedMember, useInvalidateApi } from 'src/application/query';
 import { Button } from 'src/components/button';
-import { FormControl } from 'src/components/form-control';
-import { Input } from 'src/components/input';
+import { Field as FieldComponent, Input, Textarea } from 'src/components/form-controls';
 import { MemberAvatar, MemberAvatarName } from 'src/components/member-avatar-name';
 import { Switch } from 'src/components/switch';
-import { TextArea } from 'src/components/text-area';
 import { formatPhoneNumber } from 'src/intl/formatted';
 import { createTranslate } from 'src/intl/translate';
-import { createId } from 'src/utils/id';
 import { createErrorMap, zodForm } from 'src/utils/validation';
 
 const Translate = createTranslate('common');
@@ -135,7 +132,7 @@ function NameFields(props: { form: FormStore<FormType> }) {
             label={<T id="firstName.label" />}
             value={field.value}
             error={field.error}
-            classes={{ root: 'flex-1' }}
+            classes={{ field: 'flex-1' }}
           />
         )}
       </Field>
@@ -147,7 +144,7 @@ function NameFields(props: { form: FormStore<FormType> }) {
             label={<T id="lastName.label" />}
             value={field.value}
             error={field.error}
-            classes={{ root: 'flex-1' }}
+            classes={{ field: 'flex-1' }}
           />
         )}
       </Field>
@@ -169,7 +166,7 @@ function EmailField(props: { form: FormStore<FormType>; value: string }) {
       onFocus={() => setEmailReadOnlyMessageVisible(true)}
       onBlur={() => setEmailReadOnlyMessageVisible(false)}
       end={<ProfileFieldVisibility name="emailVisible" form={props.form} />}
-      classes={{ root: 'max-w-md' }}
+      classes={{ field: 'max-w-md' }}
     />
   );
 }
@@ -186,7 +183,7 @@ function PhoneNumberField(props: { form: FormStore<FormType> }) {
           value={field.value}
           error={field.error}
           end={<ProfileFieldVisibility form={props.form} name="phoneNumberVisible" />}
-          classes={{ root: 'max-w-md' }}
+          classes={{ field: 'max-w-md' }}
         />
       )}
     </Field>
@@ -197,7 +194,7 @@ function BioField(props: { form: FormStore<FormType> }) {
   return (
     <Field of={props.form} name="bio">
       {(field, props) => (
-        <TextArea
+        <Textarea
           {...props}
           label={<T id="bio.label" />}
           value={field.value}
@@ -253,16 +250,15 @@ function ProfilePictureField() {
     },
   }));
 
-  const id = createId(() => undefined);
   let input!: HTMLInputElement;
 
   return (
-    <FormControl id={id()} label={<T id="profilePicture.label" />}>
-      <div class="row items-center gap-4">
+    <FieldComponent label={<T id="profilePicture.label" />}>
+      <div class="row gap-4">
         <MemberAvatar member={member()} class="size-12 rounded-full" />
 
         <div class="col gap-2">
-          <p>
+          <p class="max-w-lg">
             <T id="profilePicture.message" />
           </p>
 
@@ -276,9 +272,10 @@ function ProfilePictureField() {
               assert(file instanceof File);
               mutation.mutate(file);
             }}
+            class="max-w-fit cursor-pointer rounded-lg border bg-neutral px-4 py-2 -outline-offset-1"
           />
         </div>
       </div>
-    </FormControl>
+    </FieldComponent>
   );
 }

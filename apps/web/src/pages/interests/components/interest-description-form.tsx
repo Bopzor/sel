@@ -5,7 +5,7 @@ import { useMutation } from '@tanstack/solid-query';
 import { api } from 'src/application/api';
 import { useInvalidateApi } from 'src/application/query';
 import { Button } from 'src/components/button';
-import { TextArea } from 'src/components/text-area';
+import { Textarea } from 'src/components/form-controls';
 import { createTranslate } from 'src/intl/translate';
 import { zodForm } from 'src/utils/validation';
 
@@ -45,14 +45,14 @@ export function InterestDescriptionForm(props: {
     <Form class="col gap-2 py-1 pl-10" onSubmit={(data) => mutation.mutateAsync(data)}>
       <Field name="description">
         {(field, props) => (
-          <TextArea
+          <Textarea
             {...props}
+            autoresize
+            rows={3}
             variant="outlined"
-            rows={4}
             placeholder={t('description.placeholder')}
             value={field.value}
             error={field.error}
-            classes={{ field: 'h-auto' }}
           />
         )}
       </Field>

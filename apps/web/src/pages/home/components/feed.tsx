@@ -9,7 +9,7 @@ import { ComponentProps, createSignal, For, JSX, Show } from 'solid-js';
 import { apiQuery } from 'src/application/query';
 import { routes } from 'src/application/routes';
 import { card } from 'src/components/card';
-import { Input } from 'src/components/input';
+import { Input } from 'src/components/form-controls';
 import { Link } from 'src/components/link';
 import { MemberAvatarName } from 'src/components/member-avatar-name';
 import { Message } from 'src/components/message';
@@ -88,13 +88,12 @@ export function Feed() {
     <>
       <form class="mb-8">
         <Field name="search">
-          {(_, fieldProps) => (
+          {(_, props) => (
             <Input
-              classes={{ root: 'flex-1' }}
+              {...props}
               type="search"
               start={<Icon path={magnifyingGlass} class="size-5 text-dim" />}
               placeholder={t('filters.search')}
-              {...fieldProps}
               onInput={(event) => debounceSearch(event.target.value)}
             />
           )}

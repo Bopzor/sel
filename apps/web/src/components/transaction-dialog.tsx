@@ -1,27 +1,23 @@
-import { useListCollection } from '@ark-ui/solid';
-import { Combobox as ArkCombobox } from '@ark-ui/solid/combobox';
+import { createListCollection, useFilter, useListCollection } from '@ark-ui/solid';
 import { Field, FormStore, createForm, getValue, reset, setValue } from '@modular-forms/solid';
 import { CreateTransactionBody, Member, MembersSort } from '@sel/shared';
-import { assert, hasProperty, not, removeDiacriticCharacters } from '@sel/utils';
+import { assert, getId, hasProperty, identity, not, removeDiacriticCharacters } from '@sel/utils';
 import { useMutation, useQuery } from '@tanstack/solid-query';
 import clsx from 'clsx';
-import { Icon } from 'solid-heroicons';
-import { check } from 'solid-heroicons/solid';
 import { Show, createEffect, createSignal } from 'solid-js';
 import { z } from 'zod';
 
 import { getLetsConfig } from 'src/application/config';
 import { notify } from 'src/application/notify';
-import { apiQuery, getAuthenticatedMember } from 'src/application/query';
+import { apiQuery, getAuthenticatedMember, getIsAuthenticatedMember } from 'src/application/query';
 import { createTranslate } from 'src/intl/translate';
+import { resolveToString } from 'src/utils/resolve-to-string';
 import { zodForm } from 'src/utils/validation';
 
 import { Button } from './button';
-import { Combobox } from './combobox';
 import { Dialog, DialogFooter, DialogHeader } from './dialog';
-import { Input } from './input';
+import { Combobox, Input, Select } from './form-controls';
 import { MemberAvatarName } from './member-avatar-name';
-import { Select } from './select';
 
 const T = createTranslate('components.transactionDialog');
 
@@ -153,23 +149,24 @@ function Fields(props: {
   const t = T.useTranslate();
   const config = getLetsConfig();
 
-  const authenticatedMember = getAuthenticatedMember();
-  const [memberSearch, setMemberSearch] = createSignal('');
+  const typeCollection = createListCollection<'send' | 'request'>({
+    items: ['send', 'request'],
+    itemToString: (item) => resolveToString(t(`type.${item}`)),
+    itemToValue: identity,
+  });
 
-  const membersList = () => {
-    return filteredMemberList(props.members, memberSearch()).filter(
-      not(hasProperty('id', authenticatedMember().id)),
-    );
-  };
+  const isAuthenticatedMember = getIsAuthenticatedMember();
+  const filterFn = useFilter({ sensitivity: 'base' });
 
-  const { collection, set } = useListCollection<Member>({
+  const membersList = useListCollection<Member>({
     initialItems: [],
-    itemToString: (member) => (member ? [member.firstName, member.lastName].join(' ') : ''),
-    itemToValue: (member) => member.id,
+    itemToString: (member) => [member.firstName, member.lastName].join(' '),
+    itemToValue: getId,
+    filter: filterFn().contains,
   });
 
   createEffect(() => {
-    set(membersList());
+    membersList.set(props.members.filter(not(isAuthenticatedMember)));
   });
 
   return (
@@ -177,17 +174,16 @@ function Fields(props: {
       <Field of={props.form} name="type">
         {(field, fieldProps) => (
           <Select
-            ref={fieldProps.ref}
-            error={field.error}
+            {...fieldProps}
+            collection={typeCollection}
             variant="outlined"
             label={<T id="type.label" />}
+            value={field.value}
+            error={field.error}
             readOnly={props.typeReadOnly}
             helperText={props.typeReadOnly && t('type.readOnly')}
-            items={['send', 'request'] as const}
-            itemToString={(item) => item ?? ''}
-            renderItem={(item) => item && <T id={`type.${item}`} />}
-            selectedItem={() => field.value}
-            onItemSelected={(item) => item && setValue(props.form, 'type', item)}
+            renderItem={(item) => <T id={`type.${item}`} />}
+            onValueChange={(item) => setValue(props.form, 'type', typeCollection.find(item)!)}
           />
         )}
       </Field>
@@ -196,29 +192,16 @@ function Fields(props: {
         {(field, fieldProps) => (
           <Show when={props.showMemberSelector}>
             <Combobox
-              collection={collection()}
-              name={fieldProps.name}
-              autofocus={fieldProps.autofocus}
-              // todo
-              // error={field.error}
+              {...fieldProps}
+              collection={membersList.collection()}
               variant="outlined"
               label={<T id="member.label" />}
               placeholder={t('member.placeholder')}
-              renderItem={(member) => (
-                <ArkCombobox.Item
-                  item={member}
-                  class="row cursor-pointer items-center gap-2 rounded-sm px-2 py-1 hover:bg-primary hover:text-body"
-                >
-                  <MemberAvatarName link={false} member={member} />
-                  <ArkCombobox.ItemIndicator class="ms-auto">
-                    <Icon path={check} class="size-4" />
-                  </ArkCombobox.ItemIndicator>
-                </ArkCombobox.Item>
-              )}
               value={field.value}
-              onChange={(member) => setValue(props.form, 'memberId', member!.id)}
-              onInputValueChange={setMemberSearch}
-              onClear={() => reset(props.form, 'memberId')}
+              error={field.error}
+              renderItem={(member) => <MemberAvatarName member={member} link={false} />}
+              onValueChange={(memberId) => setValue(props.form, 'memberId', memberId ?? '')}
+              onInputValueChange={({ inputValue }) => membersList.filter(inputValue)}
             />
           </Show>
         )}
@@ -228,11 +211,11 @@ function Fields(props: {
         {(field, props) => (
           <Input
             {...props}
-            value={field.value}
-            error={field.error}
             variant="outlined"
             label={<T id="description.label" />}
             placeholder={t('description.placeholder')}
+            value={field.value}
+            error={field.error}
           />
         )}
       </Field>
@@ -241,13 +224,13 @@ function Fields(props: {
         {(field, props) => (
           <Input
             {...props}
-            value={field.value}
-            error={field.error}
             type="number"
             variant="outlined"
             label={<T id="amount.label" values={{ currency: config()?.currencyPlural }} />}
             placeholder={t('amount.placeholder')}
-            classes={{ field: 'max-w-32' }}
+            value={field.value}
+            error={field.error}
+            classes={{ shell: 'max-w-32' }}
           />
         )}
       </Field>

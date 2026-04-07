@@ -19,6 +19,8 @@
   },
   "components": {
     "addressSearch": {
+      "typeToSearch": "Commencez à écrire pour chercher une adresse",
+      "fetching": "Chargement...",
       "noResults": "Aucun résultat"
     },
     "query": {

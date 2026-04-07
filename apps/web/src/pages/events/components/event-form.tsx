@@ -6,7 +6,7 @@ import { z } from 'zod';
 import { AddressSearch } from 'src/components/address-search';
 import { AttachmentsEditorField } from 'src/components/attachments-editor';
 import { Button } from 'src/components/button';
-import { Input } from 'src/components/input';
+import { Input } from 'src/components/form-controls';
 import { RichEditor } from 'src/components/rich-editor';
 import { createTranslate } from 'src/intl/translate';
 import { createErrorMap, zodForm } from 'src/utils/validation';
@@ -103,7 +103,7 @@ export function EventForm(props: {
               value={field.value}
               min={formatDateToInput(new Date())}
               onChange={(event) => setValue(form, 'date', event.target.value)}
-              classes={{ root: 'flex-1' }}
+              classes={{ field: 'flex-1' }}
             />
           )}
         </Field>
@@ -118,7 +118,7 @@ export function EventForm(props: {
               error={field.error}
               value={field.value}
               onChange={(location) => setValue(form, 'location', location)}
-              classes={{ root: 'flex-2' }}
+              classes={{ field: 'flex-2' }}
             />
           )}
         </Field>
