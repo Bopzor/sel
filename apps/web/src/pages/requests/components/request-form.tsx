@@ -4,7 +4,7 @@ import { JSX } from 'solid-js';
 
 import { AttachmentsEditorField } from 'src/components/attachments-editor';
 import { Button } from 'src/components/button';
-import { Input } from 'src/components/input';
+import { Input } from 'src/components/form-controls';
 import { RichEditor } from 'src/components/rich-editor';
 import { createTranslate } from 'src/intl/translate';
 import { zodForm } from 'src/utils/validation';
@@ -32,11 +32,11 @@ export function RequestForm(props: {
       <Field name="title">
         {(field, props) => (
           <Input
+            {...props}
             label={<T id="title.label" />}
             placeholder={t('title.placeholder')}
             error={field.error}
             value={field.value}
-            {...props}
           />
         )}
       </Field>

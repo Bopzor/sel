@@ -8,11 +8,9 @@ import { notify } from 'src/application/notify';
 import { apiQuery } from 'src/application/query';
 import { Button } from 'src/components/button';
 import { DialogFooter } from 'src/components/dialog';
-import { FormControl } from 'src/components/form-control';
-import { Input } from 'src/components/input';
+import { Field as FieldComponent, Input, Textarea } from 'src/components/form-controls';
 import { Query } from 'src/components/query';
 import { Radio } from 'src/components/radio';
-import { TextArea } from 'src/components/text-area';
 import { createTranslate } from 'src/intl/translate';
 import { zodForm } from 'src/utils/validation';
 
@@ -50,38 +48,37 @@ export function EventNotificationForm(props: { event: Event; onSuccess: () => vo
       <Field name="title">
         {(field, props) => (
           <Input
+            {...props}
             variant="outlined"
             label={<T id="title.label" />}
             error={field.error}
             value={field.value}
-            {...props}
           />
         )}
       </Field>
 
       <Field name="content">
         {(field, props) => (
-          <TextArea
+          <Textarea
+            {...props}
+            rows={4}
             variant="outlined"
             label={<T id="content.label" />}
-            rows={4}
-            classes={{ field: 'h-auto' }}
             error={field.error}
             value={field.value}
-            {...props}
           />
         )}
       </Field>
 
       <Query query={membersCountQuery}>
         {(membersCount) => (
-          <FormControl id="" label={<T id="recipients.label" />}>
+          <FieldComponent label={<T id="recipients.label" />}>
             <RecipientsField
               form={form}
               membersCount={membersCount()}
               participantsCount={props.event.participants.filter(hasProperty('participation', 'yes')).length}
             />
-          </FormControl>
+          </FieldComponent>
         )}
       </Query>
 

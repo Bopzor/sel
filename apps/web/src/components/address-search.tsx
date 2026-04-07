@@ -1,101 +1,109 @@
-import { useListCollection } from '@ark-ui/solid';
+import { useAsyncList } from '@ark-ui/solid';
+import { Combobox as ArkCombobox, createListCollection } from '@ark-ui/solid/combobox';
 import { Address } from '@sel/shared';
-import { assert, createId, isDefined, wait } from '@sel/utils';
-import { useQuery } from '@tanstack/solid-query';
-import { createEffect, createRenderEffect, createSignal, JSX, untrack } from 'solid-js';
+import { isDefined } from '@sel/utils';
+import { Icon } from 'solid-heroicons';
+import { check } from 'solid-heroicons/solid';
+import { createMemo, For, JSX, Match, Switch } from 'solid-js';
 
 import { getAppConfig } from 'src/application/config';
 import { formatAddressInline } from 'src/intl/formatted';
 import { createTranslate } from 'src/intl/translate';
 
-import { Combobox } from './combobox';
+import { Combobox } from './form-controls';
 
 const T = createTranslate('components.addressSearch');
-
-type WithId<T> = T & { id: string };
 
 type AddressSearchProps = {
   variant?: 'solid' | 'outlined';
   name?: string;
   label?: JSX.Element;
   placeholder?: string;
-  error?: JSX.Element; // todo
+  error?: JSX.Element;
   autofocus?: boolean;
   value?: Address;
   onChange: (address: Address | null) => void;
-  classes?: Partial<Record<'root', string>>;
+  classes?: { field?: string };
 };
 
 export function AddressSearch(props: AddressSearchProps) {
-  const [searchQuery, setSearchQuery] = createSignal('');
-
-  const query = useQuery(() => ({
-    enabled: searchQuery().length >= 3,
-    queryKey: ['searchAddress', { query: searchQuery() }],
-    refetchOnWindowFocus: false,
-    refetchOnMount: false,
-    refetchOnReconnect: false,
-    async queryFn({ signal }) {
-      if (!(await wait(1000, signal))) {
-        return [];
+  const list = useAsyncList<Address>({
+    async load({ filterText, signal }) {
+      if (!filterText) {
+        return { items: [] };
       }
 
-      return search(searchQuery());
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+
+      if (signal?.aborted) {
+        return { items: [] };
+      }
+
+      return {
+        items: await search(filterText),
+      };
     },
-  }));
-
-  const [selectedId, setSelectedId] = createSignal<string>();
-
-  const { collection, set } = useListCollection<WithId<Address>>({
-    initialItems: [],
-    itemToString: formatAddressInline,
-    itemToValue: (address) => address.id,
   });
 
-  createRenderEffect(() => {
-    untrack(() => {
-      if (props.value) {
-        const id = createId();
-
-        setSelectedId(id);
-        set([{ id, ...props.value }]);
-      }
-    });
-  });
-
-  createEffect(() => {
-    if (query.isSuccess) {
-      set(query.data);
-    }
-  });
+  const collection = createMemo(() =>
+    createListCollection({
+      items: list().items,
+      itemToString: formatAddressInline,
+      itemToValue: formatAddressInline,
+    }),
+  );
 
   return (
     <Combobox
       collection={collection()}
+      renderItem={() => null}
       variant={props.variant}
       label={props.label}
       name={props.name}
       autofocus={props.autofocus}
       placeholder={props.placeholder}
-      value={selectedId()}
-      onChange={(address) => {
-        assert(address !== null);
-        setSelectedId(address.id);
-        props.onChange(address);
+      value={props.value ? formatAddressInline(props.value) : undefined}
+      onValueChange={(address) => props.onChange(collection().find(address))}
+      defaultInputValue={props.value ? formatAddressInline(props.value) : undefined}
+      onInputValueChange={({ inputValue, reason }) => {
+        if (reason === 'input-change') {
+          list().setFilterText(inputValue);
+        }
       }}
-      onClear={() => {
-        setSelectedId(undefined);
-        props.onChange(null);
-      }}
-      onInputValueChange={setSearchQuery}
-      loading={query.isFetching}
-      renderNoItems={() => (
-        <div class="w-full py-6 text-center text-dim">
-          <T id="noResults" />
-        </div>
-      )}
+      loading={list().loading}
       classes={props.classes}
-    />
+    >
+      <Switch>
+        <Match when={list().loading}>
+          <div class="w-full py-6 text-center text-dim">
+            <T id="fetching" />
+          </div>
+        </Match>
+
+        <Match when={list().error}>
+          <div class="w-full py-6 text-center text-dim">{list().error.message}</div>
+        </Match>
+
+        <Match when={list().empty}>
+          <div class="w-full py-6 text-center text-dim">
+            {list().filterText ? <T id="noResults" /> : <T id="typeToSearch" />}
+          </div>
+        </Match>
+
+        <Match when={true}>
+          <For each={collection().items}>
+            {(address) => (
+              <ArkCombobox.Item item={address}>
+                <ArkCombobox.ItemText>{formatAddressInline(address)}</ArkCombobox.ItemText>
+                <ArkCombobox.ItemIndicator>
+                  <Icon path={check} class="size-5" />
+                </ArkCombobox.ItemIndicator>
+              </ArkCombobox.Item>
+            )}
+          </For>
+        </Match>
+      </Switch>
+    </Combobox>
   );
 }
 
@@ -115,7 +123,7 @@ type QueryResult = {
   features?: Feature[];
 };
 
-async function search(query: string): Promise<WithId<Address>[]> {
+async function search(query: string): Promise<Address[]> {
   const { geoapifyApiKey } = getAppConfig();
 
   const params = new URLSearchParams({
@@ -136,7 +144,7 @@ async function search(query: string): Promise<WithId<Address>[]> {
     return [];
   }
 
-  const getAddress = ({ properties }: Feature): WithId<Address> | undefined => {
+  const getAddress = ({ properties }: Feature): Address | undefined => {
     const { address_line1, city, postcode, country, lon, lat } = properties;
 
     if (!address_line1 || !city || !postcode || !country || !lon || !lat) {
@@ -144,7 +152,6 @@ async function search(query: string): Promise<WithId<Address>[]> {
     }
 
     return {
-      id: createId(),
       line1: address_line1,
       city: city,
       postalCode: postcode,

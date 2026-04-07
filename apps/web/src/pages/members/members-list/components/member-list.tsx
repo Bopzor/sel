@@ -4,7 +4,7 @@ import { magnifyingGlass, mapPin } from 'solid-heroicons/solid';
 import { For, Show } from 'solid-js';
 
 import { card } from 'src/components/card';
-import { Input } from 'src/components/input';
+import { Input } from 'src/components/form-controls';
 import { List } from 'src/components/list';
 import { MemberAvatarName } from 'src/components/member-avatar-name';
 import { TranslateMembersSort } from 'src/intl/enums';
