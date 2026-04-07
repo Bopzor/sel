@@ -1,7 +1,7 @@
 @import 'tailwindcss';
 
-@plugin "@tailwindcss/typography";
-@plugin "tailwindcss-animate";
+@plugin '@tailwindcss/typography';
+@plugin 'tailwindcss-animate';
 
 @custom-variant dark (&:where(.dark, .dark *));
 
@@ -41,7 +41,8 @@
 @layer base {
   * {
     border-color: var(--color-border);
-    outline-offset: var(--spacing-4);
+    outline-color: var(--color-primary);
+    outline-offset: var(--spacing);
   }
 
   @media screen and (max-width: 639px) {
@@ -74,6 +75,114 @@
   button:not(:disabled),
   [role='button']:not(:disabled) {
     cursor: pointer;
+  }
+}
+
+@layer components {
+  [data-part='label'] {
+    @apply text-dim mb-1 inline-block max-w-fit font-medium;
+  }
+
+  [data-part='error-text'] {
+    @apply mt-1 inline-block text-sm text-red-700 dark:text-red-400;
+  }
+
+  [data-part='helper-text'] {
+    @apply mt-1 inline-block text-sm text-dim;
+  }
+
+  [data-scope='field'][data-part='input-shell'],
+  [data-scope='field'][data-part='textarea'],
+  [data-scope='select'][data-part='trigger'],
+  [data-scope='combobox'][data-part='control'] {
+    @apply row w-full items-center rounded-lg bg-transparent outline-2 outline-transparent;
+    @apply transition-colors duration-100;
+
+    &[data-variant='solid'] {
+      @apply bg-neutral shadow-sm outline-offset-0;
+    }
+
+    &[data-variant='outlined'] {
+      @apply border-2 border-inverted/20 -outline-offset-2;
+    }
+
+    [data-invalid] & {
+      @apply outline-red-500!;
+    }
+  }
+
+  [data-scope='field'][data-part='input-shell']:focus-within,
+  [data-scope='field'][data-part='textarea']:focus,
+  [data-scope='select'][data-part='trigger']:focus,
+  [data-scope='select'][data-part='trigger'][data-state='open'],
+  [data-scope='combobox'][data-part='control']:focus-within {
+    @apply outline-primary;
+  }
+
+  [data-scope='field'][data-part='input-shell'],
+  [data-scope='combobox'][data-part='control'] {
+    &:has([data-part='start']) [data-part='input'] {
+      @apply pl-0;
+    }
+
+    &:has([data-part='end']) [data-part='input'] {
+      @apply pr-0;
+    }
+
+    [data-part='start'],
+    [data-part='end'] {
+      @apply row gap-2 items-center px-4;
+    }
+  }
+
+  [data-scope='field'][data-part='input'] {
+    @apply h-12 px-4 w-full outline-none;
+  }
+
+  [data-scope='field'][data-part='textarea'] {
+    @apply px-4 py-3 w-full;
+  }
+
+  [data-scope='select'][data-part='trigger'] {
+    @apply h-12 px-4;
+  }
+
+  [data-scope='combobox'][data-part='input'] {
+    @apply h-12 w-full px-4 outline-none;
+  }
+
+  [data-scope='select'][data-part='trigger'] {
+    @apply justify-between;
+  }
+
+  [data-scope='select'][data-part='indicator'],
+  [data-scope='combobox'][data-part='trigger'] {
+    &[data-state='open'] {
+      @apply -scale-y-100;
+    }
+  }
+
+  [data-scope='select'][data-part='value-text'] {
+    @apply truncate;
+
+    [data-placeholder-shown] & {
+      @apply text-placeholder;
+    }
+  }
+
+  [data-scope='select'],
+  [data-scope='combobox'] {
+    [data-part='content'] {
+      @apply bg-neutral max-h-(--available-height) min-w-(--reference-width) overflow-y-auto rounded-md p-2 shadow-md border outline-none;
+    }
+
+    [data-part='item'] {
+      @apply row cursor-pointer items-center justify-between gap-2 rounded-sm px-2 py-1;
+
+      &[data-highlighted] {
+        @apply bg-primary/80 text-neutral;
+      }
+    }
   }
 }
 
