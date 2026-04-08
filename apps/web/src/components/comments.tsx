@@ -107,11 +107,11 @@ export function CommentForm(props: {
     validate: zodForm(createCommentBodySchema.omit({ entityId: true, entityType: true })),
   });
 
-  const editor = createRichEditor({
-    element: () => ref,
+  const editor = createRichEditor(() => ({
+    element: ref,
     placeholder: props.placeholder,
     onChange: (body) => setValue(form, 'body', body),
-  });
+  }));
 
   const attachments = new ReactiveMap<string, Attachment>();
   const [upload, isPending] = createFileUploadHandler((file) =>
@@ -137,7 +137,7 @@ export function CommentForm(props: {
         <MemberAvatarName member={member()} />
       </div>
 
-      <div ref={ref} id={id()} class="my-2 ml-10 col min-h-32 outline-hidden" />
+      <div ref={ref} id={id()} class="my-2 ml-10 col min-h-32 outline-none" />
 
       <Show when={attachments.size > 0 || isPending()}>
         <AttachmentEditorList
