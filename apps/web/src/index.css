@@ -75,27 +75,6 @@
   [role='button']:not(:disabled) {
     cursor: pointer;
   }
-
-  .prose {
-    color: var(--color-text) !important;
-
-    a {
-      color: var(--color-blue-500);
-      word-break: break-all;
-    }
-
-    li,
-    li p {
-      margin-top: 0;
-      margin-bottom: 0;
-    }
-  }
-
-  .dark .prose {
-    a {
-      color: var(--color-blue-300);
-    }
-  }
 }
 
 @utility row {
@@ -129,6 +108,25 @@
   &::-webkit-scrollbar-thumb {
     background: --alpha(var(--color-white) / 100%);
     border-radius: 100vh;
+  }
+}
+
+@utility prose {
+  color: var(--color-text);
+
+  a {
+    color: var(--color-blue-500);
+    word-break: break-all;
+
+    @variant dark {
+      color: var(--color-blue-300);
+    }
+  }
+
+  li,
+  li p {
+    margin-top: 0;
+    margin-bottom: 0;
   }
 }
 
