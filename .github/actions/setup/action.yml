@@ -5,16 +5,15 @@ runs:
   using: composite
   steps:
     - name: Install pnpm
-      uses: pnpm/action-setup@v4
+      uses: pnpm/action-setup@v5
 
     - name: Install Node.js
-      uses: actions/setup-node@v4
+      uses: actions/setup-node@v6
       with:
-        node-version: 20
-        cache: pnpm
+        node-version: 24
 
     - name: Install dependencies
-      uses: pnpm/action-setup@v4
+      uses: pnpm/action-setup@v5
       with:
         run_install: |
           - recursive: true
