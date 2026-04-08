@@ -34,6 +34,14 @@ export function pick<T, K extends keyof T>(obj: T, keys: K[]): Pick<T, K> {
   return toObject(keys, identity, (key) => obj[key]) as Pick<T, K>;
 }
 
+export function omitUndefined<T extends object>(obj: T): T {
+  return toObject(
+    entries(obj).filter(([, value]) => value !== undefined),
+    ([k]) => k,
+    ([, v]) => v,
+  ) as T;
+}
+
 export async function awaitProperties<T extends object>(obj: T): Promise<{ [K in keyof T]: Awaited<T[K]> }> {
   const results = await Promise.all(Object.values(obj));
 

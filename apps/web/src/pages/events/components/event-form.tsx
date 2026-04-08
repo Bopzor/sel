@@ -70,9 +70,8 @@ export function EventForm(props: {
       </Field>
 
       <Field name="body">
-        {(field, props) => (
+        {(field) => (
           <RichEditor
-            ref={props.ref}
             label={<T id="body.label" />}
             placeholder={t('body.placeholder')}
             error={field.error}

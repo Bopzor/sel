@@ -1,15 +1,15 @@
 import { Attachment, isImage } from '@sel/shared';
 import { not } from '@sel/utils';
 import { ReactiveMap } from '@solid-primitives/map';
+import clsx from 'clsx';
 import { Icon } from 'solid-heroicons';
 import { plus, xMark } from 'solid-heroicons/solid';
 import { For, JSX, Show } from 'solid-js';
 
 import { createTranslate } from 'src/intl/translate';
 import { createFileUploadHandler } from 'src/utils/file-upload';
-import { createId } from 'src/utils/id';
 
-import { FormControl } from './form-control';
+import { Field } from './form-controls';
 import { FilePreview, ImagePreview } from './message';
 import { Spinner } from './spinner';
 
@@ -44,24 +44,21 @@ export function AttachmentsEditorField(props: {
   );
 }
 
-export function AttachmentEditor(props: {
-  id?: string;
+function AttachmentEditor(props: {
   label?: JSX.Element;
   value: Attachment[];
   onAdd?: (attachment: Attachment) => void;
   onRemove: (attachment: Attachment) => void;
 }) {
-  const id = createId(() => props.id);
-
   return (
-    <FormControl id={id()} label={props.label}>
+    <Field label={props.label}>
       <AttachmentEditorList
         value={props.value}
         onAdd={props.onAdd}
         onRemove={props.onRemove}
-        class="col gap-4 rounded-lg bg-neutral px-4 py-3 shadow"
+        class="rounded-lg bg-neutral px-4 py-3 shadow"
       />
-    </FormControl>
+    </Field>
   );
 }
 
@@ -82,7 +79,7 @@ export function AttachmentEditorList(props: {
   const notImages = () => props.value.filter(not(isImage));
 
   return (
-    <div class={props.class}>
+    <div class={clsx('col gap-4', props.class)}>
       <div class="row flex-wrap gap-4">
         <Show when={props.onAdd !== undefined}>
           <label
@@ -108,18 +105,14 @@ export function AttachmentEditorList(props: {
         </For>
       </div>
 
-      <Show when={notImages().length > 0}>
-        <div class="row flex-wrap gap-4">
-          <For each={notImages()}>
-            {(attachment) => (
-              <div class="relative rounded-md border-2 px-4 py-1 shadow">
-                <RemoveButton onClick={() => props.onRemove(attachment)} />
-                <FilePreview name={attachment.name} originalName={attachment.originalName} />
-              </div>
-            )}
-          </For>
-        </div>
-      </Show>
+      <For each={notImages()}>
+        {(attachment) => (
+          <div class="relative max-w-fit rounded-md border-2 px-4 py-1 shadow">
+            <RemoveButton onClick={() => props.onRemove(attachment)} />
+            <FilePreview name={attachment.name} originalName={attachment.originalName} />
+          </div>
+        )}
+      </For>
     </div>
   );
 }
