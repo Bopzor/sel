@@ -2,6 +2,7 @@
   "ignorePaths": ["**/*.svg"],
   "language": "en, fr",
   "words": [
+    "autoresize",
     "clonedeep",
     "clsx",
     "datefns",
