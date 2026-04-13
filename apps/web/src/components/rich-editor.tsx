@@ -1,4 +1,5 @@
-import { Editor } from '@tiptap/core';
+import { pick } from '@sel/utils';
+import { Editor as TiptapEditor } from '@tiptap/core';
 import Image from '@tiptap/extension-image';
 import Link from '@tiptap/extension-link';
 import Placeholder from '@tiptap/extension-placeholder';
@@ -12,84 +13,99 @@ import { default as IconListBullet } from 'heroicons/24/solid/list-bullet.svg';
 import { default as IconNumberedList } from 'heroicons/24/solid/numbered-list.svg';
 import { default as IconPaperClip } from 'heroicons/24/solid/paper-clip.svg';
 import { default as IconUnderline } from 'heroicons/24/solid/underline.svg';
-import { JSX, Show, splitProps, ValidComponent } from 'solid-js';
+import { ComponentProps, JSX, Show, splitProps, untrack, ValidComponent } from 'solid-js';
 import { Dynamic } from 'solid-js/web';
 import { createEditorTransaction, createTiptapEditor } from 'solid-tiptap';
 
 import { createTranslate } from 'src/intl/translate';
-import { createId } from 'src/utils/id';
 
-import { field, FieldVariant } from './field';
-import { FormControl } from './form-control';
+import { Field, FieldVariant } from './form-controls';
 import { Spinner } from './spinner';
 
 const T = createTranslate('components.richEditor');
 
 type CreateRichEditorProps = {
-  element: () => HTMLElement;
+  element: HTMLElement;
   placeholder?: string;
   initialValue?: string;
+  editorAttributes?: object;
   onChange?: (html: string) => void;
 };
 
-export function createRichEditor(props: CreateRichEditorProps) {
-  return createTiptapEditor(() => ({
-    element: props.element(),
-    extensions: [
-      StarterKit,
-      Underline,
-      Link,
-      Placeholder.configure({ placeholder: props.placeholder }),
-      Image,
-    ],
-    content: props.initialValue,
-    editorProps: {
-      attributes: {
-        class: 'outline-hidden grow prose max-w-none dark:prose-invert',
+export function createRichEditor(props: () => CreateRichEditorProps) {
+  return createTiptapEditor(() => {
+    const { element, placeholder, initialValue, editorAttributes, onChange } = props();
+
+    return {
+      element,
+      extensions: [StarterKit, Underline, Link, Placeholder.configure({ placeholder }), Image],
+      content: initialValue,
+      editorProps: {
+        attributes: {
+          ...editorAttributes,
+          class: 'outline-none grow prose max-w-none dark:prose-invert',
+        },
       },
-    },
-    onUpdate({ editor }) {
-      props.onChange?.(editor.getHTML());
-    },
-  }));
+      onUpdate({ editor }) {
+        onChange?.(editor.getHTML());
+      },
+    };
+  });
 }
 
-type RichEditorProps = CreateRichEditorProps & {
-  id?: string;
+export function RichEditor(_props: {
   variant?: FieldVariant;
   label?: JSX.Element;
   error?: JSX.Element;
-};
-
-export function RichEditor(_props: Omit<RichEditorProps, 'element'>) {
-  const [formControlProps, fieldProps, props] = splitProps(_props, ['label', 'error'], ['variant']);
-
-  const id = createId(() => props.id);
-  let ref!: HTMLDivElement;
-
-  const editor = createRichEditor({ ...props, element: () => ref });
+  placeholder?: string;
+  initialValue?: string;
+  onChange?: (html: string) => void;
+}) {
+  const [fieldProps, props] = splitProps(_props, ['label', 'error']);
 
   return (
-    <FormControl id={id()} {...formControlProps}>
-      <div class={field({ ...fieldProps, class: 'col! items-stretch h-64 resize-y overflow-auto' })}>
-        <div
-          ref={ref}
-          aria-invalid={Boolean(formControlProps.error)}
-          aria-errormessage={formControlProps.error ? `${id()}-helper-text` : undefined}
-          id={id()}
-          class="col grow overflow-y-auto px-4 py-3"
-        />
+    <Field {...fieldProps}>
+      <Field.Context>
+        {(field) => <Editor {...props} variant={props.variant} inputProps={field().getInputProps()} />}
+      </Field.Context>
+    </Field>
+  );
+}
 
-        <div class="row items-end justify-between p-1">
-          <RichEditorToolbar editor={editor()} />
-        </div>
+export function Editor(props: {
+  variant?: FieldVariant;
+  placeholder?: string;
+  initialValue?: string;
+  onChange?: (html: string) => void;
+  inputProps: ComponentProps<'input'>;
+}) {
+  let ref!: HTMLDivElement;
+
+  const editor = createRichEditor(() => ({
+    element: ref,
+    placeholder: props.placeholder,
+    initialValue: untrack(() => props.initialValue),
+    onChange: props.onChange,
+    editorAttributes: pick(props.inputProps, ['id', 'aria-invalid', 'aria-describedby']),
+  }));
+
+  return (
+    <div
+      data-scope="field"
+      data-part="input-shell"
+      data-variant={props.variant ?? 'solid'}
+      class="col! h-64 resize-y items-stretch overflow-auto"
+    >
+      <div ref={ref} class="col grow overflow-auto px-4 py-3" />
+      <div class="row items-end justify-between p-1">
+        <RichEditorToolbar editor={editor()} />
       </div>
-    </FormControl>
+    </div>
   );
 }
 
 export function RichEditorToolbar(props: {
-  editor?: Editor;
+  editor?: TiptapEditor;
   onFileAdded?: (event: { target: HTMLInputElement }) => void;
   isFileUploading?: boolean;
   class?: string;

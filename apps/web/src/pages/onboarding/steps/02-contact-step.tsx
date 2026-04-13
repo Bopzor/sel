@@ -9,7 +9,7 @@ import { z } from 'zod';
 import { api } from 'src/application/api';
 import { getAuthenticatedMember, useInvalidateApi } from 'src/application/query';
 import { Button } from 'src/components/button';
-import { Input } from 'src/components/input';
+import { Input } from 'src/components/form-controls';
 import { Switch } from 'src/components/switch';
 import { formatPhoneNumber } from 'src/intl/formatted';
 import { createTranslate } from 'src/intl/translate';

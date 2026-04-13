@@ -11,7 +11,7 @@ import { notify } from 'src/application/notify';
 import { useInvalidateApi } from 'src/application/query';
 import { routes } from 'src/application/routes';
 import { Button } from 'src/components/button';
-import { Input } from 'src/components/input';
+import { Input } from 'src/components/form-controls';
 import { externalLink } from 'src/components/link';
 import { SpinnerFullScreen } from 'src/components/spinner';
 import { createTranslate } from 'src/intl/translate';
@@ -67,18 +67,19 @@ export function AuthenticationPage() {
 
           <Form class="my-8 row justify-center">
             <Field name="code">
-              {(field, fieldProps) => (
+              {(field, props) => (
                 <Input
+                  {...props}
                   type="number"
-                  value={field.value}
                   variant="outlined"
+                  disabled={verifyCode.isPending}
                   placeholder={t('codePlaceholder')}
-                  {...fieldProps}
+                  value={field.value}
+                  error={field.error}
                   classes={{
                     input:
                       'tracking-[0.5em] text-2xl text-center [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none',
                   }}
-                  disabled={verifyCode.isPending}
                 />
               )}
             </Field>
