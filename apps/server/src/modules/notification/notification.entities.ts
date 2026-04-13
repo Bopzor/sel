@@ -1,5 +1,8 @@
 import { type schema } from 'src/persistence';
 
+export type MemberDevice = typeof schema.memberDevices.$inferSelect;
+export type MemberDeviceInsert = typeof schema.memberDevices.$inferInsert;
+
 export enum NotificationDeliveryType {
   email = 'email',
   push = 'push',

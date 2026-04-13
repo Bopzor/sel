@@ -9,9 +9,19 @@ import { FileInsert } from './modules/file/file.entity';
 import { InformationInsert } from './modules/information/information.entities';
 import { InterestInsert } from './modules/interest/interest.entities';
 import { MemberInsert } from './modules/member/member.entities';
+import { MemberDeviceInsert } from './modules/notification/notification.entities';
 import { RequestInsert } from './modules/request/request.entities';
 import { db } from './persistence';
-import { events, files, information, interests, members, requests, tokens } from './persistence/schema';
+import {
+  events,
+  files,
+  information,
+  interests,
+  memberDevices,
+  members,
+  requests,
+  tokens,
+} from './persistence/schema';
 
 const insert = {
   token: createFactory<TokenInsert>(() => ({
@@ -30,6 +40,13 @@ const insert = {
     lastName: '',
     email: createId(),
     emailVisible: false,
+  })),
+
+  memberDevice: createFactory<MemberDeviceInsert>(() => ({
+    id: createId(),
+    memberId: '',
+    deviceSubscription: '',
+    deviceType: '',
   })),
 
   interest: createFactory<InterestInsert>(() => ({
@@ -78,6 +95,7 @@ export const persist = {
   file: persister(files, insert.file),
   interest: persister(interests, insert.interest),
   member: persister(members, insert.member),
+  memberDevice: persister(memberDevices, insert.memberDevice),
   request: persister(requests, insert.request),
   event: persister(events, insert.event),
   information: persister(information, insert.information),
