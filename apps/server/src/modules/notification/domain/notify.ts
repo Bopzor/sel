@@ -3,7 +3,7 @@ import path from 'node:path';
 
 import * as shared from '@sel/shared';
 import { assert, defined, hasProperty, toObject } from '@sel/utils';
-import { eq, inArray } from 'drizzle-orm';
+import { and, eq, inArray } from 'drizzle-orm';
 import rehypeStringify from 'rehype-stringify';
 import remarkParse from 'remark-parse';
 import remarkRehype from 'remark-rehype';
@@ -66,7 +66,10 @@ export async function notify<Type extends shared.NotificationType>({
   const template = await loadTemplate(type);
 
   const members = await db.query.members.findMany({
-    where: memberIds ? inArray(schema.members.id, memberIds) : undefined,
+    where: and(
+      eq(schema.members.status, shared.MemberStatus.active),
+      memberIds ? inArray(schema.members.id, memberIds) : undefined,
+    ),
     with: { devices: true },
   });
 
