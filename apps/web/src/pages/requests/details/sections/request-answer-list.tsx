@@ -5,7 +5,7 @@ import { check, xMark } from 'solid-heroicons/solid';
 import { card, Card } from 'src/components/card';
 import { List } from 'src/components/list';
 import { MemberAvatarName } from 'src/components/member-avatar-name';
-import { TranslateRequestAnswer } from 'src/intl/enums';
+import { TranslateEnum } from 'src/intl/enums';
 import { createTranslate } from 'src/intl/translate';
 
 const T = createTranslate('pages.requests.details.answerList');
@@ -49,7 +49,7 @@ function Answer(props: { answer: RequestAnswer }) {
               'text-dim': negative(),
             }}
           >
-            <TranslateRequestAnswer value={props.answer.answer} />
+            <TranslateEnum enum="requestAnswer" value={props.answer.answer} />
             <Icon path={{ positive: check, negative: xMark }[props.answer.answer]} class="size-5 stroke-2" />
           </div>
         ),
