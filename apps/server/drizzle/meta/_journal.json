@@ -288,6 +288,13 @@
       "when": 1774261669845,
       "tag": "0040_add-maintenance-mode",
       "breakpoints": true
+    },
+    {
+      "idx": 41,
+      "version": "7",
+      "when": 1776776330062,
+      "tag": "0041_reformat-views",
+      "breakpoints": true
     }
   ]
 }
