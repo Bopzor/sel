@@ -146,8 +146,9 @@ export const api = {
 
   // requests
 
-  listRequests: endpoint('get', '/requests').types<{
-    result: shared.Request[];
+  listRequests: endpoint('get', '/requests', { paginated: true }).types<{
+    result: Paginated<shared.RequestListItem>;
+    query: typeof shared.listRequestsQuerySchema;
   }>(),
 
   getRequest: endpoint('get', '/requests/:requestId').types<{
@@ -332,8 +333,8 @@ function endpoint(method: HttpMethod, path: string, options: { paginated?: true 
       if (options.paginated) {
         return {
           items: result,
-          total: response.headers.get('x-pagination-total'),
-          pageSize: response.headers.get('x-pagination-page-size'),
+          total: Number(response.headers.get('x-pagination-total')),
+          pageSize: Number(response.headers.get('x-pagination-page-size')),
         };
       }
 

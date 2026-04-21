@@ -463,7 +463,17 @@
       },
       "list": {
         "title": "Demandes",
-        "createRequest": "Nouvelle demande"
+        "createRequest": "Nouvelle demande",
+        "noResults": "Aucun résultat",
+        "filters": {
+          "title": "Filtrer les demandes",
+          "trigger": "Filtres",
+          "apply": "Valider",
+          "search": "Rechercher...",
+          "status": "Statut",
+          "requester": "Demandeur / Demandeuse",
+          "year": "Année"
+        }
       },
       "details": {
         "header": {
