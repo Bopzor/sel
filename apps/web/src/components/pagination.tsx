@@ -32,6 +32,7 @@ export function Pagination(props: PaginationProps) {
               onClick={() => {
                 if (page !== '...') {
                   props.onChange(page);
+                  window.scrollTo({ top: 0, behavior: 'instant' });
                 }
               }}
             >
