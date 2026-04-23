@@ -1,8 +1,8 @@
 import { TransactionStatus as TransactionStatusEnum } from '@sel/shared';
 import { Icon } from 'solid-heroicons';
-import { exclamationTriangle, check, xMark } from 'solid-heroicons/solid';
+import { check, exclamationTriangle, xMark } from 'solid-heroicons/solid';
 
-import { TranslateTransactionStatus } from 'src/intl/enums';
+import { TranslateEnum } from 'src/intl/enums';
 
 export function TransactionStatus(props: { status: TransactionStatusEnum }) {
   const icons = {
@@ -24,7 +24,7 @@ export function TransactionStatus(props: { status: TransactionStatusEnum }) {
         <Icon path={icons[props.status]} class="size-4" />
       </div>
 
-      <TranslateTransactionStatus value={props.status} />
+      <TranslateEnum enum="transactionStatus" value={props.status} />
     </span>
   );
 }

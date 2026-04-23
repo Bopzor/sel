@@ -10,6 +10,15 @@ export enum RequestStatus {
   canceled = 'canceled',
 }
 
+export type RequestListItem = {
+  id: string;
+  status: RequestStatus;
+  date: string;
+  requester: Requester;
+  title: string;
+  message: Message;
+};
+
 export type Request = {
   id: string;
   status: RequestStatus;
@@ -36,6 +45,15 @@ export type RequestAnswer = {
   };
   answer: 'positive' | 'negative';
 };
+
+export const listRequestsQuerySchema = z.object({
+  search: z.string().optional(),
+  status: z.enum(RequestStatus).optional(),
+  requesterId: z.string().optional(),
+  year: z.coerce.number().optional(),
+  page: z.coerce.number().min(1).default(1),
+  pageSize: z.coerce.number().min(1).max(100).default(10),
+});
 
 export const createRequestBodySchema = z.object({
   title: z.string().trim().min(5).max(200),

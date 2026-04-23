@@ -1,4 +1,5 @@
 import { defined, get, hasProperty } from '@sel/utils';
+
 import { memberName } from 'src/infrastructure/format';
 import { findMemberById, Member } from 'src/modules/member';
 import { notify } from 'src/modules/notification';

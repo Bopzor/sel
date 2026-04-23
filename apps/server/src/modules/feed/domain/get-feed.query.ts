@@ -1,14 +1,13 @@
 // cspell:words ilike;
 
 import * as shared from '@sel/shared';
-import { awaitProperties, defined, hasProperty } from '@sel/utils';
-import { and, asc, desc, eq, ilike, inArray, max, SQL, sql } from 'drizzle-orm';
+import { awaitProperties, defined, getId, hasProperty } from '@sel/utils';
+import { and, asc, desc, eq, ilike, inArray, max, SQL } from 'drizzle-orm';
 
 import { withAvatar } from 'src/modules/member/member.entities';
 import { withAttachments } from 'src/modules/messages/message.entities';
-import { db } from 'src/persistence';
+import { db, paginated } from 'src/persistence';
 import { events, feedView, information, requests, searchView } from 'src/persistence/schema';
-import { paginated } from 'src/persistence/utils';
 
 type FeedQuery = {
   resourceType?: shared.ResourceType;
@@ -19,12 +18,11 @@ type FeedQuery = {
 };
 
 export async function getFeed(query: FeedQuery) {
-  const qb = query.search ? getSearchQB(query) : getFeedQB(query);
-  const [total, unionResults] = await paginated(qb.$dynamic(), query);
+  const [total, results] = query.search ? await search(query) : await feed(query);
 
-  const eventIds = unionResults.filter(({ type }) => type === 'event').map(({ id }) => id);
-  const requestIds = unionResults.filter(({ type }) => type === 'request').map(({ id }) => id);
-  const informationIds = unionResults.filter(({ type }) => type === 'information').map(({ id }) => id);
+  const eventIds = results.filter(({ type }) => type === 'event').map(getId);
+  const requestIds = results.filter(({ type }) => type === 'request').map(getId);
+  const informationIds = results.filter(({ type }) => type === 'information').map(getId);
 
   const resources = await awaitProperties({
     events:
@@ -52,7 +50,7 @@ export async function getFeed(query: FeedQuery) {
 
   return {
     total,
-    items: unionResults.map(({ type, id }) => {
+    items: results.map(({ type, id }) => {
       if (type === 'event') {
         return ['event', defined(resources.events.find(hasProperty('id', id)))] as const;
       }
@@ -70,45 +68,47 @@ export async function getFeed(query: FeedQuery) {
   };
 }
 
-function getFeedQB(query: FeedQuery) {
-  const qb = db.select().from(feedView);
+function feed(query: FeedQuery) {
+  const conditions: SQL[] = [];
+  const order = query.sortOrder === 'asc' ? asc : desc;
 
   if (query.resourceType) {
-    qb.where(eq(feedView.type, query.resourceType));
+    conditions.push(eq(feedView.type, query.resourceType));
   }
 
-  if (query.sortOrder === 'asc') {
-    qb.orderBy(asc(feedView.createdAt));
-  } else {
-    qb.orderBy(desc(feedView.createdAt));
-  }
-
-  return qb;
+  return paginated(
+    query,
+    db
+      .select()
+      .from(feedView)
+      .where(and(...conditions))
+      .orderBy(order(feedView.createdAt))
+      .$dynamic(),
+  );
 }
 
-function getSearchQB(query: FeedQuery) {
-  const qb = db
-    .select({
-      id: searchView.id,
-      type: searchView.type,
-      createdAt: max(searchView.createdAt),
-    })
-    .from(searchView)
-    .groupBy(searchView.id, searchView.type);
+function search(query: FeedQuery) {
+  const conditions: SQL[] = [];
+  const order = query.sortOrder === 'asc' ? asc : desc;
 
-  let where: SQL | undefined = ilike(searchView.text, `%${query.search}%`);
+  conditions.push(ilike(searchView.text, `%${query.search}%`));
 
   if (query.resourceType) {
-    where = and(where, eq(searchView.type, query.resourceType));
+    conditions.push(eq(searchView.type, query.resourceType));
   }
 
-  qb.where(where);
-
-  if (query.sortOrder === 'asc') {
-    qb.orderBy(asc(max(searchView.createdAt)));
-  } else {
-    qb.orderBy(desc(max(searchView.createdAt)));
-  }
-
-  return qb;
+  return paginated(
+    query,
+    db
+      .select({
+        id: searchView.id,
+        type: searchView.type,
+        createdAt: max(searchView.createdAt),
+      })
+      .from(searchView)
+      .where(and(...conditions))
+      .groupBy(searchView.id, searchView.type)
+      .orderBy(order(max(searchView.createdAt)))
+      .$dynamic(),
+  );
 }

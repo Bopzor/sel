@@ -387,7 +387,7 @@
         "emailAddress": "Adresse email",
         "mailingAddress": "Adresse postale",
         "membershipDate": "Date d'adhésion",
-        "membershipDateFormatted": "{date, long, long} <dim>(il y a {relative})</dim>",
+        "membershipDateFormatted": "{date, date, long} <dim>(il y a {relative})</dim>",
         "memberNumber": "Numéro de membre",
         "bio": "À propos de moi",
         "interests": {
@@ -463,7 +463,17 @@
       },
       "list": {
         "title": "Demandes",
-        "createRequest": "Nouvelle demande"
+        "createRequest": "Nouvelle demande",
+        "noResults": "Aucun résultat",
+        "filters": {
+          "title": "Filtrer les demandes",
+          "trigger": "Filtres",
+          "apply": "Valider",
+          "search": "Rechercher...",
+          "status": "Statut",
+          "requester": "Demandeur / Demandeuse",
+          "year": "Année"
+        }
       },
       "details": {
         "header": {

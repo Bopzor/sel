@@ -1,10 +1,14 @@
+import { count, sql } from 'drizzle-orm';
 import { PgSelect } from 'drizzle-orm/pg-core';
 
 import { db } from './database';
 
-export async function paginated<T extends PgSelect>(
-  qb: T,
-  { page, pageSize }: { page: number; pageSize: number },
-) {
-  return [await db.$count(qb), await qb.limit(pageSize).offset((page - 1) * pageSize)] as const;
+export async function paginated<Qb extends PgSelect>(query: { page: number; pageSize: number }, qb: Qb) {
+  return Promise.all([
+    db
+      .select({ count: count() })
+      .from(sql`(${qb.getSQL()})`)
+      .then(([{ count }]) => count),
+    qb.limit(query.pageSize).offset((query.page - 1) * query.pageSize),
+  ]);
 }

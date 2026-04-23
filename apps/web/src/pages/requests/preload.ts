@@ -5,7 +5,7 @@ import { apiQuery } from 'src/application/query';
 
 export function preloadRequestList() {
   const queryClient = useQueryClient();
-  void queryClient.prefetchQuery(apiQuery('listRequests', {}));
+  void queryClient.prefetchQuery(apiQuery('listRequests', { query: {} }));
 }
 
 export function preloadRequest({ params }: { params: Params }) {

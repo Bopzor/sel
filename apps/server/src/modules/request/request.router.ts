@@ -2,7 +2,7 @@ import { AsyncLocalStorage } from 'node:async_hooks';
 
 import * as shared from '@sel/shared';
 import { defined } from '@sel/utils';
-import { desc, eq, sql } from 'drizzle-orm';
+import { eq } from 'drizzle-orm';
 import express, { RequestHandler } from 'express';
 
 import { container } from 'src/infrastructure/container';
@@ -21,6 +21,7 @@ import { Transaction } from '../transaction/transaction.entities';
 import { changeRequestStatus } from './domain/change-request-status.command';
 import { createRequest } from './domain/create-request.command';
 import { editRequest } from './domain/edit-request.command';
+import { listRequests } from './domain/list-requests.query';
 import { setRequestAnswer } from './domain/set-request-answer.command';
 import { Request, RequestAnswer } from './request.entities';
 import { findRequestById } from './request.persistence';
@@ -42,24 +43,13 @@ const isRequester: RequestHandler<{ requestId: string }> = async (req, res, next
 };
 
 router.get('/', async (req, res) => {
-  const results = await db.query.requests.findMany({
-    extras: {
-      position: sql`case status when 'pending' then 1 else 2 end`.as('position'),
-    },
-    with: {
-      requester: withAvatar,
-      message: withAttachments,
-      answers: {
-        with: {
-          member: withAvatar,
-        },
-      },
-      transactions: true,
-    },
-    orderBy: [sql`position`, desc(schema.requests.createdAt)],
-  });
+  const query = shared.listRequestsQuerySchema.parse(req.query);
+  const { total, requests } = await listRequests(query);
 
-  res.json(results.map(serializeRequest));
+  res.setHeader('x-pagination-total', total);
+  res.setHeader('x-pagination-page-size', query.pageSize);
+
+  res.json(requests.map(serializeRequestListItem));
 });
 
 router.get('/:requestId', async (req, res) => {
@@ -173,6 +163,28 @@ router.post('/:requestId/transaction', async (req, res) => {
 
   res.send(transactionId);
 });
+
+function serializeRequestListItem(
+  request: Request & {
+    requester: MemberWithAvatar;
+    message: MessageWithAttachments;
+  },
+): shared.RequestListItem {
+  const { requester } = request;
+
+  return {
+    id: request.id,
+    status: request.status,
+    date: request.date.toISOString(),
+    requester: {
+      ...serializeMember(requester),
+      email: requester.emailVisible ? requester.email : undefined,
+      phoneNumbers: (requester.phoneNumbers as shared.PhoneNumber[]).filter(({ visible }) => visible),
+    },
+    title: request.title,
+    message: serializeMessage(request.message),
+  };
+}
 
 function serializeRequest(
   request: Request & {

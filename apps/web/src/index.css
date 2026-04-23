@@ -161,7 +161,7 @@
   [data-scope='select'],
   [data-scope='combobox'] {
     [data-part='content'] {
-      @apply bg-neutral max-h-(--available-height) min-w-(--reference-width) overflow-y-auto rounded-md p-2 shadow-md border outline-none;
+      @apply bg-neutral max-h-[min(24rem,var(--available-height))] min-w-(--reference-width) overflow-y-auto rounded-md p-2 shadow-md border outline-none;
     }
 
     [data-part='item'] {

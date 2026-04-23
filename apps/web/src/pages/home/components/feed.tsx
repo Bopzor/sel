@@ -116,12 +116,9 @@ export function Feed() {
 
             <div class="mt-6 row justify-center">
               <Pagination
-                page={page()}
-                onChange={(page) => {
-                  setPage(page);
-                  window.scrollTo({ top: 0, behavior: 'instant' });
-                }}
                 pages={Math.ceil(feed().total / feed().pageSize)}
+                page={page()}
+                onChange={setPage}
               />
             </div>
           </Show>

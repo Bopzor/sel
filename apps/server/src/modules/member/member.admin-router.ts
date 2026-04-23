@@ -1,5 +1,6 @@
 import * as shared from '@sel/shared';
 import express from 'express';
+
 import { NotFound } from 'src/infrastructure/http';
 import { db } from 'src/persistence';
 

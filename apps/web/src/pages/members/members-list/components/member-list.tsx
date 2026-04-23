@@ -7,7 +7,7 @@ import { card } from 'src/components/card';
 import { Input } from 'src/components/form-controls';
 import { List } from 'src/components/list';
 import { MemberAvatarName } from 'src/components/member-avatar-name';
-import { TranslateMembersSort } from 'src/intl/enums';
+import { TranslateEnum } from 'src/intl/enums';
 import { createTranslate } from 'src/intl/translate';
 
 const T = createTranslate('pages.members.list');
@@ -73,7 +73,7 @@ function SortControl(props: { sort?: MembersSort; onSort: (sort: MembersSort | u
       <For each={Object.values(MembersSort)}>
         {(sort) => (
           <button classList={{ 'font-semibold': props.sort === sort }} onClick={() => props.onSort(sort)}>
-            <TranslateMembersSort value={sort} />
+            <TranslateEnum enum="membersSort" value={sort} />
           </button>
         )}
       </For>

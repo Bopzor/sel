@@ -1,14 +1,11 @@
-import { sql } from 'drizzle-orm';
-import { pgView, text, varchar } from 'drizzle-orm/pg-core';
-
-import { date, id } from '../schema-utils';
-
-export const searchView = pgView('search_view', {
-  id: id().notNull(),
-  type: varchar({ enum: ['event', 'request', 'information'] }).notNull(),
-  text: text().notNull(),
-  createdAt: date('created_at').notNull(),
-}).as(sql`
+DROP VIEW "public"."feed_view";--> statement-breakpoint
+DROP VIEW "public"."search_view";--> statement-breakpoint
+CREATE VIEW "public"."feed_view" AS (
+      (SELECT e.id,       'event' as type, e.created_at FROM events e)
+UNION (SELECT i.id, 'information' as type, i.created_at FROM information i)
+UNION (SELECT r.id,     'request' as type, r.created_at FROM requests r)
+);--> statement-breakpoint
+CREATE VIEW "public"."search_view" AS (
       (SELECT e.id,       'event' as type, e.title as text, e.created_at FROM events e)
 UNION (SELECT e.id,       'event' as type,  m.text as text, e.created_at FROM events e      LEFT JOIN messages m ON e.message_id = m.id)
 UNION (SELECT i.id, 'information' as type, i.title as text, i.created_at FROM information i)
@@ -24,4 +21,4 @@ UNION (
   FROM comments c
   LEFT JOIN messages m ON c.message_id = m.id
 )
-`);
+);

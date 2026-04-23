@@ -2,7 +2,7 @@ import { MemberStatus as MemberStatusEnum } from '@sel/shared';
 import { Icon } from 'solid-heroicons';
 import { check, cog_6Tooth, exclamationTriangle, xMark } from 'solid-heroicons/solid';
 
-import { TranslateMembersStatus } from 'src/intl/enums';
+import { TranslateEnum } from 'src/intl/enums';
 
 export function MemberStatus(props: { status: MemberStatusEnum }) {
   const icons = {
@@ -26,7 +26,7 @@ export function MemberStatus(props: { status: MemberStatusEnum }) {
         />
       </div>
 
-      <TranslateMembersStatus value={props.status} />
+      <TranslateEnum enum="memberStatus" value={props.status} />
     </div>
   );
 }
