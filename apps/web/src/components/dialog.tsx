@@ -75,7 +75,7 @@ export function Backdrop(props: {
       <Show when={props.show}>
         <div
           class={clsx(
-            'fixed inset-0 z-20 backdrop-blur-xs backdrop-brightness-75 backdrop-grayscale fade-in fade-out',
+            'fixed inset-0 backdrop-blur-xs backdrop-brightness-75 backdrop-grayscale fade-in fade-out',
             props.class,
           )}
         >
