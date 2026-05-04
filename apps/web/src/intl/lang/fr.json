@@ -111,6 +111,10 @@
     }
   },
   "enums": {
+    "eventTiming": {
+      "past": "Passés",
+      "upcoming": "À venir"
+    },
     "membersSort": {
       "firstName": "Prénom",
       "lastName": "Nom",
@@ -196,6 +200,7 @@
       "createRequest": "Nouvelle demande",
       "editRequest": "Édition",
       "events": "Événements",
+      "eventsCalendar": "Calendrier",
       "createEvent": "Nouvel événement",
       "editEvent": "Édition",
       "interests": "Centres d'intérêts",
@@ -536,10 +541,22 @@
       "list": {
         "title": "Événements",
         "createEvent": "Nouvel événement",
-        "upcoming": "À venir",
-        "past": "Passés",
-        "noDate": "Date à définir",
-        "empty": "Pas d'événement à venir"
+        "calendar": "Calendrier",
+        "noResults": "Aucun résultat",
+        "dateToBeDefined": "Date à définir",
+        "filters": {
+          "title": "Filtrer les événements",
+          "trigger": "Filtres",
+          "apply": "Valider",
+          "search": "Rechercher...",
+          "timing": "Période",
+          "organizer": "Organisé par",
+          "year": "Année"
+        }
+      },
+      "calendar": {
+        "title": "Événements",
+        "createEvent": "Nouvel événement"
       },
       "create": {
         "title": "Nouvel événement",
