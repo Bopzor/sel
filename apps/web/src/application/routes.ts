@@ -20,6 +20,7 @@ export const routes = {
   },
   events: {
     list: '/events',
+    calendar: '/events/calendar',
     create: `/events/create`,
     details: (eventId: string) => `/events/${eventId}`,
     edit: (eventId: string) => `/events/${eventId}/edit`,
