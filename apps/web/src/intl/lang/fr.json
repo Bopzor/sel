@@ -8,6 +8,7 @@
     "visible": "Visible",
     "notVisible": "Non visible",
     "actions": "Actions",
+    "all": "Tous",
     "validation": {
       "required": "Ce champ est requis",
       "invalidEmail": "Format d'adresse email invalide",

@@ -71,7 +71,7 @@ export function RequestListPage() {
 
   return (
     <>
-      <Dialog open={filtersDialogOpen()} onClose={closeFiltersDialog}>
+      <Dialog open={filtersDialogOpen()} onClose={closeFiltersDialog} class="max-w-xl">
         <DialogHeader title={<T id="filters.title" />} onClose={closeFiltersDialog} />
 
         <Filters form={form} variant="outlined" />
@@ -157,7 +157,7 @@ function Filters(props: { form: FormStore<FiltersForm>; variant: 'solid' | 'outl
 
   const statusCollection = createListCollection<RequestStatusEnum | 'all'>({
     items: [RequestStatusEnum.pending, RequestStatusEnum.fulfilled, RequestStatusEnum.canceled, 'all'],
-    itemToString: (item) => (item === 'all' ? 'Tous' : translateEnum('requestStatus', item)),
+    itemToString: (item) => (item === 'all' ? t('all') : translateEnum('requestStatus', item)),
     itemToValue: (item) => (item === 'all' ? 'all' : item),
   });
 
@@ -236,7 +236,7 @@ function Filters(props: { form: FormStore<FiltersForm>; variant: 'solid' | 'outl
 
 function Skeleton() {
   return (
-    <div class="col max-w-4xl gap-8">
+    <div class="col flex-1 gap-8">
       <For each={Array(3).fill(null)}>
         {() => (
           <div class="col gap-2">
