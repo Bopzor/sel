@@ -15,6 +15,10 @@ export function createClickOutsideHandler(
   createEventHandler('click', (event) => {
     const target = ref();
 
+    if (event.target instanceof HTMLElement && event.target.closest('[data-part="positioner"]') !== null) {
+      return;
+    }
+
     if (event.target instanceof Node && !target?.contains(event.target)) {
       cb(event);
     }
