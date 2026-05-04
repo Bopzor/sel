@@ -2,7 +2,7 @@ import { AsyncLocalStorage } from 'node:async_hooks';
 
 import * as shared from '@sel/shared';
 import { defined } from '@sel/utils';
-import { AnyColumn, eq, sql } from 'drizzle-orm';
+import { eq } from 'drizzle-orm';
 import express, { RequestHandler } from 'express';
 
 import { container } from 'src/infrastructure/container';
@@ -17,6 +17,7 @@ import { MessageWithAttachments, withAttachments } from '../messages/message.ent
 import { serializeMessage } from '../messages/message.serializer';
 
 import { createEvent } from './domain/create-event.command';
+import { listEvents } from './domain/list-events.query';
 import { sendEventNotification } from './domain/send-event-notification.command';
 import { setEventParticipation } from './domain/set-event-participation.command';
 import { updateEvent } from './domain/update-event.command';
@@ -40,14 +41,13 @@ const isOrganizer: RequestHandler<{ eventId: string }> = async (req, res, next) 
 };
 
 router.get('/', async (req, res) => {
-  const events = await db.query.events.findMany({
-    orderBy: [asc(schema.events.date, { nulls: 'first' })],
-    with: {
-      organizer: withAvatar,
-    },
-  });
+  const query = shared.listEventsQuerySchema.parse(req.query);
+  const { total, events } = await listEvents(query);
 
-  res.json(serializeEvents(events));
+  res.setHeader('x-pagination-total', total);
+  res.setHeader('x-pagination-page-size', query.pageSize);
+
+  res.json(events.map(serializeEventListItem));
 });
 
 router.get('/:eventId', async (req, res) => {
@@ -134,14 +134,20 @@ router.put('/:eventId/participation', async (req, res) => {
   res.status(HttpStatus.noContent).end();
 });
 
-function serializeEvents(events: Array<Event & { organizer: MemberWithAvatar }>): shared.EventsListItem[] {
-  return events.map((event) => ({
+function serializeEventListItem(
+  event: Event & {
+    organizer: MemberWithAvatar;
+    message: MessageWithAttachments;
+  },
+): shared.EventsListItem {
+  return {
     id: event.id,
     title: event.title,
     date: event.date?.toISOString() ?? undefined,
     kind: event.kind as shared.EventKind,
     organizer: serializeOrganizer(event.organizer),
-  }));
+    message: serializeMessage(event.message),
+  };
 }
 
 function serializeEvent(
@@ -172,12 +178,4 @@ function serializeOrganizer(organizer: MemberWithAvatar): shared.EventOrganizer 
     email: organizer.emailVisible ? organizer.email : undefined,
     phoneNumbers: (organizer.phoneNumbers as shared.PhoneNumber[]).filter(({ visible }) => visible),
   };
-}
-
-function asc(column: AnyColumn, options: { nulls: 'first' | 'last' }) {
-  if (options.nulls) {
-    return sql`${column} asc nulls ${sql.raw(options.nulls)}`;
-  }
-
-  return sql`${column} asc`;
 }

@@ -16,6 +16,7 @@ export type EventsListItem = {
   kind: EventKind;
   organizer: EventOrganizer;
   date?: string;
+  message: Message;
 };
 
 export type Event = {
@@ -37,6 +38,15 @@ export type EventOrganizer = LightMember & {
 type EventParticipant = LightMember & {
   participation: EventParticipation;
 };
+
+export const listEventsQuerySchema = z.object({
+  search: z.string().optional(),
+  timing: z.union([z.literal('past'), z.literal('upcoming')]).optional(),
+  organizerId: z.string().optional(),
+  year: z.coerce.number().optional(),
+  page: z.coerce.number().min(1).default(1),
+  pageSize: z.coerce.number().min(1).max(100).default(10),
+});
 
 export const createEventBodySchema = z.object({
   title: z.string().trim().min(5).max(200),
