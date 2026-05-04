@@ -5,7 +5,19 @@ import { apiQuery } from 'src/application/query';
 
 export function preloadEventList() {
   const queryClient = useQueryClient();
-  void queryClient.prefetchQuery(apiQuery('listEvents', {}));
+  void queryClient.prefetchQuery(apiQuery('listEvents', { query: {} }));
+}
+
+export function preloadEventCalendar() {
+  const queryClient = useQueryClient();
+  void queryClient.prefetchQuery(
+    apiQuery('listEvents', {
+      query: {
+        pageSize: 100,
+        year: new Date().getFullYear(),
+      },
+    }),
+  );
 }
 
 export function preloadEvent({ params }: { params: Params }) {
