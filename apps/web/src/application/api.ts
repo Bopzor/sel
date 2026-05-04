@@ -186,8 +186,9 @@ export const api = {
 
   // events
 
-  listEvents: endpoint('get', '/events').types<{
-    result: shared.EventsListItem[];
+  listEvents: endpoint('get', '/events', { paginated: true }).types<{
+    query: typeof shared.listEventsQuerySchema;
+    result: Paginated<shared.EventsListItem>;
   }>(),
 
   getEvent: endpoint('get', '/events/:eventId').types<{
