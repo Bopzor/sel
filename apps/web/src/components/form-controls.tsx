@@ -2,12 +2,13 @@ import {
   Combobox as ArkCombobox,
   ComboboxInputValueChangeDetails,
   ListCollection,
+  useComboboxContext,
 } from '@ark-ui/solid/combobox';
 import { Field as ArkField } from '@ark-ui/solid/field';
 import { Select as ArkSelect } from '@ark-ui/solid/select';
 import { Icon } from 'solid-heroicons';
 import { check, chevronDown, xMark } from 'solid-heroicons/solid';
-import { ComponentProps, For, JSX, Show, splitProps } from 'solid-js';
+import { ComponentProps, createRenderEffect, For, JSX, Show, splitProps } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
 export type FieldVariant = 'solid' | 'outlined';
@@ -224,6 +225,8 @@ export function Combobox<Item>(
         onValueChange={({ value }) => props.onValueChange?.(value[0] ?? null)}
         openOnClick
       >
+        <ComboboxRehydrateValue />
+
         <ArkCombobox.Control data-variant={props.variant ?? 'solid'}>
           {props.start}
 
@@ -266,4 +269,18 @@ export function Combobox<Item>(
       </ArkCombobox.Root>
     </Field>
   );
+}
+
+function ComboboxRehydrateValue() {
+  const combobox = useComboboxContext();
+  let hydrated = false;
+
+  createRenderEffect(() => {
+    if (combobox().value.length && combobox().collection.size && !hydrated) {
+      combobox().syncSelectedItems();
+      hydrated = true;
+    }
+  });
+
+  return null;
 }
