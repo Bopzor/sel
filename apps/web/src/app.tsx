@@ -17,11 +17,12 @@ import { AdminMemberListPage } from './pages/admin/member-list.page';
 import { AuthenticationLayout } from './pages/authentication/authentication.layout';
 import { AuthenticationPage } from './pages/authentication/authentication.page';
 import { DocumentsPage } from './pages/documents/documents.page';
+import { EventCalendarPage } from './pages/events/calendar/event-calendar.page';
 import { CreateEventPage } from './pages/events/create/create-event.page';
 import { EventDetailsPage } from './pages/events/details/event-details.page';
 import { EditEventPage } from './pages/events/edit/edit-event.page';
 import { EventListPage } from './pages/events/list/event-list.page';
-import { preloadEvent, preloadEventList } from './pages/events/preload';
+import { preloadEvent, preloadEventCalendar, preloadEventList } from './pages/events/preload';
 import { Home } from './pages/home/home.page';
 import { preloadHome } from './pages/home/preload';
 import { CreateInformationPage } from './pages/information/create/create-information.page';
@@ -122,6 +123,12 @@ export function App() {
 
         <Route path="/events" info={{ breadcrumb: breadcrumbs.events }}>
           <Route path="/" component={EventListPage} preload={preloadEventList} />
+          <Route
+            path="/calendar"
+            component={EventCalendarPage}
+            preload={preloadEventCalendar}
+            info={{ breadcrumb: breadcrumbs.eventsCalendar }}
+          />
           <Route path="/create" component={CreateEventPage} info={{ breadcrumb: breadcrumbs.createEvent }} />
           <Route path="/:eventId" preload={preloadEvent} info={{ breadcrumb: breadcrumbs.event }}>
             <Route component={EventDetailsPage} />

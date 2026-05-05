@@ -1,4 +1,4 @@
-import { count, sql } from 'drizzle-orm';
+import { count, SQL, sql } from 'drizzle-orm';
 import { PgSelect } from 'drizzle-orm/pg-core';
 
 import { db } from './database';
@@ -11,4 +11,8 @@ export async function paginated<Qb extends PgSelect>(query: { page: number; page
       .then(([{ count }]) => count),
     qb.limit(query.pageSize).offset((query.page - 1) * query.pageSize),
   ]);
+}
+
+export function nullsFirst(order: SQL): SQL {
+  return sql`${order} NULLS FIRST`;
 }

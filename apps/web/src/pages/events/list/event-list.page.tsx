@@ -1,189 +1,276 @@
-import { EventsListItem } from '@sel/shared';
-import { isAfter, isSameDay, isToday, startOfMonth } from '@sel/utils';
+import { createListCollection, useFilter, useListCollection } from '@ark-ui/solid';
+import { createForm, Field, FormStore, getValue, getValues, setValue } from '@modular-forms/solid';
+import { EventsListItem, Member } from '@sel/shared';
+import { getId, noop } from '@sel/utils';
 import { useQuery } from '@tanstack/solid-query';
-import clsx from 'clsx';
-import { add, sub } from 'date-fns';
 import { Icon } from 'solid-heroicons';
-import { chevronLeft, chevronRight } from 'solid-heroicons/solid';
-import { createSignal, For, Show } from 'solid-js';
+import { calendar, magnifyingGlass, plus } from 'solid-heroicons/solid';
+import { createEffect, createSignal, For } from 'solid-js';
 
 import { apiQuery } from 'src/application/query';
 import { routes } from 'src/application/routes';
-import { LinkButton } from 'src/components/button';
-import { Calendar } from 'src/components/calendar';
-import { card } from 'src/components/card';
+import { Button, LinkButton } from 'src/components/button';
+import { Dialog, DialogFooter, DialogHeader } from 'src/components/dialog';
+import { Combobox, Input, Select } from 'src/components/form-controls';
 import { Link } from 'src/components/link';
 import { List } from 'src/components/list';
+import { MemberAvatarName } from 'src/components/member-avatar-name';
+import { Message } from 'src/components/message';
+import { Pagination } from 'src/components/pagination';
 import { Query } from 'src/components/query';
-import { BoxSkeleton } from 'src/components/skeleton';
+import { BoxSkeleton, TextSkeleton } from 'src/components/skeleton';
+import { useTranslateEnum } from 'src/intl/enums';
 import { FormattedDate } from 'src/intl/formatted';
-import { useIntl } from 'src/intl/intl-provider';
 import { createTranslate } from 'src/intl/translate';
 
 const T = createTranslate('pages.events.list');
+const Translate = createTranslate('common');
+
+type FiltersForm = {
+  search: string;
+  timing: 'past' | 'upcoming' | 'all';
+  organizerId: string | null;
+  year: number | null;
+};
 
 export function EventListPage() {
-  const query = useQuery(() => apiQuery('listEvents', {}));
+  const [page, setPage] = createSignal(1);
 
-  const [month, setMonth] = createSignal(startOfMonth(new Date()));
-  const [tab, setTab] = createSignal<'upcoming' | 'past'>('upcoming');
+  const [filtersDialogOpen, setFiltersDialogOpen] = createSignal(false);
+  const closeFiltersDialog = () => setFiltersDialogOpen(false);
 
-  const filterEvents = (events: EventsListItem[]) => {
-    if (tab() === 'upcoming') {
-      return events.filter(upcomingEventPredicate);
-    } else {
-      return events.filter(pastEventPredicate).reverse();
-    }
-  };
+  const [form] = createForm<FiltersForm>({
+    initialValues: {
+      search: '',
+      timing: 'all',
+      organizerId: null,
+      year: null,
+    },
+  });
+
+  const query = useQuery(() =>
+    apiQuery('listEvents', {
+      query: {
+        page: page(),
+        search: getValue(form, 'search') || undefined,
+        timing: ((val) => (val === 'all' ? undefined : val))(getValue(form, 'timing')),
+        organizerId: getValue(form, 'organizerId') ?? undefined,
+        year: getValue(form, 'year') || undefined,
+      },
+    }),
+  );
+
+  createEffect(() => {
+    getValues(form);
+    setPage(1);
+  });
 
   return (
     <>
-      <div class="mb-8 row items-center justify-between gap-4">
-        <h1>
-          <T id="title" />
-        </h1>
+      <Dialog open={filtersDialogOpen()} onClose={closeFiltersDialog} class="max-w-lg">
+        <DialogHeader title={<T id="filters.title" />} onClose={closeFiltersDialog} />
 
-        <LinkButton href={routes.events.create}>
-          <T id="createEvent" />
-        </LinkButton>
-      </div>
+        <Filters form={form} variant="outlined" />
 
-      <Query query={query} pending={<Skeleton />}>
-        {(events) => (
-          <div class="row gap-8">
-            <div class="flex-1 lg:max-w-96">
-              <div role="tablist" class="mb-4 row flex-wrap justify-evenly gap-2 text-lg text-dim">
-                <button
-                  type="button"
-                  role="tab"
-                  class={clsx(tab() === 'upcoming' && 'font-bold')}
-                  onClick={() => setTab('upcoming')}
-                >
-                  <T id="upcoming" />
-                </button>
-                <button
-                  type="button"
-                  role="tab"
-                  class={clsx(tab() === 'past' && 'font-bold')}
-                  onClick={() => setTab('past')}
-                >
-                  <T id="past" />
-                </button>
-              </div>
+        <DialogFooter>
+          <Button variant="solid" onClick={closeFiltersDialog}>
+            <T id="filters.apply" />
+          </Button>
+        </DialogFooter>
+      </Dialog>
 
-              <div class={card.content()}>
-                <List
-                  each={filterEvents(events())}
-                  fallback={<div class={card.fallback()}>{<T id="empty" />}</div>}
-                >
-                  {(event) => <EventItem event={event} class="rounded-md p-2 hover:bg-primary/5" />}
-                </List>
-              </div>
-            </div>
+      <h1 class="mb-8">
+        <T id="title" />
+      </h1>
 
-            <div class="hidden flex-1 gap-4 lg:col">
-              <MonthSelector
-                month={month()}
-                previous={() => setMonth(sub(month(), { months: 1 }))}
-                next={() => setMonth(add(month(), { months: 1 }))}
-              />
+      <div class="col gap-8 lg:row lg:items-start">
+        <div class="col w-full gap-4 lg:max-w-sm lg:gap-8">
+          <LinkButton href={routes.events.create}>
+            <Icon path={plus} class="size-6" />
+            <T id="createEvent" />
+          </LinkButton>
 
-              <Calendar
-                month={month().getMonth() + 1}
-                year={month().getFullYear()}
-                renderDay={(date) => <Day events={events()} date={date} />}
-              />
-            </div>
+          <LinkButton variant="outline" href={routes.events.calendar}>
+            <Icon path={calendar} class="size-6" />
+            <T id="calendar" />
+          </LinkButton>
+
+          <Button variant="outline" onClick={() => setFiltersDialogOpen(true)} class="lg:hidden">
+            <T id="filters.trigger" />
+          </Button>
+
+          <hr class="max-lg:hidden" />
+
+          <div class="max-lg:hidden">
+            <Filters form={form} variant="solid" />
           </div>
-        )}
-      </Query>
+        </div>
+
+        <Query query={query} pending={<Skeleton />}>
+          {(events) => (
+            <div class="col flex-1 gap-8">
+              <List
+                each={events().items}
+                fallback={
+                  <div class="items-center text-center font-medium text-dim">
+                    <T id="noResults" />
+                  </div>
+                }
+                class="col flex-1 gap-8"
+              >
+                {(event) => <EventItem event={event} />}
+              </List>
+
+              {events().items.length > 0 && (
+                <Pagination
+                  pages={Math.ceil(events().total / events().pageSize)}
+                  page={page()}
+                  onChange={setPage}
+                />
+              )}
+            </div>
+          )}
+        </Query>
+      </div>
     </>
   );
 }
 
 function Skeleton() {
   return (
-    <>
-      <div class="max-w-4xl xl:hidden">
-        <BoxSkeleton height={16} />
-      </div>
-
-      <div class="hidden gap-4 xl:row">
-        <div class="w-full max-w-80">
-          <BoxSkeleton height={24} />
-        </div>
-
-        <BoxSkeleton height={32} />
-      </div>
-    </>
-  );
-}
-
-function MonthSelector(props: { month: Date; previous: () => void; next: () => void }) {
-  const intl = useIntl();
-
-  return (
-    <div class="row justify-center gap-6 text-xl capitalize">
-      <button type="button" class="px-2" onClick={() => props.previous()}>
-        <Icon path={chevronLeft} class="size-5 text-dim" />
-      </button>
-
-      <div class="min-w-40 text-center">
-        {intl.formatDate(props.month, { month: 'long' })} {props.month.getFullYear()}
-      </div>
-
-      <button type="button" class="px-2" onClick={() => props.next()}>
-        <Icon path={chevronRight} class="size-5 text-dim" />
-      </button>
-    </div>
-  );
-}
-
-function Day(props: { events: EventsListItem[]; date: Date }) {
-  const events = () => props.events.filter((event) => event.date && isSameDay(props.date, event.date));
-
-  return (
-    <div class={clsx('col h-24 gap-2 p-2', isToday(props.date) && 'shadow-current-day')}>
-      <div>{props.date.getDate()}</div>
-      <For each={events()}>
-        {(event) => (
-          <Link href={routes.events.details(event.id)} class="text-xs">
-            {event.title}
-          </Link>
+    <div class="col flex-1 gap-8">
+      <For each={Array(3).fill(null)}>
+        {() => (
+          <div class="col gap-2">
+            <TextSkeleton width={12} />
+            <BoxSkeleton height={8} />
+          </div>
         )}
       </For>
     </div>
   );
 }
 
-function EventItem(props: { event: EventsListItem; class?: string }) {
-  return (
-    <li class={props.class}>
-      <Link href={routes.events.details(props.event.id)}>
-        <div class="text-sm text-dim">
-          <Show when={props.event.date} fallback={<T id="noDate" />}>
-            <FormattedDate date={props.event.date} dateStyle="medium" timeStyle="short" />
-          </Show>
-        </div>
+function Filters(props: { form: FormStore<FiltersForm>; variant: 'solid' | 'outlined' }) {
+  const t = Translate.useTranslate();
+  const translateEnum = useTranslateEnum();
 
-        <div class="font-medium">{props.event.title}</div>
-      </Link>
-    </li>
+  const membersQuery = useQuery(() => apiQuery('listMembers', { query: {} }));
+  const filterFn = useFilter({ sensitivity: 'base' });
+
+  const membersList = useListCollection<Member>({
+    initialItems: [],
+    itemToString: (member) => [member.firstName, member.lastName].join(' '),
+    itemToValue: getId,
+    filter: filterFn().contains,
+  });
+
+  createEffect(() => {
+    if (membersQuery.isSuccess) {
+      membersList.set(membersQuery.data);
+    }
+  });
+
+  const timingCollection = createListCollection<'past' | 'upcoming' | 'all'>({
+    items: ['past', 'upcoming', 'all'],
+    itemToString: (item) => (item === 'all' ? t('all') : translateEnum('eventTiming', item)),
+    itemToValue: (item) => (item === 'all' ? 'all' : item),
+  });
+
+  const yearCollection = createListCollection({
+    items: Array(4)
+      .fill(null)
+      .map((_, index) => new Date().getFullYear() - index),
+    itemToString: String,
+    itemToValue: String,
+  });
+
+  return (
+    <form class="col gap-4">
+      <Field of={props.form} name="search">
+        {(field, fieldProps) => (
+          <Input
+            {...fieldProps}
+            type="search"
+            variant={props.variant}
+            placeholder={t('search')}
+            start={<Icon path={magnifyingGlass} class="size-5" />}
+            value={field.value}
+            error={field.error}
+          />
+        )}
+      </Field>
+
+      <Field of={props.form} name="organizerId">
+        {(field, fieldProps) => (
+          <Combobox
+            {...fieldProps}
+            variant={props.variant}
+            collection={membersList.collection()}
+            renderItem={(member) => <MemberAvatarName member={member} link={false} />}
+            label={<T id="filters.organizer" />}
+            onInputValueChange={({ inputValue }) => membersList.filter(inputValue)}
+            value={field.value ?? undefined}
+            onValueChange={(organizerId) => setValue(props.form, 'organizerId', organizerId ?? null)}
+            onInput={noop}
+          />
+        )}
+      </Field>
+
+      <Field of={props.form} name="timing">
+        {(field, fieldProps) => (
+          <Select
+            {...fieldProps}
+            variant={props.variant}
+            label={<T id="filters.timing" />}
+            collection={timingCollection}
+            renderItem={timingCollection.stringifyItem}
+            value={field.value}
+            onValueChange={(value) => setValue(props.form, 'timing', timingCollection.find(value)!)}
+            error={field.error}
+          />
+        )}
+      </Field>
+
+      <Field of={props.form} name="year" type="number">
+        {(field, fieldProps) => (
+          <Select
+            {...fieldProps}
+            deselectable
+            variant={props.variant}
+            label={<T id="filters.year" />}
+            collection={yearCollection}
+            renderItem={String}
+            value={field.value ? String(field.value) : null}
+            onValueChange={(value) => setValue(props.form, 'year', value ? Number(value) : null)}
+          />
+        )}
+      </Field>
+    </form>
   );
 }
 
-function upcomingEventPredicate(event: EventsListItem) {
-  if (!event.date) {
-    return true;
-  }
+function EventItem(props: { event: EventsListItem }) {
+  return (
+    <li class="col gap-2">
+      <div class="row items-end justify-between">
+        {props.event.date ? (
+          <FormattedDate date={props.event.date} dateStyle="long" timeStyle="short" />
+        ) : (
+          <T id="dateToBeDefined" />
+        )}
+        <div class="text-xs text-dim">
+          {[props.event.organizer.firstName, props.event.organizer.lastName].join(' ')}
+        </div>
+      </div>
 
-  if (isToday(event.date)) {
-    return true;
-  }
-
-  return isAfter(event.date, new Date());
-}
-
-function pastEventPredicate(event: EventsListItem) {
-  return !upcomingEventPredicate(event);
+      <Link
+        href={`/events/${props.event.id}`}
+        class="col-span-2 col gap-4 rounded-lg bg-neutral p-4 shadow-sm"
+      >
+        <div class="text-xl font-medium">{props.event.title}</div>
+        <Message class="line-clamp-3" message={props.event.message} />
+      </Link>
+    </li>
+  );
 }

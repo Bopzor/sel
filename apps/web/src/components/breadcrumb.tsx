@@ -136,6 +136,10 @@ export const breadcrumbs = {
     return <Crumb label={<T id="events" />} link={routes.events.list} />;
   },
 
+  eventsCalendar: () => {
+    return <Crumb label={<T id="eventsCalendar" />} link={routes.events.calendar} />;
+  },
+
   event: () => {
     const params = useParams<{ eventId: string }>();
     const query = useQuery(() => apiQuery('getEvent', { path: params }));
