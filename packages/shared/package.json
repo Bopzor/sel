@@ -14,6 +14,6 @@
     "@sel/utils": "workspace:*"
   },
   "dependencies": {
-    "zod": "^4.0.15"
+    "zod": "^4.6.5"
   }
 }

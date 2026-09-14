@@ -46,7 +46,7 @@
     "solid-tiptap": "^0.7.0",
     "solid-toast": "^0.5.0",
     "solid-transition-group": "^0.3.0",
-    "zod": "^4.0.15"
+    "zod": "^4.6.5"
   },
   "devDependencies": {
     "@solidjs/testing-library": "^0.8.10",
