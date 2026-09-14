@@ -80,7 +80,7 @@
 
 @layer components {
   [data-part='label'] {
-    @apply text-dim mb-1 inline-block max-w-fit font-medium;
+    @apply mb-1 inline-block max-w-fit font-medium text-dim;
   }
 
   [data-part='required-indicator'] {
@@ -99,8 +99,8 @@
   [data-scope='field'][data-part='textarea'],
   [data-scope='select'][data-part='trigger'],
   [data-scope='combobox'][data-part='control'] {
-    @apply row gap-3 items-center;
-    @apply w-full px-4 rounded-lg bg-transparent outline-2 outline-transparent;
+    @apply row items-center gap-3;
+    @apply w-full rounded-lg bg-transparent px-4 outline-2 outline-transparent;
     @apply transition-colors duration-100;
 
     &[data-variant='solid'] {
@@ -132,7 +132,7 @@
   [data-scope='field'][data-part='input'],
   [data-scope='select'][data-part='value-text'],
   [data-scope='combobox'][data-part='input'] {
-    @apply w-full h-12;
+    @apply h-12 w-full;
   }
 
   [data-scope='field'][data-part='textarea'] {
@@ -161,7 +161,7 @@
   [data-scope='select'],
   [data-scope='combobox'] {
     [data-part='content'] {
-      @apply bg-neutral max-h-[min(24rem,var(--available-height))] min-w-(--reference-width) overflow-y-auto rounded-md p-2 shadow-md border outline-none;
+      @apply max-h-[min(24rem,var(--available-height))] min-w-(--reference-width) overflow-y-auto rounded-md border bg-neutral p-2 shadow-md outline-none;
     }
 
     [data-part='item'] {

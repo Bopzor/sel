@@ -1,5 +1,4 @@
 import 'solid-devtools';
-
 import { initSentry } from './sentry';
 
 initSentry();

@@ -16,6 +16,7 @@ import { FormattedDate } from 'src/intl/formatted';
 import { createTranslate } from 'src/intl/translate';
 
 import { RequestStatus } from '../../components/request-status';
+
 import { RequestTransactionDialog } from './request-transaction';
 
 const T = createTranslate('pages.requests.details.header');

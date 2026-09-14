@@ -9,13 +9,14 @@
   },
   "scripts": {
     "clean": "rm -rf {packages,apps}/*/{dist,tsconfig.tsbuildinfo}",
-    "lint": "pnpm -r run lint"
+    "lint": "pnpm -r run lint",
+    "format": "pnpm exec oxfmt"
   },
   "devDependencies": {
+    "oxfmt": "^0.67.0",
     "oxlint": "^1.82.0",
     "oxlint-config-presets": "^0.1.20",
     "oxlint-tsgolint": "^7.0.2001",
-    "prettier": "^3.6.2",
     "typescript": "^5.8.3"
   }
 }

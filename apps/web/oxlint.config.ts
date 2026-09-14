@@ -3,6 +3,7 @@ import tailwind from 'eslint-plugin-better-tailwindcss';
 import solid from 'eslint-plugin-solid/configs/recommended';
 import { defineConfig } from 'oxlint';
 import tsStylistic from 'oxlint-config-presets/@typescript-eslint/stylistic-type-checked.json' with { type: 'json' };
+
 import base from '../../oxlint.config.ts';
 
 export default defineConfig({

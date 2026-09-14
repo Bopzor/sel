@@ -1,8 +1,6 @@
 import clsx from 'clsx';
 import * as maplibre from 'maplibre-gl';
-
 import 'maplibre-gl/dist/maplibre-gl.css';
-
 import { createEffect, createSignal, For, JSX, Show } from 'solid-js';
 import MapGL, { Marker, Viewport } from 'solid-map-gl';
 

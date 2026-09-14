@@ -1,6 +1,6 @@
 {
   "name": "@sel/web",
-  "version": "1.5.0",
+  "version": "1.5.1",
   "packageManager": "pnpm@9.15.0",
   "private": true,
   "type": "module",
@@ -54,7 +54,6 @@
     "@tanstack/eslint-plugin-query": "^5.81.2",
     "@tanstack/solid-query-devtools": "^5.84.0",
     "@testing-library/jest-dom": "^6.9.1",
-    "@trivago/prettier-plugin-sort-imports": "^5.2.2",
     "@types/node": "^22.16.0",
     "@vite-pwa/assets-generator": "^1.0.1",
     "date-fns": "^4.1.0",

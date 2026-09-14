@@ -1,6 +1,7 @@
 import * as Sentry from '@sentry/solid';
 
 import pkg from '../../package.json';
+
 import { ApiError } from './api';
 import { getAppConfig } from './config';
 

@@ -30,7 +30,7 @@ jobs:
 
       - name: Check packages
         run: |
-          pnpm -r --filter='!@sel/typescript-config' exec prettier --check src
+          pnpm exec oxfmt --check
 
   lint:
     name: Lint
