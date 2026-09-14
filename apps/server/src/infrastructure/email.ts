@@ -17,9 +17,11 @@ export type Email = {
   attachments?: Array<{ filename: string; content: Readable | Buffer }>;
 };
 
+type RenderedEmail = Pick<Email, 'subject' | 'text' | 'html'>;
+
 export interface EmailRenderer {
-  render(props: { subject: string; html: string[]; style?: string; text: string[] }): Omit<Email, 'to'>;
-  renderHtml(preview: string, html: string): string;
+  render(props: { subject: string; html: string[]; style?: string; text: string[] }): Promise<RenderedEmail>;
+  renderHtml(preview: string, html: string): Promise<string>;
   renderText(text: string): string;
   userContent(children: string): string;
 }
@@ -32,9 +34,14 @@ export class MjmlEmailRenderer implements EmailRenderer {
     private readonly logger: Logger,
   ) {}
 
-  render(props: { subject: string; html: string[]; style?: string; text: string[] }): Omit<Email, 'to'> {
+  async render(props: {
+    subject: string;
+    html: string[];
+    style?: string;
+    text: string[];
+  }): Promise<RenderedEmail> {
     const { subject, html, text } = props;
-    const result = mjml2html(this.renderEmail(subject, html, props.style));
+    const result = await mjml2html(this.renderEmail(subject, html, props.style));
 
     if (result.errors.length > 0) {
       this.logger.warn(result.errors.map((error) => error.formattedMessage).join('\n'));
@@ -47,8 +54,8 @@ export class MjmlEmailRenderer implements EmailRenderer {
     };
   }
 
-  renderHtml(preview: string, html: string): string {
-    const result = mjml2html(this.renderEmail(preview, [html]));
+  async renderHtml(preview: string, html: string): Promise<string> {
+    const result = await mjml2html(this.renderEmail(preview, [html]));
 
     if (result.errors.length > 0) {
       this.logger.warn(result.errors.map((error) => error.formattedMessage).join('\n'));

@@ -20,7 +20,7 @@ export async function sendAuthenticationCode(event: AuthenticationCodeRequestedE
 
   await emailSender.send({
     to: member.email,
-    ...emailRenderer.render({
+    ...(await emailRenderer.render({
       subject: `${code} - Code de connexion`,
       html: [
         `Bonjour ${member.firstName},`,
@@ -47,6 +47,6 @@ export async function sendAuthenticationCode(event: AuthenticationCodeRequestedE
         `Voici votre code pour vous connecter à l'app du SEL : ${code}`,
         `Si vous n'êtes pas à l'origine de cette demande, vous pouvez ignorer cet email.`,
       ],
-    }),
+    })),
   });
 }
