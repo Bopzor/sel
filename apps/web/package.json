@@ -8,7 +8,7 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "preview": "vite preview",
-    "lint": "eslint",
+    "lint": "oxlint",
     "test": "vitest run",
     "storybook": "storybook dev -p 6006 --no-open",
     "generate-pwa-assets": "pwa-assets-generator --preset minimal-2023 public/logo.svg"
@@ -48,7 +48,6 @@
     "zod": "^4.0.15"
   },
   "devDependencies": {
-    "@eslint/js": "^9.30.1",
     "@solidjs/testing-library": "^0.8.10",
     "@tailwindcss/typography": "^0.5.16",
     "@tailwindcss/vite": "^4.1.11",
@@ -68,7 +67,6 @@
     "tailwindcss": "^4.1.11",
     "tailwindcss-animate": "^1.0.7",
     "typescript": "~5.8.3",
-    "typescript-eslint": "^8.35.1",
     "vite": "^7.0.6",
     "vite-plugin-qrcode": "^0.3.0",
     "vite-plugin-solid": "^2.11.8",

@@ -30,7 +30,7 @@ jobs:
 
       - name: Check packages
         run: |
-          pnpm -r --filter='!@sel/typescript-config' --filter='!@sel/eslint-config' exec prettier --check src
+          pnpm -r --filter='!@sel/typescript-config' exec prettier --check src
 
   lint:
     name: Lint
@@ -39,9 +39,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup
-
-      - name: Build packages
-        run: pnpm exec tsc -b
 
       - name: Lint packages
         run: pnpm -r run lint
@@ -60,7 +57,7 @@ jobs:
   test-server:
     name: Tests server app
     runs-on: ubuntu-latest
-    container: node:20
+    container: node:24
 
     services:
       postgres:

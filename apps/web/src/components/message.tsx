@@ -29,7 +29,7 @@ export function Message(props1: { attachmentsSeparator?: boolean; message?: Mess
 }
 
 export function RichText(props: { class?: string; content?: string }) {
-  // eslint-disable-next-line solid/no-innerhtml
+  // oxlint-disable-next-line solid/no-innerhtml
   return <div class={clsx('prose max-w-none dark:prose-invert', props.class)} innerHTML={props.content} />;
 }
 

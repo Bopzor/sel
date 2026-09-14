@@ -2,14 +2,19 @@
   "name": "sel",
   "version": "0.0.0",
   "private": true,
+  "type": "module",
   "packageManager": "pnpm@9.15.0",
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=24.0.0"
   },
   "scripts": {
-    "clean": "rm -rf {packages,apps}/*/{dist,tsconfig.tsbuildinfo}"
+    "clean": "rm -rf {packages,apps}/*/{dist,tsconfig.tsbuildinfo}",
+    "lint": "pnpm -r run lint"
   },
   "devDependencies": {
+    "oxlint": "^1.82.0",
+    "oxlint-config-presets": "^0.1.20",
+    "oxlint-tsgolint": "^7.0.2001",
     "prettier": "^3.6.2",
     "typescript": "^5.8.3"
   }

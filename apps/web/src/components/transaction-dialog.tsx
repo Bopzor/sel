@@ -40,6 +40,22 @@ export function TransactionDialog(props: {
   const t = T.useTranslate();
   const authenticatedMember = getAuthenticatedMember();
 
+  const [form, { Form }] = createForm<FormType>({
+    initialValues: {
+      type: 'send',
+      ...props.initialValues,
+    },
+    validate: zodForm(schema),
+  });
+
+  const membersQuery = useQuery(() => ({
+    ...apiQuery('listMembers', {
+      query: { sort: MembersSort.firstName },
+    }),
+  }));
+
+  const member = () => membersQuery.data?.find(hasProperty('id', getValue(form, 'memberId') ?? ''));
+
   const createTransaction = useMutation(() => ({
     async mutationFn(data: FormType) {
       const [payer, recipient] =
@@ -69,23 +85,7 @@ export function TransactionDialog(props: {
     },
   }));
 
-  const [form, { Form }] = createForm<FormType>({
-    initialValues: {
-      type: 'send',
-      ...props.initialValues,
-    },
-    validate: zodForm(schema),
-  });
-
   const [showConfirmation, setShowConfirmation] = createSignal(false);
-
-  const membersQuery = useQuery(() => ({
-    ...apiQuery('listMembers', {
-      query: { sort: MembersSort.firstName },
-    }),
-  }));
-
-  const member = () => membersQuery.data?.find(hasProperty('id', getValue(form, 'memberId') ?? ''));
 
   createEffect(() => {
     if (props.open === false) {

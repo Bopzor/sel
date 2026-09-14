@@ -1,4 +1,4 @@
-type Falsy = null | undefined | false | 0 | -0 | 0n;
+type Falsy = null | undefined | false | 0 | 0n;
 
 export function when<Value, True>(value: Value | Falsy, ifTrue: (value: Value) => True): True | undefined;
 

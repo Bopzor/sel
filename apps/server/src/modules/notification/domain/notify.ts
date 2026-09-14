@@ -301,7 +301,7 @@ async function getEmailAttachments(attachments?: File[]): Promise<Email['attachm
 
 function replaceVariables(template: string, context: Context): string {
   const getValue = (_: string, key: string) => {
-    // eslint-disable-next-line @typescript-eslint/no-implied-eval
+    // oxlint-disable-next-line typescript/no-implied-eval
     return new Function(...Object.keys(context), `return ${key}`)(...Object.values(context));
   };
 

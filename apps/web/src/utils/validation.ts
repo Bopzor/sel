@@ -1,4 +1,4 @@
-import { FieldValues, FormErrors, PartialValues, ValidateForm } from '@modular-forms/solid';
+import { FieldValues, PartialValues, ValidateForm } from '@modular-forms/solid';
 import { JSX } from 'solid-js';
 import z from 'zod';
 
@@ -22,7 +22,7 @@ export function zodForm<TFieldValues extends FieldValues>(
       }
     }
 
-    return formErrors as FormErrors<TFieldValues>;
+    return formErrors;
   };
 }
 

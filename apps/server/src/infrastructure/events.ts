@@ -29,7 +29,7 @@ type DomainEventListener<Event extends DomainEvent<unknown> = DomainEvent<unknow
 ) => void | Promise<void>;
 
 type DomainEventClass<Event extends DomainEvent<unknown>> = {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // oxlint-disable-next-line typescript/no-explicit-any
   new (...args: any[]): Event;
   type: string;
 };

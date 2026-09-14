@@ -16,7 +16,7 @@ export function createFileUploadHandler(onSuccess: (file: File) => void) {
       const [file] = event.target.files ?? [];
 
       if (file) {
-        fileUpload.mutateAsync(file);
+        fileUpload.mutate(file);
       }
     },
     () => fileUpload.isPending,
