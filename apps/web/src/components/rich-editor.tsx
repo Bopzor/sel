@@ -212,11 +212,11 @@ function ToolbarItem(props: { title: string; icon: ValidComponent; active?: bool
       onClick={() => props.onClick?.()}
       class="rounded-sm p-0.5"
       classList={{
-        'fill-icon/75': !props.active,
-        'fill-primary bg-dim/10': props.active,
+        'text-dim': !props.active,
+        'bg-dim/10 text-text': props.active,
       }}
     >
-      <Dynamic component={props.icon} class="size-5 text-dim transition-colors hover:text-text" />
+      <Dynamic component={props.icon} class="size-5 transition-colors hover:text-text" />
     </button>
   );
 }

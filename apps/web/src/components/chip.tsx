@@ -8,7 +8,7 @@ export function Chip(props: ComponentProps<'input'> & { classes: Record<'root', 
     <label
       class={clsx(
         'cursor-pointer rounded-full border bg-neutral px-3 py-1 font-medium',
-        'transition-all hover:shadow',
+        'transition-all hover:shadow-sm',
         'has-checked:border-primary has-checked:bg-primary/5',
         rest.classes.root,
       )}

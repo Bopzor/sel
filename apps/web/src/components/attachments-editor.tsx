@@ -56,7 +56,7 @@ function AttachmentEditor(props: {
         value={props.value}
         onAdd={props.onAdd}
         onRemove={props.onRemove}
-        class="rounded-lg bg-neutral px-4 py-3 shadow"
+        class="rounded-lg bg-neutral px-4 py-3 shadow-sm"
       />
     </Field>
   );
@@ -107,7 +107,7 @@ export function AttachmentEditorList(props: {
 
       <For each={notImages()}>
         {(attachment) => (
-          <div class="relative max-w-fit rounded-md border-2 px-4 py-1 shadow">
+          <div class="relative max-w-fit rounded-md border-2 px-4 py-1 shadow-sm">
             <RemoveButton onClick={() => props.onRemove(attachment)} />
             <FilePreview name={attachment.name} originalName={attachment.originalName} />
           </div>
@@ -120,7 +120,7 @@ export function AttachmentEditorList(props: {
 function RemoveButton(props: { onClick: () => void }) {
   return (
     <button
-      class="absolute -top-2 -right-2 rounded-full border-2 bg-neutral shadow transition-transform hover:scale-110"
+      class="absolute -top-2 -right-2 rounded-full border-2 bg-neutral shadow-sm transition-transform hover:scale-110"
       onClick={() => props.onClick()}
     >
       <Icon path={xMark} class="size-4 stroke-2" />

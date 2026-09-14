@@ -80,7 +80,7 @@ function AnswerButton(props: AnswerButtonProps) {
       classList={{
         'border-emerald-600': isMemberAnswer() && props.answer === 'yes',
         'border-gray-600': isMemberAnswer() && props.answer === 'no',
-        'grayscale opacity-75': memberAnswer() && !isMemberAnswer(),
+        'opacity-75 grayscale': memberAnswer() && !isMemberAnswer(),
       }}
     >
       {props.children}
