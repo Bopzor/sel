@@ -383,6 +383,9 @@ importers:
       cva:
         specifier: npm:class-variance-authority@^0.7.1
         version: class-variance-authority@0.7.1
+      date-fns:
+        specifier: ^4.4.0
+        version: 4.4.0
       mapbox-gl:
         specifier: npm:empty-npm-package@1.0.0
         version: empty-npm-package@1.0.0
@@ -438,9 +441,6 @@ importers:
       '@vite-pwa/assets-generator':
         specifier: ^2.0.0
         version: 2.0.0(@types/node@22.16.0)
-      date-fns:
-        specifier: ^4.1.0
-        version: 4.1.0
       eslint-plugin-better-tailwindcss:
         specifier: ^4.7.0
         version: 4.7.0(eslint@9.30.1(jiti@2.5.1)(supports-color@9.4.0))(oxlint@1.82.0(oxlint-tsgolint@7.0.2001))(tailwindcss@4.3.3)(typescript@6.0.3)
@@ -499,8 +499,8 @@ importers:
   packages/utils:
     dependencies:
       date-fns:
-        specifier: ^4.1.0
-        version: 4.1.0
+        specifier: ^4.4.0
+        version: 4.4.0
     devDependencies:
       '@sel/typescript-config':
         specifier: workspace:*
@@ -3904,8 +3904,8 @@ packages:
   csstype@3.2.3:
     resolution: {integrity: sha512-z1HGKcYy2xA8AGQfwrn0PAy+PB7X/GSj3UVJW9qKyn43xWa+gl5nXmU4qqLMRzWVLFC8KusUX8T/0kCiOYpAIQ==}
 
-  date-fns@4.1.0:
-    resolution: {integrity: sha512-Ukq0owbQXxa/U3EGtsdVBkR1w7KOQ5gIBqdH2hkvknzZPYvBxb/aa6E8L7tmjFtkwZBu3UXBbjIgPo/Ez4xaNg==}
+  date-fns@4.4.0:
+    resolution: {integrity: sha512-+1UMbeh68lH1SegH83CGWwpb6OHHbpSgr3+s5Eww5M4CAgswBpoWS0AjTOfEJ33HiYKz1hdj/KTFprzXHmq/6w==}
 
   debug@2.6.9:
     resolution: {integrity: sha512-bC7ElrdJaJnPbAP+1EotYvqZsb3ecl5wi6Bfi6BJTUcNowp6cvspg0jXznRTKDjm/E7AdgFBVeAPVMNcKGsHMA==}
@@ -10246,7 +10246,7 @@ snapshots:
 
   csstype@3.2.3: {}
 
-  date-fns@4.1.0: {}
+  date-fns@4.4.0: {}
 
   debug@2.6.9(supports-color@5.5.0):
     dependencies:
