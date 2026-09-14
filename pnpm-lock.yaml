@@ -396,7 +396,7 @@ importers:
         specifier: ^1.9.15
         version: 1.9.15
       solid-map-gl:
-        specifier: ^1.11.3
+        specifier: 1.11.3
         version: 1.11.3(empty-npm-package@1.0.0)(solid-js@1.9.15)
       solid-tiptap:
         specifier: ^0.8.0
