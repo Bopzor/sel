@@ -7,21 +7,12 @@ import { Plugin } from 'vite';
 import { qrcode } from 'vite-plugin-qrcode';
 import solid from 'vite-plugin-solid';
 import solidSvg from 'vite-plugin-solid-svg';
-import tsconfigPaths from 'vite-tsconfig-paths';
 import { defineConfig } from 'vitest/config';
 
-import pkg from './package.json';
+import pkg from './package.json' with { type: 'json' };
 
 export default defineConfig({
-  plugins: [
-    qrcode(),
-    tsconfigPaths(),
-    devtools({ autoname: true }),
-    solid(),
-    solidSvg(),
-    tailwindcss(),
-    version(pkg.version),
-  ],
+  plugins: [qrcode(), devtools({ autoname: true }), solid(), solidSvg(), tailwindcss(), version(pkg.version)],
   server: {
     port: 8000,
     proxy: {
@@ -36,26 +27,12 @@ export default defineConfig({
   },
   build: {
     sourcemap: true,
-    rollupOptions: {
-      output: {
-        manualChunks: {
-          maplibre: ['maplibre-gl'],
-          tiptap: [
-            '@tiptap/core',
-            '@tiptap/extension-image',
-            '@tiptap/extension-link',
-            '@tiptap/extension-placeholder',
-            '@tiptap/extension-underline',
-            '@tiptap/starter-kit',
-          ],
-        },
-      },
-    },
   },
   optimizeDeps: {
     exclude: ['@modular-forms/solid'],
   },
   resolve: {
+    tsconfigPaths: true,
     alias: {
       '@sel/shared': path.resolve('../../packages/shared/src'),
       '@sel/utils': path.resolve('../../packages/utils/src'),

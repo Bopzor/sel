@@ -30,10 +30,9 @@
     "nodemon": "^3.1.10",
     "supertest": "^7.1.1",
     "tsx": "^4.20.3",
-    "vite": "7.0.6",
-    "vite-node": "^3.2.4",
-    "vite-tsconfig-paths": "^6.1.1",
-    "vitest": "^3.2.4"
+    "vite": "8.3.0",
+    "vite-node": "^6.0.0",
+    "vitest": "^5.0.0"
   },
   "dependencies": {
     "cheerio": "^1.1.0",
