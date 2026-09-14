@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "@ark-ui/solid": "^5.30.0",
-    "@floating-ui/dom": "^1.7.2",
+    "@floating-ui/dom": "^1.8.0",
     "@fontsource-variable/inter": "^5.2.6",
     "@fontsource-variable/nunito": "^5.2.6",
     "@fontsource-variable/playpen-sans": "^5.2.7",
@@ -38,7 +38,7 @@
     "cva": "npm:class-variance-authority@^0.7.1",
     "mapbox-gl": "npm:empty-npm-package@1.0.0",
     "maplibre-gl": "^4.7.1",
-    "solid-floating-ui": "^0.3.1",
+    "solid-floating-ui": "^1.0.1",
     "solid-heroicons": "^3.2.4",
     "solid-js": "^1.9.7",
     "solid-map-gl": "^1.11.3",

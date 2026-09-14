@@ -321,8 +321,8 @@ importers:
         specifier: ^5.30.0
         version: 5.30.0(solid-js@1.9.7)
       '@floating-ui/dom':
-        specifier: ^1.7.2
-        version: 1.7.2
+        specifier: ^1.8.0
+        version: 1.8.0
       '@fontsource-variable/inter':
         specifier: ^5.2.6
         version: 5.2.6
@@ -390,8 +390,8 @@ importers:
         specifier: ^4.7.1
         version: 4.7.1
       solid-floating-ui:
-        specifier: ^0.3.1
-        version: 0.3.1(@floating-ui/dom@1.7.2)(solid-js@1.9.7)
+        specifier: ^1.0.1
+        version: 1.0.1(@floating-ui/dom@1.8.0)(solid-js@1.9.7)
       solid-heroicons:
         specifier: ^3.2.4
         version: 3.2.4(solid-js@1.9.7)
@@ -1389,20 +1389,23 @@ packages:
     resolution: {integrity: sha512-1+WqvgNMhmlAambTvT3KPtCl/Ibr68VldY2XY40SL1CE0ZXiakFR/cbTspaF5HsnpDMvcYYoJHfl4980NBjGag==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
-  '@floating-ui/core@1.7.2':
-    resolution: {integrity: sha512-wNB5ooIKHQc+Kui96jE/n69rHFWAVoxn5CAzL1Xdd8FG03cgY3MLO+GF9U3W737fYDSgPWA6MReKhBQBop6Pcw==}
-
   '@floating-ui/core@1.7.3':
     resolution: {integrity: sha512-sGnvb5dmrJaKEZ+LDIpguvdX3bDlEllmv4/ClQ9awcmCZrlx5jQyyMWFM5kBI+EyNOCDDiKk8il0zeuX3Zlg/w==}
 
-  '@floating-ui/dom@1.7.2':
-    resolution: {integrity: sha512-7cfaOQuCS27HD7DX+6ib2OrnW+b4ZBwDNnCcT0uTyidcmyWb03FnQqJybDBoCnpdxwBSfA94UAYlRCt7mV+TbA==}
+  '@floating-ui/core@1.8.0':
+    resolution: {integrity: sha512-0CIZ5itps/8x7BG8dEIhs53BvCUH2PCoogtakwRTut+Arm58sJooJ0AuZhLw2HJYIR5cMLNPBSS728sPho2khQ==}
 
   '@floating-ui/dom@1.7.4':
     resolution: {integrity: sha512-OOchDgh4F2CchOX94cRVqhvy7b3AFb+/rQXyswmzmGakRfkMgoWVjfnLWkRirfLEfuD4ysVW16eXzwt3jHIzKA==}
 
+  '@floating-ui/dom@1.8.0':
+    resolution: {integrity: sha512-yXSrzeHZBTZadLOlfyhCkJHNeLJnHRnRInwdZ40L7ZiaAtrBwoYlsDrX3v5zB1Utk7CLfzcOVnVVWoXEky7Ceg==}
+
   '@floating-ui/utils@0.2.10':
     resolution: {integrity: sha512-aGTxbpbg8/b5JfU1HXSrbH3wXZuLPJcNEcZQFMxLs3oSzgtVu6nFPkbbGGUvBcUjKV2YyB9Wxxabo+HEH9tcRQ==}
+
+  '@floating-ui/utils@0.2.12':
+    resolution: {integrity: sha512-HpCo8tmWzLVad5s2d19EhAz5zqrrQ6s69qd6moPMQvkOuSwDT1YgRfWSVuc4ennqrgv3OHppiOGMQ7oC13yIww==}
 
   '@fontsource-variable/inter@5.2.6':
     resolution: {integrity: sha512-jks/bficUPQ9nn7GvXvHtlQIPudW7Wx8CrlZoY8bhxgeobNxlQan8DclUJuYF2loYRrGpfrhCIZZspXYysiVGg==}
@@ -6110,9 +6113,9 @@ packages:
       vite:
         optional: true
 
-  solid-floating-ui@0.3.1:
-    resolution: {integrity: sha512-o/QmGsWPS2Z3KidAxP0nDvN7alI7Kqy0kU+wd85Fz+au5SYcnYm7I6Fk3M60Za35azsPX0U+5fEtqfOuk6Ao0Q==}
-    engines: {node: '>=10'}
+  solid-floating-ui@1.0.1:
+    resolution: {integrity: sha512-43axATORWWe5w5ZLrdEOcnpL5gzesmJ1bdpyLTf3cVhMyfdCGb0O2iyEtUjAXgtr58o1aFYDAZ0eTdM1GGT0ig==}
+    engines: {node: '>=18'}
     peerDependencies:
       '@floating-ui/dom': ^1.5
       solid-js: ^1.8
@@ -6324,6 +6327,9 @@ packages:
   synckit@0.11.13:
     resolution: {integrity: sha512-eNRKgb3z66Yp3D2CixVujOUvXLFUTij/zVnV8KRyvFdQwpz7I5DS8UfRkTeLzb64u+dkzDSdelE24izu+zSSUg==}
     engines: {node: ^14.18.0 || >=16.0.0}
+
+  tabbable@6.5.0:
+    resolution: {integrity: sha512-wieBHXygIm7OyQOu5hQlkk62/WyCFYGlWg7L6/ZCUZwx0o398Zkn4pVmMyfYhfMG8kGrj/Krt8eIk6UKC6VzwA==}
 
   tailwind-csstree@0.3.3:
     resolution: {integrity: sha512-je9J5UYRsTJqAjYrIBMMlge8T/rreRd44pJxgG5Zx/zeo4kAC/liUKqzztRZrGlYRJLvIf2Cb1DVJMTXSzEShA==}
@@ -7591,25 +7597,27 @@ snapshots:
       '@eslint/core': 0.15.1
       levn: 0.4.1
 
-  '@floating-ui/core@1.7.2':
-    dependencies:
-      '@floating-ui/utils': 0.2.10
-
   '@floating-ui/core@1.7.3':
     dependencies:
       '@floating-ui/utils': 0.2.10
 
-  '@floating-ui/dom@1.7.2':
+  '@floating-ui/core@1.8.0':
     dependencies:
-      '@floating-ui/core': 1.7.2
-      '@floating-ui/utils': 0.2.10
+      '@floating-ui/utils': 0.2.12
 
   '@floating-ui/dom@1.7.4':
     dependencies:
       '@floating-ui/core': 1.7.3
       '@floating-ui/utils': 0.2.10
 
+  '@floating-ui/dom@1.8.0':
+    dependencies:
+      '@floating-ui/core': 1.8.0
+      '@floating-ui/utils': 0.2.12
+
   '@floating-ui/utils@0.2.10': {}
+
+  '@floating-ui/utils@0.2.12': {}
 
   '@fontsource-variable/inter@5.2.6': {}
 
@@ -10607,7 +10615,7 @@ snapshots:
 
   eslint@9.30.1(jiti@2.5.1)(supports-color@9.4.0):
     dependencies:
-      '@eslint-community/eslint-utils': 4.7.0(eslint@9.30.1(jiti@2.5.1)(supports-color@9.4.0))
+      '@eslint-community/eslint-utils': 4.10.1(eslint@9.30.1(jiti@2.5.1)(supports-color@9.4.0))
       '@eslint-community/regexpp': 4.12.1
       '@eslint/config-array': 0.21.0(supports-color@9.4.0)
       '@eslint/config-helpers': 0.3.0
@@ -12991,10 +12999,12 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  solid-floating-ui@0.3.1(@floating-ui/dom@1.7.2)(solid-js@1.9.7):
+  solid-floating-ui@1.0.1(@floating-ui/dom@1.8.0)(solid-js@1.9.7):
     dependencies:
-      '@floating-ui/dom': 1.7.2
+      '@floating-ui/dom': 1.8.0
+      '@floating-ui/utils': 0.2.10
       solid-js: 1.9.7
+      tabbable: 6.5.0
 
   solid-heroicons@3.2.4(solid-js@1.9.7):
     dependencies:
@@ -13220,6 +13230,8 @@ snapshots:
   synckit@0.11.13:
     dependencies:
       '@pkgr/core': 0.3.6
+
+  tabbable@6.5.0: {}
 
   tailwind-csstree@0.3.3: {}
 
