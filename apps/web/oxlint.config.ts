@@ -1,3 +1,5 @@
+import { join } from 'node:path';
+
 import tanstackQuery from '@tanstack/eslint-plugin-query';
 import tailwind from 'eslint-plugin-better-tailwindcss';
 import solid from 'eslint-plugin-solid/configs/recommended';
@@ -13,7 +15,7 @@ export default defineConfig({
 
   settings: {
     'better-tailwindcss': {
-      entryPoint: 'src/index.css',
+      entryPoint: join(import.meta.dirname, 'src/index.css'),
     },
   },
 
