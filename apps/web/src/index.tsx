@@ -1,17 +1,15 @@
 /* @refresh reload */
 import './application/side-effects';
-
 import { ErrorBoundary } from 'solid-js';
 import { render } from 'solid-js/web';
-
 // @ts-expect-error font import
 import '@fontsource-variable/inter';
 // @ts-expect-error font import
 import '@fontsource-variable/nunito';
 // @ts-expect-error font import
 import '@fontsource-variable/playpen-sans';
-import './index.css';
 
+import './index.css';
 import { App } from './app';
 import { ErrorFallback } from './components/error-boundary';
 

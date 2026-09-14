@@ -7,10 +7,9 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "lint": "eslint src"
+    "lint": "oxlint"
   },
   "devDependencies": {
-    "@sel/eslint-config": "workspace:*",
     "@sel/typescript-config": "workspace:*",
     "typescript": "^5.8.3"
   },

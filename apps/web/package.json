@@ -1,6 +1,6 @@
 {
   "name": "@sel/web",
-  "version": "1.5.0",
+  "version": "1.5.1",
   "packageManager": "pnpm@9.15.0",
   "private": true,
   "type": "module",
@@ -8,7 +8,7 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "preview": "vite preview",
-    "lint": "eslint",
+    "lint": "oxlint",
     "test": "vitest run",
     "storybook": "storybook dev -p 6006 --no-open",
     "generate-pwa-assets": "pwa-assets-generator --preset minimal-2023 public/logo.svg"
@@ -48,14 +48,12 @@
     "zod": "^4.0.15"
   },
   "devDependencies": {
-    "@eslint/js": "^9.30.1",
     "@solidjs/testing-library": "^0.8.10",
     "@tailwindcss/typography": "^0.5.16",
     "@tailwindcss/vite": "^4.1.11",
     "@tanstack/eslint-plugin-query": "^5.81.2",
     "@tanstack/solid-query-devtools": "^5.84.0",
     "@testing-library/jest-dom": "^6.9.1",
-    "@trivago/prettier-plugin-sort-imports": "^5.2.2",
     "@types/node": "^22.16.0",
     "@vite-pwa/assets-generator": "^1.0.1",
     "date-fns": "^4.1.0",
@@ -68,7 +66,6 @@
     "tailwindcss": "^4.1.11",
     "tailwindcss-animate": "^1.0.7",
     "typescript": "~5.8.3",
-    "typescript-eslint": "^8.35.1",
     "vite": "^7.0.6",
     "vite-plugin-qrcode": "^0.3.0",
     "vite-plugin-solid": "^2.11.8",

@@ -233,6 +233,8 @@ function ProfilePictureField() {
   const t = T.useTranslate();
   const invalidate = useInvalidateApi();
 
+  let input!: HTMLInputElement;
+
   const mutation = useMutation(() => ({
     async mutationFn(file: File) {
       const uploadedFile = await api.uploadFile({ files: { file } });
@@ -249,8 +251,6 @@ function ProfilePictureField() {
       input.value = '';
     },
   }));
-
-  let input!: HTMLInputElement;
 
   return (
     <FieldComponent label={<T id="profilePicture.label" />}>

@@ -22,7 +22,7 @@ export function InterestDescriptionForm(props: {
 
   const [form, { Form, Field }] = createForm<{ description: string }>({
     initialValues: {
-      // eslint-disable-next-line solid/reactivity
+      // oxlint-disable-next-line solid/reactivity
       description: props.interestMember.description,
     },
     validate: zodForm(editInterestMemberBodySchema),

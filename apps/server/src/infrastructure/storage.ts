@@ -4,13 +4,18 @@ import * as stream from 'node:stream';
 import { assert, createObjectFromPath } from '@sel/utils';
 import { injectableClass } from 'ditox';
 import * as minio from 'minio';
-import { ObjectInfo } from 'minio/dist/main/internal/type';
 import { mergeDeep, setPath } from 'remeda';
 
 import { TOKENS } from '../tokens';
 
 import { Config } from './config';
 import { NotFound } from './http';
+
+type ObjectInfo = {
+  name?: string;
+  lastModified?: Date;
+  size?: number;
+};
 
 class FileNotFound extends NotFound {
   constructor() {

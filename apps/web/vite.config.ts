@@ -1,6 +1,7 @@
-import tailwindcss from '@tailwindcss/vite';
 import fs from 'node:fs/promises';
 import path from 'node:path';
+
+import tailwindcss from '@tailwindcss/vite';
 import devtools from 'solid-devtools/vite';
 import { Plugin } from 'vite';
 import { qrcode } from 'vite-plugin-qrcode';

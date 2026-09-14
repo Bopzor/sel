@@ -1,8 +1,6 @@
 import clsx from 'clsx';
 import * as maplibre from 'maplibre-gl';
-
 import 'maplibre-gl/dist/maplibre-gl.css';
-
 import { createEffect, createSignal, For, JSX, Show } from 'solid-js';
 import MapGL, { Marker, Viewport } from 'solid-map-gl';
 
@@ -57,7 +55,7 @@ export function Map(props: MapProps) {
           }}
           viewport={viewport()}
           onViewportChange={setViewport}
-          // eslint-disable-next-line better-tailwindcss/no-unregistered-classes
+          // oxlint-disable-next-line better-tailwindcss/no-unregistered-classes
           class={clsx('map relative rounded-lg shadow-sm', props.class)}
         >
           <For each={props.markers}>

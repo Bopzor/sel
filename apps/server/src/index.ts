@@ -1,7 +1,6 @@
 /// <reference types="vite/client" />
 
 import 'dotenv/config';
-
 import util from 'node:util';
 
 import { container } from './infrastructure/container';

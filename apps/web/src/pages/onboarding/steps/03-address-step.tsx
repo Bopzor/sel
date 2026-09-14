@@ -45,7 +45,7 @@ function AddressForm() {
   const member = getAuthenticatedMember();
   const invalidate = useInvalidateApi();
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // oxlint-disable-next-line typescript/no-explicit-any
   const [form, { Form, Field }] = createForm<{ address: any }>({
     initialValues: {
       address: member().address,

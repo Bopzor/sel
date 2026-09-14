@@ -1,7 +1,7 @@
 import { Extend } from '@sel/utils';
 import { ComponentProps, For, JSX, Show, splitProps } from 'solid-js';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+// oxlint-disable-next-line typescript/no-explicit-any
 export function List<T extends readonly any[], U extends JSX.Element>(
   props: Extend<ComponentProps<'ul'>, ComponentProps<typeof For<T, U>>>,
 ) {

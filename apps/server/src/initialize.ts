@@ -87,6 +87,7 @@ async function storeDomainEvent(event: DomainEvent<unknown>) {
   try {
     await db.insert(domainEvents).values({
       id: generator.id(),
+      // oxlint-disable-next-line typescript/no-misused-spread
       ...event,
     });
   } catch (error) {

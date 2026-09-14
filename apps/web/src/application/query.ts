@@ -9,7 +9,7 @@ type EndpointResult<Endpoint extends keyof Api> = ReturnType<Api[Endpoint]>;
 type EndpointParam<Endpoint extends keyof Api> = Parameters<Api[Endpoint]>[0];
 
 export function apiQuery<Endpoint extends keyof Api>(endpoint: Endpoint, param: EndpointParam<Endpoint>) {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
+  // oxlint-disable-next-line typescript/no-unsafe-function-type
   const fn: Function = api[endpoint];
 
   type Data = EndpointResult<Endpoint>;

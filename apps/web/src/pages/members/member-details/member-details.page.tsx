@@ -17,6 +17,7 @@ import { createTranslate } from 'src/intl/translate';
 
 import { Button } from '../../../components/button';
 import { MemberAvatarName } from '../../../components/member-avatar-name';
+
 import { ContactInformation } from './contact-information';
 import { MemberBio } from './member-bio';
 import { MemberInterests } from './member-interests';

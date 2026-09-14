@@ -5,14 +5,13 @@
   "scripts": {
     "dev": "nodemon -w src -e ts -x 'pnpm start'",
     "start": "vite-node src/index.ts",
-    "lint": "eslint src",
+    "lint": "oxlint",
     "test": "vitest",
     "cli": "vite-node src/cli.ts",
     "db:generate-migration": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate"
   },
   "devDependencies": {
-    "@sel/eslint-config": "workspace:*",
     "@sel/shared": "workspace:*",
     "@sel/typescript-config": "workspace:*",
     "@sel/utils": "workspace:*",

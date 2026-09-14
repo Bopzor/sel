@@ -1,6 +1,8 @@
 {
+  "files": ["{packages,apps}/*/src/**/*.{ts,tsx}"],
+  "import": ["@cspell/dict-fr-fr/cspell-ext.json"],
   "ignorePaths": ["**/*.svg"],
-  "language": "en, fr",
+  "language": "en,fr",
   "words": [
     "autoresize",
     "clonedeep",
@@ -25,6 +27,7 @@
     "mjml",
     "motionone",
     "nilscox",
+    "oxlint",
     "persistor",
     "postgres",
     "reduxjs",
