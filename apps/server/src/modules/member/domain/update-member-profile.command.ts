@@ -18,7 +18,7 @@ export async function updateMemberProfile(command: UpdateMemberProfileCommand): 
   const events = container.resolve(TOKENS.events);
 
   const { memberId, data } = command;
-  const { firstName, lastName, emailVisible, phoneNumbers, bio, address } = data;
+  const { firstName, lastName, emailVisible, phoneNumber, phoneNumberVisible, bio, address } = data;
   const { avatarFileName, onboardingCompleted } = data;
 
   const avatarFile = avatarFileName ? await getFile(avatarFileName) : undefined;
@@ -27,7 +27,8 @@ export async function updateMemberProfile(command: UpdateMemberProfileCommand): 
     firstName,
     lastName,
     emailVisible,
-    phoneNumbers,
+    phoneNumber,
+    phoneNumberVisible,
     bio,
     address,
     avatarId: avatarFile?.id,

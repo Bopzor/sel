@@ -51,7 +51,7 @@ function serializeAdminMember(member: Member & { avatar: File | null }): shared.
     lastName: member.lastName,
     number: member.number,
     email: member.email,
-    phoneNumbers: member.phoneNumbers,
+    phoneNumber: member.phoneNumber ?? undefined,
     avatar: member.avatar?.name,
     balance: member.balance,
   };

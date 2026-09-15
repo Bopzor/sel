@@ -18,7 +18,7 @@ import { createMember } from './domain/create-member.command';
 import { updateMemberProfile } from './domain/update-member-profile.command';
 import { Member, MemberWithAvatar, withAvatar } from './member.entities';
 import { findMemberById } from './member.persistence';
-import { serializeMember } from './member.serializer';
+import { serializeMember, serializeMemberContact } from './member.serializer';
 
 export const router = express.Router();
 
@@ -150,10 +150,9 @@ function serializeMemberFull(
 
   return {
     ...serializeMember(member),
+    ...serializeMemberContact(member),
     bio: member.bio ?? undefined,
     address: member.address ?? undefined,
-    email: member.emailVisible ? member.email : undefined,
-    phoneNumbers: member.phoneNumbers.filter(({ visible }) => visible),
     membershipStartDate: member.membershipStartDate?.toISOString(),
     balance: member.balance,
     interests: member.memberInterests.map(serializeMemberInterest).sort(compareMemberInterests),

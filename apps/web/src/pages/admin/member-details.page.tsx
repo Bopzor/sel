@@ -6,7 +6,6 @@ import { JSX, Show } from 'solid-js';
 import { getLetsConfig } from 'src/application/config';
 import { apiQuery } from 'src/application/query';
 import { card } from 'src/components/card';
-import { List } from 'src/components/list';
 import { MemberAvatarName } from 'src/components/member-avatar-name';
 import { MemberStatus } from 'src/components/member-status';
 import { Query } from 'src/components/query';
@@ -66,16 +65,10 @@ function MemberDetails(props: { member: AdminMember }) {
         <InfoItem label={<T id="email" />} value={props.member.email} />
 
         <InfoItem
-          label={<T id="phoneNumbers" />}
+          label={<T id="phoneNumber" />}
           value={
-            <Show when={props.member.phoneNumbers.length > 0} fallback={<span class="text-dim">-</span>}>
-              <List each={props.member.phoneNumbers}>
-                {({ number }) => (
-                  <li>
-                    <FormattedPhoneNumber phoneNumber={number} />
-                  </li>
-                )}
-              </List>
+            <Show when={props.member.phoneNumber} fallback={<span class="text-dim">-</span>}>
+              {(number) => <FormattedPhoneNumber phoneNumber={number()} />}
             </Show>
           }
         />

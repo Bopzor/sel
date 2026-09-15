@@ -2,6 +2,7 @@ import { AdminMember, listAdminMembersQuerySchema } from '@sel/shared';
 import { useSearchParams } from '@solidjs/router';
 import { keepPreviousData, useQuery } from '@tanstack/solid-query';
 import clsx from 'clsx';
+import { Show } from 'solid-js';
 import z from 'zod';
 
 import { getLetsConfig } from 'src/application/config';
@@ -9,7 +10,6 @@ import { apiQuery } from 'src/application/query';
 import { routes } from 'src/application/routes';
 import { card } from 'src/components/card';
 import { Link } from 'src/components/link';
-import { List } from 'src/components/list';
 import { MemberStatus } from 'src/components/member-status';
 import { Query } from 'src/components/query';
 import { Table, TableHeader } from 'src/components/table';
@@ -126,13 +126,9 @@ function MembersTable(props: {
           cellClass: clsx('max-md:hidden'),
           header: () => <T id="phoneNumber" />,
           cell: (member) => (
-            <List each={member.phoneNumbers}>
-              {({ number }) => (
-                <li>
-                  <FormattedPhoneNumber phoneNumber={number} />
-                </li>
-              )}
-            </List>
+            <Show when={member.phoneNumber}>
+              {(number) => <FormattedPhoneNumber phoneNumber={number()} />}
+            </Show>
           ),
         },
         {

@@ -14,7 +14,6 @@ export * from './member';
 export * from './members-sort';
 export * from './message';
 export * from './notification';
-export * from './phone-number';
 export * from './request';
 export * from './transaction';
 export * from './update-notification-delivery-data';

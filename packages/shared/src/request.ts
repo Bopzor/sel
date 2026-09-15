@@ -2,7 +2,6 @@ import { z } from 'zod';
 
 import { LightMember } from './member';
 import { Message } from './message';
-import { PhoneNumber } from './phone-number';
 
 export enum RequestStatus {
   pending = 'pending',
@@ -32,7 +31,7 @@ export type Request = {
 
 export type Requester = LightMember & {
   email?: string;
-  phoneNumbers: PhoneNumber[];
+  phoneNumber?: string;
 };
 
 export type RequestAnswer = {

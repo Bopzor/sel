@@ -12,7 +12,7 @@ import { db, schema } from 'src/persistence';
 import { TOKENS } from 'src/tokens';
 
 import { MemberWithAvatar, withAvatar } from '../member/member.entities';
-import { serializeMember } from '../member/member.serializer';
+import { serializeMember, serializeMemberContact } from '../member/member.serializer';
 import { MessageWithAttachments, withAttachments } from '../messages/message.entities';
 import { serializeMessage } from '../messages/message.serializer';
 import { createTransaction } from '../transaction/domain/create-transaction.command';
@@ -180,8 +180,7 @@ function serializeRequestListItem(
     date: request.date.toISOString(),
     requester: {
       ...serializeMember(requester),
-      email: requester.emailVisible ? requester.email : undefined,
-      phoneNumbers: (requester.phoneNumbers as shared.PhoneNumber[]).filter(({ visible }) => visible),
+      ...serializeMemberContact(requester),
     },
     title: request.title,
     message: serializeMessage(request.message),
@@ -204,8 +203,7 @@ function serializeRequest(
     date: request.date.toISOString(),
     requester: {
       ...serializeMember(requester),
-      email: requester.emailVisible ? requester.email : undefined,
-      phoneNumbers: (requester.phoneNumbers as shared.PhoneNumber[]).filter(({ visible }) => visible),
+      ...serializeMemberContact(requester),
     },
     title: request.title,
     message: serializeMessage(request.message),
