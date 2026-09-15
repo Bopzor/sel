@@ -1,7 +1,7 @@
 import { AsyncLocalStorage } from 'node:async_hooks';
 
 import * as shared from '@sel/shared';
-import { defined } from '@sel/utils';
+import { assert, defined } from '@sel/utils';
 import { and, asc, desc, eq, or } from 'drizzle-orm';
 import express, { RequestHandler } from 'express';
 
@@ -37,6 +37,8 @@ const isAuthenticatedMember: RequestHandler<{ memberId: string }> = (req, res, n
 };
 
 router.param('memberId', async (req, res, next) => {
+  assert(typeof req.params.memberId === 'string');
+
   const member = await findMemberById(req.params.memberId);
 
   if (!member) {

@@ -28,7 +28,7 @@ router.get('/', async (req, res: Response<shared.DocumentsGroup[]>) => {
 
 router.get('/*path', async (req, res: Response<shared.Document>) => {
   const storage = container.resolve(TOKENS.storage);
-  const params = req.params as { path: string[] };
+  const params = req.params;
 
   const stream = await storage.getFile('documents', ['', ...params.path].join('/'));
 

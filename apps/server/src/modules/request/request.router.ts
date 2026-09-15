@@ -1,7 +1,7 @@
 import { AsyncLocalStorage } from 'node:async_hooks';
 
 import * as shared from '@sel/shared';
-import { defined } from '@sel/utils';
+import { assert, defined } from '@sel/utils';
 import { eq } from 'drizzle-orm';
 import express, { RequestHandler } from 'express';
 
@@ -75,6 +75,8 @@ router.get('/:requestId', async (req, res) => {
 });
 
 router.param('requestId', async (req, res, next) => {
+  assert(typeof req.params.requestId === 'string');
+
   const request = await findRequestById(req.params.requestId);
 
   if (!request) {
