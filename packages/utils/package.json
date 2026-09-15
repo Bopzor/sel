@@ -10,10 +10,9 @@
     "lint": "oxlint"
   },
   "devDependencies": {
-    "@sel/typescript-config": "workspace:*",
-    "typescript": "^5.8.3"
+    "@sel/typescript-config": "workspace:*"
   },
   "dependencies": {
-    "date-fns": "^4.1.0"
+    "date-fns": "^4.4.0"
   }
 }

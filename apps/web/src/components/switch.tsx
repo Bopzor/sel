@@ -13,8 +13,8 @@ export function Switch(_props: SwitchProps) {
       <div
         class={clsx(
           'relative h-5 w-8 rounded-full bg-gray-300 sm:w-9 dark:bg-gray-600',
-          'after:absolute after:start-1 after:top-1 after:size-3 after:rounded-full after:bg-neutral',
-          'sm:after:start-0.5 sm:after:top-0.5 sm:after:size-4',
+          'after:absolute after:inset-s-1 after:top-1 after:size-3 after:rounded-full after:bg-neutral',
+          'sm:after:inset-s-0.5 sm:after:top-0.5 sm:after:size-4',
           'peer-checked:bg-primary peer-focus-visible:ring-3 peer-checked:after:translate-x-full',
           "after:transition-all after:content-['']",
         )}

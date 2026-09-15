@@ -276,7 +276,7 @@ async function getEmailContent(template: NotificationTemplate['email'], context:
 
   return {
     subject,
-    html: emailRenderer.renderHtml(
+    html: await emailRenderer.renderHtml(
       subject,
       ['<!-- CONTENT START -->', html, '<!-- CONTENT END -->'].join('\n'),
     ),

@@ -13,7 +13,7 @@ export function Pagination(props: PaginationProps) {
   const pages = createMemo<(number | '...')[]>(() => pagination({ pages: props.pages, current: props.page }));
 
   return (
-    <ul class="row gap-1 self-center rounded sm:gap-2">
+    <ul class="row gap-1 self-center rounded-sm sm:gap-2">
       <For each={pages()}>
         {(page) => (
           <li
@@ -23,7 +23,7 @@ export function Pagination(props: PaginationProps) {
               'transition-all',
             )}
             classList={{
-              'bg-primary/5 border-primary!': props.page === page,
+              'border-primary! bg-primary/5': props.page === page,
             }}
           >
             <button

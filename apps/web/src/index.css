@@ -227,6 +227,17 @@
   }
 }
 
+@utility floating {
+  transition:
+    opacity 200ms,
+    transform 200ms;
+
+  &[data-status='initial'],
+  &[data-status='close'] {
+    opacity: 0;
+  }
+}
+
 .tiptap p.is-editor-empty:first-child::before {
   content: attr(data-placeholder);
   color: var(--color-placeholder);

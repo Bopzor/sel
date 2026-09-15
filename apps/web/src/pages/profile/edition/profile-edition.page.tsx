@@ -108,7 +108,7 @@ function Header(props: { form: FormStore<FormType> }) {
 
       <div
         class="ml-auto row gap-2 transition-opacity"
-        classList={{ 'opacity-0 pointer-events-none': !props.form.dirty }}
+        classList={{ 'pointer-events-none opacity-0': !props.form.dirty }}
       >
         <Button variant="outline" onClick={() => reset(props.form)}>
           <Translate id="cancel" />

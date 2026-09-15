@@ -55,7 +55,7 @@ export function ImagePreview(props: { name: string }) {
 
   return (
     <a href={src()} target="_blank">
-      <img src={src()} class="h-16 rounded-md shadow" />
+      <img src={src()} class="h-16 rounded-md shadow-sm" />
     </a>
   );
 }

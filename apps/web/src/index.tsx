@@ -1,17 +1,14 @@
 /* @refresh reload */
-import './application/side-effects';
+import '@fontsource-variable/inter';
+import '@fontsource-variable/nunito';
+import '@fontsource-variable/playpen-sans';
 import { ErrorBoundary } from 'solid-js';
 import { render } from 'solid-js/web';
-// @ts-expect-error font import
-import '@fontsource-variable/inter';
-// @ts-expect-error font import
-import '@fontsource-variable/nunito';
-// @ts-expect-error font import
-import '@fontsource-variable/playpen-sans';
 
-import './index.css';
+import './application/side-effects';
 import { App } from './app';
 import { ErrorFallback } from './components/error-boundary';
+import './index.css';
 
 render(
   () => (

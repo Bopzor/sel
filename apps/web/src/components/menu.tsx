@@ -1,13 +1,11 @@
-import { Placement, autoUpdate, flip, offset, shift } from '@floating-ui/dom';
+import { autoUpdate, flip, offset, Placement, shift } from '@floating-ui/dom';
 import { cva } from 'cva';
-import { useFloating } from 'solid-floating-ui';
+import { useClick, useDismiss, useFloating, useInteractions, useTransitionStyles } from 'solid-floating-ui';
 import { Icon } from 'solid-heroicons';
 import { chevronDown } from 'solid-heroicons/solid';
-import { ComponentProps, JSX, Show, createSignal, splitProps } from 'solid-js';
-import { Transition } from 'solid-transition-group';
+import { ComponentProps, JSX, Show, splitProps } from 'solid-js';
 
 import { createTranslate } from 'src/intl/translate';
-import { createDismiss } from 'src/utils/event-handlers';
 import { createMediaQuery } from 'src/utils/media-query';
 
 import { Button } from './button';
@@ -22,28 +20,30 @@ export function Menu(props: {
   placement?: Placement;
   children: JSX.Element;
 }) {
-  const [reference, setReference] = createSignal<HTMLButtonElement>();
-  const [floating, setFloating] = createSignal<HTMLDivElement>();
-
-  const position = useFloating(reference, floating, {
-    whileElementsMounted: autoUpdate,
-    placement: props.placement,
+  const floating = useFloating({
+    get open() {
+      return props.open;
+    },
+    onOpenChange: (open) => {
+      props.setOpen(open);
+    },
+    get placement() {
+      return props.placement;
+    },
     middleware: [offset(10), flip(), shift()],
+    whileElementsMounted: autoUpdate,
   });
 
-  createDismiss(
-    floating,
-    () => props.open,
-    () => props.setOpen(false),
-  );
+  const interactions = useInteractions([useClick(floating.context), useDismiss(floating.context)]);
+  const transition = useTransitionStyles(floating.context, { duration: 120 });
 
   const isMobile = createMediaQuery('(max-width: 640px)');
 
   return (
     <>
       <Button
-        ref={setReference}
-        onClick={() => props.setOpen(true)}
+        {...interactions.getReferenceProps()}
+        ref={(element) => floating.refs.setReference(element)}
         size={isMobile() ? 'small' : 'medium'}
         variant="outline"
       >
@@ -53,21 +53,16 @@ export function Menu(props: {
         <Icon path={chevronDown} class="size-6 sm:size-4" />
       </Button>
 
-      <Transition enterActiveClass="animate-in" exitActiveClass="animate-out">
-        <Show when={props.open}>
-          <div
-            ref={setFloating}
-            class="col justify-stretch rounded-md bg-neutral p-2 shadow-lg fade-in fade-out"
-            style={{
-              position: position.strategy,
-              top: `${position.y ?? 0}px`,
-              left: `${position.x ?? 0}px`,
-            }}
-          >
-            {props.children}
-          </div>
-        </Show>
-      </Transition>
+      <Show when={transition.isMounted}>
+        <div
+          {...interactions.getFloatingProps()}
+          ref={(element) => floating.refs.setFloating(element)}
+          class="col justify-stretch rounded-md bg-neutral p-2 floating shadow-lg"
+          style={{ ...floating.floatingStyles, ...transition.styles }}
+        >
+          {props.children}
+        </div>
+      </Show>
     </>
   );
 }

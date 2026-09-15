@@ -234,7 +234,7 @@ function DrawerNavigation(props: { closeDrawer: () => void }) {
             </div>
 
             <div>
-              <div class="text-lg leading-6 font-medium">
+              <div class="text-lg/6 font-medium">
                 <T id={`drawer.navigation.items.${item}.label`} />
               </div>
               <div class="text-sm text-white/80 group-[.active]:text-amber-400">
