@@ -43,6 +43,10 @@ export function formatPhoneNumber(phoneNumber: string) {
     .join(' ');
 }
 
+export function normalizePhoneNumber(phoneNumber: string) {
+  return phoneNumber.replace(/^\+33/, '0').replaceAll(/ /g, '');
+}
+
 export function FormattedAddress(props: { address: Address; inline?: boolean }) {
   return <>{props.inline ? formatAddressInline(props.address) : formatAddress(props.address)}</>;
 }

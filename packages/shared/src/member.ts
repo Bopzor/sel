@@ -4,7 +4,6 @@ import { z } from 'zod';
 import { Address } from './address';
 import { MemberInterest } from './interest';
 import { MembersSort } from './members-sort';
-import { PhoneNumber } from './phone-number';
 
 export enum MemberStatus {
   onboarding = 'onboarding',
@@ -25,7 +24,7 @@ export type Member = {
   lastName: string;
   number: number;
   email?: string;
-  phoneNumbers: PhoneNumber[];
+  phoneNumber?: string;
   bio?: string;
   address?: Address;
   avatar?: string;
@@ -47,7 +46,6 @@ export const createMember = createFactory<Member>(() => ({
   firstName: '',
   lastName: '',
   number: 0,
-  phoneNumbers: [],
   membershipStartDate: createDate().toISOString(),
   balance: 0,
   interests: [],
@@ -67,7 +65,11 @@ export const updateMemberProfileBodySchema = z.object({
   firstName: z.string().trim().max(256).optional(),
   lastName: z.string().trim().max(256).optional(),
   emailVisible: z.boolean().optional(),
-  phoneNumbers: z.array(z.object({ number: z.string().regex(/^0\d{9}$/), visible: z.boolean() })).optional(),
+  phoneNumber: z
+    .string()
+    .regex(/^0\d{9}$/)
+    .optional(),
+  phoneNumberVisible: z.boolean().optional(),
   bio: z.string().trim().max(4096).optional(),
   address: z
     .object({

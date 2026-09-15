@@ -7,7 +7,6 @@ import { ComponentProps, JSX, Show } from 'solid-js';
 import { getIsAuthenticatedMember } from 'src/application/query';
 import { LinkButton } from 'src/components/button';
 import { ExternalLink } from 'src/components/link';
-import { List } from 'src/components/list';
 import { FormattedAddress, FormattedPhoneNumber } from 'src/intl/formatted';
 import { createTranslate } from 'src/intl/translate';
 
@@ -24,7 +23,7 @@ export function ContactInformation(props: { member: Member }) {
         </LinkButton>
       </Show>
 
-      <PhoneNumbers member={props.member} />
+      <PhoneNumber member={props.member} />
       <Email member={props.member} />
       <Address member={props.member} />
       <MembershipDate member={props.member} />
@@ -33,22 +32,12 @@ export function ContactInformation(props: { member: Member }) {
   );
 }
 
-function PhoneNumbers(props: { member: Member }) {
+function PhoneNumber(props: { member: Member }) {
   return (
-    <MemberData
-      when={props.member && props.member.phoneNumbers.length > 0}
-      label={<T id="phoneNumber" />}
-      icon={phone}
-    >
-      <List each={props.member.phoneNumbers}>
-        {({ number }) => (
-          <li>
-            <ExternalLink href={`tel:${number}`}>
-              <FormattedPhoneNumber phoneNumber={number} />
-            </ExternalLink>
-          </li>
-        )}
-      </List>
+    <MemberData when={props.member.phoneNumber} label={<T id="phoneNumber" />} icon={phone}>
+      <ExternalLink href={`tel:${defined(props.member.phoneNumber)}`}>
+        <FormattedPhoneNumber phoneNumber={defined(props.member.phoneNumber)} />
+      </ExternalLink>
     </MemberData>
   );
 }

@@ -3,7 +3,6 @@ import { z } from 'zod';
 import { Address, addressSchema } from './address';
 import { LightMember } from './member';
 import { Message } from './message';
-import { PhoneNumber } from './phone-number';
 
 export enum EventKind {
   internal = 'internal',
@@ -32,7 +31,7 @@ export type Event = {
 
 export type EventOrganizer = LightMember & {
   email?: string;
-  phoneNumbers: PhoneNumber[];
+  phoneNumber?: string;
 };
 
 type EventParticipant = LightMember & {

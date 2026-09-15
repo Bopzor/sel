@@ -11,7 +11,7 @@ import { getAuthenticatedMember, useInvalidateApi } from 'src/application/query'
 import { Button } from 'src/components/button';
 import { Input } from 'src/components/form-controls';
 import { Switch } from 'src/components/switch';
-import { formatPhoneNumber } from 'src/intl/formatted';
+import { formatPhoneNumber, normalizePhoneNumber } from 'src/intl/formatted';
 import { createTranslate } from 'src/intl/translate';
 import { createErrorMap, zodForm } from 'src/utils/validation';
 
@@ -51,7 +51,8 @@ export function ContactStep(props: { next: () => void }) {
         path: { memberId: member().id },
         body: {
           emailVisible,
-          phoneNumbers: [{ number: phoneNumber.replaceAll(' ', ''), visible: phoneNumberVisible }],
+          phoneNumber: phoneNumber ? normalizePhoneNumber(phoneNumber) : undefined,
+          phoneNumberVisible,
         },
       });
     },
@@ -117,13 +118,11 @@ export function ContactStep(props: { next: () => void }) {
 }
 
 function getInitialValues(member: AuthenticatedMember) {
-  const phoneNumber = member.phoneNumbers[0];
-
   return {
     email: member.email,
     emailVisible: member.emailVisible,
-    phoneNumber: phoneNumber ? formatPhoneNumber(phoneNumber.number) : '',
-    phoneNumberVisible: phoneNumber?.visible ?? true,
+    phoneNumber: member.phoneNumber ? formatPhoneNumber(member.phoneNumber) : '',
+    phoneNumberVisible: member.phoneNumberVisible,
   };
 }
 

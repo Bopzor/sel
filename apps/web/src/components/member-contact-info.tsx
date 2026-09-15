@@ -1,34 +1,34 @@
 import { Member } from '@sel/shared';
 import { Icon } from 'solid-heroicons';
 import { envelope, phone } from 'solid-heroicons/solid';
-import { For, Show } from 'solid-js';
+import { Show } from 'solid-js';
 
 import { FormattedPhoneNumber } from 'src/intl/formatted';
 
 import { ExternalLink } from './link';
 
-export function MemberContactInfo(props: { member: Pick<Member, 'phoneNumbers' | 'email'> }) {
+export function MemberContactInfo(props: { member: Pick<Member, 'phoneNumber' | 'email'> }) {
   return (
     <ul class="col gap-1">
-      <PhoneNumbers member={props.member} />
+      <PhoneNumber member={props.member} />
       <Email member={props.member} />
     </ul>
   );
 }
 
-function PhoneNumbers(props: { member: Pick<Member, 'phoneNumbers'> }) {
+function PhoneNumber(props: { member: Pick<Member, 'phoneNumber'> }) {
   return (
-    <For each={props.member.phoneNumbers}>
-      {({ number }) => (
+    <Show when={props.member.phoneNumber}>
+      {(number) => (
         <li class="row items-center gap-2">
           <Icon class="size-4 text-dim" path={phone} />
 
-          <ExternalLink href={`tel:${number}`}>
-            <FormattedPhoneNumber phoneNumber={number} />
+          <ExternalLink href={`tel:${number()}`}>
+            <FormattedPhoneNumber phoneNumber={number()} />
           </ExternalLink>
         </li>
       )}
-    </For>
+    </Show>
   );
 }
 

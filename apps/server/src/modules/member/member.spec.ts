@@ -35,7 +35,6 @@ describe('member', () => {
     firstName: '',
     lastName: '',
     emailVisible: true,
-    phoneNumbers: [],
     onboardingCompleted: true,
   }));
 
@@ -53,7 +52,8 @@ describe('member', () => {
       lastName: '',
       email: 'me@domain.tld',
       emailVisible: false,
-      phoneNumbers: [],
+      phoneNumber: null,
+      phoneNumberVisible: true,
       bio: null,
       address: null,
       avatarId: null,
@@ -96,7 +96,8 @@ describe('member', () => {
       firstName: 'First',
       lastName: 'Last',
       emailVisible: true,
-      phoneNumbers: [{ number: '123', visible: true }],
+      phoneNumber: '123',
+      phoneNumberVisible: true,
       bio: 'bio',
       address: {
         line1: 'line1',

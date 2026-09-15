@@ -5,6 +5,7 @@ import { Member } from './member';
 export type AuthenticatedMember = Member & {
   email: string;
   emailVisible: boolean;
+  phoneNumberVisible: boolean;
   onboardingCompleted: boolean;
   notificationDelivery: {
     email: boolean;
@@ -19,7 +20,7 @@ export const createAuthenticatedMember = createFactory<AuthenticatedMember>(() =
   number: 0,
   email: '',
   emailVisible: false,
-  phoneNumbers: [],
+  phoneNumberVisible: false,
   onboardingCompleted: false,
   membershipStartDate: createDate().toISOString(),
   notificationDelivery: {

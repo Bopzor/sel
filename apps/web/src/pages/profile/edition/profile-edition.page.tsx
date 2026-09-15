@@ -12,7 +12,7 @@ import { Button } from 'src/components/button';
 import { Field as FieldComponent, Input, Textarea } from 'src/components/form-controls';
 import { MemberAvatar, MemberAvatarName } from 'src/components/member-avatar-name';
 import { Switch } from 'src/components/switch';
-import { formatPhoneNumber } from 'src/intl/formatted';
+import { formatPhoneNumber, normalizePhoneNumber } from 'src/intl/formatted';
 import { createTranslate } from 'src/intl/translate';
 import { createErrorMap, zodForm } from 'src/utils/validation';
 
@@ -58,7 +58,10 @@ function ProfileEditionForm(props: { initialValues: AuthenticatedMember }) {
 
   const mutation = useMutation(() => ({
     async mutationFn(data: UpdateMemberProfileData) {
-      await api.updateMemberProfile({ path: { memberId: props.initialValues.id }, body: data });
+      await api.updateMemberProfile({
+        path: { memberId: props.initialValues.id },
+        body: { ...data, phoneNumber: data.phoneNumber ? normalizePhoneNumber(data.phoneNumber) : undefined },
+      });
     },
     async onSuccess() {
       await Promise.all([invalidate('getAuthenticatedMember'), invalidate('listMembers')]);
@@ -84,14 +87,12 @@ function ProfileEditionForm(props: { initialValues: AuthenticatedMember }) {
 }
 
 function getInitialValues(member: AuthenticatedMember): FormType {
-  const phoneNumber = member.phoneNumbers[0];
-
   return {
     firstName: member.firstName,
     lastName: member.lastName,
     emailVisible: member.emailVisible,
-    phoneNumber: phoneNumber ? formatPhoneNumber(phoneNumber?.number) : '',
-    phoneNumberVisible: phoneNumber?.visible ?? true,
+    phoneNumber: member.phoneNumber ? formatPhoneNumber(member.phoneNumber) : '',
+    phoneNumberVisible: member.phoneNumberVisible,
     bio: member.bio ?? '',
   };
 }

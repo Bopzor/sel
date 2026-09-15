@@ -12,7 +12,7 @@ import { db, schema } from 'src/persistence';
 import { TOKENS } from 'src/tokens';
 
 import { MemberWithAvatar, withAvatar } from '../member/member.entities';
-import { serializeMember } from '../member/member.serializer';
+import { serializeMember, serializeMemberContact } from '../member/member.serializer';
 import { MessageWithAttachments, withAttachments } from '../messages/message.entities';
 import { serializeMessage } from '../messages/message.serializer';
 
@@ -177,7 +177,6 @@ function serializeEvent(
 function serializeOrganizer(organizer: MemberWithAvatar): shared.EventOrganizer {
   return {
     ...serializeMember(organizer),
-    email: organizer.emailVisible ? organizer.email : undefined,
-    phoneNumbers: (organizer.phoneNumbers as shared.PhoneNumber[]).filter(({ visible }) => visible),
+    ...serializeMemberContact(organizer),
   };
 }

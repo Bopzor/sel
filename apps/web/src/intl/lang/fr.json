@@ -759,7 +759,7 @@
         "memberNumber": "Numéro de membre",
         "status": "Statut",
         "email": "Adresse email",
-        "phoneNumbers": "Numéros de téléphone"
+        "phoneNumber": "Numéro de téléphone"
       }
     }
   }

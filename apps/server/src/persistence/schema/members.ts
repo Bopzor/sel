@@ -31,10 +31,8 @@ export const members = pgTable('members', {
   lastName: varchar('last_name', { length: 256 }).notNull(),
   email: varchar('email', { length: 256 }).unique().notNull(),
   emailVisible: boolean('email_visible').notNull(),
-  phoneNumbers: json('phone_numbers')
-    .$type<Array<{ number: string; visible: boolean }>>()
-    .notNull()
-    .default([]),
+  phoneNumber: varchar('phone_number', { length: 256 }),
+  phoneNumberVisible: boolean('phone_number_visible').notNull().default(true),
   bio: text('bio'),
   address: json('address').$type<shared.Address>(),
   avatarId: id('avatar_id').references((): AnyPgColumn => files.id),
