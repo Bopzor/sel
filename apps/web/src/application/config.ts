@@ -26,5 +26,5 @@ export function getAppConfig() {
 }
 
 function getEnv(name: `VITE_${string}`) {
-  return import.meta.env[name] ?? globalThis.__ENV__[name];
+  return globalThis.__ENV__[name] ?? import.meta.env[name];
 }
