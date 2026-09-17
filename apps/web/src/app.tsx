@@ -1,6 +1,7 @@
 import { Navigate, Route, Router } from '@solidjs/router';
 import { QueryClientProvider } from '@tanstack/solid-query';
 import { SolidQueryDevtools } from '@tanstack/solid-query-devtools';
+import clsx from 'clsx';
 import { JSX } from 'solid-js';
 import { Toaster } from 'solid-toast';
 
@@ -195,7 +196,10 @@ function Providers(props: { children?: JSX.Element }) {
         <MatomoProvider>
           <QueryClientProvider client={queryClient}>
             <SolidQueryDevtools initialIsOpen={false} />
-            <Toaster toastOptions={{ duration: 5 * 1000, className: 'max-w-xl!' }} />
+            <Toaster
+              toastOptions={{ duration: 5 * 1000, className: 'max-w-xl!' }}
+              containerClassName={clsx('z-toast')}
+            />
             {props.children}
           </QueryClientProvider>
         </MatomoProvider>

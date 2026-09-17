@@ -20,6 +20,11 @@
   --font-sans: 'Inter Variable', sans-serif;
   --font-nunito: 'Nunito Variable', sans-serif;
   --font-cursive: 'Playpen Sans Variable', cursive;
+
+  --z-index-sticky: 10;
+  --z-index-overlay: 20;
+  --z-index-popper: 30;
+  --z-index-toast: 40;
 }
 
 @layer theme {
@@ -171,6 +176,11 @@
         @apply bg-primary/80 text-neutral;
       }
     }
+  }
+
+  [data-scope='select'][data-part='positioner'],
+  [data-scope='combobox'][data-part='positioner'] {
+    --z-index: calc(var(--z-index-popper) + var(--layer-index, 0)) !important;
   }
 }
 

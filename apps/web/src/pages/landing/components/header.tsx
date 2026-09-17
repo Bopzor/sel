@@ -18,7 +18,7 @@ export function Header() {
   return (
     <header
       data-scroll={scroll()}
-      class="sticky top-0 z-10 mx-auto bg-body font-nunito shadow-md transition-shadow data-[scroll=0]:shadow-none"
+      class="sticky top-0 z-sticky mx-auto bg-body font-nunito shadow-md transition-shadow data-[scroll=0]:shadow-none"
     >
       <div class="mx-auto row max-w-6xl flex-wrap items-center gap-4 px-4 py-3">
         <LogoText />

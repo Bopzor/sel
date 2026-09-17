@@ -57,7 +57,7 @@ export function Menu(props: {
         <div
           {...interactions.getFloatingProps()}
           ref={(element) => floating.refs.setFloating(element)}
-          class="col justify-stretch rounded-md bg-neutral p-2 floating shadow-lg"
+          class="z-popper col justify-stretch rounded-md bg-neutral p-2 floating shadow-lg"
           style={{ ...floating.floatingStyles, ...transition.styles }}
         >
           {props.children}
