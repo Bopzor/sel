@@ -1,47 +1,17 @@
-FROM node:20-slim AS build
+FROM ghcr.io/pnpm/pnpm:12.4.1 AS build
+RUN pnpm runtime set node 24 -g
 
-RUN apt-get update
+COPY pnpm-lock.yaml pnpm-workspace.yaml ./
+RUN pnpm fetch
 
-ENV PNPM_HOME="/pnpm"
-ENV PATH="$PNPM_HOME:$PATH"
-RUN corepack enable
-
-COPY . /usr/src/app
-WORKDIR /usr/src/app
-RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
-
-ARG VITE_ENVIRONMENT
-ENV VITE_ENVIRONMENT=$VITE_ENVIRONMENT
-
-ARG VITE_API_URL
-ENV VITE_API_URL=$VITE_API_URL
-
-ARG VITE_ANALYTICS_URL
-ENV VITE_ANALYTICS_URL=$VITE_ANALYTICS_URL
-
-ARG VITE_ANALYTICS_SITE_ID
-ENV VITE_ANALYTICS_SITE_ID=$VITE_ANALYTICS_SITE_ID
-
-ARG VITE_GEOAPIFY_API_KEY
-ENV VITE_GEOAPIFY_API_KEY=$VITE_GEOAPIFY_API_KEY
-
-ARG VITE_WEB_PUSH_PUBLIC_KEY
-ENV VITE_WEB_PUSH_PUBLIC_KEY=$VITE_WEB_PUSH_PUBLIC_KEY
-
-ARG VITE_SENTRY_DSN
-ENV VITE_SENTRY_DSN=$VITE_SENTRY_DSN
-
-ARG VITE_CONTACT_EMAIL
-ENV VITE_CONTACT_EMAIL=$VITE_CONTACT_EMAIL
-
-ARG VITE_CONTACT_PHONE
-ENV VITE_CONTACT_PHONE=$VITE_CONTACT_PHONE
-
+COPY . /app
+WORKDIR /app
+RUN pnpm install --offline --frozen-lockfile
 RUN pnpm run --filter=@sel/web build
 
 FROM nginx:latest
 
 COPY ./apps/web/nginx.conf /etc/nginx/conf.d/default.conf
-COPY --from=build /usr/src/app/apps/web/dist /usr/share/nginx/html
-
-EXPOSE 80
+COPY --from=build /app/apps/web/dist /usr/share/nginx/html
+COPY --from=build /app/apps/web/env.template.js /env.template.js
+COPY --from=build /app/apps/web/entrypoint.sh /docker-entrypoint.d/99-app-entrypoint.sh
