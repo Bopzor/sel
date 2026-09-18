@@ -40,7 +40,7 @@ jobs:
         run: pnpm run lint
 
   build:
-    name: Build
+    name: Check types
     runs-on: ubuntu-latest
 
     steps:
@@ -73,7 +73,6 @@ jobs:
 
       - name: Run tests
         run: |
-          pnpm --filter @sel/utils build
           pnpm --filter @sel/server test
         env:
           DATABASE_URL: postgres://postgres@postgres/test

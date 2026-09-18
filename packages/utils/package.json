@@ -3,14 +3,12 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "scripts": {
-    "build": "tsc",
-    "lint": "oxlint"
+  "exports": {
+    ".": "./src/index.ts"
   },
-  "devDependencies": {
-    "@sel/typescript-config": "workspace:*"
+  "types": "src/index.ts",
+  "scripts": {
+    "lint": "oxlint"
   },
   "dependencies": {
     "date-fns": "^4.4.0"

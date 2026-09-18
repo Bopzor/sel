@@ -13,7 +13,6 @@
   },
   "devDependencies": {
     "@sel/shared": "workspace:*",
-    "@sel/typescript-config": "workspace:*",
     "@sel/utils": "workspace:*",
     "@types/cookie-parser": "^1.4.10",
     "@types/express": "^5.0.6",

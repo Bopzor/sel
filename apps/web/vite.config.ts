@@ -33,10 +33,6 @@ export default defineConfig({
   },
   resolve: {
     tsconfigPaths: true,
-    alias: {
-      '@sel/shared': path.resolve('../../packages/shared/src'),
-      '@sel/utils': path.resolve('../../packages/utils/src'),
-    },
   },
   test: {
     environment: 'node',

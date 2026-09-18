@@ -1,10 +1,4 @@
 {
-  "extends": "@sel/typescript-config/tsconfig.base.json",
-  "include": ["src/**/*"],
-  "compilerOptions": {
-    "outDir": "dist",
-    "rootDir": "src",
-    "composite": true,
-    "declaration": true
-  }
+  "extends": "../../tsconfig.base.json",
+  "include": ["src/**/*"]
 }

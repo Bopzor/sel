@@ -7,7 +7,6 @@ RUN pnpm fetch
 COPY . /app
 WORKDIR /app
 RUN pnpm install --offline --frozen-lockfile
-RUN pnpm exec tsc -b
 
 EXPOSE 3000
 CMD pnpm run --filter @sel/server start

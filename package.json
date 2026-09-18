@@ -8,7 +8,6 @@
     "node": ">=24.0.0"
   },
   "scripts": {
-    "clean": "rm -rf {packages,apps}/*/{dist,tsconfig.tsbuildinfo}",
     "lint": "pnpm exec oxlint",
     "format": "pnpm exec oxfmt"
   },

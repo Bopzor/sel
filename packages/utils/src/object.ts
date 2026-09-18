@@ -48,7 +48,7 @@ export async function awaitProperties<T extends object>(obj: T): Promise<{ [K in
   return toObject(
     keys(obj),
     (key) => key,
-    (key, index) => results[index],
+    (_key, index) => results[index],
   );
 }
 

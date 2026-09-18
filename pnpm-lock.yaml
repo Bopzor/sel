@@ -260,9 +260,6 @@ importers:
       '@sel/shared':
         specifier: workspace:*
         version: link:../../packages/shared
-      '@sel/typescript-config':
-        specifier: workspace:*
-        version: link:../../packages/typescript-config
       '@sel/utils':
         specifier: workspace:*
         version: link:../../packages/utils
@@ -307,13 +304,13 @@ importers:
         version: 4.23.13
       vite:
         specifier: 8.3.0
-        version: 8.3.0(esbuild@0.28.2)(tsx@4.23.13)
+        version: 8.3.0(@types/node@26.5.1)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.13)(yaml@2.9.1)
       vite-node:
         specifier: ^6.0.0
-        version: 6.0.0(esbuild@0.28.2)(tsx@4.23.13)
+        version: 6.0.0(@types/node@26.5.1)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.13)(yaml@2.9.1)
       vitest:
         specifier: ^5.0.0
-        version: 5.0.0(vite@8.3.0(esbuild@0.28.2))
+        version: 5.0.0(@types/node@26.5.1)(vite@8.3.0(@types/node@26.5.1)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.13)(yaml@2.9.1))
 
   apps/web:
     dependencies:
@@ -419,37 +416,37 @@ importers:
         version: 0.5.20(tailwindcss@4.3.3)
       '@tailwindcss/vite':
         specifier: ^4.3.3
-        version: 4.3.3(vite@8.3.0(esbuild@0.28.2))
+        version: 4.3.3(vite@8.3.0(@types/node@26.5.1)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.13)(yaml@2.9.1))
       '@tanstack/eslint-plugin-query':
         specifier: ^5.102.8
-        version: 5.102.8(eslint@10.10.0(supports-color@9.4.0))(supports-color@9.4.0)(typescript@6.0.3)
+        version: 5.102.8(eslint@10.10.0(jiti@2.7.0)(supports-color@9.4.0))(supports-color@9.4.0)(typescript@6.0.3)
       '@tanstack/solid-query-devtools':
         specifier: ^5.102.8
         version: 5.102.8(@tanstack/solid-query@5.102.8(solid-js@1.9.15))(solid-js@1.9.15)
       '@testing-library/jest-dom':
         specifier: ^7.0.1
-        version: 7.0.1(@testing-library/dom@10.4.2)(vitest@5.0.0(vite@8.3.0(esbuild@0.28.2)))
+        version: 7.0.1(@testing-library/dom@10.4.2)(vitest@5.0.0(@types/node@26.5.1)(vite@8.3.0(@types/node@26.5.1)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.13)(yaml@2.9.1)))
       '@vite-pwa/assets-generator':
         specifier: ^2.0.0
-        version: 2.0.0
+        version: 2.0.0(@types/node@26.5.1)
       eslint-plugin-better-tailwindcss:
         specifier: ^4.7.0
-        version: 4.7.0(eslint@10.10.0(supports-color@9.4.0))(oxlint@1.82.0(oxlint-tsgolint@7.0.2001))(tailwindcss@4.3.3)(typescript@6.0.3)
+        version: 4.7.0(eslint@10.10.0(jiti@2.7.0)(supports-color@9.4.0))(oxlint@1.82.0(oxlint-tsgolint@7.0.2001))(tailwindcss@4.3.3)(typescript@6.0.3)
       eslint-plugin-solid:
         specifier: ^0.18.0
-        version: 0.18.0(eslint@10.10.0(supports-color@9.4.0))(supports-color@9.4.0)(typescript@6.0.3)
+        version: 0.18.0(eslint@10.10.0(jiti@2.7.0)(supports-color@9.4.0))(supports-color@9.4.0)(typescript@6.0.3)
       heroicons:
         specifier: ^2.2.0
         version: 2.2.0
       solid-devtools:
         specifier: ^0.34.5
-        version: 0.34.5(solid-js@1.9.15)(supports-color@9.4.0)(vite@8.3.0(esbuild@0.28.2))
+        version: 0.34.5(solid-js@1.9.15)(supports-color@9.4.0)(vite@8.3.0(@types/node@26.5.1)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.13)(yaml@2.9.1))
       storybook:
         specifier: ^10.6.0
         version: 10.6.0(react@19.3.0)
       storybook-solidjs-vite:
         specifier: ^10.7.2
-        version: 10.7.2(solid-js@1.9.15)(storybook@10.6.0(react@19.3.0))(typescript@6.0.3)(vite-plugin-solid@2.11.14(@testing-library/jest-dom@7.0.1(@testing-library/dom@10.4.2)(vitest@5.0.0(vite@8.3.0(esbuild@0.28.2))))(solid-js@1.9.15)(supports-color@9.4.0)(vite@8.3.0(esbuild@0.28.2)))(vite@8.3.0(esbuild@0.28.2))
+        version: 10.7.2(solid-js@1.9.15)(storybook@10.6.0(react@19.3.0))(typescript@6.0.3)(vite-plugin-solid@2.11.14(@testing-library/jest-dom@7.0.1(@testing-library/dom@10.4.2)(vitest@5.0.0(@types/node@26.5.1)(vite@8.3.0(@types/node@26.5.1)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.13)(yaml@2.9.1))))(solid-js@1.9.15)(supports-color@9.4.0)(vite@8.3.0(@types/node@26.5.1)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.13)(yaml@2.9.1)))(vite@8.3.0(@types/node@26.5.1)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.13)(yaml@2.9.1))
       tailwindcss:
         specifier: ^4.3.3
         version: 4.3.3
@@ -458,44 +455,34 @@ importers:
         version: 1.0.7(tailwindcss@4.3.3)
       vite:
         specifier: ^8.3.0
-        version: 8.3.0(esbuild@0.28.2)(tsx@4.23.13)
+        version: 8.3.0(@types/node@26.5.1)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.13)(yaml@2.9.1)
       vite-plugin-qrcode:
         specifier: ^0.4.1
-        version: 0.4.1(vite@8.3.0(esbuild@0.28.2))
+        version: 0.4.1(vite@8.3.0(@types/node@26.5.1)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.13)(yaml@2.9.1))
       vite-plugin-solid:
         specifier: ^2.11.14
-        version: 2.11.14(@testing-library/jest-dom@7.0.1(@testing-library/dom@10.4.2)(vitest@5.0.0(vite@8.3.0(esbuild@0.28.2))))(solid-js@1.9.15)(supports-color@9.4.0)(vite@8.3.0(esbuild@0.28.2))
+        version: 2.11.14(@testing-library/jest-dom@7.0.1(@testing-library/dom@10.4.2)(vitest@5.0.0(@types/node@26.5.1)(vite@8.3.0(@types/node@26.5.1)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.13)(yaml@2.9.1))))(solid-js@1.9.15)(supports-color@9.4.0)(vite@8.3.0(@types/node@26.5.1)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.13)(yaml@2.9.1))
       vite-plugin-solid-svg:
         specifier: ^0.8.1
-        version: 0.8.1(solid-js@1.9.15)(vite@8.3.0(esbuild@0.28.2))
+        version: 0.8.1(solid-js@1.9.15)(vite@8.3.0(@types/node@26.5.1)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.13)(yaml@2.9.1))
       vitest:
         specifier: ^5.0.0
-        version: 5.0.0(vite@8.3.0(esbuild@0.28.2))
+        version: 5.0.0(@types/node@26.5.1)(vite@8.3.0(@types/node@26.5.1)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.13)(yaml@2.9.1))
 
   packages/shared:
     dependencies:
-      zod:
-        specifier: ^4.6.5
-        version: 4.6.5
-    devDependencies:
-      '@sel/typescript-config':
-        specifier: workspace:*
-        version: link:../typescript-config
       '@sel/utils':
         specifier: workspace:*
         version: link:../utils
-
-  packages/typescript-config: {}
+      zod:
+        specifier: ^4.6.5
+        version: 4.6.5
 
   packages/utils:
     dependencies:
       date-fns:
         specifier: ^4.4.0
         version: 4.4.0
-    devDependencies:
-      '@sel/typescript-config':
-        specifier: workspace:*
-        version: link:../typescript-config
 
 packages:
 
@@ -7091,9 +7078,9 @@ snapshots:
   '@esbuild/win32-x64@0.28.2':
     optional: true
 
-  '@eslint-community/eslint-utils@4.10.1(eslint@10.10.0(supports-color@9.4.0))':
+  '@eslint-community/eslint-utils@4.10.1(eslint@10.10.0(jiti@2.7.0)(supports-color@9.4.0))':
     dependencies:
-      eslint: 10.10.0(supports-color@9.4.0)
+      eslint: 10.10.0(jiti@2.7.0)(supports-color@9.4.0)
       eslint-visitor-keys: 3.4.3
 
   '@eslint-community/regexpp@4.12.2': {}
@@ -7853,11 +7840,11 @@ snapshots:
     optionalDependencies:
       '@solidjs/router': 1.0.0(solid-js@1.9.15)
 
-  '@storybook/builder-vite@10.6.0(storybook@10.6.0(react@19.3.0))(vite@8.3.0(esbuild@0.28.2))':
+  '@storybook/builder-vite@10.6.0(storybook@10.6.0(react@19.3.0))(vite@8.3.0(@types/node@26.5.1)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.13)(yaml@2.9.1))':
     dependencies:
       storybook: 10.6.0(react@19.3.0)
       ts-dedent: 2.3.0
-      vite: 8.3.0(esbuild@0.28.2)(tsx@4.23.13)
+      vite: 8.3.0(@types/node@26.5.1)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.13)(yaml@2.9.1)
 
   '@storybook/global@5.0.0': {}
 
@@ -7935,17 +7922,17 @@ snapshots:
       postcss-selector-parser: 6.0.10
       tailwindcss: 4.3.3
 
-  '@tailwindcss/vite@4.3.3(vite@8.3.0(esbuild@0.28.2))':
+  '@tailwindcss/vite@4.3.3(vite@8.3.0(@types/node@26.5.1)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.13)(yaml@2.9.1))':
     dependencies:
       '@tailwindcss/node': 4.3.3
       '@tailwindcss/oxide': 4.3.3
       tailwindcss: 4.3.3
-      vite: 8.3.0(esbuild@0.28.2)(tsx@4.23.13)
+      vite: 8.3.0(@types/node@26.5.1)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.13)(yaml@2.9.1)
 
-  '@tanstack/eslint-plugin-query@5.102.8(eslint@10.10.0(supports-color@9.4.0))(supports-color@9.4.0)(typescript@6.0.3)':
+  '@tanstack/eslint-plugin-query@5.102.8(eslint@10.10.0(jiti@2.7.0)(supports-color@9.4.0))(supports-color@9.4.0)(typescript@6.0.3)':
     dependencies:
-      '@typescript-eslint/utils': 8.70.0(eslint@10.10.0(supports-color@9.4.0))(supports-color@9.4.0)(typescript@6.0.3)
-      eslint: 10.10.0(supports-color@9.4.0)
+      '@typescript-eslint/utils': 8.70.0(eslint@10.10.0(jiti@2.7.0)(supports-color@9.4.0))(supports-color@9.4.0)(typescript@6.0.3)
+      eslint: 10.10.0(jiti@2.7.0)(supports-color@9.4.0)
     optionalDependencies:
       typescript: 6.0.3
     transitivePeerDependencies:
@@ -7986,7 +7973,7 @@ snapshots:
       picocolors: 1.1.1
       redent: 3.0.0
 
-  '@testing-library/jest-dom@7.0.1(@testing-library/dom@10.4.2)(vitest@5.0.0(vite@8.3.0(esbuild@0.28.2)))':
+  '@testing-library/jest-dom@7.0.1(@testing-library/dom@10.4.2)(vitest@5.0.0(@types/node@26.5.1)(vite@8.3.0(@types/node@26.5.1)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.13)(yaml@2.9.1)))':
     dependencies:
       '@adobe/css-tools': 4.5.0
       '@testing-library/dom': 10.4.2
@@ -7996,7 +7983,7 @@ snapshots:
       picocolors: 1.1.1
       redent: 3.0.0
     optionalDependencies:
-      vitest: 5.0.0(vite@8.3.0(esbuild@0.28.2))
+      vitest: 5.0.0(@types/node@26.5.1)(vite@8.3.0(@types/node@26.5.1)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.13)(yaml@2.9.1))
 
   '@testing-library/user-event@14.6.7(@testing-library/dom@10.4.2)':
     dependencies:
@@ -8353,13 +8340,13 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@typescript-eslint/utils@8.70.0(eslint@10.10.0(supports-color@9.4.0))(supports-color@9.4.0)(typescript@6.0.3)':
+  '@typescript-eslint/utils@8.70.0(eslint@10.10.0(jiti@2.7.0)(supports-color@9.4.0))(supports-color@9.4.0)(typescript@6.0.3)':
     dependencies:
-      '@eslint-community/eslint-utils': 4.10.1(eslint@10.10.0(supports-color@9.4.0))
+      '@eslint-community/eslint-utils': 4.10.1(eslint@10.10.0(jiti@2.7.0)(supports-color@9.4.0))
       '@typescript-eslint/scope-manager': 8.70.0
       '@typescript-eslint/types': 8.70.0
       '@typescript-eslint/typescript-estree': 8.70.0(supports-color@9.4.0)(typescript@6.0.3)
-      eslint: 10.10.0(supports-color@9.4.0)
+      eslint: 10.10.0(jiti@2.7.0)(supports-color@9.4.0)
       typescript: 6.0.3
     transitivePeerDependencies:
       - supports-color
@@ -8379,13 +8366,13 @@ snapshots:
     dependencies:
       valibot: 1.5.0(typescript@6.0.3)
 
-  '@vite-pwa/assets-generator@2.0.0':
+  '@vite-pwa/assets-generator@2.0.0(@types/node@26.5.1)':
     dependencies:
       cac: 7.0.0
       consola: 3.4.2
       picocolors: 1.1.1
-      sharp: 0.35.4
-      sharp-ico: 0.1.5
+      sharp: 0.35.4(@types/node@26.5.1)
+      sharp-ico: 0.1.5(@types/node@26.5.1)
       unconfig: 7.5.0
     transitivePeerDependencies:
       - '@types/node'
@@ -8398,14 +8385,14 @@ snapshots:
       chai: 5.3.3
       tinyrainbow: 2.0.0
 
-  '@vitest/mocker@5.0.0(vite@8.3.0(esbuild@0.28.2))':
+  '@vitest/mocker@5.0.0(vite@8.3.0(@types/node@26.5.1)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.13)(yaml@2.9.1))':
     dependencies:
       '@jridgewell/trace-mapping': 0.3.31
       '@vitest/spy': 5.0.0
       estree-walker: 3.0.3
       magic-string: 1.3.1
     optionalDependencies:
-      vite: 8.3.0(esbuild@0.28.2)(tsx@4.23.13)
+      vite: 8.3.0(@types/node@26.5.1)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.13)(yaml@2.9.1)
 
   '@vitest/pretty-format@3.2.4':
     dependencies:
@@ -9867,7 +9854,7 @@ snapshots:
 
   escape-string-regexp@4.0.0: {}
 
-  eslint-plugin-better-tailwindcss@4.7.0(eslint@10.10.0(supports-color@9.4.0))(oxlint@1.82.0(oxlint-tsgolint@7.0.2001))(tailwindcss@4.3.3)(typescript@6.0.3):
+  eslint-plugin-better-tailwindcss@4.7.0(eslint@10.10.0(jiti@2.7.0)(supports-color@9.4.0))(oxlint@1.82.0(oxlint-tsgolint@7.0.2001))(tailwindcss@4.3.3)(typescript@6.0.3):
     dependencies:
       '@eslint/css-tree': 4.1.0
       '@valibot/to-json-schema': 1.8.0(valibot@1.5.0(typescript@6.0.3))
@@ -9879,16 +9866,16 @@ snapshots:
       tsconfig-paths-webpack-plugin: 4.2.0
       valibot: 1.5.0(typescript@6.0.3)
     optionalDependencies:
-      eslint: 10.10.0(supports-color@9.4.0)
+      eslint: 10.10.0(jiti@2.7.0)(supports-color@9.4.0)
       oxlint: 1.82.0(oxlint-tsgolint@7.0.2001)
     transitivePeerDependencies:
       - '@eslint/css'
       - typescript
 
-  eslint-plugin-solid@0.18.0(eslint@10.10.0(supports-color@9.4.0))(supports-color@9.4.0)(typescript@6.0.3):
+  eslint-plugin-solid@0.18.0(eslint@10.10.0(jiti@2.7.0)(supports-color@9.4.0))(supports-color@9.4.0)(typescript@6.0.3):
     dependencies:
-      '@typescript-eslint/utils': 8.70.0(eslint@10.10.0(supports-color@9.4.0))(supports-color@9.4.0)(typescript@6.0.3)
-      eslint: 10.10.0(supports-color@9.4.0)
+      '@typescript-eslint/utils': 8.70.0(eslint@10.10.0(jiti@2.7.0)(supports-color@9.4.0))(supports-color@9.4.0)(typescript@6.0.3)
+      eslint: 10.10.0(jiti@2.7.0)(supports-color@9.4.0)
       estraverse: 5.3.0
       is-html: 2.0.0
       kebab-case: 1.0.2
@@ -9909,9 +9896,9 @@ snapshots:
 
   eslint-visitor-keys@5.0.1: {}
 
-  eslint@10.10.0(supports-color@9.4.0):
+  eslint@10.10.0(jiti@2.7.0)(supports-color@9.4.0):
     dependencies:
-      '@eslint-community/eslint-utils': 4.10.1(eslint@10.10.0(supports-color@9.4.0))
+      '@eslint-community/eslint-utils': 4.10.1(eslint@10.10.0(jiti@2.7.0)(supports-color@9.4.0))
       '@eslint-community/regexpp': 4.12.2
       '@eslint/config-array': 0.23.5(supports-color@9.4.0)
       '@eslint/config-helpers': 0.7.0
@@ -9941,6 +9928,8 @@ snapshots:
       minimatch: 10.2.6
       natural-compare: 1.4.0
       optionator: 0.9.4
+    optionalDependencies:
+      jiti: 2.7.0
     transitivePeerDependencies:
       - supports-color
 
@@ -12046,15 +12035,15 @@ snapshots:
 
   setprototypeof@1.2.0: {}
 
-  sharp-ico@0.1.5:
+  sharp-ico@0.1.5(@types/node@26.5.1):
     dependencies:
       decode-ico: 0.4.1
       ico-endec: 0.1.6
-      sharp: 0.35.4
+      sharp: 0.35.4(@types/node@26.5.1)
     transitivePeerDependencies:
       - '@types/node'
 
-  sharp@0.35.4:
+  sharp@0.35.4(@types/node@26.5.1):
     dependencies:
       '@img/colour': 1.1.0
       detect-libc: 2.1.2
@@ -12085,6 +12074,7 @@ snapshots:
       '@img/sharp-win32-arm64': 0.35.4
       '@img/sharp-win32-ia32': 0.35.4
       '@img/sharp-win32-x64': 0.35.4
+      '@types/node': 26.5.1
 
   shebang-command@2.0.0:
     dependencies:
@@ -12130,7 +12120,7 @@ snapshots:
 
   smol-toml@1.8.0: {}
 
-  solid-devtools@0.34.5(solid-js@1.9.15)(supports-color@9.4.0)(vite@8.3.0(esbuild@0.28.2)):
+  solid-devtools@0.34.5(solid-js@1.9.15)(supports-color@9.4.0)(vite@8.3.0(@types/node@26.5.1)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.13)(yaml@2.9.1)):
     dependencies:
       '@babel/core': 7.29.7(supports-color@9.4.0)
       '@babel/plugin-syntax-typescript': 7.29.7(@babel/core@7.29.7(supports-color@9.4.0))
@@ -12139,7 +12129,7 @@ snapshots:
       '@solid-devtools/shared': 0.20.0(solid-js@1.9.15)
       solid-js: 1.9.15
     optionalDependencies:
-      vite: 8.3.0(esbuild@0.28.2)(tsx@4.23.13)
+      vite: 8.3.0(@types/node@26.5.1)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.13)(yaml@2.9.1)
     transitivePeerDependencies:
       - supports-color
 
@@ -12211,9 +12201,9 @@ snapshots:
 
   std-env@4.2.0: {}
 
-  storybook-solidjs-vite@10.7.2(solid-js@1.9.15)(storybook@10.6.0(react@19.3.0))(typescript@6.0.3)(vite-plugin-solid@2.11.14(@testing-library/jest-dom@7.0.1(@testing-library/dom@10.4.2)(vitest@5.0.0(vite@8.3.0(esbuild@0.28.2))))(solid-js@1.9.15)(supports-color@9.4.0)(vite@8.3.0(esbuild@0.28.2)))(vite@8.3.0(esbuild@0.28.2)):
+  storybook-solidjs-vite@10.7.2(solid-js@1.9.15)(storybook@10.6.0(react@19.3.0))(typescript@6.0.3)(vite-plugin-solid@2.11.14(@testing-library/jest-dom@7.0.1(@testing-library/dom@10.4.2)(vitest@5.0.0(@types/node@26.5.1)(vite@8.3.0(@types/node@26.5.1)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.13)(yaml@2.9.1))))(solid-js@1.9.15)(supports-color@9.4.0)(vite@8.3.0(@types/node@26.5.1)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.13)(yaml@2.9.1)))(vite@8.3.0(@types/node@26.5.1)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.13)(yaml@2.9.1)):
     dependencies:
-      '@storybook/builder-vite': 10.6.0(storybook@10.6.0(react@19.3.0))(vite@8.3.0(esbuild@0.28.2))
+      '@storybook/builder-vite': 10.6.0(storybook@10.6.0(react@19.3.0))(vite@8.3.0(@types/node@26.5.1)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.13)(yaml@2.9.1))
       '@storybook/global': 5.0.0
       '@typescript/typescript6': 6.0.2
       '@volar/language-core': 2.4.28
@@ -12221,8 +12211,8 @@ snapshots:
       semver: 7.8.5
       solid-js: 1.9.15
       storybook: 10.6.0(react@19.3.0)
-      vite: 8.3.0(esbuild@0.28.2)(tsx@4.23.13)
-      vite-plugin-solid: 2.11.14(@testing-library/jest-dom@7.0.1(@testing-library/dom@10.4.2)(vitest@5.0.0(vite@8.3.0(esbuild@0.28.2))))(solid-js@1.9.15)(supports-color@9.4.0)(vite@8.3.0(esbuild@0.28.2))
+      vite: 8.3.0(@types/node@26.5.1)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.13)(yaml@2.9.1)
+      vite-plugin-solid: 2.11.14(@testing-library/jest-dom@7.0.1(@testing-library/dom@10.4.2)(vitest@5.0.0(@types/node@26.5.1)(vite@8.3.0(@types/node@26.5.1)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.13)(yaml@2.9.1))))(solid-js@1.9.15)(supports-color@9.4.0)(vite@8.3.0(@types/node@26.5.1)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.13)(yaml@2.9.1))
     optionalDependencies:
       typescript: 6.0.3
 
@@ -12577,13 +12567,13 @@ snapshots:
       '@types/unist': 3.0.3
       vfile-message: 4.0.3
 
-  vite-node@6.0.0(esbuild@0.28.2)(tsx@4.23.13):
+  vite-node@6.0.0(@types/node@26.5.1)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.13)(yaml@2.9.1):
     dependencies:
       cac: 7.0.0
       es-module-lexer: 2.3.2
       obug: 2.2.1
       pathe: 2.0.3
-      vite: 8.3.0(esbuild@0.28.2)(tsx@4.23.13)
+      vite: 8.3.0(@types/node@26.5.1)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.13)(yaml@2.9.1)
     transitivePeerDependencies:
       - '@types/node'
       - '@vitejs/devtools'
@@ -12598,18 +12588,18 @@ snapshots:
       - tsx
       - yaml
 
-  vite-plugin-qrcode@0.4.1(vite@8.3.0(esbuild@0.28.2)):
+  vite-plugin-qrcode@0.4.1(vite@8.3.0(@types/node@26.5.1)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.13)(yaml@2.9.1)):
     dependencies:
       uqr: 0.1.3
-      vite: 8.3.0(esbuild@0.28.2)(tsx@4.23.13)
+      vite: 8.3.0(@types/node@26.5.1)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.13)(yaml@2.9.1)
 
-  vite-plugin-solid-svg@0.8.1(solid-js@1.9.15)(vite@8.3.0(esbuild@0.28.2)):
+  vite-plugin-solid-svg@0.8.1(solid-js@1.9.15)(vite@8.3.0(@types/node@26.5.1)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.13)(yaml@2.9.1)):
     dependencies:
       solid-js: 1.9.15
       svgo: 3.3.5
-      vite: 8.3.0(esbuild@0.28.2)(tsx@4.23.13)
+      vite: 8.3.0(@types/node@26.5.1)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.13)(yaml@2.9.1)
 
-  vite-plugin-solid@2.11.14(@testing-library/jest-dom@7.0.1(@testing-library/dom@10.4.2)(vitest@5.0.0(vite@8.3.0(esbuild@0.28.2))))(solid-js@1.9.15)(supports-color@9.4.0)(vite@8.3.0(esbuild@0.28.2)):
+  vite-plugin-solid@2.11.14(@testing-library/jest-dom@7.0.1(@testing-library/dom@10.4.2)(vitest@5.0.0(@types/node@26.5.1)(vite@8.3.0(@types/node@26.5.1)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.13)(yaml@2.9.1))))(solid-js@1.9.15)(supports-color@9.4.0)(vite@8.3.0(@types/node@26.5.1)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.13)(yaml@2.9.1)):
     dependencies:
       '@babel/core': 7.29.7(supports-color@9.4.0)
       '@types/babel__core': 7.20.5
@@ -12617,14 +12607,14 @@ snapshots:
       merge-anything: 5.1.7
       solid-js: 1.9.15
       solid-refresh: 0.6.3(solid-js@1.9.15)(supports-color@9.4.0)
-      vite: 8.3.0(esbuild@0.28.2)(tsx@4.23.13)
-      vitefu: 1.1.3(vite@8.3.0(esbuild@0.28.2))
+      vite: 8.3.0(@types/node@26.5.1)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.13)(yaml@2.9.1)
+      vitefu: 1.1.3(vite@8.3.0(@types/node@26.5.1)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.13)(yaml@2.9.1))
     optionalDependencies:
-      '@testing-library/jest-dom': 7.0.1(@testing-library/dom@10.4.2)(vitest@5.0.0(vite@8.3.0(esbuild@0.28.2)))
+      '@testing-library/jest-dom': 7.0.1(@testing-library/dom@10.4.2)(vitest@5.0.0(@types/node@26.5.1)(vite@8.3.0(@types/node@26.5.1)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.13)(yaml@2.9.1)))
     transitivePeerDependencies:
       - supports-color
 
-  vite@8.3.0(esbuild@0.28.2)(tsx@4.23.13):
+  vite@8.3.0(@types/node@26.5.1)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.13)(yaml@2.9.1):
     dependencies:
       lightningcss: 1.33.0
       picomatch: 4.0.7
@@ -12632,18 +12622,21 @@ snapshots:
       rolldown: 1.2.8
       tinyglobby: 0.2.17
     optionalDependencies:
+      '@types/node': 26.5.1
       esbuild: 0.28.2
       fsevents: 2.3.3
+      jiti: 2.7.0
       tsx: 4.23.13
+      yaml: 2.9.1
 
-  vitefu@1.1.3(vite@8.3.0(esbuild@0.28.2)):
+  vitefu@1.1.3(vite@8.3.0(@types/node@26.5.1)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.13)(yaml@2.9.1)):
     optionalDependencies:
-      vite: 8.3.0(esbuild@0.28.2)(tsx@4.23.13)
+      vite: 8.3.0(@types/node@26.5.1)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.13)(yaml@2.9.1)
 
-  vitest@5.0.0(vite@8.3.0(esbuild@0.28.2)):
+  vitest@5.0.0(@types/node@26.5.1)(vite@8.3.0(@types/node@26.5.1)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.13)(yaml@2.9.1)):
     dependencies:
       '@types/chai': 5.2.3
-      '@vitest/mocker': 5.0.0(vite@8.3.0(esbuild@0.28.2))
+      '@vitest/mocker': 5.0.0(vite@8.3.0(@types/node@26.5.1)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.13)(yaml@2.9.1))
       chai: 6.2.2
       es-module-lexer: 2.3.2
       expect-type: 1.4.0
@@ -12654,8 +12647,10 @@ snapshots:
       tinybench: 6.1.4
       tinyexec: 1.3.0
       tinyglobby: 0.2.17
-      vite: 8.3.0(esbuild@0.28.2)(tsx@4.23.13)
+      vite: 8.3.0(@types/node@26.5.1)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.13)(yaml@2.9.1)
       why-is-node-running: 2.3.0
+    optionalDependencies:
+      '@types/node': 26.5.1
     transitivePeerDependencies:
       - msw
 

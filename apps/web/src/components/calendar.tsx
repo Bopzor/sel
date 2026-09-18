@@ -1,5 +1,6 @@
 import {
   createArray,
+  defined,
   endOfWeek,
   getDay,
   isPast,
@@ -97,7 +98,7 @@ function createDayData(days: Date[], first: Date) {
       isFirst: index === 0,
       isLast: index === days.length - 1,
       isEndOfWeek: getDay(date) === 0,
-      isLastWeek: isSameWeek(date, last(days), { weekStartsOn: 1 }),
+      isLastWeek: isSameWeek(date, defined(last(days)), { weekStartsOn: 1 }),
       isLastDayOfFirstWeek: date === days[6],
       isFirstDayOfLastWeek: date === days[days.length - 7],
       isMonth: isSameMonth(first, date),
