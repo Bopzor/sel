@@ -7,6 +7,7 @@ export * from './files';
 export * from './information';
 export * from './interests';
 export * from './members';
+export * from './membership-payment';
 export * from './messages';
 export * from './notifications';
 export * from './requests';
