@@ -1,11 +1,14 @@
 import * as shared from '@sel/shared';
 import express from 'express';
 
-import { NotFound } from 'src/infrastructure/http';
+import { container } from 'src/infrastructure/container';
+import { HttpStatus, NotFound } from 'src/infrastructure/http';
 import { db } from 'src/persistence';
+import { TOKENS } from 'src/tokens';
 
 import { File } from '../file/file.entity';
 
+import { createMembershipPayment } from './domain/create-membership-payment.command';
 import { Member } from './member.entities';
 
 export const router = express.Router();
@@ -41,6 +44,29 @@ router.get('/:memberId', async (req, res) => {
   }
 
   res.json(serializeAdminMember(member));
+});
+
+router.post('/:memberId/membership-payment', async (req, res) => {
+  const generator = container.resolve(TOKENS.generator);
+  const body = shared.createMembershipPaymentBodySchema.parse(req.body);
+
+  const member = await db.query.members.findFirst({
+    where: { id: req.params.memberId },
+  });
+
+  if (!member) {
+    throw new NotFound('Member not found');
+  }
+
+  const paymentId = generator.id();
+
+  await createMembershipPayment({
+    paymentId,
+    memberId: member.id,
+    ...body,
+  });
+
+  res.status(HttpStatus.noContent).end();
 });
 
 function serializeAdminMember(member: Member & { avatar: File | null }): shared.AdminMember {
