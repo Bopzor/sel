@@ -63,7 +63,7 @@ router.put('/:interestId', isAdmin, async (req, res) => {
     imageId,
   });
 
-  res.status(HttpStatus.noContent).send(interestId);
+  res.status(HttpStatus.ok).send(interestId);
 });
 
 router.put('/:interestId/join', async (req, res) => {
