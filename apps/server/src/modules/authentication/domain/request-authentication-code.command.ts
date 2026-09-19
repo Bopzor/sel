@@ -1,6 +1,6 @@
 import { MemberStatus } from '@sel/shared';
 import { addDuration } from '@sel/utils';
-import { and, eq, inArray } from 'drizzle-orm';
+import { and, eq } from 'drizzle-orm';
 
 import { container } from 'src/infrastructure/container';
 import { db, schema } from 'src/persistence';
@@ -20,10 +20,10 @@ export async function requestAuthenticationCode(command: RequestAuthenticationCo
   const code = generator.numeric(6);
 
   const member = await db.query.members.findFirst({
-    where: and(
-      eq(schema.members.email, command.email),
-      inArray(schema.members.status, [MemberStatus.active, MemberStatus.onboarding]),
-    ),
+    where: {
+      email: command.email,
+      status: { in: [MemberStatus.active, MemberStatus.onboarding] },
+    },
   });
 
   if (!member) {

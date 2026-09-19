@@ -8,13 +8,14 @@ import pg, { Pool } from 'pg';
 import { container } from 'src/infrastructure/container';
 import { TOKENS } from 'src/tokens';
 
+import { relations } from './relations';
 import * as schema from './schema';
 
 const config = container.resolve(TOKENS.config);
 
 export const db = drizzle({
   client: new Pool({ connectionString: config.database.url }),
-  schema,
+  relations,
   logger: {
     logQuery(query, params) {
       const logger = container.resolve(TOKENS.logger);

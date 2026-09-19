@@ -18,7 +18,7 @@ export async function cancelTransaction(command: CancelTransactionCommand): Prom
   const events = container.resolve(TOKENS.events);
 
   const transaction = await db.query.transactions.findFirst({
-    where: eq(schema.transactions.id, transactionId),
+    where: { id: transactionId },
   });
 
   if (!transaction) {

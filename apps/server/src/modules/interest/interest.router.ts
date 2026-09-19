@@ -1,11 +1,10 @@
 import * as shared from '@sel/shared';
-import { asc } from 'drizzle-orm';
 import express from 'express';
 
 import { container } from 'src/infrastructure/container';
 import { HttpStatus } from 'src/infrastructure/http';
 import { getAuthenticatedMember } from 'src/infrastructure/session';
-import { db, schema } from 'src/persistence';
+import { db } from 'src/persistence';
 import { TOKENS } from 'src/tokens';
 
 import { File } from '../file/file.entity';
@@ -23,7 +22,7 @@ export const router = express.Router();
 
 router.get('/', async (req, res) => {
   const interests = await db.query.interests.findMany({
-    orderBy: asc(schema.interests.label),
+    orderBy: { label: 'asc' },
     with: {
       image: true,
       membersInterests: {

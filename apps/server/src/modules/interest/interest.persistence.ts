@@ -8,7 +8,7 @@ import { InterestInsert } from './interest.entities';
 
 export function findInterestById(interestId: string) {
   return db.query.interests.findFirst({
-    where: eq(schema.interests.id, interestId),
+    where: { id: interestId },
   });
 }
 

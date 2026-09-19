@@ -8,7 +8,7 @@ import { MemberInsert } from './member.entities';
 
 export function findMemberById(memberId: string) {
   return db.query.members.findFirst({
-    where: eq(schema.members.id, memberId),
+    where: { id: memberId },
   });
 }
 

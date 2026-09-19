@@ -1,7 +1,6 @@
 import { Config, MemberRole } from '@sel/shared';
 import { pick } from '@sel/utils';
 import cookieParser from 'cookie-parser';
-import { eq } from 'drizzle-orm';
 import express, { ErrorRequestHandler, RequestHandler } from 'express';
 import morgan from 'morgan';
 import { z } from 'zod';
@@ -27,7 +26,7 @@ import { router as members } from './modules/member/member.router';
 import { router as sessionNotifications } from './modules/notification/notification.router';
 import { router as requests } from './modules/request/request.router';
 import { router as transactions } from './modules/transaction/transaction.router';
-import { db, schema } from './persistence';
+import { db } from './persistence';
 import { TOKENS } from './tokens';
 
 export function server() {
@@ -97,7 +96,7 @@ const authenticationProvider: RequestHandler = async (req, res, next) => {
   }
 
   const token = await db.query.tokens.findFirst({
-    where: eq(schema.tokens.value, tokenCookie),
+    where: { value: tokenCookie },
     with: { member: true },
   });
 

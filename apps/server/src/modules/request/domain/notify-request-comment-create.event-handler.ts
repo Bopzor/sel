@@ -1,5 +1,4 @@
 import { assert, defined, hasProperty, unique } from '@sel/utils';
-import { eq } from 'drizzle-orm';
 
 import { memberName } from 'src/infrastructure/format';
 import { Comment } from 'src/modules/comment';
@@ -8,7 +7,7 @@ import { findMemberById, Member } from 'src/modules/member';
 import { Message, withAttachments } from 'src/modules/messages/message.entities';
 import { GetNotificationContext, notify } from 'src/modules/notification';
 import { Request } from 'src/modules/request/request.entities';
-import { db, schema } from 'src/persistence';
+import { db } from 'src/persistence';
 
 export async function notifyRequestCommentCreated(event: CommentCreatedEvent) {
   if (event.payload.entityType !== 'request') {
@@ -19,11 +18,11 @@ export async function notifyRequestCommentCreated(event: CommentCreatedEvent) {
   const { entityId: requestId, commentAuthorId } = event.payload;
 
   const request = await db.query.requests.findFirst({
-    where: eq(schema.requests.id, requestId),
+    where: { id: requestId },
     with: {
       requester: true,
       comments: { with: { message: withAttachments } },
-      answers: { where: eq(schema.requestAnswers.answer, 'positive') },
+      answers: { where: { answer: 'positive' } },
     },
   });
 

@@ -1,5 +1,4 @@
 import * as shared from '@sel/shared';
-import { eq } from 'drizzle-orm';
 import express from 'express';
 
 import { container } from 'src/infrastructure/container';
@@ -11,16 +10,22 @@ import { MemberWithAvatar, withAvatar } from 'src/modules/member/member.entities
 import { serializeMember } from 'src/modules/member/member.serializer';
 import { MessageWithAttachments, withAttachments } from 'src/modules/messages/message.entities';
 import { serializeMessage } from 'src/modules/messages/message.serializer';
-import { db, schema } from 'src/persistence';
+import { db } from 'src/persistence';
 import { TOKENS } from 'src/tokens';
 
 export const router = express.Router();
+
+const entityTypeIdMap: Record<shared.CommentEntityType, string> = {
+  request: 'requestId',
+  event: 'eventId',
+  information: 'informationId',
+};
 
 router.get('/', async (req, res) => {
   const query = shared.getCommentsQuerySchema.parse(req.query);
 
   const comments = await db.query.comments.findMany({
-    where: eq(schema.comments[`${query.entityType}Id`], query.entityId),
+    where: { [entityTypeIdMap[query.entityType]]: query.entityId },
     with: {
       author: withAvatar,
       message: withAttachments,

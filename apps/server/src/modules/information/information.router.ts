@@ -2,13 +2,12 @@ import { AsyncLocalStorage } from 'node:async_hooks';
 
 import * as shared from '@sel/shared';
 import { assert, defined } from '@sel/utils';
-import { desc, eq } from 'drizzle-orm';
 import express, { RequestHandler } from 'express';
 
 import { container } from 'src/infrastructure/container';
 import { Forbidden, HttpStatus, NotFound } from 'src/infrastructure/http';
 import { getAuthenticatedMember } from 'src/infrastructure/session';
-import { db, schema } from 'src/persistence';
+import { db } from 'src/persistence';
 import { TOKENS } from 'src/tokens';
 
 import { MemberWithAvatar, withAvatar } from '../member/member.entities';
@@ -46,7 +45,7 @@ router.get('/', async (req, res) => {
         with: { author: withAvatar, message: withAttachments },
       },
     },
-    orderBy: desc(schema.information.publishedAt),
+    orderBy: { publishedAt: 'desc' },
   });
 
   res.json(information.map(serializeInformation));
@@ -72,7 +71,7 @@ router.get('/:informationId', async (req, res) => {
       author: withAvatar,
       message: withAttachments,
     },
-    where: eq(schema.information.id, informationId),
+    where: { id: informationId },
   });
 
   if (!information) {

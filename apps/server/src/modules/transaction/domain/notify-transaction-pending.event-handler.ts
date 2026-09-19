@@ -1,16 +1,15 @@
 import { defined } from '@sel/utils';
-import { eq } from 'drizzle-orm';
 
 import { currencyAmount, memberName } from 'src/infrastructure/format';
 import { notify } from 'src/modules/notification';
-import { db, schema } from 'src/persistence';
+import { db } from 'src/persistence';
 
 import { TransactionPendingEvent } from '../transaction.entities';
 
 export async function notifyTransactionPending(event: TransactionPendingEvent): Promise<void> {
   const transaction = defined(
     await db.query.transactions.findFirst({
-      where: eq(schema.transactions.id, event.entityId),
+      where: { id: event.entityId },
       with: {
         payer: true,
         recipient: true,

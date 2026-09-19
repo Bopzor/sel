@@ -1,7 +1,5 @@
-import { eq } from 'drizzle-orm';
-
 import { container } from 'src/infrastructure/container';
-import { db, schema } from 'src/persistence';
+import { db } from 'src/persistence';
 import { TOKENS } from 'src/tokens';
 
 import { InterestUpdatedEvent } from '../interest.entities';
@@ -19,7 +17,7 @@ export async function updateInterest(command: UpdateInterestCommand): Promise<vo
 
   const { interestId, label, description, imageId } = command;
 
-  const image = imageId ? await db.query.files.findFirst({ where: eq(schema.files.id, imageId) }) : undefined;
+  const image = imageId ? await db.query.files.findFirst({ where: { id: imageId } }) : undefined;
 
   await updateInterestFn(interestId, {
     label,

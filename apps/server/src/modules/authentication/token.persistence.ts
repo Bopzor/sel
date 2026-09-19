@@ -8,13 +8,13 @@ import { TokenInsert } from './authentication.entities';
 
 export async function findTokenById(tokenId: string) {
   return db.query.tokens.findFirst({
-    where: eq(schema.tokens.id, tokenId),
+    where: { id: tokenId },
   });
 }
 
 export async function findTokenByValue(tokenValue: string) {
   return db.query.tokens.findFirst({
-    where: eq(schema.tokens.value, tokenValue),
+    where: { value: tokenValue },
   });
 }
 

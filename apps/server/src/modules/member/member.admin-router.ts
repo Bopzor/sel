@@ -30,7 +30,7 @@ router.get('/', async (req, res) => {
 
 router.get('/:memberId', async (req, res) => {
   const member = await db.query.members.findFirst({
-    where: (members, { eq }) => eq(members.id, req.params.memberId),
+    where: { id: req.params.memberId },
     with: {
       avatar: true,
     },

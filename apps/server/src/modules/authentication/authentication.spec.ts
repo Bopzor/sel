@@ -1,13 +1,12 @@
 import { MemberStatus } from '@sel/shared';
 import { addDuration, defined } from '@sel/utils';
-import { and, eq } from 'drizzle-orm';
 import { afterEach, beforeAll, beforeEach, describe, expect, it } from 'vitest';
 
 import { persist } from 'src/factories';
 import { container } from 'src/infrastructure/container';
 import { StubEmailSender } from 'src/infrastructure/email';
 import { initialize } from 'src/initialize';
-import { resetDatabase, schema } from 'src/persistence';
+import { resetDatabase } from 'src/persistence';
 import { clearDatabase, db } from 'src/persistence/database';
 import { TOKENS } from 'src/tokens';
 
@@ -101,7 +100,7 @@ describe('member', () => {
     await requestAuthenticationCode({ email: 'email' });
 
     const tokens = await db.query.tokens.findMany({
-      where: and(eq(schema.tokens.type, TokenType.authentication), eq(schema.tokens.revoked, false)),
+      where: { type: TokenType.authentication, revoked: false },
     });
 
     expect(tokens).toHaveLength(1);

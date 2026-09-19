@@ -2,7 +2,6 @@ import { AsyncResource } from 'node:async_hooks';
 
 import * as shared from '@sel/shared';
 import { assert, pick } from '@sel/utils';
-import { eq } from 'drizzle-orm';
 import { RequestHandler, Router } from 'express';
 import multer from 'multer';
 
@@ -10,7 +9,6 @@ import { container } from 'src/infrastructure/container';
 import { HttpStatus } from 'src/infrastructure/http';
 import { getAuthenticatedMember } from 'src/infrastructure/session';
 import { db } from 'src/persistence';
-import { files } from 'src/persistence/schema';
 import { TOKENS } from 'src/tokens';
 
 import { FileInsert } from './file.entity';
@@ -34,7 +32,7 @@ router.get('/:name', async (req, res, next) => {
   const storage = container.resolve(TOKENS.storage);
 
   const file = await db.query.files.findFirst({
-    where: eq(files.name, req.params.name),
+    where: { name: req.params.name },
   });
 
   if (!file) {

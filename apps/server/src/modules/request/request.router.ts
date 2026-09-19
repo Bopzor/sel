@@ -2,13 +2,12 @@ import { AsyncLocalStorage } from 'node:async_hooks';
 
 import * as shared from '@sel/shared';
 import { assert, defined } from '@sel/utils';
-import { eq } from 'drizzle-orm';
 import express, { RequestHandler } from 'express';
 
 import { container } from 'src/infrastructure/container';
 import { Forbidden, HttpStatus, NotFound } from 'src/infrastructure/http';
 import { getAuthenticatedMember } from 'src/infrastructure/session';
-import { db, schema } from 'src/persistence';
+import { db } from 'src/persistence';
 import { TOKENS } from 'src/tokens';
 
 import { MemberWithAvatar, withAvatar } from '../member/member.entities';
@@ -54,7 +53,7 @@ router.get('/', async (req, res) => {
 
 router.get('/:requestId', async (req, res) => {
   const request = await db.query.requests.findFirst({
-    where: eq(schema.requests.id, req.params.requestId),
+    where: { id: req.params.requestId },
     with: {
       requester: withAvatar,
       message: withAttachments,

@@ -1,4 +1,3 @@
-import { relations } from 'drizzle-orm';
 import { pgTable, text, varchar } from 'drizzle-orm/pg-core';
 
 import { createdAt, updatedAt, id, primaryKey } from '../schema-utils';
@@ -15,14 +14,6 @@ export const interests = pgTable('interests', {
   updatedAt,
 });
 
-export const interestsRelations = relations(interests, ({ one, many }) => ({
-  image: one(files, {
-    fields: [interests.imageId],
-    references: [files.id],
-  }),
-  membersInterests: many(membersInterests),
-}));
-
 export const membersInterests = pgTable('members_interests', {
   id: primaryKey(),
   memberId: id('member_id')
@@ -35,14 +26,3 @@ export const membersInterests = pgTable('members_interests', {
   createdAt,
   updatedAt,
 });
-
-export const membersInterestsRelations = relations(membersInterests, ({ one }) => ({
-  member: one(members, {
-    fields: [membersInterests.memberId],
-    references: [members.id],
-  }),
-  interest: one(interests, {
-    fields: [membersInterests.interestId],
-    references: [interests.id],
-  }),
-}));

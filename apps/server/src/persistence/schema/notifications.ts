@@ -1,5 +1,4 @@
 import * as shared from '@sel/shared';
-import { relations } from 'drizzle-orm';
 import { boolean, json, pgEnum, pgTable, text, unique, varchar } from 'drizzle-orm/pg-core';
 
 import { NotificationDeliveryType } from 'src/modules/notification/notification.entities';
@@ -25,17 +24,8 @@ export const memberDevices = pgTable(
     createdAt,
     updatedAt,
   },
-  (table) => ({
-    unique: unique().on(table.memberId, table.deviceSubscription),
-  }),
+  (table) => [unique().on(table.memberId, table.deviceSubscription)],
 );
-
-export const memberDevicesRelations = relations(memberDevices, ({ one }) => ({
-  member: one(members, {
-    fields: [memberDevices.memberId],
-    references: [members.id],
-  }),
-}));
 
 export const notifications = pgTable('notifications', {
   id: primaryKey(),

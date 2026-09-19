@@ -1,12 +1,11 @@
 import * as shared from '@sel/shared';
 import { defined } from '@sel/utils';
-import { eq } from 'drizzle-orm';
 import express from 'express';
 
 import { unsetCookie } from 'src/infrastructure/cookie';
 import { HttpStatus } from 'src/infrastructure/http';
 import { getAuthenticatedMember } from 'src/infrastructure/session';
-import { db, schema } from 'src/persistence';
+import { db } from 'src/persistence';
 
 import { File } from '../file/file.entity';
 import { Interest, MemberInterest } from '../interest/interest.entities';
@@ -28,7 +27,7 @@ router.delete('/', async (req, res) => {
 
 router.get('/member', async (req, res) => {
   const member = await db.query.members.findFirst({
-    where: eq(schema.members.id, getAuthenticatedMember().id),
+    where: { id: getAuthenticatedMember().id },
     with: {
       avatar: true,
       memberInterests: {

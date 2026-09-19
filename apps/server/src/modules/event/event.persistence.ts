@@ -8,7 +8,7 @@ import { EventInsert } from './event.entities';
 
 export async function findEventById(eventId: string) {
   return db.query.events.findFirst({
-    where: eq(schema.events.id, eventId),
+    where: { id: eventId },
   });
 }
 

@@ -1,12 +1,11 @@
 import * as shared from '@sel/shared';
 import { hasProperty, not } from '@sel/utils';
-import { desc, eq, or } from 'drizzle-orm';
 import express from 'express';
 
 import { container } from 'src/infrastructure/container';
 import { HttpStatus, NotFound } from 'src/infrastructure/http';
 import { getAuthenticatedMember } from 'src/infrastructure/session';
-import { db, schema } from 'src/persistence';
+import { db } from 'src/persistence';
 import { TOKENS } from 'src/tokens';
 
 import { MemberWithAvatar, withAvatar } from '../member/member.entities';
@@ -23,14 +22,12 @@ router.get('/', async (req, res) => {
   const { memberId } = shared.listTransactionsQuerySchema.parse(req.query);
 
   const results = await db.query.transactions.findMany({
-    where: memberId
-      ? or(eq(schema.transactions.payerId, memberId), eq(schema.transactions.recipientId, memberId))
-      : undefined,
+    where: memberId ? { OR: [{ payerId: memberId }, { recipientId: memberId }] } : {},
     with: {
       payer: withAvatar,
       recipient: withAvatar,
     },
-    orderBy: desc(schema.transactions.createdAt),
+    orderBy: { createdAt: 'desc' },
   });
 
   res.send(
@@ -45,7 +42,7 @@ router.get('/:transactionId', async (req, res) => {
   const { transactionId } = req.params;
 
   const transaction = await db.query.transactions.findFirst({
-    where: eq(schema.transactions.id, transactionId),
+    where: { id: transactionId },
     with: {
       payer: withAvatar,
       recipient: withAvatar,

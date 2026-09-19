@@ -8,7 +8,7 @@ import { RequestInsert } from './request.entities';
 
 export async function findRequestById(requestId: string) {
   return db.query.requests.findFirst({
-    where: eq(schema.requests.id, requestId),
+    where: { id: requestId },
   });
 }
 

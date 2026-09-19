@@ -1,6 +1,6 @@
 import { RequestStatus } from '@sel/shared';
 import { getId } from '@sel/utils';
-import { and, desc, eq, ilike, inArray, or, SQL, sql } from 'drizzle-orm';
+import { and, desc, eq, ilike, or, SQL, sql } from 'drizzle-orm';
 
 import { withAvatar } from 'src/modules/member/member.entities';
 import { withAttachments } from 'src/modules/messages/message.entities';
@@ -53,7 +53,7 @@ export async function listRequests(query: ListRequestsQuery) {
   return {
     total,
     requests: await db.query.requests.findMany({
-      where: inArray(schema.requests.id, ids.map(getId)),
+      where: { id: { in: ids.map(getId) } },
       with: {
         requester: withAvatar,
         message: withAttachments,

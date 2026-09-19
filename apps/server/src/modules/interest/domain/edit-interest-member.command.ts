@@ -1,4 +1,4 @@
-import { and, eq } from 'drizzle-orm';
+import { eq } from 'drizzle-orm';
 
 import { container } from 'src/infrastructure/container';
 import { BadRequest } from 'src/infrastructure/http';
@@ -20,10 +20,7 @@ export async function editInterestMember(command: EditInterestMemberCommand): Pr
   const { interestId, memberId, description } = command;
 
   const memberInterest = await db.query.membersInterests.findFirst({
-    where: and(
-      eq(schema.membersInterests.interestId, interestId),
-      eq(schema.membersInterests.memberId, memberId),
-    ),
+    where: { interestId, memberId },
   });
 
   if (!memberInterest) {

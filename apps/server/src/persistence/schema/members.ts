@@ -1,5 +1,4 @@
 import * as shared from '@sel/shared';
-import { relations } from 'drizzle-orm';
 import {
   AnyPgColumn,
   boolean,
@@ -15,8 +14,7 @@ import {
 import { createdAt, date, enumValues, id, primaryKey, updatedAt } from '../schema-utils';
 
 import { files } from './files';
-import { membersInterests } from './interests';
-import { memberDevices, notificationDeliveryTypeEnum } from './notifications';
+import { notificationDeliveryTypeEnum } from './notifications';
 
 export const memberStatusEnum = pgEnum('member_status', enumValues(shared.MemberStatus));
 export const memberRoleEnum = pgEnum('member_role', enumValues(shared.MemberRole));
@@ -43,12 +41,3 @@ export const members = pgTable('members', {
   createdAt,
   updatedAt,
 });
-
-export const memberRelations = relations(members, ({ one, many }) => ({
-  avatar: one(files, {
-    fields: [members.avatarId],
-    references: [files.id],
-  }),
-  memberInterests: many(membersInterests),
-  devices: many(memberDevices),
-}));

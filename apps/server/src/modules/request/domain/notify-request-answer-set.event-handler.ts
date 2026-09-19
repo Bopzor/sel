@@ -1,10 +1,9 @@
 import { defined } from '@sel/utils';
-import { eq } from 'drizzle-orm';
 
 import { memberName } from 'src/infrastructure/format';
 import { findMemberById, Member } from 'src/modules/member';
 import { GetNotificationContext, notify } from 'src/modules/notification';
-import { db, schema } from 'src/persistence';
+import { db } from 'src/persistence';
 
 import {
   Request,
@@ -35,7 +34,7 @@ export async function notifyRequestAnswerSet(
 
   const request = defined(
     await db.query.requests.findFirst({
-      where: eq(schema.requests.id, requestId),
+      where: { id: requestId },
       with: {
         requester: true,
       },

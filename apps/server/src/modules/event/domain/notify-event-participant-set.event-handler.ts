@@ -1,11 +1,10 @@
 import * as shared from '@sel/shared';
 import { defined } from '@sel/utils';
-import { eq } from 'drizzle-orm';
 
 import { memberName } from 'src/infrastructure/format';
 import { findMemberById, Member } from 'src/modules/member';
 import { GetNotificationContext, notify } from 'src/modules/notification';
-import { db, schema } from 'src/persistence';
+import { db } from 'src/persistence';
 
 import { Event, EventParticipationSetEvent } from '../event.entities';
 
@@ -15,7 +14,7 @@ export async function notifyEventParticipationSet(domainEvent: EventParticipatio
 
   const event = defined(
     await db.query.events.findFirst({
-      where: eq(schema.events.id, eventId),
+      where: { id: eventId },
       with: {
         organizer: true,
       },

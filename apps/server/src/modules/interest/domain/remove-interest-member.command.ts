@@ -23,7 +23,7 @@ export async function removeInterestMember(command: RemoveInterestMemberCommand)
     eq(schema.membersInterests.memberId, memberId),
   );
 
-  const existing = await db.query.membersInterests.findFirst({ where });
+  const existing = await db.select().from(schema.membersInterests).where(where);
 
   if (!existing) {
     throw new BadRequest('Interest was not added');

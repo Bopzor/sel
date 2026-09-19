@@ -1,7 +1,7 @@
 import * as shared from '@sel/shared';
 import { createDate, createFactory, createId } from '@sel/utils';
 import { sql } from 'drizzle-orm';
-import { PgTable, TableConfig } from 'drizzle-orm/pg-core';
+import { PgTable } from 'drizzle-orm/pg-core';
 
 import { TokenInsert, TokenType } from './modules/authentication/authentication.entities';
 import { EventInsert } from './modules/event/event.entities';
@@ -101,11 +101,11 @@ export const persist = {
   information: persister(information, insert.information),
 };
 
-function persister<T extends TableConfig>(
-  table: PgTable<T>,
-  inserter: (values?: Partial<typeof table.$inferInsert>) => typeof table.$inferInsert,
+function persister<Insert extends Record<string, unknown>>(
+  table: PgTable,
+  inserter: (values?: Partial<Insert>) => Insert,
 ) {
-  return async (values?: Partial<typeof table.$inferInsert>) => {
+  return async (values?: Partial<Insert>) => {
     const [{ id }] = await db
       .insert(table)
       .values(inserter(values))

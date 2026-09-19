@@ -8,7 +8,7 @@ import { InformationInsert } from './information.entities';
 
 export async function findInformationById(informationId: string) {
   return db.query.information.findFirst({
-    where: eq(schema.information.id, informationId),
+    where: { id: informationId },
   });
 }
 

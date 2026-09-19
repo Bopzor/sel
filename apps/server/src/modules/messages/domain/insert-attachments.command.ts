@@ -1,8 +1,6 @@
-import { eq, inArray } from 'drizzle-orm';
-
 import { container } from 'src/infrastructure/container';
 import { NotFound } from 'src/infrastructure/http';
-import { db, schema } from 'src/persistence';
+import { db } from 'src/persistence';
 import { TOKENS } from 'src/tokens';
 
 import { SetAttachmentsEvent } from '../message.entities';
@@ -14,13 +12,13 @@ type SetAttachmentsCommand = {
 };
 
 export async function setAttachments(command: SetAttachmentsCommand) {
-  const message = await db.query.messages.findFirst({ where: eq(schema.messages.id, command.messageId) });
+  const message = await db.query.messages.findFirst({ where: { id: command.messageId } });
 
   if (!message) {
     throw new NotFound('Message not found');
   }
 
-  const files = await db.query.files.findMany({ where: inArray(schema.files.id, command.fileIds) });
+  const files = await db.query.files.findMany({ where: { id: { in: command.fileIds } } });
   const inexistantFileIds = new Set(command.fileIds).difference(new Set(files.map(({ id }) => id)));
 
   if (inexistantFileIds.size > 0) {

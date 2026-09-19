@@ -1,18 +1,17 @@
 import { defined } from '@sel/utils';
-import { eq } from 'drizzle-orm';
 
 import { memberName } from 'src/infrastructure/format';
 import { Member } from 'src/modules/member';
 import { Message, withAttachments } from 'src/modules/messages/message.entities';
 import { GetNotificationContext, notify } from 'src/modules/notification';
-import { db, schema } from 'src/persistence';
+import { db } from 'src/persistence';
 
 import { Event, EventCreatedEvent } from '../event.entities';
 
 export async function notifyEventCreated({ entityId: eventId }: EventCreatedEvent): Promise<void> {
   const event = defined(
     await db.query.events.findFirst({
-      where: eq(schema.events.id, eventId),
+      where: { id: eventId },
       with: {
         organizer: true,
         message: withAttachments,

@@ -1,5 +1,5 @@
 import { RequestStatus } from '@sel/shared';
-import { and, eq } from 'drizzle-orm';
+import { eq } from 'drizzle-orm';
 
 import { container } from 'src/infrastructure/container';
 import { BadRequest, NotFound } from 'src/infrastructure/http';
@@ -41,7 +41,7 @@ export async function setRequestAnswer(command: SetRequestAnswerCommand): Promis
   }
 
   const requestAnswer = await db.query.requestAnswers.findFirst({
-    where: and(eq(schema.requestAnswers.requestId, requestId), eq(schema.requestAnswers.memberId, memberId)),
+    where: { requestId, memberId },
   });
 
   if (answer !== null) {

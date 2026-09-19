@@ -19,7 +19,7 @@ export async function verifyAuthenticationCode(command: VerifyAuthenticationCode
   const events = container.resolve(TOKENS.events);
 
   const authenticationCode = await db.query.tokens.findFirst({
-    where: ({ type, value }, { and, eq }) => and(eq(type, TokenType.authentication), eq(value, command.code)),
+    where: { type: TokenType.authentication, value: command.code },
   });
 
   if (authenticationCode === undefined) {

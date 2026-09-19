@@ -1,8 +1,7 @@
 import { assert, unique } from '@sel/utils';
-import { eq } from 'drizzle-orm';
 
 import { memberName } from 'src/infrastructure/format';
-import { db, schema } from 'src/persistence';
+import { db } from 'src/persistence';
 
 import { Member } from '../../member';
 import { GetNotificationContext, notify } from '../../notification';
@@ -10,11 +9,11 @@ import { Request, RequestCanceledEvent, RequestFulfilledEvent } from '../request
 
 export async function notifyRequestStatusChanged(event: RequestFulfilledEvent | RequestCanceledEvent) {
   const request = await db.query.requests.findFirst({
-    where: eq(schema.requests.id, event.entityId),
+    where: { id: event.entityId },
     with: {
       requester: true,
       comments: true,
-      answers: { where: eq(schema.requestAnswers.answer, 'positive') },
+      answers: { where: { answer: 'positive' } },
     },
   });
 

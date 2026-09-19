@@ -8,7 +8,7 @@ import { TransactionInsert } from './transaction.entities';
 
 export async function findTransactionById(transactionId: string) {
   return db.query.transactions.findFirst({
-    where: eq(schema.transactions.id, transactionId),
+    where: { id: transactionId },
   });
 }
 

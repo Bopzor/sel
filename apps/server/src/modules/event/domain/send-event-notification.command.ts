@@ -18,7 +18,7 @@ export async function sendEventNotification(command: SendEventNotificationComman
 
   const event = defined(
     await db.query.events.findFirst({
-      where: ({ id }, { eq }) => eq(id, command.eventId),
+      where: { id: command.eventId },
       with: { participants: { with: { member: true } } },
     }),
   );

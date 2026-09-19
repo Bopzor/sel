@@ -4,7 +4,6 @@ import { Readable } from 'node:stream';
 
 import { MemberRole } from '@sel/shared';
 import { program } from 'commander';
-import { eq } from 'drizzle-orm';
 
 import { container } from './infrastructure/container';
 import { Email } from './infrastructure/email';
@@ -12,7 +11,7 @@ import { changeMemberRole } from './modules/member/domain/change-member-role.com
 import { createMember } from './modules/member/domain/create-member.command';
 import { setAttachments } from './modules/messages/domain/insert-attachments.command';
 import { createTransaction } from './modules/transaction/domain/create-transaction.command';
-import { db, schema } from './persistence';
+import { db } from './persistence';
 import { TOKENS } from './tokens';
 
 program.name('lets');
@@ -33,7 +32,7 @@ program
     const pushNotification = container.resolve(TOKENS.pushNotification);
 
     const member = await db.query.members.findFirst({
-      where: eq(schema.members.id, memberId),
+      where: { id: memberId },
       with: { devices: true },
     });
 

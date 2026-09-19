@@ -39,7 +39,7 @@ jobs:
       - name: Lint packages
         run: pnpm run lint
 
-  build:
+  check-types:
     name: Check types
     runs-on: ubuntu-latest
 

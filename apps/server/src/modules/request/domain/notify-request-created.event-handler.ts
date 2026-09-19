@@ -1,9 +1,8 @@
 import { assert } from '@sel/utils';
-import { eq } from 'drizzle-orm';
 
 import { memberName } from 'src/infrastructure/format';
 import { Message, withAttachments } from 'src/modules/messages/message.entities';
-import { db, schema } from 'src/persistence';
+import { db } from 'src/persistence';
 
 import { Member } from '../../member';
 import { GetNotificationContext, notify } from '../../notification';
@@ -11,7 +10,7 @@ import { Request, RequestCreatedEvent } from '../request.entities';
 
 export async function notifyRequestCreated(event: RequestCreatedEvent) {
   const request = await db.query.requests.findFirst({
-    where: eq(schema.requests.id, event.entityId),
+    where: { id: event.entityId },
     with: {
       requester: true,
       message: withAttachments,

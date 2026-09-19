@@ -1,5 +1,5 @@
 import * as shared from '@sel/shared';
-import { and, eq } from 'drizzle-orm';
+import { eq } from 'drizzle-orm';
 
 import { container } from 'src/infrastructure/container';
 import { db, schema } from 'src/persistence';
@@ -21,10 +21,7 @@ export async function setEventParticipation(command: SetEventParticipationComman
   const events = container.resolve(TOKENS.events);
 
   const currentParticipation = await db.query.eventParticipations.findFirst({
-    where: and(
-      eq(schema.eventParticipations.eventId, eventId),
-      eq(schema.eventParticipations.participantId, memberId),
-    ),
+    where: { eventId, participantId: memberId },
   });
 
   if (participation !== null) {
@@ -57,10 +54,7 @@ export async function setEventParticipation(command: SetEventParticipationComman
 
   if (participation === null) {
     const participation = await db.query.eventParticipations.findFirst({
-      where: and(
-        eq(schema.eventParticipations.eventId, eventId),
-        eq(schema.eventParticipations.participantId, memberId),
-      ),
+      where: { eventId, participantId: memberId },
     });
 
     if (participation) {

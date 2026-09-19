@@ -20,7 +20,7 @@ export async function acceptTransaction(command: AcceptTransactionCommand): Prom
   const { transactionId, memberId } = command;
 
   const transaction = await db.query.transactions.findFirst({
-    where: eq(schema.transactions.id, transactionId),
+    where: { id: transactionId },
   });
 
   if (!transaction) {

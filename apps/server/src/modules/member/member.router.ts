@@ -2,7 +2,6 @@ import { AsyncLocalStorage } from 'node:async_hooks';
 
 import * as shared from '@sel/shared';
 import { assert, defined } from '@sel/utils';
-import { and, asc, desc, eq, or } from 'drizzle-orm';
 import express, { RequestHandler } from 'express';
 
 import { container } from 'src/infrastructure/container';
@@ -52,13 +51,13 @@ router.get('/', async (req, res) => {
   const { sort } = shared.listMembersQuerySchema.parse(req.query);
 
   const orderBy = {
-    [shared.MembersSort.firstName]: asc(schema.members.firstName),
-    [shared.MembersSort.lastName]: asc(schema.members.lastName),
-    [shared.MembersSort.membershipDate]: desc(schema.members.membershipStartDate),
-  };
+    [shared.MembersSort.firstName]: { firstName: 'asc' },
+    [shared.MembersSort.lastName]: { lastName: 'asc' },
+    [shared.MembersSort.membershipDate]: { membershipStartDate: 'desc' },
+  } as const;
 
   const members = await db.query.members.findMany({
-    where: eq(schema.members.status, shared.MemberStatus.active),
+    where: { status: shared.MemberStatus.active },
     orderBy: sort ? orderBy[sort] : undefined,
     with: {
       avatar: true,
@@ -84,10 +83,10 @@ router.post('/', async (req, res) => {
 
 router.get('/:memberId', async (req, res) => {
   const member = await db.query.members.findFirst({
-    where: and(
-      eq(schema.members.id, req.params.memberId),
-      eq(schema.members.status, shared.MemberStatus.active),
-    ),
+    where: {
+      id: req.params.memberId,
+      status: shared.MemberStatus.active,
+    },
     with: {
       avatar: true,
       memberInterests: {
@@ -107,10 +106,10 @@ router.get('/:memberId/transactions', async (req, res) => {
   const { id: memberId } = getMember();
 
   const transactions = await db.query.transactions.findMany({
-    where: and(
-      or(eq(schema.transactions.payerId, memberId), eq(schema.transactions.recipientId, memberId)),
-      eq(schema.transactions.status, shared.TransactionStatus.completed),
-    ),
+    where: {
+      status: shared.TransactionStatus.completed,
+      OR: [{ payerId: memberId }, { recipientId: memberId }],
+    },
     with: {
       payer: withAvatar,
       recipient: withAvatar,

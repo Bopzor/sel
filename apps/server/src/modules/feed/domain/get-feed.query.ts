@@ -2,12 +2,12 @@
 
 import * as shared from '@sel/shared';
 import { awaitProperties, defined, getId, hasProperty } from '@sel/utils';
-import { and, asc, desc, eq, ilike, inArray, max, SQL } from 'drizzle-orm';
+import { and, asc, desc, eq, ilike, max, SQL } from 'drizzle-orm';
 
 import { withAvatar } from 'src/modules/member/member.entities';
 import { withAttachments } from 'src/modules/messages/message.entities';
 import { db, paginated } from 'src/persistence';
-import { events, feedView, information, requests, searchView } from 'src/persistence/schema';
+import { feedView, searchView } from 'src/persistence/schema';
 
 type FeedQuery = {
   resourceType?: shared.ResourceType;
@@ -28,21 +28,21 @@ export async function getFeed(query: FeedQuery) {
     events:
       eventIds.length > 0
         ? db.query.events.findMany({
-            where: inArray(events.id, eventIds),
+            where: { id: { in: eventIds } },
             with: { organizer: withAvatar, message: withAttachments },
           })
         : [],
     requests:
       requestIds.length > 0
         ? db.query.requests.findMany({
-            where: inArray(requests.id, requestIds),
+            where: { id: { in: requestIds } },
             with: { requester: withAvatar, message: withAttachments },
           })
         : [],
     informations:
       informationIds.length > 0
         ? db.query.information.findMany({
-            where: inArray(information.id, informationIds),
+            where: { id: { in: informationIds } },
             with: { author: withAvatar, message: withAttachments },
           })
         : [],

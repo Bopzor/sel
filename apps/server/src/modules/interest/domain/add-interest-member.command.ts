@@ -1,5 +1,3 @@
-import { and, eq } from 'drizzle-orm';
-
 import { container } from 'src/infrastructure/container';
 import { BadRequest } from 'src/infrastructure/http';
 import { db, schema } from 'src/persistence';
@@ -20,10 +18,7 @@ export async function addInterestMember(command: AddInterestMemberCommand): Prom
   const { interestId, memberId, description } = command;
 
   const existing = await db.query.membersInterests.findFirst({
-    where: and(
-      eq(schema.membersInterests.interestId, interestId),
-      eq(schema.membersInterests.memberId, memberId),
-    ),
+    where: { interestId, memberId },
   });
 
   if (existing) {

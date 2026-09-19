@@ -1,5 +1,5 @@
 import { getId } from '@sel/utils';
-import { and, asc, desc, eq, gte, ilike, inArray, lt, or, SQL, sql } from 'drizzle-orm';
+import { and, asc, desc, eq, gte, ilike, lt, or, SQL, sql } from 'drizzle-orm';
 
 import { withAvatar } from 'src/modules/member/member.entities';
 import { withAttachments } from 'src/modules/messages/message.entities';
@@ -56,12 +56,12 @@ export async function listEvents(query: ListEventsQuery) {
   return {
     total,
     events: await db.query.events.findMany({
-      where: inArray(schema.events.id, ids.map(getId)),
+      where: { id: { in: ids.map(getId) } },
       with: {
         organizer: withAvatar,
         message: withAttachments,
       },
-      orderBy,
+      orderBy: () => orderBy,
     }),
   };
 }

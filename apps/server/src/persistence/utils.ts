@@ -1,9 +1,9 @@
 import { count, SQL, sql } from 'drizzle-orm';
-import { PgSelect } from 'drizzle-orm/pg-core';
+import { PgAsyncSelect } from 'drizzle-orm/pg-core';
 
 import { db } from './database';
 
-export async function paginated<Qb extends PgSelect>(query: { page: number; pageSize: number }, qb: Qb) {
+export async function paginated<Qb extends PgAsyncSelect>(query: { page: number; pageSize: number }, qb: Qb) {
   return Promise.all([
     db
       .select({ count: count() })

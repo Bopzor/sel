@@ -1,9 +1,8 @@
 import * as shared from '@sel/shared';
-import { eq } from 'drizzle-orm';
 
 import { container } from 'src/infrastructure/container';
 import { NotFound } from 'src/infrastructure/http';
-import { db, schema } from 'src/persistence';
+import { db } from 'src/persistence';
 import { TOKENS } from 'src/tokens';
 
 import { MemberInsert, OnboardingCompletedEvent } from '../member.entities';
@@ -51,7 +50,7 @@ export async function updateMemberProfile(command: UpdateMemberProfileCommand): 
 
 async function getFile(fileName: string) {
   const file = await db.query.files.findFirst({
-    where: eq(schema.files.name, fileName),
+    where: { name: fileName },
   });
 
   if (!file) {

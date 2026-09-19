@@ -1,13 +1,10 @@
 import { RequestStatus } from '@sel/shared';
-import { relations, sql } from 'drizzle-orm';
+import { sql } from 'drizzle-orm';
 import { pgEnum, pgTable, varchar } from 'drizzle-orm/pg-core';
 
 import { createdAt, date, enumValues, id, primaryKey, updatedAt } from '../schema-utils';
 
-import { comments } from './comments';
 import { members } from './members';
-import { messages } from './messages';
-import { transactions } from './transactions';
 
 export const requestStatusEnum = pgEnum('request_status', enumValues(RequestStatus));
 
@@ -26,20 +23,6 @@ export const requests = pgTable('requests', {
   updatedAt,
 });
 
-export const requestsRelations = relations(requests, ({ one, many }) => ({
-  requester: one(members, {
-    fields: [requests.requesterId],
-    references: [members.id],
-  }),
-  message: one(messages, {
-    fields: [requests.messageId],
-    references: [messages.id],
-  }),
-  answers: many(requestAnswers),
-  comments: many(comments),
-  transactions: many(transactions),
-}));
-
 export const requestAnswers = pgTable('request_answers', {
   id: primaryKey(),
   requestId: id('request_id')
@@ -53,14 +36,3 @@ export const requestAnswers = pgTable('request_answers', {
   createdAt,
   updatedAt,
 });
-
-export const requestAnswersRelations = relations(requestAnswers, ({ one }) => ({
-  request: one(requests, {
-    fields: [requestAnswers.requestId],
-    references: [requests.id],
-  }),
-  member: one(members, {
-    fields: [requestAnswers.memberId],
-    references: [members.id],
-  }),
-}));

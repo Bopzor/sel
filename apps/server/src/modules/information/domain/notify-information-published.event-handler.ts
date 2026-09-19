@@ -1,11 +1,10 @@
 import { defined } from '@sel/utils';
-import { eq } from 'drizzle-orm';
 
 import { memberName } from 'src/infrastructure/format';
 import { Member } from 'src/modules/member';
 import { Message, withAttachments } from 'src/modules/messages/message.entities';
 import { GetNotificationContext, notify } from 'src/modules/notification';
-import { db, schema } from 'src/persistence';
+import { db } from 'src/persistence';
 
 import { Information, InformationPublished } from '../information.entities';
 
@@ -14,7 +13,7 @@ export async function notifyInformationPublished({
 }: InformationPublished): Promise<void> {
   const information = defined(
     await db.query.information.findFirst({
-      where: eq(schema.information.id, informationId),
+      where: { id: informationId },
       with: {
         author: true,
         message: withAttachments,

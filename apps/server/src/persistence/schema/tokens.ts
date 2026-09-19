@@ -1,4 +1,3 @@
-import { relations } from 'drizzle-orm';
 import { boolean, pgEnum, pgTable, varchar } from 'drizzle-orm/pg-core';
 
 import { TokenType } from 'src/modules/authentication/authentication.entities';
@@ -21,10 +20,3 @@ export const tokens = pgTable('tokens', {
   createdAt,
   updatedAt,
 });
-
-export const tokensRelation = relations(tokens, ({ one }) => ({
-  member: one(members, {
-    fields: [tokens.memberId],
-    references: [members.id],
-  }),
-}));
