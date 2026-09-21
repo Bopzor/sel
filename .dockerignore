@@ -4,4 +4,3 @@ dist
 node_modules
 **/.dockerignore
 **/Dockerfile
-**/*.md
