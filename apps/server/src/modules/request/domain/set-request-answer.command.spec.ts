@@ -23,9 +23,13 @@ describe('setRequestAnswer', () => {
     await clearDatabase();
 
     await persist.member({ id: 'memberId' });
-
     await persist.member({ id: 'requesterId' });
-    await persist.request({ id: 'requestId', requesterId: 'requesterId' });
+
+    await persist.request({
+      id: 'requestId',
+      messageId: await persist.message(),
+      requesterId: 'requesterId',
+    });
   });
 
   beforeEach(() => {

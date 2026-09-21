@@ -5,6 +5,7 @@ import { pgEnum, pgTable, varchar } from 'drizzle-orm/pg-core';
 import { createdAt, date, enumValues, id, primaryKey, updatedAt } from '../schema-utils';
 
 import { members } from './members';
+import { messages } from './messages';
 
 export const requestStatusEnum = pgEnum('request_status', enumValues(RequestStatus));
 
@@ -18,7 +19,9 @@ export const requests = pgTable('requests', {
     .notNull()
     .references(() => members.id),
   title: varchar('title', { length: 256 }).notNull(),
-  messageId: id('message_id').notNull(),
+  messageId: id('message_id')
+    .notNull()
+    .references(() => messages.id),
   createdAt,
   updatedAt,
 });

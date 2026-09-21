@@ -12,6 +12,8 @@ export const messages = pgTable('messages', {
 
 export const attachments = pgTable('attachments', {
   id: primaryKey(),
-  messageId: id('message_id').notNull(),
+  messageId: id('message_id')
+    .notNull()
+    .references(() => messages.id),
   fileId: id('file_id').notNull(),
 });

@@ -16,16 +16,19 @@ describe('feed', () => {
 
     const requestId = await persist.request({
       requesterId: memberId,
+      messageId: await persist.message(),
       createdAt: createDate('2025-01-01'),
     });
 
     const eventId = await persist.event({
       organizerId: memberId,
+      messageId: await persist.message(),
       createdAt: createDate('2025-01-02'),
     });
 
     const informationId = await persist.information({
       authorId: memberId,
+      messageId: await persist.message(),
       createdAt: createDate('2025-01-03'),
     });
 

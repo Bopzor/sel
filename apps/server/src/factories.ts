@@ -9,6 +9,7 @@ import { FileInsert } from './modules/file/file.entity';
 import { InformationInsert } from './modules/information/information.entities';
 import { InterestInsert } from './modules/interest/interest.entities';
 import { MemberInsert } from './modules/member/member.entities';
+import { MessageInsert } from './modules/messages/message.entities';
 import { MemberDeviceInsert } from './modules/notification/notification.entities';
 import { RequestInsert } from './modules/request/request.entities';
 import { db } from './persistence';
@@ -19,6 +20,7 @@ import {
   interests,
   memberDevices,
   members,
+  messages,
   requests,
   tokens,
 } from './persistence/schema';
@@ -88,6 +90,12 @@ const insert = {
     size: 0,
     uploadedBy: '',
   })),
+
+  message: createFactory<MessageInsert>(() => ({
+    id: createId(),
+    text: '',
+    html: '',
+  })),
 };
 
 export const persist = {
@@ -99,6 +107,7 @@ export const persist = {
   request: persister(requests, insert.request),
   event: persister(events, insert.event),
   information: persister(information, insert.information),
+  message: persister(messages, insert.message),
 };
 
 function persister<Insert extends Record<string, unknown>>(
