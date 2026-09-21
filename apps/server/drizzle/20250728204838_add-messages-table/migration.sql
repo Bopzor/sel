@@ -8,8 +8,8 @@ CREATE TABLE "messages" (
 	"id" varchar(16) PRIMARY KEY NOT NULL,
 	"text" text NOT NULL,
 	"html" text NOT NULL,
-	"created_at" timestamp (3) DEFAULT now() NOT NULL,
-	"updated_at" timestamp (3) DEFAULT now() NOT NULL
+	"created_at" timestamp(3) DEFAULT now() NOT NULL,
+	"updated_at" timestamp(3) DEFAULT now() NOT NULL
 );
 
 

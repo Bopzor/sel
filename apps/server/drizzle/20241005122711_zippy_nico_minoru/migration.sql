@@ -4,9 +4,9 @@ CREATE TABLE IF NOT EXISTS "public_messages" (
 	"html" text NOT NULL,
 	"is_pin" boolean NOT NULL,
 	"author_id" varchar(16),
-	"published_at" timestamp (3) NOT NULL,
-	"created_at" timestamp (3) NOT NULL,
-	"updated_at" timestamp (3) NOT NULL
+	"published_at" timestamp(3) NOT NULL,
+	"created_at" timestamp(3) NOT NULL,
+	"updated_at" timestamp(3) NOT NULL
 );
 --> statement-breakpoint
 DO $$ BEGIN

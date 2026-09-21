@@ -5,8 +5,8 @@ CREATE TABLE IF NOT EXISTS "files" (
 	"mimetype" varchar(32) NOT NULL,
 	"size" integer NOT NULL,
 	"uploaded_by" varchar(16) NOT NULL,
-	"created_at" timestamp (3) DEFAULT now() NOT NULL,
-	"updated_at" timestamp (3) DEFAULT now() NOT NULL
+	"created_at" timestamp(3) DEFAULT now() NOT NULL,
+	"updated_at" timestamp(3) DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
 DO $$ BEGIN

@@ -15,8 +15,8 @@ CREATE TABLE IF NOT EXISTS "event_participations" (
 	"event_id" varchar(16) NOT NULL,
 	"participant_id" varchar(16) NOT NULL,
 	"participation" "event_participation" NOT NULL,
-	"created_at" timestamp (3) NOT NULL,
-	"updated_at" timestamp (3) NOT NULL,
+	"created_at" timestamp(3) NOT NULL,
+	"updated_at" timestamp(3) NOT NULL,
 	CONSTRAINT "event_participations_event_id_participant_id_unique" UNIQUE("event_id","participant_id")
 );
 --> statement-breakpoint
@@ -26,11 +26,11 @@ CREATE TABLE IF NOT EXISTS "events" (
 	"title" varchar(256) NOT NULL,
 	"text" text NOT NULL,
 	"html" text NOT NULL,
-	"date" timestamp (3),
+	"date" timestamp(3),
 	"location" json,
 	"kind" "event_kind" NOT NULL,
-	"created_at" timestamp (3) NOT NULL,
-	"updated_at" timestamp (3) NOT NULL
+	"created_at" timestamp(3) NOT NULL,
+	"updated_at" timestamp(3) NOT NULL
 );
 --> statement-breakpoint
 DO $$ BEGIN

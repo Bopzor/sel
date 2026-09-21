@@ -2,10 +2,10 @@ CREATE TABLE IF NOT EXISTS "request_answers" (
 	"id" varchar(16) PRIMARY KEY NOT NULL,
 	"request_id" varchar(16) NOT NULL,
 	"member_id" varchar(16) NOT NULL,
-	"date" timestamp (3) NOT NULL,
+	"date" timestamp(3) NOT NULL,
 	"answer" varchar(16) NOT NULL,
-	"created_at" timestamp (3) NOT NULL,
-	"updated_at" timestamp (3) NOT NULL
+	"created_at" timestamp(3) NOT NULL,
+	"updated_at" timestamp(3) NOT NULL
 );
 --> statement-breakpoint
 DO $$ BEGIN

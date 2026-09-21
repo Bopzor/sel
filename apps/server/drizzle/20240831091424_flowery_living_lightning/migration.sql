@@ -29,8 +29,8 @@ CREATE TABLE IF NOT EXISTS "notification_deliveries" (
 	"target" text NOT NULL,
 	"delivered" boolean DEFAULT false NOT NULL,
 	"error" json,
-	"created_at" timestamp (3) NOT NULL,
-	"updated_at" timestamp (3) NOT NULL
+	"created_at" timestamp(3) NOT NULL,
+	"updated_at" timestamp(3) NOT NULL
 );
 
 DO $$ BEGIN

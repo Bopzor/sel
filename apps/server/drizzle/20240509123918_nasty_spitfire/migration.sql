@@ -2,8 +2,8 @@ CREATE TABLE IF NOT EXISTS "interests" (
 	"id" varchar(16) PRIMARY KEY NOT NULL,
 	"label" varchar(256) NOT NULL,
 	"description" text NOT NULL,
-	"created_at" timestamp (3) NOT NULL,
-	"updated_at" timestamp (3) NOT NULL
+	"created_at" timestamp(3) NOT NULL,
+	"updated_at" timestamp(3) NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "members_interests" (
@@ -11,8 +11,8 @@ CREATE TABLE IF NOT EXISTS "members_interests" (
 	"member_id" varchar(16) NOT NULL,
 	"interest_id" varchar(16) NOT NULL,
 	"description" text,
-	"created_at" timestamp (3) NOT NULL,
-	"updated_at" timestamp (3) NOT NULL
+	"created_at" timestamp(3) NOT NULL,
+	"updated_at" timestamp(3) NOT NULL
 );
 --> statement-breakpoint
 DO $$ BEGIN

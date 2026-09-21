@@ -2,13 +2,13 @@ CREATE TABLE IF NOT EXISTS "notifications" (
 	"id" varchar(16) PRIMARY KEY NOT NULL,
 	"subscription_id" varchar(16) NOT NULL,
 	"event_id" varchar(16),
-	"date" timestamp (3) NOT NULL,
-	"read_at" timestamp (3),
+	"date" timestamp(3) NOT NULL,
+	"read_at" timestamp(3),
 	"title" text NOT NULL,
 	"content" text NOT NULL,
 	"data" json NOT NULL,
-	"created_at" timestamp (3) NOT NULL,
-	"updated_at" timestamp (3) NOT NULL
+	"created_at" timestamp(3) NOT NULL,
+	"updated_at" timestamp(3) NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "subscriptions" (
@@ -17,8 +17,8 @@ CREATE TABLE IF NOT EXISTS "subscriptions" (
 	"type" varchar(32) NOT NULL,
 	"member_id" varchar(16) NOT NULL,
 	"request_id" varchar(16),
-	"created_at" timestamp (3) NOT NULL,
-	"updated_at" timestamp (3) NOT NULL
+	"created_at" timestamp(3) NOT NULL,
+	"updated_at" timestamp(3) NOT NULL
 );
 --> statement-breakpoint
 DO $$ BEGIN

@@ -14,8 +14,8 @@ CREATE TABLE IF NOT EXISTS "transactions" (
 	"payer_comment" text,
 	"recipient_comment" text,
 	"creator_id" varchar(16) NOT NULL,
-	"created_at" timestamp (3) NOT NULL,
-	"updated_at" timestamp (3) NOT NULL
+	"created_at" timestamp(3) NOT NULL,
+	"updated_at" timestamp(3) NOT NULL
 );
 --> statement-breakpoint
 DO $$ BEGIN
