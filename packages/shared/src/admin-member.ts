@@ -6,6 +6,7 @@ import { MemberStatus } from './member';
 export type AdminMember = {
   id: string;
   status: MemberStatus;
+  isMembershipUpToDate: boolean;
   firstName: string;
   lastName: string;
   number: number;
@@ -18,6 +19,7 @@ export type AdminMember = {
 export const createAdminMember = createFactory<AdminMember>(() => ({
   id: createId(),
   status: MemberStatus.active,
+  isMembershipUpToDate: false,
   firstName: '',
   lastName: '',
   number: 0,
