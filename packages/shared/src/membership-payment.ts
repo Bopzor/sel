@@ -1,11 +1,14 @@
+import type { ValueOf } from '@sel/utils';
 import z from 'zod';
 
-export enum PaymentMethod {
-  card = 'card',
-  cash = 'cash',
-  transfer = 'transfer',
-  check = 'check',
-}
+export const PaymentMethod = {
+  card: 'card',
+  cash: 'cash',
+  transfer: 'transfer',
+  check: 'check',
+} as const;
+
+export type PaymentMethod = ValueOf<typeof PaymentMethod>;
 
 export const createMembershipPaymentBodySchema = z.object({
   amount: z.number().positive().gte(0),

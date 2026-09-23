@@ -5,6 +5,7 @@ import { MemberStatus } from './member';
 export type AdminMember = {
   id: string;
   status: MemberStatus;
+  isMembershipUpToDate: boolean;
   firstName: string;
   lastName: string;
   number: number;

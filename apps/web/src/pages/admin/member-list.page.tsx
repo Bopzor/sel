@@ -2,6 +2,8 @@ import { AdminMember, listAdminMembersQuerySchema } from '@sel/shared';
 import { useSearchParams } from '@solidjs/router';
 import { keepPreviousData, useQuery } from '@tanstack/solid-query';
 import clsx from 'clsx';
+import { Icon } from 'solid-heroicons';
+import { check, exclamationTriangle } from 'solid-heroicons/solid';
 import { Show } from 'solid-js';
 import z from 'zod';
 
@@ -46,11 +48,13 @@ export function AdminMemberListPage() {
       <section class={card.content({ padding: false })}>
         <Query query={query}>
           {(members) => (
-            <MembersTable
-              members={members()}
-              sort={{ column: sort(), order: order() }}
-              onSort={(sort, order) => setSearchParams({ sort, order }, { replace: true })}
-            />
+            <div class="overflow-x-auto">
+              <MembersTable
+                members={members()}
+                sort={{ column: sort(), order: order() }}
+                onSort={(sort, order) => setSearchParams({ sort, order }, { replace: true })}
+              />
+            </div>
           )}
         </Query>
       </section>
@@ -103,6 +107,7 @@ function MembersTable(props: {
               <T id="name" />
             </TableHeader>
           ),
+          cellClass: clsx('whitespace-nowrap'),
           cell: (member) => (
             <Link href={routes.admin.memberDetails(member.id)} class="row items-center gap-2">
               <MemberAvatarName link={false} member={member} />
@@ -111,19 +116,25 @@ function MembersTable(props: {
         },
         {
           headerClass: clsx('max-md:hidden'),
-          cellClass: clsx('max-md:hidden'),
+          cellClass: clsx('whitespace-nowrap max-md:hidden'),
           header: () => <T id="status" />,
           cell: (member) => <MemberStatus status={member.status} />,
         },
         {
           headerClass: clsx('max-md:hidden'),
-          cellClass: clsx('max-md:hidden'),
+          cellClass: clsx('whitespace-nowrap max-md:hidden'),
+          header: () => <T id="membershipStatus" />,
+          cell: (member) => <MembershipUpToDate membershipUpToDate={member.isMembershipUpToDate} />,
+        },
+        {
+          headerClass: clsx('max-md:hidden'),
+          cellClass: clsx('whitespace-nowrap max-md:hidden'),
           header: () => <T id="email" />,
           cell: (member) => <>{member.email}</>,
         },
         {
           headerClass: clsx('max-md:hidden'),
-          cellClass: clsx('max-md:hidden'),
+          cellClass: clsx('whitespace-nowrap max-md:hidden'),
           header: () => <T id="phoneNumber" />,
           cell: (member) => (
             <Show when={member.phoneNumber}>
@@ -148,6 +159,19 @@ function MembersTable(props: {
       ]}
       classes={{
         root: 'w-full',
+      }}
+    />
+  );
+}
+
+export function MembershipUpToDate(props: { membershipUpToDate: boolean }) {
+  return (
+    <Icon
+      path={props.membershipUpToDate ? check : exclamationTriangle}
+      class="size-5 stroke-2"
+      classList={{
+        'text-emerald-600': props.membershipUpToDate,
+        'text-amber-600': !props.membershipUpToDate,
       }}
     />
   );
