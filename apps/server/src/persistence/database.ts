@@ -62,6 +62,7 @@ export async function clearDatabase() {
   await db.delete(schema.notificationDeliveries);
   await db.delete(schema.notifications);
   await db.delete(schema.tokens);
+  await db.delete(schema.membershipPayment);
   await db.delete(schema.members);
   await db.delete(schema.domainEvents);
   await db.delete(schema.config);

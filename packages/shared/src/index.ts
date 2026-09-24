@@ -12,6 +12,7 @@ export * from './information';
 export * from './interest';
 export * from './member';
 export * from './members-sort';
+export * from './membership-payment';
 export * from './message';
 export * from './notification';
 export * from './request';
