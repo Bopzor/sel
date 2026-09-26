@@ -1,0 +1,80 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Foundations/Spacing and shape" />
+
+# Spacing and shape
+
+## Spacing
+
+A 4px scale: Tailwind's default spacing, used through its numeric utilities. Step `4` is 16px: `p-4`, `gap-4`, `mt-4`… Only the steps below are used.
+
+| Step | Value | Usage                                                                                |
+| ---- | ----- | ------------------------------------------------------------------------------------ |
+| `1`  | 4px   | Between an icon and tight text, between a label and its hint.                        |
+| `2`  | 8px   | Between icon and label in a button, between chips.                                   |
+| `3`  | 12px  | Between elements of the same group (options, rows of a dense form).                  |
+| `4`  | 16px  | Page side margin on mobile, inner padding of fields.                                 |
+| `5`  | 20px  | Card padding on mobile, horizontal button padding.                                   |
+| `6`  | 24px  | Between form fields, card and dialog padding on desktop, page side margin on tablet. |
+| `8`  | 32px  | Between sections of a page.                                                          |
+| `10` | 40px  | Page side margin on desktop.                                                         |
+| `12` | 48px  | Large breathing room: before a page title, around an empty state.                    |
+| `16` | 64px  | Sections of the public home page.                                                    |
+
+- Elements of the same group are closer together (`gap-2`, `gap-3`) than groups are to each other (`gap-6`, `gap-8`).
+- Page margins: `px-4` on mobile, `px-6` on tablet, `px-10` on desktop.
+
+## Radii
+
+| Token         | Value  | Usage                                               |
+| ------------- | ------ | --------------------------------------------------- |
+| `radius-xs`   | 6px    | Checkboxes, text skeletons.                         |
+| `radius-sm`   | 8px    | Small elements: tooltip, square badge, thumbnail.   |
+| `radius-md`   | 12px   | Buttons, fields, alerts, navigation entries.        |
+| `radius-lg`   | 16px   | Cards, toasts.                                      |
+| `radius-xl`   | 24px   | Dialogs, top corners of the bottom sheet on mobile. |
+| `radius-full` | 9999px | Chips, badges, avatars, switch, icon button.        |
+
+Rounded shapes give a welcoming tone without hurting readability.
+
+## Elevation
+
+| Token       | Usage                                           |
+| ----------- | ----------------------------------------------- |
+| `shadow-sm` | Cards and fields at rest.                       |
+| `shadow-md` | Clickable card on hover, bottom navigation bar. |
+| `shadow-lg` | Dialogs, menus, toasts, bottom sheet.           |
+
+Shadows stay subtle; cards also have a `border-default` border so they stay visible on low-contrast screens.
+
+## Sizes
+
+| Token                  | Value  | Usage                                                                                    |
+| ---------------------- | ------ | ---------------------------------------------------------------------------------------- |
+| `touch-target`         | 44px   | Minimum hit area of any interactive element (Apple recommendation and WCAG 2.5.5).       |
+| `control-sm`           | 40px   | Height of compact controls, desktop only (tables, toolbars).                             |
+| `control-md`           | 48px   | Default height of buttons, fields, tabs, navigation entries.                             |
+| `control-lg`           | 56px   | Main button of a mobile screen, full width.                                              |
+| `size-icon-sm`         | 16px   | Icon in a badge, caption text or small button.                                           |
+| `size-icon-md`         | 20px   | Icon in a button, a field, an alert.                                                     |
+| `size-icon-lg`         | 24px   | Navigation, icon button, list icon.                                                      |
+| `size-avatar-sm`       | 32px   | Avatar in text or a comment.                                                             |
+| `size-avatar-md`       | 44px   | Avatar in a list.                                                                        |
+| `size-avatar-lg`       | 80px   | Avatar of a profile page.                                                                |
+| `outline-width-focus`  | 3px    | Focus ring thickness.                                                                    |
+| `outline-offset-focus` | 2px    | Gap between the element and its focus ring.                                              |
+| `max-width-content`    | 720px  | Maximum width of a reading column or a form (≈ 70 characters).                           |
+| `max-width-page`       | 1200px | Maximum width of a desktop page's content.                                               |
+| `width-sidebar`        | 280px  | Width of the desktop side navigation.                                                    |
+| `spacing-bottom-nav`   | 72px   | Height of the mobile navigation bar, excluding the safe area (`safe-area-inset-bottom`). |
+
+## Stacking order
+
+| Token             | Value | Usage                           |
+| ----------------- | ----- | ------------------------------- |
+| `z-index-sticky`  | 100   | Sticky headers.                 |
+| `z-index-nav`     | 200   | Bottom bar and side navigation. |
+| `z-index-overlay` | 300   | Dialog scrim.                   |
+| `z-index-dialog`  | 400   | Dialogs and bottom sheet.       |
+| `z-index-popover` | 500   | Menus, dropdowns, tooltips.     |
+| `z-index-toast`   | 600   | Toasts, always on top.          |

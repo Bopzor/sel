@@ -1,0 +1,385 @@
+/*
+ * Design tokens, as a Tailwind theme. This file is the source of truth of the design system's values.
+ *
+ * Two layers:
+ * - Primitives (--brand-600, --neutral-200, --control-md…) are private CSS variables. They define the semantic
+ *   tokens and generate no utility. An instance customizes its colors by overriding --brand-* and --accent-*
+ *   (Guidelines/Theming in Storybook).
+ * - Semantic tokens are scoped to the utility they are meant for: --background-color-surface only generates
+ *   bg-surface, --text-color-muted only generates text-muted. A wrong pairing (bg-muted) does not exist.
+ *
+ * Theme-dependent colors are written light-dark(light, dark), dark under [data-theme='dark'] on <html>. Shadows are
+ * not colors: they are redefined under [data-theme='dark'].
+ */
+
+@layer theme {
+  :root {
+    color-scheme: light;
+
+    /* Brand color (fir green), replaced by an instance. */
+    --brand-50: #e0fff4;
+    --brand-100: #c9f9e9;
+    --brand-200: #a7eed6;
+    --brand-300: #79dabd;
+    --brand-400: #3fbd9c;
+    --brand-500: #019d7e;
+    --brand-600: #007f65;
+    --brand-700: #006852;
+    --brand-800: #005240;
+    --brand-900: #003d2f;
+    --brand-950: #00261d;
+
+    /* Warm neutral (stone): backgrounds, text, lines. */
+    --neutral-50: #f8f6f4;
+    --neutral-100: #efece9;
+    --neutral-200: #dfdcd7;
+    --neutral-300: #c8c3bd;
+    --neutral-400: #a9a49c;
+    --neutral-500: #8a857e;
+    --neutral-600: #6f6b65;
+    --neutral-700: #5b5752;
+    --neutral-800: #484540;
+    --neutral-900: #35322f;
+    --neutral-950: #211f1c;
+
+    /* Dark theme surfaces, from the lowest to the highest. */
+    --dark-0: #0c0b09;
+    --dark-1: #13110f;
+    --dark-2: #1d1b18;
+    --dark-3: #272521;
+    --dark-4: #383531;
+
+    /* Accent (saffron), replaced by an instance: occasional highlights, never body text below 700. */
+    --accent-50: #fff6e5;
+    --accent-100: #ffeac5;
+    --accent-200: #fdd791;
+    --accent-300: #edbc5b;
+    --accent-400: #d29900;
+    --accent-500: #ac7d00;
+    --accent-600: #8b6400;
+    --accent-700: #725200;
+    --accent-800: #5a4000;
+    --accent-900: #432f00;
+    --accent-950: #2b1c00;
+
+    /* Success. */
+    --green-50: #e5ffe8;
+    --green-300: #8dda98;
+    --green-400: #60bc71;
+    --green-600: #25803c;
+    --green-700: #19692e;
+    --green-800: #0d5321;
+    --green-950: #002809;
+
+    /* Danger and errors. */
+    --red-50: #fff4f2;
+    --red-300: #ffaba1;
+    --red-400: #ff7266;
+    --red-600: #c22826;
+    --red-700: #a21a1b;
+    --red-800: #830d10;
+    --red-950: #430002;
+
+    /* Warning. */
+    --amber-50: #fff5eb;
+    --amber-300: #fdb266;
+    --amber-400: #e48e26;
+    --amber-600: #9a5b00;
+    --amber-700: #7f4a00;
+    --amber-800: #653900;
+    --amber-950: #311800;
+
+    /* Information. */
+    --blue-50: #f1f7ff;
+    --blue-300: #9cc7ff;
+    --blue-400: #65a7fa;
+    --blue-600: #2f6cb7;
+    --blue-700: #235899;
+    --blue-800: #17457c;
+    --blue-950: #041f3f;
+
+    /* Sizes shared by several utilities, exposed below. */
+    --touch-target: 2.75rem;
+    --control-sm: 2.5rem;
+    --control-md: 3rem;
+    --control-lg: 3.5rem;
+
+    /* Elevation, referenced by the shadow-* utilities. */
+    --elevation-sm: 0 1px 2px rgb(33 31 28 / 0.06), 0 1px 3px rgb(33 31 28 / 0.08);
+    --elevation-md: 0 2px 4px rgb(33 31 28 / 0.06), 0 6px 12px rgb(33 31 28 / 0.08);
+    --elevation-lg: 0 8px 16px rgb(33 31 28 / 0.08), 0 16px 40px rgb(33 31 28 / 0.14);
+
+    /* Focus ring. */
+    --outline-width-focus: 3px;
+    --outline-offset-focus: 2px;
+
+    /* Motion. */
+    --duration-fast: 120ms;
+    --duration-base: 200ms;
+    --duration-slow: 320ms;
+  }
+
+  [data-theme='dark'] {
+    color-scheme: dark;
+
+    --elevation-sm: 0 1px 2px rgb(0 0 0 / 0.4);
+    --elevation-md: 0 2px 4px rgb(0 0 0 / 0.4), 0 6px 12px rgb(0 0 0 / 0.3);
+    --elevation-lg: 0 8px 16px rgb(0 0 0 / 0.5), 0 16px 40px rgb(0 0 0 / 0.4);
+  }
+}
+
+@theme {
+  /* Only the design system's tokens are available: Tailwind's defaults are removed. */
+  --color-*: initial;
+  --font-serif: initial;
+  --font-weight-*: initial;
+  --leading-*: initial;
+  --tracking-*: initial;
+  --text-*: initial;
+  --radius-*: initial;
+  --shadow-*: initial;
+  --inset-shadow-*: initial;
+  --drop-shadow-*: initial;
+  --text-shadow-*: initial;
+  --blur-*: initial;
+  --perspective-*: initial;
+  --aspect-*: initial;
+  --container-*: initial;
+  --ease-*: initial;
+  --animate-*: initial;
+  --breakpoint-*: initial;
+
+  /* Backgrounds */
+  --background-color-page: light-dark(var(--neutral-50), var(--dark-1));
+  --background-color-surface: light-dark(#ffffff, var(--dark-2));
+  --background-color-surface-raised: light-dark(#ffffff, var(--dark-3));
+  --background-color-surface-sunken: light-dark(var(--neutral-100), var(--dark-0));
+  --background-color-surface-hover: light-dark(var(--neutral-100), var(--dark-3));
+  --background-color-overlay: light-dark(rgb(33 31 28 / 0.48), rgb(0 0 0 / 0.64));
+  --background-color-inverse: light-dark(var(--neutral-900), var(--neutral-100));
+  --background-color-inverse-hover: light-dark(rgb(255 255 255 / 0.12), rgb(0 0 0 / 0.08));
+  --background-color-disabled: light-dark(var(--neutral-100), var(--dark-0));
+  --background-color-primary: light-dark(var(--brand-600), var(--brand-400));
+  --background-color-primary-hover: light-dark(var(--brand-700), var(--brand-300));
+  --background-color-primary-active: light-dark(var(--brand-800), var(--brand-200));
+  --background-color-primary-subtle: light-dark(var(--brand-50), var(--brand-950));
+  --background-color-primary-subtle-hover: light-dark(var(--brand-100), var(--brand-900));
+  --background-color-accent: var(--accent-300);
+  --background-color-accent-subtle: light-dark(var(--accent-50), var(--accent-950));
+  --background-color-success: light-dark(var(--green-600), var(--green-400));
+  --background-color-success-subtle: light-dark(var(--green-50), var(--green-950));
+  --background-color-warning: var(--amber-300);
+  --background-color-warning-subtle: light-dark(var(--amber-50), var(--amber-950));
+  --background-color-danger: light-dark(var(--red-600), var(--red-400));
+  --background-color-danger-hover: light-dark(var(--red-700), var(--red-300));
+  --background-color-danger-subtle: light-dark(var(--red-50), var(--red-950));
+  --background-color-info: light-dark(var(--blue-600), var(--blue-400));
+  --background-color-info-subtle: light-dark(var(--blue-50), var(--blue-950));
+  --background-color-track: light-dark(var(--neutral-100), var(--dark-4));
+  --background-color-switch-track: light-dark(var(--neutral-500), var(--neutral-600));
+  --background-color-switch-thumb: #ffffff;
+  --background-color-handle: var(--neutral-500);
+  --background-color-skeleton: light-dark(var(--neutral-100), var(--dark-3));
+  --background-color-avatar: light-dark(var(--brand-100), var(--brand-800));
+
+  /* Text */
+  --text-color-default: light-dark(var(--neutral-950), var(--neutral-50));
+  --text-color-muted: light-dark(var(--neutral-700), var(--neutral-300));
+  --text-color-subtle: light-dark(var(--neutral-600), var(--neutral-400));
+  --text-color-disabled: light-dark(var(--neutral-500), var(--neutral-600));
+  --text-color-inverse: light-dark(var(--neutral-50), var(--neutral-950));
+  --text-color-primary: light-dark(var(--brand-700), var(--brand-300));
+  --text-color-on-primary: light-dark(#ffffff, var(--neutral-950));
+  --text-color-accent: light-dark(var(--accent-700), var(--accent-300));
+  --text-color-on-accent: var(--neutral-950);
+  --text-color-success: light-dark(var(--green-700), var(--green-300));
+  --text-color-on-success: light-dark(#ffffff, var(--neutral-950));
+  --text-color-warning: light-dark(var(--amber-700), var(--amber-300));
+  --text-color-on-warning: var(--neutral-950);
+  --text-color-danger: light-dark(var(--red-700), var(--red-300));
+  --text-color-on-danger: light-dark(#ffffff, var(--neutral-950));
+  --text-color-info: light-dark(var(--blue-700), var(--blue-300));
+  --text-color-on-info: light-dark(#ffffff, var(--neutral-950));
+  --text-color-inverse-primary: light-dark(var(--brand-300), var(--brand-700));
+  --text-color-inverse-success: light-dark(var(--green-300), var(--green-700));
+  --text-color-inverse-danger: light-dark(var(--red-300), var(--red-700));
+  --text-color-inverse-info: light-dark(var(--blue-300), var(--blue-700));
+  --text-color-on-switch-thumb: var(--brand-700);
+  --text-color-avatar: light-dark(var(--brand-800), var(--brand-50));
+
+  /* Borders */
+  --border-color-default: light-dark(var(--neutral-200), var(--dark-4));
+  --border-color-strong: var(--neutral-500);
+  --border-color-strong-hover: light-dark(var(--neutral-700), var(--neutral-300));
+  --border-color-primary: light-dark(var(--brand-600), var(--brand-400));
+  --border-color-danger: light-dark(var(--red-600), var(--red-400));
+  --border-color-success-subtle: light-dark(var(--green-300), var(--green-800));
+  --border-color-warning-subtle: light-dark(var(--amber-300), var(--amber-800));
+  --border-color-danger-subtle: light-dark(var(--red-300), var(--red-800));
+  --border-color-info-subtle: light-dark(var(--blue-300), var(--blue-800));
+
+  /* Rings: thicken a border from the inside (ring-1 ring-inset), for a selected or invalid control. */
+  --ring-color-primary: var(--border-color-primary);
+  --ring-color-danger: var(--border-color-danger);
+
+  /* Focus */
+  --outline-color-focus: var(--border-color-primary);
+
+  /* Typography */
+  --font-sans: 'Inter Variable', Inter, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  /* display and title-1 grow from sm up (styles.css). */
+  --text-display: 1.75rem;
+  --text-display--line-height: 1.15;
+  --text-display--font-weight: 700;
+  --text-display--letter-spacing: -0.02em;
+
+  --text-title-1: 1.5rem;
+  --text-title-1--line-height: 1.25;
+  --text-title-1--font-weight: 700;
+  --text-title-1--letter-spacing: -0.01em;
+
+  --text-title-2: 1.375rem;
+  --text-title-2--line-height: 1.3;
+  --text-title-2--font-weight: 600;
+
+  --text-title-3: 1.1875rem;
+  --text-title-3--line-height: 1.35;
+  --text-title-3--font-weight: 600;
+
+  --text-body-lg: 1.1875rem;
+  --text-body-lg--line-height: 1.6;
+  --text-body-lg--font-weight: 400;
+
+  --text-body: 1.0625rem;
+  --text-body--line-height: 1.6;
+  --text-body--font-weight: 400;
+
+  --text-body-strong: 1.0625rem;
+  --text-body-strong--line-height: 1.6;
+  --text-body-strong--font-weight: 600;
+
+  --text-body-sm: 0.9375rem;
+  --text-body-sm--line-height: 1.5;
+  --text-body-sm--font-weight: 400;
+
+  --text-caption: 0.875rem;
+  --text-caption--line-height: 1.45;
+  --text-caption--font-weight: 500;
+
+  --text-label: 1.0625rem;
+  --text-label--line-height: 1.4;
+  --text-label--font-weight: 500;
+
+  --text-button: 1.0625rem;
+  --text-button--line-height: 1.25;
+  --text-button--font-weight: 600;
+
+  --text-button-sm: 0.9375rem;
+  --text-button-sm--line-height: 1.25;
+  --text-button-sm--font-weight: 600;
+
+  --text-amount: 2rem;
+  --text-amount--line-height: 1.1;
+  --text-amount--font-weight: 700;
+
+  /* Radii */
+  --radius-xs: 6px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-full: 9999px;
+
+  /* Elevation */
+  --shadow-sm: var(--elevation-sm);
+  --shadow-md: var(--elevation-md);
+  --shadow-lg: var(--elevation-lg);
+
+  /* Sizes. The 4px spacing scale is Tailwind's default --spacing. */
+  --size-touch-target: var(--touch-target);
+  --min-width-touch-target: var(--touch-target);
+  --min-height-touch-target: var(--touch-target);
+
+  --size-control-sm: var(--control-sm);
+  --size-control-md: var(--control-md);
+  --size-control-lg: var(--control-lg);
+  --height-control-sm: var(--control-sm);
+  --height-control-md: var(--control-md);
+  --height-control-lg: var(--control-lg);
+
+  --size-icon-sm: 1rem;
+  --size-icon-md: 1.25rem;
+  --size-icon-lg: 1.5rem;
+
+  --size-avatar-sm: 2rem;
+  --size-avatar-md: 2.75rem;
+  --size-avatar-lg: 5rem;
+
+  --width-sidebar: 17.5rem;
+
+  /* Spacing feeds both min-h-bottom-nav (the bar) and pb-bottom-nav (the content). */
+  --spacing-bottom-nav: 4.5rem;
+
+  --max-width-content: 45rem;
+  --max-width-page: 75rem;
+
+  /* Breakpoints */
+  --breakpoint-sm: 40rem;
+  --breakpoint-md: 48rem;
+  --breakpoint-lg: 64rem;
+  --breakpoint-xl: 80rem;
+
+  /* Stacking order */
+  --z-index-sticky: 100;
+  --z-index-nav: 200;
+  --z-index-overlay: 300;
+  --z-index-dialog: 400;
+  --z-index-popover: 500;
+  --z-index-toast: 600;
+
+  /* Motion */
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --ease-enter: cubic-bezier(0, 0, 0, 1);
+  --ease-exit: cubic-bezier(0.3, 0, 1, 1);
+
+  --default-transition-duration: var(--duration-fast);
+  --default-transition-timing-function: var(--ease-standard);
+
+  --animate-spin: spin 0.8s linear infinite;
+
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+}
+
+@utility duration-fast {
+  transition-duration: var(--duration-fast);
+}
+
+@utility duration-base {
+  transition-duration: var(--duration-base);
+}
+
+@utility duration-slow {
+  transition-duration: var(--duration-slow);
+}
+
+/* The focus ring, for an element that shows the focus of another one (a custom checkbox box, for example). */
+@utility focus-ring {
+  outline: var(--outline-width-focus) solid var(--outline-color-focus);
+  outline-offset: var(--outline-offset-focus);
+}
+
+/* The focus ring of an input field, without offset, on the field's box: focus-within:focus-ring-field. */
+@utility focus-ring-field {
+  outline: var(--outline-width-focus) solid var(--outline-color-focus);
+  outline-offset: 0;
+}

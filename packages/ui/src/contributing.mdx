@@ -1,0 +1,61 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Contributing" />
+
+# Contributing
+
+How a component of the design system is written. Button is the reference implementation.
+
+## Keep it simple
+
+The simplest solution that meets today's needs wins. Simple code is easier to read, to review, to change and to fix in every instance at once.
+
+- Build for a need the application has now, not one it might have later. A variant, a size, a prop, a token or a dependency is added when a screen needs it, not in advance: it is easier to add something than to remove it once pages depend on it.
+- Prefer the platform: a native element, a CSS feature or a plain function before a library, a configuration or an abstraction.
+- Prefer two plain components to one configurable component (`Button` and `LinkButton` rather than a polymorphic `Button`), and a little repetition to an abstraction made for a single case.
+- Fewer options is a feature: every prop, variant and token is one more thing to document, test, check for accessibility and keep consistent.
+- When a solution needs a long explanation, look for a simpler one first. When in doubt, leave it out.
+
+## Before writing code
+
+- The component has a guideline: when to use it, what the consumer provides, its rules. A new component, or a new prop, gets its guideline first.
+- Every value comes from a token. When a design needs a value no token covers (a color, a size), the token is added to `src/theme.css` and to the [Tokens](?path=/docs/tokens--docs) page first.
+
+## Files
+
+- `src/components/<name>.tsx`: the component, named in kebab-case, one public component per file (private sub-components may live next to it).
+- `src/components/<name>.stories.tsx`: its stories, with the same examples as the guideline: every variant, every state, and the realistic use cases. Stories use generic English text ("Save", "Cancel", "Title"), not the application's content.
+- `src/components/<name>.mdx`: its guideline, which is also its Storybook page. Once the component exists, the page attaches to its stories (`<Meta of={…} />`) and shows them with the props table, after the guideline (see `button.mdx`).
+- The design system's other pages (foundations, guidelines) are `.mdx` files in `src/` too, each one next to the code it documents when there is some.
+- The component and its props type are exported from `src/index.ts`.
+
+## Comments
+
+- Code says what it does; a comment says why, and only when the reason cannot be guessed by reading the code: an accessibility rule, a browser quirk, a constraint coming from elsewhere (`aria-disabled` rather than `disabled`, so that the button keeps the focus while loading).
+- No comment that repeats the code, the name of a function or the type of a prop. When the code needs a comment to be understood, make the code clearer first.
+- A comment that no longer matches the code is worse than none: it is updated or removed with the code it describes.
+
+## Styles
+
+- Styles are Tailwind classes, using only the design system's tokens. The linter rejects unknown classes, arbitrary values (`w-[13px]`, `bg-(--brand-600)`), arbitrary properties and the `dark:` variant: semantic tokens switch with the theme on their own.
+- Variants are declared with `cva`, and conditional class lists are joined with `clsx()`, never with string concatenation.
+- Classes are not merged: two classes that set the same property both stay on the element, and the stylesheet order decides which one applies. A component never produces two conflicting classes (a disabled state replaces the variant's colors instead of overriding them).
+- `className` is accepted on the root element, for layout only (margins, width, grid placement): it cannot reliably override the component's own styles.
+- The formatter sorts classes (inside `className`, `clsx()` and `cva()`).
+- The linter and the formatter only see classes inside `className`, `clsx()` and `cva()`. A class list kept in a variable (to share it between variants, for example) is wrapped in `clsx()`: `const interactive = clsx('cursor-pointer active:scale-98')`. A plain string is neither checked nor sorted.
+
+## Props
+
+- Props extend the props of the rendered element (`ComponentProps<'button'>`) and are passed through to it, so that `id`, `aria-*`, `data-*`, event handlers and `ref` work as on the native element. React 19 passes `ref` as a regular prop: no `forwardRef`.
+- Prop names follow the guideline, and HTML names when they exist (`disabled`, `checked`, `defaultValue`), never an alias.
+- A component whose state the consumer may need to control accepts both forms: controlled (`value` + `onChange`, `checked` + `onCheckedChange`…) and uncontrolled (`defaultValue`…).
+- Booleans default to `false` and are named after the non-default state (`disabled`, `loading`, `optional`).
+- Icons are passed as concept names (`icon="send"`), never as elements.
+- No `asChild` or polymorphic `as` prop: a component that can also be a link comes as a second component that renders an `<a>` (`Button` and `LinkButton`), sharing its styles.
+
+## Behavior and accessibility
+
+- Interactive components with a behavior beyond a native element (Dialog, Tabs, Switch, RadioGroup, Checkbox, Select, Toast…) are built on [Ark UI](https://ark-ui.com/react): focus management, keyboard navigation and ARIA come from it, and the component only adds the design system's rendering. The rendering is styled through Ark's `data-*` state attributes (`data-state="checked"`, `data-disabled`…).
+- A plain element (`<button>`, `<input>`) stays native when it is enough.
+- Every guideline rule about accessibility is implemented, not left to the consumer: accessible names, `aria-describedby` for hints and errors, announcements, focus return.
+- Check each story with the keyboard only, and at 200% zoom.

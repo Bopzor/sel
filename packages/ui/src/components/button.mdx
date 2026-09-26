@@ -1,0 +1,40 @@
+import { Controls, Meta, Primary, Stories } from '@storybook/addon-docs/blocks';
+
+import * as ButtonStories from './button.stories';
+
+<Meta of={ButtonStories} />
+
+# Button
+
+An action button, in four variants and three sizes, that stays readable and easy to touch.
+
+## When to use it
+
+- `primary`: the main action of the screen. Only one per visible area.
+- `secondary`: the alternative (Cancel, Back, Later).
+- `ghost`: discreet actions in a card or a list (Edit, See details).
+- `danger`: a destructive or irreversible action (Delete, Decline the exchange). Always followed by a confirmation with a `Dialog`.
+- Sizes: `md` (48px) by default, `lg` (56px) for the main action at the bottom of a mobile screen, full width (`className="w-full"`). `sm` (40px) only on desktop, in dense areas.
+
+## What the consumer provides
+
+- `children`: a verb that says what will happen ("Send 20 units", not "OK").
+- `icon` / `iconEnd`: optional icon concept; `next` at the end to move forward in a flow.
+- `loading`: the button keeps its label and is disabled. The spinner is always before the label, in place of the start icon, so a button with a start icon keeps its width; the end icon stays.
+- `disabled`: rendered with `aria-disabled` rather than the native attribute, the button stays focusable so that screen readers announce it, and keeps the focus when `loading` starts. Always show next to it what is missing to continue; better still, leave the button enabled and point out the fields to fix on click.
+
+## LinkButton
+
+An action that navigates is a link, not a button: `LinkButton` renders an `<a>` with the same variants, sizes and icons. It takes the link's attributes (`href`, `target`…), and has no `loading` or `disabled`: a link cannot be either. `<LinkButton href="/requests" variant="secondary">See the requests</LinkButton>`.
+
+## Rules
+
+- On mobile, the main action is at the bottom, full width, above the secondary action.
+- On desktop, the main action is to the right of the secondary action.
+- No more than two buttons side by side; beyond that, use a menu.
+
+<Primary />
+
+<Controls />
+
+<Stories includePrimary={false} />

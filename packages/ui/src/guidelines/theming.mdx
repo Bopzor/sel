@@ -1,0 +1,70 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Guidelines/Theming" />
+
+# Customizing an instance
+
+Each LETS can have its own identity without the application changing its face. Customization goes through four things only.
+
+## What an instance changes
+
+1. **Its brand color**: the `brand-50` to `brand-950` range. It carries the actions, the selection and the focus, through the semantic tokens (`bg-primary`, `text-primary`, `bg-primary-subtle`, `outline-focus`…).
+2. **Its accent color**: the `accent-50` to `accent-950` range. It carries the warm highlights, never the actions: "New" badges, illustrations, tip boxes (`bg-accent`, `text-accent`, `bg-accent-subtle`…).
+3. **Its name, geographical area and tagline**, shown in `SideNav`, the header and the public home page.
+4. **Its logo**, as a square SVG, readable at 44px.
+
+The currency name (`{currency}`) is also part of the configuration, on the content side.
+
+## What an instance does not change
+
+Neutrals, statuses, typography, spacing, radii, components. This is what guarantees accessibility, and makes it possible to fix a defect once for every instance.
+
+## Generating the ranges
+
+Both ranges are generated the same way, from a hue (OKLCH angle) and a chroma: the eleven steps use the system's fixed lightnesses, 0.975 / 0.945 / 0.895 / 0.82 / 0.72 / 0.62 / 0.53 / 0.46 / 0.39 / 0.32 / 0.24. The chroma follows the default ranges (highest around 400, lower toward both ends), and is reduced where a step would fall outside the sRGB gamut.
+
+The fixed lightnesses are what keep the contrasts: the checks below pass for the default colors, and they are run automatically before a new color is accepted.
+
+Brand:
+
+- `text-on-primary` (white) on `brand-600` ≥ 4.5:1;
+- `brand-700` on `bg-page` and on `brand-50` ≥ 4.5:1;
+- `brand-600` on `bg-page` ≥ 3:1 (focus ring);
+- `brand-800` on `brand-100` ≥ 4.5:1 (avatar);
+- in dark mode, `neutral-950` on `brand-400` ≥ 4.5:1, `brand-300` on `bg-surface` ≥ 4.5:1, and `brand-50` on `brand-800` ≥ 4.5:1 (avatar).
+
+Accent:
+
+- `text-on-accent` (`neutral-950`) on `accent-300` ≥ 4.5:1, in both themes;
+- `accent-700` on `bg-page` and on `accent-50` ≥ 4.5:1;
+- in dark mode, `accent-300` on `accent-950` and on `bg-surface` ≥ 4.5:1.
+
+If a very light hue (yellow, light green) fails, the administration tool offers the same hue darkened rather than refusing it.
+
+## Keeping the colors distinct
+
+The instance colors must not be mistaken for a status, nor for each other. Before accepting a color, the administration tool also checks the hues (OKLCH angles):
+
+- brand and accent are each at least 15° away from every status hue: danger (27°), warning (65°), success (148°) and info (255°);
+- brand and accent are at least 30° away from each other.
+
+The default colors pass: fir green (172°) and saffron (82°). Saffron is the closest case, at 17° from warning; the "New" badge also stays apart from a warning badge by its shape, a solid `bg-accent` against the light `bg-warning-subtle` with dark text.
+
+## Implementation
+
+The semantic tokens are CSS variables. An instance only overrides the `--brand-*` and `--accent-*` variables, loaded from its configuration at startup, before the first render, to avoid a color flash:
+
+```html
+<style>
+  :root {
+    --brand-50: …;
+    /* … */
+    --brand-950: …;
+    --accent-50: …;
+    /* … */
+    --accent-950: …;
+  }
+</style>
+```
+
+These declarations are not in a cascade layer, so they win over the defaults defined in `src/theme.css`.

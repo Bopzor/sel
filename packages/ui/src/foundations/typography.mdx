@@ -1,0 +1,30 @@
+import { Meta, Stories } from '@storybook/addon-docs/blocks';
+
+import * as TypographyStories from './typography.stories';
+
+<Meta of={TypographyStories} />
+
+# Typography
+
+A single family, **Inter** variable (`--font-sans`), with tabular figures for amounts.
+
+| Role          | Size / line height  | Usage                                                         |
+| ------------- | ------------------- | ------------------------------------------------------------- |
+| `display`     | 36 / 1.15, bold     | Welcome title, one per screen, rare. 28px below 640px.        |
+| `title-1`     | 28 / 1.25, bold     | Page title (h1). 24px below 640px.                            |
+| `title-2`     | 22 / 1.3, semibold  | Section title (h2).                                           |
+| `title-3`     | 19 / 1.35, semibold | Card, dialog, important list item title (h3).                 |
+| `body-lg`     | 19 / 1.6            | Introduction, content of a post to read.                      |
+| `body`        | 17 / 1.6            | Default body text, everywhere. Never smaller on mobile.       |
+| `body-strong` | 17 / 1.6, semibold  | Emphasis in body text, member names.                          |
+| `body-sm`     | 15 / 1.5            | Descriptions under a title, field hints, metadata.            |
+| `caption`     | 14 / 1.45, medium   | Badges, bottom bar labels, timestamps. Smallest size allowed. |
+| `label`       | 17 / 1.4, medium    | Field, checkbox and option labels.                            |
+| `button`      | 17 / 1.25, semibold | Button labels (`button-sm`, 15px, for the `sm` size).         |
+| `amount`      | 32 / 1.1, bold      | Balance and highlighted amounts, with `tabular-nums`.         |
+
+- Each role is a Tailwind utility: `text-title-1`, `text-body-sm`… It sets the size, line height, weight and letter spacing.
+- Sizes are in rem: they follow the system text size setting and the zoom. The root size stays at 100% on every screen.
+- Lines of 45 to 75 characters (`max-w-content`). No justified text, no capitals on more than two words, no italics for long passages.
+
+<Stories />

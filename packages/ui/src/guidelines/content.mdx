@@ -1,0 +1,42 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Guidelines/Content" />
+
+# Content
+
+We write for someone who is discovering the application, maybe on a small screen, maybe in a hurry. Words matter as much as visuals. These rules apply to the interface copy whatever its language.
+
+## Tone
+
+- Formal address, short sentences, everyday words. A LETS is an association of neighbors: the tone is warm without being familiar.
+- Refer to members by their first and last name, and to things by their name in the application (request, event, information, exchange, units).
+- No technical jargon: "Unable to connect, check your internet access" rather than "Network error 503".
+- No emoji in the interface.
+
+## Buttons and links
+
+- A verb that says what will happen: "Post the request", "Send 20 units", "Offer my help".
+- Never "OK", "Submit" or "Click here" alone.
+- The label of a confirmation button repeats the action of the dialog's title.
+
+## Forms
+
+- Label: a short noun ("Request title"), without a colon.
+- Hint: a concrete example ("for example, Help to put up a shelf").
+- Error: what is wrong and how to fix it, in one sentence. "Enter a number of units between 1 and 500" rather than "Invalid value".
+- Placeholder: optional, never required to understand the field, never an instruction.
+
+## Numbers, dates, currency
+
+- The currency name comes from the instance configuration (`{currency}`, `{currencyPlural}`); "units" in this system stands for that name.
+- Amounts use tabular figures, with the sign for a movement ("+ 20 units", "− 15 units").
+- Relative dates for recent things ("2 hours ago", "yesterday"), then the full date ("Saturday, October 12 at 10 am").
+
+## Empty screens and errors
+
+- An empty screen says what will appear here and offers the first action.
+- An error does not blame and always offers a way forward (retry, go back, contact the coordinator of the LETS).
+
+## The instance
+
+The name, city and tagline of a LETS are never hard-coded: they come from the instance configuration.

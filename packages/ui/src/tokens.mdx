@@ -1,0 +1,34 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Tokens" />
+
+# Tokens → Tailwind utilities
+
+The tokens are defined in `src/theme.css`, the source of truth of the design system's values. Tailwind's own defaults (palette, radii, shadows, text sizes, font weights, line heights, letter spacings, max widths…) are removed: only the tokens below exist.
+
+| Family       | Variables                                                                      | Utilities                                                                                                                                     |
+| ------------ | ------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------- |
+| Backgrounds  | `--background-color-*`                                                         | `bg-*` ([Colors](?path=/docs/foundations-colors--docs))                                                                                       |
+| Text colors  | `--text-color-*`                                                               | `text-*` ([Colors](?path=/docs/foundations-colors--docs))                                                                                     |
+| Lines        | `--border-color-*`, `--ring-color-*`, `--outline-color-focus`                  | `border-*`, `ring-*`, `outline-focus` ([Colors](?path=/docs/foundations-colors--docs))                                                        |
+| Typography   | `--text-display`, `--text-title-1` … `--text-amount`                           | `text-*` (size, line height, weight, letter spacing)                                                                                          |
+| Font weights | `--font-weight-normal`, `-medium`, `-semibold`, `-bold`                        | `font-*`, to adjust a text style                                                                                                              |
+| Spacing      | `--spacing` (4px, Tailwind's default)                                          | Tailwind's numeric scale: `p-4`, `gap-4`…                                                                                                     |
+| Radii        | `--radius-xs` … `--radius-full`                                                | `rounded-xs` … `rounded-full`                                                                                                                 |
+| Elevation    | `--shadow-sm`, `--shadow-md`, `--shadow-lg`                                    | `shadow-sm`…                                                                                                                                  |
+| Touch target | `--size-touch-target`, `--min-width-touch-target`, `--min-height-touch-target` | `size-touch-target`, `min-w-touch-target`, `min-h-touch-target`                                                                               |
+| Controls     | `--size-control-*`, `--height-control-*`                                       | `size-control-*`, `h-control-*`, `min-h-control-*`                                                                                            |
+| Icons        | `--size-icon-sm`, `-md`, `-lg`                                                 | `size-icon-*`                                                                                                                                 |
+| Avatars      | `--size-avatar-sm`, `-md`, `-lg`                                               | `size-avatar-*`                                                                                                                               |
+| Layout       | `--width-sidebar`, `--spacing-bottom-nav`                                      | `w-sidebar`, `min-h-bottom-nav`, `pb-bottom-nav`                                                                                              |
+| Layout       | `--max-width-content`, `--max-width-page`                                      | `max-w-content`, `max-w-page`                                                                                                                 |
+| Breakpoints  | `--breakpoint-sm`, `-md`, `-lg`, `-xl`                                         | `sm:`, `md:`, `lg:`, `xl:`                                                                                                                    |
+| Stacking     | `--z-index-sticky` … `--z-index-toast`                                         | `z-sticky`, `z-nav`, `z-overlay`, `z-dialog`, `z-popover`, `z-toast`                                                                          |
+| Durations    | `--duration-fast`, `-base`, `-slow`                                            | `duration-*`; `transition` defaults to `duration-fast` and `ease-standard`                                                                    |
+| Easing       | `--ease-standard`, `--ease-enter`, `--ease-exit`                               | `ease-*`                                                                                                                                      |
+| Focus        | `--outline-width-focus`, `--outline-offset-focus`                              | applied on `:focus-visible` by the base styles; `focus-ring` shows it on another element, `focus-ring-field` on a field's box, without offset |
+
+Notes:
+
+- `display` and `title-1` grow from `sm` up on their own.
+- The linter (`oxlint-tailwindcss`) rejects unknown classes, arbitrary values (`w-[13px]`, `bg-(--brand-600)`), arbitrary properties and the `dark:` variant. When a design needs a value that has no token, the token is added to `theme.css` and documented here first.

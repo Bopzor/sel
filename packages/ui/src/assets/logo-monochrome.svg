@@ -1,0 +1,20 @@
+<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+
+  <defs>
+    <g id="shape" fill="none" stroke="none">
+      <circle fill="currentColor" cx="10" cy="0" r="2"></circle>
+      <path stroke="currentColor" stroke-linecap="round" stroke-width="2.5" d="M 6 2.5 Q 5 1.5 5 0 Q 5 -1.5 6 -2.5"></path>
+    </g>
+  </defs>
+
+  <g color="black" transform="translate(12 12)">
+    <use href="#shape" transform="rotate(0)"></use>
+    <use href="#shape" transform="rotate(45)"></use>
+    <use href="#shape" transform="rotate(90)"></use>
+    <use href="#shape" transform="rotate(135)"></use>
+    <use href="#shape" transform="rotate(180)"></use>
+    <use href="#shape" transform="rotate(-135)"></use>
+    <use href="#shape" transform="rotate(-90)"></use>
+    <use href="#shape" transform="rotate(-45)"></use>
+  </g>
+</svg>

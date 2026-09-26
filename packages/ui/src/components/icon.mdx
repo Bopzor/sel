@@ -1,0 +1,32 @@
+import { Controls, Meta, Primary, Stories } from '@storybook/addon-docs/blocks';
+
+import * as IconStories from './icon.stories';
+
+<Meta of={IconStories} />
+
+# Icon
+
+A 24px outline icon, called by a concept name rather than by a library-specific name.
+
+## When to use it
+
+- To go with a label (button, navigation, alert, field). An icon alone is only understood for a few universal gestures: close, search, menu, add.
+- The same idea always keeps the same icon, following the concept table of [Iconography](?path=/docs/foundations-iconography--docs).
+
+## In the application
+
+`Icon` receives a concept (`request`, `event`, `information`, `exchange`, `members`…) and translates it to the chosen library. No page imports an icon directly from the library.
+
+## Props
+
+- `name`: the concept.
+- `size`: `sm` (16px, `size-icon-sm`), `md` (20px, `size-icon-md`) or `lg` (24px, `size-icon-lg`, default).
+- `label`: only when the icon carries a meaning no nearby text gives; otherwise it is hidden from screen readers.
+
+The icon takes the text color (`currentColor`).
+
+<Primary />
+
+<Controls />
+
+<Stories includePrimary={false} />

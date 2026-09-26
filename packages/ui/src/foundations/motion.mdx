@@ -1,0 +1,18 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Foundations/Motion" />
+
+# Motion
+
+Animations show where an element comes from and where it goes, never decorate.
+
+| Token           | Value                        | Usage                         |
+| --------------- | ---------------------------- | ----------------------------- |
+| `duration-fast` | 120ms                        | Hover, press, color change.   |
+| `duration-base` | 200ms                        | Switch, chip, opening a menu. |
+| `duration-slow` | 320ms                        | Dialog, bottom sheet, toast.  |
+| `ease-standard` | `cubic-bezier(0.2, 0, 0, 1)` | State transitions.            |
+| `ease-enter`    | `cubic-bezier(0, 0, 0, 1)`   | Elements appearing.           |
+| `ease-exit`     | `cubic-bezier(0.3, 0, 1, 1)` | Elements disappearing.        |
+
+Under `prefers-reduced-motion`, all motion is cut; only loading indicators keep spinning, more slowly. The base styles handle this globally.

@@ -6,3 +6,4 @@ dev-dist
 data
 .env
 uploads
+storybook-static
