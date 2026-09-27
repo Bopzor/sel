@@ -1,10 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
+import { iconNames } from '../display/icon';
+
 import { Button, LinkButton } from './button';
-import { iconNames } from './icon';
 
 export default {
-  title: 'Components/Button',
+  title: 'Components/Actions/Button',
   component: Button,
   args: {
     children: 'Button',

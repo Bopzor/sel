@@ -1,0 +1,30 @@
+import { Controls, Meta, Primary, Stories } from '@storybook/addon-docs/blocks';
+
+import * as CardStories from './card.stories';
+
+<Meta of={CardStories} />
+
+# Card
+
+A rounded surface that groups content, with an optional title, header action and footer actions.
+
+## When to use it
+
+- For a post in a feed, a profile block, a summary (balance).
+- With `href` or `onClick`, the whole card becomes clickable (`shadow-md` on hover, focus ring): the title becomes the link or button, and covers the card. In that case, a title is required and there are no buttons inside.
+- `flush` removes the padding, to hold a list (`ListItem`).
+
+## What the consumer provides
+
+- `title`, `subtitle` (author, date), `headingLevel` (2, 3 or 4; 3 by default, to adjust to the page hierarchy).
+- `action`: a badge or an icon button at the top right.
+- `footer`: one or two buttons.
+- `children`: the content.
+
+Do not nest cards.
+
+<Primary />
+
+<Controls />
+
+<Stories includePrimary={false} />

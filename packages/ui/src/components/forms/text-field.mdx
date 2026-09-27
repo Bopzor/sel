@@ -1,0 +1,35 @@
+import { Controls, Meta, Primary, Stories } from '@storybook/addon-docs/blocks';
+
+import * as TextFieldStories from './text-field.stories';
+
+<Meta of={TextFieldStories} />
+
+# TextField
+
+A single-line input, with an always-visible label, an optional hint and an error message that explains how to fix it.
+
+## When to use it
+
+For any short input: title, email, phone, amount, search, password.
+
+## What the consumer provides
+
+- `label`: required and visible. The placeholder never replaces the label.
+- `hint`: help shown under the label, before the field, so that it is read before typing.
+- `error`: a message that says what to do ("The end of the address is missing, for example marie.dupont@example.com"), never just "Invalid format". Shown with an icon, linked to the field with `aria-errormessage` and announced when it appears (Ark's `Field`).
+- `value` + `onChange(value)`.
+- `icon`, `prefix`, `suffix`: an icon or a unit inside the field ("units").
+- The HTML props of `<input>`. Use `inputMode` and `autoComplete` (`email`, `tel`, `numeric`) to show the right keyboard on mobile.
+
+## Rules
+
+- Text size 17px: below 16px, iOS zooms into the field.
+- Validate when leaving the field or on submit, never on every keystroke.
+- A single field per row on mobile.
+- On focus, the field's box shows the focus ring over its border (`focus-within:focus-ring-field`), with the mouse as with the keyboard. In error, the border stays `border-danger` under the ring.
+
+<Primary />
+
+<Controls />
+
+<Stories includePrimary={false} />

@@ -200,10 +200,6 @@
   --text-color-on-danger: light-dark(#ffffff, var(--neutral-950));
   --text-color-info: light-dark(var(--blue-700), var(--blue-300));
   --text-color-on-info: light-dark(#ffffff, var(--neutral-950));
-  --text-color-inverse-primary: light-dark(var(--brand-300), var(--brand-700));
-  --text-color-inverse-success: light-dark(var(--green-300), var(--green-700));
-  --text-color-inverse-danger: light-dark(var(--red-300), var(--red-700));
-  --text-color-inverse-info: light-dark(var(--blue-300), var(--blue-700));
   --text-color-on-switch-thumb: var(--brand-700);
   --text-color-avatar: light-dark(var(--brand-800), var(--brand-50));
 
@@ -284,6 +280,10 @@
   --text-button-sm--line-height: 1.25;
   --text-button-sm--font-weight: 600;
 
+  --text-toast: 0.9375rem;
+  --text-toast--line-height: 1.5;
+  --text-toast--font-weight: 500;
+
   --text-amount: 2rem;
   --text-amount--line-height: 1.1;
   --text-amount--font-weight: 700;
@@ -321,6 +321,8 @@
   --size-avatar-md: 2.75rem;
   --size-avatar-lg: 5rem;
 
+  --size-logo: 2.75rem;
+
   --width-sidebar: 17.5rem;
 
   /* Spacing feeds both min-h-bottom-nav (the bar) and pb-bottom-nav (the content). */
@@ -352,10 +354,65 @@
   --default-transition-timing-function: var(--ease-standard);
 
   --animate-spin: spin 0.8s linear infinite;
+  --animate-pulse: pulse 1.6s ease-in-out infinite;
 
   @keyframes spin {
     to {
       transform: rotate(360deg);
+    }
+  }
+
+  @keyframes pulse {
+    50% {
+      opacity: 0.5;
+    }
+  }
+
+  /* Opening and closing of a dialog: the scrim fades, the sheet slides from the bottom on mobile, the window fades
+     and grows from md. Leaving is shorter than entering; forwards keeps the end state until Ark UI unmounts it. Each
+     way has its own keyframes: Ark only waits for a leaving animation whose name differs from the entering one. */
+  --animate-overlay-in: fade-in var(--duration-slow) var(--ease-enter);
+  --animate-overlay-out: fade-out var(--duration-base) var(--ease-exit) forwards;
+  --animate-sheet-in: sheet-in var(--duration-slow) var(--ease-enter);
+  --animate-sheet-out: sheet-out var(--duration-base) var(--ease-exit) forwards;
+  --animate-dialog-in: dialog-in var(--duration-slow) var(--ease-enter);
+  --animate-dialog-out: dialog-out var(--duration-base) var(--ease-exit) forwards;
+
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+  }
+
+  @keyframes sheet-in {
+    from {
+      translate: 0 100%;
+    }
+  }
+
+  @keyframes fade-out {
+    to {
+      opacity: 0;
+    }
+  }
+
+  @keyframes sheet-out {
+    to {
+      translate: 0 100%;
+    }
+  }
+
+  @keyframes dialog-in {
+    from {
+      opacity: 0;
+      scale: 0.96;
+    }
+  }
+
+  @keyframes dialog-out {
+    to {
+      opacity: 0;
+      scale: 0.96;
     }
   }
 }
@@ -372,14 +429,26 @@
   transition-duration: var(--duration-slow);
 }
 
+/* Keeps a bar fixed at the bottom of the screen clear of the phone's home indicator. */
+@utility pb-safe-area {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
 /* The focus ring, for an element that shows the focus of another one (a custom checkbox box, for example). */
 @utility focus-ring {
   outline: var(--outline-width-focus) solid var(--outline-color-focus);
   outline-offset: var(--outline-offset-focus);
 }
 
-/* The focus ring of an input field, without offset, on the field's box: focus-within:focus-ring-field. */
+/* The focus ring of an input field, on the field's box: focus-within:focus-ring-field. Drawn 1px inward, over the
+   box's 1px border, so that the border's color (red in error) does not show between the ring and the content. */
 @utility focus-ring-field {
   outline: var(--outline-width-focus) solid var(--outline-color-focus);
-  outline-offset: 0;
+  outline-offset: -1px;
+}
+
+/* The focus ring drawn inside the element, for a row whose container clips its overflow (a list in a card). */
+@utility focus-ring-inset {
+  outline: var(--outline-width-focus) solid var(--outline-color-focus);
+  outline-offset: calc(-1 * var(--outline-width-focus));
 }

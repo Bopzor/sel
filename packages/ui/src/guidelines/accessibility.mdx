@@ -23,7 +23,7 @@ The target is WCAG 2.2 level AA across every screen, and level AAA when it costs
 
 - Tab order matches reading order. The focus ring is always visible (`:focus-visible`).
 - Each page has a single `h1` and a heading hierarchy without gaps. Regions are marked up (`header`, `nav`, `main`).
-- Every field has a visible `label`; hints and errors are linked with `aria-describedby`.
+- Every field has a visible `label`; hints and errors are linked to it (`aria-describedby`, `aria-errormessage`), as Ark's `Field` and `Fieldset` do.
 - Icon buttons have an `aria-label`. Decorative icons are hidden (`aria-hidden`).
 - Messages that appear without a user action are announced (`role="status"`, `role="alert"` for errors).
 - Dialogs: focus trapped, closed with Escape, focus returned to the element that opened them.

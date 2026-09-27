@@ -1,0 +1,27 @@
+import { Controls, Meta, Primary, Stories } from '@storybook/addon-docs/blocks';
+
+import * as SkeletonStories from './skeleton.stories';
+
+<Meta of={SkeletonStories} />
+
+# Skeleton
+
+An animated gray shape that holds the place of content while it loads.
+
+## When to use it
+
+For loads longer than 300 ms of a list or a card whose shape is known. For a one-off action, use `loading` on the `Button`.
+
+## Props
+
+- `variant`: `text` (a line, as wide as its container), `circle` (avatar), `rect` (a block).
+- `size`: the size of a circle, `sm`, `md` or `lg`, as the `Avatar` sizes.
+- The width of a line and the height of a block are set with `className` (`w-1/2`, `h-24`).
+
+The animation stops under `prefers-reduced-motion`. The parent container has `aria-busy="true"`.
+
+<Primary />
+
+<Controls />
+
+<Stories includePrimary={false} />

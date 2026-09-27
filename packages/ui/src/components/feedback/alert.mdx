@@ -1,0 +1,28 @@
+import { Controls, Meta, Primary, Stories } from '@storybook/addon-docs/blocks';
+
+import * as AlertStories from './alert.stories';
+
+<Meta of={AlertStories} />
+
+# Alert
+
+An in-page message, in four tones, with an icon, a title, text and optional actions.
+
+## When to use it
+
+- `info`: useful detail about the current screen.
+- `success`: a confirmation that must stay visible because it contains information to remember or a next step. For a simple confirmation, use `Toast`.
+- `warning`: a risk to know before acting (low balance).
+- `danger`: a blocking error. Say what happened and what to do, without technical codes.
+
+## What the consumer provides
+
+- `tone`, `title` (a short sentence), `children` (explanation), `actions` (an `sm` button), `onClose` if the message can be dismissed, with `closeLabel`, the accessible name of the close button.
+
+The `danger` tone is announced immediately (`role="alert"`), the others politely (`role="status"`). The meaning never relies on color alone: the icon and the title carry it too.
+
+<Primary />
+
+<Controls />
+
+<Stories includePrimary={false} />

@@ -1,0 +1,30 @@
+import { Controls, Meta, Primary, Stories } from '@storybook/addon-docs/blocks';
+
+import * as CheckboxStories from './checkbox.stories';
+
+<Meta of={CheckboxStories} />
+
+# Checkbox
+
+A 24px checkbox whose whole row is clickable, with an optional description.
+
+## When to use it
+
+- For options independent from one another, or an acceptance (charter, terms).
+- For a setting that applies immediately, prefer `Switch`.
+
+## What the consumer provides
+
+- `label`: an affirmative sentence that describes the checked state ("Show my phone number").
+- `description`: consequence or detail, in `text-muted`.
+- `checked` + `onChange(checked)`.
+- `error`: when a required box is not checked, what to do ("Accept the terms to continue"). Shown with an icon under the box, which turns `border-danger`, and linked to it like a field's error.
+- The HTML props of `<input type="checkbox">` (`name`, `value`, `required`, `disabled`…), passed to the native input that Ark UI keeps visually hidden.
+
+The box is 24px, the hit area 44px high: stack checkboxes in a `flex flex-col gap-4`.
+
+<Primary />
+
+<Controls />
+
+<Stories includePrimary={false} />

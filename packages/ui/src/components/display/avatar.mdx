@@ -1,0 +1,28 @@
+import { Controls, Meta, Primary, Stories } from '@storybook/addon-docs/blocks';
+
+import * as AvatarStories from './avatar.stories';
+
+<Meta of={AvatarStories} />
+
+# Avatar
+
+A member's photo or initials, in a circle, in three sizes.
+
+## When to use it
+
+Next to a member's name: lists (`md`, 44px), comments (`sm`, 32px), profile page (`lg`, 80px).
+
+## Props
+
+- `name`: used for the initials and the accessible name.
+- `src`: optional photo.
+- `decorative`: set it when the name is already written right next to it, so that it is not read twice.
+- `size`: `sm`, `md`, `lg`.
+
+Without a photo, the initials are shown in `text-avatar` on `bg-avatar`, the same for every member: the name next to the avatar is what identifies the member, not a color.
+
+<Primary />
+
+<Controls />
+
+<Stories includePrimary={false} />

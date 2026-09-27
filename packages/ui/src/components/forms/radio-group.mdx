@@ -1,0 +1,32 @@
+import { Controls, Meta, Primary, Stories } from '@storybook/addon-docs/blocks';
+
+import * as RadioGroupStories from './radio-group.stories';
+
+<Meta of={RadioGroupStories} />
+
+# RadioGroup
+
+A group of radio buttons in a `fieldset`, as a simple list or as cards with a description.
+
+## When to use it
+
+- For a single choice among two to five options, all visible.
+- `variant="cards"` for a structuring choice that needs an explanation (post type, exchange mode): each option becomes a large hit area.
+
+## What the consumer provides
+
+- `label`: the question, rendered as a `legend` ("Who can see this request?").
+- `options`: `{ value, label, description?, disabled? }`.
+- `value` + `onChange(value)`; `value` is `null` while no option is chosen.
+- `hint`, `error`, like the fields: the hint under the question, the error with an icon under the options. Both are linked to the group with `aria-describedby` (Ark's `Fieldset`), and an error marks every option as invalid.
+- `required`, `disabled`, `name`, and the HTML props of `<fieldset>`.
+
+Offer a default option when one answer is clearly the most common.
+
+The circles are 24px, the hit area 44px high. A chosen card has a `border-primary` border thickened from the inside and a `bg-primary-subtle` background.
+
+<Primary />
+
+<Controls />
+
+<Stories includePrimary={false} />

@@ -1,0 +1,33 @@
+import { Controls, Meta, Primary, Stories } from '@storybook/addon-docs/blocks';
+
+import * as ToastStories from './toast.stories';
+
+<Meta of={ToastStories} />
+
+# Toast
+
+A short, temporary notification at the bottom of the screen, to confirm an action.
+
+## When to use it
+
+- To confirm an action ("Request posted"), including when it leads to another page: the toast container lives at the root of the application and survives navigation.
+- Never for a blocking error or information to remember (deadline, next step): use `Alert`.
+
+## What the consumer provides
+
+- `children`: three to six words.
+- `tone`: `success` (default), `info`, `danger`.
+- `onClose` + `closeLabel`: a close button, named by `closeLabel`.
+
+## Rules
+
+`Toast` is only the rendering. The application's toast library shows, queues, places and dismisses the toasts, and announces them to screen readers from its live region; it is configured to follow these rules:
+
+- Shown for 6 seconds minimum; the timer pauses on hover or focus.
+- Position: centered at the bottom on mobile, above the navigation bar; bottom right on desktop. One toast at a time.
+
+<Primary />
+
+<Controls />
+
+<Stories includePrimary={false} />

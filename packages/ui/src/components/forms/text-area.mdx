@@ -1,0 +1,28 @@
+import { Controls, Meta, Primary, Stories } from '@storybook/addon-docs/blocks';
+
+import * as TextAreaStories from './text-area.stories';
+
+<Meta of={TextAreaStories} />
+
+# TextArea
+
+A multi-line text input, with the same label, hint and error as `TextField`.
+
+## When to use it
+
+For the description of a request, a comment, a profile presentation.
+
+## What the consumer provides
+
+- `label`, `hint`, `error`, like `TextField`.
+- `value` + `onChange(value)`.
+- `rows`: 4 by default; the user can enlarge it vertically.
+- The HTML props of `<textarea>` (`maxLength`, `placeholder`…).
+
+The textarea has the same border, focus ring and states as `TextField`'s box.
+
+<Primary />
+
+<Controls />
+
+<Stories includePrimary={false} />

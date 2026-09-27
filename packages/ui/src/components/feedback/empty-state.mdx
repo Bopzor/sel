@@ -1,0 +1,26 @@
+import { Controls, Meta, Primary, Stories } from '@storybook/addon-docs/blocks';
+
+import * as EmptyStateStories from './empty-state.stories';
+
+<Meta of={EmptyStateStories} />
+
+# EmptyState
+
+An empty screen or block that explains what will appear here and offers the first action.
+
+## When to use it
+
+When a list is empty (no request, no exchange, a search with no result).
+
+## What the consumer provides
+
+- `icon`: the icon of the content type.
+- `title`: what is missing, in one sentence.
+- `children`: why, or what will happen.
+- `action`: a `Button` that helps get out of it (post, broaden the search).
+
+<Primary />
+
+<Controls />
+
+<Stories includePrimary={false} />

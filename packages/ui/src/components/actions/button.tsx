@@ -2,7 +2,8 @@ import clsx from 'clsx';
 import { cva } from 'cva';
 import type { ComponentProps, MouseEvent, ReactNode } from 'react';
 
-import { Icon, type IconName } from './icon';
+import { Icon, type IconName } from '../display/icon';
+
 import { Spinner } from './spinner';
 
 type ButtonAppearance = {
@@ -42,10 +43,10 @@ export function Button({
     <button
       type="button"
       {...props}
-      className={buttonStyles({ variant: blocked ? 'disabled' : variant, size, className })}
       aria-disabled={blocked || undefined}
       data-loading={loading || undefined}
       onClick={handleClick}
+      className={buttonStyles({ variant: blocked ? 'disabled' : variant, size, className })}
     >
       <ButtonContent size={size} icon={icon} iconEnd={iconEnd} loading={loading}>
         {children}
@@ -107,7 +108,8 @@ const buttonStyles = cva(
         secondary: [interactive, 'border-strong bg-surface text-default hover:bg-surface-hover'],
         ghost: [interactive, 'border-transparent bg-transparent text-primary hover:bg-primary-subtle'],
         danger: [interactive, 'border-transparent bg-danger text-on-danger hover:bg-danger-hover'],
-        disabled: 'cursor-not-allowed border-transparent bg-disabled text-disabled data-loading:cursor-progress',
+        disabled:
+          'cursor-not-allowed border-transparent bg-disabled text-disabled data-loading:cursor-progress',
       },
       size: {
         sm: 'min-h-control-sm px-4 text-button-sm',

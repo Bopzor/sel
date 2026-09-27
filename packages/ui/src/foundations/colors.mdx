@@ -32,8 +32,8 @@ Components only use semantic tokens. When a component needs a color no token cov
 | `bg-surface-sunken`                  | `neutral-100`             | `dark-0`            | Recessed area.                                                                   |
 | `bg-surface-hover`                   | `neutral-100`             | `dark-3`            | Hover or press of a neutral element (list row, secondary button, tab).           |
 | `bg-overlay`                         | `rgb(33 31 28 / 0.48)`    | `rgb(0 0 0 / 0.64)` | Scrim behind a dialog or a sheet.                                                |
-| `bg-inverse`                         | `neutral-900`             | `neutral-100`       | Toasts and tooltips, opposite to the theme.                                      |
-| `bg-inverse-hover`                   | `rgb(255 255 255 / 0.12)` | `rgb(0 0 0 / 0.08)` | Hover of a button on `bg-inverse`.                                               |
+| `bg-inverse`                         | `neutral-900`             | `neutral-100`       | Tooltips, opposite to the theme.                                                 |
+| `bg-inverse-hover`                   | `rgb(255 255 255 / 0.12)` | `rgb(0 0 0 / 0.08)` | Hover of a button on `bg-inverse` or on a solid status background (toast).       |
 | `bg-disabled`                        | `neutral-100`             | `dark-0`            | Disabled control.                                                                |
 | `bg-primary`                         | `brand-600`               | `brand-400`         | Main action: primary button, checked box, switch on, active tab underline.       |
 | `bg-primary-hover`                   | `brand-700`               | `brand-300`         | `bg-primary` on hover.                                                           |
@@ -42,7 +42,7 @@ Components only use semantic tokens. When a component needs a color no token cov
 | `bg-primary-subtle-hover`            | `brand-100`               | `brand-900`         | `bg-primary-subtle` on hover.                                                    |
 | `bg-accent`                          | `accent-300`              | `accent-300`        | Warm highlight: "New" badge, illustration dot.                                   |
 | `bg-accent-subtle`                   | `accent-50`               | `accent-950`        | Help box, tip.                                                                   |
-| `bg-success`, `bg-danger`, `bg-info` | `*-600`                   | `*-400`             | Solid status background (badge dot, count pill, danger button).                  |
+| `bg-success`, `bg-danger`, `bg-info` | `*-600`                   | `*-400`             | Solid status background (toast, badge dot, count pill, danger button).           |
 | `bg-warning`                         | `amber-300`               | `amber-300`         | Solid warning background.                                                        |
 | `bg-danger-hover`                    | `red-700`                 | `red-300`           | Danger button on hover.                                                          |
 | `bg-{status}-subtle`                 | `*-50`                    | `*-950`             | Status alert or badge.                                                           |
@@ -55,24 +55,22 @@ Components only use semantic tokens. When a component needs a color no token cov
 
 ## Text
 
-| Utility                                                            | Light         | Dark          | Usage                                                                                                 |
-| ------------------------------------------------------------------ | ------------- | ------------- | ----------------------------------------------------------------------------------------------------- |
-| `text-default`                                                     | `neutral-950` | `neutral-50`  | Main text on `bg-page`, `bg-surface` and `bg-surface-raised` (≥ 15:1).                                |
-| `text-muted`                                                       | `neutral-700` | `neutral-300` | Descriptions, metadata, hints (≥ 6.5:1 on `bg-page` and `bg-surface`).                                |
-| `text-subtle`                                                      | `neutral-600` | `neutral-400` | Placeholders and tertiary text. Passes 4.5:1 on every surface.                                        |
-| `text-disabled`                                                    | `neutral-500` | `neutral-600` | Text of a disabled control only (exempt from contrast, always paired with an explanation).            |
-| `text-inverse`                                                     | `neutral-50`  | `neutral-950` | Text on `bg-inverse`.                                                                                 |
-| `text-primary`                                                     | `brand-700`   | `brand-300`   | Brand-colored text and icons on surfaces or `bg-primary-subtle`: links, ghost button, active element. |
-| `text-on-primary`                                                  | `#ffffff`     | `neutral-950` | Text and icons on `bg-primary` (≈ 5:1 light, ≈ 7:1 dark).                                             |
-| `text-accent`                                                      | `accent-700`  | `accent-300`  | Accent text on `bg-surface` or `bg-accent-subtle`.                                                    |
-| `text-on-accent`                                                   | `neutral-950` | `neutral-950` | Text on `bg-accent` (≈ 9:1).                                                                          |
-| `text-success`, `text-warning`, `text-danger`, `text-info`         | `*-700`       | `*-300`       | Status text and icon on `bg-{status}-subtle`, `bg-surface` or `bg-page` (≥ 6:1).                      |
-| `text-on-success`, `text-on-danger`, `text-on-info`                | `#ffffff`     | `neutral-950` | Text on the solid status background.                                                                  |
-| `text-on-warning`                                                  | `neutral-950` | `neutral-950` | Text on `bg-warning`.                                                                                 |
-| `text-inverse-primary`                                             | `brand-300`   | `brand-700`   | Action ("Undo") on `bg-inverse`.                                                                      |
-| `text-inverse-success`, `text-inverse-danger`, `text-inverse-info` | `*-300`       | `*-700`       | Status icon on `bg-inverse`.                                                                          |
-| `text-on-switch-thumb`                                             | `brand-700`   | `brand-700`   | Check mark in the thumb of a switch that is on.                                                       |
-| `text-avatar`                                                      | `brand-800`   | `brand-50`    | Initials on `bg-avatar`.                                                                              |
+| Utility                                                    | Light         | Dark          | Usage                                                                                                 |
+| ---------------------------------------------------------- | ------------- | ------------- | ----------------------------------------------------------------------------------------------------- |
+| `text-default`                                             | `neutral-950` | `neutral-50`  | Main text on `bg-page`, `bg-surface` and `bg-surface-raised` (≥ 15:1).                                |
+| `text-muted`                                               | `neutral-700` | `neutral-300` | Descriptions, metadata, hints (≥ 6.5:1 on `bg-page` and `bg-surface`).                                |
+| `text-subtle`                                              | `neutral-600` | `neutral-400` | Placeholders and tertiary text. Passes 4.5:1 on every surface.                                        |
+| `text-disabled`                                            | `neutral-500` | `neutral-600` | Text of a disabled control only (exempt from contrast, always paired with an explanation).            |
+| `text-inverse`                                             | `neutral-50`  | `neutral-950` | Text on `bg-inverse`.                                                                                 |
+| `text-primary`                                             | `brand-700`   | `brand-300`   | Brand-colored text and icons on surfaces or `bg-primary-subtle`: links, ghost button, active element. |
+| `text-on-primary`                                          | `#ffffff`     | `neutral-950` | Text and icons on `bg-primary` (≈ 5:1 light, ≈ 7:1 dark).                                             |
+| `text-accent`                                              | `accent-700`  | `accent-300`  | Accent text on `bg-surface` or `bg-accent-subtle`.                                                    |
+| `text-on-accent`                                           | `neutral-950` | `neutral-950` | Text on `bg-accent` (≈ 9:1).                                                                          |
+| `text-success`, `text-warning`, `text-danger`, `text-info` | `*-700`       | `*-300`       | Status text and icon on `bg-{status}-subtle`, `bg-surface` or `bg-page` (≥ 6:1).                      |
+| `text-on-success`, `text-on-danger`, `text-on-info`        | `#ffffff`     | `neutral-950` | Text on the solid status background.                                                                  |
+| `text-on-warning`                                          | `neutral-950` | `neutral-950` | Text on `bg-warning`.                                                                                 |
+| `text-on-switch-thumb`                                     | `brand-700`   | `brand-700`   | Check mark in the thumb of a switch that is on.                                                       |
+| `text-avatar`                                              | `brand-800`   | `brand-50`    | Initials on `bg-avatar`.                                                                              |
 
 ## Lines
 

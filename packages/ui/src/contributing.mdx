@@ -23,9 +23,10 @@ The simplest solution that meets today's needs wins. Simple code is easier to re
 
 ## Files
 
-- `src/components/<name>.tsx`: the component, named in kebab-case, one public component per file (private sub-components may live next to it).
-- `src/components/<name>.stories.tsx`: its stories, with the same examples as the guideline: every variant, every state, and the realistic use cases. Stories use generic English text ("Save", "Cancel", "Title"), not the application's content.
-- `src/components/<name>.mdx`: its guideline, which is also its Storybook page. Once the component exists, the page attaches to its stories (`<Meta of={…} />`) and shows them with the props table, after the guideline (see `button.mdx`).
+- Components are grouped by role, the same groups as in the [Introduction](?path=/docs/introduction--docs): `actions`, `forms`, `display`, `feedback` and `navigation`.
+- `src/components/<group>/<name>.tsx`: the component, named in kebab-case, one public component per file (private sub-components may live next to it).
+- `src/components/<group>/<name>.stories.tsx`: its stories, titled `Components/<Group>/<Name>`, with the same examples as the guideline: every variant, every state, and the realistic use cases. Stories use generic English text ("Save", "Cancel", "Title"), not the application's content.
+- `src/components/<group>/<name>.mdx`: its guideline, which is also its Storybook page. Once the component exists, the page attaches to its stories (`<Meta of={…} />`) and shows them with the props table, after the guideline (see `button.mdx`).
 - The design system's other pages (foundations, guidelines) are `.mdx` files in `src/` too, each one next to the code it documents when there is some.
 - The component and its props type are exported from `src/index.ts`.
 
@@ -47,15 +48,16 @@ The simplest solution that meets today's needs wins. Simple code is easier to re
 ## Props
 
 - Props extend the props of the rendered element (`ComponentProps<'button'>`) and are passed through to it, so that `id`, `aria-*`, `data-*`, event handlers and `ref` work as on the native element. React 19 passes `ref` as a regular prop: no `forwardRef`.
-- Prop names follow the guideline, and HTML names when they exist (`disabled`, `checked`, `defaultValue`), never an alias.
-- A component whose state the consumer may need to control accepts both forms: controlled (`value` + `onChange`, `checked` + `onCheckedChange`…) and uncontrolled (`defaultValue`…).
+- Prop names follow the guideline, and HTML names when they exist (`disabled`, `checked`, `value`), never an alias.
+- Stateful components are controlled only: the consumer holds the state and passes it with its setter (`value` + `onChange`, `checked` + `onChange`…). No uncontrolled form (`defaultValue`, `defaultChecked`…).
 - Booleans default to `false` and are named after the non-default state (`disabled`, `loading`, `optional`).
 - Icons are passed as concept names (`icon="send"`), never as elements.
+- Components contain no text of their own: every word shown or read by a screen reader (a close button's name, "Step 2 of 3") is a prop, written in the application's language by the consumer.
 - No `asChild` or polymorphic `as` prop: a component that can also be a link comes as a second component that renders an `<a>` (`Button` and `LinkButton`), sharing its styles.
 
 ## Behavior and accessibility
 
-- Interactive components with a behavior beyond a native element (Dialog, Tabs, Switch, RadioGroup, Checkbox, Select, Toast…) are built on [Ark UI](https://ark-ui.com/react): focus management, keyboard navigation and ARIA come from it, and the component only adds the design system's rendering. The rendering is styled through Ark's `data-*` state attributes (`data-state="checked"`, `data-disabled`…).
-- A plain element (`<button>`, `<input>`) stays native when it is enough.
-- Every guideline rule about accessibility is implemented, not left to the consumer: accessible names, `aria-describedby` for hints and errors, announcements, focus return.
+- Components are built on [Ark UI](https://ark-ui.com/react) as much as possible, the interactive ones (Dialog, Tabs, Switch, RadioGroup, Checkbox, Select, Toast…) and the form structure alike (`Field` for a field's label, hint and error, `Fieldset` for a group): focus management, keyboard navigation, ids and ARIA come from it, and the component only adds the design system's rendering. The rendering is styled through Ark's `data-*` state attributes (`data-state="checked"`, `data-disabled`…).
+- A plain element (`<button>`, `<a>`) stays native when Ark has no part for it.
+- Every guideline rule about accessibility is implemented, not left to the consumer: accessible names, links to hints and errors, announcements, focus return.
 - Check each story with the keyboard only, and at 200% zoom.

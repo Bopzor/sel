@@ -1,0 +1,28 @@
+import { Controls, Meta, Primary, Stories } from '@storybook/addon-docs/blocks';
+
+import * as TabsStories from './tabs.stories';
+
+<Meta of={TabsStories} />
+
+# Tabs
+
+Tabs to switch between views of the same content, horizontally scrollable on mobile.
+
+## When to use it
+
+For two to five views of the same level (Requests / Events / Information). Not to chain steps: use `Stepper`.
+
+## Props
+
+- `items`: `{ value, label }`.
+- `value` + `onChange(value)`.
+- `label`: accessible name of the tab list.
+- `children`: the view of the active tab, rendered in its tab panel.
+
+Height 48px, active tab in `text-primary` with a 3px `bg-primary` underline. Built on Ark UI: arrow keys move between tabs, and the active tab is linked to its panel.
+
+<Primary />
+
+<Controls />
+
+<Stories includePrimary={false} />

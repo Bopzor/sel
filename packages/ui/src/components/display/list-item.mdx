@@ -1,0 +1,27 @@
+import { Controls, Meta, Primary, Stories } from '@storybook/addon-docs/blocks';
+
+import * as ListItemStories from './list-item.stories';
+
+<Meta of={ListItemStories} />
+
+# ListItem
+
+A list row of at least 64px, with a leading element, a title, a description of two lines at most and a trailing element (metadata or chevron).
+
+## When to use it
+
+For lists of members, exchanges, notifications, settings. Rows go in a `ul`, usually inside a flush `Card`; a `border-default` separator divides them.
+
+## What the consumer provides
+
+- `title`, `description`.
+- `leading`: an `Avatar` or an `Icon`.
+- `trailing`: badge, amount, date.
+- `chevron`: shows that the row opens a detail.
+- `href` or `onClick` make the whole row clickable: the title becomes the link or button, and covers the row.
+
+<Primary />
+
+<Controls />
+
+<Stories includePrimary={false} />

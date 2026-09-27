@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 
-import { iconSizes, type IconSize } from './icon';
+import { iconSizes, type IconSize } from '../display/icon';
 
 type SpinnerProps = {
   size?: IconSize;

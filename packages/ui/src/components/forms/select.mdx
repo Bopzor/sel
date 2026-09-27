@@ -1,0 +1,29 @@
+import { Controls, Meta, Primary, Stories } from '@storybook/addon-docs/blocks';
+
+import * as SelectStories from './select.stories';
+
+<Meta of={SelectStories} />
+
+# Select
+
+A closed list of choices, built on the native `<select>` to keep the system picker on mobile.
+
+## When to use it
+
+To choose a value among more than five known options (category, town). Up to five options, `RadioGroup` shows everything at a glance and takes one gesture less.
+
+## What the consumer provides
+
+- `label`, `hint`, `error`, like `TextField`.
+- `options`: a list of `{ value, label }`.
+- `placeholder`: adds a first, non-selectable option ("Choose a category"), shown while nothing is chosen.
+- `value` + `onChange(value)`; `value` is `null` while nothing is chosen, which needs a `placeholder`.
+- The HTML props of `<select>` (`name`, `autoComplete`…).
+
+The select has the same border, focus ring and states as `TextField`'s box, with a `chevron-down` icon in place of the native arrow.
+
+<Primary />
+
+<Controls />
+
+<Stories includePrimary={false} />

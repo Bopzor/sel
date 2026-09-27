@@ -1,0 +1,28 @@
+import { Controls, Meta, Primary, Stories } from '@storybook/addon-docs/blocks';
+
+import * as SwitchStories from './switch.stories';
+
+<Meta of={SwitchStories} />
+
+# Switch
+
+A toggle for a setting that takes effect immediately, with its label on the left and a check mark visible in the thumb when it is on.
+
+## When to use it
+
+In settings: notifications, visibility of a piece of information, dark mode. In a form submitted with a button, use `Checkbox`.
+
+## What the consumer provides
+
+- `label`: the name of the setting, which can wrap over several lines.
+- `description`: what the setting concretely changes.
+- `checked` + `onChange(checked)`, `disabled`.
+- The HTML props of `<input type="checkbox">` (`name`…), passed to the native input that Ark UI keeps visually hidden.
+
+The element has `role="switch"`; the on state does not rely on color alone (position and check mark). The track is 52 × 32px, the hit area 44px high and as wide as the row: stack switches in a `flex flex-col gap-6`.
+
+<Primary />
+
+<Controls />
+
+<Stories includePrimary={false} />
