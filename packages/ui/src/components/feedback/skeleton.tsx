@@ -1,12 +1,18 @@
 import { cva } from 'cva';
 import type { ComponentProps } from 'react';
 
-export type SkeletonProps = Omit<ComponentProps<'div'>, 'children'> & {
-  /** text: a line, as wide as its container. circle: an avatar placeholder, of the avatar sizes. rect: a block. */
-  variant?: 'text' | 'circle' | 'rect';
-  /** Size of a circle, matching the Avatar sizes. */
-  size?: 'sm' | 'md' | 'lg';
-};
+import type { Override } from '../../utils';
+
+export type SkeletonProps = Override<
+  ComponentProps<'div'>,
+  {
+    children?: never;
+    /** text: a line, as wide as its container. circle: an avatar placeholder, of the avatar sizes. rect: a block. */
+    variant?: 'text' | 'circle' | 'rect';
+    /** Size of a circle, matching the Avatar sizes. */
+    size?: 'sm' | 'md' | 'lg';
+  }
+>;
 
 export function Skeleton({ variant = 'text', size = 'md', className, ...props }: SkeletonProps) {
   return (

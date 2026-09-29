@@ -5,23 +5,28 @@ import type { ComponentProps, ReactNode } from 'react';
 
 import { IconButton } from '../actions/icon-button';
 
-export type DialogProps = Omit<ComponentProps<'div'>, 'title'> & {
-  open: boolean;
-  /** Called by the close button, a click on the scrim and the Escape key. */
-  onClose: () => void;
-  /** The question, which repeats the action ("Send 20 units to Lucas Petit?"). */
-  title: ReactNode;
-  /** The concrete consequences. */
-  description?: ReactNode;
-  /** Buttons, the main action first. */
-  actions: ReactNode;
-  /** Accessible name of the close button, in the application's language. */
-  closeLabel: string;
-  /** A destructive confirmation: role="alertdialog", and a click on the scrim does not close it. */
-  alert?: boolean;
-  /** The element focused on close, when it is not the button that opened the dialog. */
-  finalFocus?: () => HTMLElement | null;
-};
+import type { Override } from '../../utils';
+
+export type DialogProps = Override<
+  ComponentProps<'div'>,
+  {
+    open: boolean;
+    /** Called by the close button, a click on the scrim and the Escape key. */
+    onClose: () => void;
+    /** The question, which repeats the action ("Send 20 units to Lucas Petit?"). */
+    title: ReactNode;
+    /** The concrete consequences. */
+    description?: ReactNode;
+    /** Buttons, the main action first. */
+    actions: ReactNode;
+    /** Accessible name of the close button, in the application's language. */
+    closeLabel: string;
+    /** A destructive confirmation: role="alertdialog", and a click on the scrim does not close it. */
+    alert?: boolean;
+    /** The element focused on close, when it is not the button that opened the dialog. */
+    finalFocus?: () => HTMLElement | null;
+  }
+>;
 
 export function Dialog({
   open,

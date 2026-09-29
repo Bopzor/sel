@@ -2,16 +2,21 @@ import { Switch as ArkSwitch } from '@ark-ui/react/switch';
 import clsx from 'clsx';
 import { useId, type ComponentProps, type ReactNode } from 'react';
 
-import { definedAttributes } from '../../utils';
+import { definedAttributes, type Override } from '../../utils';
 import { Icon } from '../display/icon';
 
-export type SwitchProps = Omit<ComponentProps<'input'>, 'type' | 'value' | 'children'> & {
-  /** The name of the setting. */
-  label: ReactNode;
-  /** What the setting concretely changes. */
-  description?: ReactNode;
-  value?: string;
-};
+export type SwitchProps = Override<
+  ComponentProps<'input'>,
+  {
+    type?: never;
+    children?: never;
+    /** The name of the setting. */
+    label: ReactNode;
+    /** What the setting concretely changes. */
+    description?: ReactNode;
+    value?: string;
+  }
+>;
 
 export function Switch({
   label,
@@ -86,6 +91,6 @@ const switchTrackStyles = clsx(
 // The check mark is only visible when the switch is on.
 const switchThumbStyles = clsx(
   'flex size-6 items-center justify-center rounded-full bg-switch-thumb text-on-switch-thumb shadow-sm transition',
-  'data-[state=checked]:translate-x-5 data-disabled:text-disabled',
+  'data-disabled:text-disabled data-[state=checked]:translate-x-5',
   '*:opacity-0 *:transition data-[state=checked]:*:opacity-100',
 );

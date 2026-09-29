@@ -3,12 +3,18 @@ import type { ComponentProps, MouseEvent } from 'react';
 
 import { Icon, type IconName } from '../display/icon';
 
-export type ChipProps = Omit<ComponentProps<'button'>, 'disabled' | 'onChange'> & {
-  selected?: boolean;
-  onChange?: (selected: boolean) => void;
-  /** Shown when the chip is not selected; a selected chip shows a check mark. */
-  icon?: IconName;
-};
+import type { Override } from '../../utils';
+
+export type ChipProps = Override<
+  ComponentProps<'button'>,
+  {
+    disabled?: never;
+    selected?: boolean;
+    onChange?: (selected: boolean) => void;
+    /** Shown when the chip is not selected; a selected chip shows a check mark. */
+    icon?: IconName;
+  }
+>;
 
 export function Chip({
   selected = false,

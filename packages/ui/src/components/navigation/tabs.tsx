@@ -2,21 +2,27 @@ import { Tabs as ArkTabs } from '@ark-ui/react/tabs';
 import clsx from 'clsx';
 import type { ComponentProps, ReactNode } from 'react';
 
+import type { Override } from '../../utils';
+
 export type TabsItem = {
   value: string;
   label: string;
 };
 
-export type TabsProps = Omit<ComponentProps<'div'>, 'onChange' | 'defaultValue' | 'children'> & {
-  /** Two to five views. */
-  items: TabsItem[];
-  value: string;
-  onChange: (value: string) => void;
-  /** Accessible name of the tab list. */
-  label: string;
-  /** The view of the active tab. */
-  children: ReactNode;
-};
+export type TabsProps = Override<
+  ComponentProps<'div'>,
+  {
+    defaultValue?: never;
+    /** Two to five views. */
+    items: TabsItem[];
+    value: string;
+    onChange: (value: string) => void;
+    /** Accessible name of the tab list. */
+    label: string;
+    /** The view of the active tab. */
+    children: ReactNode;
+  }
+>;
 
 export function Tabs({ items, value, onChange, label, children, className, ...props }: TabsProps) {
   return (

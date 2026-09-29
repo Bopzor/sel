@@ -3,21 +3,26 @@ import type { ComponentProps, ReactNode } from 'react';
 
 import { Icon } from './icon';
 
-export type ListItemProps = Omit<ComponentProps<'li'>, 'title' | 'onClick'> & {
-  title: ReactNode;
-  /** Two lines at most. */
-  description?: ReactNode;
-  /** An Avatar or an Icon. */
-  leading?: ReactNode;
-  /** A badge, an amount, a date. */
-  trailing?: ReactNode;
-  /** Shows that the row opens a detail. */
-  chevron?: boolean;
-  /** Makes the whole row a link, named by the title. */
-  href?: string;
-  /** Makes the whole row a button, named by the title. */
-  onClick?: () => void;
-};
+import type { Override } from '../../utils';
+
+export type ListItemProps = Override<
+  ComponentProps<'li'>,
+  {
+    title: ReactNode;
+    /** Two lines at most. */
+    description?: ReactNode;
+    /** An Avatar or an Icon. */
+    leading?: ReactNode;
+    /** A badge, an amount, a date. */
+    trailing?: ReactNode;
+    /** Shows that the row opens a detail. */
+    chevron?: boolean;
+    /** Makes the whole row a link, named by the title. */
+    href?: string;
+    /** Makes the whole row a button, named by the title. */
+    onClick?: () => void;
+  }
+>;
 
 export function ListItem({
   title,

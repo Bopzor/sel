@@ -1,10 +1,17 @@
 import clsx from 'clsx';
 import type { ComponentProps } from 'react';
 
-export type RichTextProps = Omit<ComponentProps<'div'>, 'children' | 'dangerouslySetInnerHTML'> & {
-  /** HTML written with RichTextEditor, sanitized by the application. */
-  html: string;
-};
+import type { Override } from '../../utils';
+
+export type RichTextProps = Override<
+  ComponentProps<'div'>,
+  {
+    children?: never;
+    dangerouslySetInnerHTML?: never;
+    /** HTML written with RichTextEditor, sanitized by the application. */
+    html: string;
+  }
+>;
 
 export function RichText({ html, className, ...props }: RichTextProps) {
   return (

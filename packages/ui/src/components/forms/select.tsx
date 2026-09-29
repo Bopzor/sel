@@ -6,16 +6,23 @@ import { Icon } from '../display/icon';
 
 import { fieldBoxStyles } from './field';
 
+import type { Override } from '../../utils';
+
 export type SelectOption = {
   value: string;
   label: string;
 };
 
-export type SelectProps = Omit<ComponentProps<'select'>, 'multiple' | 'children'> & {
-  options: SelectOption[];
-  /** A first option that cannot be chosen ("Choose a category"), shown while the value is an empty string. */
-  placeholder?: string;
-};
+export type SelectProps = Override<
+  ComponentProps<'select'>,
+  {
+    multiple?: never;
+    children?: never;
+    options: SelectOption[];
+    /** A first option that cannot be chosen ("Choose a category"), shown while the value is an empty string. */
+    placeholder?: string;
+  }
+>;
 
 export function Select({ options, placeholder, value, defaultValue, className, ...props }: SelectProps) {
   // Uncontrolled, the browser would pick the first option that is not disabled: the placeholder is picked explicitly.

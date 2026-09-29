@@ -2,22 +2,25 @@ import { RadioGroup as ArkRadioGroup } from '@ark-ui/react/radio-group';
 import clsx from 'clsx';
 import { useId, type ComponentProps, type ReactNode } from 'react';
 
-import { definedAttributes } from '../../utils';
+import { definedAttributes, type Override } from '../../utils';
 
-export type RadioGroupProps = Omit<ComponentProps<'div'>, 'defaultValue' | 'onChange'> & {
-  /** null while no option is chosen. */
-  value?: string | null;
-  defaultValue?: string | null;
-  onChange?: (value: string) => void;
-  name?: string;
-  form?: string;
-  disabled?: boolean;
-  required?: boolean;
-  /** Marks every option as invalid. */
-  'aria-invalid'?: boolean;
-  /** Radios or RadioCards. */
-  children: ReactNode;
-};
+export type RadioGroupProps = Override<
+  ComponentProps<'div'>,
+  {
+    /** null while no option is chosen. */
+    value?: string | null;
+    defaultValue?: string | null;
+    onChange?: (value: string) => void;
+    name?: string;
+    form?: string;
+    disabled?: boolean;
+    required?: boolean;
+    /** Marks every option as invalid. */
+    'aria-invalid'?: boolean;
+    /** Radios or RadioCards. */
+    children: ReactNode;
+  }
+>;
 
 /** The options of a single choice: Radios or RadioCards. The question and the error go on a fieldset around it. */
 export function RadioGroup({

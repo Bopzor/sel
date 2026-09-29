@@ -3,6 +3,8 @@ import type { ComponentProps } from 'react';
 
 import { Icon, type IconName } from '../display/icon';
 
+import type { Override } from '../../utils';
+
 export type BottomNavItem = {
   value: string;
   /** One word. */
@@ -11,16 +13,19 @@ export type BottomNavItem = {
   href: string;
 };
 
-export type BottomNavProps = Omit<ComponentProps<'nav'>, 'onChange'> & {
-  /** Five at most. */
-  items: BottomNavItem[];
-  value: string;
-  onChange?: (value: string) => void;
-  /** Accessible name of the navigation ("Main navigation"). */
-  label: string;
-  /** Fixes the bar at the bottom of the screen, above the phone's home indicator. */
-  fixed?: boolean;
-};
+export type BottomNavProps = Override<
+  ComponentProps<'nav'>,
+  {
+    /** Five at most. */
+    items: BottomNavItem[];
+    value: string;
+    onChange?: (value: string) => void;
+    /** Accessible name of the navigation ("Main navigation"). */
+    label: string;
+    /** Fixes the bar at the bottom of the screen, above the phone's home indicator. */
+    fixed?: boolean;
+  }
+>;
 
 export function BottomNav({
   items,

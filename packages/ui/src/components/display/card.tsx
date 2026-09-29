@@ -1,22 +1,27 @@
 import clsx from 'clsx';
 import type { ComponentProps, ReactNode } from 'react';
 
-export type CardProps = Omit<ComponentProps<'div'>, 'title' | 'onClick'> & {
-  title?: ReactNode;
-  /** Author, date. */
-  subtitle?: ReactNode;
-  headingLevel?: 2 | 3 | 4;
-  /** A badge or an icon button, at the top right. */
-  action?: ReactNode;
-  /** One or two buttons. */
-  footer?: ReactNode;
-  /** Removes the padding, to hold a list. */
-  flush?: boolean;
-  /** Makes the whole card a link. Needs a title, which becomes the link's text. */
-  href?: string;
-  /** Makes the whole card a button. Needs a title, which becomes the button's text. */
-  onClick?: () => void;
-};
+import type { Override } from '../../utils';
+
+export type CardProps = Override<
+  ComponentProps<'div'>,
+  {
+    title?: ReactNode;
+    /** Author, date. */
+    subtitle?: ReactNode;
+    headingLevel?: 2 | 3 | 4;
+    /** A badge or an icon button, at the top right. */
+    action?: ReactNode;
+    /** One or two buttons. */
+    footer?: ReactNode;
+    /** Removes the padding, to hold a list. */
+    flush?: boolean;
+    /** Makes the whole card a link. Needs a title, which becomes the link's text. */
+    href?: string;
+    /** Makes the whole card a button. Needs a title, which becomes the button's text. */
+    onClick?: () => void;
+  }
+>;
 
 export function Card({
   title,

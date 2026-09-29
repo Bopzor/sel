@@ -6,13 +6,19 @@ import { Icon, type IconName } from '../display/icon';
 
 import { fieldBoxStyles } from './field';
 
-export type InputProps = Omit<ComponentProps<'input'>, 'prefix' | 'children'> & {
-  icon?: IconName;
-  /** A unit or a symbol before the value. */
-  prefix?: string;
-  /** A unit after the value ("units"). */
-  suffix?: string;
-};
+import type { Override } from '../../utils';
+
+export type InputProps = Override<
+  ComponentProps<'input'>,
+  {
+    children?: never;
+    icon?: IconName;
+    /** A unit or a symbol before the value. */
+    prefix?: string;
+    /** A unit after the value ("units"). */
+    suffix?: string;
+  }
+>;
 
 export function Input({ icon, prefix, suffix, className, ...props }: InputProps) {
   // Inside a Field, Ark's Field.Input gets its id, links and states from the context; the input's own props override

@@ -1,13 +1,19 @@
 import { cva } from 'cva';
 import { type ComponentProps } from 'react';
 
-export type AvatarProps = Omit<ComponentProps<'span'>, 'children'> & {
-  name: string;
-  src?: string;
-  /** Hides the avatar from screen readers, when the name is written right next to it. */
-  decorative?: boolean;
-  size?: 'sm' | 'md' | 'lg';
-};
+import type { Override } from '../../utils';
+
+export type AvatarProps = Override<
+  ComponentProps<'span'>,
+  {
+    children?: never;
+    name: string;
+    src?: string;
+    /** Hides the avatar from screen readers, when the name is written right next to it. */
+    decorative?: boolean;
+    size?: 'sm' | 'md' | 'lg';
+  }
+>;
 
 export function Avatar({ name, src, decorative = false, size = 'md', className, ...props }: AvatarProps) {
   return (

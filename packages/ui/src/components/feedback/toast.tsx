@@ -3,18 +3,23 @@ import type { ComponentProps, ReactNode } from 'react';
 
 import { Icon, type IconName } from '../display/icon';
 
+import type { Override } from '../../utils';
+
 type Tone = 'success' | 'info' | 'danger';
 
 // The rendering of a toast only: showing, queuing, placing and dismissing toasts after a delay is left to the
 // application's toast library, which renders this component.
-export type ToastProps = Omit<ComponentProps<'div'>, 'children'> & {
-  /** Three to six words: "Request posted". */
-  children: ReactNode;
-  tone?: Tone;
-  onClose?: () => void;
-  /** Accessible name of the close button, in the application's language. */
-  closeLabel?: string;
-};
+export type ToastProps = Override<
+  ComponentProps<'div'>,
+  {
+    /** Three to six words: "Request posted". */
+    children: ReactNode;
+    tone?: Tone;
+    onClose?: () => void;
+    /** Accessible name of the close button, in the application's language. */
+    closeLabel?: string;
+  }
+>;
 
 export function Toast({ tone = 'success', onClose, closeLabel, className, children, ...props }: ToastProps) {
   return (

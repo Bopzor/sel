@@ -3,11 +3,16 @@ import type { ComponentProps, ReactNode } from 'react';
 
 import { Icon, type IconName } from '../display/icon';
 
-export type EmptyStateProps = Omit<ComponentProps<'div'>, 'title'> & {
-  icon: IconName;
-  title: ReactNode;
-  action?: ReactNode;
-};
+import type { Override } from '../../utils';
+
+export type EmptyStateProps = Override<
+  ComponentProps<'div'>,
+  {
+    icon: IconName;
+    title: ReactNode;
+    action?: ReactNode;
+  }
+>;
 
 export function EmptyState({ icon, title, action, className, children, ...props }: EmptyStateProps) {
   return (

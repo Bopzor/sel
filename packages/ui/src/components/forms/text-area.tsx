@@ -4,7 +4,14 @@ import type { ComponentProps } from 'react';
 
 import { fieldBoxStyles } from './field';
 
-export type TextAreaProps = Omit<ComponentProps<'textarea'>, 'children'>;
+import type { Override } from '../../utils';
+
+export type TextAreaProps = Override<
+  ComponentProps<'textarea'>,
+  {
+    children?: never;
+  }
+>;
 
 export function TextArea({ rows = 4, className, ...props }: TextAreaProps) {
   // Inside a Field, Ark's Field.Textarea gets its id, links and states from the context; the textarea's own props

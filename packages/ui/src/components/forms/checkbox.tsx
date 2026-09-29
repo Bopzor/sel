@@ -2,16 +2,21 @@ import { Checkbox as ArkCheckbox } from '@ark-ui/react/checkbox';
 import clsx from 'clsx';
 import { useId, type ComponentProps, type ReactNode } from 'react';
 
-import { definedAttributes } from '../../utils';
+import { definedAttributes, type Override } from '../../utils';
 import { Icon } from '../display/icon';
 
-export type CheckboxProps = Omit<ComponentProps<'input'>, 'type' | 'value' | 'children'> & {
-  /** An affirmative sentence that describes the checked state. */
-  label: ReactNode;
-  /** A consequence or a detail, under the label. */
-  description?: ReactNode;
-  value?: string;
-};
+export type CheckboxProps = Override<
+  ComponentProps<'input'>,
+  {
+    type?: never;
+    children?: never;
+    /** An affirmative sentence that describes the checked state. */
+    label: ReactNode;
+    /** A consequence or a detail, under the label. */
+    description?: ReactNode;
+    value?: string;
+  }
+>;
 
 export function Checkbox({
   label,

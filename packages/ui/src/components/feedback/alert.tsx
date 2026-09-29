@@ -4,14 +4,20 @@ import type { ComponentProps, ReactNode } from 'react';
 import { IconButton } from '../actions/icon-button';
 import { Icon, type IconName } from '../display/icon';
 
+import type { Override } from '../../utils';
+
 type Tone = 'info' | 'success' | 'warning' | 'danger';
 
-export type AlertProps = Omit<ComponentProps<'div'>, 'title'> & {
-  tone?: Tone;
-  title: ReactNode;
-  /** Small buttons (size="sm"). */
-  actions?: ReactNode;
-} & (
+export type AlertProps = Override<
+  ComponentProps<'div'>,
+  {
+    tone?: Tone;
+    title: ReactNode;
+    /** Small buttons (size="sm"). */
+    actions?: ReactNode;
+  }
+> &
+  (
     | { onClose?: undefined; closeLabel?: undefined }
     | {
         onClose: () => void;

@@ -4,13 +4,19 @@ import type { ComponentProps, MouseEvent } from 'react';
 
 import { Icon, type IconName } from '../display/icon';
 
-export type IconButtonProps = Omit<ComponentProps<'button'>, 'children'> & {
-  icon: IconName;
-  /** Accessible name, also shown as a tooltip on hover. */
-  label: string;
-  variant?: 'ghost' | 'secondary' | 'primary';
-  size?: 'sm' | 'md';
-};
+import type { Override } from '../../utils';
+
+export type IconButtonProps = Override<
+  ComponentProps<'button'>,
+  {
+    children?: never;
+    icon: IconName;
+    /** Accessible name, also shown as a tooltip on hover. */
+    label: string;
+    variant?: 'ghost' | 'secondary' | 'primary';
+    size?: 'sm' | 'md';
+  }
+>;
 
 export function IconButton({
   icon,

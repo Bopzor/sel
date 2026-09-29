@@ -3,6 +3,8 @@ import { useId, type ComponentProps } from 'react';
 
 import { Icon, type IconName } from '../display/icon';
 
+import type { Override } from '../../utils';
+
 export type SideNavItem = {
   value: string;
   label: string;
@@ -16,19 +18,22 @@ export type SideNavSection = {
   items: SideNavItem[];
 };
 
-export type SideNavProps = Omit<ComponentProps<'nav'>, 'onChange'> & {
-  /** The instance's name. */
-  name: string;
-  /** The instance's geographical area. */
-  place?: string;
-  /** URL of the instance's logo, a square image. */
-  logo: string;
-  sections: SideNavSection[];
-  value: string;
-  onChange?: (value: string) => void;
-  /** Accessible name of the navigation ("Main navigation"). */
-  label: string;
-};
+export type SideNavProps = Override<
+  ComponentProps<'nav'>,
+  {
+    /** The instance's name. */
+    name: string;
+    /** The instance's geographical area. */
+    place?: string;
+    /** URL of the instance's logo, a square image. */
+    logo: string;
+    sections: SideNavSection[];
+    value: string;
+    onChange?: (value: string) => void;
+    /** Accessible name of the navigation ("Main navigation"). */
+    label: string;
+  }
+>;
 
 export function SideNav({
   name,
