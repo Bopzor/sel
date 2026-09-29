@@ -7,9 +7,11 @@ import { Icon } from '../display/icon';
 // The parts of a form field, inside Ark's Field.Root, which links them to the control. Shared by the form
 // components, not exported from the package.
 
-export function FieldLabel({ children }: { children: ReactNode }) {
+export function FieldLabel({ onClick, children }: { onClick?: () => void; children: ReactNode }) {
   return (
-    <Field.Label className="text-label text-default data-disabled:text-disabled">{children}</Field.Label>
+    <Field.Label onClick={onClick} className="text-label text-default data-disabled:text-disabled">
+      {children}
+    </Field.Label>
   );
 }
 

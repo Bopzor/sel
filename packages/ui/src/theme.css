@@ -452,3 +452,28 @@
   outline: var(--outline-width-focus) solid var(--outline-color-focus);
   outline-offset: calc(-1 * var(--outline-width-focus));
 }
+
+@utility prose-theme {
+  --tw-prose-body: var(--text-color-default);
+  --tw-prose-bold: var(--text-color-default);
+  --tw-prose-links: var(--text-color-primary);
+  --tw-prose-counters: var(--text-color-subtle);
+  --tw-prose-bullets: var(--text-color-subtle);
+
+  & li > p {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+}
+
+/* Formatted text written with RichTextEditor. */
+@utility rich-text-editor {
+  /* The editor's placeholder, set by tiptap on its first empty paragraph. */
+  & .is-editor-empty:first-child::before {
+    content: attr(data-placeholder);
+    float: left;
+    height: 0;
+    color: var(--text-color-subtle);
+    pointer-events: none;
+  }
+}

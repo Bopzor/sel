@@ -1,6 +1,7 @@
 /* Entry stylesheet of the design system: import it once, at the root of the application. */
 
 @import 'tailwindcss';
+@plugin '@tailwindcss/typography';
 @import '@fontsource-variable/inter';
 @import './theme.css';
 

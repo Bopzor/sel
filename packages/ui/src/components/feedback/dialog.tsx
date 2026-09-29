@@ -19,6 +19,8 @@ export type DialogProps = Omit<ComponentProps<'div'>, 'title'> & {
   closeLabel: string;
   /** A destructive confirmation: role="alertdialog", and a click on the scrim does not close it. */
   alert?: boolean;
+  /** The element focused on close, when it is not the button that opened the dialog. */
+  finalFocus?: () => HTMLElement | null;
 };
 
 export function Dialog({
@@ -29,6 +31,7 @@ export function Dialog({
   actions,
   closeLabel,
   alert = false,
+  finalFocus,
   className,
   children,
   ...props
@@ -40,6 +43,7 @@ export function Dialog({
       onOpenChange={(details) => !details.open && onClose()}
       role={alert ? 'alertdialog' : 'dialog'}
       closeOnInteractOutside={!alert}
+      finalFocusEl={finalFocus}
       lazyMount
       unmountOnExit
     >

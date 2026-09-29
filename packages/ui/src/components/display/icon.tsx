@@ -4,6 +4,7 @@ import {
   ArrowLeftRight,
   ArrowRight,
   Bell,
+  Bold,
   Calendar,
   Check,
   ChevronDown,
@@ -18,12 +19,17 @@ import {
   Funnel,
   Hand,
   House,
+  Italic,
   Info,
+  Link,
+  List,
+  ListOrdered,
   LogOut,
   Mail,
   MapPin,
   Menu,
   MessageSquareText,
+  Paperclip,
   Pencil,
   Phone,
   Plus,
@@ -33,6 +39,7 @@ import {
   Sparkles,
   Trash2,
   TriangleAlert,
+  Underline,
   User,
   Users,
   X,
@@ -104,6 +111,14 @@ const icons = {
   hide: EyeOff,
   'sign-out': LogOut,
 
+  // Text formatting
+  bold: Bold,
+  italic: Italic,
+  underline: Underline,
+  link: Link,
+  'bullet-list': List,
+  'ordered-list': ListOrdered,
+
   // Directions
   next: ArrowRight,
   back: ArrowLeft,
@@ -117,6 +132,7 @@ const icons = {
   phone: Phone,
   email: Mail,
   time: Clock,
+  attachment: Paperclip,
   new: Sparkles,
 } satisfies Record<string, LucideIcon>;
 

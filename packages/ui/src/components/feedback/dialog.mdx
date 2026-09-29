@@ -23,6 +23,7 @@ A modal window: a sheet that slides up from the bottom on mobile, a centered win
 - `open` + `onClose`: close button, click on the scrim, Escape key.
 - `closeLabel`: accessible name of the close button ("Close").
 - `alert`: `role="alertdialog"` for a destructive confirmation; a click on the scrim does not close it, the member has to choose.
+- `finalFocus`: the element that gets the focus on close, when it is not the button that opened the dialog.
 
 On open, focus goes to the first interactive element and stays trapped in the window; on close, it returns to the button that opened it (Ark UI's `Dialog`). The close button comes last in the document, although it is shown at the top right, so that the focus goes to the content first. An `alert` dialog focuses the close button instead, so that Enter does not confirm a destructive action by accident.
 

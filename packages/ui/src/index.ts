@@ -12,6 +12,12 @@ export { Icon, type IconName, type IconProps } from './components/display/icon';
 export { IconButton, type IconButtonProps } from './components/actions/icon-button';
 export { ListItem, type ListItemProps } from './components/display/list-item';
 export { RadioGroup, type RadioGroupProps, type RadioOption } from './components/forms/radio-group';
+export { RichText, type RichTextProps } from './components/display/rich-text';
+export {
+  RichTextEditor,
+  type RichTextEditorLabels,
+  type RichTextEditorProps,
+} from './components/forms/rich-text-editor';
 export { Select, type SelectOption, type SelectProps } from './components/forms/select';
 export {
   SideNav,
