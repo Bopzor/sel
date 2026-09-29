@@ -3,6 +3,7 @@ import { useState } from 'react';
 
 import { Button } from '../actions/button';
 
+import { Field } from './field';
 import { RichTextEditor, ToolbarButton, type RichTextEditorLabels } from './rich-text-editor';
 
 const labels: RichTextEditorLabels = {
@@ -30,7 +31,6 @@ export default {
   title: 'Components/Forms/RichTextEditor',
   component: RichTextEditor,
   args: {
-    label: 'Message',
     placeholder: 'Placeholder text',
     value: '',
     labels,
@@ -38,7 +38,11 @@ export default {
   render: function Render(args) {
     const [value, setValue] = useState(args.value);
 
-    return <RichTextEditor {...args} value={value} onChange={setValue} />;
+    return (
+      <Field label="Message">
+        <RichTextEditor {...args} value={value} onChange={setValue} />
+      </Field>
+    );
   },
 } satisfies Meta<typeof RichTextEditor>;
 
@@ -46,21 +50,21 @@ type Story = StoryObj<typeof RichTextEditor>;
 
 export const Playground: Story = {};
 
-export const WithHint: Story = {
-  args: {
-    hint: 'Hint text, shown before the field.',
-  },
-};
-
 export const Formatted: Story = {
   args: {
     value: formattedValue,
   },
 };
 
-export const Error: Story = {
-  args: {
-    error: 'What to do to fix the text.',
+export const Invalid: Story = {
+  render: function Render(args) {
+    const [value, setValue] = useState(args.value);
+
+    return (
+      <Field label="Message" hint="Hint text, shown before the field." error="What to do to fix the text.">
+        <RichTextEditor {...args} value={value} onChange={setValue} />
+      </Field>
+    );
   },
 };
 
@@ -71,24 +75,27 @@ export const Disabled: Story = {
   },
 };
 
+/** The send button empties the editor. */
 export const WithToolbarEnd: Story = {
   render: function Render(args) {
     const [value, setValue] = useState('');
 
     return (
-      <RichTextEditor
-        {...args}
-        value={value}
-        onChange={setValue}
-        toolbarEnd={
-          <>
-            <ToolbarButton icon="attachment" label="Attach a file" />
-            <Button size="sm" onClick={() => setValue('')}>
-              Send
-            </Button>
-          </>
-        }
-      />
+      <Field label="Message">
+        <RichTextEditor
+          {...args}
+          value={value}
+          onChange={setValue}
+          toolbarEnd={
+            <>
+              <ToolbarButton icon="attachment" label="Attach a file" />
+              <Button size="sm" onClick={() => setValue('')}>
+                Send
+              </Button>
+            </>
+          }
+        />
+      </Field>
     );
   },
 };

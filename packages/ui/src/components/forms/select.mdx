@@ -14,13 +14,15 @@ To choose a value among more than five known options (category, town). Up to fiv
 
 ## What the consumer provides
 
-- `label`, `hint`, `error`, like `TextField`.
 - `options`: a list of `{ value, label }`.
-- `placeholder`: adds a first, non-selectable option ("Choose a category"), shown while nothing is chosen.
-- `value` + `onChange(value)`; `value` is `null` while nothing is chosen, which needs a `placeholder`.
-- The HTML props of `<select>` (`name`, `autoComplete`…).
+- `placeholder`: adds a first, non-selectable option ("Choose a category"), shown while the value is an empty string. Uncontrolled, it is chosen at first.
+- The HTML props of `<select>`, as they are: `value` + `onChange(event)` for a controlled select, `defaultValue` for an uncontrolled one, `ref`, `name`, `onBlur`, `autoComplete`… The props of react-hook-form's `register()` can be spread on it. The value is an empty string while nothing is chosen.
+- Outside a `Field`: an `aria-label`, like `Input`.
 
-The select has the same border, focus ring and states as `TextField`'s box, with a `chevron-down` icon in place of the native arrow.
+## Rules
+
+- The select has no label: put it in a `Field`, which adds the label, the hint and the error. Inside a `Field`, the select takes its id, its links and its states from it; its own props override them.
+- The select has the same box as `Input`: border, focus ring, and states that follow the select's `disabled` and `aria-invalid`. A `chevron-down` icon replaces the native arrow.
 
 <Primary />
 

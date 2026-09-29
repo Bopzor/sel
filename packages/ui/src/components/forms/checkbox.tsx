@@ -1,24 +1,15 @@
 import { Checkbox as ArkCheckbox } from '@ark-ui/react/checkbox';
-import { Field } from '@ark-ui/react/field';
 import clsx from 'clsx';
-import { cva } from 'cva';
-import type { ComponentProps, ReactNode } from 'react';
+import { useId, type ComponentProps, type ReactNode } from 'react';
 
+import { definedAttributes } from '../../utils';
 import { Icon } from '../display/icon';
 
-import { FieldError, FieldHint } from './field';
-
-export type CheckboxProps = Omit<
-  ComponentProps<'input'>,
-  'type' | 'checked' | 'defaultChecked' | 'onChange' | 'value' | 'children' | 'aria-describedby'
-> & {
+export type CheckboxProps = Omit<ComponentProps<'input'>, 'type' | 'value' | 'children'> & {
   /** An affirmative sentence that describes the checked state. */
   label: ReactNode;
+  /** A consequence or a detail, under the label. */
   description?: ReactNode;
-  checked: boolean;
-  onChange: (checked: boolean) => void;
-  /** What to do to fix the answer ("Accept the terms to continue"); marks the box as invalid. */
-  error?: ReactNode;
   value?: string;
 };
 
@@ -26,97 +17,76 @@ export function Checkbox({
   label,
   description,
   checked,
-  onChange,
-  error,
-  disabled = false,
-  required = false,
+  defaultChecked,
+  disabled,
+  required,
   name,
   form,
   value,
-  id,
+  'aria-invalid': ariaInvalid,
+  'aria-describedby': ariaDescribedBy,
   className,
   ...props
 }: CheckboxProps) {
-  const invalid = Boolean(error);
-  const state = getCheckboxState({ checked, disabled, invalid });
+  const descriptionId = useId();
+  const invalid = ariaInvalid === undefined ? undefined : ariaInvalid === true || ariaInvalid === 'true';
 
-  // Ark's Field passes disabled, invalid and required to the checkbox, and links the description and the error.
+  // A prop left undefined is not passed to Ark, so that it does not erase a state that Ark reads elsewhere (the
+  // disabled state of a <fieldset>, for example).
+  const rootProps = definedAttributes({
+    checked,
+    defaultChecked,
+    disabled,
+    required,
+    invalid,
+    name,
+    form,
+    value,
+  });
+
+  // The root is the <label>: a click on the text checks the box.
   return (
-    <Field.Root
-      id={id}
-      invalid={invalid}
-      disabled={disabled}
-      required={required}
-      className={clsx('flex flex-col gap-3', className)}
+    <ArkCheckbox.Root
+      {...rootProps}
+      className={clsx(
+        // The hit area extends 10px above and below the 24px box, to 44px.
+        'group relative flex items-start gap-3 not-data-disabled:cursor-pointer after:absolute after:inset-x-0 after:-inset-y-2.5 data-disabled:cursor-not-allowed',
+        className,
+      )}
     >
-      <ArkCheckbox.Root
-        checked={checked}
-        onCheckedChange={(details) => onChange(details.checked === true)}
-        name={name}
-        form={form}
-        value={value}
-        className={clsx(
-          // The hit area extends 10px above and below the 24px box, to 44px.
-          'relative flex items-start gap-3 after:absolute after:inset-x-0 after:-inset-y-2.5',
-          disabled ? 'cursor-not-allowed' : 'group cursor-pointer',
+      <ArkCheckbox.Control className={checkboxControlStyles}>
+        <ArkCheckbox.Indicator>
+          <Icon name="check" size="md" />
+        </ArkCheckbox.Indicator>
+      </ArkCheckbox.Control>
+
+      {/* The description is outside Ark's label, which names the checkbox: it describes it instead. */}
+      <span className="flex min-w-0 flex-col">
+        <ArkCheckbox.Label className="text-label text-default data-disabled:text-disabled">
+          {label}
+        </ArkCheckbox.Label>
+        {description && (
+          <span id={descriptionId} className="text-body-sm text-muted">
+            {description}
+          </span>
         )}
-      >
-        <ArkCheckbox.Control className={checkboxControlStyles({ state })}>
-          <ArkCheckbox.Indicator>
-            <Icon name="check" size="md" />
-          </ArkCheckbox.Indicator>
-        </ArkCheckbox.Control>
+      </span>
 
-        {/* The root is the <label>: the text uses Ark's checkbox label rather than FieldLabel, another <label>. */}
-        <span className="flex min-w-0 flex-col">
-          <ArkCheckbox.Label className="text-label text-default data-disabled:text-disabled">
-            {label}
-          </ArkCheckbox.Label>
-          {description && <FieldHint>{description}</FieldHint>}
-        </span>
-
-        {/* Ark links the description, but only a Field.Input receives the error's link. */}
-        <Field.Context>
-          {(field) => (
-            <ArkCheckbox.HiddenInput
-              {...props}
-              aria-errormessage={field.invalid ? field.ids.errorText : undefined}
-            />
-          )}
-        </Field.Context>
-      </ArkCheckbox.Root>
-
-      <FieldError>{error}</FieldError>
-    </Field.Root>
+      {/* The native input, visually hidden, gets the input props (onChange, onBlur, ref). */}
+      <ArkCheckbox.HiddenInput
+        {...props}
+        aria-describedby={clsx(Boolean(description) && descriptionId, ariaDescribedBy) || undefined}
+      />
+    </ArkCheckbox.Root>
   );
 }
 
-// A single state: disabled replaces the other colors, and a checked box is no longer invalid.
-function getCheckboxState({
-  checked,
-  disabled,
-  invalid,
-}: {
-  checked: boolean;
-  disabled: boolean;
-  invalid: boolean;
-}) {
-  if (disabled) return 'disabled';
-  if (checked) return 'checked';
-  if (invalid) return 'invalid';
-  return 'default';
-}
-
-const checkboxControlStyles = cva(
-  'flex size-6 shrink-0 items-center justify-center rounded-xs border-2 transition data-focus-visible:focus-ring',
-  {
-    variants: {
-      state: {
-        default: 'border-strong bg-surface group-hover:border-strong-hover',
-        checked: 'border-primary bg-primary text-on-primary',
-        invalid: 'border-danger bg-surface',
-        disabled: 'border-default bg-disabled text-disabled',
-      },
-    },
-  },
+// Styled from the attributes of Ark's control, with states that exclude one another: disabled replaces the other
+// colors, a checked box is no longer invalid, and only an unchecked valid box reacts to the hover.
+const checkboxControlStyles = clsx(
+  'flex size-6 shrink-0 items-center justify-center rounded-xs border-2 border-strong bg-surface transition data-focus-visible:focus-ring',
+  'group-hover:not-data-disabled:not-data-invalid:data-[state=unchecked]:border-strong-hover',
+  'not-data-disabled:data-invalid:data-[state=unchecked]:border-danger',
+  'not-data-disabled:data-[state=checked]:border-primary not-data-disabled:data-[state=checked]:bg-primary not-data-disabled:data-[state=checked]:text-on-primary',
+  'data-disabled:border-default data-disabled:bg-disabled data-disabled:text-disabled',
 );

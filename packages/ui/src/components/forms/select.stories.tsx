@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
 
+import { Field } from './field';
 import { Select, type SelectOption } from './select';
 
 const options: SelectOption[] = [
@@ -16,16 +17,14 @@ export default {
   title: 'Components/Forms/Select',
   component: Select,
   args: {
-    label: 'Label',
     options,
     placeholder: 'Choose an option',
-    value: null,
   },
-  render: function Render(args) {
-    const [value, setValue] = useState(args.value);
-
-    return <Select {...args} value={value} onChange={setValue} />;
-  },
+  render: (args) => (
+    <Field label="Label">
+      <Select {...args} />
+    </Field>
+  ),
   decorators: [(Story) => <div className="max-w-content">{Story()}</div>],
 } satisfies Meta<typeof Select>;
 
@@ -34,17 +33,26 @@ type Story = StoryObj<typeof Select>;
 export const Playground: Story = {};
 
 export const Selected: Story = {
-  args: { value: 'second' },
-};
-
-export const WithHint: Story = {
-  args: { hint: 'Hint about the choice.' },
+  args: { defaultValue: 'second' },
 };
 
 export const Invalid: Story = {
-  args: { error: 'Choose an option to continue.', required: true },
+  args: { 'aria-invalid': true },
 };
 
 export const Disabled: Story = {
-  args: { value: 'second', disabled: true },
+  args: { defaultValue: 'second', disabled: true },
+};
+
+/** value + onChange, as with any <select>. */
+export const Controlled: Story = {
+  render: function Render(args) {
+    const [value, setValue] = useState('');
+
+    return (
+      <Field label="Label" hint={value === '' ? 'Nothing chosen' : `Chosen: ${value}`}>
+        <Select {...args} value={value} onChange={(event) => setValue(event.target.value)} />
+      </Field>
+    );
+  },
 };

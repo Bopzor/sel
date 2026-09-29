@@ -2,7 +2,8 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
 
 import { Button } from '../actions/button';
-import { TextField } from '../forms/text-field';
+import { Field } from '../forms/field';
+import { Input } from '../forms/input';
 
 import { Dialog } from './dialog';
 
@@ -79,7 +80,9 @@ export const WithForm: Story = {
             </>
           }
         >
-          <TextField label="Label" value={value} onChange={setValue} />
+          <Field label="Label">
+            <Input value={value} onChange={(event) => setValue(event.target.value)} />
+          </Field>
         </Dialog>
       </>
     );

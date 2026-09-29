@@ -8,12 +8,6 @@ export default {
   component: Switch,
   args: {
     label: 'Label',
-    checked: false,
-  },
-  render: function Render(args) {
-    const [checked, setChecked] = useState(args.checked);
-
-    return <Switch {...args} checked={checked} onChange={setChecked} />;
   },
 } satisfies Meta<typeof Switch>;
 
@@ -22,7 +16,7 @@ type Story = StoryObj<typeof Switch>;
 export const Playground: Story = {};
 
 export const On: Story = {
-  args: { checked: true },
+  args: { defaultChecked: true },
 };
 
 export const WithDescription: Story = {
@@ -42,23 +36,24 @@ export const Disabled: Story = {
 };
 
 export const DisabledOn: Story = {
-  args: { disabled: true, checked: true },
+  args: { disabled: true, defaultChecked: true },
+};
+
+/** checked + onChange, as with any <input type="checkbox">. */
+export const Controlled: Story = {
+  render: function Render(args) {
+    const [checked, setChecked] = useState(false);
+
+    return <Switch {...args} checked={checked} onChange={(event) => setChecked(event.target.checked)} />;
+  },
 };
 
 export const Settings: Story = {
-  render: function Render() {
-    const [checked, setChecked] = useState<Record<string, boolean>>({ first: true });
-    const bind = (key: string) => ({
-      checked: checked[key] ?? false,
-      onChange: (value: boolean) => setChecked({ ...checked, [key]: value }),
-    });
-
-    return (
-      <div className="flex max-w-content flex-col gap-6">
-        <Switch label="First setting" description="Description of the first setting." {...bind('first')} />
-        <Switch label="Second setting" description="Description of the second setting." {...bind('second')} />
-        <Switch label="Third setting" {...bind('third')} />
-      </div>
-    );
-  },
+  render: () => (
+    <div className="flex max-w-content flex-col gap-6">
+      <Switch label="First setting" description="Description of the first setting." defaultChecked />
+      <Switch label="Second setting" description="Description of the second setting." />
+      <Switch label="Third setting" />
+    </div>
+  ),
 };

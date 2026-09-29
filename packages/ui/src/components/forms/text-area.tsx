@@ -1,63 +1,23 @@
 import { Field } from '@ark-ui/react/field';
 import clsx from 'clsx';
-import type { ComponentProps, ReactNode } from 'react';
+import type { ComponentProps } from 'react';
 
-import { FieldError, FieldHint, FieldLabel, fieldBoxStyles, getFieldState } from './field';
+import { fieldBoxStyles } from './field';
 
-export type TextAreaProps = Omit<
-  ComponentProps<'textarea'>,
-  'value' | 'defaultValue' | 'onChange' | 'children' | 'aria-describedby'
-> & {
-  label: ReactNode;
-  /** Help shown under the label, before the field, so that it is read before typing. */
-  hint?: ReactNode;
-  /** What to do to fix the value; marks the field as invalid. */
-  error?: ReactNode;
-  value: string;
-  onChange: (value: string) => void;
-};
+export type TextAreaProps = Omit<ComponentProps<'textarea'>, 'children'>;
 
-export function TextArea({
-  label,
-  hint,
-  error,
-  value,
-  onChange,
-  rows = 4,
-  disabled = false,
-  required = false,
-  id,
-  className,
-  ...props
-}: TextAreaProps) {
-  const invalid = Boolean(error);
-
-  // Ark's Field links the label, the hint and the error to the textarea, and sets aria-invalid.
+export function TextArea({ rows = 4, className, ...props }: TextAreaProps) {
+  // Inside a Field, Ark's Field.Textarea gets its id, links and states from the context; the textarea's own props
+  // override them. Outside, it is a bare textarea that needs an aria-label. The box follows the textarea's disabled
+  // and aria-invalid.
   return (
-    <Field.Root
-      id={id}
-      invalid={invalid}
-      disabled={disabled}
-      required={required}
-      className={clsx('flex flex-col gap-2', className)}
-    >
-      <div className="flex flex-col">
-        <FieldLabel>{label}</FieldLabel>
-        {hint && <FieldHint>{hint}</FieldHint>}
-      </div>
-
+    <div className={clsx(fieldBoxStyles, className)}>
       <Field.Textarea
         {...props}
         rows={rows}
-        value={value}
-        onChange={(event) => onChange(event.target.value)}
-        className={fieldBoxStyles({
-          state: getFieldState({ disabled, invalid }),
-          className: 'resize-y px-4 py-3 text-body placeholder:text-subtle',
-        })}
+        // The box shows the focus ring (focus-within), so the textarea does not draw its own.
+        className="block w-full resize-y bg-transparent px-4 py-3 text-body text-inherit placeholder:text-subtle focus-visible:outline-none"
       />
-
-      <FieldError>{error}</FieldError>
-    </Field.Root>
+    </div>
   );
 }

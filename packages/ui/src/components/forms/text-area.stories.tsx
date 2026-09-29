@@ -1,20 +1,17 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
 
+import { Field } from './field';
 import { TextArea } from './text-area';
 
 export default {
   title: 'Components/Forms/TextArea',
   component: TextArea,
-  args: {
-    label: 'Label',
-    value: '',
-  },
-  render: function Render(args) {
-    const [value, setValue] = useState(args.value);
-
-    return <TextArea {...args} value={value} onChange={setValue} />;
-  },
+  render: (args) => (
+    <Field label="Label">
+      <TextArea {...args} />
+    </Field>
+  ),
   decorators: [(Story) => <div className="max-w-content">{Story()}</div>],
 } satisfies Meta<typeof TextArea>;
 
@@ -22,16 +19,8 @@ type Story = StoryObj<typeof TextArea>;
 
 export const Playground: Story = {};
 
-export const WithHint: Story = {
-  args: { hint: 'Hint with an example of the expected text.' },
-};
-
 export const Invalid: Story = {
-  args: {
-    value: 'Too short',
-    hint: 'Hint with an example of the expected text.',
-    error: 'Error message that says how to fix the text.',
-  },
+  args: { defaultValue: 'Too short', 'aria-invalid': true },
 };
 
 export const MoreRows: Story = {
@@ -39,5 +28,17 @@ export const MoreRows: Story = {
 };
 
 export const Disabled: Story = {
-  args: { value: 'Value', disabled: true },
+  args: { defaultValue: 'Value', disabled: true },
+};
+
+export const Controlled: Story = {
+  render: function Render(args) {
+    const [value, setValue] = useState('');
+
+    return (
+      <Field label="Label" hint={`${value.length} characters`}>
+        <TextArea {...args} value={value} onChange={(event) => setValue(event.target.value)} />
+      </Field>
+    );
+  },
 };

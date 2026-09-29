@@ -1,0 +1,32 @@
+import { Controls, Meta, Primary, Stories } from '@storybook/addon-docs/blocks';
+
+import * as FieldStories from './field.stories';
+
+<Meta of={FieldStories} />
+
+# Field
+
+The label, the hint and the error around a form control, stacked: the label and the hint above, the error below.
+
+## When to use it
+
+Around every control of a form that has no label of its own, such as an `Input`. The application's form components (bound to its form library) wrap their control in a `Field`.
+
+## What the consumer provides
+
+- `label`: required and visible. The placeholder never replaces the label.
+- `hint`: help shown under the label, before the control, so that it is read before typing.
+- `error`: a message that says what to do ("The end of the address is missing, for example marie.dupont@example.com"), never just "Invalid format". Shown with an icon, linked to the control with `aria-errormessage` and announced when it appears.
+- `disabled`, `required`: passed to the control.
+- `children`: a single control.
+
+## Rules
+
+- Ark's `Field` links the label, the hint and the error to the control, and passes it `disabled`, `required` and the invalid state: these states are set on the `Field`, not on the control.
+- Validate when leaving the field or on submit, never on every keystroke.
+
+<Primary />
+
+<Controls />
+
+<Stories includePrimary={false} />

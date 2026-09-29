@@ -1,0 +1,33 @@
+import { Controls, Meta, Primary, Stories } from '@storybook/addon-docs/blocks';
+
+import * as InputStories from './input.stories';
+
+<Meta of={InputStories} />
+
+# Input
+
+A single-line text input. It has no label: put it in a `Field`, which adds the label, the hint and the error, and gives it its states.
+
+## When to use it
+
+For any short input: title, email, phone, amount, search, password.
+
+## What the consumer provides
+
+- The HTML props of `<input>`, as they are: `value` + `onChange(event)` for a controlled input, `defaultValue` for an uncontrolled one, `ref`, `name`, `onBlur`. The props of react-hook-form's `register()` can be spread on it. Use `inputMode` and `autoComplete` (`email`, `tel`, `numeric`) to show the right keyboard on mobile.
+- `icon`, `prefix`, `suffix`: an icon or a unit inside the box ("units").
+- Outside a `Field`: an `aria-label`. That is only for an input whose context already says what to type, such as a search in a toolbar. In a form, the input always goes in a `Field`.
+
+## Rules
+
+- Text size 17px: below 16px, iOS zooms into the field.
+- A single field per row on mobile.
+- Inside a `Field`, the input takes its id, its links to the label, the hint and the error, and its states from it: `disabled`, `required`, and invalid while the field has an error. The input's own props override them (`id`, `disabled`, `aria-invalid`…).
+- The box follows the input's final state: disabled with `disabled`, invalid with `aria-invalid`.
+- On focus, the input's box shows the focus ring over its border (`focus-within:focus-ring-field`), with the mouse as with the keyboard. In error, the border is `border-danger`, and the focus ring is `danger` too (`focus-ring-field-invalid`).
+
+<Primary />
+
+<Controls />
+
+<Stories includePrimary={false} />

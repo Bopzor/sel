@@ -1,67 +1,88 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
 
-import { RadioGroup, type RadioOption } from './radio-group';
-
-const options: RadioOption[] = [
-  { value: 'first', label: 'First option' },
-  { value: 'second', label: 'Second option' },
-  { value: 'third', label: 'Third option' },
-];
-
-const optionsWithDescription: RadioOption[] = [
-  { value: 'first', label: 'First option', description: 'Description of the first option.' },
-  { value: 'second', label: 'Second option', description: 'Description of the second option.' },
-  { value: 'third', label: 'Third option', description: 'Description of the third option.' },
-];
+import { Radio, RadioCard, RadioGroup } from './radio-group';
 
 export default {
   title: 'Components/Forms/RadioGroup',
   component: RadioGroup,
   args: {
-    label: 'Question',
-    options,
-    value: 'first',
+    'aria-label': 'Question',
+    defaultValue: 'first',
+    children: undefined,
   },
-  render: function Render(args) {
-    const [value, setValue] = useState(args.value);
-
-    return <RadioGroup {...args} value={value} onChange={setValue} />;
+  argTypes: {
+    children: { control: false },
   },
+  render: (args) => (
+    <RadioGroup {...args}>
+      <Radio value="first" label="First option" />
+      <Radio value="second" label="Second option" />
+      <Radio value="third" label="Third option" />
+    </RadioGroup>
+  ),
 } satisfies Meta<typeof RadioGroup>;
 
 type Story = StoryObj<typeof RadioGroup>;
 
 export const Playground: Story = {};
 
-export const WithHint: Story = {
-  args: { hint: 'Hint about the question.' },
-};
-
 export const WithDescriptions: Story = {
-  args: { options: optionsWithDescription },
+  render: (args) => (
+    <RadioGroup {...args}>
+      <Radio value="first" label="First option" description="Description of the first option." />
+      <Radio value="second" label="Second option" description="Description of the second option." />
+      <Radio value="third" label="Third option" description="Description of the third option." />
+    </RadioGroup>
+  ),
 };
 
 export const Cards: Story = {
-  args: { options: optionsWithDescription, variant: 'cards' },
+  render: (args) => (
+    <RadioGroup {...args} className="gap-3">
+      <RadioCard value="first" label="First option" description="Description of the first option." />
+      <RadioCard value="second" label="Second option" description="Description of the second option." />
+      <RadioCard value="third" label="Third option" description="Description of the third option." />
+    </RadioGroup>
+  ),
   decorators: [(Story) => <div className="max-w-content">{Story()}</div>],
 };
 
 export const Invalid: Story = {
-  args: { value: null, error: 'Choose an option to continue.', required: true },
+  args: { defaultValue: null, 'aria-invalid': true, required: true },
 };
 
 export const InvalidCards: Story = {
-  args: { ...Invalid.args, options: optionsWithDescription, variant: 'cards' },
-  decorators: [(Story) => <div className="max-w-content">{Story()}</div>],
+  ...Cards,
+  args: { ...Invalid.args },
 };
 
 export const DisabledOption: Story = {
-  args: {
-    options: [...options.slice(0, 2), { value: 'third', label: 'Third option', disabled: true }],
-  },
+  render: (args) => (
+    <RadioGroup {...args}>
+      <Radio value="first" label="First option" />
+      <Radio value="second" label="Second option" />
+      <Radio value="third" label="Third option" disabled />
+    </RadioGroup>
+  ),
 };
 
 export const Disabled: Story = {
   args: { disabled: true },
+};
+
+/** value + onChange(value). */
+export const Controlled: Story = {
+  args: { defaultValue: undefined },
+  render: function Render(args) {
+    const [value, setValue] = useState<string | null>(null);
+
+    return (
+      <RadioGroup {...args} value={value} onChange={setValue}>
+        <Radio value="first" label="First option" />
+        <Radio value="second" label="Second option" />
+        <Radio value="third" label="Third option" />
+      </RadioGroup>
+    );
+  },
 };

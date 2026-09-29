@@ -447,11 +447,22 @@
   outline-offset: -1px;
 }
 
+/* The focus ring of an invalid input field: focus-ring-field, in red. */
+@utility focus-ring-field-invalid {
+  outline: var(--outline-width-focus) solid var(--ring-color-danger);
+  outline-offset: -1px;
+}
+
 /* The focus ring drawn inside the element, for a row whose container clips its overflow (a list in a card). */
 @utility focus-ring-inset {
   outline: var(--outline-width-focus) solid var(--outline-color-focus);
   outline-offset: calc(-1 * var(--outline-width-focus));
 }
+
+/* The state of the control inside a field's box (Input, TextArea, Select, RichTextEditor's textbox), read from its
+   attributes. Only the control counts: not a disabled <option>, nor a disabled button placed in the box. */
+@custom-variant field-disabled (&:has(:is(input, textarea, select):disabled, [role='textbox'][aria-disabled='true']));
+@custom-variant field-invalid (&:has(:is(input, textarea, select, [role='textbox'])[aria-invalid='true']));
 
 @utility prose-theme {
   --tw-prose-body: var(--text-color-default);

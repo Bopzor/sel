@@ -1,89 +1,91 @@
-import { Field } from '@ark-ui/react/field';
 import { Switch as ArkSwitch } from '@ark-ui/react/switch';
 import clsx from 'clsx';
-import { cva } from 'cva';
-import type { ComponentProps, ReactNode } from 'react';
+import { useId, type ComponentProps, type ReactNode } from 'react';
 
+import { definedAttributes } from '../../utils';
 import { Icon } from '../display/icon';
 
-import { FieldHint } from './field';
-
-export type SwitchProps = Omit<
-  ComponentProps<'input'>,
-  'type' | 'checked' | 'defaultChecked' | 'onChange' | 'children' | 'aria-describedby'
-> & {
+export type SwitchProps = Omit<ComponentProps<'input'>, 'type' | 'value' | 'children'> & {
   /** The name of the setting. */
   label: ReactNode;
   /** What the setting concretely changes. */
   description?: ReactNode;
-  checked: boolean;
-  onChange: (checked: boolean) => void;
+  value?: string;
 };
 
 export function Switch({
   label,
   description,
   checked,
-  onChange,
-  disabled = false,
-  id,
+  defaultChecked,
+  disabled,
+  required,
+  name,
+  form,
+  value,
+  'aria-describedby': ariaDescribedBy,
   className,
   ...props
 }: SwitchProps) {
-  // Ark's Field passes disabled to the switch, and links the description.
+  const descriptionId = useId();
+
+  // A prop left undefined is not passed to Ark, so that it does not erase a state that Ark reads elsewhere (the
+  // disabled state of a <fieldset>, for example).
+  const rootProps = definedAttributes({ checked, defaultChecked, disabled, required, name, form, value });
+
+  // The root is the <label>: a click on the text toggles the switch.
   return (
-    <Field.Root id={id} disabled={disabled} className={className}>
-      <ArkSwitch.Root
-        checked={checked}
-        onCheckedChange={(details) => onChange(details.checked)}
-        className={clsx(
-          // The hit area extends 6px above and below the 32px track, to 44px.
-          'relative flex items-start gap-4 after:absolute after:inset-x-0 after:-inset-y-1.5',
-          disabled ? 'cursor-not-allowed' : 'group cursor-pointer',
+    <ArkSwitch.Root
+      {...rootProps}
+      className={clsx(
+        // The hit area extends 6px above and below the 32px track, to 44px.
+        'group relative flex items-start gap-3 after:absolute after:inset-x-0 after:-inset-y-1.5',
+        'not-data-disabled:cursor-pointer data-disabled:cursor-not-allowed',
+        className,
+      )}
+    >
+      <ArkSwitch.Control className={switchTrackStyles}>
+        <ArkSwitch.Thumb className={switchThumbStyles}>
+          <Icon name="check" size="sm" />
+        </ArkSwitch.Thumb>
+      </ArkSwitch.Control>
+
+      {/* The label's first line is centered on the track. The description is outside Ark's label, which names the
+          switch: it describes it instead. */}
+      <span className="flex min-w-0 flex-col py-1">
+        <ArkSwitch.Label className="text-label text-default data-disabled:text-disabled">
+          {label}
+        </ArkSwitch.Label>
+        {description && (
+          <span id={descriptionId} className="text-body-sm text-muted">
+            {description}
+          </span>
         )}
-      >
-        {/* The label's first line is centered on the track. The root is the <label>: the text uses Ark's switch
-            label rather than FieldLabel, another <label>. */}
-        <span className="flex min-w-0 flex-1 flex-col py-1">
-          <ArkSwitch.Label className="text-label text-default data-disabled:text-disabled">
-            {label}
-          </ArkSwitch.Label>
-          {description && <FieldHint>{description}</FieldHint>}
-        </span>
+      </span>
 
-        <ArkSwitch.Control className={switchTrackStyles({ state: getSwitchState({ checked, disabled }) })}>
-          <ArkSwitch.Thumb
-            className={clsx(
-              'flex size-6 items-center justify-center rounded-full bg-switch-thumb shadow-sm transition',
-              disabled ? 'text-disabled' : 'text-on-switch-thumb',
-              checked && 'translate-x-5',
-            )}
-          >
-            {checked && <Icon name="check" size="sm" />}
-          </ArkSwitch.Thumb>
-        </ArkSwitch.Control>
-
-        {/* Ark renders a plain checkbox: the role makes screen readers announce "on" and "off". */}
-        <ArkSwitch.HiddenInput {...props} role="switch" />
-      </ArkSwitch.Root>
-    </Field.Root>
+      {/* The native input, visually hidden, gets the input props (onChange, onBlur, ref). Ark renders a plain
+          checkbox: the role makes screen readers announce "on" and "off". */}
+      <ArkSwitch.HiddenInput
+        {...props}
+        role="switch"
+        aria-describedby={clsx(Boolean(description) && descriptionId, ariaDescribedBy) || undefined}
+      />
+    </ArkSwitch.Root>
   );
 }
 
-function getSwitchState({ checked, disabled }: { checked: boolean; disabled: boolean }) {
-  if (disabled) return 'disabled';
-  return checked ? 'on' : 'off';
-}
+// Styled from the attributes of Ark's parts, with states that exclude one another: disabled replaces the other
+// colors, and only an enabled switch that is on reacts to the hover.
+const switchTrackStyles = clsx(
+  'flex h-8 w-13 shrink-0 items-center rounded-full bg-switch-track p-1 transition data-focus-visible:focus-ring',
+  'not-data-disabled:data-[state=checked]:bg-primary',
+  'group-hover:not-data-disabled:data-[state=checked]:bg-primary-hover',
+  'data-disabled:bg-disabled',
+);
 
-const switchTrackStyles = cva(
-  'flex h-8 w-13 shrink-0 items-center rounded-full p-1 transition data-focus-visible:focus-ring',
-  {
-    variants: {
-      state: {
-        off: 'bg-switch-track',
-        on: 'bg-primary group-hover:bg-primary-hover',
-        disabled: 'bg-disabled',
-      },
-    },
-  },
+// The check mark is only visible when the switch is on.
+const switchThumbStyles = clsx(
+  'flex size-6 items-center justify-center rounded-full bg-switch-thumb text-on-switch-thumb shadow-sm transition',
+  'data-[state=checked]:translate-x-5 data-disabled:text-disabled',
+  '*:opacity-0 *:transition data-[state=checked]:*:opacity-100',
 );

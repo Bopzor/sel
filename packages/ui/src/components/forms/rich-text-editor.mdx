@@ -6,7 +6,7 @@ import * as RichTextEditorStories from './rich-text-editor.stories';
 
 # RichTextEditor
 
-A multi-line input with simple formatting: bold, italic, underline, links and lists. It has the same label, hint, error and box as `TextArea`, and a formatting toolbar under the text.
+A multi-line input with simple formatting: bold, italic, underline, links and lists. It has no label: put it in a `Field`, which adds the label, the hint and the error, and gives it its states. It has the same box as `TextArea`, and a formatting toolbar under the text.
 
 ## When to use it
 
@@ -14,8 +14,9 @@ For a text that other members read, where a list or a link helps: the message of
 
 ## What the consumer provides
 
-- `label`, `hint`, `error`, like `TextField`.
-- `value` + `onChange(html)`: the content as HTML, an empty string when the editor is empty. The application sanitizes this HTML before showing it with `RichText`.
+- `value` + `onChange(html)`: the editor is always controlled. The content is HTML, an empty string when the editor is empty. The application sanitizes this HTML before showing it with `RichText`.
+- `onBlur` and `ref` (whose `focus()` moves the focus to the text), for a form library: with react-hook-form, the editor goes through a `Controller`.
+- `disabled`, `required`, `aria-invalid`, `id`, `aria-label`, `aria-labelledby`, `aria-describedby`: they override the `Field`'s. Outside a `Field`, an `aria-label`, like `Input`.
 - `placeholder`: an example of content, never a replacement for the label.
 - `labels`: the accessible names of the toolbar buttons and the texts of the link dialog, in the application's language.
 - `toolbarEnd`: actions placed at the end of the toolbar, such as an attachment button or the send button of a comment. The editor only renders them.
@@ -31,7 +32,7 @@ For a text that other members read, where a list or a link helps: the message of
 
 ## Accessibility
 
-The editable text is a `role="textbox"` with `aria-multiline`, named by the label, described by the hint and linked to the error with `aria-errormessage` (Ark's `Field`). A click on the label moves the focus to the text. When the link dialog closes, the focus goes back to the text.
+The editable text is a `role="textbox"` with `aria-multiline`, named by the `Field`'s label, described by its hint and linked to its error with `aria-errormessage`, and marked with `aria-invalid`, `aria-required` and `aria-disabled`. A click on the label moves the focus to the text. When the link dialog closes, the focus goes back to the text.
 
 <Primary />
 

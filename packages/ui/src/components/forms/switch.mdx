@@ -6,7 +6,7 @@ import * as SwitchStories from './switch.stories';
 
 # Switch
 
-A toggle for a setting that takes effect immediately, with its label on the left and a check mark visible in the thumb when it is on.
+A toggle for a setting that takes effect immediately, followed by its label, with a check mark visible in the thumb when it is on.
 
 ## When to use it
 
@@ -15,11 +15,10 @@ In settings: notifications, visibility of a piece of information, dark mode. In 
 ## What the consumer provides
 
 - `label`: the name of the setting, which can wrap over several lines.
-- `description`: what the setting concretely changes.
-- `checked` + `onChange(checked)`, `disabled`.
-- The HTML props of `<input type="checkbox">` (`name`…), passed to the native input that Ark UI keeps visually hidden.
+- `description`: what the setting concretely changes, in `text-muted`. It is not part of the switch's name: it is linked to it with `aria-describedby`.
+- The HTML props of `<input type="checkbox">`, passed to the native input that Ark UI keeps visually hidden: `checked` + `onChange(event)` for a controlled switch, `defaultChecked` for an uncontrolled one, `ref`, `name`, `onBlur`, `disabled`. The props of react-hook-form's `register()` can be spread on it.
 
-The element has `role="switch"`; the on state does not rely on color alone (position and check mark). The track is 52 × 32px, the hit area 44px high and as wide as the row: stack switches in a `flex flex-col gap-6`.
+The element has `role="switch"`; the on state does not rely on color alone (position and check mark). The track is 52 × 32px, the hit area 44px high: stack switches in a `flex flex-col gap-6`.
 
 <Primary />
 

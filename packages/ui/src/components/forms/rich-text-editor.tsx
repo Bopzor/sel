@@ -1,18 +1,28 @@
-import { Field, useFieldContext } from '@ark-ui/react/field';
+import { useFieldContext } from '@ark-ui/react/field';
 import { Link } from '@tiptap/extension-link';
 import { Placeholder } from '@tiptap/extensions';
 import { EditorContent, useEditor, useEditorState, type Editor } from '@tiptap/react';
 import { StarterKit } from '@tiptap/starter-kit';
 import clsx from 'clsx';
 import { cva } from 'cva';
-import { useEffect, useId, useState, type FormEvent, type ReactNode } from 'react';
+import {
+  useCallback,
+  useEffect,
+  useId,
+  useImperativeHandle,
+  useState,
+  type FormEvent,
+  type ReactNode,
+  type Ref,
+} from 'react';
 
+import { definedAttributes } from '../../utils';
 import { Button } from '../actions/button';
 import { Icon, type IconName } from '../display/icon';
 import { Dialog } from '../feedback/dialog';
 
-import { FieldError, FieldHint, FieldLabel, fieldBoxStyles, getFieldState } from './field';
-import { TextField } from './text-field';
+import { Field, fieldBoxStyles } from './field';
+import { Input } from './input';
 
 export type RichTextEditorLabels = {
   bold: string;
@@ -34,58 +44,47 @@ export type RichTextEditorLabels = {
 };
 
 export type RichTextEditorProps = {
-  label: ReactNode;
-  /** Help shown under the label, before the field. */
-  hint?: ReactNode;
-  /** What to do to fix the text; marks the field as invalid. */
-  error?: ReactNode;
   /** The content as HTML, an empty string when the editor is empty. */
   value: string;
   onChange: (html: string) => void;
+  onBlur?: () => void;
   placeholder?: string;
   labels: RichTextEditorLabels;
   /** Actions at the end of the toolbar (attachment, send). */
   toolbarEnd?: ReactNode;
+  /** Focuses the text, for a form library that focuses the first field in error. */
+  ref?: Ref<{ focus: () => void }>;
+  // Override the field's.
+  id?: string;
   disabled?: boolean;
   required?: boolean;
-  id?: string;
+  'aria-invalid'?: boolean;
+  'aria-label'?: string;
+  'aria-labelledby'?: string;
+  'aria-describedby'?: string;
   className?: string;
 };
 
 export function RichTextEditor({
-  error,
-  disabled = false,
-  required = false,
-  id,
-  className,
-  ...props
-}: RichTextEditorProps) {
-  return (
-    <Field.Root
-      id={id}
-      invalid={Boolean(error)}
-      disabled={disabled}
-      required={required}
-      className={clsx('flex flex-col gap-2', className)}
-    >
-      <FieldContent {...props} error={error} />
-    </Field.Root>
-  );
-}
-
-// Inside Field.Root, to read the ids and the state of the field.
-function FieldContent({
-  label,
-  hint,
-  error,
   value,
   onChange,
+  onBlur,
   placeholder,
   labels,
   toolbarEnd,
-}: Omit<RichTextEditorProps, 'disabled' | 'required' | 'id' | 'className'>) {
+  ref,
+  className,
+  ...props
+}: RichTextEditorProps) {
+  // The editable element is not a native control: it gets the textbox role, and the links and the states of Ark's
+  // field context by hand. Its own props override them, like Field.Input's.
   const field = useFieldContext();
-  const { disabled, invalid, required } = field;
+  const fieldProps = field?.getTextareaProps();
+  const labelId = field?.getLabelProps().id;
+
+  const disabled = props.disabled ?? field?.disabled ?? false;
+  const required = props.required ?? field?.required ?? false;
+  const invalid = props['aria-invalid'] ?? field?.invalid ?? false;
 
   // Only read when the editor is created; later values go through the effect below.
   const [initialValue] = useState(value);
@@ -111,15 +110,6 @@ function FieldContent({
     }),
   ]);
 
-  const { id: labelId } = field.getLabelProps();
-
-  // The editable element is not a native control: it gets the textbox role and the links of Ark's Field by hand.
-  const {
-    id: controlId,
-    'aria-describedby': describedBy,
-    'aria-errormessage': errorMessage,
-  } = field.getTextareaProps();
-
   const editor = useEditor({
     extensions,
     content: initialValue,
@@ -127,12 +117,14 @@ function FieldContent({
     immediatelyRender: true,
     editorProps: {
       attributes: definedAttributes({
-        id: controlId,
+        id: props.id ?? fieldProps?.id,
         role: 'textbox',
         'aria-multiline': 'true',
-        'aria-labelledby': labelId,
-        'aria-describedby': describedBy,
-        'aria-errormessage': errorMessage,
+        'aria-label': props['aria-label'],
+        'aria-labelledby':
+          props['aria-labelledby'] ?? (props['aria-label'] === undefined ? labelId : undefined),
+        'aria-describedby': props['aria-describedby'] ?? fieldProps?.['aria-describedby'],
+        'aria-errormessage': invalid ? fieldProps?.['aria-errormessage'] : undefined,
         'aria-invalid': invalid ? 'true' : undefined,
         'aria-required': required ? 'true' : undefined,
         'aria-disabled': disabled ? 'true' : undefined,
@@ -142,9 +134,14 @@ function FieldContent({
     },
     shouldRerenderOnTransaction: false,
     onUpdate: ({ editor }) => onChange(getValue(editor)),
+    onBlur: () => onBlur?.(),
   });
 
-  // Controlled: a value set from outside (a reset after sending, for example) replaces the content.
+  const focus = useCallback(() => editor.commands.focus(), [editor]);
+
+  useImperativeHandle(ref, () => ({ focus }), [focus]);
+
+  // A value set from outside (a reset after sending, for example) replaces the content.
   useEffect(() => {
     if (value !== getValue(editor)) {
       editor.commands.setContent(value, { emitUpdate: false });
@@ -155,25 +152,19 @@ function FieldContent({
     editor.setEditable(!disabled, false);
   }, [editor, disabled]);
 
+  // The field's label points to the editable element, which a <label> cannot focus: a click on it does.
+  useEffect(() => {
+    const label = labelId === undefined ? null : document.getElementById(labelId);
+
+    label?.addEventListener('click', focus);
+    return () => label?.removeEventListener('click', focus);
+  }, [focus, labelId]);
+
   return (
-    <>
-      <div className="flex flex-col">
-        <FieldLabel onClick={() => editor.commands.focus()}>{label}</FieldLabel>
-        {hint && <FieldHint>{hint}</FieldHint>}
-      </div>
-
-      <div
-        className={fieldBoxStyles({
-          state: getFieldState({ disabled, invalid }),
-          className: 'flex flex-col',
-        })}
-      >
-        <EditorContent editor={editor} />
-        <Toolbar editor={editor} labels={labels} disabled={disabled} end={toolbarEnd} />
-      </div>
-
-      <FieldError>{error}</FieldError>
-    </>
+    <div className={clsx(fieldBoxStyles, 'flex flex-col', className)}>
+      <EditorContent editor={editor} />
+      <Toolbar editor={editor} labels={labels} disabled={disabled} end={toolbarEnd} />
+    </div>
   );
 }
 
@@ -319,15 +310,15 @@ function Toolbar({
       >
         {/* noValidate: an address without a scheme is not a valid url for the browser, and gets https:// here. */}
         <form id={formId} onSubmit={applyLink} noValidate>
-          <TextField
-            label={labels.linkUrl}
-            value={linkUrl}
-            error={linkInvalid ? labels.linkInvalid : undefined}
-            onChange={setLinkUrl}
-            type="url"
-            inputMode="url"
-            autoComplete="url"
-          />
+          <Field label={labels.linkUrl} error={linkInvalid ? labels.linkInvalid : undefined}>
+            <Input
+              value={linkUrl}
+              onChange={(event) => setLinkUrl(event.target.value)}
+              type="url"
+              inputMode="url"
+              autoComplete="url"
+            />
+          </Field>
         </form>
       </Dialog>
     </div>
@@ -396,11 +387,4 @@ function toHref(url: string) {
   }
 
   return `https://${url}`;
-}
-
-// ProseMirror writes every attribute it receives, "undefined" included.
-function definedAttributes(attributes: Record<string, string | undefined>) {
-  return Object.fromEntries(
-    Object.entries(attributes).filter((entry): entry is [string, string] => entry[1] !== undefined),
-  );
 }
