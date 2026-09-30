@@ -1,76 +1,85 @@
 import clsx from 'clsx';
-import type { ComponentProps, ReactNode } from 'react';
+import type { ComponentProps } from 'react';
 
 import { Icon } from './icon';
 
-import type { Override } from '../../utils';
+export type ListItemProps = ComponentProps<'li'>;
 
-export type ListItemProps = Override<
-  ComponentProps<'li'>,
-  {
-    title: ReactNode;
-    /** Two lines at most. */
-    description?: ReactNode;
-    /** An Avatar or an Icon. */
-    leading?: ReactNode;
-    /** A badge, an amount, a date. */
-    trailing?: ReactNode;
-    /** Shows that the row opens a detail. */
-    chevron?: boolean;
-    /** Makes the whole row a link, named by the title. */
-    href?: string;
-    /** Makes the whole row a button, named by the title. */
-    onClick?: () => void;
-  }
->;
-
-export function ListItem({
-  title,
-  description,
-  leading,
-  trailing,
-  chevron = false,
-  href,
-  onClick,
-  className,
-  ...props
-}: ListItemProps) {
-  const clickable = href !== undefined || onClick !== undefined;
-
-  // The link or button covers the whole row with its ::after, so that the row has a single interactive
-  // element. The focus ring is drawn inside the row, since a flush card clips its overflow.
-  const cover = clsx('text-left after:absolute after:inset-0 focus-visible:outline-none');
-
+/**
+ * A list row: a leading Avatar or Icon, a ListItemContent, then a ListItemTrailing or a ListItemChevron. A
+ * ListItemLink or a ListItemButton in the title makes the whole row clickable.
+ */
+export function ListItem({ className, ...props }: ListItemProps) {
   return (
     <li
       {...props}
       className={clsx(
         'relative flex min-h-16 items-center gap-3 px-4 py-3 not-last:border-b',
-        clickable && 'transition hover:bg-surface-hover has-focus-visible:focus-ring-inset',
+        'has-data-list-item-cover:transition hover:has-data-list-item-cover:bg-surface-hover',
         className,
       )}
-    >
-      {leading}
+    />
+  );
+}
 
-      <div className="flex min-w-0 flex-1 flex-col">
-        <p className="text-body text-default">
-          {href !== undefined ? (
-            <a href={href} className={cover}>
-              {title}
-            </a>
-          ) : onClick ? (
-            <button type="button" onClick={onClick} className={clsx('cursor-pointer', cover)}>
-              {title}
-            </button>
-          ) : (
-            title
-          )}
-        </p>
-        {description && <p className="line-clamp-2 text-body-sm text-muted">{description}</p>}
-      </div>
+export type ListItemContentProps = ComponentProps<'div'>;
 
-      {trailing && <div className="shrink-0 text-body-sm text-muted">{trailing}</div>}
-      {chevron && <Icon name="chevron-right" size="md" className="text-subtle" />}
-    </li>
+/** The title and the description. */
+export function ListItemContent({ className, ...props }: ListItemContentProps) {
+  return <div {...props} className={clsx('flex min-w-0 flex-1 flex-col', className)} />;
+}
+
+export type ListItemTitleProps = ComponentProps<'p'>;
+
+export function ListItemTitle({ className, ...props }: ListItemTitleProps) {
+  return <p {...props} className={clsx('text-body text-default', className)} />;
+}
+
+export type ListItemDescriptionProps = ComponentProps<'p'>;
+
+/** Two lines at most. */
+export function ListItemDescription({ className, ...props }: ListItemDescriptionProps) {
+  return <p {...props} className={clsx('line-clamp-2 text-body-sm text-muted', className)} />;
+}
+
+export type ListItemTrailingProps = ComponentProps<'div'>;
+
+/** A badge, an amount, a date. */
+export function ListItemTrailing({ className, ...props }: ListItemTrailingProps) {
+  // Positioned, so that it stays above the cover of a clickable row.
+  return <div {...props} className={clsx('relative shrink-0 text-body-sm text-muted', className)} />;
+}
+
+export type ListItemChevronProps = { className?: string };
+
+/** Shows that the row opens a detail. */
+export function ListItemChevron({ className }: ListItemChevronProps) {
+  return <Icon name="chevron-right" size="md" className={clsx('text-subtle', className)} />;
+}
+
+// The link or button of the title covers the whole row with its ::after, so that the row has a single interactive
+// element, named by the title. The focus ring is drawn by the cover, inside the row, since a card clips its overflow.
+const cover = clsx(
+  'text-left after:absolute after:inset-0 focus-visible:outline-none focus-visible:after:focus-ring-inset',
+);
+
+export type ListItemLinkProps = ComponentProps<'a'>;
+
+/** Inside the ListItemTitle: the whole row becomes a link, named by the title. */
+export function ListItemLink({ className, ...props }: ListItemLinkProps) {
+  return <a {...props} data-list-item-cover="" className={clsx(cover, className)} />;
+}
+
+export type ListItemButtonProps = ComponentProps<'button'>;
+
+/** Inside the ListItemTitle: the whole row becomes a button, named by the title. */
+export function ListItemButton({ className, ...props }: ListItemButtonProps) {
+  return (
+    <button
+      type="button"
+      {...props}
+      data-list-item-cover=""
+      className={clsx('cursor-pointer', cover, className)}
+    />
   );
 }

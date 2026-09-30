@@ -6,20 +6,36 @@ import * as CardStories from './card.stories';
 
 # Card
 
-A rounded surface that groups content, with an optional title, header action and footer actions.
+A rounded surface that groups content, with an optional header, body and footer.
 
 ## When to use it
 
 - For a post in a feed, a profile block, a summary (balance).
-- With `href` or `onClick`, the whole card becomes clickable (`shadow-md` on hover, focus ring): the title becomes the link or button, and covers the card. In that case, a title is required and there are no buttons inside.
-- `flush` removes the padding, to hold a list (`ListItem`).
+- To hold a list of `ListItem`s, from edge to edge.
+- Clickable as a whole, to open a detail (`shadow-md` on hover, focus ring).
 
-## What the consumer provides
+## Parts
 
-- `title`, `subtitle` (author, date), `headingLevel` (2, 3 or 4; 3 by default, to adjust to the page hierarchy).
-- `action`: a badge or an icon button at the top right.
-- `footer`: one or two buttons.
-- `children`: the content.
+```tsx
+<Card>
+  <CardHeader>
+    <CardTitle>Title</CardTitle>
+    <CardDescription>Author · Date</CardDescription>
+    <CardAction><Badge>Category</Badge></CardAction>
+  </CardHeader>
+  <CardBody>…</CardBody>
+  <CardFooter>…</CardFooter>
+</Card>
+```
+
+- `Card` (required): the surface. Its parts pad themselves; content placed directly in it, such as a `ul` of `ListItem`s, goes from edge to edge.
+- `CardHeader`: the title, the description and the action.
+- `CardTitle`: the title, a heading of `level` 2, 3 or 4 (3 by default, to adjust to the page hierarchy).
+- `CardDescription`: under the title: author, date.
+- `CardAction`: a badge or an icon button at the top right, written after the title and the description.
+- `CardBody`: the content.
+- `CardFooter`: one or two buttons.
+- `CardLink` or `CardButton`, inside the `CardTitle`: the whole card becomes a link or a button, named by the title, which covers the card. The `CardAction` and the `CardFooter` stay above it, so that their buttons keep their own action.
 
 Do not nest cards.
 

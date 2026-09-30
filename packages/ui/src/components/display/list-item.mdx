@@ -12,13 +12,28 @@ A list row of at least 64px, with a leading element, a title, a description of t
 
 For lists of members, exchanges, notifications, settings. Rows go in a `ul`, usually inside a flush `Card`; a `border-default` separator divides them.
 
-## What the consumer provides
+## Parts
 
-- `title`, `description`.
-- `leading`: an `Avatar` or an `Icon`.
-- `trailing`: badge, amount, date.
-- `chevron`: shows that the row opens a detail.
-- `href` or `onClick` make the whole row clickable: the title becomes the link or button, and covers the row.
+```tsx
+<ListItem>
+  <Avatar name="Jane Doe" decorative />
+  <ListItemContent>
+    <ListItemTitle>
+      <ListItemLink href="…">Jane Doe</ListItemLink>
+    </ListItemTitle>
+    <ListItemDescription>Description</ListItemDescription>
+  </ListItemContent>
+  <ListItemChevron />
+</ListItem>
+```
+
+- `ListItem` (required): the row, an `li`.
+- A leading `Avatar` or `Icon`, first in the row.
+- `ListItemContent` (required): the title and the description, which take the remaining width.
+- `ListItemTitle` (required), `ListItemDescription`: two lines at most.
+- `ListItemTrailing`: badge, amount, date.
+- `ListItemChevron`: shows that the row opens a detail.
+- `ListItemLink` or `ListItemButton`, inside the `ListItemTitle`: the whole row becomes a link or a button, named by the title, which covers the row.
 
 <Primary />
 
