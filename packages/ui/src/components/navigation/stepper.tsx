@@ -10,7 +10,9 @@ export type StepperProps = ComponentProps<'div'> & {
   progressLabel: string;
 };
 
-export function Stepper({ steps, current, progressLabel, className, ...props }: StepperProps) {
+export function Stepper({ steps, current: currentProp, progressLabel, className, ...props }: StepperProps) {
+  const current = Math.min(Math.max(currentProp, 1), steps.length);
+
   return (
     <div {...props} className={clsx('flex flex-col gap-2', className)}>
       <p className="flex flex-col">

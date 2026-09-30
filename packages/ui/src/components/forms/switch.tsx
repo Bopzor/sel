@@ -10,6 +10,8 @@ export type SwitchProps = Override<
   {
     type?: never;
     children?: never;
+    /** A switch takes effect immediately, so it is never invalid: a choice validated with a form is a Checkbox. */
+    'aria-invalid'?: never;
     /** The name of the setting. */
     label: ReactNode;
     /** What the setting concretely changes. */

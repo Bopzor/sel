@@ -15,11 +15,16 @@ export type ToastProps = Override<
     /** Three to six words: "Request posted". */
     children: ReactNode;
     tone?: Tone;
-    onClose?: () => void;
-    /** Accessible name of the close button, in the application's language. */
-    closeLabel?: string;
   }
->;
+> &
+  (
+    | { onClose?: undefined; closeLabel?: undefined }
+    | {
+        onClose: () => void;
+        /** Accessible name of the close button, in the application's language. */
+        closeLabel: string;
+      }
+  );
 
 export function Toast({ tone = 'success', onClose, closeLabel, className, children, ...props }: ToastProps) {
   return (

@@ -49,21 +49,23 @@ export function RadioGroup({
   );
 }
 
-export type RadioProps = {
-  value: string;
-  label: ReactNode;
-  /** A consequence or a detail, under the label. */
-  description?: ReactNode;
-  disabled?: boolean;
-  className?: string;
-};
+export type RadioProps = Override<
+  ComponentProps<typeof ArkRadioGroup.Item>,
+  {
+    asChild?: never;
+    children?: never;
+    value: string;
+    label: ReactNode;
+    /** A consequence or a detail, under the label. */
+    description?: ReactNode;
+  }
+>;
 
 /** A 24px radio button and its label, both clickable. */
-export function Radio({ className, ...props }: RadioProps) {
+export function Radio({ label, description, className, ...props }: RadioProps) {
   return (
     <ArkRadioGroup.Item
-      value={props.value}
-      disabled={props.disabled}
+      {...props}
       className={clsx(
         // The hit area extends 10px above and below the 24px circle, to 44px.
         'group relative flex items-start gap-3 after:absolute after:inset-x-0 after:-inset-y-2.5',
@@ -71,30 +73,28 @@ export function Radio({ className, ...props }: RadioProps) {
         className,
       )}
     >
-      <RadioItemContent {...props} controlClassName="data-focus-visible:focus-ring" />
+      <RadioItemContent
+        label={label}
+        description={description}
+        controlClassName="data-focus-visible:focus-ring"
+      />
     </ArkRadioGroup.Item>
   );
 }
 
 /** An option as a large card, for a structuring choice that needs an explanation. */
-export function RadioCard({ className, ...props }: RadioProps) {
+export function RadioCard({ label, description, className, ...props }: RadioProps) {
   return (
-    <ArkRadioGroup.Item
-      value={props.value}
-      disabled={props.disabled}
-      className={clsx(radioCardStyles, className)}
-    >
+    <ArkRadioGroup.Item {...props} className={clsx(radioCardStyles, className)}>
       {/* The whole card shows the focus ring. */}
-      <RadioItemContent {...props} />
+      <RadioItemContent label={label} description={description} />
     </ArkRadioGroup.Item>
   );
 }
 
-function RadioItemContent({
-  label,
-  description,
-  controlClassName,
-}: RadioProps & { controlClassName?: string }) {
+type RadioItemContentProps = Pick<RadioProps, 'label' | 'description'> & { controlClassName?: string };
+
+function RadioItemContent({ label, description, controlClassName }: RadioItemContentProps) {
   const descriptionId = useId();
 
   return (
