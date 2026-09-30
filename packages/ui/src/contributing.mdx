@@ -24,11 +24,11 @@ The simplest solution that meets today's needs wins. Simple code is easier to re
 ## Files
 
 - Components are grouped by role, the same groups as in the [Introduction](?path=/docs/introduction--docs): `actions`, `forms`, `display`, `feedback` and `navigation`.
-- `src/components/<group>/<name>.tsx`: the component, named in kebab-case, one public component per file (private sub-components may live next to it).
+- `src/components/<group>/<name>.tsx`: the component, named in kebab-case, one public component per file, with its parts when it is composed (see [Composition](#composition)). Private sub-components may live next to it.
 - `src/components/<group>/<name>.stories.tsx`: its stories, titled `Components/<Group>/<Name>`, with the same examples as the guideline: every variant, every state, and the realistic use cases. Stories use generic English text ("Save", "Cancel", "Title"), not the application's content.
 - `src/components/<group>/<name>.mdx`: its guideline, which is also its Storybook page. Once the component exists, the page attaches to its stories (`<Meta of={…} />`) and shows them with the props table, after the guideline (see `button.mdx`).
 - The design system's other pages (foundations, guidelines) are `.mdx` files in `src/` too, each one next to the code it documents when there is some.
-- The component and its props type are exported from `src/index.ts`.
+- The component, its parts and their props types are exported from `src/index.ts`.
 
 ## Comments
 
@@ -49,11 +49,35 @@ The simplest solution that meets today's needs wins. Simple code is easier to re
 
 - Props extend the props of the rendered element (`ComponentProps<'button'>`) and are passed through to it, so that `id`, `aria-*`, `data-*`, event handlers and `ref` work as on the native element. React 19 passes `ref` as a regular prop: no `forwardRef`.
 - Prop names follow the guideline, and HTML names when they exist (`disabled`, `checked`, `value`), never an alias.
-- Stateful components are controlled only: the consumer holds the state and passes it with its setter (`value` + `onChange`, `checked` + `onChange`…). No uncontrolled form (`defaultValue`, `defaultChecked`…).
+- Stateful components are controlled (`value` + `onChange`, `checked` + `onChange`…) or uncontrolled (`defaultValue`, `defaultChecked`…), with the HTML names: a form library that registers native inputs relies on the uncontrolled form.
 - Booleans default to `false` and are named after the non-default state (`disabled`, `loading`, `optional`).
 - Icons are passed as concept names (`icon="send"`), never as elements.
 - Components contain no text of their own: every word shown or read by a screen reader (a close button's name, "Step 2 of 3") is a prop, written in the application's language by the consumer.
 - No `asChild` or polymorphic `as` prop: a component that can also be a link comes as a second component that renders an `<a>` (`Button` and `LinkButton`), sharing its styles.
+
+## Composition
+
+A component that has more than one content area, or whose content the consumer arranges, comes as a set of small parts rather than as props that hold content (`title`, `actions`, `footer`, `items`…):
+
+```tsx
+<Dialog open={open} onClose={close}>
+  <DialogContent closeLabel="Close">
+    <DialogHeader>
+      <DialogTitle>Delete the item?</DialogTitle>
+      <DialogDescription>It cannot be undone.</DialogDescription>
+    </DialogHeader>
+    <DialogFooter>…</DialogFooter>
+  </DialogContent>
+</Dialog>
+```
+
+- An atomic control (`Button`, `Input`, `Checkbox`, `Badge`…) stays a single component.
+- Parts are exported flat, named after the component (`DialogTitle`, not `Dialog.Title`), and live in the component's file.
+- Each part follows the rules of [Props](#props): it extends the props of the element it renders, and passes `className` and the other props through.
+- The parts share their state through Ark's context (Dialog, Tabs, Field, Fieldset…), or through a React context of the component when Ark has none.
+- What accessibility needs is kept in a required part, so that leaving out an optional part cannot break it: the close button of a dialog is part of `DialogContent`, which requires its name.
+- The guideline lists the parts, which ones are required and in which order they go.
+- `Field` is the only component that also comes as a shortcut (`<Field label hint error>`), built from its parts, for the common case of a field.
 
 ## Behavior and accessibility
 
