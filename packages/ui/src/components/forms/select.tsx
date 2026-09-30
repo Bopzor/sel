@@ -1,6 +1,6 @@
 import { Field } from '@ark-ui/react/field';
 import clsx from 'clsx';
-import type { ComponentProps } from 'react';
+import type { ComponentProps, ReactNode } from 'react';
 
 import { Icon } from '../display/icon';
 
@@ -8,23 +8,18 @@ import { fieldBoxStyles } from './field';
 
 import type { Override } from '../../utils';
 
-export type SelectOption = {
-  value: string;
-  label: string;
-};
-
 export type SelectProps = Override<
   ComponentProps<'select'>,
   {
     multiple?: never;
-    children?: never;
-    options: SelectOption[];
+    /** The <option>s, and <optgroup>s to group them. */
+    children: ReactNode;
     /** A first option that cannot be chosen ("Choose a category"), shown while the value is an empty string. */
     placeholder?: string;
   }
 >;
 
-export function Select({ options, placeholder, value, defaultValue, className, ...props }: SelectProps) {
+export function Select({ placeholder, value, defaultValue, className, children, ...props }: SelectProps) {
   // Uncontrolled, the browser would pick the first option that is not disabled: the placeholder is picked explicitly.
   const initialValue =
     value === undefined && defaultValue === undefined && placeholder !== undefined ? '' : defaultValue;
@@ -46,11 +41,7 @@ export function Select({ options, placeholder, value, defaultValue, className, .
             {placeholder}
           </option>
         )}
-        {options.map((option) => (
-          <option key={option.value} value={option.value}>
-            {option.label}
-          </option>
-        ))}
+        {children}
       </Field.Select>
 
       {/* Replaces the native arrow, hidden by appearance-none; clicks go through to the select. It flips while the

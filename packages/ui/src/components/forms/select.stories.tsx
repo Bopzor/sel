@@ -2,22 +2,24 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
 
 import { Field } from './field';
-import { Select, type SelectOption } from './select';
+import { Select } from './select';
 
-const options: SelectOption[] = [
-  { value: 'first', label: 'First option' },
-  { value: 'second', label: 'Second option' },
-  { value: 'third', label: 'Third option' },
-  { value: 'fourth', label: 'Fourth option' },
-  { value: 'fifth', label: 'Fifth option' },
-  { value: 'sixth', label: 'Sixth option' },
-];
+const options = (
+  <>
+    <option value="first">First option</option>
+    <option value="second">Second option</option>
+    <option value="third">Third option</option>
+    <option value="fourth">Fourth option</option>
+    <option value="fifth">Fifth option</option>
+    <option value="sixth">Sixth option</option>
+  </>
+);
 
 export default {
   title: 'Components/Forms/Select',
   component: Select,
   args: {
-    options,
+    children: options,
     placeholder: 'Choose an option',
   },
   render: (args) => (
@@ -25,6 +27,9 @@ export default {
       <Select {...args} />
     </Field>
   ),
+  argTypes: {
+    children: { control: false },
+  },
   decorators: [(Story) => <div className="max-w-content">{Story()}</div>],
 } satisfies Meta<typeof Select>;
 
@@ -34,6 +39,25 @@ export const Playground: Story = {};
 
 export const Selected: Story = {
   args: { defaultValue: 'second' },
+};
+
+export const Groups: Story = {
+  args: {
+    children: (
+      <>
+        <optgroup label="First group">
+          <option value="first">First option</option>
+          <option value="second">Second option</option>
+        </optgroup>
+        <optgroup label="Second group">
+          <option value="third">Third option</option>
+          <option value="fourth" disabled>
+            Fourth option, unavailable
+          </option>
+        </optgroup>
+      </>
+    ),
+  },
 };
 
 export const Invalid: Story = {

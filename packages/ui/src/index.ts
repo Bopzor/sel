@@ -1,4 +1,13 @@
-export { Alert, type AlertProps } from './components/feedback/alert';
+export {
+  Alert,
+  AlertActions,
+  AlertDescription,
+  AlertTitle,
+  type AlertProps,
+  type AlertActionsProps,
+  type AlertDescriptionProps,
+  type AlertTitleProps,
+} from './components/feedback/alert';
 export { Avatar, type AvatarProps } from './components/display/avatar';
 export { Badge, type BadgeProps } from './components/display/badge';
 export { BottomNav, type BottomNavItem, type BottomNavProps } from './components/navigation/bottom-nav';
@@ -45,7 +54,16 @@ export {
   type DialogTitleProps,
   type DialogTriggerProps,
 } from './components/feedback/dialog';
-export { EmptyState, type EmptyStateProps } from './components/feedback/empty-state';
+export {
+  EmptyState,
+  EmptyStateAction,
+  EmptyStateDescription,
+  EmptyStateTitle,
+  type EmptyStateProps,
+  type EmptyStateActionProps,
+  type EmptyStateDescriptionProps,
+  type EmptyStateTitleProps,
+} from './components/feedback/empty-state';
 export {
   Field,
   FieldError,
@@ -120,7 +138,7 @@ export {
   type RichTextToolbarEndProps,
   type RichTextToolbarProps,
 } from './components/forms/rich-text-editor';
-export { Select, type SelectOption, type SelectProps } from './components/forms/select';
+export { Select, type SelectProps } from './components/forms/select';
 export {
   SideNav,
   type SideNavItem,
@@ -130,6 +148,15 @@ export {
 export { Skeleton, type SkeletonProps } from './components/feedback/skeleton';
 export { Stepper, type StepperProps } from './components/navigation/stepper';
 export { Switch, type SwitchProps } from './components/forms/switch';
-export { Tabs, type TabsItem, type TabsProps } from './components/navigation/tabs';
+export {
+  Tab,
+  TabList,
+  TabPanel,
+  Tabs,
+  type TabListProps,
+  type TabPanelProps,
+  type TabProps,
+  type TabsProps,
+} from './components/navigation/tabs';
 export { TextArea, type TextAreaProps } from './components/forms/text-area';
 export { Toast, type ToastProps } from './components/feedback/toast';

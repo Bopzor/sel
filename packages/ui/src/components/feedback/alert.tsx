@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import { cva } from 'cva';
 import type { ComponentProps, ReactNode } from 'react';
 
@@ -12,9 +13,8 @@ export type AlertProps = Override<
   ComponentProps<'div'>,
   {
     tone?: Tone;
-    title: ReactNode;
-    /** Small buttons (size="sm"). */
-    actions?: ReactNode;
+    /** An AlertTitle, an AlertDescription, AlertActions. */
+    children: ReactNode;
   }
 > &
   (
@@ -26,16 +26,7 @@ export type AlertProps = Override<
       }
   );
 
-export function Alert({
-  tone = 'info',
-  title,
-  actions,
-  onClose,
-  closeLabel,
-  className,
-  children,
-  ...props
-}: AlertProps) {
+export function Alert({ tone = 'info', onClose, closeLabel, className, children, ...props }: AlertProps) {
   return (
     <div
       {...props}
@@ -44,15 +35,32 @@ export function Alert({
     >
       <Icon name={icons[tone]} size="md" className={iconStyles({ tone })} />
 
-      <div className="flex flex-1 flex-col gap-1">
-        <p className="text-body-strong text-default">{title}</p>
-        {children && <div className="text-body-sm text-default">{children}</div>}
-        {actions && <div className="mt-2 flex flex-wrap gap-2">{actions}</div>}
-      </div>
+      <div className="flex flex-1 flex-col gap-1">{children}</div>
 
       {onClose && <IconButton icon="close" label={closeLabel} size="sm" onClick={onClose} className="-m-2" />}
     </div>
   );
+}
+
+export type AlertTitleProps = ComponentProps<'p'>;
+
+/** A short sentence. */
+export function AlertTitle({ className, ...props }: AlertTitleProps) {
+  return <p {...props} className={clsx('text-body-strong text-default', className)} />;
+}
+
+export type AlertDescriptionProps = ComponentProps<'div'>;
+
+/** What happened, and what to do. */
+export function AlertDescription({ className, ...props }: AlertDescriptionProps) {
+  return <div {...props} className={clsx('text-body-sm text-default', className)} />;
+}
+
+export type AlertActionsProps = ComponentProps<'div'>;
+
+/** Small buttons (size="sm"). */
+export function AlertActions({ className, ...props }: AlertActionsProps) {
+  return <div {...props} className={clsx('mt-2 flex flex-wrap gap-2', className)} />;
 }
 
 const icons = {

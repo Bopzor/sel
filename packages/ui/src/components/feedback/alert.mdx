@@ -15,9 +15,24 @@ An in-page message, in four tones, with an icon, a title, text and optional acti
 - `warning`: a risk to know before acting (low balance).
 - `danger`: a blocking error. Say what happened and what to do, without technical codes.
 
-## What the consumer provides
+## Parts
 
-- `tone`, `title` (a short sentence), `children` (explanation), `actions` (an `sm` button), `onClose` if the message can be dismissed, with `closeLabel`, the accessible name of the close button.
+```tsx
+<Alert tone="danger" onClose={close} closeLabel="Close">
+  <AlertTitle>The action failed</AlertTitle>
+  <AlertDescription>Check the connection, then try again.</AlertDescription>
+  <AlertActions>
+    <Button size="sm" variant="secondary">
+      Retry
+    </Button>
+  </AlertActions>
+</Alert>
+```
+
+- `Alert` (required): the `tone` and its icon. `onClose` if the message can be dismissed, with `closeLabel`, the accessible name of the close button.
+- `AlertTitle`: a short sentence. A message of a single sentence has no title, only a description.
+- `AlertDescription`: the explanation.
+- `AlertActions`: `sm` buttons.
 
 The `danger` tone is announced immediately (`role="alert"`), the others politely (`role="status"`). The meaning never relies on color alone: the icon and the title carry it too.
 

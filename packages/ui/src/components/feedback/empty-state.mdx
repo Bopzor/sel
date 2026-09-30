@@ -12,12 +12,22 @@ An empty screen or block that explains what will appear here and offers the firs
 
 When a list is empty (no request, no exchange, a search with no result).
 
-## What the consumer provides
+## Parts
 
-- `icon`: the icon of the content type.
-- `title`: what is missing, in one sentence.
-- `children`: why, or what will happen.
-- `action`: a `Button` that helps get out of it (post, broaden the search).
+```tsx
+<EmptyState icon="search">
+  <EmptyStateTitle>No results</EmptyStateTitle>
+  <EmptyStateDescription>Try other words, or broaden the search.</EmptyStateDescription>
+  <EmptyStateAction>
+    <Button variant="secondary">Clear the search</Button>
+  </EmptyStateAction>
+</EmptyState>
+```
+
+- `EmptyState` (required): `icon`, the icon of the content type.
+- `EmptyStateTitle` (required): what is missing, in one sentence. A heading of `level` 2, 3 or 4 (2 by default, to adjust to the page hierarchy).
+- `EmptyStateDescription`: why, or what will happen.
+- `EmptyStateAction`: a `Button` that helps get out of it (post, broaden the search).
 
 <Primary />
 
