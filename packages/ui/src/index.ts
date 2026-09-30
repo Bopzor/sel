@@ -66,9 +66,23 @@ export {
 } from './components/forms/radio-group';
 export { RichText, type RichTextProps } from './components/display/rich-text';
 export {
+  RichTextBold,
+  RichTextBulletList,
   RichTextEditor,
-  type RichTextEditorLabels,
+  RichTextItalic,
+  RichTextLink,
+  RichTextOrderedList,
+  RichTextToolbar,
+  RichTextToolbarButton,
+  RichTextToolbarEnd,
+  RichTextUnderline,
   type RichTextEditorProps,
+  type RichTextFormatProps,
+  type RichTextLinkLabels,
+  type RichTextLinkProps,
+  type RichTextToolbarButtonProps,
+  type RichTextToolbarEndProps,
+  type RichTextToolbarProps,
 } from './components/forms/rich-text-editor';
 export { Select, type SelectOption, type SelectProps } from './components/forms/select';
 export {

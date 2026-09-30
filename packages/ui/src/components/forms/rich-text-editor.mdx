@@ -18,13 +18,34 @@ For a text that other members read, where a list or a link helps: the message of
 - `onBlur` and `ref` (whose `focus()` moves the focus to the text), for a form library: with react-hook-form, the editor goes through a `Controller`.
 - `disabled`, `required`, `aria-invalid`, `id`, `aria-label`, `aria-labelledby`, `aria-describedby`: they override the `Field`'s. Outside a `Field`, an `aria-label`, like `Input`.
 - `placeholder`: an example of content, never a replacement for the label.
-- `labels`: the accessible names of the toolbar buttons and the texts of the link dialog, in the application's language.
-- `toolbarEnd`: actions placed at the end of the toolbar, such as an attachment button or the send button of a comment. The editor only renders them.
+- `children`: its `RichTextToolbar` (see below).
+
+## Parts
+
+```tsx
+<RichTextEditor value={value} onChange={setValue}>
+  <RichTextToolbar>
+    <RichTextBold label="Bold" />
+    <RichTextItalic label="Italic" />
+    <RichTextUnderline label="Underline" />
+    <RichTextLink labels={linkLabels} />
+    <RichTextBulletList label="Bulleted list" />
+    <RichTextOrderedList label="Numbered list" />
+    <RichTextToolbarEnd>…</RichTextToolbarEnd>
+  </RichTextToolbar>
+</RichTextEditor>
+```
+
+- `RichTextToolbar`: the bar under the text. The formats offered are the buttons it contains, in that order.
+- `RichTextBold`, `RichTextItalic`, `RichTextUnderline`, `RichTextBulletList`, `RichTextOrderedList`: a format each, named by `label` in the application's language.
+- `RichTextLink`: the link button and its dialog, with their texts in `labels` (`button`, which is also the dialog's title, `url`, `invalid`, `apply`, `remove`, `cancel`, `close`).
+- `RichTextToolbarEnd`: actions placed at the end of the toolbar, such as an attachment button or the send button of a comment. The editor only renders them.
+- `RichTextToolbarButton`: a button with the style of the toolbar, for an action of the application (attaching a file). It is disabled with the editor.
 
 ## Rules
 
-- Only the formats of the toolbar exist. Pasted content keeps paragraphs, bold, italic, underline, links and lists, and loses the rest (headings, colors, tables).
-- The link button opens a dialog with the address. An address without a scheme ("example.org") gets `https://`. With no selected text, the address is inserted as the link's text. An unsafe address (`javascript:`) is refused, with the `linkInvalid` error under the field.
+- Pasted content keeps paragraphs, bold, italic, underline, links and lists, and loses the rest (headings, colors, tables).
+- The link button opens a dialog with the address. An address without a scheme ("example.org") gets `https://`. With no selected text, the address is inserted as the link's text. An unsafe address (`javascript:`) is refused, with the `invalid` error under the field.
 - A pasted address becomes a link on its own. A link does not open on click while editing.
 - The toolbar buttons show their state with `aria-pressed` and the `bg-primary-subtle` background, like the active entry of a navigation. They keep the focus and the selection in the text when clicked with the mouse.
 - The keyboard shortcuts of the formats work too: Ctrl/⌘ + B, I, U, and Ctrl/⌘ + Shift + 7 and 8 for the lists.

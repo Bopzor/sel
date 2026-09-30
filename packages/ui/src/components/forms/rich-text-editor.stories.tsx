@@ -4,22 +4,40 @@ import { useState } from 'react';
 import { Button } from '../actions/button';
 
 import { Field } from './field';
-import { RichTextEditor, ToolbarButton, type RichTextEditorLabels } from './rich-text-editor';
+import {
+  RichTextBold,
+  RichTextBulletList,
+  RichTextEditor,
+  RichTextItalic,
+  RichTextLink,
+  RichTextOrderedList,
+  RichTextToolbar,
+  RichTextToolbarButton,
+  RichTextToolbarEnd,
+  RichTextUnderline,
+  type RichTextLinkLabels,
+} from './rich-text-editor';
 
-const labels: RichTextEditorLabels = {
-  bold: 'Bold',
-  italic: 'Italic',
-  underline: 'Underline',
-  link: 'Link',
-  bulletList: 'Bulleted list',
-  orderedList: 'Numbered list',
-  linkUrl: 'Address',
-  linkInvalid: 'What to do to fix the address.',
-  linkApply: 'Apply',
-  linkRemove: 'Remove the link',
-  linkCancel: 'Cancel',
+const linkLabels: RichTextLinkLabels = {
+  button: 'Link',
+  url: 'Address',
+  invalid: 'What to do to fix the address.',
+  apply: 'Apply',
+  remove: 'Remove the link',
+  cancel: 'Cancel',
   close: 'Close',
 };
+
+const toolbar = (
+  <RichTextToolbar>
+    <RichTextBold label="Bold" />
+    <RichTextItalic label="Italic" />
+    <RichTextUnderline label="Underline" />
+    <RichTextLink labels={linkLabels} />
+    <RichTextBulletList label="Bulleted list" />
+    <RichTextOrderedList label="Numbered list" />
+  </RichTextToolbar>
+);
 
 const formattedValue = [
   '<p>A paragraph with <strong>bold</strong>, <em>italic</em>, <u>underlined</u> text and a <a href="https://example.org">link</a>.</p>',
@@ -33,7 +51,10 @@ export default {
   args: {
     placeholder: 'Placeholder text',
     value: '',
-    labels,
+    children: toolbar,
+  },
+  argTypes: {
+    children: { control: false },
   },
   render: function Render(args) {
     const [value, setValue] = useState(args.value);
@@ -75,26 +96,38 @@ export const Disabled: Story = {
   },
 };
 
-/** The send button empties the editor. */
+/** Only the formats that the text needs. */
+export const MinimalToolbar: Story = {
+  args: {
+    children: (
+      <RichTextToolbar>
+        <RichTextBold label="Bold" />
+        <RichTextItalic label="Italic" />
+      </RichTextToolbar>
+    ),
+  },
+};
+
+/** Actions of the application at the end of the toolbar. The send button empties the editor. */
 export const WithToolbarEnd: Story = {
   render: function Render(args) {
     const [value, setValue] = useState('');
 
     return (
       <Field label="Message">
-        <RichTextEditor
-          {...args}
-          value={value}
-          onChange={setValue}
-          toolbarEnd={
-            <>
-              <ToolbarButton icon="attachment" label="Attach a file" />
+        <RichTextEditor {...args} value={value} onChange={setValue}>
+          <RichTextToolbar>
+            <RichTextBold label="Bold" />
+            <RichTextItalic label="Italic" />
+            <RichTextLink labels={linkLabels} />
+            <RichTextToolbarEnd>
+              <RichTextToolbarButton icon="attachment" label="Attach a file" />
               <Button size="sm" onClick={() => setValue('')}>
                 Send
               </Button>
-            </>
-          }
-        />
+            </RichTextToolbarEnd>
+          </RichTextToolbar>
+        </RichTextEditor>
       </Field>
     );
   },

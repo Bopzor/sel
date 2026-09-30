@@ -6,16 +6,19 @@ import { StarterKit } from '@tiptap/starter-kit';
 import clsx from 'clsx';
 import { cva } from 'cva';
 import {
+  createContext,
+  use,
   useCallback,
   useEffect,
   useImperativeHandle,
   useState,
+  type ComponentProps,
   type FormEvent,
   type ReactNode,
   type Ref,
 } from 'react';
 
-import { definedAttributes } from '../../utils';
+import { definedAttributes, type Override } from '../../utils';
 import { Button } from '../actions/button';
 import { Icon, type IconName } from '../display/icon';
 import {
@@ -30,34 +33,14 @@ import {
 import { Field, fieldBoxStyles } from './field';
 import { Input } from './input';
 
-export type RichTextEditorLabels = {
-  bold: string;
-  italic: string;
-  underline: string;
-  /** The link button, also the title of the link dialog. */
-  link: string;
-  bulletList: string;
-  orderedList: string;
-  /** Label of the address field, in the link dialog. */
-  linkUrl: string;
-  /** Error of the address field, for an address that cannot be a link ("javascript:…"). */
-  linkInvalid: string;
-  linkApply: string;
-  linkRemove: string;
-  linkCancel: string;
-  /** Accessible name of the link dialog's close button. */
-  close: string;
-};
-
 export type RichTextEditorProps = {
   /** The content as HTML, an empty string when the editor is empty. */
   value: string;
   onChange: (html: string) => void;
   onBlur?: () => void;
   placeholder?: string;
-  labels: RichTextEditorLabels;
-  /** Actions at the end of the toolbar (attachment, send). */
-  toolbarEnd?: ReactNode;
+  /** A RichTextToolbar, under the text. */
+  children?: ReactNode;
   /** Focuses the text, for a form library that focuses the first field in error. */
   ref?: Ref<{ focus: () => void }>;
   // Override the field's.
@@ -76,8 +59,7 @@ export function RichTextEditor({
   onChange,
   onBlur,
   placeholder,
-  labels,
-  toolbarEnd,
+  children,
   ref,
   className,
   ...props
@@ -167,60 +149,165 @@ export function RichTextEditor({
   }, [focus, labelId]);
 
   return (
-    <div className={clsx(fieldBoxStyles, 'flex flex-col', className)}>
-      <EditorContent editor={editor} />
-      <Toolbar editor={editor} labels={labels} disabled={disabled} end={toolbarEnd} />
-    </div>
+    <RichTextEditorContext value={{ editor, disabled }}>
+      <div className={clsx(fieldBoxStyles, 'flex flex-col', className)}>
+        <EditorContent editor={editor} />
+        {children}
+      </div>
+    </RichTextEditorContext>
   );
 }
 
-function Toolbar({
-  editor,
-  labels,
-  disabled,
-  end,
-}: {
-  editor: Editor;
-  labels: RichTextEditorLabels;
-  disabled: boolean;
-  end: ReactNode;
-}) {
-  const active = useEditorState({
-    editor,
-    selector: ({ editor }) => ({
-      bold: editor.isActive('bold'),
-      italic: editor.isActive('italic'),
-      underline: editor.isActive('underline'),
-      link: editor.isActive('link'),
-      bulletList: editor.isActive('bulletList'),
-      orderedList: editor.isActive('orderedList'),
-    }),
-  });
+type RichTextEditorContextValue = { editor: Editor; disabled: boolean };
 
-  const [linkOpen, setLinkOpen] = useState(false);
-  const [linkUrl, setLinkUrl] = useState('');
-  const [linkInvalid, setLinkInvalid] = useState(false);
-  const [editingLink, setEditingLink] = useState(false);
+const RichTextEditorContext = createContext<RichTextEditorContextValue | null>(null);
 
-  const openLink = () => {
+function useRichTextEditor() {
+  const context = use(RichTextEditorContext);
+
+  if (context === null) {
+    throw new Error('The parts of a RichTextEditor must be inside a RichTextEditor.');
+  }
+
+  return context;
+}
+
+export type RichTextToolbarProps = ComponentProps<'div'>;
+
+/** The formatting buttons, under the text: the formats offered are the buttons it contains. */
+export function RichTextToolbar({ className, ...props }: RichTextToolbarProps) {
+  return <div {...props} className={clsx('flex flex-wrap items-center gap-1 border-t p-1', className)} />;
+}
+
+export type RichTextToolbarEndProps = ComponentProps<'div'>;
+
+/** Actions at the end of the toolbar, such as an attachment button or the send button of a comment. */
+export function RichTextToolbarEnd({ className, ...props }: RichTextToolbarEndProps) {
+  return <div {...props} className={clsx('ml-auto flex items-center gap-2', className)} />;
+}
+
+export type RichTextFormatProps = {
+  /** Accessible name of the button, in the application's language. */
+  label: string;
+};
+
+export function RichTextBold({ label }: RichTextFormatProps) {
+  return (
+    <FormatButton
+      icon="bold"
+      label={label}
+      format="bold"
+      run={(editor) => editor.chain().focus().toggleBold().run()}
+    />
+  );
+}
+
+export function RichTextItalic({ label }: RichTextFormatProps) {
+  return (
+    <FormatButton
+      icon="italic"
+      label={label}
+      format="italic"
+      run={(editor) => editor.chain().focus().toggleItalic().run()}
+    />
+  );
+}
+
+export function RichTextUnderline({ label }: RichTextFormatProps) {
+  return (
+    <FormatButton
+      icon="underline"
+      label={label}
+      format="underline"
+      run={(editor) => editor.chain().focus().toggleUnderline().run()}
+    />
+  );
+}
+
+export function RichTextBulletList({ label }: RichTextFormatProps) {
+  return (
+    <FormatButton
+      icon="bullet-list"
+      label={label}
+      format="bulletList"
+      run={(editor) => editor.chain().focus().toggleBulletList().run()}
+    />
+  );
+}
+
+export function RichTextOrderedList({ label }: RichTextFormatProps) {
+  return (
+    <FormatButton
+      icon="ordered-list"
+      label={label}
+      format="orderedList"
+      run={(editor) => editor.chain().focus().toggleOrderedList().run()}
+    />
+  );
+}
+
+type FormatButtonProps = RichTextFormatProps & {
+  icon: IconName;
+  /** The name of tiptap's mark or node, which makes the button pressed when the selection has it. */
+  format: string;
+  run: (editor: Editor) => void;
+};
+
+function FormatButton({ icon, label, format, run }: FormatButtonProps) {
+  const { editor } = useRichTextEditor();
+  const pressed = useEditorState({ editor, selector: ({ editor }) => editor.isActive(format) });
+
+  return <RichTextToolbarButton icon={icon} label={label} pressed={pressed} onClick={() => run(editor)} />;
+}
+
+export type RichTextLinkLabels = {
+  /** The link button, also the title of the link dialog. */
+  button: string;
+  /** Label of the address field. */
+  url: string;
+  /** Error of the address field, for an address that cannot be a link ("javascript:…"). */
+  invalid: string;
+  apply: string;
+  remove: string;
+  cancel: string;
+  /** Accessible name of the dialog's close button. */
+  close: string;
+};
+
+export type RichTextLinkProps = {
+  /** The texts of the button and of its dialog, in the application's language. */
+  labels: RichTextLinkLabels;
+};
+
+/** The link button, which opens a dialog with the address. */
+export function RichTextLink({ labels }: RichTextLinkProps) {
+  const { editor } = useRichTextEditor();
+  const pressed = useEditorState({ editor, selector: ({ editor }) => editor.isActive('link') });
+
+  const [open, setOpen] = useState(false);
+  const [url, setUrl] = useState('');
+  const [invalid, setInvalid] = useState(false);
+  const [editing, setEditing] = useState(false);
+
+  const openDialog = () => {
     const href: string | undefined = editor.getAttributes('link').href;
 
-    setLinkUrl(href ?? '');
-    setEditingLink(href !== undefined);
-    setLinkInvalid(false);
-    setLinkOpen(true);
+    setUrl(href ?? '');
+    setEditing(href !== undefined);
+    setInvalid(false);
+    setOpen(true);
   };
 
-  const applyLink = (event: FormEvent) => {
+  const apply = (event: FormEvent) => {
     // The dialog is rendered in a portal, but React still bubbles its submit event to a form around the editor.
     event.preventDefault();
     event.stopPropagation();
 
-    const href = toHref(linkUrl.trim());
+    const href = toHref(url.trim());
 
     // The link extension refuses unsafe addresses; the insertion below would not check them.
     if (href !== '' && !editor.can().setLink({ href })) {
-      setLinkInvalid(true);
+      setInvalid(true);
       return;
     }
 
@@ -235,74 +322,31 @@ function Toolbar({
       editor.chain().extendMarkRange('link').setLink({ href }).run();
     }
 
-    setLinkOpen(false);
+    setOpen(false);
   };
 
-  const removeLink = () => {
+  const remove = () => {
     editor.chain().extendMarkRange('link').unsetLink().run();
-    setLinkOpen(false);
+    setOpen(false);
   };
 
   return (
-    <div className="flex flex-wrap items-center gap-1 border-t p-1">
-      <ToolbarButton
-        icon="bold"
-        label={labels.bold}
-        pressed={active.bold}
-        disabled={disabled}
-        onClick={() => editor.chain().focus().toggleBold().run()}
-      />
-      <ToolbarButton
-        icon="italic"
-        label={labels.italic}
-        pressed={active.italic}
-        disabled={disabled}
-        onClick={() => editor.chain().focus().toggleItalic().run()}
-      />
-      <ToolbarButton
-        icon="underline"
-        label={labels.underline}
-        pressed={active.underline}
-        disabled={disabled}
-        onClick={() => editor.chain().focus().toggleUnderline().run()}
-      />
-      <ToolbarButton
-        icon="link"
-        label={labels.link}
-        pressed={active.link}
-        disabled={disabled}
-        onClick={openLink}
-      />
-      <ToolbarButton
-        icon="bullet-list"
-        label={labels.bulletList}
-        pressed={active.bulletList}
-        disabled={disabled}
-        onClick={() => editor.chain().focus().toggleBulletList().run()}
-      />
-      <ToolbarButton
-        icon="ordered-list"
-        label={labels.orderedList}
-        pressed={active.orderedList}
-        disabled={disabled}
-        onClick={() => editor.chain().focus().toggleOrderedList().run()}
-      />
+    <>
+      <RichTextToolbarButton icon="link" label={labels.button} pressed={pressed} onClick={openDialog} />
 
-      {end && <div className="ml-auto flex items-center gap-2">{end}</div>}
-
-      <Dialog open={linkOpen} onClose={() => setLinkOpen(false)} finalFocus={() => editor.view.dom}>
+      <Dialog open={open} onClose={() => setOpen(false)} finalFocus={() => editor.view.dom}>
         <DialogContent closeLabel={labels.close}>
           <DialogHeader>
-            <DialogTitle>{labels.link}</DialogTitle>
+            <DialogTitle>{labels.button}</DialogTitle>
           </DialogHeader>
 
           {/* noValidate: an address without a scheme is not a valid url for the browser, and gets https:// here. */}
-          <form onSubmit={applyLink} noValidate className="contents">
+          <form onSubmit={apply} noValidate className="contents">
             <DialogBody>
-              <Field label={labels.linkUrl} error={linkInvalid ? labels.linkInvalid : undefined}>
+              <Field label={labels.url} error={invalid ? labels.invalid : undefined}>
                 <Input
-                  value={linkUrl}
-                  onChange={(event) => setLinkUrl(event.target.value)}
+                  value={url}
+                  onChange={(event) => setUrl(event.target.value)}
                   type="url"
                   inputMode="url"
                   autoComplete="url"
@@ -311,47 +355,61 @@ function Toolbar({
             </DialogBody>
 
             <DialogFooter>
-              <Button type="submit">{labels.linkApply}</Button>
-              {editingLink && (
-                <Button variant="secondary" onClick={removeLink}>
-                  {labels.linkRemove}
+              <Button type="submit">{labels.apply}</Button>
+              {editing && (
+                <Button variant="secondary" onClick={remove}>
+                  {labels.remove}
                 </Button>
               )}
-              <Button variant="secondary" onClick={() => setLinkOpen(false)}>
-                {labels.linkCancel}
+              <Button variant="secondary" onClick={() => setOpen(false)}>
+                {labels.cancel}
               </Button>
             </DialogFooter>
           </form>
         </DialogContent>
       </Dialog>
-    </div>
+    </>
   );
 }
 
-export function ToolbarButton({
+export type RichTextToolbarButtonProps = Override<
+  ComponentProps<'button'>,
+  {
+    children?: never;
+    icon: IconName;
+    /** Accessible name, also shown as a tooltip on hover. */
+    label: string;
+    pressed?: boolean;
+  }
+>;
+
+/** A button of the toolbar, for an action of the application (attaching a file). Disabled with the editor. */
+export function RichTextToolbarButton({
   icon,
   label,
   pressed,
-  disabled,
-  onClick,
-}: {
-  icon: IconName;
-  label: string;
-  pressed?: boolean;
-  disabled?: boolean;
-  onClick?: () => void;
-}) {
+  disabled: disabledProp,
+  onMouseDown,
+  className,
+  ...props
+}: RichTextToolbarButtonProps) {
+  const context = use(RichTextEditorContext);
+  const disabled = disabledProp ?? context?.disabled ?? false;
+
   return (
     <button
       type="button"
+      {...props}
       title={label}
       aria-label={label}
       aria-pressed={pressed}
       disabled={disabled}
       // Keeps the focus and the selection in the text on a mouse click.
-      onMouseDown={(event) => event.preventDefault()}
-      onClick={onClick}
-      className={toolbarButtonStyles({ state: getToolbarButtonState({ pressed, disabled }) })}
+      onMouseDown={(event) => {
+        event.preventDefault();
+        onMouseDown?.(event);
+      }}
+      className={toolbarButtonStyles({ state: getToolbarButtonState({ pressed, disabled }), className })}
     >
       <Icon name={icon} size="md" />
     </button>
