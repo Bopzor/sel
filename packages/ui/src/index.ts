@@ -6,7 +6,26 @@ export { Button, LinkButton, type ButtonProps, type LinkButtonProps } from './co
 export { Card, type CardProps } from './components/display/card';
 export { Checkbox, type CheckboxProps } from './components/forms/checkbox';
 export { Chip, type ChipProps } from './components/forms/chip';
-export { Dialog, type DialogProps } from './components/feedback/dialog';
+export {
+  Dialog,
+  DialogBody,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+  type DialogProps,
+  type DialogBodyProps,
+  type DialogCloseProps,
+  type DialogContentProps,
+  type DialogDescriptionProps,
+  type DialogFooterProps,
+  type DialogHeaderProps,
+  type DialogTitleProps,
+  type DialogTriggerProps,
+} from './components/feedback/dialog';
 export { EmptyState, type EmptyStateProps } from './components/feedback/empty-state';
 export {
   Field,

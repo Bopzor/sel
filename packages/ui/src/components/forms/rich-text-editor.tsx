@@ -8,7 +8,6 @@ import { cva } from 'cva';
 import {
   useCallback,
   useEffect,
-  useId,
   useImperativeHandle,
   useState,
   type FormEvent,
@@ -19,7 +18,14 @@ import {
 import { definedAttributes } from '../../utils';
 import { Button } from '../actions/button';
 import { Icon, type IconName } from '../display/icon';
-import { Dialog } from '../feedback/dialog';
+import {
+  Dialog,
+  DialogBody,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '../feedback/dialog';
 
 import { Field, fieldBoxStyles } from './field';
 import { Input } from './input';
@@ -237,8 +243,6 @@ function Toolbar({
     setLinkOpen(false);
   };
 
-  const formId = useId();
-
   return (
     <div className="flex flex-wrap items-center gap-1 border-t p-1">
       <ToolbarButton
@@ -286,40 +290,39 @@ function Toolbar({
 
       {end && <div className="ml-auto flex items-center gap-2">{end}</div>}
 
-      <Dialog
-        open={linkOpen}
-        onClose={() => setLinkOpen(false)}
-        title={labels.link}
-        closeLabel={labels.close}
-        finalFocus={() => editor.view.dom}
-        actions={
-          <>
-            <Button type="submit" form={formId}>
-              {labels.linkApply}
-            </Button>
-            {editingLink && (
-              <Button variant="secondary" onClick={removeLink}>
-                {labels.linkRemove}
+      <Dialog open={linkOpen} onClose={() => setLinkOpen(false)} finalFocus={() => editor.view.dom}>
+        <DialogContent closeLabel={labels.close}>
+          <DialogHeader>
+            <DialogTitle>{labels.link}</DialogTitle>
+          </DialogHeader>
+
+          {/* noValidate: an address without a scheme is not a valid url for the browser, and gets https:// here. */}
+          <form onSubmit={applyLink} noValidate className="contents">
+            <DialogBody>
+              <Field label={labels.linkUrl} error={linkInvalid ? labels.linkInvalid : undefined}>
+                <Input
+                  value={linkUrl}
+                  onChange={(event) => setLinkUrl(event.target.value)}
+                  type="url"
+                  inputMode="url"
+                  autoComplete="url"
+                />
+              </Field>
+            </DialogBody>
+
+            <DialogFooter>
+              <Button type="submit">{labels.linkApply}</Button>
+              {editingLink && (
+                <Button variant="secondary" onClick={removeLink}>
+                  {labels.linkRemove}
+                </Button>
+              )}
+              <Button variant="secondary" onClick={() => setLinkOpen(false)}>
+                {labels.linkCancel}
               </Button>
-            )}
-            <Button variant="secondary" onClick={() => setLinkOpen(false)}>
-              {labels.linkCancel}
-            </Button>
-          </>
-        }
-      >
-        {/* noValidate: an address without a scheme is not a valid url for the browser, and gets https:// here. */}
-        <form id={formId} onSubmit={applyLink} noValidate>
-          <Field label={labels.linkUrl} error={linkInvalid ? labels.linkInvalid : undefined}>
-            <Input
-              value={linkUrl}
-              onChange={(event) => setLinkUrl(event.target.value)}
-              type="url"
-              inputMode="url"
-              autoComplete="url"
-            />
-          </Field>
-        </form>
+            </DialogFooter>
+          </form>
+        </DialogContent>
       </Dialog>
     </div>
   );

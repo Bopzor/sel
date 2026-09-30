@@ -14,16 +14,41 @@ A modal window: a sheet that slides up from the bottom on mobile, a centered win
 - For a short form related to the current screen.
 - Not for long content: open a page.
 
-## What the consumer provides
+## Parts
 
-- `title`: the question, which repeats the action ("Send 20 units to Lucas Petit?").
-- `description`: the concrete consequences (new balance).
-- `actions`: main action, then secondary. On mobile they stack full width, the main one on top; on desktop they align right, the main one on the right.
-- `children`: optional content between the description and the actions, such as a short form.
-- `open` + `onClose`: close button, click on the scrim, Escape key.
-- `closeLabel`: accessible name of the close button ("Close").
-- `alert`: `role="alertdialog"` for a destructive confirmation; a click on the scrim does not close it, the member has to choose.
-- `finalFocus`: the element that gets the focus on close, when it is not the button that opened the dialog.
+```tsx
+<Dialog open={open} onClose={close}>
+  <DialogContent closeLabel="Close">
+    <DialogHeader>
+      <DialogTitle>Send 20 units to Lucas Petit?</DialogTitle>
+      <DialogDescription>Your balance will be 80 units.</DialogDescription>
+    </DialogHeader>
+    <DialogBody>…</DialogBody>
+    <DialogFooter>
+      <Button onClick={send}>Send</Button>
+      <Button variant="secondary" onClick={close}>
+        Cancel
+      </Button>
+    </DialogFooter>
+  </DialogContent>
+</Dialog>
+```
+
+- `Dialog` (required): the state of the window.
+  - `open` + `onClose` for a controlled dialog. `onClose` is called by the close button, a `DialogClose`, a click on the scrim and the Escape key.
+  - Or uncontrolled, with a `DialogTrigger` and `DialogClose`s (`defaultOpen` to open it on mount).
+  - `alert`: `role="alertdialog"` for a destructive confirmation; a click on the scrim does not close it, the member has to choose.
+  - `finalFocus`: the element that gets the focus on close, when it is not the button that opened the dialog.
+- `DialogTrigger`: wraps the `Button` that opens the dialog.
+- `DialogContent` (required): the window and its close button, named by `closeLabel` ("Close").
+- `DialogHeader`: the title and the description, leaving room for the close button.
+- `DialogTitle` (required): the question, which repeats the action ("Send 20 units to Lucas Petit?"). It names the dialog.
+- `DialogDescription`: the concrete consequences (new balance). It describes the dialog.
+- `DialogBody`: optional content, such as a short form. It is the only part that scrolls, when the window is higher than the screen: the header and the footer stay visible.
+- `DialogFooter`: main action, then secondary. On mobile they stack full width, the main one on top; on desktop they align right, the main one on the right. A dialog that only informs has no footer: its close button is enough.
+- `DialogClose`: wraps a `Button` of the footer that closes the dialog, in an uncontrolled dialog.
+
+A form spans the body and the footer, so that Enter submits it and the main action is a `type="submit"` button: `<form className="contents">` around `DialogBody` and `DialogFooter` keeps the layout of the window.
 
 On open, focus goes to the first interactive element and stays trapped in the window; on close, it returns to the button that opened it (Ark UI's `Dialog`). The close button comes last in the document, although it is shown at the top right, so that the focus goes to the content first. An `alert` dialog focuses the close button instead, so that Enter does not confirm a destructive action by accident.
 
