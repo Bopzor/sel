@@ -10,7 +10,12 @@ export {
 } from './components/feedback/alert';
 export { Avatar, type AvatarProps } from './components/display/avatar';
 export { Badge, type BadgeProps } from './components/display/badge';
-export { BottomNav, type BottomNavItem, type BottomNavProps } from './components/navigation/bottom-nav';
+export {
+  BottomNav,
+  BottomNavItem,
+  type BottomNavItemProps,
+  type BottomNavProps,
+} from './components/navigation/bottom-nav';
 export { Button, LinkButton, type ButtonProps, type LinkButtonProps } from './components/actions/button';
 export {
   Card,
@@ -141,9 +146,15 @@ export {
 export { Select, type SelectProps } from './components/forms/select';
 export {
   SideNav,
-  type SideNavItem,
+  SideNavFooter,
+  SideNavHeader,
+  SideNavItem,
+  SideNavSection,
+  type SideNavFooterProps,
+  type SideNavHeaderProps,
+  type SideNavItemProps,
   type SideNavProps,
-  type SideNavSection,
+  type SideNavSectionProps,
 } from './components/navigation/side-nav';
 export { Skeleton, type SkeletonProps } from './components/feedback/skeleton';
 export { Stepper, type StepperProps } from './components/navigation/stepper';

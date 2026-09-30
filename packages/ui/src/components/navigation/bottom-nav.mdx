@@ -16,13 +16,21 @@ Below 1024px, as the application's main navigation. Beyond that, it gives way to
 
 The bar keeps five entries even as the application grows (loans, skills directory…). The four most used sections stay in it; the fifth entry becomes "More" (`menu` icon) and opens a page that lists every section, grouped as in `SideNav`. A section moves into the bar when its usage justifies it, not because it is new.
 
-## Props
+## Parts
 
-- `items`: `{ value, label, icon, href }`, five at most, one-word labels. Every entry is a link.
-- `value`: the active entry (`bg-primary-subtle` pill, `text-primary` text and icon), marked `aria-current="page"`.
-- `onChange(value)`: called when an entry is clicked.
-- `label`: accessible name of the `<nav>` ("Main navigation").
-- `fixed`: fixed position at the bottom, which takes the phones' safe area into account.
+```tsx
+<BottomNav aria-label="Main navigation" fixed>
+  <BottomNavItem href="/" icon="home" active>
+    Home
+  </BottomNavItem>
+  <BottomNavItem href="/requests" icon="request">
+    Requests
+  </BottomNavItem>
+</BottomNav>
+```
+
+- `BottomNav` (required): the `<nav>`, named by its `aria-label` ("Main navigation"). `fixed`: fixed position at the bottom, which takes the phones' safe area into account.
+- `BottomNavItem`: an entry, a link with its `icon` and a one-word label, five at most. `active` marks the entry of the current page (`bg-primary-subtle` pill, `text-primary` text and icon) with `aria-current="page"`.
 
 The page content reserves `spacing-bottom-nav` at the bottom (`pb-bottom-nav`) so it does not go under the bar.
 
