@@ -1,8 +1,10 @@
 import { Field as ArkField } from '@ark-ui/react/field';
 import clsx from 'clsx';
-import type { ReactNode } from 'react';
+import type { ComponentProps, ReactNode } from 'react';
 
 import { Icon } from '../display/icon';
+
+import type { Override } from '../../utils';
 
 export type FieldProps = {
   label: ReactNode;
@@ -19,7 +21,7 @@ export type FieldProps = {
   children: ReactNode;
 };
 
-/** The label, the hint and the error around a control, stacked. */
+/** The label, the hint and the error around a control, stacked: the shortcut for FieldRoot and its parts. */
 export function Field({
   label,
   hint,
@@ -30,55 +32,69 @@ export function Field({
   className,
   children,
 }: FieldProps) {
-  // Ark's Field links the label, the hint and the error to the control, and passes it disabled, invalid and
-  // required: the control reads them from the context.
   return (
-    <ArkField.Root
-      id={id}
-      invalid={Boolean(error)}
-      disabled={disabled}
-      required={required}
-      className={clsx('flex flex-col gap-2', className)}
-    >
-      <div className="flex flex-col">
+    <FieldRoot id={id} invalid={Boolean(error)} disabled={disabled} required={required} className={className}>
+      <FieldHeader>
         <FieldLabel>{label}</FieldLabel>
         {hint && <FieldHint>{hint}</FieldHint>}
-      </div>
+      </FieldHeader>
 
       {children}
 
       <FieldError>{error}</FieldError>
-    </ArkField.Root>
+    </FieldRoot>
   );
 }
 
-// The parts of a form field, inside Ark's Field.Root, which links them to the control.
+export type FieldRootProps = Override<ComponentProps<typeof ArkField.Root>, { asChild?: never }>;
 
-function FieldLabel({ className, ...props }: React.ComponentProps<'label'>) {
+/**
+ * Ark's Field links the label, the hint and the error to the control, and passes it disabled, invalid and required:
+ * the control reads them from the context.
+ */
+export function FieldRoot({ className, ...props }: FieldRootProps) {
+  return <ArkField.Root {...props} className={clsx('flex flex-col gap-2', className)} />;
+}
+
+export type FieldHeaderProps = ComponentProps<'div'>;
+
+/** The label and the hint, without the gap that separates them from the control. */
+export function FieldHeader({ className, ...props }: FieldHeaderProps) {
+  return <div {...props} className={clsx('flex flex-col', className)} />;
+}
+
+export type FieldLabelProps = Override<ComponentProps<typeof ArkField.Label>, { asChild?: never }>;
+
+export function FieldLabel({ className, ...props }: FieldLabelProps) {
   return (
     <ArkField.Label
-      className={clsx('max-w-fit text-label text-default data-disabled:text-disabled', className)}
       {...props}
+      className={clsx('max-w-fit text-label text-default data-disabled:text-disabled', className)}
     />
   );
 }
 
-function FieldHint({ className, ...props }: React.ComponentProps<'span'>) {
-  return <ArkField.HelperText className={clsx('text-body-sm text-muted', className)} {...props} />;
+export type FieldHintProps = Override<ComponentProps<typeof ArkField.HelperText>, { asChild?: never }>;
+
+export function FieldHint({ className, ...props }: FieldHintProps) {
+  return <ArkField.HelperText {...props} className={clsx(hintStyles, className)} />;
 }
 
+export type FieldErrorProps = Override<ComponentProps<typeof ArkField.ErrorText>, { asChild?: never }>;
+
 /** Only rendered while the field is invalid. */
-function FieldError({ className, children, ...props }: React.ComponentProps<'span'>) {
+export function FieldError({ className, children, ...props }: FieldErrorProps) {
   return (
-    <ArkField.ErrorText
-      className={clsx('flex items-start gap-2 text-body-sm text-danger', className)}
-      {...props}
-    >
+    <ArkField.ErrorText {...props} className={clsx(errorStyles, className)}>
       <Icon name="error" size="md" />
       {children}
     </ArkField.ErrorText>
   );
 }
+
+// Shared with the parts of Fieldset.
+export const hintStyles = clsx('text-body-sm text-muted');
+export const errorStyles = clsx('flex items-start gap-2 text-body-sm text-danger');
 
 // The box of a text control (Input, TextArea, Select): border, background and focus ring. It is styled from the
 // attributes of the control it contains, so that it follows the control's final state: disabled replaces the other

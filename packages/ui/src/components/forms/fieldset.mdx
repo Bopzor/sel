@@ -1,0 +1,43 @@
+import { Controls, Meta, Primary, Stories } from '@storybook/addon-docs/blocks';
+
+import * as FieldsetStories from './fieldset.stories';
+
+<Meta of={FieldsetStories} />
+
+# Fieldset
+
+A group of controls that answer one question, with the question, a hint and an error: the options of a `RadioGroup`, one or several `Checkbox`es.
+
+## When to use it
+
+Around every `RadioGroup` of a form, and around checkboxes that need an error ("Accept the terms to continue"). A single control with a label of its own goes in a `Field` instead.
+
+## Parts
+
+```tsx
+<Fieldset invalid={invalid}>
+  <FieldsetHeader>
+    <FieldsetLegend>Question</FieldsetLegend>
+    <FieldsetHint>Hint</FieldsetHint>
+  </FieldsetHeader>
+  <RadioGroup>…</RadioGroup>
+  <FieldsetError>Error</FieldsetError>
+</Fieldset>
+```
+
+- `Fieldset` (required): the `<fieldset>`. `invalid` shows the error, `disabled` disables every control inside.
+- `FieldsetLegend` (required): the question, which names the group.
+- `FieldsetHeader`: groups the legend and the hint, closer to each other than to the controls. Only needed with a hint.
+- `FieldsetHint`: help shown under the question, linked to the group with `aria-describedby`.
+- `FieldsetError`: what to do to fix the answer, only rendered while the fieldset is `invalid`, announced when it appears.
+
+## Rules
+
+- Ark's `Fieldset` names the group with the legend and passes its `disabled` and `invalid` states to a `RadioGroup` inside: they are set on the `Fieldset`. A `Checkbox` inside still takes its own `aria-invalid`.
+- Validate on submit, never on every change.
+
+<Primary />
+
+<Controls />
+
+<Stories includePrimary={false} />

@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
 
+import { Fieldset, FieldsetError, FieldsetLegend } from './fieldset';
 import { Radio, RadioCard, RadioGroup } from './radio-group';
 
 export default {
@@ -55,6 +56,22 @@ export const Invalid: Story = {
 export const InvalidCards: Story = {
   ...Cards,
   args: { ...Invalid.args },
+};
+
+/** In a form: the question and the error on a Fieldset, which names the group and passes it the invalid state. */
+export const InFieldset: Story = {
+  args: { 'aria-label': undefined, defaultValue: null, required: true },
+  render: (args) => (
+    <Fieldset invalid>
+      <FieldsetLegend>Question</FieldsetLegend>
+      <RadioGroup {...args}>
+        <Radio value="first" label="First option" />
+        <Radio value="second" label="Second option" />
+        <Radio value="third" label="Third option" />
+      </RadioGroup>
+      <FieldsetError>Error message that says what to choose.</FieldsetError>
+    </Fieldset>
+  ),
 };
 
 export const DisabledOption: Story = {

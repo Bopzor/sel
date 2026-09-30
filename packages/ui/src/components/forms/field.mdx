@@ -20,6 +20,27 @@ Around every control of a form that has no label of its own, such as an `Input`.
 - `disabled`, `required`: passed to the control.
 - `children`: a single control.
 
+## Parts
+
+`Field` is a shortcut for the common case. When the label needs more than text (an "Optional" mark, a link next to it) or the parts go in another order (a counter under the control), the field is written with its parts:
+
+```tsx
+<FieldRoot invalid={Boolean(error)} required>
+  <FieldHeader>
+    <FieldLabel>Label</FieldLabel>
+    <FieldHint>Hint</FieldHint>
+  </FieldHeader>
+  <Input />
+  <FieldError>{error}</FieldError>
+</FieldRoot>
+```
+
+- `FieldRoot` (required): `invalid`, `disabled` and `required`, passed to the control.
+- `FieldLabel` (required): the label.
+- `FieldHeader`: groups the label and the hint, closer to each other than to the control.
+- `FieldHint`: the hint.
+- `FieldError`: the error, only rendered while the field is `invalid`.
+
 ## Rules
 
 - Ark's `Field` links the label, the hint and the error to the control, and passes it `disabled`, `required` and the invalid state: these states are set on the `Field`, not on the control.

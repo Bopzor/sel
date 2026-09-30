@@ -8,7 +8,32 @@ export { Checkbox, type CheckboxProps } from './components/forms/checkbox';
 export { Chip, type ChipProps } from './components/forms/chip';
 export { Dialog, type DialogProps } from './components/feedback/dialog';
 export { EmptyState, type EmptyStateProps } from './components/feedback/empty-state';
-export { Field, type FieldProps } from './components/forms/field';
+export {
+  Field,
+  FieldError,
+  FieldHeader,
+  FieldHint,
+  FieldLabel,
+  FieldRoot,
+  type FieldErrorProps,
+  type FieldHeaderProps,
+  type FieldHintProps,
+  type FieldLabelProps,
+  type FieldProps,
+  type FieldRootProps,
+} from './components/forms/field';
+export {
+  Fieldset,
+  FieldsetError,
+  FieldsetHeader,
+  FieldsetHint,
+  FieldsetLegend,
+  type FieldsetErrorProps,
+  type FieldsetHeaderProps,
+  type FieldsetHintProps,
+  type FieldsetLegendProps,
+  type FieldsetProps,
+} from './components/forms/fieldset';
 export { Icon, type IconName, type IconProps } from './components/display/icon';
 export { IconButton, type IconButtonProps } from './components/actions/icon-button';
 export { Input, type InputProps } from './components/forms/input';
