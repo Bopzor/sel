@@ -1,5 +1,5 @@
 import { Config, MemberRole } from '@sel/shared';
-import { pick } from '@sel/utils';
+import { isAfter, pick } from '@sel/utils';
 import cookieParser from 'cookie-parser';
 import express, { ErrorRequestHandler, RequestHandler } from 'express';
 import morgan from 'morgan';
@@ -95,14 +95,15 @@ const authenticationProvider: RequestHandler = async (req, res, next) => {
     return next();
   }
 
+  const now = container.resolve(TOKENS.date).now();
+
   const token = await db.query.tokens.findFirst({
     where: { value: tokenCookie },
     with: { member: true },
   });
 
-  // A stale cookie is removed, and the request goes on unauthenticated: the routes that need a member reject it, and
-  // the others (requesting a new authentication code) still work.
-  if (!token || token.type !== TokenType.session) {
+  // Not rejected, so that the authentication routes still work with a stale cookie.
+  if (!token || token.type !== TokenType.session || token.revoked || isAfter(now, token.expirationDate)) {
     res.setHeader('set-cookie', unsetCookie('token'));
     return next();
   }

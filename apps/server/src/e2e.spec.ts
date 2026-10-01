@@ -1,4 +1,4 @@
-import { createId, defined } from '@sel/utils';
+import { addDuration, createDate, createId, defined } from '@sel/utils';
 import supertest from 'supertest';
 import { afterEach, beforeAll, beforeEach, describe, it } from 'vitest';
 
@@ -63,6 +63,31 @@ describe('end-to-end', () => {
     await request.get('/members').expect(HttpStatus.unauthorized);
   });
 
+  it('rejects a revoked or an expired session token', async () => {
+    const app = server();
+    const request = supertest.agent(app);
+
+    await createMember({ memberId: 'memberId', email: 'email@domain.tld' });
+
+    await persist.token({
+      memberId: 'memberId',
+      type: TokenType.session,
+      value: 'revoked',
+      expirationDate: addDuration(createDate(), { days: 1 }),
+      revoked: true,
+    });
+
+    await persist.token({
+      memberId: 'memberId',
+      type: TokenType.session,
+      value: 'expired',
+      expirationDate: addDuration(createDate(), { days: -1 }),
+    });
+
+    await request.get('/members').set('Cookie', 'token=revoked').expect(HttpStatus.unauthorized);
+    await request.get('/members').set('Cookie', 'token=expired').expect(HttpStatus.unauthorized);
+  });
+
   it('creates a transaction as a payer', async () => {
     const app = server();
     const request = supertest.agent(app);
@@ -72,7 +97,12 @@ describe('end-to-end', () => {
     await createMember({ memberId: 'payerId', email: 'payer@domain.tld' });
     await createMember({ memberId: 'recipientId', email: 'recipient@domain.tld' });
 
-    await persist.token({ memberId: 'payerId', type: TokenType.session, value: 'token' });
+    await persist.token({
+      memberId: 'payerId',
+      type: TokenType.session,
+      value: 'token',
+      expirationDate: addDuration(createDate(), { days: 1 }),
+    });
 
     await request
       .post('/transactions')
