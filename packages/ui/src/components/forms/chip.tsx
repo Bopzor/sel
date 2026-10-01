@@ -5,7 +5,7 @@ import { Icon, type IconName } from '../display/icon';
 
 import type { Override } from '../../utils';
 
-export type ChipProps = Override<
+type ChipProps = Override<
   ComponentProps<'button'>,
   {
     disabled?: never;
@@ -20,9 +20,9 @@ export function Chip({
   selected = false,
   onChange,
   icon,
+  onClick,
   className,
   children,
-  onClick,
   ...props
 }: ChipProps) {
   const shownIcon = selected ? 'check' : icon;

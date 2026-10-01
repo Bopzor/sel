@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import type { ComponentProps } from 'react';
 
-export type StepperProps = ComponentProps<'div'> & {
+type StepperProps = ComponentProps<'div'> & {
   /** Short names of the steps. */
   steps: string[];
   /** Number of the current step, starting at 1. */

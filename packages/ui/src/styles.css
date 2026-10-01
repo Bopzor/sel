@@ -36,17 +36,20 @@
   }
 
   /* Motion is cut, but durations stay above 0 so that transitionend and animationend still fire (Ark UI waits
-     for them to unmount). Loading indicators keep spinning, more slowly. */
+     for them to unmount). An animation plays once: repeated at that duration, a loop would flicker. Loading
+     indicators keep spinning, more slowly. */
   @media (prefers-reduced-motion: reduce) {
     *,
     ::before,
     ::after {
       transition-duration: 0.01ms !important;
       animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
     }
 
     .animate-spin {
       animation-duration: 1.5s !important;
+      animation-iteration-count: infinite !important;
     }
   }
 }

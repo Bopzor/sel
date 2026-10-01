@@ -18,7 +18,7 @@ The options of a single choice: a `RadioGroup` of `Radio`s (a simple list) or of
 - `RadioGroup`:
   - `value` + `onChange(value)` for a controlled group, `defaultValue` for an uncontrolled one; the value is `null` while no option is chosen. With react-hook-form, the group goes through a `Controller`.
   - `name`, `form`, `required`, `disabled`, and the HTML props of `<div>`.
-  - `aria-invalid`: marks every option as invalid; the error message goes on the fieldset around the group.
+  - `invalid`: marks every option as invalid; the error message goes on the fieldset around the group.
   - Outside a fieldset, an `aria-label` or `aria-labelledby`: the group has no name of its own. Inside Ark's `Fieldset`, the legend names it, and the fieldset's `disabled` and `invalid` states apply to it; the group's own props override them.
   - `className`: the options are stacked with `gap-4`; use `gap-3` for cards.
 - `Radio` and `RadioCard`: `value`, `label`, `description` (a consequence or a detail, in `text-muted`, linked with `aria-describedby` rather than part of the name), `disabled`.

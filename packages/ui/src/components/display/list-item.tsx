@@ -3,13 +3,11 @@ import type { ComponentProps } from 'react';
 
 import { Icon } from './icon';
 
-export type ListItemProps = ComponentProps<'li'>;
-
 /**
  * A list row: a leading Avatar or Icon, a ListItemContent, then a ListItemTrailing or a ListItemChevron. A
  * ListItemLink or a ListItemButton in the title makes the whole row clickable.
  */
-export function ListItem({ className, ...props }: ListItemProps) {
+export function ListItem({ className, ...props }: ComponentProps<'li'>) {
   return (
     <li
       {...props}
@@ -22,38 +20,28 @@ export function ListItem({ className, ...props }: ListItemProps) {
   );
 }
 
-export type ListItemContentProps = ComponentProps<'div'>;
-
 /** The title and the description. */
-export function ListItemContent({ className, ...props }: ListItemContentProps) {
+export function ListItemContent({ className, ...props }: ComponentProps<'div'>) {
   return <div {...props} className={clsx('flex min-w-0 flex-1 flex-col', className)} />;
 }
 
-export type ListItemTitleProps = ComponentProps<'p'>;
-
-export function ListItemTitle({ className, ...props }: ListItemTitleProps) {
+export function ListItemTitle({ className, ...props }: ComponentProps<'p'>) {
   return <p {...props} className={clsx('text-body text-default', className)} />;
 }
 
-export type ListItemDescriptionProps = ComponentProps<'p'>;
-
 /** Two lines at most. */
-export function ListItemDescription({ className, ...props }: ListItemDescriptionProps) {
+export function ListItemDescription({ className, ...props }: ComponentProps<'p'>) {
   return <p {...props} className={clsx('line-clamp-2 text-body-sm text-muted', className)} />;
 }
 
-export type ListItemTrailingProps = ComponentProps<'div'>;
-
 /** A badge, an amount, a date. */
-export function ListItemTrailing({ className, ...props }: ListItemTrailingProps) {
+export function ListItemTrailing({ className, ...props }: ComponentProps<'div'>) {
   // Positioned, so that it stays above the cover of a clickable row.
   return <div {...props} className={clsx('relative shrink-0 text-body-sm text-muted', className)} />;
 }
 
-export type ListItemChevronProps = { className?: string };
-
 /** Shows that the row opens a detail. */
-export function ListItemChevron({ className }: ListItemChevronProps) {
+export function ListItemChevron({ className }: { className?: string }) {
   return <Icon name="chevron-right" size="md" className={clsx('text-subtle', className)} />;
 }
 
@@ -63,17 +51,13 @@ const cover = clsx(
   'text-left after:absolute after:inset-0 focus-visible:outline-none focus-visible:after:focus-ring-inset',
 );
 
-export type ListItemLinkProps = ComponentProps<'a'>;
-
 /** Inside the ListItemTitle: the whole row becomes a link, named by the title. */
-export function ListItemLink({ className, ...props }: ListItemLinkProps) {
+export function ListItemLink({ className, ...props }: ComponentProps<'a'>) {
   return <a {...props} data-list-item-cover="" className={clsx(cover, className)} />;
 }
 
-export type ListItemButtonProps = ComponentProps<'button'>;
-
 /** Inside the ListItemTitle: the whole row becomes a button, named by the title. */
-export function ListItemButton({ className, ...props }: ListItemButtonProps) {
+export function ListItemButton({ className, ...props }: ComponentProps<'button'>) {
   return (
     <button
       type="button"

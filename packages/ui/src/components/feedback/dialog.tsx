@@ -1,4 +1,5 @@
-import { Dialog as ArkDialog } from '@ark-ui/react/dialog';
+import { Dialog as ArkDialog, useDialogContext } from '@ark-ui/react/dialog';
+import { ark } from '@ark-ui/react/factory';
 import { Portal } from '@ark-ui/react/portal';
 import clsx from 'clsx';
 import type { ComponentProps, ReactElement, ReactNode } from 'react';
@@ -7,7 +8,7 @@ import { IconButton } from '../actions/icon-button';
 
 import type { Override } from '../../utils';
 
-export type DialogProps = {
+type DialogProps = {
   /** Controlled: open, and onClose to close it. Uncontrolled: a DialogTrigger opens it, a DialogClose closes it. */
   open?: boolean;
   defaultOpen?: boolean;
@@ -39,28 +40,27 @@ export function Dialog({ open, defaultOpen, onClose, alert = false, finalFocus, 
   );
 }
 
-export type DialogTriggerProps = {
-  /** A Button, which gets the props that open the dialog. */
-  children: ReactElement;
-};
-
-export function DialogTrigger({ children }: DialogTriggerProps) {
+/** Wraps a Button, which gets the props that open the dialog. */
+export function DialogTrigger({ children }: { children: ReactElement }) {
   return <ArkDialog.Trigger asChild>{children}</ArkDialog.Trigger>;
 }
 
-export type DialogCloseProps = {
-  /** A Button, which gets the props that close the dialog. */
-  children: ReactElement;
-};
+/** Wraps a Button, which gets the props that close the dialog. */
+export function DialogClose({ children }: { children: ReactElement }) {
+  const dialog = useDialogContext();
 
-export function DialogClose({ children }: DialogCloseProps) {
-  return <ArkDialog.CloseTrigger asChild>{children}</ArkDialog.CloseTrigger>;
+  // Not an Ark CloseTrigger: every CloseTrigger gets the same id, already taken by the close button, which an alert
+  // dialog focuses on open.
+  return (
+    <ark.button asChild onClick={() => dialog.setOpen(false)}>
+      {children}
+    </ark.button>
+  );
 }
 
-export type DialogContentProps = Override<
-  ComponentProps<typeof ArkDialog.Content>,
+type DialogContentProps = Override<
+  ComponentProps<'div'>,
   {
-    asChild?: never;
     /** Accessible name of the close button, in the application's language. */
     closeLabel: string;
   }
@@ -77,7 +77,7 @@ export function DialogContent({ closeLabel, className, children, ...props }: Dia
         <ArkDialog.Content
           {...props}
           className={clsx(
-            'relative flex max-h-full w-full flex-col rounded-t-xl bg-surface-raised pb-safe-area shadow-lg md:max-w-120 md:rounded-xl md:pb-0',
+            'relative flex max-h-4/5 w-full flex-col rounded-t-xl bg-surface-raised pb-safe-area shadow-lg md:max-h-full md:max-w-120 md:rounded-xl md:pb-0',
             'data-[state=closed]:animate-sheet-out data-[state=open]:animate-sheet-in md:data-[state=closed]:animate-dialog-out md:data-[state=open]:animate-dialog-in',
             className,
           )}
@@ -100,42 +100,29 @@ export function DialogContent({ closeLabel, className, children, ...props }: Dia
   );
 }
 
-export type DialogHeaderProps = ComponentProps<'div'>;
-
 /** The title and the description. */
-export function DialogHeader({ className, ...props }: DialogHeaderProps) {
+export function DialogHeader({ className, ...props }: ComponentProps<'div'>) {
   // The right padding leaves room for the close button.
   return <div {...props} className={clsx('flex flex-col gap-2 pr-14 pl-4 md:pr-16 md:pl-6', className)} />;
 }
 
-export type DialogTitleProps = Override<ComponentProps<typeof ArkDialog.Title>, { asChild?: never }>;
-
 /** The question, which repeats the action ("Send 20 units to Lucas Petit?"). It names the dialog. */
-export function DialogTitle({ className, ...props }: DialogTitleProps) {
+export function DialogTitle({ className, ...props }: ComponentProps<'h2'>) {
   return <ArkDialog.Title {...props} className={clsx('text-title-3 text-default', className)} />;
 }
 
-export type DialogDescriptionProps = Override<
-  ComponentProps<typeof ArkDialog.Description>,
-  { asChild?: never }
->;
-
 /** The concrete consequences. It describes the dialog. */
-export function DialogDescription({ className, ...props }: DialogDescriptionProps) {
+export function DialogDescription({ className, ...props }: ComponentProps<'p'>) {
   return <ArkDialog.Description {...props} className={clsx('text-body text-muted', className)} />;
 }
 
-export type DialogBodyProps = ComponentProps<'div'>;
-
 /** The content between the header and the footer, such as a short form. It scrolls when the window is too small. */
-export function DialogBody({ className, ...props }: DialogBodyProps) {
+export function DialogBody({ className, ...props }: ComponentProps<'div'>) {
   return <div {...props} className={clsx('min-h-0 overflow-y-auto px-4 md:px-6', className)} />;
 }
 
-export type DialogFooterProps = ComponentProps<'div'>;
-
 /** The buttons, the main action first: on top on mobile, on the right from md. */
-export function DialogFooter({ className, ...props }: DialogFooterProps) {
+export function DialogFooter({ className, ...props }: ComponentProps<'div'>) {
   return (
     <div {...props} className={clsx('flex flex-col gap-3 px-4 md:flex-row-reverse md:px-6', className)} />
   );

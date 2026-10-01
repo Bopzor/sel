@@ -3,15 +3,15 @@ import { type ComponentProps } from 'react';
 
 import type { Override } from '../../utils';
 
-export type AvatarProps = Override<
+type AvatarProps = Override<
   ComponentProps<'span'>,
   {
-    children?: never;
     name: string;
     src?: string;
     /** Hides the avatar from screen readers, when the name is written right next to it. */
     decorative?: boolean;
     size?: 'sm' | 'md' | 'lg';
+    children?: never;
   }
 >;
 

@@ -46,7 +46,7 @@ export const Checkboxes: Story = {
   render: (args) => (
     <Fieldset {...args}>
       <FieldsetLegend>Terms</FieldsetLegend>
-      <Checkbox label="I accept the terms" required aria-invalid={args.invalid} />
+      <Checkbox label="I accept the terms" required invalid={args.invalid} />
       <FieldsetError>Accept the terms to continue.</FieldsetError>
     </Fieldset>
   ),

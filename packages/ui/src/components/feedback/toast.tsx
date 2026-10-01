@@ -9,12 +9,12 @@ type Tone = 'success' | 'info' | 'danger';
 
 // The rendering of a toast only: showing, queuing, placing and dismissing toasts after a delay is left to the
 // application's toast library, which renders this component.
-export type ToastProps = Override<
+type ToastProps = Override<
   ComponentProps<'div'>,
   {
+    tone?: Tone;
     /** Three to six words: "Request posted". */
     children: ReactNode;
-    tone?: Tone;
   }
 > &
   (
@@ -32,13 +32,14 @@ export function Toast({ tone = 'success', onClose, closeLabel, className, childr
       <Icon name={icons[tone]} size="md" />
       <p className="flex-1 py-3 text-toast">{children}</p>
 
+      {/* The focus ring takes the text color: the brand color would not show on the tone's solid color. */}
       {onClose && (
         <button
           type="button"
           onClick={onClose}
           aria-label={closeLabel}
           title={closeLabel}
-          className="flex size-touch-target shrink-0 cursor-pointer items-center justify-center rounded-full transition hover:bg-inverse-hover"
+          className="flex size-touch-target shrink-0 cursor-pointer items-center justify-center rounded-full -outline-offset-2 outline-current transition hover:bg-inverse-hover"
         >
           <Icon name="close" size="md" />
         </button>

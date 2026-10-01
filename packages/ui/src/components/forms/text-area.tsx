@@ -6,7 +6,7 @@ import { fieldBoxStyles } from './field';
 
 import type { Override } from '../../utils';
 
-export type TextAreaProps = Override<
+type TextAreaProps = Override<
   ComponentProps<'textarea'>,
   {
     children?: never;

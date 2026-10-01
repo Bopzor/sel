@@ -3,7 +3,7 @@ import type { ComponentProps } from 'react';
 
 import { Icon, type IconName } from './icon';
 
-export type BadgeProps = ComponentProps<'span'> & {
+type BadgeProps = ComponentProps<'span'> & {
   tone?: 'neutral' | 'primary' | 'info' | 'success' | 'warning' | 'danger' | 'accent';
   icon?: IconName;
 };

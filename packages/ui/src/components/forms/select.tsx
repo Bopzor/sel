@@ -8,14 +8,14 @@ import { fieldBoxStyles } from './field';
 
 import type { Override } from '../../utils';
 
-export type SelectProps = Override<
+type SelectProps = Override<
   ComponentProps<'select'>,
   {
     multiple?: never;
-    /** The <option>s, and <optgroup>s to group them. */
-    children: ReactNode;
     /** A first option that cannot be chosen ("Choose a category"), shown while the value is an empty string. */
     placeholder?: string;
+    /** The <option>s, and <optgroup>s to group them. */
+    children: ReactNode;
   }
 >;
 

@@ -5,16 +5,19 @@ import { useId, type ComponentProps, type ReactNode } from 'react';
 import { definedAttributes, type Override } from '../../utils';
 import { Icon } from '../display/icon';
 
-export type CheckboxProps = Override<
+type CheckboxProps = Override<
   ComponentProps<'input'>,
   {
     type?: never;
-    children?: never;
+    'aria-invalid'?: never;
+    /** When a required box is not checked. */
+    invalid?: boolean;
     /** An affirmative sentence that describes the checked state. */
     label: ReactNode;
     /** A consequence or a detail, under the label. */
     description?: ReactNode;
     value?: string;
+    children?: never;
   }
 >;
 
@@ -28,13 +31,12 @@ export function Checkbox({
   name,
   form,
   value,
-  'aria-invalid': ariaInvalid,
+  invalid,
   'aria-describedby': ariaDescribedBy,
   className,
   ...props
 }: CheckboxProps) {
   const descriptionId = useId();
-  const invalid = ariaInvalid === undefined ? undefined : ariaInvalid === true || ariaInvalid === 'true';
 
   // A prop left undefined is not passed to Ark, so that it does not erase a state that Ark reads elsewhere (the
   // disabled state of a <fieldset>, for example).

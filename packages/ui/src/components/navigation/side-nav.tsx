@@ -5,7 +5,7 @@ import { Icon, type IconName } from '../display/icon';
 
 import type { Override } from '../../utils';
 
-export type SideNavProps = Override<
+type SideNavProps = Override<
   ComponentProps<'nav'>,
   {
     /** Accessible name of the navigation ("Main navigation"). */
@@ -23,16 +23,16 @@ export function SideNav({ className, ...props }: SideNavProps) {
   );
 }
 
-export type SideNavHeaderProps = Override<
+type SideNavHeaderProps = Override<
   ComponentProps<'div'>,
   {
-    children?: never;
     /** URL of the instance's logo, a square image. */
     logo: string;
     /** The instance's name. */
     name: string;
     /** The instance's geographical area. */
     place?: string;
+    children?: never;
   }
 >;
 
@@ -50,7 +50,7 @@ export function SideNavHeader({ logo, name, place, className, ...props }: SideNa
   );
 }
 
-export type SideNavSectionProps = Override<
+type SideNavSectionProps = Override<
   ComponentProps<'div'>,
   {
     /** Omitted for the first section, the main entries. */
@@ -78,7 +78,7 @@ export function SideNavSection({ title, className, children, ...props }: SideNav
   );
 }
 
-export type SideNavItemProps = Override<
+type SideNavItemProps = Override<
   ComponentProps<'a'>,
   {
     href: string;
@@ -122,9 +122,7 @@ export function SideNavItem({
   );
 }
 
-export type SideNavFooterProps = ComponentProps<'div'>;
-
 /** At the bottom: the member's account, signing out. SideNavItems go in a SideNavSection inside it. */
-export function SideNavFooter({ className, ...props }: SideNavFooterProps) {
+export function SideNavFooter({ className, ...props }: ComponentProps<'div'>) {
   return <div {...props} className={clsx('mt-auto flex flex-col gap-1', className)} />;
 }

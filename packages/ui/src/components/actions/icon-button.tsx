@@ -1,20 +1,20 @@
 import clsx from 'clsx';
 import { cva } from 'cva';
-import type { ComponentProps, MouseEvent } from 'react';
+import type { ComponentProps } from 'react';
 
 import { Icon, type IconName } from '../display/icon';
 
 import type { Override } from '../../utils';
 
-export type IconButtonProps = Override<
+type IconButtonProps = Override<
   ComponentProps<'button'>,
   {
-    children?: never;
     icon: IconName;
     /** Accessible name, also shown as a tooltip on hover. */
     label: string;
     variant?: 'ghost' | 'secondary' | 'primary';
     size?: 'sm' | 'md';
+    children?: never;
   }
 >;
 
@@ -25,26 +25,15 @@ export function IconButton({
   size = 'md',
   disabled = false,
   className,
-  onClick,
   ...props
 }: IconButtonProps) {
-  // Same rule as Button: aria-disabled keeps the button focusable, and clicks are blocked here.
-  const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
-    if (disabled) {
-      event.preventDefault();
-    } else {
-      onClick?.(event);
-    }
-  };
-
   return (
     <button
       type="button"
       {...props}
       title={label}
       aria-label={label}
-      aria-disabled={disabled || undefined}
-      onClick={handleClick}
+      disabled={disabled}
       className={iconButtonStyles({ variant: disabled ? 'disabled' : variant, size, className })}
     >
       <Icon name={icon} size={size === 'sm' ? 'md' : 'lg'} />

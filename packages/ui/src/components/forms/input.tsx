@@ -8,15 +8,15 @@ import { fieldBoxStyles } from './field';
 
 import type { Override } from '../../utils';
 
-export type InputProps = Override<
+type InputProps = Override<
   ComponentProps<'input'>,
   {
-    children?: never;
     icon?: IconName;
     /** A unit or a symbol before the value. */
     prefix?: string;
     /** A unit after the value ("units"). */
     suffix?: string;
+    children?: never;
   }
 >;
 

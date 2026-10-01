@@ -50,7 +50,7 @@ export const Cards: Story = {
 };
 
 export const Invalid: Story = {
-  args: { defaultValue: null, 'aria-invalid': true, required: true },
+  args: { defaultValue: null, invalid: true, required: true },
 };
 
 export const InvalidCards: Story = {

@@ -49,7 +49,7 @@ import {
 export type IconName = keyof typeof icons;
 export type IconSize = 'sm' | 'md' | 'lg';
 
-export type IconProps = {
+type IconProps = {
   name: IconName;
   /** sm = 16px (badges, captions), md = 20px (buttons, fields, alerts), lg = 24px (navigation, lists, default). */
   size?: IconSize;

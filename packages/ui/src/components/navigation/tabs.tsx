@@ -4,11 +4,9 @@ import type { ComponentProps } from 'react';
 
 import type { Override } from '../../utils';
 
-export type TabsProps = Override<
-  ComponentProps<typeof ArkTabs.Root>,
+type TabsProps = Override<
+  ComponentProps<'div'>,
   {
-    asChild?: never;
-    onValueChange?: never;
     value?: string;
     defaultValue?: string;
     onChange?: (value: string) => void;
@@ -29,10 +27,9 @@ export function Tabs({ onChange, className, ...props }: TabsProps) {
   );
 }
 
-export type TabListProps = Override<
-  ComponentProps<typeof ArkTabs.List>,
+type TabListProps = Override<
+  ComponentProps<'div'>,
   {
-    asChild?: never;
     /** Accessible name of the tab list. */
     'aria-label': string;
   }
@@ -43,10 +40,8 @@ export function TabList({ className, ...props }: TabListProps) {
   return <ArkTabs.List {...props} className={clsx('flex overflow-x-auto border-b', className)} />;
 }
 
-export type TabProps = Override<ComponentProps<typeof ArkTabs.Trigger>, { asChild?: never }>;
-
 /** The name of a view, with its value. It may hold a Badge, after the name. */
-export function Tab({ className, ...props }: TabProps) {
+export function Tab({ className, ...props }: Override<ComponentProps<'button'>, { value: string }>) {
   return (
     <ArkTabs.Trigger
       {...props}
@@ -60,9 +55,7 @@ export function Tab({ className, ...props }: TabProps) {
   );
 }
 
-export type TabPanelProps = Override<ComponentProps<typeof ArkTabs.Content>, { asChild?: never }>;
-
 /** The view of a tab, with the same value. */
-export function TabPanel(props: TabPanelProps) {
+export function TabPanel(props: Override<ComponentProps<'div'>, { value: string }>) {
   return <ArkTabs.Content {...props} />;
 }

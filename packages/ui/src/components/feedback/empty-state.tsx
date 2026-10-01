@@ -5,7 +5,7 @@ import { Icon, type IconName } from '../display/icon';
 
 import type { Override } from '../../utils';
 
-export type EmptyStateProps = Override<
+type EmptyStateProps = Override<
   ComponentProps<'div'>,
   {
     /** The icon of the content type. */
@@ -23,31 +23,23 @@ export function EmptyState({ icon, className, children, ...props }: EmptyStatePr
   );
 }
 
-export type EmptyStateTitleProps = Override<
-  ComponentProps<'h2'>,
-  {
-    /** To adjust to the page hierarchy. */
-    level?: 2 | 3 | 4;
-  }
->;
-
-/** What is missing, in one sentence. */
-export function EmptyStateTitle({ level = 2, className, ...props }: EmptyStateTitleProps) {
+/** What is missing, in one sentence: a heading, of the level that fits the page hierarchy. */
+export function EmptyStateTitle({
+  level = 2,
+  className,
+  ...props
+}: Override<ComponentProps<'h2'>, { level?: 2 | 3 | 4 }>) {
   const Heading = `h${level}` as const;
 
   return <Heading {...props} className={clsx('text-title-3 text-default', className)} />;
 }
 
-export type EmptyStateDescriptionProps = ComponentProps<'div'>;
-
 /** Why, or what will happen. */
-export function EmptyStateDescription({ className, ...props }: EmptyStateDescriptionProps) {
+export function EmptyStateDescription({ className, ...props }: ComponentProps<'div'>) {
   return <div {...props} className={clsx('max-w-content text-body text-muted', className)} />;
 }
 
-export type EmptyStateActionProps = ComponentProps<'div'>;
-
 /** A Button that helps get out of it. */
-export function EmptyStateAction({ className, ...props }: EmptyStateActionProps) {
+export function EmptyStateAction({ className, ...props }: ComponentProps<'div'>) {
   return <div {...props} className={clsx('mt-3', className)} />;
 }

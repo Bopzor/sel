@@ -36,6 +36,8 @@ The navigation will evolve with new features (a section dedicated to loans, for 
 
 On phones, the bottom bar and the sheets add `env(safe-area-inset-bottom)`. The content reserves `spacing-bottom-nav` at the bottom so it never goes under the bar.
 
+The browser only reports the safe areas when the page extends under them: the application's viewport meta tag includes `viewport-fit=cover` (`<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />`). Without it, `pb-safe-area` is 0.
+
 ## Density
 
 A single, comfortable density. Desktop gains columns, not smaller elements; the `sm` control size is reserved for administration areas.

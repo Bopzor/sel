@@ -13,7 +13,7 @@ type ButtonAppearance = {
   iconEnd?: IconName;
 };
 
-export type ButtonProps = ComponentProps<'button'> & ButtonAppearance & { loading?: boolean };
+type ButtonProps = ComponentProps<'button'> & ButtonAppearance & { loading?: boolean };
 
 export function Button({
   variant = 'primary',
@@ -22,17 +22,15 @@ export function Button({
   iconEnd,
   loading = false,
   disabled = false,
+  onClick,
   className,
   children,
-  onClick,
   ...props
 }: ButtonProps) {
-  // Rendered with aria-disabled rather than the native attribute: the button stays focusable, so that screen
-  // readers announce it and the focus is not lost when loading starts. Clicks are blocked in handleClick.
-  const blocked = disabled || loading;
-
+  // While loading, the button is blocked with aria-disabled rather than the native attribute: it stays focusable, so
+  // that the focus is not lost when loading starts. Clicks are blocked in handleClick.
   const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
-    if (blocked) {
+    if (loading) {
       event.preventDefault();
     } else {
       onClick?.(event);
@@ -43,10 +41,12 @@ export function Button({
     <button
       type="button"
       {...props}
-      aria-disabled={blocked || undefined}
+      disabled={disabled}
+      aria-disabled={loading || undefined}
+      aria-busy={loading || undefined}
       data-loading={loading || undefined}
       onClick={handleClick}
-      className={buttonStyles({ variant: blocked ? 'disabled' : variant, size, className })}
+      className={buttonStyles({ variant: disabled || loading ? 'disabled' : variant, size, className })}
     >
       <ButtonContent size={size} icon={icon} iconEnd={iconEnd} loading={loading}>
         {children}
@@ -54,8 +54,6 @@ export function Button({
     </button>
   );
 }
-
-export type LinkButtonProps = ComponentProps<'a'> & ButtonAppearance;
 
 /** A link that looks like a button, for an action that navigates. A link cannot be disabled or loading. */
 export function LinkButton({
@@ -66,7 +64,7 @@ export function LinkButton({
   className,
   children,
   ...props
-}: LinkButtonProps) {
+}: ComponentProps<'a'> & ButtonAppearance) {
   return (
     <a {...props} className={buttonStyles({ variant, size, className })}>
       <ButtonContent size={size} icon={icon} iconEnd={iconEnd}>

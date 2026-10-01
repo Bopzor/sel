@@ -4,7 +4,7 @@ import { useId, type ComponentProps, type ReactNode } from 'react';
 
 import { definedAttributes, type Override } from '../../utils';
 
-export type RadioGroupProps = Override<
+type RadioGroupProps = Override<
   ComponentProps<'div'>,
   {
     /** null while no option is chosen. */
@@ -16,7 +16,7 @@ export type RadioGroupProps = Override<
     disabled?: boolean;
     required?: boolean;
     /** Marks every option as invalid. */
-    'aria-invalid'?: boolean;
+    invalid?: boolean;
     /** Radios or RadioCards. */
     children: ReactNode;
   }
@@ -31,7 +31,7 @@ export function RadioGroup({
   form,
   disabled,
   required,
-  'aria-invalid': invalid,
+  invalid,
   className,
   ...props
 }: RadioGroupProps) {
@@ -49,15 +49,15 @@ export function RadioGroup({
   );
 }
 
-export type RadioProps = Override<
-  ComponentProps<typeof ArkRadioGroup.Item>,
+type RadioProps = Override<
+  ComponentProps<'label'>,
   {
-    asChild?: never;
-    children?: never;
     value: string;
+    disabled?: boolean;
     label: ReactNode;
     /** A consequence or a detail, under the label. */
     description?: ReactNode;
+    children?: never;
   }
 >;
 

@@ -5,7 +5,7 @@ import { Icon, type IconName } from '../display/icon';
 
 import type { Override } from '../../utils';
 
-export type BottomNavProps = Override<
+type BottomNavProps = Override<
   ComponentProps<'nav'>,
   {
     /** Accessible name of the navigation ("Main navigation"). */
@@ -32,7 +32,7 @@ export function BottomNav({ fixed = false, className, children, ...props }: Bott
   );
 }
 
-export type BottomNavItemProps = Override<
+type BottomNavItemProps = Override<
   ComponentProps<'a'>,
   {
     href: string;

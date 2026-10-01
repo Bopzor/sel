@@ -5,11 +5,10 @@ import { useId, type ComponentProps, type ReactNode } from 'react';
 import { definedAttributes, type Override } from '../../utils';
 import { Icon } from '../display/icon';
 
-export type SwitchProps = Override<
+type SwitchProps = Override<
   ComponentProps<'input'>,
   {
     type?: never;
-    children?: never;
     /** A switch takes effect immediately, so it is never invalid: a choice validated with a form is a Checkbox. */
     'aria-invalid'?: never;
     /** The name of the setting. */
@@ -17,6 +16,7 @@ export type SwitchProps = Override<
     /** What the setting concretely changes. */
     description?: ReactNode;
     value?: string;
+    children?: never;
   }
 >;
 

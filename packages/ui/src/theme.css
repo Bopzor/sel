@@ -178,7 +178,6 @@
   --background-color-track: light-dark(var(--neutral-100), var(--dark-4));
   --background-color-switch-track: light-dark(var(--neutral-500), var(--neutral-600));
   --background-color-switch-thumb: #ffffff;
-  --background-color-handle: var(--neutral-500);
   --background-color-skeleton: light-dark(var(--neutral-100), var(--dark-3));
   --background-color-avatar: light-dark(var(--brand-100), var(--brand-800));
 

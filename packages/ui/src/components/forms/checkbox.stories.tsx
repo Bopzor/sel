@@ -24,7 +24,7 @@ export const WithDescription: Story = {
 };
 
 export const Invalid: Story = {
-  args: { 'aria-invalid': true },
+  args: { invalid: true },
 };
 
 export const Disabled: Story = {

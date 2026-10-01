@@ -33,14 +33,12 @@ import {
 import { Field, fieldBoxStyles } from './field';
 import { Input } from './input';
 
-export type RichTextEditorProps = {
+type RichTextEditorProps = {
   /** The content as HTML, an empty string when the editor is empty. */
   value: string;
   onChange: (html: string) => void;
   onBlur?: () => void;
   placeholder?: string;
-  /** A RichTextToolbar, under the text. */
-  children?: ReactNode;
   /** Focuses the text, for a form library that focuses the first field in error. */
   ref?: Ref<{ focus: () => void }>;
   // Override the field's.
@@ -52,6 +50,8 @@ export type RichTextEditorProps = {
   'aria-labelledby'?: string;
   'aria-describedby'?: string;
   className?: string;
+  /** A RichTextToolbar, under the text. */
+  children?: ReactNode;
 };
 
 export function RichTextEditor({
@@ -59,9 +59,9 @@ export function RichTextEditor({
   onChange,
   onBlur,
   placeholder,
-  children,
   ref,
   className,
+  children,
   ...props
 }: RichTextEditorProps) {
   // The editable element is not a native control: it gets the textbox role, and the links and the states of Ark's
@@ -172,26 +172,19 @@ function useRichTextEditor() {
   return context;
 }
 
-export type RichTextToolbarProps = ComponentProps<'div'>;
-
 /** The formatting buttons, under the text: the formats offered are the buttons it contains. */
-export function RichTextToolbar({ className, ...props }: RichTextToolbarProps) {
+export function RichTextToolbar({ className, ...props }: ComponentProps<'div'>) {
   return <div {...props} className={clsx('flex flex-wrap items-center gap-1 border-t p-1', className)} />;
 }
 
-export type RichTextToolbarEndProps = ComponentProps<'div'>;
-
 /** Actions at the end of the toolbar, such as an attachment button or the send button of a comment. */
-export function RichTextToolbarEnd({ className, ...props }: RichTextToolbarEndProps) {
+export function RichTextToolbarEnd({ className, ...props }: ComponentProps<'div'>) {
   return <div {...props} className={clsx('ml-auto flex items-center gap-2', className)} />;
 }
 
-export type RichTextFormatProps = {
-  /** Accessible name of the button, in the application's language. */
-  label: string;
-};
+// The format buttons are named by their label, in the application's language.
 
-export function RichTextBold({ label }: RichTextFormatProps) {
+export function RichTextBold({ label }: { label: string }) {
   return (
     <FormatButton
       icon="bold"
@@ -202,7 +195,7 @@ export function RichTextBold({ label }: RichTextFormatProps) {
   );
 }
 
-export function RichTextItalic({ label }: RichTextFormatProps) {
+export function RichTextItalic({ label }: { label: string }) {
   return (
     <FormatButton
       icon="italic"
@@ -213,7 +206,7 @@ export function RichTextItalic({ label }: RichTextFormatProps) {
   );
 }
 
-export function RichTextUnderline({ label }: RichTextFormatProps) {
+export function RichTextUnderline({ label }: { label: string }) {
   return (
     <FormatButton
       icon="underline"
@@ -224,7 +217,7 @@ export function RichTextUnderline({ label }: RichTextFormatProps) {
   );
 }
 
-export function RichTextBulletList({ label }: RichTextFormatProps) {
+export function RichTextBulletList({ label }: { label: string }) {
   return (
     <FormatButton
       icon="bullet-list"
@@ -235,7 +228,7 @@ export function RichTextBulletList({ label }: RichTextFormatProps) {
   );
 }
 
-export function RichTextOrderedList({ label }: RichTextFormatProps) {
+export function RichTextOrderedList({ label }: { label: string }) {
   return (
     <FormatButton
       icon="ordered-list"
@@ -246,7 +239,8 @@ export function RichTextOrderedList({ label }: RichTextFormatProps) {
   );
 }
 
-type FormatButtonProps = RichTextFormatProps & {
+type FormatButtonProps = {
+  label: string;
   icon: IconName;
   /** The name of tiptap's mark or node, which makes the button pressed when the selection has it. */
   format: string;
@@ -274,13 +268,11 @@ export type RichTextLinkLabels = {
   close: string;
 };
 
-export type RichTextLinkProps = {
-  /** The texts of the button and of its dialog, in the application's language. */
-  labels: RichTextLinkLabels;
-};
-
-/** The link button, which opens a dialog with the address. */
-export function RichTextLink({ labels }: RichTextLinkProps) {
+/**
+ * The link button, which opens a dialog with the address. The labels are the texts of the button and of its dialog,
+ * in the application's language.
+ */
+export function RichTextLink({ labels }: { labels: RichTextLinkLabels }) {
   const { editor } = useRichTextEditor();
   const pressed = useEditorState({ editor, selector: ({ editor }) => editor.isActive('link') });
 
@@ -372,14 +364,14 @@ export function RichTextLink({ labels }: RichTextLinkProps) {
   );
 }
 
-export type RichTextToolbarButtonProps = Override<
+type RichTextToolbarButtonProps = Override<
   ComponentProps<'button'>,
   {
-    children?: never;
     icon: IconName;
     /** Accessible name, also shown as a tooltip on hover. */
     label: string;
     pressed?: boolean;
+    children?: never;
   }
 >;
 

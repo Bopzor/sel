@@ -9,7 +9,7 @@ import type { Override } from '../../utils';
 
 type Tone = 'info' | 'success' | 'warning' | 'danger';
 
-export type AlertProps = Override<
+type AlertProps = Override<
   ComponentProps<'div'>,
   {
     tone?: Tone;
@@ -42,24 +42,18 @@ export function Alert({ tone = 'info', onClose, closeLabel, className, children,
   );
 }
 
-export type AlertTitleProps = ComponentProps<'p'>;
-
 /** A short sentence. */
-export function AlertTitle({ className, ...props }: AlertTitleProps) {
+export function AlertTitle({ className, ...props }: ComponentProps<'p'>) {
   return <p {...props} className={clsx('text-body-strong text-default', className)} />;
 }
 
-export type AlertDescriptionProps = ComponentProps<'div'>;
-
 /** What happened, and what to do. */
-export function AlertDescription({ className, ...props }: AlertDescriptionProps) {
+export function AlertDescription({ className, ...props }: ComponentProps<'div'>) {
   return <div {...props} className={clsx('text-body-sm text-default', className)} />;
 }
 
-export type AlertActionsProps = ComponentProps<'div'>;
-
 /** Small buttons (size="sm"). */
-export function AlertActions({ className, ...props }: AlertActionsProps) {
+export function AlertActions({ className, ...props }: ComponentProps<'div'>) {
   return <div {...props} className={clsx('mt-2 flex flex-wrap gap-2', className)} />;
 }
 
