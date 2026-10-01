@@ -1,5 +1,7 @@
 import type { IconName } from '@sel/ui';
 
+import { t } from './translations';
+
 export const routes = {
   home: () => '/',
   requests: () => '/requests',
@@ -16,7 +18,7 @@ export const navigation = {
   main: {
     home: {
       path: routes.home(),
-      label: 'Accueil',
+      label: t.navigation.items.home,
       icon: 'home',
     },
   },
@@ -24,12 +26,12 @@ export const navigation = {
   exchanges: {
     requests: {
       path: routes.requests(),
-      label: 'Demandes',
+      label: t.navigation.items.requests,
       icon: 'request',
     },
     events: {
       path: routes.events(),
-      label: 'Événements',
+      label: t.navigation.items.events,
       icon: 'event',
     },
   },
@@ -37,17 +39,17 @@ export const navigation = {
   community: {
     members: {
       path: routes.members(),
-      label: 'Membres',
+      label: t.navigation.items.members,
       icon: 'members',
     },
     interests: {
       path: routes.interests(),
-      label: "Centres d'intérêts",
+      label: t.navigation.items.interests,
       icon: 'interests',
     },
     information: {
       path: routes.information(),
-      label: 'Informations',
+      label: t.navigation.items.information,
       icon: 'information',
     },
   },
@@ -55,12 +57,12 @@ export const navigation = {
   account: {
     profile: {
       path: routes.profile(),
-      label: 'Profil',
+      label: t.navigation.items.profile,
       icon: 'profile',
     },
     settings: {
       path: routes.settings(),
-      label: 'Paramètres',
+      label: t.navigation.items.settings,
       icon: 'settings',
     },
   },

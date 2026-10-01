@@ -14,16 +14,13 @@ import { entries } from '@sel/utils';
 import { Link } from '../components/link';
 import { navigation } from '../routes';
 import { useSignOut } from '../sign-out';
+import { t } from '../translations';
 
 type Navigation = typeof navigation;
 
 /** Every section, grouped as in the side navigation. Reached from "Plus" in the bottom navigation. */
 export function NavigationPage() {
-  const labels: Partial<{ [Group in keyof Navigation]: string }> = {
-    exchanges: 'Échanges',
-    community: 'Communauté',
-    account: 'Mon compte',
-  };
+  const labels: Partial<{ [Group in keyof Navigation]: string }> = t.navigation.groups;
 
   return (
     <div className="mx-auto flex max-w-content flex-col gap-6">
@@ -68,7 +65,7 @@ function SignOutItem() {
       <Icon name="sign-out" className="text-muted" />
       <ListItemContent>
         <ListItemTitle>
-          <ListItemButton onClick={signOut}>Se déconnecter</ListItemButton>
+          <ListItemButton onClick={signOut}>{t.signOut}</ListItemButton>
         </ListItemTitle>
       </ListItemContent>
     </ListItem>

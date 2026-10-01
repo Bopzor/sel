@@ -15,27 +15,24 @@ import { Link } from '../components/link';
 import { instance } from '../instance';
 import { navigation, routes } from '../routes';
 import { useSignOut } from '../sign-out';
+import { t } from '../translations';
 
 type Navigation = typeof navigation;
 
 export function Layout() {
-  const labels: Partial<{ [Group in keyof Navigation]: string }> = {
-    exchanges: 'Échanges',
-    community: 'Communauté',
-    account: 'Mon compte',
-  };
+  const labels: Partial<{ [Group in keyof Navigation]: string }> = t.navigation.groups;
 
   const bottomNav: Array<{ path: string; label: string; icon: IconName }> = [
     navigation.main.home,
     navigation.exchanges.requests,
     navigation.exchanges.events,
-    { path: routes.navigation(), label: 'Plus', icon: 'menu' },
+    { path: routes.navigation(), label: t.navigation.more, icon: 'menu' },
   ];
 
   return (
     <div className="flex min-h-dvh">
       <SideNav
-        aria-label="Navigation principale"
+        aria-label={t.navigation.label}
         className="sticky top-0 hidden h-dvh shrink-0 overflow-y-auto lg:flex"
       >
         <SideNavHeader logo={instance.logo} name={instance.name} place={instance.place} />
@@ -67,7 +64,7 @@ export function Layout() {
         </div>
       </main>
 
-      <BottomNav aria-label="Navigation principale" fixed className="lg:hidden">
+      <BottomNav aria-label={t.navigation.label} fixed className="lg:hidden">
         {bottomNav.map((item) => (
           <BottomNavLink key={item.path} {...item} />
         ))}
@@ -81,7 +78,7 @@ function SignOutItem() {
 
   return (
     <SideNavItem icon="sign-out" onClick={signOut}>
-      Se déconnecter
+      {t.signOut}
     </SideNavItem>
   );
 }
