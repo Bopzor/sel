@@ -1,11 +1,11 @@
 import { z } from 'zod';
 
-// The server's base URL: proxied to the server in development (see vite.config.ts).
 const baseUrl = import.meta.env.VITE_API_URL ?? '/api';
 
-/** Calls the server and returns the parsed JSON body, or undefined when there is none. */
+export type HttpMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
+
 export async function api<Result>(
-  method: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE',
+  method: HttpMethod,
   path: string,
   options: { query?: Record<string, string | number | undefined>; body?: unknown } = {},
 ): Promise<Result> {
@@ -43,9 +43,7 @@ function searchParams(query: Record<string, string | number | undefined> = {}) {
   return search === '' ? '' : `?${search}`;
 }
 
-/** A response with an error status. */
 export class ApiError extends Error {
-  // The server answers errors with `{ error, ...payload }`, the payload sometimes holding a code (e.g. CodeExpired).
   private static errorBodySchema = z.object({
     error: z.string(),
     code: z.string().optional(),
@@ -67,5 +65,9 @@ export class ApiError extends Error {
     this.status = response.status;
     this.code = data?.code;
     this.body = body;
+  }
+
+  static is(value: unknown, status?: number): value is ApiError {
+    return value instanceof ApiError && (status === undefined || value.status === status);
   }
 }

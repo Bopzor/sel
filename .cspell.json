@@ -37,6 +37,7 @@
     "tanstack",
     "tiptap",
     "trimmable",
+    "unstub",
     "upop"
   ]
 }

@@ -7,15 +7,25 @@ import { createBrowserRouter, RouterProvider } from 'react-router';
 import './index.css';
 import { applyInstanceColors } from './instance';
 import { Layout } from './layout/layout';
+import { AuthenticationPage } from './pages/authentication';
 import { NavigationPage } from './pages/navigation';
 import { PlaceholderPage } from './pages/placeholder';
 import { queryClient } from './query-client';
 import { navigation, routes } from './routes';
+import { requireNoSession, requireSession } from './session';
 
 applyInstanceColors();
 
 const router = createBrowserRouter([
   {
+    path: routes.authentication(),
+    loader: requireNoSession,
+    HydrateFallback: () => null,
+    Component: AuthenticationPage,
+  },
+  {
+    loader: requireSession,
+    HydrateFallback: () => null,
     Component: Layout,
     children: [
       {

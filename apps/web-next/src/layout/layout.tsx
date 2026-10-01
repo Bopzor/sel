@@ -14,7 +14,7 @@ import { Outlet, useMatch } from 'react-router';
 import { Link } from '../components/link';
 import { instance } from '../instance';
 import { navigation, routes } from '../routes';
-import { useSignOut } from '../sign-out';
+import { useSignOut } from '../session';
 import { t } from '../translations';
 
 type Navigation = typeof navigation;
@@ -30,10 +30,10 @@ export function Layout() {
   ];
 
   return (
-    <div className="flex min-h-dvh">
+    <div className="row min-h-dvh">
       <SideNav
         aria-label={t.navigation.label}
-        className="sticky top-0 hidden h-dvh shrink-0 overflow-y-auto lg:flex"
+        className="sticky top-0 hidden h-dvh shrink-0 overflow-y-auto lg:stack"
       >
         <SideNavHeader logo={instance.logo} name={instance.name} place={instance.place} />
 

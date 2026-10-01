@@ -8,7 +8,6 @@ export const instance = {
   name: 'SEL',
   place: 'Zone géographique',
   colors: {
-    // Petrol blue (hue 229°), from #005f7e: brand-700 is the closest step.
     brand: {
       50: '#edf9ff',
       100: '#d7f2ff',
@@ -22,7 +21,6 @@ export const instance = {
       900: '#02384c',
       950: '#012330',
     },
-    // Gold (hue 90°), the warm counterpart of the brand, kept apart from the warning's amber.
     accent: {
       50: '#fdf6e5',
       100: '#fbecc5',
@@ -39,7 +37,7 @@ export const instance = {
   } satisfies Record<'brand' | 'accent', ColorRange>,
 };
 
-/** Overrides the design system's brand and accent ranges. Called before the first render, to avoid a color flash. */
+// Before the first render, to avoid a flash of the default colors.
 export function applyInstanceColors() {
   const { style } = document.documentElement;
 

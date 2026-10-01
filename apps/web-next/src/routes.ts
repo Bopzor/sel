@@ -12,6 +12,8 @@ export const routes = {
   profile: () => '/profile',
   settings: () => '/settings',
   navigation: () => '/navigation',
+  authentication: (next?: string) =>
+    '/authentication' + (next === undefined ? '' : '?' + new URLSearchParams({ next }).toString()),
 };
 
 export const navigation = {
