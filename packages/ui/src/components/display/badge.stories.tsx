@@ -46,9 +46,6 @@ export const WithIcon: Story = {
       <Badge tone="info" icon="event">
         Category
       </Badge>
-      <Badge tone="accent" icon="new">
-        New
-      </Badge>
     </div>
   ),
 };

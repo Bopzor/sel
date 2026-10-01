@@ -10,7 +10,7 @@ The side navigation on desktop, with the instance's logo and name at the top and
 
 ## When to use it
 
-From 1024px, as the main navigation. It shows every section, grouped by theme, where `BottomNav` only shows four plus "More".
+From 1024px, as the main navigation. It shows every section, grouped by theme, where `BottomNav` only shows three plus "More".
 
 ## Growing the navigation
 
@@ -36,7 +36,7 @@ Entries are arranged in stable groups, for example "Exchange" (Requests, Loans, 
 - `SideNav` (required): the `<nav>`, named by its `aria-label` ("Main navigation").
 - `SideNavHeader`: the instance's identity, read from its configuration. `logo` is the URL of a square image, shown at `size-logo` (44px) with `radius-md` corners, next to the `name` and the `place`.
 - `SideNavSection`: a group of entries with its `title`. The first section, the main entries, has no title.
-- `SideNavItem`: an entry, a link with its `icon` and its label. `active` marks the entry of the current page with `aria-current="page"`. `badge`: a `Badge` after the label, such as a count.
+- `SideNavItem`: an entry, a link with its `icon` and its label; it takes the router's link component as `Link` (an `<a>` by default). Without `href`, it is a button, for an action such as signing out. `active` marks the entry of the current page with `aria-current="page"`. `badge`: a `Badge` after the label, such as a count.
 - `SideNavFooter`: at the bottom of the bar, the member's account and signing out, in a `SideNavSection`.
 
 Width `width-sidebar` (280px). Entries are `control-md` (48px) high with `radius-md` corners. Active entry: `bg-primary-subtle` background, `text-primary` text and icon. The application places the bar (`className="sticky top-0 h-dvh"`, for example) and hides it below `lg`.

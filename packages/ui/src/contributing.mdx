@@ -56,7 +56,7 @@ The simplest solution that meets today's needs wins. Simple code is easier to re
 - Booleans default to `false` and are named after the non-default state (`disabled`, `loading`, `optional`).
 - Icons are passed as concept names (`icon="send"`), never as elements.
 - Components contain no text of their own: every word shown or read by a screen reader (a close button's name, "Step 2 of 3") is a prop, written in the application's language by the consumer.
-- No `asChild` or polymorphic `as` prop: a component that can also be a link comes as a second component that renders an `<a>` (`Button` and `LinkButton`), sharing its styles.
+- No `asChild` or polymorphic `as` prop: a component that can also be a link comes as a second component that renders an `<a>` (`Button` and `LinkButton`), sharing its styles. A component that renders a link takes the router's link component as a `Link` prop (`<LinkButton Link={RouterLink} href="/requests">`), `<a>` by default: it receives the `<a>`'s props, `href` included, and renders the same element.
 
 ## Composition
 

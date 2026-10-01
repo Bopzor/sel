@@ -11,7 +11,6 @@ const items: Entry[] = [
   { value: 'home', label: 'Home', icon: 'home' },
   { value: 'requests', label: 'Requests', icon: 'request' },
   { value: 'events', label: 'Events', icon: 'event' },
-  { value: 'members', label: 'Members', icon: 'members' },
   { value: 'more', label: 'More', icon: 'menu' },
 ];
 

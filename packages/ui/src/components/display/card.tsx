@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import type { ComponentProps } from 'react';
 
-import type { Override } from '../../utils';
+import type { LinkComponent, Override } from '../../utils';
 
 /**
  * A rounded surface that groups content: CardHeader, CardBody and CardFooter go inside, or a list without padding. A
@@ -72,8 +72,12 @@ const cover = clsx(
 );
 
 /** Inside the CardTitle: the whole card becomes a link, named by the title. */
-export function CardLink({ className, ...props }: ComponentProps<'a'>) {
-  return <a {...props} data-card-cover="" className={clsx(cover, className)} />;
+export function CardLink({
+  Link = 'a',
+  className,
+  ...props
+}: ComponentProps<'a'> & { Link?: LinkComponent }) {
+  return <Link {...props} data-card-cover="" className={clsx(cover, className)} />;
 }
 
 /** Inside the CardTitle: the whole card becomes a button, named by the title. */

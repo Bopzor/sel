@@ -17,6 +17,7 @@
     "@babel/core": "^7.29.7",
     "@rolldown/plugin-babel": "^0.2.3",
     "@sel/ui": "workspace:*",
+    "@sel/utils": "workspace:*",
     "@tailwindcss/vite": "^4.3.3",
     "@tanstack/eslint-plugin-query": "^5.104.0",
     "@types/babel__core": "^7.20.5",

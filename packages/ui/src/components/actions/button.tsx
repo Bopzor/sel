@@ -6,6 +6,8 @@ import { Icon, type IconName } from '../display/icon';
 
 import { Spinner } from './spinner';
 
+import type { LinkComponent } from '../../utils';
+
 type ButtonAppearance = {
   variant?: 'primary' | 'secondary' | 'ghost' | 'danger';
   size?: 'sm' | 'md' | 'lg';
@@ -57,6 +59,7 @@ export function Button({
 
 /** A link that looks like a button, for an action that navigates. A link cannot be disabled or loading. */
 export function LinkButton({
+  Link = 'a',
   variant = 'primary',
   size = 'md',
   icon,
@@ -64,13 +67,13 @@ export function LinkButton({
   className,
   children,
   ...props
-}: ComponentProps<'a'> & ButtonAppearance) {
+}: ComponentProps<'a'> & ButtonAppearance & { Link?: LinkComponent }) {
   return (
-    <a {...props} className={buttonStyles({ variant, size, className })}>
+    <Link {...props} className={buttonStyles({ variant, size, className })}>
       <ButtonContent size={size} icon={icon} iconEnd={iconEnd}>
         {children}
       </ButtonContent>
-    </a>
+    </Link>
   );
 }
 

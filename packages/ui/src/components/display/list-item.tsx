@@ -3,6 +3,8 @@ import type { ComponentProps } from 'react';
 
 import { Icon } from './icon';
 
+import type { LinkComponent } from '../../utils';
+
 /**
  * A list row: a leading Avatar or Icon, a ListItemContent, then a ListItemTrailing or a ListItemChevron. A
  * ListItemLink or a ListItemButton in the title makes the whole row clickable.
@@ -52,8 +54,12 @@ const cover = clsx(
 );
 
 /** Inside the ListItemTitle: the whole row becomes a link, named by the title. */
-export function ListItemLink({ className, ...props }: ComponentProps<'a'>) {
-  return <a {...props} data-list-item-cover="" className={clsx(cover, className)} />;
+export function ListItemLink({
+  Link = 'a',
+  className,
+  ...props
+}: ComponentProps<'a'> & { Link?: LinkComponent }) {
+  return <Link {...props} data-list-item-cover="" className={clsx(cover, className)} />;
 }
 
 /** Inside the ListItemTitle: the whole row becomes a button, named by the title. */

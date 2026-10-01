@@ -19,8 +19,8 @@ import {
   Funnel,
   Hand,
   House,
-  Italic,
   Info,
+  Italic,
   Link,
   List,
   ListOrdered,
@@ -87,6 +87,7 @@ const icons = {
   information: MessageSquareText,
   exchange: ArrowLeftRight,
   members: Users,
+  interests: Sparkles,
   profile: User,
   notifications: Bell,
   settings: Settings,
@@ -133,7 +134,6 @@ const icons = {
   email: Mail,
   time: Clock,
   attachment: Paperclip,
-  new: Sparkles,
 } satisfies Record<string, LucideIcon>;
 
 export const iconNames = Object.keys(icons) as IconName[];

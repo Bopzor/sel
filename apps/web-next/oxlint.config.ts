@@ -9,8 +9,7 @@ import react from 'oxlint-config-presets/react/recommended.json' with { type: 'j
 import base from '../../oxlint.config.ts';
 
 export default defineConfig({
-  plugins: ['react'],
-  jsPlugins: ['react', '@tanstack/eslint-plugin-query', 'eslint-plugin-better-tailwindcss'],
+  jsPlugins: ['@tanstack/eslint-plugin-query', 'eslint-plugin-better-tailwindcss'],
   extends: [base, tsStylistic, react],
 
   settings: {
@@ -20,6 +19,9 @@ export default defineConfig({
   },
 
   rules: {
+    'typescript/array-type': 'off',
+    'typescript/consistent-type-definitions': 'off',
+    'react/react-in-jsx-scope': 'off',
     ...tanstackQuery.configs.recommended.rules,
     ...tailwind.configs.correctness.rules,
     ...tailwind.configs.stylistic.rules,

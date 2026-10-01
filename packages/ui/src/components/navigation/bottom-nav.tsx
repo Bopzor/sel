@@ -3,7 +3,7 @@ import type { ComponentProps, ReactNode } from 'react';
 
 import { Icon, type IconName } from '../display/icon';
 
-import type { Override } from '../../utils';
+import type { LinkComponent, Override } from '../../utils';
 
 type BottomNavProps = Override<
   ComponentProps<'nav'>,
@@ -12,7 +12,7 @@ type BottomNavProps = Override<
     'aria-label': string;
     /** Fixes the bar at the bottom of the screen, above the phone's home indicator. */
     fixed?: boolean;
-    /** Five BottomNavItems at most. */
+    /** Four BottomNavItems at most. */
     children: ReactNode;
   }
 >;
@@ -35,6 +35,7 @@ export function BottomNav({ fixed = false, className, children, ...props }: Bott
 type BottomNavItemProps = Override<
   ComponentProps<'a'>,
   {
+    Link?: LinkComponent;
     href: string;
     icon: IconName;
     /** The entry of the current page, marked aria-current="page". */
@@ -45,10 +46,17 @@ type BottomNavItemProps = Override<
 >;
 
 /** An entry, a link. */
-export function BottomNavItem({ icon, active = false, className, children, ...props }: BottomNavItemProps) {
+export function BottomNavItem({
+  Link = 'a',
+  icon,
+  active = false,
+  className,
+  children,
+  ...props
+}: BottomNavItemProps) {
   return (
     <li className="flex min-w-0 flex-1">
-      <a
+      <Link
         {...props}
         aria-current={active ? 'page' : undefined}
         className={clsx(
@@ -66,7 +74,7 @@ export function BottomNavItem({ icon, active = false, className, children, ...pr
           <Icon name={icon} />
         </span>
         <span className="max-w-full truncate text-caption">{children}</span>
-      </a>
+      </Link>
     </li>
   );
 }

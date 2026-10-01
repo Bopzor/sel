@@ -6,7 +6,7 @@ import * as BottomNavStories from './bottom-nav.stories';
 
 # BottomNav
 
-The main navigation bar on mobile and tablet, fixed at the bottom, with five entries at most, always shown with their label.
+The main navigation bar on mobile and tablet, fixed at the bottom, with four entries at most, always shown with their label.
 
 ## When to use it
 
@@ -14,7 +14,7 @@ Below 1024px, as the application's main navigation. Beyond that, it gives way to
 
 ## When features multiply
 
-The bar keeps five entries even as the application grows (loans, skills directory…). The four most used sections stay in it; the fifth entry becomes "More" (`menu` icon) and opens a page that lists every section, grouped as in `SideNav`. A section moves into the bar when its usage justifies it, not because it is new.
+The bar keeps four entries even as the application grows (loans, skills directory…). The three most used sections stay in it; the fourth entry becomes "More" (`menu` icon) and opens a page that lists every section, grouped as in `SideNav`. A section moves into the bar when its usage justifies it, not because it is new.
 
 ## Parts
 
@@ -30,7 +30,7 @@ The bar keeps five entries even as the application grows (loans, skills director
 ```
 
 - `BottomNav` (required): the `<nav>`, named by its `aria-label` ("Main navigation"). `fixed`: fixed position at the bottom, which takes the phones' safe area into account.
-- `BottomNavItem`: an entry, a link with its `icon` and a one-word label, five at most. `active` marks the entry of the current page (`bg-primary-subtle` pill, `text-primary` text and icon) with `aria-current="page"`.
+- `BottomNavItem`: an entry, a link with its `icon` and a one-word label, four at most; it takes the router's link component as `Link` (an `<a>` by default). `active` marks the entry of the current page (`bg-primary-subtle` pill, `text-primary` text and icon) with `aria-current="page"`.
 
 The page content reserves `spacing-bottom-nav` at the bottom (`pb-bottom-nav`) so it does not go under the bar.
 

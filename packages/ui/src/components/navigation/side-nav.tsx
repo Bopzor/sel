@@ -3,7 +3,7 @@ import { useId, type ComponentProps, type ReactNode } from 'react';
 
 import { Icon, type IconName } from '../display/icon';
 
-import type { Override } from '../../utils';
+import type { LinkComponent, Override } from '../../utils';
 
 type SideNavProps = Override<
   ComponentProps<'nav'>,
@@ -78,22 +78,21 @@ export function SideNavSection({ title, className, children, ...props }: SideNav
   );
 }
 
-type SideNavItemProps = Override<
-  ComponentProps<'a'>,
-  {
-    href: string;
-    icon: IconName;
-    /** The entry of the current page, marked aria-current="page". */
-    active?: boolean;
-    /** A Badge after the label, such as a count. */
-    badge?: ReactNode;
-    /** The label. */
-    children: ReactNode;
-  }
->;
+type SideNavItemProps = {
+  icon: IconName;
+  /** The entry of the current page, marked aria-current="page". */
+  active?: boolean;
+  /** A Badge after the label, such as a count. */
+  badge?: ReactNode;
+  onClick?: (event: React.MouseEvent) => void;
+  className?: string;
+  /** The label. */
+  children: ReactNode;
+} & ({ Link?: LinkComponent; href: string } | { Link?: never; href?: never });
 
-/** An entry, a link. */
+/** An entry: a link with an href, a button without (signing out). */
 export function SideNavItem({
+  Link,
   icon,
   active = false,
   badge,
@@ -101,13 +100,15 @@ export function SideNavItem({
   children,
   ...props
 }: SideNavItemProps) {
+  const Component = props.href ? (Link ?? 'a') : 'button';
+
   return (
     <li>
-      <a
+      <Component
         {...props}
         aria-current={active ? 'page' : undefined}
         className={clsx(
-          'flex min-h-control-md items-center gap-3 rounded-md px-3 text-label no-underline transition select-none',
+          'flex min-h-control-md w-full cursor-pointer items-center gap-3 rounded-md px-3 text-start text-label no-underline transition select-none',
           active
             ? 'bg-primary-subtle text-primary hover:bg-primary-subtle-hover'
             : 'text-muted hover:bg-surface-hover hover:text-default',
@@ -117,7 +118,7 @@ export function SideNavItem({
         <Icon name={icon} />
         <span className="min-w-0 flex-1 truncate">{children}</span>
         {badge}
-      </a>
+      </Component>
     </li>
   );
 }
