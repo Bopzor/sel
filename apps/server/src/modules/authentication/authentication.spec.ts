@@ -76,6 +76,17 @@ describe('member', () => {
     });
   });
 
+  it('keeps the page to go to once signed in in the link of the email', async () => {
+    await persist.member({ id: 'memberId', email: 'email' });
+
+    await requestAuthenticationCode({ email: 'email', next: '/events?page=2' });
+
+    const code = await getAuthenticationCode();
+    const email = defined(emailSender.emails[0]);
+
+    expect(email.html).toContain(`/authentication?code=${code}&next=%2Fevents%3Fpage%3D2`);
+  });
+
   it('revokes the authentication tokens after verifying it', async () => {
     await persist.member({ id: 'memberId', email: 'email' });
 
