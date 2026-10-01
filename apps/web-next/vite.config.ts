@@ -7,5 +7,11 @@ export default defineConfig({
   plugins: [react(), babel({ presets: [reactCompilerPreset()] }), tailwindcss()],
   server: {
     port: 8000,
+    proxy: {
+      '/api': {
+        target: 'http://localhost:3000',
+        rewrite: (path) => path.replace(/^\/api/, ''),
+      },
+    },
   },
 });

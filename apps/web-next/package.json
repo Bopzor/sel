@@ -9,9 +9,11 @@
     "lint": "oxlint"
   },
   "dependencies": {
+    "@tanstack/react-query": "^5.104.0",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
-    "react-router": "^8.4.0"
+    "react-router": "^8.4.0",
+    "zod": "^4.6.5"
   },
   "devDependencies": {
     "@babel/core": "^7.29.7",
@@ -20,6 +22,7 @@
     "@sel/utils": "workspace:*",
     "@tailwindcss/vite": "^4.3.3",
     "@tanstack/eslint-plugin-query": "^5.104.0",
+    "@tanstack/react-query-devtools": "^5.104.0",
     "@types/babel__core": "^7.20.5",
     "@types/node": "^26.6.3",
     "@types/react": "^19.2.18",

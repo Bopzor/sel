@@ -1,3 +1,5 @@
+import { QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router';
@@ -7,6 +9,7 @@ import { applyInstanceColors } from './instance';
 import { Layout } from './layout/layout';
 import { NavigationPage } from './pages/navigation';
 import { PlaceholderPage } from './pages/placeholder';
+import { queryClient } from './query-client';
 import { navigation, routes } from './routes';
 
 applyInstanceColors();
@@ -57,6 +60,9 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <QueryClientProvider client={queryClient}>
+      <RouterProvider router={router} />
+      <ReactQueryDevtools />
+    </QueryClientProvider>
   </StrictMode>,
 );
