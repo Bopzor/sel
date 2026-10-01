@@ -108,7 +108,7 @@ export const Ranges: Story = {
     <div className="stack gap-6">
       <p className="max-w-content text-body-sm text-muted">
         Ranges are private: they only define the semantic tokens and have no utility. An instance only
-        replaces the brand and accent ranges.
+        replaces the primary and accent ranges.
       </p>
       {Object.entries(ranges).map(([range, steps]) => (
         <section key={range} className="stack gap-2">

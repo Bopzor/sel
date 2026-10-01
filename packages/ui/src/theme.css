@@ -2,8 +2,8 @@
  * Design tokens, as a Tailwind theme. This file is the source of truth of the design system's values.
  *
  * Two layers:
- * - Primitives (--brand-600, --neutral-200, --control-md…) are private CSS variables. They define the semantic
- *   tokens and generate no utility. An instance customizes its colors by overriding --brand-* and --accent-*
+ * - Primitives (--primary-600, --neutral-200, --control-md…) are private CSS variables. They define the semantic
+ *   tokens and generate no utility. An instance customizes its colors by overriding --primary-* and --accent-*
  *   (Guidelines/Theming in Storybook).
  * - Semantic tokens are scoped to the utility they are meant for: --background-color-surface only generates
  *   bg-surface, --text-color-muted only generates text-muted. A wrong pairing (bg-muted) does not exist.
@@ -16,18 +16,31 @@
   :root {
     color-scheme: light;
 
-    /* Brand color (fir green), replaced by an instance. */
-    --brand-50: #e0fff4;
-    --brand-100: #c9f9e9;
-    --brand-200: #a7eed6;
-    --brand-300: #79dabd;
-    --brand-400: #3fbd9c;
-    --brand-500: #019d7e;
-    --brand-600: #007f65;
-    --brand-700: #006852;
-    --brand-800: #005240;
-    --brand-900: #003d2f;
-    --brand-950: #00261d;
+    /* Primary color (fir green), replaced by an instance. */
+    --primary-50: #e0fff4;
+    --primary-100: #c9f9e9;
+    --primary-200: #a7eed6;
+    --primary-300: #79dabd;
+    --primary-400: #3fbd9c;
+    --primary-500: #019d7e;
+    --primary-600: #007f65;
+    --primary-700: #006852;
+    --primary-800: #005240;
+    --primary-900: #003d2f;
+    --primary-950: #00261d;
+
+    /* Accent (saffron), replaced by an instance: occasional highlights, never body text below 700. */
+    --accent-50: #fff6e5;
+    --accent-100: #ffeac5;
+    --accent-200: #fdd791;
+    --accent-300: #edbc5b;
+    --accent-400: #d29900;
+    --accent-500: #ac7d00;
+    --accent-600: #8b6400;
+    --accent-700: #725200;
+    --accent-800: #5a4000;
+    --accent-900: #432f00;
+    --accent-950: #2b1c00;
 
     /* Warm neutral (stone): backgrounds, text, lines. */
     --neutral-50: #f8f6f4;
@@ -48,19 +61,6 @@
     --dark-2: #1d1b18;
     --dark-3: #272521;
     --dark-4: #383531;
-
-    /* Accent (saffron), replaced by an instance: occasional highlights, never body text below 700. */
-    --accent-50: #fff6e5;
-    --accent-100: #ffeac5;
-    --accent-200: #fdd791;
-    --accent-300: #edbc5b;
-    --accent-400: #d29900;
-    --accent-500: #ac7d00;
-    --accent-600: #8b6400;
-    --accent-700: #725200;
-    --accent-800: #5a4000;
-    --accent-900: #432f00;
-    --accent-950: #2b1c00;
 
     /* Success. */
     --green-50: #e5ffe8;
@@ -159,11 +159,11 @@
   --background-color-inverse: light-dark(var(--neutral-900), var(--neutral-100));
   --background-color-inverse-hover: light-dark(rgb(255 255 255 / 0.12), rgb(0 0 0 / 0.08));
   --background-color-disabled: light-dark(var(--neutral-100), var(--dark-0));
-  --background-color-primary: light-dark(var(--brand-600), var(--brand-400));
-  --background-color-primary-hover: light-dark(var(--brand-700), var(--brand-300));
-  --background-color-primary-active: light-dark(var(--brand-800), var(--brand-200));
-  --background-color-primary-subtle: light-dark(var(--brand-50), var(--brand-950));
-  --background-color-primary-subtle-hover: light-dark(var(--brand-100), var(--brand-900));
+  --background-color-primary: light-dark(var(--primary-600), var(--primary-400));
+  --background-color-primary-hover: light-dark(var(--primary-700), var(--primary-300));
+  --background-color-primary-active: light-dark(var(--primary-800), var(--primary-200));
+  --background-color-primary-subtle: light-dark(var(--primary-50), var(--primary-950));
+  --background-color-primary-subtle-hover: light-dark(var(--primary-100), var(--primary-900));
   --background-color-accent: var(--accent-300);
   --background-color-accent-subtle: light-dark(var(--accent-50), var(--accent-950));
   --background-color-success: light-dark(var(--green-600), var(--green-400));
@@ -179,7 +179,7 @@
   --background-color-switch-track: light-dark(var(--neutral-500), var(--neutral-600));
   --background-color-switch-thumb: #ffffff;
   --background-color-skeleton: light-dark(var(--neutral-100), var(--dark-3));
-  --background-color-avatar: light-dark(var(--brand-100), var(--brand-800));
+  --background-color-avatar: light-dark(var(--primary-100), var(--primary-800));
 
   /* Text */
   --text-color-default: light-dark(var(--neutral-950), var(--neutral-50));
@@ -187,7 +187,7 @@
   --text-color-subtle: light-dark(var(--neutral-600), var(--neutral-400));
   --text-color-disabled: light-dark(var(--neutral-500), var(--neutral-600));
   --text-color-inverse: light-dark(var(--neutral-50), var(--neutral-950));
-  --text-color-primary: light-dark(var(--brand-700), var(--brand-300));
+  --text-color-primary: light-dark(var(--primary-700), var(--primary-300));
   --text-color-on-primary: light-dark(#ffffff, var(--neutral-950));
   --text-color-accent: light-dark(var(--accent-700), var(--accent-300));
   --text-color-on-accent: var(--neutral-950);
@@ -199,14 +199,14 @@
   --text-color-on-danger: light-dark(#ffffff, var(--neutral-950));
   --text-color-info: light-dark(var(--blue-700), var(--blue-300));
   --text-color-on-info: light-dark(#ffffff, var(--neutral-950));
-  --text-color-on-switch-thumb: var(--brand-700);
-  --text-color-avatar: light-dark(var(--brand-800), var(--brand-50));
+  --text-color-on-switch-thumb: var(--primary-700);
+  --text-color-avatar: light-dark(var(--primary-800), var(--primary-50));
 
   /* Borders */
   --border-color-default: light-dark(var(--neutral-200), var(--dark-4));
   --border-color-strong: var(--neutral-500);
   --border-color-strong-hover: light-dark(var(--neutral-700), var(--neutral-300));
-  --border-color-primary: light-dark(var(--brand-600), var(--brand-400));
+  --border-color-primary: light-dark(var(--primary-600), var(--primary-400));
   --border-color-danger: light-dark(var(--red-600), var(--red-400));
   --border-color-success-subtle: light-dark(var(--green-300), var(--green-800));
   --border-color-warning-subtle: light-dark(var(--amber-300), var(--amber-800));

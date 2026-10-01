@@ -32,7 +32,7 @@ export function Toast({ tone = 'success', onClose, closeLabel, className, childr
       <Icon name={icons[tone]} size="md" />
       <p className="flex-1 py-3 text-toast">{children}</p>
 
-      {/* The focus ring takes the text color: the brand color would not show on the tone's solid color. */}
+      {/* The focus ring takes the text color: the primary color would not show on the tone's solid color. */}
       {onClose && (
         <button
           type="button"

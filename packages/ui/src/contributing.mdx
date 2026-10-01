@@ -38,7 +38,7 @@ The simplest solution that meets today's needs wins. Simple code is easier to re
 
 ## Styles
 
-- Styles are Tailwind classes, using only the design system's tokens. The linter rejects unknown classes, arbitrary values (`w-[13px]`, `bg-(--brand-600)`), arbitrary properties and the `dark:` variant: semantic tokens switch with the theme on their own.
+- Styles are Tailwind classes, using only the design system's tokens. The linter rejects unknown classes, arbitrary values (`w-[13px]`, `bg-(--primary-600)`), arbitrary properties and the `dark:` variant: semantic tokens switch with the theme on their own.
 - Variants are declared with `cva`, and conditional class lists are joined with `clsx()`, never with string concatenation.
 - Classes are not merged: two classes that set the same property both stay on the element, and the stylesheet order decides which one applies. A component never produces two conflicting classes (a disabled state replaces the variant's colors instead of overriding them).
 - `className` is accepted on the root element, for layout only (margins, width, grid placement): it cannot reliably override the component's own styles.

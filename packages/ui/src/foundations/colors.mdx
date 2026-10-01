@@ -8,7 +8,7 @@ import * as ColorsStories from './colors.stories';
 
 Colors come in two layers.
 
-- **Ranges** (`brand-*`, `neutral-*`, `accent-*`, `green-*`, `red-*`, `amber-*`, `blue-*`, `dark-*`) are private: they only define the semantic tokens, and have no utility.
+- **Ranges** (`primary-*`, `neutral-*`, `accent-*`, `green-*`, `red-*`, `amber-*`, `blue-*`, `dark-*`) are private: they only define the semantic tokens, and have no utility.
 - **Semantic tokens** are named by their role, and each one belongs to a single utility: backgrounds are `bg-*`, text colors `text-*`, lines `border-*`. A token only exists where it makes sense: `bg-muted` or `text-surface` do not exist, and the linter rejects them.
 
 Components only use semantic tokens. When a component needs a color no token covers, a token is added here first. Semantic tokens switch with the theme on their own: components never use the `dark:` variant.
@@ -17,7 +17,7 @@ Components only use semantic tokens. When a component needs a color no token cov
 
 - **Backgrounds.** The page is `bg-page`, content sits on `bg-surface` (cards, fields, lists), floating elements on `bg-surface-raised` with `shadow-lg`. In dark mode, the higher an element, the lighter it is: `bg-page` \< `bg-surface` \< `bg-surface-raised`.
 - **Text.** `text-default` for content (set on `body`, rarely needed), `text-muted` for descriptions and metadata, `text-subtle` for placeholders. `text-disabled` only appears on a disabled control.
-- **Brand.** `bg-primary` (fir green) carries the main action and the selection; `outline-focus` the focus. Text on it is `text-on-primary`, never a hard-coded color. `text-primary` colors links and active elements, `bg-primary-subtle` is the background of selected elements.
+- **Primary.** `bg-primary` (fir green) carries the main action and the selection; `outline-focus` the focus. Text on it is `text-on-primary`, never a hard-coded color. `text-primary` colors links and active elements, `bg-primary-subtle` is the background of selected elements.
 - **Accent.** `bg-accent` (saffron) is for warm highlights ("New", illustrations), never for actions.
 - **Statuses.** `success`, `warning`, `danger` and `info` each exist in five roles: a solid background (`bg-danger`), the text on it (`text-on-danger`), a light background (`bg-danger-subtle`), its outline (`border-danger-subtle`) and the status text (`text-danger`). A status is always shown with an icon and a word.
 - **Lines.** `border-default` separates (decorative, it is the color of a bare `border`), `border-strong` outlines controls (≥ 3:1).
@@ -35,11 +35,11 @@ Components only use semantic tokens. When a component needs a color no token cov
 | `bg-inverse`                         | `neutral-900`             | `neutral-100`       | Tooltips, opposite to the theme.                                                 |
 | `bg-inverse-hover`                   | `rgb(255 255 255 / 0.12)` | `rgb(0 0 0 / 0.08)` | Hover of a button on `bg-inverse` or on a solid status background (toast).       |
 | `bg-disabled`                        | `neutral-100`             | `dark-0`            | Disabled control.                                                                |
-| `bg-primary`                         | `brand-600`               | `brand-400`         | Main action: primary button, checked box, switch on, active tab underline.       |
-| `bg-primary-hover`                   | `brand-700`               | `brand-300`         | `bg-primary` on hover.                                                           |
-| `bg-primary-active`                  | `brand-800`               | `brand-200`         | `bg-primary` on press.                                                           |
-| `bg-primary-subtle`                  | `brand-50`                | `brand-950`         | Selected element: active chip, chosen option, active navigation entry.           |
-| `bg-primary-subtle-hover`            | `brand-100`               | `brand-900`         | `bg-primary-subtle` on hover.                                                    |
+| `bg-primary`                         | `primary-600`             | `primary-400`       | Main action: primary button, checked box, switch on, active tab underline.       |
+| `bg-primary-hover`                   | `primary-700`             | `primary-300`       | `bg-primary` on hover.                                                           |
+| `bg-primary-active`                  | `primary-800`             | `primary-200`       | `bg-primary` on press.                                                           |
+| `bg-primary-subtle`                  | `primary-50`              | `primary-950`       | Selected element: active chip, chosen option, active navigation entry.           |
+| `bg-primary-subtle-hover`            | `primary-100`             | `primary-900`       | `bg-primary-subtle` on hover.                                                    |
 | `bg-accent`                          | `accent-300`              | `accent-300`        | Warm highlight: "New" badge, illustration dot.                                   |
 | `bg-accent-subtle`                   | `accent-50`               | `accent-950`        | Help box, tip.                                                                   |
 | `bg-success`, `bg-danger`, `bg-info` | `*-600`                   | `*-400`             | Solid status background (toast, badge dot, count pill, danger button).           |
@@ -50,26 +50,26 @@ Components only use semantic tokens. When a component needs a color no token cov
 | `bg-switch-track`                    | `neutral-500`             | `neutral-600`       | Track of a switch that is off.                                                   |
 | `bg-switch-thumb`                    | `#ffffff`                 | `#ffffff`           | Thumb of a switch.                                                               |
 | `bg-skeleton`                        | `neutral-100`             | `dark-3`            | Loading placeholders.                                                            |
-| `bg-avatar`                          | `brand-100`               | `brand-800`         | Avatar without a photo.                                                          |
+| `bg-avatar`                          | `primary-100`             | `primary-800`       | Avatar without a photo.                                                          |
 
 ## Text
 
-| Utility                                                    | Light         | Dark          | Usage                                                                                                 |
-| ---------------------------------------------------------- | ------------- | ------------- | ----------------------------------------------------------------------------------------------------- |
-| `text-default`                                             | `neutral-950` | `neutral-50`  | Main text on `bg-page`, `bg-surface` and `bg-surface-raised` (≥ 15:1).                                |
-| `text-muted`                                               | `neutral-700` | `neutral-300` | Descriptions, metadata, hints (≥ 6.5:1 on `bg-page` and `bg-surface`).                                |
-| `text-subtle`                                              | `neutral-600` | `neutral-400` | Placeholders and tertiary text. Passes 4.5:1 on every surface.                                        |
-| `text-disabled`                                            | `neutral-500` | `neutral-600` | Text of a disabled control only (exempt from contrast, always paired with an explanation).            |
-| `text-inverse`                                             | `neutral-50`  | `neutral-950` | Text on `bg-inverse`.                                                                                 |
-| `text-primary`                                             | `brand-700`   | `brand-300`   | Brand-colored text and icons on surfaces or `bg-primary-subtle`: links, ghost button, active element. |
-| `text-on-primary`                                          | `#ffffff`     | `neutral-950` | Text and icons on `bg-primary` (≈ 5:1 light, ≈ 7:1 dark).                                             |
-| `text-accent`                                              | `accent-700`  | `accent-300`  | Accent text on `bg-surface` or `bg-accent-subtle`.                                                    |
-| `text-on-accent`                                           | `neutral-950` | `neutral-950` | Text on `bg-accent` (≈ 9:1).                                                                          |
-| `text-success`, `text-warning`, `text-danger`, `text-info` | `*-700`       | `*-300`       | Status text and icon on `bg-{status}-subtle`, `bg-surface` or `bg-page` (≥ 6:1).                      |
-| `text-on-success`, `text-on-danger`, `text-on-info`        | `#ffffff`     | `neutral-950` | Text on the solid status background.                                                                  |
-| `text-on-warning`                                          | `neutral-950` | `neutral-950` | Text on `bg-warning`.                                                                                 |
-| `text-on-switch-thumb`                                     | `brand-700`   | `brand-700`   | Check mark in the thumb of a switch that is on.                                                       |
-| `text-avatar`                                              | `brand-800`   | `brand-50`    | Initials on `bg-avatar`.                                                                              |
+| Utility                                                    | Light         | Dark          | Usage                                                                                                   |
+| ---------------------------------------------------------- | ------------- | ------------- | ------------------------------------------------------------------------------------------------------- |
+| `text-default`                                             | `neutral-950` | `neutral-50`  | Main text on `bg-page`, `bg-surface` and `bg-surface-raised` (≥ 15:1).                                  |
+| `text-muted`                                               | `neutral-700` | `neutral-300` | Descriptions, metadata, hints (≥ 6.5:1 on `bg-page` and `bg-surface`).                                  |
+| `text-subtle`                                              | `neutral-600` | `neutral-400` | Placeholders and tertiary text. Passes 4.5:1 on every surface.                                          |
+| `text-disabled`                                            | `neutral-500` | `neutral-600` | Text of a disabled control only (exempt from contrast, always paired with an explanation).              |
+| `text-inverse`                                             | `neutral-50`  | `neutral-950` | Text on `bg-inverse`.                                                                                   |
+| `text-primary`                                             | `primary-700` | `primary-300` | Primary-colored text and icons on surfaces or `bg-primary-subtle`: links, ghost button, active element. |
+| `text-on-primary`                                          | `#ffffff`     | `neutral-950` | Text and icons on `bg-primary` (≈ 5:1 light, ≈ 7:1 dark).                                               |
+| `text-accent`                                              | `accent-700`  | `accent-300`  | Accent text on `bg-surface` or `bg-accent-subtle`.                                                      |
+| `text-on-accent`                                           | `neutral-950` | `neutral-950` | Text on `bg-accent` (≈ 9:1).                                                                            |
+| `text-success`, `text-warning`, `text-danger`, `text-info` | `*-700`       | `*-300`       | Status text and icon on `bg-{status}-subtle`, `bg-surface` or `bg-page` (≥ 6:1).                        |
+| `text-on-success`, `text-on-danger`, `text-on-info`        | `#ffffff`     | `neutral-950` | Text on the solid status background.                                                                    |
+| `text-on-warning`                                          | `neutral-950` | `neutral-950` | Text on `bg-warning`.                                                                                   |
+| `text-on-switch-thumb`                                     | `primary-700` | `primary-700` | Check mark in the thumb of a switch that is on.                                                         |
+| `text-avatar`                                              | `primary-800` | `primary-50`  | Initials on `bg-avatar`.                                                                                |
 
 ## Lines
 
@@ -78,24 +78,24 @@ Components only use semantic tokens. When a component needs a color no token cov
 | `border-default`              | `neutral-200`                       | `dark-4`      | Separators and decorative outlines (cards, lists). The color of a bare `border`.    |
 | `border-strong`               | `neutral-500`                       | `neutral-500` | Control outlines (fields, checkboxes, chips): ≥ 3:1 on `bg-surface` in both themes. |
 | `border-strong-hover`         | `neutral-700`                       | `neutral-300` | Control outline on hover.                                                           |
-| `border-primary`              | `brand-600`                         | `brand-400`   | Selected option.                                                                    |
+| `border-primary`              | `primary-600`                       | `primary-400` | Selected option.                                                                    |
 | `border-danger`               | `red-600`                           | `red-400`     | Invalid field.                                                                      |
 | `border-{status}-subtle`      | `*-300`                             | `*-800`       | Outline of a status alert, on `bg-{status}-subtle`.                                 |
 | `ring-primary`, `ring-danger` | = `border-primary`, `border-danger` |               | `ring-1 ring-inset` thickens a border to 2px without moving the content.            |
-| `outline-focus`               | `brand-600`                         | `brand-400`   | Focus ring, 3px, 2px offset (none on fields). ≥ 3:1 on every surface.               |
+| `outline-focus`               | `primary-600`                       | `primary-400` | Focus ring, 3px, 2px offset (none on fields). ≥ 3:1 on every surface.               |
 
 ## Ranges
 
-| Range                        | Role                                                                  |
-| ---------------------------- | --------------------------------------------------------------------- |
-| `brand-50` … `brand-950`     | Brand color (fir green). Replaced by an instance to customize itself. |
-| `neutral-50` … `neutral-950` | Warm neutral (stone): backgrounds, text, lines.                       |
-| `accent-50` … `accent-950`   | Accent color (saffron). Replaced by an instance to customize itself.  |
-| `green-*`                    | Success.                                                              |
-| `red-*`                      | Danger and errors.                                                    |
-| `amber-*`                    | Warning.                                                              |
-| `blue-*`                     | Information.                                                          |
-| `dark-0` … `dark-4`          | Dark theme surfaces, from the lowest to the highest.                  |
+| Range                        | Role                                                                    |
+| ---------------------------- | ----------------------------------------------------------------------- |
+| `primary-50` … `primary-950` | Primary color (fir green). Replaced by an instance to customize itself. |
+| `neutral-50` … `neutral-950` | Warm neutral (stone): backgrounds, text, lines.                         |
+| `accent-50` … `accent-950`   | Accent color (saffron). Replaced by an instance to customize itself.    |
+| `green-*`                    | Success.                                                                |
+| `red-*`                      | Danger and errors.                                                      |
+| `amber-*`                    | Warning.                                                                |
+| `blue-*`                     | Information.                                                            |
+| `dark-0` … `dark-4`          | Dark theme surfaces, from the lowest to the highest.                    |
 
 The exact values are in `src/theme.css` and in the "Foundations/Colors" story.
 
