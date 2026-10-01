@@ -1,3 +1,5 @@
+import { i18n } from '@lingui/core';
+import { I18nProvider } from '@lingui/react';
 import { createAuthenticatedMember } from '@sel/shared';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { render, screen } from '@testing-library/react';
@@ -64,9 +66,11 @@ function renderApp(path: string) {
   );
 
   render(
-    <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router} />
-    </QueryClientProvider>,
+    <I18nProvider i18n={i18n}>
+      <QueryClientProvider client={queryClient}>
+        <RouterProvider router={router} />
+      </QueryClientProvider>
+    </I18nProvider>,
   );
 
   return router;
@@ -83,7 +87,7 @@ describe('authentication', () => {
   it('redirects a signed-out visitor to the authentication page, keeping the requested page', async () => {
     const router = renderApp('/events?page=2');
 
-    await screen.findByRole('textbox', { name: 'Adresse email' });
+    await screen.findByRole('textbox', { name: 'Email address' });
 
     expect(router.state.location.pathname).toBe('/authentication');
     expect(new URLSearchParams(router.state.location.search).get('next')).toBe('/events?page=2');
@@ -93,8 +97,8 @@ describe('authentication', () => {
     const user = userEvent.setup();
     const router = renderApp('/events');
 
-    await user.type(await screen.findByRole('textbox', { name: 'Adresse email' }), 'member@domain.tld');
-    await user.click(screen.getByRole('button', { name: 'Connexion' }));
+    await user.type(await screen.findByRole('textbox', { name: 'Email address' }), 'member@domain.tld');
+    await user.click(screen.getByRole('button', { name: 'Sign in' }));
 
     await screen.findByText('member@domain.tld');
 
@@ -102,7 +106,7 @@ describe('authentication', () => {
     expect(request?.searchParams.get('email')).toBe('member@domain.tld');
     expect(request?.searchParams.get('next')).toBe('/events');
 
-    await user.type(screen.getByRole('textbox', { name: 'Code de connexion' }), code);
+    await user.type(screen.getByRole('textbox', { name: 'Sign-in code' }), code);
 
     await screen.findByRole('heading', { name: 'Page' });
     expect(router.state.location.pathname).toBe('/events');
@@ -124,9 +128,9 @@ describe('authentication', () => {
 
     const router = renderApp(`/authentication?code=000000`);
 
-    await screen.findByText("Ce code n'est pas valide. Vérifiez qu'il correspond à celui de l'email.");
+    await screen.findByText('This code is not valid. Check that it matches the one in the email.');
 
-    const input = screen.getByRole('textbox', { name: 'Code de connexion' });
+    const input = screen.getByRole('textbox', { name: 'Sign-in code' });
 
     await user.clear(input);
     await user.click(input);
@@ -141,12 +145,12 @@ describe('authentication', () => {
 
     renderApp('/authentication');
 
-    const input = await screen.findByRole('textbox', { name: 'Adresse email' });
+    const input = await screen.findByRole('textbox', { name: 'Email address' });
 
     await user.type(input, 'member');
-    await user.click(screen.getByRole('button', { name: 'Connexion' }));
+    await user.click(screen.getByRole('button', { name: 'Sign in' }));
 
-    const error = 'Saisissez une adresse email valide, par exemple mon@email.com.';
+    const error = 'Enter a valid email address, for example my@email.com.';
 
     await screen.findByText(error);
     expect(server.find('/api/authentication/request-authentication-code')).toHaveLength(0);
@@ -161,7 +165,7 @@ describe('authentication', () => {
 
     renderApp(`/authentication?code=${code}`);
 
-    await screen.findByText('Ce code a expiré. Revenez en arrière pour en recevoir un nouveau.');
+    await screen.findByText('This code has expired. Go back to receive a new one.');
   });
 
   it('keeps the email address when going back to the first step', async () => {
@@ -169,11 +173,11 @@ describe('authentication', () => {
 
     renderApp('/authentication');
 
-    await user.type(await screen.findByRole('textbox', { name: 'Adresse email' }), 'member@domain.tld');
-    await user.click(screen.getByRole('button', { name: 'Connexion' }));
-    await user.click(await screen.findByRole('button', { name: 'Retour' }));
+    await user.type(await screen.findByRole('textbox', { name: 'Email address' }), 'member@domain.tld');
+    await user.click(screen.getByRole('button', { name: 'Sign in' }));
+    await user.click(await screen.findByRole('button', { name: 'Back' }));
 
-    expect(screen.getByRole('textbox', { name: 'Adresse email' })).toHaveProperty(
+    expect(screen.getByRole('textbox', { name: 'Email address' })).toHaveProperty(
       'value',
       'member@domain.tld',
     );

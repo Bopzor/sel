@@ -1,3 +1,5 @@
+import { i18n } from '@lingui/core';
+import { I18nProvider } from '@lingui/react';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { StrictMode } from 'react';
@@ -7,6 +9,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router';
 import './index.css';
 import { applyInstanceColors } from './instance';
 import { Layout } from './layout/layout';
+import { messages } from './locales/fr.po';
 import { AuthenticationPage } from './pages/authentication';
 import { NavigationPage } from './pages/navigation';
 import { PlaceholderPage } from './pages/placeholder';
@@ -14,6 +17,7 @@ import { queryClient } from './query-client';
 import { navigation, routes } from './routes';
 import { requireNoSession, requireSession } from './session';
 
+i18n.loadAndActivate({ locale: 'fr', messages });
 applyInstanceColors();
 
 const router = createBrowserRouter([
@@ -70,9 +74,11 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router} />
-      <ReactQueryDevtools />
-    </QueryClientProvider>
+    <I18nProvider i18n={i18n}>
+      <QueryClientProvider client={queryClient}>
+        <RouterProvider router={router} />
+        <ReactQueryDevtools />
+      </QueryClientProvider>
+    </I18nProvider>
   </StrictMode>,
 );

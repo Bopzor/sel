@@ -1,12 +1,18 @@
 /// <reference types="vitest/config" />
 
+import { lingui, linguiTransformerBabelPreset } from '@lingui/vite-plugin';
 import babel from '@rolldown/plugin-babel';
 import tailwindcss from '@tailwindcss/vite';
 import react, { reactCompilerPreset } from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
 
 export default defineConfig({
-  plugins: [react(), babel({ presets: [reactCompilerPreset()] }), tailwindcss()],
+  plugins: [
+    react(),
+    lingui({ failOnMissing: true }),
+    babel({ presets: [reactCompilerPreset(), linguiTransformerBabelPreset()] }),
+    tailwindcss(),
+  ],
   server: {
     port: 8000,
     proxy: {

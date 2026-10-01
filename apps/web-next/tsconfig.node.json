@@ -19,5 +19,5 @@
     "erasableSyntaxOnly": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["oxlint.config.ts", "oxfmt.config.ts", "vite.config.ts"]
+  "include": ["lingui.config.ts", "oxlint.config.ts", "oxfmt.config.ts", "vite.config.ts"]
 }

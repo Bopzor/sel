@@ -39,6 +39,20 @@ jobs:
       - name: Lint packages
         run: pnpm run lint
 
+  check-translations:
+    name: Check translations
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup
+
+      - name: Check the catalogs are extracted and translated
+        working-directory: apps/web-next
+        run: |
+          pnpm exec lingui check sync --clean
+          pnpm exec lingui check missing
+
   check-types:
     name: Check types
     runs-on: ubuntu-latest

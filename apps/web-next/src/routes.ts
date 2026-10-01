@@ -1,6 +1,6 @@
+import type { MessageDescriptor } from '@lingui/core';
+import { msg } from '@lingui/core/macro';
 import type { IconName } from '@sel/ui';
-
-import { t } from './translations';
 
 export const routes = {
   home: () => '/',
@@ -16,11 +16,13 @@ export const routes = {
     '/authentication' + (next === undefined ? '' : '?' + new URLSearchParams({ next }).toString()),
 };
 
+export type NavigationItem = { path: string; label: MessageDescriptor; icon: IconName };
+
 export const navigation = {
   main: {
     home: {
       path: routes.home(),
-      label: t.navigation.items.home,
+      label: msg`Home`,
       icon: 'home',
     },
   },
@@ -28,12 +30,12 @@ export const navigation = {
   exchanges: {
     requests: {
       path: routes.requests(),
-      label: t.navigation.items.requests,
+      label: msg`Requests`,
       icon: 'request',
     },
     events: {
       path: routes.events(),
-      label: t.navigation.items.events,
+      label: msg`Events`,
       icon: 'event',
     },
   },
@@ -41,17 +43,17 @@ export const navigation = {
   community: {
     members: {
       path: routes.members(),
-      label: t.navigation.items.members,
+      label: msg`Members`,
       icon: 'members',
     },
     interests: {
       path: routes.interests(),
-      label: t.navigation.items.interests,
+      label: msg`Interests`,
       icon: 'interests',
     },
     information: {
       path: routes.information(),
-      label: t.navigation.items.information,
+      label: msg`Information`,
       icon: 'information',
     },
   },
@@ -59,13 +61,13 @@ export const navigation = {
   account: {
     profile: {
       path: routes.profile(),
-      label: t.navigation.items.profile,
+      label: msg`Profile`,
       icon: 'profile',
     },
     settings: {
       path: routes.settings(),
-      label: t.navigation.items.settings,
+      label: msg`Settings`,
       icon: 'settings',
     },
   },
-} satisfies Record<string, Record<string, { path: string; label: string; icon: IconName }>>;
+} satisfies Record<string, Record<string, NavigationItem>>;

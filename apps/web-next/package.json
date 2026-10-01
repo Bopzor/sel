@@ -7,10 +7,13 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "oxlint",
-    "test": "vitest"
+    "test": "vitest",
+    "extract": "lingui extract --clean"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.9.1",
+    "@lingui/core": "^6.8.0",
+    "@lingui/react": "^6.8.0",
     "@sel/shared": "workspace:*",
     "@tanstack/react-query": "^5.104.0",
     "react": "^19.2.8",
@@ -21,6 +24,11 @@
   },
   "devDependencies": {
     "@babel/core": "^7.29.7",
+    "@lingui/babel-plugin-lingui-macro": "^6.8.0",
+    "@lingui/cli": "^6.8.0",
+    "@lingui/conf": "^6.8.0",
+    "@lingui/format-po": "^6.8.0",
+    "@lingui/vite-plugin": "^6.8.0",
     "@rolldown/plugin-babel": "^0.2.3",
     "@sel/ui": "workspace:*",
     "@sel/utils": "workspace:*",

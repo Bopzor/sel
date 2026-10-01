@@ -1,4 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import { i18n, type MessageDescriptor } from '@lingui/core';
+import { msg } from '@lingui/core/macro';
+import { Trans, useLingui } from '@lingui/react/macro';
 import { Button, Card, CardBody, CardFooter, CardHeader } from '@sel/ui';
 import { useMutation } from '@tanstack/react-query';
 import { useEffect, useRef, useState } from 'react';
@@ -10,7 +13,6 @@ import { api, ApiError } from '../api';
 import { InputField } from '../components/fields';
 import { instance } from '../instance';
 import { nextUrl } from '../session';
-import { t } from '../translations';
 
 export function AuthenticationPage() {
   const [searchParams] = useSearchParams();
@@ -49,10 +51,14 @@ export function AuthenticationPage() {
 }
 
 const emailSchema = z.object({
-  email: z.string().trim().pipe(z.email(t.authentication.email.invalid)),
+  email: z
+    .string()
+    .trim()
+    .pipe(z.email({ error: () => i18n._(msg`Enter a valid email address, for example my@email.com.`) })),
 });
 
 function EmailStep({ initialEmail, onSent }: { initialEmail?: string; onSent: (email: string) => void }) {
+  const { t } = useLingui();
   const [searchParams] = useSearchParams();
   const next = searchParams.has('next') ? nextUrl(searchParams) : undefined;
 
@@ -69,7 +75,7 @@ function EmailStep({ initialEmail, onSent }: { initialEmail?: string; onSent: (e
       onSent(email);
     },
     onError: () => {
-      setError('email', { message: t.authentication.email.failed });
+      setError('email', { message: t`The sign-in code could not be sent. Try again in a few moments.` });
     },
   });
 
@@ -78,21 +84,23 @@ function EmailStep({ initialEmail, onSent }: { initialEmail?: string; onSent: (e
   return (
     <form noValidate onSubmit={(event) => void submit(event)} className="contents">
       <CardBody className="stack gap-6">
-        <p>{t.authentication.email.instructions}</p>
+        <p>
+          <Trans>Enter the email address of your LETS account to access the app.</Trans>
+        </p>
 
         <InputField
           control={control}
           name="email"
-          label={t.authentication.email.label}
+          label={<Trans>Email address</Trans>}
           type="email"
           autoComplete="email"
-          placeholder={t.authentication.email.placeholder}
+          placeholder={t`my@email.com`}
         />
       </CardBody>
 
       <CardFooter className="justify-end">
         <Button type="submit" loading={request.isPending}>
-          {t.authentication.email.submit}
+          <Trans>Sign in</Trans>
         </Button>
       </CardFooter>
     </form>
@@ -103,7 +111,11 @@ const codeSchema = z.object({
   code: z
     .string()
     .transform((code) => code.replace(/\s/g, ''))
-    .pipe(z.string().regex(/^\d{6}$/, t.authentication.code.invalid)),
+    .pipe(
+      z.string().regex(/^\d{6}$/, {
+        error: () => i18n._(msg`Enter the 6 digits of the code received by email.`),
+      }),
+    ),
 });
 
 type CodeStepProps = {
@@ -113,6 +125,7 @@ type CodeStepProps = {
 };
 
 function CodeStep({ email, initialCode, onBack }: CodeStepProps) {
+  const { t } = useLingui();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
 
@@ -129,7 +142,7 @@ function CodeStep({ email, initialCode, onBack }: CodeStepProps) {
       await navigate(nextUrl(searchParams), { replace: true });
     },
     onError: (error) => {
-      setError('code', { message: verificationError(error) });
+      setError('code', { message: t(verificationError(error)) });
     },
   });
 
@@ -150,19 +163,26 @@ function CodeStep({ email, initialCode, onBack }: CodeStepProps) {
       <CardBody className="stack gap-6 pt-2">
         <div className="stack gap-3">
           {email === undefined ? (
-            <p>{t.authentication.code.instructions}</p>
+            <p>
+              <Trans>Enter the sign-in code received by email.</Trans>
+            </p>
           ) : (
             <p>
-              {t.authentication.code.sent} <strong>{email}</strong>.
+              <Trans>
+                If your email address is allowed, an email containing a sign-in code has been sent to{' '}
+                <strong>{email}</strong>.
+              </Trans>
             </p>
           )}
-          <p className="text-body-sm text-muted">{t.authentication.code.notReceived}</p>
+          <p className="text-body-sm text-muted">
+            <Trans>If nothing arrives in the next few minutes, check your spam folder or contact us.</Trans>
+          </p>
         </div>
 
         <InputField
           control={control}
           name="code"
-          label={t.authentication.code.label}
+          label={<Trans>Sign-in code</Trans>}
           inputMode="numeric"
           autoComplete="one-time-code"
           placeholder="123456"
@@ -177,7 +197,7 @@ function CodeStep({ email, initialCode, onBack }: CodeStepProps) {
 
       <CardFooter className="justify-end">
         <Button variant="secondary" onClick={onBack}>
-          {t.authentication.code.back}
+          <Trans>Back</Trans>
         </Button>
       </CardFooter>
     </form>
@@ -185,15 +205,15 @@ function CodeStep({ email, initialCode, onBack }: CodeStepProps) {
 }
 
 function verificationError(error: Error) {
-  const messages: Record<string, string> = {
-    AuthenticationCodeNotFound: t.authentication.code.notFound,
-    CodeRevoked: t.authentication.code.revoked,
-    CodeExpired: t.authentication.code.expired,
+  const messages: Record<string, MessageDescriptor> = {
+    AuthenticationCodeNotFound: msg`This code is not valid. Check that it matches the one in the email.`,
+    CodeRevoked: msg`This code has been replaced by a newer one: use the one from the latest email.`,
+    CodeExpired: msg`This code has expired. Go back to receive a new one.`,
   };
 
   if (ApiError.is(error) && error.code && error.code in messages) {
     return messages[error.code];
   }
 
-  return t.authentication.code.failed;
+  return msg`Sign-in failed. Try again in a few moments.`;
 }

@@ -1,0 +1,129 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2026-10-01 19:06+0200\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: en\n"
+
+#: src/pages/authentication.tsx
+msgid "Back"
+msgstr "Back"
+
+#: src/routes.ts
+msgid "Community"
+msgstr "Community"
+
+#: src/pages/authentication.tsx
+msgid "Email address"
+msgstr "Email address"
+
+#: src/pages/authentication.tsx
+msgid "Enter a valid email address, for example my@email.com."
+msgstr "Enter a valid email address, for example my@email.com."
+
+#: src/pages/authentication.tsx
+msgid "Enter the 6 digits of the code received by email."
+msgstr "Enter the 6 digits of the code received by email."
+
+#: src/pages/authentication.tsx
+msgid "Enter the email address of your LETS account to access the app."
+msgstr "Enter the email address of your LETS account to access the app."
+
+#: src/pages/authentication.tsx
+msgid "Enter the sign-in code received by email."
+msgstr "Enter the sign-in code received by email."
+
+#: src/routes.ts
+msgid "Events"
+msgstr "Events"
+
+#: src/routes.ts
+msgid "Exchanges"
+msgstr "Exchanges"
+
+#: src/routes.ts
+msgid "Home"
+msgstr "Home"
+
+#: src/pages/authentication.tsx
+msgid "If nothing arrives in the next few minutes, check your spam folder or contact us."
+msgstr "If nothing arrives in the next few minutes, check your spam folder or contact us."
+
+#: src/pages/authentication.tsx
+msgid "If your email address is allowed, an email containing a sign-in code has been sent to <0>{email}</0>."
+msgstr "If your email address is allowed, an email containing a sign-in code has been sent to <0>{email}</0>."
+
+#: src/routes.ts
+msgid "Information"
+msgstr "Information"
+
+#: src/routes.ts
+msgid "Interests"
+msgstr "Interests"
+
+#: src/layout/layout.tsx
+msgid "Main navigation"
+msgstr "Main navigation"
+
+#: src/routes.ts
+msgid "Members"
+msgstr "Members"
+
+#: src/layout/layout.tsx
+msgid "More"
+msgstr "More"
+
+#: src/routes.ts
+msgid "My account"
+msgstr "My account"
+
+#: src/pages/authentication.tsx
+msgid "my@email.com"
+msgstr "my@email.com"
+
+#: src/routes.ts
+msgid "Profile"
+msgstr "Profile"
+
+#: src/routes.ts
+msgid "Requests"
+msgstr "Requests"
+
+#: src/routes.ts
+msgid "Settings"
+msgstr "Settings"
+
+#: src/pages/authentication.tsx
+msgid "Sign in"
+msgstr "Sign in"
+
+#: src/layout/layout.tsx
+#: src/pages/navigation.tsx
+msgid "Sign out"
+msgstr "Sign out"
+
+#: src/pages/authentication.tsx
+msgid "Sign-in code"
+msgstr "Sign-in code"
+
+#: src/pages/authentication.tsx
+msgid "Sign-in failed. Try again in a few moments."
+msgstr "Sign-in failed. Try again in a few moments."
+
+#: src/pages/authentication.tsx
+msgid "The sign-in code could not be sent. Try again in a few moments."
+msgstr "The sign-in code could not be sent. Try again in a few moments."
+
+#: src/pages/authentication.tsx
+msgid "This code has been replaced by a newer one: use the one from the latest email."
+msgstr "This code has been replaced by a newer one: use the one from the latest email."
+
+#: src/pages/authentication.tsx
+msgid "This code has expired. Go back to receive a new one."
+msgstr "This code has expired. Go back to receive a new one."
+
+#: src/pages/authentication.tsx
+msgid "This code is not valid. Check that it matches the one in the email."
+msgstr "This code is not valid. Check that it matches the one in the email."

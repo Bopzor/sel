@@ -1,3 +1,6 @@
+import type { MessageDescriptor } from '@lingui/core';
+import { msg } from '@lingui/core/macro';
+import { Trans, useLingui } from '@lingui/react/macro';
 import {
   BottomNav,
   BottomNavItem,
@@ -6,33 +9,35 @@ import {
   SideNavHeader,
   SideNavItem,
   SideNavSection,
-  type IconName,
 } from '@sel/ui';
 import { entries } from '@sel/utils';
 import { Outlet, useMatch } from 'react-router';
 
 import { Link } from '../components/link';
 import { instance } from '../instance';
-import { navigation, routes } from '../routes';
+import { navigation, routes, type NavigationItem } from '../routes';
 import { useSignOut } from '../session';
-import { t } from '../translations';
-
-type Navigation = typeof navigation;
 
 export function Layout() {
-  const labels: Partial<{ [Group in keyof Navigation]: string }> = t.navigation.groups;
+  const { t, i18n } = useLingui();
 
-  const bottomNav: Array<{ path: string; label: string; icon: IconName }> = [
+  const labels: Partial<{ [Group in keyof typeof navigation]: MessageDescriptor }> = {
+    exchanges: msg`Exchanges`,
+    community: msg`Community`,
+    account: msg`My account`,
+  };
+
+  const bottomNav: NavigationItem[] = [
     navigation.main.home,
     navigation.exchanges.requests,
     navigation.exchanges.events,
-    { path: routes.navigation(), label: t.navigation.more, icon: 'menu' },
+    { path: routes.navigation(), label: msg`More`, icon: 'menu' },
   ];
 
   return (
     <div className="row min-h-dvh">
       <SideNav
-        aria-label={t.navigation.label}
+        aria-label={t`Main navigation`}
         className="sticky top-0 hidden h-dvh shrink-0 overflow-y-auto lg:stack"
       >
         <SideNavHeader logo={instance.logo} name={instance.name} place={instance.place} />
@@ -40,7 +45,7 @@ export function Layout() {
         {entries(navigation)
           .filter(([group]) => group !== 'account')
           .map(([group, items]) => (
-            <SideNavSection key={group} title={labels[group]}>
+            <SideNavSection key={group} title={labels[group] && i18n._(labels[group])}>
               {Object.values(items).map((item) => (
                 <SideNavLink key={item.path} {...item} />
               ))}
@@ -48,7 +53,7 @@ export function Layout() {
           ))}
 
         <SideNavFooter>
-          <SideNavSection title={labels.account}>
+          <SideNavSection title={labels.account && i18n._(labels.account)}>
             {Object.values(navigation.account).map((item) => (
               <SideNavLink key={item.path} {...item} />
             ))}
@@ -64,7 +69,7 @@ export function Layout() {
         </div>
       </main>
 
-      <BottomNav aria-label={t.navigation.label} fixed className="lg:hidden">
+      <BottomNav aria-label={t`Main navigation`} fixed className="lg:hidden">
         {bottomNav.map((item) => (
           <BottomNavLink key={item.path} {...item} />
         ))}
@@ -78,27 +83,29 @@ function SignOutItem() {
 
   return (
     <SideNavItem icon="sign-out" onClick={signOut}>
-      {t.signOut}
+      <Trans>Sign out</Trans>
     </SideNavItem>
   );
 }
 
-function SideNavLink({ path, label, icon }: { path: string; label: string; icon: IconName }) {
+function SideNavLink({ path, label, icon }: NavigationItem) {
+  const { t } = useLingui();
   const match = useMatch(path);
 
   return (
     <SideNavItem Link={Link} href={path} icon={icon} active={match !== null}>
-      {label}
+      {t(label)}
     </SideNavItem>
   );
 }
 
-function BottomNavLink({ path, label, icon }: { path: string; label: string; icon: IconName }) {
+function BottomNavLink({ path, label, icon }: NavigationItem) {
+  const { t } = useLingui();
   const match = useMatch(path);
 
   return (
     <BottomNavItem Link={Link} href={path} icon={icon} active={match !== null}>
-      {label}
+      {t(label)}
     </BottomNavItem>
   );
 }
