@@ -8,7 +8,7 @@ import { z } from 'zod';
 import { container } from './infrastructure/container';
 import { unsetCookie } from './infrastructure/cookie';
 import { DomainError } from './infrastructure/domain-error';
-import { BadRequest, HttpStatus, Unauthorized } from './infrastructure/http';
+import { BadRequest, HttpStatus } from './infrastructure/http';
 import { hasRoles, provideAuthenticatedMember } from './infrastructure/session';
 import { TokenType } from './modules/authentication/authentication.entities';
 import { router as authentication } from './modules/authentication/authentication.router';
@@ -100,9 +100,11 @@ const authenticationProvider: RequestHandler = async (req, res, next) => {
     with: { member: true },
   });
 
+  // A stale cookie is removed, and the request goes on unauthenticated: the routes that need a member reject it, and
+  // the others (requesting a new authentication code) still work.
   if (!token || token.type !== TokenType.session) {
     res.setHeader('set-cookie', unsetCookie('token'));
-    throw new Unauthorized('Invalid session token');
+    return next();
   }
 
   provideAuthenticatedMember(token.member, next);
