@@ -35,7 +35,7 @@ export function Alert({ tone = 'info', onClose, closeLabel, className, children,
     >
       <Icon name={icons[tone]} size="md" className={iconStyles({ tone })} />
 
-      <div className="flex flex-1 flex-col gap-1">{children}</div>
+      <div className="stack flex-1 gap-1">{children}</div>
 
       {onClose && <IconButton icon="close" label={closeLabel} size="sm" onClick={onClose} className="-m-2" />}
     </div>
@@ -54,7 +54,7 @@ export function AlertDescription({ className, ...props }: ComponentProps<'div'>)
 
 /** Small buttons (size="sm"). */
 export function AlertActions({ className, ...props }: ComponentProps<'div'>) {
-  return <div {...props} className={clsx('mt-2 flex flex-wrap gap-2', className)} />;
+  return <div {...props} className={clsx('mt-2 row flex-wrap gap-2', className)} />;
 }
 
 const icons = {
@@ -64,7 +64,7 @@ const icons = {
   danger: 'error',
 } satisfies Record<Tone, IconName>;
 
-const alertStyles = cva('flex items-start gap-3 rounded-md border p-4', {
+const alertStyles = cva('row items-start gap-3 rounded-md border p-4', {
   variants: {
     tone: {
       info: 'border-info-subtle bg-info-subtle',

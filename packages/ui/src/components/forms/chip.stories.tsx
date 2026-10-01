@@ -29,7 +29,7 @@ export const Filters: Story = {
     });
 
     return (
-      <div className="flex flex-wrap gap-2">
+      <div className="row flex-wrap gap-2">
         <Chip {...bind('first')}>First</Chip>
         <Chip {...bind('second')}>Second</Chip>
         <Chip {...bind('third')}>Third</Chip>

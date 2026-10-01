@@ -27,7 +27,7 @@ export function BottomNav({ fixed = false, className, children, ...props }: Bott
         className,
       )}
     >
-      <ul className="flex min-h-bottom-nav">{children}</ul>
+      <ul className="row min-h-bottom-nav">{children}</ul>
     </nav>
   );
 }
@@ -55,19 +55,19 @@ export function BottomNavItem({
   ...props
 }: BottomNavItemProps) {
   return (
-    <li className="flex min-w-0 flex-1">
+    <li className="row min-w-0 flex-1">
       <Link
         {...props}
         aria-current={active ? 'page' : undefined}
         className={clsx(
-          'group flex min-w-0 flex-1 flex-col items-center justify-center gap-1 rounded-md px-1 py-2 no-underline select-none',
+          'group stack min-w-0 flex-1 items-center justify-center gap-1 rounded-md px-1 py-2 no-underline select-none',
           active ? 'text-primary' : 'text-muted',
           className,
         )}
       >
         <span
           className={clsx(
-            'flex h-8 w-16 items-center justify-center rounded-full transition',
+            'row h-8 w-16 items-center justify-center rounded-full transition',
             active ? 'bg-primary-subtle group-hover:bg-primary-subtle-hover' : 'group-hover:bg-surface-hover',
           )}
         >

@@ -14,7 +14,7 @@ export function ListItem({ className, ...props }: ComponentProps<'li'>) {
     <li
       {...props}
       className={clsx(
-        'relative flex min-h-16 items-center gap-3 px-4 py-3 not-last:border-b',
+        'relative row min-h-16 items-center gap-3 px-4 py-3 not-last:border-b',
         'has-data-list-item-cover:transition hover:has-data-list-item-cover:bg-surface-hover',
         className,
       )}
@@ -24,7 +24,7 @@ export function ListItem({ className, ...props }: ComponentProps<'li'>) {
 
 /** The title and the description. */
 export function ListItemContent({ className, ...props }: ComponentProps<'div'>) {
-  return <div {...props} className={clsx('flex min-w-0 flex-1 flex-col', className)} />;
+  return <div {...props} className={clsx('stack min-w-0 flex-1', className)} />;
 }
 
 export function ListItemTitle({ className, ...props }: ComponentProps<'p'>) {

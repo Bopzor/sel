@@ -33,7 +33,7 @@ export const Playground: Story = {};
 
 export const Variants: Story = {
   render: () => (
-    <div className="flex flex-wrap items-center gap-3">
+    <div className="row flex-wrap items-center gap-3">
       <Button>Primary</Button>
       <Button variant="secondary">Secondary</Button>
       <Button variant="ghost" icon="edit">
@@ -48,7 +48,7 @@ export const Variants: Story = {
 
 export const States: Story = {
   render: () => (
-    <div className="flex flex-wrap items-center gap-3">
+    <div className="row flex-wrap items-center gap-3">
       <Button icon="send" loading>
         Send
       </Button>
@@ -62,9 +62,9 @@ export const States: Story = {
 
 export const Loading: Story = {
   render: () => (
-    <div className="flex flex-col gap-3">
+    <div className="stack gap-3">
       {[false, true].map((loading) => (
-        <div key={String(loading)} className="flex flex-wrap items-center gap-3">
+        <div key={String(loading)} className="row flex-wrap items-center gap-3">
           <Button loading={loading} icon="send">
             Start icon
           </Button>
@@ -83,7 +83,7 @@ export const Loading: Story = {
 
 export const Sizes: Story = {
   render: () => (
-    <div className="flex flex-wrap items-center gap-3">
+    <div className="row flex-wrap items-center gap-3">
       <Button size="sm">Small</Button>
       <Button size="md">Medium</Button>
       <Button size="lg">Large</Button>

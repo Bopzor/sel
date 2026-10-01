@@ -46,7 +46,7 @@ export const Controlled: Story = {
 
 export const Group: Story = {
   render: () => (
-    <div className="flex flex-col gap-4">
+    <div className="stack gap-4">
       <Checkbox label="First option" defaultChecked />
       <Checkbox label="Second option" description="Description of the second option." />
       <Checkbox label="Third option" />

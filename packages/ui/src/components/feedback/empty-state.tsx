@@ -16,7 +16,7 @@ type EmptyStateProps = Override<
 /** An empty screen or block: an EmptyStateTitle, an EmptyStateDescription and an EmptyStateAction go inside. */
 export function EmptyState({ icon, className, children, ...props }: EmptyStateProps) {
   return (
-    <div {...props} className={clsx('flex flex-col items-center gap-3 px-4 py-12 text-center', className)}>
+    <div {...props} className={clsx('stack items-center gap-3 px-4 py-12 text-center', className)}>
       <Icon name={icon} className="text-subtle" />
       {children}
     </div>

@@ -27,7 +27,7 @@ export const Playground: Story = {};
 
 export const Sizes: Story = {
   render: () => (
-    <div className="flex items-center gap-3">
+    <div className="row items-center gap-3">
       <Avatar name="Jane Doe" size="sm" />
       <Avatar name="Jane Doe" size="md" />
       <Avatar name="Jane Doe" size="lg" />
@@ -41,7 +41,7 @@ export const Photo: Story = {
 
 export const NextToAName: Story = {
   render: () => (
-    <p className="flex items-center gap-2 text-body-strong">
+    <p className="row items-center gap-2 text-body-strong">
       <Avatar name="Jane Doe" size="sm" decorative />
       Jane Doe
     </p>

@@ -44,7 +44,7 @@ function Group({
   children: ReactNode;
 }) {
   return (
-    <section className="flex flex-col gap-3">
+    <section className="stack gap-3">
       <h2 className="text-title-3">{title}</h2>
       <p className="max-w-content text-body-sm text-muted">{description}</p>
       <ul className="grid grid-cols-2 gap-4 sm:grid-cols-4 lg:grid-cols-6">{children}</ul>
@@ -58,10 +58,10 @@ function Name({ children }: { children: string }) {
 
 export const Semantic: Story = {
   render: () => (
-    <div className="flex flex-col gap-10">
+    <div className="stack gap-10">
       <Group title="Backgrounds" description="bg-*">
         {backgrounds.map((token) => (
-          <li key={token} className="flex flex-col gap-1">
+          <li key={token} className="stack gap-1">
             <div
               className="h-14 rounded-md border"
               style={{ backgroundColor: `var(--background-color-${token})` }}
@@ -73,9 +73,9 @@ export const Semantic: Story = {
 
       <Group title="Text" description="text-*, shown on the background each one is meant for.">
         {texts.map((token) => (
-          <li key={token} className="flex flex-col gap-1">
+          <li key={token} className="stack gap-1">
             <div
-              className="flex h-14 items-center justify-center rounded-md border text-title-3"
+              className="row h-14 items-center justify-center rounded-md border text-title-3"
               style={{
                 color: `var(--text-color-${token})`,
                 backgroundColor: `var(--background-color-${backgroundOf(token)})`,
@@ -90,7 +90,7 @@ export const Semantic: Story = {
 
       <Group title="Borders" description="border-*">
         {borders.map((token) => (
-          <li key={token} className="flex flex-col gap-1">
+          <li key={token} className="stack gap-1">
             <div
               className="h-14 rounded-md border-2 bg-surface"
               style={{ borderColor: `var(--border-color-${token})` }}
@@ -105,17 +105,17 @@ export const Semantic: Story = {
 
 export const Ranges: Story = {
   render: () => (
-    <div className="flex flex-col gap-6">
+    <div className="stack gap-6">
       <p className="max-w-content text-body-sm text-muted">
         Ranges are private: they only define the semantic tokens and have no utility. An instance only
         replaces the brand and accent ranges.
       </p>
       {Object.entries(ranges).map(([range, steps]) => (
-        <section key={range} className="flex flex-col gap-2">
+        <section key={range} className="stack gap-2">
           <h2 className="text-title-3">{range}</h2>
           <ul className="grid grid-cols-4 gap-2 sm:grid-cols-6 lg:grid-cols-11">
             {steps.map((step) => (
-              <li key={step} className="flex flex-col gap-1">
+              <li key={step} className="stack gap-1">
                 <div
                   className="h-14 rounded-md border"
                   style={{ backgroundColor: `var(--${range}-${step})` }}

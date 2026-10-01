@@ -50,7 +50,7 @@ export const Controlled: Story = {
 
 export const Settings: Story = {
   render: () => (
-    <div className="flex max-w-content flex-col gap-6">
+    <div className="stack max-w-content gap-6">
       <Switch label="First setting" description="Description of the first setting." defaultChecked />
       <Switch label="Second setting" description="Description of the second setting." />
       <Switch label="Third setting" />

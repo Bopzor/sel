@@ -73,18 +73,18 @@ export function DialogContent({ closeLabel, className, children, ...props }: Dia
       <ArkDialog.Backdrop className="fixed inset-0 z-overlay bg-overlay data-[state=closed]:animate-overlay-out data-[state=open]:animate-overlay-in" />
 
       {/* A sheet at the bottom on mobile, a centered window from md. */}
-      <ArkDialog.Positioner className="fixed inset-0 z-dialog flex items-end justify-center md:items-center md:p-6">
+      <ArkDialog.Positioner className="fixed inset-0 z-dialog row items-end justify-center md:items-center md:p-6">
         <ArkDialog.Content
           {...props}
           className={clsx(
-            'relative flex max-h-4/5 w-full flex-col rounded-t-xl bg-surface-raised pb-safe-area shadow-lg md:max-h-full md:max-w-120 md:rounded-xl md:pb-0',
+            'relative stack max-h-4/5 w-full rounded-t-xl bg-surface-raised pb-safe-area shadow-lg md:max-h-full md:max-w-120 md:rounded-xl md:pb-0',
             'data-[state=closed]:animate-sheet-out data-[state=open]:animate-sheet-in md:data-[state=closed]:animate-dialog-out md:data-[state=open]:animate-dialog-in',
             className,
           )}
         >
           {/* The parts only set their horizontal padding, so that a <form className="contents"> can wrap some of
               them. The window does not scroll: a DialogBody does, and the header and the footer stay visible. */}
-          <div className="flex min-h-0 flex-1 flex-col gap-6 py-4 md:py-6">{children}</div>
+          <div className="stack min-h-0 flex-1 gap-6 py-4 md:py-6">{children}</div>
 
           {/* Last in the document, so that the focus goes to the content first on open (an alert dialog focuses
               this button instead, so that Enter does not confirm a destructive action by accident). Positioned by a
@@ -103,7 +103,7 @@ export function DialogContent({ closeLabel, className, children, ...props }: Dia
 /** The title and the description. */
 export function DialogHeader({ className, ...props }: ComponentProps<'div'>) {
   // The right padding leaves room for the close button.
-  return <div {...props} className={clsx('flex flex-col gap-2 pr-14 pl-4 md:pr-16 md:pl-6', className)} />;
+  return <div {...props} className={clsx('stack gap-2 pr-14 pl-4 md:pr-16 md:pl-6', className)} />;
 }
 
 /** The question, which repeats the action ("Send 20 units to Lucas Petit?"). It names the dialog. */
@@ -123,7 +123,5 @@ export function DialogBody({ className, ...props }: ComponentProps<'div'>) {
 
 /** The buttons, the main action first: on top on mobile, on the right from md. */
 export function DialogFooter({ className, ...props }: ComponentProps<'div'>) {
-  return (
-    <div {...props} className={clsx('flex flex-col gap-3 px-4 md:flex-row-reverse md:px-6', className)} />
-  );
+  return <div {...props} className={clsx('stack gap-3 px-4 md:flex-row-reverse md:px-6', className)} />;
 }

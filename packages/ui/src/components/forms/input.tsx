@@ -24,7 +24,7 @@ export function Input({ icon, prefix, suffix, className, ...props }: InputProps)
   // Inside a Field, Ark's Field.Input gets its id, links and states from the context; the input's own props override
   // them. Outside, it is a bare input that needs an aria-label. The box follows the input's disabled and aria-invalid.
   return (
-    <div className={clsx(fieldBoxStyles, 'flex h-control-md items-center gap-2 px-4', className)}>
+    <div className={clsx(fieldBoxStyles, 'row h-control-md items-center gap-2 px-4', className)}>
       {icon && <Icon name={icon} size="md" className="text-subtle" />}
       {prefix && <span className="text-body text-muted">{prefix}</span>}
       <Field.Input

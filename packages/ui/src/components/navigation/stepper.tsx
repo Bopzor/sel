@@ -14,8 +14,8 @@ export function Stepper({ steps, current: currentProp, progressLabel, className,
   const current = Math.min(Math.max(currentProp, 1), steps.length);
 
   return (
-    <div {...props} className={clsx('flex flex-col gap-2', className)}>
-      <p className="flex flex-col">
+    <div {...props} className={clsx('stack gap-2', className)}>
+      <p className="stack">
         <span className="text-caption text-muted">{progressLabel}</span>
         <span aria-hidden className="text-title-3 text-default md:hidden">
           {steps[current - 1]}
@@ -23,12 +23,12 @@ export function Stepper({ steps, current: currentProp, progressLabel, className,
       </p>
 
       {/* Below md, only the current step's name is shown (above); the list keeps every name for screen readers. */}
-      <ol className="flex gap-1">
+      <ol className="row gap-1">
         {steps.map((step, index) => (
           <li
             key={index}
             aria-current={index + 1 === current ? 'step' : undefined}
-            className="flex flex-1 flex-col gap-2"
+            className="stack flex-1 gap-2"
           >
             <span className={clsx('h-1 rounded-full', index < current ? 'bg-primary' : 'bg-track')} />
             <span

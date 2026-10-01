@@ -150,7 +150,7 @@ export function RichTextEditor({
 
   return (
     <RichTextEditorContext value={{ editor, disabled }}>
-      <div className={clsx(fieldBoxStyles, 'flex flex-col', className)}>
+      <div className={clsx(fieldBoxStyles, 'stack', className)}>
         <EditorContent editor={editor} />
         {children}
       </div>
@@ -174,12 +174,12 @@ function useRichTextEditor() {
 
 /** The formatting buttons, under the text: the formats offered are the buttons it contains. */
 export function RichTextToolbar({ className, ...props }: ComponentProps<'div'>) {
-  return <div {...props} className={clsx('flex flex-wrap items-center gap-1 border-t p-1', className)} />;
+  return <div {...props} className={clsx('row flex-wrap items-center gap-1 border-t p-1', className)} />;
 }
 
 /** Actions at the end of the toolbar, such as an attachment button or the send button of a comment. */
 export function RichTextToolbarEnd({ className, ...props }: ComponentProps<'div'>) {
-  return <div {...props} className={clsx('ml-auto flex items-center gap-2', className)} />;
+  return <div {...props} className={clsx('ml-auto row items-center gap-2', className)} />;
 }
 
 // The format buttons are named by their label, in the application's language.
@@ -410,7 +410,7 @@ export function RichTextToolbarButton({
 
 // The hit area extends 2px around, to 44px, like IconButton's sm size.
 const toolbarButtonStyles = cva(
-  'relative flex size-control-sm items-center justify-center rounded-md transition after:absolute after:-inset-0.5 focus-visible:focus-ring-inset',
+  'relative row size-control-sm items-center justify-center rounded-md transition after:absolute after:-inset-0.5 focus-visible:focus-ring-inset',
   {
     variants: {
       state: {

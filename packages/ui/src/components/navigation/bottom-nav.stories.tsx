@@ -64,7 +64,7 @@ export const Fixed: Story = {
   parameters: { layout: 'fullscreen' },
   render: (args) => (
     <div className="min-h-screen pb-bottom-nav">
-      <div className="flex flex-col gap-4 p-4">
+      <div className="stack gap-4 p-4">
         {Array.from({ length: 20 }, (_, index) => (
           <p key={index} className="text-body text-default">
             Content {index + 1}

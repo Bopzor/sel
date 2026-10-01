@@ -30,7 +30,7 @@ export const Playground: Story = {};
 
 export const Tones: Story = {
   render: () => (
-    <div className="flex flex-col gap-3">
+    <div className="stack gap-3">
       <Alert tone="info">
         <AlertTitle>Info</AlertTitle>
         <AlertDescription>A useful detail about the current screen.</AlertDescription>

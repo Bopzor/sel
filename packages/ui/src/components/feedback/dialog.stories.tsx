@@ -139,7 +139,7 @@ export const LongContent: Story = {
         <DialogHeader>
           <DialogTitle>Title of the dialog</DialogTitle>
         </DialogHeader>
-        <DialogBody className="flex flex-col gap-4">
+        <DialogBody className="stack gap-4">
           {Array.from({ length: 12 }, (_, index) => (
             <p key={index} className="text-body text-default">
               Paragraph {index + 1} of a content longer than the screen, which scrolls between the header and

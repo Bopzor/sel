@@ -46,7 +46,7 @@ export function Switch({
       {...rootProps}
       className={clsx(
         // The hit area extends 6px above and below the 32px track, to 44px.
-        'group relative flex items-start gap-3 after:absolute after:inset-x-0 after:-inset-y-1.5',
+        'group relative row items-start gap-3 after:absolute after:inset-x-0 after:-inset-y-1.5',
         'not-data-disabled:cursor-pointer data-disabled:cursor-not-allowed',
         className,
       )}
@@ -59,7 +59,7 @@ export function Switch({
 
       {/* The label's first line is centered on the track. The description is outside Ark's label, which names the
           switch: it describes it instead. */}
-      <span className="flex min-w-0 flex-col py-1">
+      <span className="stack min-w-0 py-1">
         <ArkSwitch.Label className="text-label text-default data-disabled:text-disabled">
           {label}
         </ArkSwitch.Label>
@@ -84,7 +84,7 @@ export function Switch({
 // Styled from the attributes of Ark's parts, with states that exclude one another: disabled replaces the other
 // colors, and only an enabled switch that is on reacts to the hover.
 const switchTrackStyles = clsx(
-  'flex h-8 w-13 shrink-0 items-center rounded-full bg-switch-track p-1 transition data-focus-visible:focus-ring',
+  'row h-8 w-13 shrink-0 items-center rounded-full bg-switch-track p-1 transition data-focus-visible:focus-ring',
   'not-data-disabled:data-[state=checked]:bg-primary',
   'group-hover:not-data-disabled:data-[state=checked]:bg-primary-hover',
   'data-disabled:bg-disabled',
@@ -92,7 +92,7 @@ const switchTrackStyles = clsx(
 
 // The check mark is only visible when the switch is on.
 const switchThumbStyles = clsx(
-  'flex size-6 items-center justify-center rounded-full bg-switch-thumb text-on-switch-thumb shadow-sm transition',
+  'row size-6 items-center justify-center rounded-full bg-switch-thumb text-on-switch-thumb shadow-sm transition',
   'data-disabled:text-disabled data-[state=checked]:translate-x-5',
   '*:opacity-0 *:transition data-[state=checked]:*:opacity-100',
 );

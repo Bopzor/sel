@@ -54,12 +54,12 @@ export function FieldRoot({
   className,
   ...props
 }: Override<ComponentProps<'div'>, { invalid?: boolean; disabled?: boolean; required?: boolean }>) {
-  return <ArkField.Root {...props} className={clsx('flex flex-col gap-2', className)} />;
+  return <ArkField.Root {...props} className={clsx('stack gap-2', className)} />;
 }
 
 /** The label and the hint, without the gap that separates them from the control. */
 export function FieldHeader({ className, ...props }: ComponentProps<'div'>) {
-  return <div {...props} className={clsx('flex flex-col', className)} />;
+  return <div {...props} className={clsx('stack', className)} />;
 }
 
 export function FieldLabel({ className, ...props }: ComponentProps<'label'>) {
@@ -80,7 +80,7 @@ export function FieldError({ className, children, ...props }: ComponentProps<'sp
   return (
     <ArkField.ErrorText
       {...props}
-      className={clsx('flex items-start gap-2 text-body-sm text-danger', className)}
+      className={clsx('row items-start gap-2 text-body-sm text-danger', className)}
     >
       <Icon name="error" size="md" />
       {children}

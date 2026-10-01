@@ -37,10 +37,10 @@ const styles = [
 
 export const TextStyles: Story = {
   render: () => (
-    <ul className="flex flex-col">
+    <ul className="stack">
       {styles.map(({ className, usage, sample }) => (
         <li key={className} className="grid gap-2 border-b py-4 md:grid-cols-3">
-          <div className="flex flex-col">
+          <div className="stack">
             <code className="text-caption text-default">{className}</code>
             <span className="text-body-sm text-muted">{usage}</span>
           </div>

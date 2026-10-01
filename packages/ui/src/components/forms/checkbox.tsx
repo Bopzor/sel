@@ -57,7 +57,7 @@ export function Checkbox({
       {...rootProps}
       className={clsx(
         // The hit area extends 10px above and below the 24px box, to 44px.
-        'group relative flex items-start gap-3 not-data-disabled:cursor-pointer after:absolute after:inset-x-0 after:-inset-y-2.5 data-disabled:cursor-not-allowed',
+        'group relative row items-start gap-3 not-data-disabled:cursor-pointer after:absolute after:inset-x-0 after:-inset-y-2.5 data-disabled:cursor-not-allowed',
         className,
       )}
     >
@@ -68,7 +68,7 @@ export function Checkbox({
       </ArkCheckbox.Control>
 
       {/* The description is outside Ark's label, which names the checkbox: it describes it instead. */}
-      <span className="flex min-w-0 flex-col">
+      <span className="stack min-w-0">
         <ArkCheckbox.Label className="text-label text-default data-disabled:text-disabled">
           {label}
         </ArkCheckbox.Label>
@@ -91,7 +91,7 @@ export function Checkbox({
 // Styled from the attributes of Ark's control, with states that exclude one another: disabled replaces the other
 // colors, a checked box is no longer invalid, and only an unchecked valid box reacts to the hover.
 const checkboxControlStyles = clsx(
-  'flex size-6 shrink-0 items-center justify-center rounded-xs border-2 border-strong bg-surface transition data-focus-visible:focus-ring',
+  'row size-6 shrink-0 items-center justify-center rounded-xs border-2 border-strong bg-surface transition data-focus-visible:focus-ring',
   'group-hover:not-data-disabled:not-data-invalid:data-[state=unchecked]:border-strong-hover',
   'not-data-disabled:data-invalid:data-[state=unchecked]:border-danger',
   'not-data-disabled:data-[state=checked]:border-primary not-data-disabled:data-[state=checked]:bg-primary not-data-disabled:data-[state=checked]:text-on-primary',

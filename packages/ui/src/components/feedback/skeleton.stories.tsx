@@ -21,7 +21,7 @@ export const Playground: Story = {};
 
 export const Variants: Story = {
   render: () => (
-    <div className="flex max-w-90 flex-col gap-3">
+    <div className="stack max-w-90 gap-3">
       <Skeleton />
       <Skeleton variant="circle" />
       <Skeleton variant="rect" className="h-24" />
@@ -31,9 +31,9 @@ export const Variants: Story = {
 
 export const ListRow: Story = {
   render: () => (
-    <div aria-busy className="flex max-w-90 items-center gap-3">
+    <div aria-busy className="row max-w-90 items-center gap-3">
       <Skeleton variant="circle" />
-      <div className="flex flex-1 flex-col gap-2">
+      <div className="stack flex-1 gap-2">
         <Skeleton className="w-1/2" />
         <Skeleton />
       </div>

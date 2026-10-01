@@ -428,6 +428,16 @@
   transition-duration: var(--duration-slow);
 }
 
+@utility row {
+  display: flex;
+  flex-direction: row;
+}
+
+@utility stack {
+  display: flex;
+  flex-direction: column;
+}
+
 /* Keeps a bar fixed at the bottom of the screen clear of the phone's home indicator. */
 @utility pb-safe-area {
   padding-bottom: env(safe-area-inset-bottom);

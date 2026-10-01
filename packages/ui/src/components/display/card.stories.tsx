@@ -81,7 +81,7 @@ export const BodyOnly: Story = {
 /** The title's link or button covers the card. The action and the footer's buttons stay clickable above it. */
 export const Clickable: Story = {
   render: () => (
-    <div className="flex flex-col gap-4">
+    <div className="stack gap-4">
       <Card>
         <CardHeader>
           <CardTitle>

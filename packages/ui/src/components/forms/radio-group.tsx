@@ -44,7 +44,7 @@ export function RadioGroup({
       {...rootProps}
       {...props}
       onValueChange={(details) => details.value !== null && onChange?.(details.value)}
-      className={clsx('flex flex-col gap-4', className)}
+      className={clsx('stack gap-4', className)}
     />
   );
 }
@@ -68,7 +68,7 @@ export function Radio({ label, description, className, ...props }: RadioProps) {
       {...props}
       className={clsx(
         // The hit area extends 10px above and below the 24px circle, to 44px.
-        'group relative flex items-start gap-3 after:absolute after:inset-x-0 after:-inset-y-2.5',
+        'group relative row items-start gap-3 after:absolute after:inset-x-0 after:-inset-y-2.5',
         'not-data-disabled:cursor-pointer data-disabled:cursor-not-allowed',
         className,
       )}
@@ -102,7 +102,7 @@ function RadioItemContent({ label, description, controlClassName }: RadioItemCon
       <ArkRadioGroup.ItemControl className={clsx(radioControlStyles, controlClassName)} />
 
       {/* The description is outside Ark's item text, which names the radio button: it describes it instead. */}
-      <span className="flex min-w-0 flex-col">
+      <span className="stack min-w-0">
         <ArkRadioGroup.ItemText className="text-label text-default data-disabled:text-disabled">
           {label}
         </ArkRadioGroup.ItemText>
@@ -122,7 +122,7 @@ function RadioItemContent({ label, description, controlClassName }: RadioItemCon
 // colors, a chosen option is no longer invalid, and only an unchosen valid option reacts to the hover. The dot is the
 // ::after, shown when the option is chosen.
 const radioControlStyles = clsx(
-  'flex size-6 shrink-0 items-center justify-center rounded-full border-2 border-strong bg-surface transition',
+  'row size-6 shrink-0 items-center justify-center rounded-full border-2 border-strong bg-surface transition',
   'after:size-3 after:scale-0 after:rounded-full after:bg-current after:transition data-[state=checked]:after:scale-100',
   'group-hover:not-data-disabled:not-data-invalid:data-[state=unchecked]:border-strong-hover',
   'not-data-disabled:data-invalid:data-[state=unchecked]:border-danger',
@@ -131,7 +131,7 @@ const radioControlStyles = clsx(
 );
 
 const radioCardStyles = clsx(
-  'group flex items-start gap-3 rounded-md border border-strong bg-surface p-4 transition data-focus-visible:focus-ring',
+  'group row items-start gap-3 rounded-md border border-strong bg-surface p-4 transition data-focus-visible:focus-ring',
   'not-data-disabled:cursor-pointer data-disabled:cursor-not-allowed',
   'hover:not-data-disabled:data-[state=unchecked]:bg-surface-hover',
   'not-data-disabled:data-invalid:data-[state=unchecked]:border-danger',

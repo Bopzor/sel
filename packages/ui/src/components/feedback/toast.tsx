@@ -39,7 +39,7 @@ export function Toast({ tone = 'success', onClose, closeLabel, className, childr
           onClick={onClose}
           aria-label={closeLabel}
           title={closeLabel}
-          className="flex size-touch-target shrink-0 cursor-pointer items-center justify-center rounded-full -outline-offset-2 outline-current transition hover:bg-inverse-hover"
+          className="row size-touch-target shrink-0 cursor-pointer items-center justify-center rounded-full -outline-offset-2 outline-current transition hover:bg-inverse-hover"
         >
           <Icon name="close" size="md" />
         </button>
@@ -55,7 +55,7 @@ const icons = {
 } satisfies Record<Tone, IconName>;
 
 // The whole toast takes the tone's solid color, so that it can be told apart at a glance.
-const toastStyles = cva('flex items-center gap-3 rounded-lg py-1 pr-1 pl-4 shadow-lg', {
+const toastStyles = cva('row items-center gap-3 rounded-lg py-1 pr-1 pl-4 shadow-lg', {
   variants: {
     tone: {
       success: 'bg-success text-on-success',

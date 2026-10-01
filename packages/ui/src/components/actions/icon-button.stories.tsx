@@ -28,7 +28,7 @@ export const Playground: Story = {};
 
 export const Variants: Story = {
   render: () => (
-    <div className="flex items-center gap-3">
+    <div className="row items-center gap-3">
       <IconButton icon="menu" label="Menu" />
       <IconButton icon="edit" label="Edit" variant="secondary" />
       <IconButton icon="add" label="Add" variant="primary" />
@@ -39,7 +39,7 @@ export const Variants: Story = {
 
 export const Sizes: Story = {
   render: () => (
-    <div className="flex items-center gap-3">
+    <div className="row items-center gap-3">
       <IconButton icon="close" label="Close" size="sm" />
       <IconButton icon="close" label="Close" size="md" />
     </div>

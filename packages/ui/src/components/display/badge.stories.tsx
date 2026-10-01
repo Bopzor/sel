@@ -25,7 +25,7 @@ export const Playground: Story = {};
 
 export const Tones: Story = {
   render: () => (
-    <div className="flex flex-wrap items-center gap-2">
+    <div className="row flex-wrap items-center gap-2">
       <Badge>Neutral</Badge>
       <Badge tone="primary">Primary</Badge>
       <Badge tone="info">Info</Badge>
@@ -39,7 +39,7 @@ export const Tones: Story = {
 
 export const WithIcon: Story = {
   render: () => (
-    <div className="flex flex-wrap items-center gap-2">
+    <div className="row flex-wrap items-center gap-2">
       <Badge tone="primary" icon="request">
         Category
       </Badge>

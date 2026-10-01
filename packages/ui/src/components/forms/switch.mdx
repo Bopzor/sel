@@ -18,7 +18,7 @@ In settings: notifications, visibility of a piece of information, dark mode. In 
 - `description`: what the setting concretely changes, in `text-muted`. It is not part of the switch's name: it is linked to it with `aria-describedby`.
 - The HTML props of `<input type="checkbox">`, passed to the native input that Ark UI keeps visually hidden: `checked` + `onChange(event)` for a controlled switch, `defaultChecked` for an uncontrolled one, `ref`, `name`, `onBlur`, `disabled`. The props of react-hook-form's `register()` can be spread on it.
 
-The element has `role="switch"`; the on state does not rely on color alone (position and check mark). The track is 52 × 32px, the hit area 44px high: stack switches in a `flex flex-col gap-6`.
+The element has `role="switch"`; the on state does not rely on color alone (position and check mark). The track is 52 × 32px, the hit area 44px high: stack switches in a `stack gap-6`.
 
 <Primary />
 

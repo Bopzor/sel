@@ -22,7 +22,7 @@ export function Tabs({ onChange, className, ...props }: TabsProps) {
       onValueChange={(details) => onChange?.(details.value)}
       lazyMount
       unmountOnExit
-      className={clsx('flex flex-col', className)}
+      className={clsx('stack', className)}
     />
   );
 }
@@ -37,7 +37,7 @@ type TabListProps = Override<
 
 export function TabList({ className, ...props }: TabListProps) {
   // Scrolls horizontally when the tabs do not fit, on mobile.
-  return <ArkTabs.List {...props} className={clsx('flex overflow-x-auto border-b', className)} />;
+  return <ArkTabs.List {...props} className={clsx('row overflow-x-auto border-b', className)} />;
 }
 
 /** The name of a view, with its value. It may hold a Badge, after the name. */

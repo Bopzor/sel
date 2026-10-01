@@ -16,10 +16,7 @@ type SideNavProps = Override<
 /** The side navigation: a SideNavHeader, SideNavSections of SideNavItems, and a SideNavFooter. */
 export function SideNav({ className, ...props }: SideNavProps) {
   return (
-    <nav
-      {...props}
-      className={clsx('flex w-sidebar flex-col gap-6 border-r bg-surface px-4 py-6', className)}
-    />
+    <nav {...props} className={clsx('stack w-sidebar gap-6 border-r bg-surface px-4 py-6', className)} />
   );
 }
 
@@ -39,10 +36,10 @@ type SideNavHeaderProps = Override<
 /** The instance's identity, at the top. */
 export function SideNavHeader({ logo, name, place, className, ...props }: SideNavHeaderProps) {
   return (
-    <div {...props} className={clsx('flex items-center gap-3 px-3', className)}>
+    <div {...props} className={clsx('row items-center gap-3 px-3', className)}>
       {/* The name next to it says what the logo shows. */}
       <img src={logo} alt="" className="size-logo shrink-0 rounded-md" />
-      <p className="flex min-w-0 flex-col">
+      <p className="stack min-w-0">
         <span className="truncate text-body-strong text-default">{name}</span>
         {place && <span className="truncate text-body-sm text-muted">{place}</span>}
       </p>
@@ -64,14 +61,14 @@ export function SideNavSection({ title, className, children, ...props }: SideNav
   const titleId = useId();
 
   return (
-    <div {...props} className={clsx('flex flex-col gap-1', className)}>
+    <div {...props} className={clsx('stack gap-1', className)}>
       {title && (
         <p id={titleId} className="px-3 text-caption text-subtle">
           {title}
         </p>
       )}
 
-      <ul aria-labelledby={title ? titleId : undefined} className="flex flex-col gap-1">
+      <ul aria-labelledby={title ? titleId : undefined} className="stack gap-1">
         {children}
       </ul>
     </div>
@@ -108,7 +105,7 @@ export function SideNavItem({
         {...props}
         aria-current={active ? 'page' : undefined}
         className={clsx(
-          'flex min-h-control-md w-full cursor-pointer items-center gap-3 rounded-md px-3 text-start text-label no-underline transition select-none',
+          'row min-h-control-md w-full cursor-pointer items-center gap-3 rounded-md px-3 text-start text-label no-underline transition select-none',
           active
             ? 'bg-primary-subtle text-primary hover:bg-primary-subtle-hover'
             : 'text-muted hover:bg-surface-hover hover:text-default',
@@ -125,5 +122,5 @@ export function SideNavItem({
 
 /** At the bottom: the member's account, signing out. SideNavItems go in a SideNavSection inside it. */
 export function SideNavFooter({ className, ...props }: ComponentProps<'div'>) {
-  return <div {...props} className={clsx('mt-auto flex flex-col gap-1', className)} />;
+  return <div {...props} className={clsx('mt-auto stack gap-1', className)} />;
 }

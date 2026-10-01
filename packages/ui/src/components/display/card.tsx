@@ -13,7 +13,7 @@ export function Card({ className, ...props }: ComponentProps<'div'>) {
       {...props}
       className={clsx(
         // overflow-hidden clips a list's rows to the rounded corners.
-        'relative flex flex-col gap-4 overflow-hidden rounded-lg border bg-surface shadow-sm',
+        'relative stack gap-4 overflow-hidden rounded-lg border bg-surface shadow-sm',
         'has-data-card-cover:transition hover:has-data-card-cover:shadow-md',
         className,
       )}
@@ -62,7 +62,7 @@ export function CardBody({ className, ...props }: ComponentProps<'div'>) {
 /** One or two buttons. */
 export function CardFooter({ className, ...props }: ComponentProps<'div'>) {
   // Positioned, so that its buttons stay above the cover of a clickable card.
-  return <div {...props} className={clsx(section, 'relative flex flex-wrap gap-3', className)} />;
+  return <div {...props} className={clsx(section, 'relative row flex-wrap gap-3', className)} />;
 }
 
 // The link or button of the title covers the whole card with its ::after, so that the card has a single interactive
