@@ -10,7 +10,7 @@ A few situations come up everywhere. They are always built the same way, so memb
 
 - One field per row, in the order the questions come to mind. Optional fields are marked "(optional)".
 - More than six fields: split into steps with `Stepper`, and keep the answers when going back.
-- The submit button stays enabled, even when the form is incomplete: disabled, it does not say what is missing. Validation happens on submit. `disabled` is kept for actions that cannot be performed at all, with the reason shown next to them.
+- The submit button stays enabled, even when the form is incomplete: disabled, it does not say what is missing. Validation happens on submit first, then on each change of the fields. `disabled` is kept for actions that cannot be performed at all, with the reason shown next to them.
 - On submit, if errors remain: a `danger` `Alert` at the top that lists them with a link to each field, and the focus moved to this alert.
 - After submitting: a `success` `Toast`, whether the member stays on the page or lands on the created content. The toast container is mounted at the root of the application, above the router, so the message survives the page change.
 - A `success` `Alert` is reserved for confirmations that must stay in view because they contain information to remember or a next step ("Your registration has been sent. A coordinator will approve it within 48 hours").

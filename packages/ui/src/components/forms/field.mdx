@@ -44,7 +44,7 @@ Around every control of a form that has no label of its own, such as an `Input`.
 ## Rules
 
 - Ark's `Field` links the label, the hint and the error to the control, and passes it `disabled`, `required` and the invalid state: these states are set on the `Field`, not on the control.
-- Validate when leaving the field or on submit, never on every keystroke.
+- Validate on submit first, then on each change.
 
 <Primary />
 
