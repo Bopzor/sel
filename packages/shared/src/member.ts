@@ -1,22 +1,27 @@
-import { createDate, createFactory, createId } from '@sel/utils';
+import { createDate, createFactory, createId, type ValueOf } from '@sel/utils';
 import { z } from 'zod';
 
-import { Address } from './address';
-import { MemberInterest } from './interest';
 import { MembersSort } from './members-sort';
 
-export enum MemberStatus {
-  onboarding = 'onboarding',
-  inactive = 'inactive',
-  active = 'active',
-  system = 'system',
-}
+import type { Address } from './address';
+import type { MemberInterest } from './interest';
 
-export enum MemberRole {
-  member = 'member',
-  admin = 'admin',
-  system = 'system',
-}
+export const MemberStatus = {
+  onboarding: 'onboarding',
+  inactive: 'inactive',
+  active: 'active',
+  system: 'system',
+} as const;
+
+export type MemberStatus = ValueOf<typeof MemberStatus>;
+
+export const MemberRole = {
+  member: 'member',
+  admin: 'admin',
+  system: 'system',
+} as const;
+
+export type MemberRole = ValueOf<typeof MemberRole>;
 
 export type Member = {
   id: string;

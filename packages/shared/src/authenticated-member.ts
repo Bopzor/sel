@@ -1,6 +1,6 @@
 import { createDate, createFactory, createId } from '@sel/utils';
 
-import { Member } from './member';
+import type { Member } from './member';
 
 export type AuthenticatedMember = Member & {
   email: string;

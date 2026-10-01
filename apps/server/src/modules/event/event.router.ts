@@ -145,7 +145,7 @@ function serializeEventListItem(
     id: event.id,
     title: event.title,
     date: event.date?.toISOString() ?? undefined,
-    kind: event.kind as shared.EventKind,
+    kind: event.kind,
     organizer: serializeOrganizer(event.organizer),
     message: serializeMessage(event.message),
   };
@@ -162,7 +162,7 @@ function serializeEvent(
     id: event.id,
     title: event.title,
     message: serializeMessage(event.message),
-    kind: event.kind as shared.EventKind,
+    kind: event.kind,
     date: event.date?.toISOString() ?? undefined,
     location: event.location ?? undefined,
     organizer: serializeOrganizer(event.organizer),

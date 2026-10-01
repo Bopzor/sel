@@ -1,13 +1,16 @@
+import type { ValueOf } from '@sel/utils';
 import { z } from 'zod';
 
-import { LightMember } from './member';
-import { Message } from './message';
+import type { LightMember } from './member';
+import type { Message } from './message';
 
-export enum RequestStatus {
-  pending = 'pending',
-  fulfilled = 'fulfilled',
-  canceled = 'canceled',
-}
+export const RequestStatus = {
+  pending: 'pending',
+  fulfilled: 'fulfilled',
+  canceled: 'canceled',
+} as const;
+
+export type RequestStatus = ValueOf<typeof RequestStatus>;
 
 export type RequestListItem = {
   id: string;

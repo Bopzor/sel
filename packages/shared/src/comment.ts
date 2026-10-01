@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import { Message } from './message';
+import type { Message } from './message';
 
 export type Comment = {
   id: string;

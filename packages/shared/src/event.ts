@@ -1,13 +1,17 @@
+import type { ValueOf } from '@sel/utils';
 import { z } from 'zod';
 
-import { Address, addressSchema } from './address';
-import { LightMember } from './member';
-import { Message } from './message';
+import { type Address, addressSchema } from './address';
 
-export enum EventKind {
-  internal = 'internal',
-  external = 'external',
-}
+import type { LightMember } from './member';
+import type { Message } from './message';
+
+export const EventKind = {
+  internal: 'internal',
+  external: 'external',
+} as const;
+
+export type EventKind = ValueOf<typeof EventKind>;
 
 export type EventsListItem = {
   id: string;

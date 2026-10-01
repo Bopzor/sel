@@ -1,12 +1,15 @@
+import type { ValueOf } from '@sel/utils';
 import { z } from 'zod';
 
-import { LightMember } from './member';
+import type { LightMember } from './member';
 
-export enum TransactionStatus {
-  pending = 'pending',
-  completed = 'completed',
-  canceled = 'canceled',
-}
+export const TransactionStatus = {
+  pending: 'pending',
+  completed: 'completed',
+  canceled: 'canceled',
+} as const;
+
+export type TransactionStatus = ValueOf<typeof TransactionStatus>;
 
 export type Transaction = {
   id: string;

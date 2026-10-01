@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
-import { LightMember } from './member';
-import { Message } from './message';
+import type { LightMember } from './member';
+import type { Message } from './message';
 
 export type Information = {
   id: string;
