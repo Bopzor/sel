@@ -1,0 +1,1 @@
+ALTER TABLE "config" ADD COLUMN "place" varchar(256) DEFAULT '' NOT NULL;

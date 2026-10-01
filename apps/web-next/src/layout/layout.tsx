@@ -13,12 +13,13 @@ import {
 import { entries } from '@sel/utils';
 import { Outlet, useMatch } from 'react-router';
 
-import { Link } from '../components/link';
-import { instance } from '../instance';
-import { navigation, routes, type NavigationItem } from '../routes';
-import { useSignOut } from '../session';
+import { useConfig } from 'src/app/config';
+import { navigation, routes, type NavigationItem } from 'src/app/routes';
+import { useSignOut } from 'src/app/session';
+import { Link } from 'src/components/link';
 
 export function Layout() {
+  const config = useConfig();
   const { t, i18n } = useLingui();
 
   const labels: Partial<{ [Group in keyof typeof navigation]: MessageDescriptor }> = {
@@ -40,7 +41,7 @@ export function Layout() {
         aria-label={t`Main navigation`}
         className="sticky top-0 hidden h-dvh shrink-0 overflow-y-auto lg:stack"
       >
-        <SideNavHeader logo={instance.logo} name={instance.name} place={instance.place} />
+        <SideNavHeader logo={config.logoUrl} name={config.letsName} place={config.place} />
 
         {entries(navigation)
           .filter(([group]) => group !== 'account')

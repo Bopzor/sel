@@ -37,11 +37,13 @@ export function server() {
   app.use(cookieParser(config.session.secret));
   app.use(express.json());
   app.use(cacheControl);
+
   app.use('/health', health);
+  app.use('/config', configHandler);
+
   app.use(maintenanceHandler);
   app.use(authenticationProvider);
 
-  app.use('/config', isMember, configHandler);
   app.use('/authentication', authentication);
   app.use('/session', isMember, session);
   app.use('/session/notifications', isMember, sessionNotifications);
@@ -119,7 +121,11 @@ const configHandler: RequestHandler = async (req, res) => {
   const config = await getLetsConfig();
 
   const result: Config = {
-    ...pick(config, ['maintenance', 'letsName', 'logoUrl', 'currency', 'currencyPlural']),
+    ...pick(config, ['maintenance', 'letsName', 'place', 'logoUrl', 'currency', 'currencyPlural']),
+    theme: {
+      ...pick(config, ['primaryColor', 'accentColor']),
+      customCss: config.customCss || undefined,
+    },
     map: {
       center: [config.mapLongitude, config.mapLatitude],
       zoom: Number(config.mapZoom),

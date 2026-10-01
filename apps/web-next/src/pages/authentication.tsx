@@ -9,12 +9,13 @@ import { useForm } from 'react-hook-form';
 import { useNavigate, useSearchParams } from 'react-router';
 import { z } from 'zod';
 
-import { api, ApiError } from '../api';
-import { InputField } from '../components/fields';
-import { instance } from '../instance';
-import { nextUrl } from '../session';
+import { api, ApiError } from 'src/app/api';
+import { useConfig } from 'src/app/config';
+import { nextUrl } from 'src/app/session';
+import { InputField } from 'src/components/fields';
 
 export function AuthenticationPage() {
+  const config = useConfig();
   const [searchParams] = useSearchParams();
   const initialCode = searchParams.get('code') ?? undefined;
 
@@ -28,10 +29,10 @@ export function AuthenticationPage() {
         <CardHeader className="bg-primary pb-5 text-on-primary">
           <div className="row items-center gap-4">
             {/* The name next to it says what the logo shows. */}
-            <img src={instance.logo} alt="" className="size-12 shrink-0 rounded-md bg-surface" />
+            <img src={config.logoUrl} alt="" className="size-logo shrink-0 rounded-md bg-surface" />
             <div className="stack min-w-0">
-              <h1 className="text-title-2">{instance.name}</h1>
-              <p className="text-body-sm">{instance.place}</p>
+              <h1 className="text-title-2">{config.letsName}</h1>
+              <p className="text-body-sm">{config.place}</p>
             </div>
           </div>
         </CardHeader>

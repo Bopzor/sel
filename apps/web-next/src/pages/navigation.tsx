@@ -13,9 +13,9 @@ import {
 } from '@sel/ui';
 import { entries } from '@sel/utils';
 
-import { Link } from '../components/link';
-import { navigation, type NavigationItem } from '../routes';
-import { useSignOut } from '../session';
+import { navigation, type NavigationItem } from 'src/app/routes';
+import { useSignOut } from 'src/app/session';
+import { Link } from 'src/components/link';
 
 export function NavigationPage() {
   const { i18n } = useLingui();

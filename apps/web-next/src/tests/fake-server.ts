@@ -1,4 +1,4 @@
-import type { HttpMethod } from './api';
+import type { HttpMethod } from 'src/app/api';
 
 type Handler = (params: { url: URL }) => Promise<Response>;
 

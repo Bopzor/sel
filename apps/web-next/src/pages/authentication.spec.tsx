@@ -1,80 +1,21 @@
 import { i18n } from '@lingui/core';
 import { I18nProvider } from '@lingui/react';
-import { createAuthenticatedMember } from '@sel/shared';
+import { createAuthenticatedMember, createConfig } from '@sel/shared';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { render, screen } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
 import { createMemoryRouter, RouterProvider } from 'react-router';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { FakeServer } from '../fake-server';
-import { queryClient } from '../query-client';
-import { routes } from '../routes';
-import { requireNoSession, requireSession } from '../session';
+import { queries } from 'src/app/queries';
+import { queryClient } from 'src/app/query-client';
+import { routes } from 'src/app/routes';
+import { requireNoSession, requireSession } from 'src/app/session';
+import { FakeServer } from 'src/tests/fake-server';
 
 import { AuthenticationPage } from './authentication';
 
 const code = '123456';
-
-class Server extends FakeServer {
-  signedIn = false;
-  errorCode: string | undefined;
-
-  init() {
-    this.register('GET /api/session/member', () => {
-      return this.signedIn
-        ? this.json(200, createAuthenticatedMember())
-        : this.json(401, { error: 'Authentication required' });
-    });
-
-    this.register('POST /api/authentication/request-authentication-code', () => this.noContent());
-
-    this.register('GET /api/authentication/verify-authentication-code', ({ url }) => {
-      if (url.searchParams.get('code') !== code) {
-        return this.json(404, { error: 'Code not found', code: 'AuthenticationCodeNotFound' });
-      }
-
-      if (this.errorCode !== undefined) {
-        return this.json(401, { error: 'Invalid code', code: this.errorCode });
-      }
-
-      this.signedIn = true;
-      return this.noContent();
-    });
-  }
-}
-
-function renderApp(path: string) {
-  const HydrateFallback = () => null;
-
-  const router = createMemoryRouter(
-    [
-      {
-        path: routes.authentication(),
-        HydrateFallback,
-        loader: requireNoSession,
-        Component: AuthenticationPage,
-      },
-      {
-        path: '*',
-        HydrateFallback,
-        loader: requireSession,
-        element: <h1>Page</h1>,
-      },
-    ],
-    { initialEntries: [path] },
-  );
-
-  render(
-    <I18nProvider i18n={i18n}>
-      <QueryClientProvider client={queryClient}>
-        <RouterProvider router={router} />
-      </QueryClientProvider>
-    </I18nProvider>,
-  );
-
-  return router;
-}
 
 describe('authentication', () => {
   let server: Server;
@@ -201,3 +142,67 @@ describe('authentication', () => {
     expect(router.state.location.pathname).toBe('/');
   });
 });
+
+const HydrateFallback = () => null;
+
+function renderApp(path: string) {
+  queryClient.setQueryData(queries.config().queryKey, createConfig());
+
+  const router = createMemoryRouter(
+    [
+      {
+        path: routes.authentication(),
+        HydrateFallback,
+        loader: requireNoSession,
+        Component: AuthenticationPage,
+      },
+      {
+        path: '*',
+        HydrateFallback,
+        loader: requireSession,
+        element: <h1>Page</h1>,
+      },
+    ],
+    {
+      initialEntries: [path],
+    },
+  );
+
+  render(
+    <I18nProvider i18n={i18n}>
+      <QueryClientProvider client={queryClient}>
+        <RouterProvider router={router} />
+      </QueryClientProvider>
+    </I18nProvider>,
+  );
+
+  return router;
+}
+
+class Server extends FakeServer {
+  signedIn = false;
+  errorCode: string | undefined;
+
+  init() {
+    this.register('GET /api/session/member', () => {
+      return this.signedIn
+        ? this.json(200, createAuthenticatedMember())
+        : this.json(401, { error: 'Authentication required' });
+    });
+
+    this.register('POST /api/authentication/request-authentication-code', () => this.noContent());
+
+    this.register('GET /api/authentication/verify-authentication-code', ({ url }) => {
+      if (url.searchParams.get('code') !== code) {
+        return this.json(404, { error: 'Code not found', code: 'AuthenticationCodeNotFound' });
+      }
+
+      if (this.errorCode !== undefined) {
+        return this.json(401, { error: 'Invalid code', code: this.errorCode });
+      }
+
+      this.signedIn = true;
+      return this.noContent();
+    });
+  }
+}

@@ -22,11 +22,14 @@ export default defineConfig({
       },
     },
   },
+  resolve: {
+    tsconfigPaths: true,
+  },
   test: {
     watch: false,
     environment: 'happy-dom',
     // happy-dom's default page (about:blank) has no origin to resolve the app's relative URLs.
     environmentOptions: { happyDOM: { url: 'http://localhost:8000' } },
-    setupFiles: ['src/test-setup.ts'],
+    setupFiles: ['src/tests/setup.ts'],
   },
 });

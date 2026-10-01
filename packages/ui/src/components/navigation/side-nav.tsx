@@ -36,7 +36,7 @@ type SideNavHeaderProps = Override<
 /** The instance's identity, at the top. */
 export function SideNavHeader({ logo, name, place, className, ...props }: SideNavHeaderProps) {
   return (
-    <div {...props} className={clsx('row items-center gap-3 px-3', className)}>
+    <div {...props} className={clsx('row items-center gap-2.5', className)}>
       {/* The name next to it says what the logo shows. */}
       <img src={logo} alt="" className="size-logo shrink-0 rounded-md" />
       <p className="stack min-w-0">

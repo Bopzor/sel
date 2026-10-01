@@ -1,15 +1,10 @@
-import type { AuthenticatedMember } from '@sel/shared';
-import { queryOptions, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { redirect, useNavigate, type LoaderFunctionArgs } from 'react-router';
 
 import { api, ApiError } from './api';
+import { queries } from './queries';
 import { queryClient } from './query-client';
 import { routes } from './routes';
-
-export const sessionQuery = queryOptions({
-  queryKey: ['session'],
-  queryFn: () => api<AuthenticatedMember>('GET', '/session/member'),
-});
 
 export async function requireSession({ request }: LoaderFunctionArgs) {
   if (await hasSession()) {
@@ -47,7 +42,7 @@ export function nextUrl(searchParams: URLSearchParams) {
 
 async function hasSession() {
   try {
-    await queryClient.query({ ...sessionQuery, staleTime: 'static' });
+    await queryClient.query({ ...queries.session(), staleTime: 'static' });
     return true;
   } catch (error) {
     if (ApiError.is(error, 401)) {
