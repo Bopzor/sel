@@ -2,7 +2,7 @@ import { Trans } from '@lingui/react/macro';
 import { Button } from '@sel/ui';
 import type { UseInfiniteQueryResult } from '@tanstack/react-query';
 
-import { QueryFailed } from './query-failed';
+import { QueryFailed } from './query-result';
 
 export function Pagination({
   query,

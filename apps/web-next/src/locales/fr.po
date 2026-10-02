@@ -7,6 +7,7 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: fr\n"
 
+#: src/pages/request.tsx
 #: src/pages/requests.tsx
 msgid "{commentsCount, plural, one {# comment} other {# comments}}"
 msgstr "{commentsCount, plural, one {# commentaire} other {# commentaires}}"
@@ -20,21 +21,37 @@ msgctxt "requests filter"
 msgid "All"
 msgstr "Toutes"
 
+#: src/pages/request.tsx
+msgid "Answers"
+msgstr "Réponses"
+
 #: src/pages/authentication.tsx
 msgid "Back"
 msgstr "Retour"
+
+#: src/pages/request.tsx
+msgid "Can help"
+msgstr "Peut aider"
+
+#: src/pages/request.tsx
+msgid "Can't help"
+msgstr "Ne peut pas aider"
 
 #: src/pages/requests.tsx
 msgid "Canceled"
 msgstr "Annulée"
 
-#: src/components/query-failed.tsx
+#: src/components/query-result.tsx
 msgid "Check your internet access, then try again."
 msgstr "Vérifiez votre accès à internet, puis réessayez."
 
 #: src/pages/requests.tsx
 msgid "Clear filters"
 msgstr "Effacer les filtres"
+
+#: src/pages/request.tsx
+msgid "Comments"
+msgstr "Commentaires"
 
 #: src/layout/layout.tsx
 #: src/pages/navigation.tsx
@@ -123,6 +140,14 @@ msgstr "mon@email.com"
 msgid "New request"
 msgstr "Nouvelle demande"
 
+#: src/pages/request.tsx
+msgid "No comments yet."
+msgstr "Aucun commentaire pour le moment."
+
+#: src/pages/request.tsx
+msgid "No one has answered yet."
+msgstr "Personne n’a encore répondu."
+
 #: src/pages/requests.tsx
 msgid "No request matches these filters"
 msgstr "Aucune demande ne correspond à ces filtres"
@@ -145,16 +170,21 @@ msgstr "Nouvelle demande"
 msgid "Profile"
 msgstr "Profil"
 
-#: src/main.tsx
-msgid "Request"
-msgstr "Demande"
+#: src/pages/request.tsx
+msgid "Request not found"
+msgstr "Demande introuvable"
+
+#: src/pages/request.tsx
+msgid "Requested by"
+msgstr "Demandé par"
 
 #: src/app/routes.ts
+#: src/pages/request.tsx
 #: src/pages/requests.tsx
 msgid "Requests"
 msgstr "Demandes"
 
-#: src/components/query-failed.tsx
+#: src/components/query-result.tsx
 msgid "Retry"
 msgstr "Réessayer"
 
@@ -165,6 +195,10 @@ msgstr "Rechercher"
 #: src/pages/requests.tsx
 msgid "Search the requests"
 msgstr "Rechercher parmi les demandes"
+
+#: src/pages/request.tsx
+msgid "See the requests"
+msgstr "Voir les demandes"
 
 #: src/app/routes.ts
 msgid "Settings"
@@ -196,6 +230,10 @@ msgstr "Code de connexion"
 msgid "Sign-in failed. Try again in a few moments."
 msgstr "La connexion a échoué. Réessayez dans quelques instants."
 
+#: src/pages/request.tsx
+msgid "The link may be wrong, or the request may no longer exist."
+msgstr "Le lien est peut-être erroné, ou la demande n’existe plus."
+
 #: src/pages/authentication.tsx
 msgid "The sign-in code could not be sent. Try again in a few moments."
 msgstr "Le code de connexion n'a pas pu être envoyé. Réessayez dans quelques instants."
@@ -212,6 +250,14 @@ msgstr "Ce code a expiré. Revenez en arrière pour en recevoir un nouveau."
 msgid "This code is not valid. Check that it matches the one in the email."
 msgstr "Ce code n'est pas valide. Vérifiez qu'il correspond à celui de l'email."
 
+#: src/pages/request.tsx
+msgid "This request is fulfilled"
+msgstr "Cette demande est clôturée"
+
+#: src/pages/request.tsx
+msgid "This request was canceled"
+msgstr "Cette demande a été annulée"
+
 #: src/pages/requests.tsx
 msgid "Try other words, or clear the filters."
 msgstr "Essayez d'autres mots, ou effacez les filtres."
@@ -219,6 +265,14 @@ msgstr "Essayez d'autres mots, ou effacez les filtres."
 #: src/components/pagination.tsx
 msgid "Unable to load more elements"
 msgstr "Impossible d'afficher plus d'éléments"
+
+#: src/pages/request.tsx
+msgid "Unable to load the comments"
+msgstr "Impossible de charger les commentaires"
+
+#: src/pages/request.tsx
+msgid "Unable to load the request"
+msgstr "Impossible de charger la demande"
 
 #: src/pages/requests.tsx
 msgid "Unable to load the requests"

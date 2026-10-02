@@ -18,6 +18,7 @@ import { messages } from './locales/fr.po';
 import { AuthenticationPage } from './pages/authentication';
 import { NavigationPage } from './pages/navigation';
 import { PlaceholderPage } from './pages/placeholder';
+import { RequestPage } from './pages/request';
 import { RequestsPage } from './pages/requests';
 
 i18n.loadAndActivate({ locale: 'fr', messages });
@@ -57,7 +58,7 @@ const router = createBrowserRouter([
           },
           {
             path: routes.request(':requestId'),
-            element: <PlaceholderPage title={msg`Request`} />,
+            Component: RequestPage,
           },
           {
             path: routes.events(),

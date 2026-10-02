@@ -93,7 +93,7 @@ function SignOutItem() {
 
 function SideNavLink({ path, label, icon }: NavigationItem) {
   const { t } = useLingui();
-  const match = useMatch(path);
+  const match = useMatch(path === '/' ? path : path + '/*');
 
   return (
     <SideNavItem Link={Link} href={path} icon={icon} active={match !== null}>
@@ -104,7 +104,7 @@ function SideNavLink({ path, label, icon }: NavigationItem) {
 
 function BottomNavLink({ path, label, icon }: NavigationItem) {
   const { t } = useLingui();
-  const match = useMatch(path);
+  const match = useMatch(path === '/' ? path : path + '/*');
 
   return (
     <BottomNavItem Link={Link} href={path} icon={icon} active={match !== null}>

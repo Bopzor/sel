@@ -54,6 +54,10 @@ export async function api<Result>(
   return body as Result;
 }
 
+export function fileUrl(name: string) {
+  return `${baseUrl}/files/${name}`;
+}
+
 function searchParams(query: Record<string, string | number | undefined> = {}) {
   const params = new URLSearchParams();
 

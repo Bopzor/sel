@@ -323,7 +323,7 @@
   --size-logo: 3rem;
 
   --width-sidebar: 17.5rem;
-  --width-aside: 18rem;
+  --width-aside: 22rem;
 
   /* Spacing feeds both min-h-bottom-nav (the bar) and pb-bottom-nav (the content). */
   --spacing-bottom-nav: 4.5rem;
@@ -486,6 +486,19 @@
   --tw-prose-links: var(--text-color-primary);
   --tw-prose-counters: var(--text-color-subtle);
   --tw-prose-bullets: var(--text-color-subtle);
+
+  & p {
+    margin-top: calc(2 * var(--spacing));
+    margin-bottom: calc(2 * var(--spacing));
+
+    &:first-child {
+      margin-top: 0;
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
 
   & li > p {
     margin-top: 0;

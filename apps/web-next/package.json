@@ -17,6 +17,7 @@
     "@sel/shared": "workspace:*",
     "@tanstack/react-query": "^5.104.0",
     "culori": "^4.0.2",
+    "dompurify": "^3.4.16",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
     "react-hook-form": "^7.89.0",

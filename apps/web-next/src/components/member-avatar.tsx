@@ -1,16 +1,18 @@
 import type { LightMember } from '@sel/shared';
 import { Avatar } from '@sel/ui';
 
-const baseUrl = import.meta.env.VITE_API_URL ?? '/api';
+import { fileUrl } from 'src/app/api';
+import { formatMemberName } from 'src/app/format';
 
-export function MemberAvatar({
-  member,
-  ...props
-}: { member: LightMember } & Omit<React.ComponentProps<typeof Avatar>, 'name' | 'src'>) {
+type MemberAvatarProps = Omit<React.ComponentProps<typeof Avatar>, 'name' | 'src'> & {
+  member: Pick<LightMember, 'firstName' | 'lastName' | 'avatar'>;
+};
+
+export function MemberAvatar({ member, ...props }: MemberAvatarProps) {
   return (
     <Avatar
-      name={`${member.firstName} ${member.lastName}`}
-      src={member.avatar ? `${baseUrl}/files/${member.avatar}` : undefined}
+      name={formatMemberName(member)}
+      src={member.avatar ? fileUrl(member.avatar) : undefined}
       {...props}
     />
   );

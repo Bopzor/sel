@@ -1,10 +1,18 @@
 import {
   type AuthenticatedMember,
+  type Comment,
+  type CommentEntityType,
   type Config,
   type ListRequestsQuery,
+  type Request,
   type RequestListItem,
 } from '@sel/shared';
-import { infiniteQueryOptions, keepPreviousData, queryOptions, type InfiniteData } from '@tanstack/react-query';
+import {
+  infiniteQueryOptions,
+  keepPreviousData,
+  queryOptions,
+  type InfiniteData,
+} from '@tanstack/react-query';
 
 import { api } from './api';
 
@@ -47,6 +55,24 @@ export const queries = {
       },
       placeholderData: keepPreviousData,
       select: flattenPages,
+    });
+  },
+
+  request: (requestId: string) => {
+    return queryOptions({
+      queryKey: ['request', { id: requestId }],
+      queryFn: () => {
+        return api<Request>('GET', `/requests/${requestId}`);
+      },
+    });
+  },
+
+  comments: (entityType: CommentEntityType, entityId: string) => {
+    return queryOptions({
+      queryKey: ['comments', { entityType, entityId }],
+      queryFn: () => {
+        return api<Comment[]>('GET', '/comment', { query: { entityType, entityId } });
+      },
     });
   },
 };

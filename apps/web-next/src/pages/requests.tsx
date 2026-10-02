@@ -23,12 +23,13 @@ import {
 import { useInfiniteQuery, useSuspenseQuery } from '@tanstack/react-query';
 import { z } from 'zod';
 
+import { formatMemberName } from 'src/app/format';
 import { queries } from 'src/app/queries';
 import { routes } from 'src/app/routes';
 import { Link } from 'src/components/link';
 import { MemberAvatar } from 'src/components/member-avatar';
 import { FetchNextPageError, Pagination } from 'src/components/pagination';
-import { QueryFailed } from 'src/components/query-failed';
+import { QueryFailed } from 'src/components/query-result';
 import { RelativeDate } from 'src/components/relative-date';
 import { useDebouncedValue } from 'src/hooks/use-debounced-value';
 import { useFilters } from 'src/hooks/use-filters';
@@ -193,7 +194,7 @@ function RequestListItem({ request }: { request: RequestListItem }) {
   const { requester } = request;
   // TODO: show the comments count once the list endpoint returns it.
   const commentsCount = 0;
-  const name = `${requester.firstName} ${requester.lastName}`;
+  const name = formatMemberName(requester);
 
   return (
     <ListItem>

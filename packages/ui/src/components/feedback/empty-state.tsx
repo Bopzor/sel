@@ -28,7 +28,7 @@ export function EmptyStateTitle({
   level = 2,
   className,
   ...props
-}: Override<ComponentProps<'h2'>, { level?: 2 | 3 | 4 }>) {
+}: Override<ComponentProps<'h2'>, { level?: 1 | 2 | 3 }>) {
   const Heading = `h${level}` as const;
 
   return <Heading {...props} className={clsx('text-title-3 text-default', className)} />;

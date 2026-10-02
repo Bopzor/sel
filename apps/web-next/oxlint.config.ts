@@ -22,6 +22,7 @@ export default defineConfig({
     'typescript/array-type': 'off',
     'typescript/consistent-type-definitions': 'off',
     'react/react-in-jsx-scope': 'off',
+    'react/no-unescaped-entities': 'off',
     ...tanstackQuery.configs.recommended.rules,
     ...tailwind.configs.correctness.rules,
     ...tailwind.configs.stylistic.rules,
