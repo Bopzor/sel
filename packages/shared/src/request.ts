@@ -57,6 +57,8 @@ export const listRequestsQuerySchema = z.object({
   pageSize: z.coerce.number().min(1).max(100).default(10),
 });
 
+export type ListRequestsQuery = z.input<typeof listRequestsQuerySchema>;
+
 export const createRequestBodySchema = z.object({
   title: z.string().trim().min(5).max(200),
   body: z.string().trim().min(15),

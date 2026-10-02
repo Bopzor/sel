@@ -13,6 +13,9 @@ export default defineConfig({
     babel({ presets: [reactCompilerPreset(), linguiTransformerBabelPreset()] }),
     tailwindcss(),
   ],
+  build: {
+    sourcemap: true,
+  },
   server: {
     port: 8000,
     proxy: {
@@ -31,5 +34,6 @@ export default defineConfig({
     // happy-dom's default page (about:blank) has no origin to resolve the app's relative URLs.
     environmentOptions: { happyDOM: { url: 'http://localhost:8000' } },
     setupFiles: ['src/tests/setup.ts'],
+    fsModuleCache: true,
   },
 });

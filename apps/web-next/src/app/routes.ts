@@ -5,6 +5,8 @@ import type { IconName } from '@sel/ui';
 export const routes = {
   home: () => '/',
   requests: () => '/requests',
+  createRequest: () => '/requests/new',
+  request: (requestId: string) => `/requests/${requestId}`,
   events: () => '/events',
   information: () => '/information',
   members: () => '/members',

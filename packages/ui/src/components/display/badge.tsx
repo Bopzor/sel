@@ -12,13 +12,13 @@ export function Badge({ tone = 'neutral', icon, className, children, ...props }:
   return (
     <span {...props} className={badgeStyles({ tone, className })}>
       {icon && <Icon name={icon} size="sm" />}
-      {children}
+      <span className="text-box-cap">{children}</span>
     </span>
   );
 }
 
 const badgeStyles = cva(
-  'inline-flex items-center gap-1 rounded-full px-3 py-1 text-caption whitespace-nowrap',
+  'inline-flex h-7 items-center gap-1 rounded-full px-3 text-caption whitespace-nowrap',
   {
     variants: {
       tone: {

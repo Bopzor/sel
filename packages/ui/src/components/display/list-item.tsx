@@ -6,8 +6,8 @@ import { Icon } from './icon';
 import type { LinkComponent } from '../../utils';
 
 /**
- * A list row: a leading Avatar or Icon, a ListItemContent, then a ListItemTrailing or a ListItemChevron. A
- * ListItemLink or a ListItemButton in the title makes the whole row clickable.
+ * A list row: a leading Avatar or Icon, a ListItemContent, then a ListItemChevron. A ListItemLink or a ListItemButton
+ * in the title makes the whole row clickable.
  */
 export function ListItem({ className, ...props }: ComponentProps<'li'>) {
   return (
@@ -22,24 +22,24 @@ export function ListItem({ className, ...props }: ComponentProps<'li'>) {
   );
 }
 
-/** The title and the description. */
+/** The title (or a ListItemHeader) and the description. */
 export function ListItemContent({ className, ...props }: ComponentProps<'div'>) {
   return <div {...props} className={clsx('stack min-w-0 flex-1', className)} />;
 }
 
+/** Inside the ListItemContent: the ListItemTitle, then a badge, an amount or a date, on the title's line. */
+export function ListItemHeader({ className, ...props }: ComponentProps<'div'>) {
+  return <div {...props} className={clsx('row items-center justify-between gap-3', className)} />;
+}
+
+/** Two lines at most. */
 export function ListItemTitle({ className, ...props }: ComponentProps<'p'>) {
-  return <p {...props} className={clsx('text-body text-default', className)} />;
+  return <p {...props} className={clsx('line-clamp-2 text-body text-default', className)} />;
 }
 
 /** Two lines at most. */
 export function ListItemDescription({ className, ...props }: ComponentProps<'p'>) {
   return <p {...props} className={clsx('line-clamp-2 text-body-sm text-muted', className)} />;
-}
-
-/** A badge, an amount, a date. */
-export function ListItemTrailing({ className, ...props }: ComponentProps<'div'>) {
-  // Positioned, so that it stays above the cover of a clickable row.
-  return <div {...props} className={clsx('relative shrink-0 text-body-sm text-muted', className)} />;
 }
 
 /** Shows that the row opens a detail. */

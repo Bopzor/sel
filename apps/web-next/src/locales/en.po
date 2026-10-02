@@ -7,11 +7,37 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: en\n"
 
+#: src/pages/requests.tsx
+msgid "{commentsCount, plural, one {# comment} other {# comments}}"
+msgstr "{commentsCount, plural, one {# comment} other {# comments}}"
+
+#: src/pages/requests.tsx
+msgid "{total, plural, one {# request} other {# requests}}"
+msgstr "{total, plural, one {# request} other {# requests}}"
+
+#: src/pages/requests.tsx
+msgctxt "requests filter"
+msgid "All"
+msgstr "All"
+
 #: src/pages/authentication.tsx
 msgid "Back"
 msgstr "Back"
 
-#: src/routes.ts
+#: src/pages/requests.tsx
+msgid "Canceled"
+msgstr "Canceled"
+
+#: src/components/query-failed.tsx
+msgid "Check your internet access, then try again."
+msgstr "Check your internet access, then try again."
+
+#: src/pages/requests.tsx
+msgid "Clear filters"
+msgstr "Clear filters"
+
+#: src/layout/layout.tsx
+#: src/pages/navigation.tsx
 msgid "Community"
 msgstr "Community"
 
@@ -35,15 +61,20 @@ msgstr "Enter the email address of your LETS account to access the app."
 msgid "Enter the sign-in code received by email."
 msgstr "Enter the sign-in code received by email."
 
-#: src/routes.ts
+#: src/app/routes.ts
 msgid "Events"
 msgstr "Events"
 
-#: src/routes.ts
+#: src/layout/layout.tsx
+#: src/pages/navigation.tsx
 msgid "Exchanges"
 msgstr "Exchanges"
 
-#: src/routes.ts
+#: src/pages/requests.tsx
+msgid "Fulfilled"
+msgstr "Fulfilled"
+
+#: src/app/routes.ts
 msgid "Home"
 msgstr "Home"
 
@@ -55,11 +86,11 @@ msgstr "If nothing arrives in the next few minutes, check your spam folder or co
 msgid "If your email address is allowed, an email containing a sign-in code has been sent to <0>{email}</0>."
 msgstr "If your email address is allowed, an email containing a sign-in code has been sent to <0>{email}</0>."
 
-#: src/routes.ts
+#: src/app/routes.ts
 msgid "Information"
 msgstr "Information"
 
-#: src/routes.ts
+#: src/app/routes.ts
 msgid "Interests"
 msgstr "Interests"
 
@@ -67,7 +98,7 @@ msgstr "Interests"
 msgid "Main navigation"
 msgstr "Main navigation"
 
-#: src/routes.ts
+#: src/app/routes.ts
 msgid "Members"
 msgstr "Members"
 
@@ -75,25 +106,78 @@ msgstr "Members"
 msgid "More"
 msgstr "More"
 
-#: src/routes.ts
+#: src/layout/layout.tsx
+#: src/pages/navigation.tsx
 msgid "My account"
 msgstr "My account"
+
+#: src/pages/requests.tsx
+msgid "My requests"
+msgstr "My requests"
 
 #: src/pages/authentication.tsx
 msgid "my@email.com"
 msgstr "my@email.com"
 
-#: src/routes.ts
+#: src/pages/requests.tsx
+msgid "New request"
+msgstr "New request"
+
+#: src/pages/requests.tsx
+msgid "No request matches these filters"
+msgstr "No request matches these filters"
+
+#: src/pages/requests.tsx
+msgid "No requests"
+msgstr "No requests"
+
+#: src/pages/requests.tsx
+msgctxt "requests filter"
+msgid "Open"
+msgstr "Open"
+
+#: src/main.tsx
+#: src/pages/requests.tsx
+msgid "Post a request"
+msgstr "Post a request"
+
+#: src/app/routes.ts
 msgid "Profile"
 msgstr "Profile"
 
-#: src/routes.ts
+#: src/main.tsx
+msgid "Request"
+msgstr "Request"
+
+#: src/app/routes.ts
+#: src/pages/requests.tsx
 msgid "Requests"
 msgstr "Requests"
 
-#: src/routes.ts
+#: src/components/query-failed.tsx
+msgid "Retry"
+msgstr "Retry"
+
+#: src/pages/requests.tsx
+msgid "Search"
+msgstr "Search"
+
+#: src/pages/requests.tsx
+msgid "Search the requests"
+msgstr "Search the requests"
+
+#: src/app/routes.ts
 msgid "Settings"
 msgstr "Settings"
+
+#: src/components/pagination.tsx
+msgid "Show more"
+msgstr "Show more"
+
+#. placeholder {0}: requests.length
+#: src/pages/requests.tsx
+msgid "Showing {0} of {total} requests"
+msgstr "Showing {0} of {total} requests"
 
 #: src/pages/authentication.tsx
 msgid "Sign in"
@@ -127,3 +211,19 @@ msgstr "This code has expired. Go back to receive a new one."
 #: src/pages/authentication.tsx
 msgid "This code is not valid. Check that it matches the one in the email."
 msgstr "This code is not valid. Check that it matches the one in the email."
+
+#: src/pages/requests.tsx
+msgid "Try other words, or clear the filters."
+msgstr "Try other words, or clear the filters."
+
+#: src/components/pagination.tsx
+msgid "Unable to load more elements"
+msgstr "Unable to load more elements"
+
+#: src/pages/requests.tsx
+msgid "Unable to load the requests"
+msgstr "Unable to load the requests"
+
+#: src/pages/requests.tsx
+msgid "When a member needs a hand, their request appears here."
+msgstr "When a member needs a hand, their request appears here."

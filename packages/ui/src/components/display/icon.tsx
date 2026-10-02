@@ -3,6 +3,7 @@ import {
   ArrowLeft,
   ArrowLeftRight,
   ArrowRight,
+  Ban,
   Bell,
   Bold,
   Calendar,
@@ -97,6 +98,7 @@ const icons = {
   success: CircleCheck,
   warning: TriangleAlert,
   error: CircleAlert,
+  canceled: Ban,
 
   // Actions
   add: Plus,

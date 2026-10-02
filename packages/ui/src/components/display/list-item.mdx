@@ -6,7 +6,7 @@ import * as ListItemStories from './list-item.stories';
 
 # ListItem
 
-A list row of at least 64px, with a leading element, a title, a description of two lines at most and a trailing element (metadata or chevron).
+A list row of at least 64px, with a leading element, a title, a description of two lines at most, and a chevron when the row opens a detail.
 
 ## When to use it
 
@@ -31,7 +31,7 @@ For lists of members, exchanges, notifications, settings. Rows go in a `ul`, usu
 - A leading `Avatar` or `Icon`, first in the row.
 - `ListItemContent` (required): the title and the description, which take the remaining width.
 - `ListItemTitle` (required), `ListItemDescription`: two lines at most.
-- `ListItemTrailing`: badge, amount, date.
+- `ListItemHeader`: the `ListItemTitle`, then a badge, an amount or a date on the title's line. The description below keeps the full width, even on a phone.
 - `ListItemChevron`: shows that the row opens a detail.
 - `ListItemLink` or `ListItemButton`, inside the `ListItemTitle`: the whole row becomes a link or a button, named by the title, which covers the row. `ListItemLink` takes the router's link component as `Link` (an `<a>` by default).
 

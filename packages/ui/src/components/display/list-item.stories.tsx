@@ -10,9 +10,9 @@ import {
   ListItemChevron,
   ListItemContent,
   ListItemDescription,
+  ListItemHeader,
   ListItemLink,
   ListItemTitle,
-  ListItemTrailing,
 } from './list-item';
 
 export default {
@@ -39,24 +39,26 @@ export const Rows: Story = {
       <ListItem>
         <Avatar name="Jane Doe" decorative />
         <ListItemContent>
-          <ListItemTitle>Jane Doe</ListItemTitle>
+          <ListItemHeader>
+            <ListItemTitle>Jane Doe</ListItemTitle>
+            <span className="text-body-sm text-muted">Date</span>
+          </ListItemHeader>
           <ListItemDescription>Description</ListItemDescription>
         </ListItemContent>
-        <ListItemTrailing>Date</ListItemTrailing>
       </ListItem>
 
       <ListItem>
         <Icon name="notifications" className="text-muted" />
         <ListItemContent>
-          <ListItemTitle>Title</ListItemTitle>
+          <ListItemHeader>
+            <ListItemTitle>Title</ListItemTitle>
+            <Badge tone="success">Done</Badge>
+          </ListItemHeader>
           <ListItemDescription>
             A longer description that wraps over two lines at most, and is cut beyond that, to keep the rows
             of a list at a similar height.
           </ListItemDescription>
         </ListItemContent>
-        <ListItemTrailing>
-          <Badge tone="success">Done</Badge>
-        </ListItemTrailing>
       </ListItem>
 
       <ListItem>

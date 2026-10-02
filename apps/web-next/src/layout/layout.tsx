@@ -11,7 +11,7 @@ import {
   SideNavSection,
 } from '@sel/ui';
 import { entries } from '@sel/utils';
-import { Outlet, useMatch } from 'react-router';
+import { Outlet, ScrollRestoration, useMatch } from 'react-router';
 
 import { useConfig } from 'src/app/config';
 import { navigation, routes, type NavigationItem } from 'src/app/routes';
@@ -69,6 +69,8 @@ export function Layout() {
           <Outlet />
         </div>
       </main>
+
+      <ScrollRestoration />
 
       <BottomNav aria-label={t`Main navigation`} fixed className="lg:hidden">
         {bottomNav.map((item) => (

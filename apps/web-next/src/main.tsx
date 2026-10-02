@@ -1,4 +1,5 @@
 import { i18n } from '@lingui/core';
+import { msg } from '@lingui/core/macro';
 import { I18nProvider } from '@lingui/react';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
@@ -17,6 +18,7 @@ import { messages } from './locales/fr.po';
 import { AuthenticationPage } from './pages/authentication';
 import { NavigationPage } from './pages/navigation';
 import { PlaceholderPage } from './pages/placeholder';
+import { RequestsPage } from './pages/requests';
 
 i18n.loadAndActivate({ locale: 'fr', messages });
 
@@ -47,7 +49,15 @@ const router = createBrowserRouter([
           },
           {
             path: routes.requests(),
-            element: <PlaceholderPage title={navigation.exchanges.requests.label} />,
+            Component: RequestsPage,
+          },
+          {
+            path: routes.createRequest(),
+            element: <PlaceholderPage title={msg`Post a request`} />,
+          },
+          {
+            path: routes.request(':requestId'),
+            element: <PlaceholderPage title={msg`Request`} />,
           },
           {
             path: routes.events(),

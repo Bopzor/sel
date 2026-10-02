@@ -2,6 +2,7 @@ import { add } from 'date-fns/add';
 import { formatDistanceToNowStrict } from 'date-fns/formatDistanceToNowStrict';
 import { fr } from 'date-fns/locale/fr';
 
+export { differenceInCalendarDays } from 'date-fns/differenceInCalendarDays';
 export { endOfWeek } from 'date-fns/endOfWeek';
 export { getDay } from 'date-fns/getDay';
 export { isAfter } from 'date-fns/isAfter';

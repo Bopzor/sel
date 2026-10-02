@@ -33,13 +33,22 @@ export abstract class FakeServer {
     this.endpoints[route] = handler;
   }
 
-  protected json(status: number, body: unknown) {
-    return Promise.resolve(
-      new Response(JSON.stringify(body), { status, headers: { 'Content-Type': 'application/json' } }),
-    );
+  protected json(body: unknown, init?: ResponseInit) {
+    const headers = new Headers(init?.headers);
+
+    headers.set('Content-Type', 'application/json');
+
+    return Promise.resolve(new Response(JSON.stringify(body), { ...init, headers }));
   }
 
   protected noContent() {
     return Promise.resolve(new Response(null, { status: 204 }));
+  }
+
+  protected paginate<T>(items: T[], params: URLSearchParams) {
+    const page = Number(params.get('page'));
+    const pageSize = Number(params.get('pageSize'));
+
+    return items.slice((page - 1) * pageSize, page * pageSize);
   }
 }

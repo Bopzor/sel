@@ -1,17 +1,12 @@
-import { i18n } from '@lingui/core';
-import { I18nProvider } from '@lingui/react';
-import { createAuthenticatedMember, createConfig } from '@sel/shared';
-import { QueryClientProvider } from '@tanstack/react-query';
-import { render, screen } from '@testing-library/react';
+import { createAuthenticatedMember } from '@sel/shared';
+import { screen } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
-import { createMemoryRouter, RouterProvider } from 'react-router';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { queries } from 'src/app/queries';
-import { queryClient } from 'src/app/query-client';
 import { routes } from 'src/app/routes';
 import { requireNoSession, requireSession } from 'src/app/session';
 import { FakeServer } from 'src/tests/fake-server';
+import { renderTestPage } from 'src/tests/test-page';
 
 import { AuthenticationPage } from './authentication';
 
@@ -143,40 +138,19 @@ describe('authentication', () => {
   });
 });
 
-const HydrateFallback = () => null;
-
 function renderApp(path: string) {
-  queryClient.setQueryData(queries.config().queryKey, createConfig());
-
-  const router = createMemoryRouter(
-    [
-      {
-        path: routes.authentication(),
-        HydrateFallback,
-        loader: requireNoSession,
-        Component: AuthenticationPage,
-      },
-      {
-        path: '*',
-        HydrateFallback,
-        loader: requireSession,
-        element: <h1>Page</h1>,
-      },
-    ],
+  return renderTestPage(path, [
     {
-      initialEntries: [path],
+      path: routes.authentication(),
+      loader: requireNoSession,
+      Component: AuthenticationPage,
     },
-  );
-
-  render(
-    <I18nProvider i18n={i18n}>
-      <QueryClientProvider client={queryClient}>
-        <RouterProvider router={router} />
-      </QueryClientProvider>
-    </I18nProvider>,
-  );
-
-  return router;
+    {
+      path: '*',
+      loader: requireSession,
+      element: <h1>Page</h1>,
+    },
+  ]);
 }
 
 class Server extends FakeServer {
@@ -186,19 +160,19 @@ class Server extends FakeServer {
   init() {
     this.register('GET /api/session/member', () => {
       return this.signedIn
-        ? this.json(200, createAuthenticatedMember())
-        : this.json(401, { error: 'Authentication required' });
+        ? this.json(createAuthenticatedMember())
+        : this.json({ error: 'Authentication required' }, { status: 401 });
     });
 
     this.register('POST /api/authentication/request-authentication-code', () => this.noContent());
 
     this.register('GET /api/authentication/verify-authentication-code', ({ url }) => {
       if (url.searchParams.get('code') !== code) {
-        return this.json(404, { error: 'Code not found', code: 'AuthenticationCodeNotFound' });
+        return this.json({ error: 'Code not found', code: 'AuthenticationCodeNotFound' }, { status: 404 });
       }
 
       if (this.errorCode !== undefined) {
-        return this.json(401, { error: 'Invalid code', code: this.errorCode });
+        return this.json({ error: 'Invalid code', code: this.errorCode }, { status: 401 });
       }
 
       this.signedIn = true;
