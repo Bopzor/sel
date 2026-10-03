@@ -8,7 +8,7 @@ msgstr ""
 "Language: fr\n"
 
 #: src/components/comments-section.tsx
-#: src/pages/requests/list/request-item.tsx
+#: src/pages/requests/list/requests-list.tsx
 msgid "{commentsCount, plural, one {# comment} other {# comments}}"
 msgstr "{commentsCount, plural, one {# commentaire} other {# commentaires}}"
 
@@ -24,7 +24,7 @@ msgstr "Votre réponse sera transmise à {firstName}."
 msgid "{positiveAnswersCount} people can help"
 msgstr "{positiveAnswersCount, plural, one {# personne peut} other {# personnes peuvent}} aider"
 
-#: src/pages/requests/list/request-item.tsx
+#: src/pages/requests/list/requests-list.tsx
 msgid "{total, plural, one {# request} other {# requests}}"
 msgstr "{total, plural, one {# demande} other {# demandes}}"
 
@@ -83,7 +83,7 @@ msgstr "Annuler la demande"
 msgid "Cancel the request “{0}”?"
 msgstr "Annuler la demande « {0} » ?"
 
-#: src/pages/requests/list/request-item.tsx
+#: src/pages/requests/list/requests-list.tsx
 msgid "Canceled"
 msgstr "Annulée"
 
@@ -91,7 +91,7 @@ msgstr "Annulée"
 msgid "Check your internet access, then try again."
 msgstr "Vérifiez votre accès à internet, puis réessayez."
 
-#: src/pages/requests/list/request-item.tsx
+#: src/pages/requests/list/requests-list.tsx
 msgid "Clear filters"
 msgstr "Effacer les filtres"
 
@@ -164,7 +164,7 @@ msgstr "Événements"
 msgid "Exchanges"
 msgstr "Échanges"
 
-#: src/pages/requests/list/request-item.tsx
+#: src/pages/requests/list/requests-list.tsx
 msgid "Fulfilled"
 msgstr "Clôturée"
 
@@ -249,11 +249,11 @@ msgstr "Nouvelle demande"
 msgid "No one has answered yet."
 msgstr "Personne n’a encore répondu."
 
-#: src/pages/requests/list/request-item.tsx
+#: src/pages/requests/list/requests-list.tsx
 msgid "No request matches these filters"
 msgstr "Aucune demande ne correspond à ces filtres"
 
-#: src/pages/requests/list/request-item.tsx
+#: src/pages/requests/list/requests-list.tsx
 msgid "No requests"
 msgstr "Aucune demande"
 
@@ -263,7 +263,7 @@ msgid "Open"
 msgstr "En cours"
 
 #: src/main.tsx
-#: src/pages/requests/list/request-item.tsx
+#: src/pages/requests/list/requests-list.tsx
 msgid "Post a request"
 msgstr "Nouvelle demande"
 
@@ -326,7 +326,7 @@ msgid "Show more"
 msgstr "Afficher plus"
 
 #. placeholder {0}: requests.length
-#: src/pages/requests/list/request-item.tsx
+#: src/pages/requests/list/requests-list.tsx
 msgid "Showing {0} of {total} requests"
 msgstr "{0} demandes affichées sur {total}"
 
@@ -392,7 +392,7 @@ msgstr "Cette demande a été annulée"
 msgid "This URL is invalid"
 msgstr "Cette URL est invalide"
 
-#: src/pages/requests/list/request-item.tsx
+#: src/pages/requests/list/requests-list.tsx
 msgid "Try other words, or clear the filters."
 msgstr "Essayez d'autres mots, ou effacez les filtres."
 
@@ -408,11 +408,11 @@ msgstr "Impossible de charger les commentaires"
 msgid "Unable to load the request"
 msgstr "Impossible de charger la demande"
 
-#: src/pages/requests/list/request-item.tsx
+#: src/pages/requests/list/requests-list.tsx
 msgid "Unable to load the requests"
 msgstr "Impossible de charger les demandes"
 
-#: src/pages/requests/list/request-item.tsx
+#: src/pages/requests/list/requests-list.tsx
 msgid "When a member needs a hand, their request appears here."
 msgstr "Quand un membre a besoin d'un coup de main, sa demande apparaît ici."
 

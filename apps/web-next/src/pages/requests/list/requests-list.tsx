@@ -1,7 +1,8 @@
 import { Plural, Trans } from '@lingui/react/macro';
 import { RequestStatus, type RequestListItem } from '@sel/shared';
-import { Badge, Button, Card, EmptyState, LinkButton, ListItem, Skeleton } from '@sel/ui';
+import { Badge, Button, Card, EmptyState, LinkButton, Skeleton } from '@sel/ui';
 import { useInfiniteQuery, useSuspenseQuery } from '@tanstack/react-query';
+import clsx from 'clsx';
 
 import { formatMemberName } from 'src/app/format';
 import { queries } from 'src/app/queries';
@@ -55,16 +56,16 @@ export function RequestList({ filters, hasFilters, onClearFilters }: RequestList
 
   return (
     <div className="stack gap-4">
-      <Card.Root
+      <ul
         aria-busy={query.isPlaceholderData}
-        className={query.isPlaceholderData ? 'opacity-60 transition' : 'transition'}
+        className={clsx('stack gap-4 transition', query.isPlaceholderData && 'opacity-60')}
       >
-        <ul>
-          {requests.map((request) => (
-            <RequestListItem key={request.id} request={request} />
-          ))}
-        </ul>
-      </Card.Root>
+        {requests.map((request) => (
+          <li key={request.id}>
+            <RequestCard request={request} />
+          </li>
+        ))}
+      </ul>
 
       <FetchNextPageError query={query} />
 
@@ -81,48 +82,48 @@ export function RequestList({ filters, hasFilters, onClearFilters }: RequestList
   );
 }
 
-function RequestListItem({ request }: { request: RequestListItem }) {
+function RequestCard({ request }: { request: RequestListItem }) {
   const { requester } = request;
   // TODO: show the comments count once the list endpoint returns it.
   const commentsCount = 0;
   const name = formatMemberName(requester);
 
   return (
-    <ListItem.Root>
-      <MemberAvatar member={requester} decorative className="self-start" />
+    <Card.Root>
+      <Card.Body className="row items-start gap-2 p-3! md:gap-3 md:p-4!">
+        <MemberAvatar member={requester} decorative />
 
-      <ListItem.Content className="gap-1">
-        <ListItem.Header>
-          <ListItem.Title className="text-body-strong">
-            <ListItem.Link Link={Link} href={routes.request(request.id)}>
-              {request.title}
-            </ListItem.Link>
-          </ListItem.Title>
+        <div className="stack min-w-0 flex-1 gap-1">
+          <div className="row items-center justify-between gap-3">
+            <Card.Title level={2} className="line-clamp-2 text-body-strong!">
+              <Card.Link Link={Link} href={routes.request(request.id)}>
+                {request.title}
+              </Card.Link>
+            </Card.Title>
 
-          {request.status !== RequestStatus.pending && <StatusBadge status={request.status} />}
-        </ListItem.Header>
+            {request.status !== RequestStatus.pending && <StatusBadge status={request.status} />}
+          </div>
 
-        <ListItem.Description>{excerpt(request.message.body)}</ListItem.Description>
+          <p className="line-clamp-2 text-body-sm text-muted">{excerpt(request.message.body)}</p>
 
-        <p className="mt-1 text-caption text-subtle">
-          <span className="font-semibold">{name}</span>
+          <p className="mt-1 text-caption text-subtle">
+            <span className="font-semibold">{name}</span>
 
-          <Bullet />
+            <Bullet />
 
-          {/* Above the row's link, so that the full date shows on hover. */}
-          <RelativeDate date={request.date} className="relative whitespace-nowrap" />
+            {/* Above the card's link, so that the full date shows on hover. */}
+            <RelativeDate date={request.date} className="relative whitespace-nowrap" />
 
-          {commentsCount > 0 && (
-            <>
-              <Bullet />
-              <Plural value={commentsCount} one="# comment" other="# comments" />
-            </>
-          )}
-        </p>
-      </ListItem.Content>
-
-      <ListItem.Chevron />
-    </ListItem.Root>
+            {commentsCount > 0 && (
+              <>
+                <Bullet />
+                <Plural value={commentsCount} one="# comment" other="# comments" />
+              </>
+            )}
+          </p>
+        </div>
+      </Card.Body>
+    </Card.Root>
   );
 }
 
@@ -152,20 +153,22 @@ function excerpt(html: string) {
 
 function RequestListSkeleton() {
   return (
-    <Card.Root aria-busy>
-      <ul>
-        {Array.from({ length: 5 }, (_, index) => (
-          <ListItem.Root key={index} className="items-start">
-            <Skeleton variant="circle" />
-            <ListItem.Content className="gap-2 py-0.5">
-              <Skeleton className="w-2/3" />
-              <Skeleton className="w-full" />
-              <Skeleton className="h-3 w-1/3" />
-            </ListItem.Content>
-          </ListItem.Root>
-        ))}
-      </ul>
-    </Card.Root>
+    <ul aria-busy className="stack gap-4">
+      {Array.from({ length: 5 }, (_, index) => (
+        <li key={index}>
+          <Card.Root>
+            <Card.Body className="row items-start gap-3">
+              <Skeleton variant="circle" />
+              <div className="stack min-w-0 flex-1 gap-2 py-0.5">
+                <Skeleton className="w-2/3" />
+                <Skeleton className="w-full" />
+                <Skeleton className="h-3 w-1/3" />
+              </div>
+            </Card.Body>
+          </Card.Root>
+        </li>
+      ))}
+    </ul>
   );
 }
 

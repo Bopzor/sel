@@ -16,6 +16,7 @@
     "@lingui/react": "^6.8.0",
     "@sel/shared": "workspace:*",
     "@tanstack/react-query": "^5.104.0",
+    "clsx": "^2.1.1",
     "culori": "^4.0.2",
     "dompurify": "^3.4.16",
     "react": "^19.2.8",

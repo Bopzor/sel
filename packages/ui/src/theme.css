@@ -228,7 +228,6 @@
   --font-weight-semibold: 600;
   --font-weight-bold: 700;
 
-  /* display and title-1 grow from sm up (styles.css). */
   --text-display: 1.75rem;
   --text-display--line-height: 1.15;
   --text-display--font-weight: 700;
@@ -319,9 +318,9 @@
   --size-icon-md: 1.25rem;
   --size-icon-lg: 1.5rem;
 
-  --size-avatar-sm: 2rem;
-  --size-avatar-md: 2.75rem;
-  --size-avatar-lg: 5rem;
+  --size-avatar-sm: 1.75rem;
+  --size-avatar-md: 2.25rem;
+  --size-avatar-lg: 4rem;
 
   --size-logo: 3rem;
 
@@ -419,6 +418,18 @@
     to {
       opacity: 0;
       scale: 0.96;
+    }
+  }
+}
+
+@layer theme {
+  :root {
+    @variant sm {
+      --text-display: 2.25rem;
+      --text-title-1: 1.75rem;
+      --size-avatar-sm: 2rem;
+      --size-avatar-md: 2.75rem;
+      --size-avatar-lg: 5rem;
     }
   }
 }

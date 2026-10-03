@@ -57,7 +57,7 @@ export function Layout() {
       </SideNav.Root>
 
       <main className="min-w-0 flex-1 pb-bottom-nav lg:pb-0">
-        <div className="mx-auto max-w-page px-4 py-6 md:px-6 lg:p-10">
+        <div className="mx-auto max-w-page px-3 py-6 sm:px-4 md:px-6 lg:p-10">
           <Outlet />
         </div>
       </main>

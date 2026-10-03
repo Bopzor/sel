@@ -486,6 +486,9 @@ importers:
       '@tanstack/react-query':
         specifier: ^5.104.0
         version: 5.104.0(react@19.3.0)
+      clsx:
+        specifier: ^2.1.1
+        version: 2.1.1
       culori:
         specifier: ^4.0.2
         version: 4.0.2

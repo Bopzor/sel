@@ -23,14 +23,6 @@
     border-color: var(--border-color-default);
   }
 
-  /* Title sizes grow from sm up (theme.css holds the mobile sizes). */
-  :root {
-    @variant sm {
-      --text-display: 2.25rem;
-      --text-title-1: 1.75rem;
-    }
-  }
-
   :focus-visible {
     outline: var(--outline-width-focus) solid var(--outline-color-focus);
     outline-offset: var(--outline-offset-focus);
