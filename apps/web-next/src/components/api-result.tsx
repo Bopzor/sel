@@ -45,14 +45,14 @@ function isEmpty(data: unknown) {
   );
 }
 
-export function QueryFailed({
+export function ApiFailed({
   title,
   retrying,
   retry,
 }: {
   title: React.ReactNode;
-  retrying: boolean;
-  retry: () => void;
+  retrying?: boolean;
+  retry?: () => void;
 }) {
   return (
     <Alert tone="danger">
@@ -62,11 +62,13 @@ export function QueryFailed({
         <Trans>Check your internet access, then try again.</Trans>
       </AlertDescription>
 
-      <AlertActions>
-        <Button size="sm" variant="secondary" loading={retrying} onClick={retry}>
-          <Trans>Retry</Trans>
-        </Button>
-      </AlertActions>
+      {retry && (
+        <AlertActions>
+          <Button size="sm" variant="secondary" loading={retrying} onClick={retry}>
+            <Trans>Retry</Trans>
+          </Button>
+        </AlertActions>
+      )}
     </Alert>
   );
 }

@@ -3,8 +3,13 @@ import { RequestStatus, type Comment, type Request, type RequestAnswer, type Req
 import {
   Alert,
   AlertTitle,
+  Button,
   Card,
   CardBody,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
   EmptyState,
   EmptyStateAction,
   EmptyStateDescription,
@@ -18,16 +23,17 @@ import {
   Skeleton,
 } from '@sel/ui';
 import { defined } from '@sel/utils';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient, useSuspenseQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router';
 
+import { api } from 'src/app/api';
 import { formatMemberName, formatPhoneNumber } from 'src/app/format';
 import { queries } from 'src/app/queries';
 import { routes } from 'src/app/routes';
+import { ApiFailed, QueryResult } from 'src/components/api-result';
 import { BackButton, Link } from 'src/components/link';
 import { MemberAvatar } from 'src/components/member-avatar';
 import { MessageContent } from 'src/components/message-content';
-import { QueryFailed, QueryResult } from 'src/components/query-result';
 import { RelativeDate } from 'src/components/relative-date';
 
 export function RequestPage() {
@@ -44,7 +50,7 @@ export function RequestPage() {
         query={query}
         notFound={<RequestNotFound />}
         failed={
-          <QueryFailed
+          <ApiFailed
             title={<Trans>Unable to load the request</Trans>}
             retrying={query.isFetching}
             retry={() => void query.refetch()}
@@ -60,6 +66,9 @@ export function RequestPage() {
 
 // From xl, the aside spans both rows, so that the comments follow the message whatever the aside's height.
 function RequestDetails({ request }: { request: Request }) {
+  const { data: me } = useSuspenseQuery(queries.session());
+  const canAnswer = request.status === RequestStatus.pending && request.requester.id !== me.id;
+
   return (
     <div className="stack gap-6">
       <header className="stack gap-1">
@@ -80,6 +89,7 @@ function RequestDetails({ request }: { request: Request }) {
 
         <aside className="stack gap-6 xl:sticky xl:top-10 xl:col-start-2 xl:row-span-2 xl:row-start-1 xl:w-aside">
           <RequesterCard requester={request.requester} />
+          {canAnswer && <AnswerCard request={request} memberId={me.id} />}
           <Answers answers={request.answers} />
         </aside>
 
@@ -166,6 +176,82 @@ function ContactItem({ icon, href, children }: { icon: 'phone' | 'email'; href: 
   );
 }
 
+type Answer = RequestAnswer['answer'] | null;
+
+function AnswerCard({ request, memberId }: { request: Request; memberId: string }) {
+  const { firstName } = request.requester;
+  const answer = request.answers.find((answer) => answer.member.id === memberId)?.answer;
+
+  const queryClient = useQueryClient();
+
+  const mutation = useMutation({
+    mutationFn: (answer: Answer) => {
+      return api('POST', `/requests/${request.id}/answer`, { body: { answer } });
+    },
+    onSuccess: async () => {
+      await queryClient.invalidateQueries(queries.request(request.id));
+    },
+  });
+
+  const pending = (value: Answer) => mutation.isPending && mutation.variables === value;
+
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle level={2}>
+          {answer === undefined && <Trans>Can you help?</Trans>}
+          {answer === 'positive' && <Trans>You can help</Trans>}
+          {answer === 'negative' && <Trans>You can't help</Trans>}
+        </CardTitle>
+
+        <CardDescription>
+          {answer === undefined && <Trans>{firstName} will be notified of your answer.</Trans>}
+          {answer === 'positive' && <Trans>Contact {firstName} to arrange the details.</Trans>}
+          {answer === 'negative' && <Trans>{firstName} knows you are not available.</Trans>}
+        </CardDescription>
+      </CardHeader>
+
+      {mutation.isError && (
+        <CardBody>
+          <ApiFailed title={<Trans>Your answer could not be saved</Trans>} />
+        </CardBody>
+      )}
+
+      <CardFooter>
+        {answer === undefined && (
+          <>
+            <Button
+              icon="check"
+              loading={pending('positive')}
+              disabled={mutation.isPending}
+              onClick={() => mutation.mutate('positive')}
+              className="grow"
+            >
+              <Trans>I can help</Trans>
+            </Button>
+
+            <Button
+              variant="secondary"
+              loading={pending('negative')}
+              disabled={mutation.isPending}
+              onClick={() => mutation.mutate('negative')}
+              className="grow"
+            >
+              <Trans>I can't</Trans>
+            </Button>
+          </>
+        )}
+
+        {answer !== undefined && (
+          <Button variant="ghost" loading={pending(null)} onClick={() => mutation.mutate(null)}>
+            <Trans>Withdraw my answer</Trans>
+          </Button>
+        )}
+      </CardFooter>
+    </Card>
+  );
+}
+
 function Answers({ answers }: { answers: RequestAnswer[] }) {
   const sorted = answers.toSorted(
     (a, b) => Number(b.answer === 'positive') - Number(a.answer === 'positive'),
@@ -236,7 +322,7 @@ function Comments({ requestId }: { requestId: string }) {
       <QueryResult
         query={query}
         failed={
-          <QueryFailed
+          <ApiFailed
             title={<Trans>Unable to load the comments</Trans>}
             retrying={query.isFetching}
             retry={() => void query.refetch()}

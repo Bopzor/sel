@@ -2,7 +2,7 @@ import { Trans } from '@lingui/react/macro';
 import { Button } from '@sel/ui';
 import type { UseInfiniteQueryResult } from '@tanstack/react-query';
 
-import { QueryFailed } from './query-result';
+import { ApiFailed } from './api-result';
 
 export function Pagination({
   query,
@@ -37,7 +37,7 @@ export function FetchNextPageError({ query }: { query: UseInfiniteQueryResult })
   }
 
   return (
-    <QueryFailed
+    <ApiFailed
       title={<Trans>Unable to load more elements</Trans>}
       retrying={query.isFetchingNextPage}
       retry={() => void query.fetchNextPage()}

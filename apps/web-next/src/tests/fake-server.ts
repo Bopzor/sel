@@ -1,6 +1,6 @@
 import type { HttpMethod } from 'src/app/api';
 
-type Handler = (params: { url: URL }) => Promise<Response>;
+type Handler = (params: { url: URL; headers: Headers; body: unknown }) => Promise<Response>;
 
 export abstract class FakeServer {
   readonly requests: URL[] = [];
@@ -17,7 +17,11 @@ export abstract class FakeServer {
     this.requests.push(url);
 
     if (this.endpoints[route]) {
-      return this.endpoints[route]({ url });
+      return this.endpoints[route]({
+        url,
+        headers: new Headers(init?.headers),
+        body: typeof init?.body === 'string' ? JSON.parse(init.body) : undefined,
+      });
     }
 
     throw new Error(`Unexpected request: ${route}`);

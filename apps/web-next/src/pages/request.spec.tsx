@@ -4,8 +4,9 @@ import {
   type Comment,
   type LightMember,
   type Request,
+  type SetRequestAnswerBody,
 } from '@sel/shared';
-import { assert, createFactory } from '@sel/utils';
+import { assert, createFactory, defined } from '@sel/utils';
 import { screen, within } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
@@ -159,6 +160,86 @@ describe('request', () => {
 
     expect(await screen.findByRole('heading', { level: 1, name: 'Cat sitting' })).toBeDefined();
   });
+
+  describe('answer', () => {
+    it('answers that the member can help', async () => {
+      const user = userEvent.setup();
+
+      server.request = createRequest();
+
+      renderPage();
+
+      await user.click(await screen.findByRole('button', { name: 'I can help' }));
+
+      expect(await screen.findByRole('heading', { name: 'You can help' })).toBeDefined();
+      expect(screen.getByText('Contact Claire to arrange the details.')).toBeDefined();
+      expect(server.answers).toEqual(['positive']);
+
+      const answers = within(await findSection('Answers')).getAllByRole('listitem');
+      expect(answers[0]?.textContent).toContain('Jason TalonCan help');
+    });
+
+    it('answers that the member cannot help', async () => {
+      const user = userEvent.setup();
+
+      server.request = createRequest();
+
+      renderPage();
+
+      await user.click(await screen.findByRole('button', { name: "I can't" }));
+
+      expect(await screen.findByRole('heading', { name: "You can't help" })).toBeDefined();
+      expect(server.answers).toEqual(['negative']);
+    });
+
+    it('withdraws the answer', async () => {
+      const user = userEvent.setup();
+
+      server.request = createRequest({ answers: [{ id: 'a1', member: me, answer: 'positive' }] });
+
+      renderPage();
+
+      await user.click(await screen.findByRole('button', { name: 'Withdraw my answer' }));
+
+      expect(await screen.findByRole('heading', { name: 'Can you help?' })).toBeDefined();
+      expect(screen.getByText('No one has answered yet.')).toBeDefined();
+      expect(server.answers).toEqual([null]);
+    });
+
+    it('shows that the answer could not be saved', async () => {
+      const user = userEvent.setup();
+
+      server.request = createRequest();
+      server.answerFailing = true;
+
+      renderPage();
+
+      await user.click(await screen.findByRole('button', { name: 'I can help' }));
+
+      expect(await screen.findByText('Your answer could not be saved')).toBeDefined();
+      expect(screen.getByRole('heading', { name: 'Can you help?' })).toBeDefined();
+    });
+
+    it("does not offer to answer the member's own request", async () => {
+      server.request = createRequest({ requester: me });
+
+      renderPage();
+
+      await screen.findByRole('heading', { level: 1 });
+
+      expect(screen.queryByRole('heading', { name: 'Can you help?' })).toBeNull();
+    });
+
+    it('does not offer to answer a closed request', async () => {
+      server.request = createRequest({ status: RequestStatus.fulfilled });
+
+      renderPage();
+
+      await screen.findByRole('heading', { level: 1 });
+
+      expect(screen.queryByRole('heading', { name: 'Can you help?' })).toBeNull();
+    });
+  });
 });
 
 function renderPage() {
@@ -183,7 +264,9 @@ async function findSection(heading: string) {
 class Server extends FakeServer {
   request: Request | undefined;
   comments: Comment[] = [];
+  answers: unknown[] = [];
   failing = false;
+  answerFailing = false;
 
   init() {
     this.register('GET /api/session/member', () => this.json(me));
@@ -201,6 +284,25 @@ class Server extends FakeServer {
     });
 
     this.register('GET /api/comment', () => this.json(this.comments));
+
+    this.register('POST /api/requests/r1/answer', ({ body }) => {
+      if (this.answerFailing) {
+        return this.json({ error: 'Internal server error' }, { status: 500 });
+      }
+
+      const request = defined(this.request);
+      const { answer } = body as SetRequestAnswerBody;
+
+      this.answers.push(answer);
+
+      request.answers = request.answers.filter((answer) => answer.member.id !== me.id);
+
+      if (answer !== null) {
+        request.answers.push({ id: 'my-answer', member: me, answer });
+      }
+
+      return this.noContent();
+    });
   }
 }
 

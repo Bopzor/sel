@@ -1,4 +1,4 @@
-import { assert } from '@sel/utils';
+import { assert, wait } from '@sel/utils';
 import { z } from 'zod';
 
 const baseUrl = import.meta.env.VITE_API_URL ?? '/api';
@@ -7,11 +7,18 @@ export type HttpMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
 
 type FailApi = boolean | number;
 
+declare global {
+  // Set from the browser's console, to see how the app handles a failing request.
+  var failApi: FailApi | undefined;
+  var delayApi: number | undefined;
+}
+
 type ApiOptions = {
   query?: Record<string, string | number | undefined>;
   body?: unknown;
   paginated?: boolean;
   fail?: FailApi;
+  delay?: number;
 };
 
 export async function api<Result>(
@@ -26,10 +33,8 @@ export async function api<Result>(
     init.body = JSON.stringify(options.body);
   }
 
-  const fail = options.fail ?? globalThis._failApi;
-
-  if (import.meta.env.DEV && fail) {
-    throw new FakeApiError(fail);
+  if (import.meta.env.DEV) {
+    await devtools(options);
   }
 
   const response = await fetch(baseUrl + path + searchParams(options.query), init);
@@ -56,6 +61,20 @@ export async function api<Result>(
 
 export function fileUrl(name: string) {
   return `${baseUrl}/files/${name}`;
+}
+
+async function devtools(options: ApiOptions) {
+  const delay = options.delay ?? globalThis.delayApi;
+
+  if (delay !== undefined) {
+    await wait(delay);
+  }
+
+  const fail = options.fail ?? globalThis.failApi;
+
+  if (fail) {
+    throw new FakeApiError(fail);
+  }
 }
 
 function searchParams(query: Record<string, string | number | undefined> = {}) {
@@ -99,11 +118,6 @@ export class ApiError extends Error {
   static is(value: unknown, status?: number): value is ApiError {
     return value instanceof ApiError && (status === undefined || value.status === status);
   }
-}
-
-declare global {
-  // Set from the browser's console, to see how the app handles a failing request.
-  var _failApi: FailApi | undefined;
 }
 
 class FakeApiError extends ApiError {

@@ -72,3 +72,5 @@ export const updateRequestBodySchema = createRequestBodySchema;
 export const setRequestAnswerBodySchema = z.object({
   answer: z.enum(['positive', 'negative']).nullable(),
 });
+
+export type SetRequestAnswerBody = z.infer<typeof setRequestAnswerBodySchema>;

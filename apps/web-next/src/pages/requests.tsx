@@ -26,10 +26,10 @@ import { z } from 'zod';
 import { formatMemberName } from 'src/app/format';
 import { queries } from 'src/app/queries';
 import { routes } from 'src/app/routes';
+import { ApiFailed } from 'src/components/api-result';
 import { Link } from 'src/components/link';
 import { MemberAvatar } from 'src/components/member-avatar';
 import { FetchNextPageError, Pagination } from 'src/components/pagination';
-import { QueryFailed } from 'src/components/query-result';
 import { RelativeDate } from 'src/components/relative-date';
 import { useDebouncedValue } from 'src/hooks/use-debounced-value';
 import { useFilters } from 'src/hooks/use-filters';
@@ -140,7 +140,7 @@ function RequestList({ filters, hasFilters, onClearFilters }: RequestListProps) 
   // With data, a failed refetch keeps the list on screen.
   if (query.error && !query.data) {
     return (
-      <QueryFailed
+      <ApiFailed
         title={<Trans>Unable to load the requests</Trans>}
         retrying={query.isFetching}
         retry={() => void query.refetch()}

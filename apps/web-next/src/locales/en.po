@@ -12,6 +12,14 @@ msgstr ""
 msgid "{commentsCount, plural, one {# comment} other {# comments}}"
 msgstr "{commentsCount, plural, one {# comment} other {# comments}}"
 
+#: src/pages/request.tsx
+msgid "{firstName} knows you are not available."
+msgstr "{firstName} knows you are not available."
+
+#: src/pages/request.tsx
+msgid "{firstName} will be notified of your answer."
+msgstr "{firstName} will be notified of your answer."
+
 #: src/pages/requests.tsx
 msgid "{total, plural, one {# request} other {# requests}}"
 msgstr "{total, plural, one {# request} other {# requests}}"
@@ -34,6 +42,10 @@ msgid "Can help"
 msgstr "Can help"
 
 #: src/pages/request.tsx
+msgid "Can you help?"
+msgstr "Can you help?"
+
+#: src/pages/request.tsx
 msgid "Can't help"
 msgstr "Can't help"
 
@@ -41,7 +53,7 @@ msgstr "Can't help"
 msgid "Canceled"
 msgstr "Canceled"
 
-#: src/components/query-result.tsx
+#: src/components/api-result.tsx
 msgid "Check your internet access, then try again."
 msgstr "Check your internet access, then try again."
 
@@ -57,6 +69,10 @@ msgstr "Comments"
 #: src/pages/navigation.tsx
 msgid "Community"
 msgstr "Community"
+
+#: src/pages/request.tsx
+msgid "Contact {firstName} to arrange the details."
+msgstr "Contact {firstName} to arrange the details."
 
 #: src/pages/authentication.tsx
 msgid "Email address"
@@ -94,6 +110,14 @@ msgstr "Fulfilled"
 #: src/app/routes.ts
 msgid "Home"
 msgstr "Home"
+
+#: src/pages/request.tsx
+msgid "I can help"
+msgstr "I can help"
+
+#: src/pages/request.tsx
+msgid "I can't"
+msgstr "I can't"
 
 #: src/pages/authentication.tsx
 msgid "If nothing arrives in the next few minutes, check your spam folder or contact us."
@@ -184,7 +208,7 @@ msgstr "Requested by"
 msgid "Requests"
 msgstr "Requests"
 
-#: src/components/query-result.tsx
+#: src/components/api-result.tsx
 msgid "Retry"
 msgstr "Retry"
 
@@ -281,3 +305,19 @@ msgstr "Unable to load the requests"
 #: src/pages/requests.tsx
 msgid "When a member needs a hand, their request appears here."
 msgstr "When a member needs a hand, their request appears here."
+
+#: src/pages/request.tsx
+msgid "Withdraw my answer"
+msgstr "Withdraw my answer"
+
+#: src/pages/request.tsx
+msgid "You can help"
+msgstr "You can help"
+
+#: src/pages/request.tsx
+msgid "You can't help"
+msgstr "You can't help"
+
+#: src/pages/request.tsx
+msgid "Your answer could not be saved"
+msgstr "Your answer could not be saved"
