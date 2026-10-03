@@ -11,6 +11,7 @@ export const routes = {
   events: () => '/events',
   information: () => '/information',
   members: () => '/members',
+  member: (memberId: string) => `/members/${memberId}`,
   interests: () => '/interests',
   profile: () => '/profile',
   settings: () => '/settings',

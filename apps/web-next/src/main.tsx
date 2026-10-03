@@ -82,6 +82,10 @@ const router = createBrowserRouter([
             element: <PlaceholderPage title={navigation.community.members.label} />,
           },
           {
+            path: routes.member(':memberId'),
+            element: <PlaceholderPage title={msg`Member`} />,
+          },
+          {
             path: routes.profile(),
             element: <PlaceholderPage title={navigation.account.profile.label} />,
           },

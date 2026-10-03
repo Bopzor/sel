@@ -1,8 +1,10 @@
 import { Trans } from '@lingui/react/macro';
 import type { RequestAnswer } from '@sel/shared';
-import { Card, Icon } from '@sel/ui';
+import { Card, Icon, ListItem } from '@sel/ui';
 
 import { formatMemberName } from 'src/app/format';
+import { routes } from 'src/app/routes';
+import { Link } from 'src/components/link';
 import { MemberAvatar } from 'src/components/member-avatar';
 
 export function RequestAnswers({ answers }: { answers: RequestAnswer[] }) {
@@ -33,26 +35,32 @@ export function RequestAnswers({ answers }: { answers: RequestAnswer[] }) {
 
 function AnswersList({ answers }: { answers: RequestAnswer[] }) {
   return (
-    <ul className="divide-y">
+    <ul>
       {answers.map(({ id, member, answer }) => (
-        <li key={id} className="row items-center gap-3 px-4 py-3">
+        <ListItem.Root key={id}>
           <MemberAvatar member={member} size="sm" decorative />
 
-          <div className="stack min-w-0 flex-1">
-            <p className="truncate text-body-sm">{formatMemberName(member)}</p>
+          <ListItem.Content>
+            <ListItem.Title className="text-body-sm font-medium">
+              <ListItem.Link Link={Link} href={routes.member(member.id)}>
+                {formatMemberName(member)}
+              </ListItem.Link>
+            </ListItem.Title>
 
-            {answer === 'positive' ? (
+            {answer === 'positive' && (
               <p className="row items-center gap-1 text-caption text-success">
                 <Icon name="check" size="sm" />
                 <Trans>Can help</Trans>
               </p>
-            ) : (
+            )}
+
+            {answer === 'negative' && (
               <p className="text-caption text-subtle">
                 <Trans>Can't help</Trans>
               </p>
             )}
-          </div>
-        </li>
+          </ListItem.Content>
+        </ListItem.Root>
       ))}
     </ul>
   );

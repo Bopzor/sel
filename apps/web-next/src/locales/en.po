@@ -212,6 +212,10 @@ msgstr "Link target"
 msgid "Main navigation"
 msgstr "Main navigation"
 
+#: src/main.tsx
+msgid "Member"
+msgstr "Member"
+
 #: src/app/routes.ts
 msgid "Members"
 msgstr "Members"

@@ -3,6 +3,7 @@ import type { Requester } from '@sel/shared';
 import { Card, Icon } from '@sel/ui';
 
 import { formatMemberName, formatPhoneNumber } from 'src/app/format';
+import { routes } from 'src/app/routes';
 import { Link } from 'src/components/link';
 import { MemberAvatar } from 'src/components/member-avatar';
 
@@ -24,7 +25,7 @@ export function RequesterCard({ requester }: { requester: Requester }) {
   return (
     <Card.Root>
       <Card.Body className="stack gap-4">
-        <Link href={`/members/${requester.id}`} className="row items-center gap-3">
+        <Link href={routes.member(requester.id)} className="row items-center gap-3">
           <MemberAvatar member={requester} size="lg" decorative />
 
           <div className="stack min-w-0">
