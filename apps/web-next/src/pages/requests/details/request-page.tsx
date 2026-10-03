@@ -8,7 +8,7 @@ import { useParams } from 'react-router';
 import { queries } from 'src/app/queries';
 import { routes } from 'src/app/routes';
 import { ApiFailed, QueryResult } from 'src/components/api-result';
-import { Comments } from 'src/components/comments';
+import { CommentsSection } from 'src/components/comments-section';
 import { BackButton, Link } from 'src/components/link';
 import { MessageContent } from 'src/components/message-content';
 import { RelativeDate } from 'src/components/relative-date';
@@ -79,7 +79,7 @@ function RequestDetails({ request }: { request: Request }) {
         </aside>
 
         <div className="max-w-content">
-          <Comments entityType="request" entityId={request.id} />
+          <CommentsSection entityType="request" entityId={request.id} />
         </div>
       </div>
     </div>

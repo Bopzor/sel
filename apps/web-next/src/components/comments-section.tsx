@@ -11,7 +11,13 @@ import { MemberAvatar } from './member-avatar';
 import { MessageContent } from './message-content';
 import { RelativeDate } from './relative-date';
 
-export function Comments({ entityType, entityId }: { entityType: CommentEntityType; entityId: string }) {
+export function CommentsSection({
+  entityType,
+  entityId,
+}: {
+  entityType: CommentEntityType;
+  entityId: string;
+}) {
   const query = useQuery(queries.comments(entityType, entityId));
   const commentsCount = query.data?.length ?? 0;
 
