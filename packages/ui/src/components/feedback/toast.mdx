@@ -11,20 +11,34 @@ A short, temporary notification at the bottom of the screen, to confirm an actio
 ## When to use it
 
 - To confirm an action ("Request posted"), including when it leads to another page: the toast container lives at the root of the application and survives navigation.
+- To report that an action failed (`danger`), when the member stays where they were and can try again.
 - Never for a blocking error or information to remember (deadline, next step): use `Alert`.
 
-## What the consumer provides
+## Showing a toast
 
-- `children`: three to six words.
-- `tone`: `success` (default), `info`, `danger`.
-- `onClose` + `closeLabel`: a close button, named by `closeLabel`.
+```tsx
+// Once, at the root of the application, above the router: the toasts survive navigation.
+<Toaster closeLabel="Close" />;
+
+// Anywhere in the application, after an action.
+showToast('Request posted');
+showToast('The request could not be closed', 'danger');
+```
+
+- `Toaster`: renders the toasts shown with `showToast`. Mounted once, at the root of the application. `closeLabel` names the close button of each toast.
+- `showToast(message, tone)`: `message` is three to six words; `tone` is `success` (default), `info` or `danger`.
+- `Toast`: the rendering of a single toast, used by `Toaster`. `children` is the message, `tone` its tone, and `onClose` + `closeLabel` add a close button.
 
 ## Rules
 
-`Toast` is only the rendering. The application's toast library shows, queues, places and dismisses the toasts, and announces them to screen readers from its live region; it is configured to follow these rules:
+- Shown for 6 seconds; the timer pauses on hover or focus.
+- Three toasts at most, piled up with the newest in front: they spread out on hover or focus, to read or close the ones behind. The next ones wait until one is gone.
+- Position: at the top right of the screen, full width on mobile, so that a toast never covers the navigation bar nor the buttons of a dialog. Each toast has a close button.
+- It slides in from the top and fades out; the toasts behind it move to make room.
 
-- Shown for 6 seconds minimum; the timer pauses on hover or focus.
-- Position: centered at the bottom on mobile, above the navigation bar; bottom right on desktop. One toast at a time.
+## Accessibility
+
+The toasts are announced politely by the toaster's live region, without moving the focus. Alt + T moves the focus to them.
 
 <Primary />
 

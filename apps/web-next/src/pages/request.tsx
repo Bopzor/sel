@@ -1,7 +1,8 @@
-import { Plural, Trans } from '@lingui/react/macro';
+import { Plural, Trans, useLingui } from '@lingui/react/macro';
 import { RequestStatus, type Comment, type Request, type RequestAnswer, type Requester } from '@sel/shared';
 import {
   Alert,
+  AlertDescription,
   AlertTitle,
   Button,
   Card,
@@ -10,6 +11,15 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
+  Dialog,
+  DialogBody,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
   EmptyState,
   EmptyStateAction,
   EmptyStateDescription,
@@ -20,10 +30,17 @@ import {
   ListItemContent,
   ListItemHeader,
   ListItemTitle,
+  showToast,
   Skeleton,
 } from '@sel/ui';
 import { defined } from '@sel/utils';
-import { useMutation, useQuery, useQueryClient, useSuspenseQuery } from '@tanstack/react-query';
+import {
+  mutationOptions,
+  useMutation,
+  useQuery,
+  useQueryClient,
+  useSuspenseQuery,
+} from '@tanstack/react-query';
 import { useParams } from 'react-router';
 
 import { api } from 'src/app/api';
@@ -35,6 +52,7 @@ import { BackButton, Link } from 'src/components/link';
 import { MemberAvatar } from 'src/components/member-avatar';
 import { MessageContent } from 'src/components/message-content';
 import { RelativeDate } from 'src/components/relative-date';
+import { Unit } from 'src/components/unit';
 
 export function RequestPage() {
   const requestId = defined(useParams().requestId);
@@ -67,7 +85,8 @@ export function RequestPage() {
 // From xl, the aside spans both rows, so that the comments follow the message whatever the aside's height.
 function RequestDetails({ request }: { request: Request }) {
   const { data: me } = useSuspenseQuery(queries.session());
-  const canAnswer = request.status === RequestStatus.pending && request.requester.id !== me.id;
+  const pending = request.status === RequestStatus.pending;
+  const isRequester = request.requester.id === me.id;
 
   return (
     <div className="stack gap-6">
@@ -89,7 +108,8 @@ function RequestDetails({ request }: { request: Request }) {
 
         <aside className="stack gap-6 xl:sticky xl:top-10 xl:col-start-2 xl:row-span-2 xl:row-start-1 xl:w-aside">
           <RequesterCard requester={request.requester} />
-          {canAnswer && <AnswerCard request={request} memberId={me.id} />}
+          {pending && isRequester && <RequesterActionsCard request={request} />}
+          {pending && !isRequester && <AnswerCard request={request} memberId={me.id} />}
           <Answers answers={request.answers} />
         </aside>
 
@@ -174,6 +194,158 @@ function ContactItem({ icon, href, children }: { icon: 'phone' | 'email'; href: 
       </a>
     </li>
   );
+}
+
+function RequesterActionsCard({ request }: { request: Request }) {
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle level={2}>
+          <Trans>Your request</Trans>
+        </CardTitle>
+
+        <CardDescription>
+          <Trans>Close it once you have been helped, or cancel it if you no longer need help.</Trans>
+        </CardDescription>
+      </CardHeader>
+
+      <CardFooter>
+        <FulfilRequestDialog request={request} />
+
+        <LinkButton
+          Link={Link}
+          href={routes.editRequest(request.id)}
+          variant="secondary"
+          icon="edit"
+          className="grow"
+        >
+          <Trans>Edit</Trans>
+        </LinkButton>
+
+        <CancelRequestDialog request={request} />
+      </CardFooter>
+    </Card>
+  );
+}
+
+function FulfilRequestDialog({ request }: { request: Request }) {
+  const { t } = useLingui();
+
+  const mutation = useMutation(
+    changeRequestMutation(request.id, 'fulfil', {
+      success: t`Request closed`,
+      error: t`The request could not be closed`,
+    }),
+  );
+
+  return (
+    <Dialog alert>
+      <DialogTrigger>
+        <Button icon="check" className="w-full">
+          <Trans>Close the request</Trans>
+        </Button>
+      </DialogTrigger>
+
+      <DialogContent closeLabel={t`Close`}>
+        <DialogHeader>
+          <DialogTitle>
+            <Trans>Close the request “{request.title}”?</Trans>
+          </DialogTitle>
+          <DialogDescription>
+            <Trans>
+              Members will no longer be able to answer it. Those who offered help or commented will be
+              notified.
+            </Trans>
+          </DialogDescription>
+        </DialogHeader>
+
+        {!request.hasTransactions && (
+          <DialogBody>
+            <Alert tone="info">
+              <AlertTitle>
+                <Trans>You have not sent any {<Unit plural />} for this request</Trans>
+              </AlertTitle>
+              <AlertDescription>
+                <Trans>You can still send them after closing it.</Trans>
+              </AlertDescription>
+            </Alert>
+          </DialogBody>
+        )}
+
+        <DialogFooter>
+          <Button loading={mutation.isPending} onClick={() => mutation.mutate()}>
+            <Trans>Close the request</Trans>
+          </Button>
+          <DialogClose>
+            <Button variant="secondary">
+              <Trans>Back</Trans>
+            </Button>
+          </DialogClose>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
+function CancelRequestDialog({ request }: { request: Request }) {
+  const { t } = useLingui();
+
+  const mutation = useMutation(
+    changeRequestMutation(request.id, 'cancel', {
+      success: t`Request canceled`,
+      error: t`The request could not be canceled`,
+    }),
+  );
+
+  return (
+    <Dialog alert>
+      <DialogTrigger>
+        <Button variant="ghost" className="grow">
+          <Trans>Cancel the request</Trans>
+        </Button>
+      </DialogTrigger>
+
+      <DialogContent closeLabel={t`Close`}>
+        <DialogHeader>
+          <DialogTitle>
+            <Trans>Cancel the request “{request.title}”?</Trans>
+          </DialogTitle>
+          <DialogDescription>
+            <Trans>
+              Members will no longer be able to answer it. Those who offered help or commented will be
+              notified.
+            </Trans>
+          </DialogDescription>
+        </DialogHeader>
+
+        <DialogFooter>
+          <Button variant="danger" loading={mutation.isPending} onClick={() => mutation.mutate()}>
+            <Trans>Cancel the request</Trans>
+          </Button>
+          <DialogClose>
+            <Button variant="secondary">
+              <Trans>Back</Trans>
+            </Button>
+          </DialogClose>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
+function changeRequestMutation(
+  requestId: string,
+  action: 'fulfil' | 'cancel',
+  messages: { success: string; error: string },
+) {
+  return mutationOptions({
+    mutationFn: () => api('PUT', `/requests/${requestId}/${action}`),
+    onSuccess: async (_data, _variables, _result, { client }) => {
+      await client.invalidateQueries(queries.request(requestId));
+      showToast(messages.success);
+    },
+    onError: () => showToast(messages.error, 'error'),
+  });
 }
 
 type Answer = RequestAnswer['answer'] | null;

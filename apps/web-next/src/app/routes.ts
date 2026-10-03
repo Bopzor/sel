@@ -7,6 +7,7 @@ export const routes = {
   requests: () => '/requests',
   createRequest: () => '/requests/new',
   request: (requestId: string) => `/requests/${requestId}`,
+  editRequest: (requestId: string) => `/requests/${requestId}/edit`,
   events: () => '/events',
   information: () => '/information',
   members: () => '/members',

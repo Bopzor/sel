@@ -240,6 +240,121 @@ describe('request', () => {
       expect(screen.queryByRole('heading', { name: 'Can you help?' })).toBeNull();
     });
   });
+
+  describe('requester actions', () => {
+    it('offers the requester to edit the request', async () => {
+      server.request = createRequest({ requester: me });
+
+      renderPage();
+
+      expect(await screen.findByRole('heading', { name: 'Your request' })).toBeDefined();
+      expect(screen.getByRole('link', { name: 'Edit' })).toHaveProperty(
+        'href',
+        'http://localhost:8000/requests/r1/edit',
+      );
+    });
+
+    it('closes the request', async () => {
+      const user = userEvent.setup();
+
+      server.request = createRequest({ requester: me, title: 'Cat sitting' });
+
+      renderPage();
+
+      await user.click(await screen.findByRole('button', { name: 'Close the request' }));
+
+      const dialog = await screen.findByRole('alertdialog', { name: 'Close the request “Cat sitting”?' });
+      expect(within(dialog).getByText('You have not sent any units for this request')).toBeDefined();
+
+      await user.click(within(dialog).getByRole('button', { name: 'Close the request' }));
+
+      expect(await screen.findByText('Request closed')).toBeDefined();
+      expect(screen.getByText('This request is fulfilled')).toBeDefined();
+      expect(screen.queryByRole('heading', { name: 'Your request' })).toBeNull();
+      expect(screen.queryByRole('alertdialog')).toBeNull();
+    });
+
+    it('does not mention the units when some were sent', async () => {
+      const user = userEvent.setup();
+
+      server.request = createRequest({ requester: me, hasTransactions: true });
+
+      renderPage();
+
+      await user.click(await screen.findByRole('button', { name: 'Close the request' }));
+
+      await screen.findByRole('alertdialog');
+      expect(screen.queryByText('You have not sent any units for this request')).toBeNull();
+    });
+
+    it('cancels the request', async () => {
+      const user = userEvent.setup();
+
+      server.request = createRequest({ requester: me, title: 'Cat sitting' });
+
+      renderPage();
+
+      await user.click(await screen.findByRole('button', { name: 'Cancel the request' }));
+
+      const dialog = await screen.findByRole('alertdialog', { name: 'Cancel the request “Cat sitting”?' });
+      await user.click(within(dialog).getByRole('button', { name: 'Cancel the request' }));
+
+      expect(await screen.findByText('Request canceled')).toBeDefined();
+      expect(screen.getByText('This request was canceled')).toBeDefined();
+    });
+
+    it('keeps the request open when going back', async () => {
+      const user = userEvent.setup();
+
+      server.request = createRequest({ requester: me });
+
+      renderPage();
+
+      await user.click(await screen.findByRole('button', { name: 'Cancel the request' }));
+      await user.click(within(await screen.findByRole('alertdialog')).getByRole('button', { name: 'Back' }));
+
+      expect(screen.queryByRole('alertdialog')).toBeNull();
+      expect(server.find('/api/requests/r1/cancel')).toEqual([]);
+    });
+
+    it('shows that the request could not be closed', async () => {
+      const user = userEvent.setup();
+
+      server.request = createRequest({ requester: me });
+      server.statusFailing = true;
+
+      renderPage();
+
+      await user.click(await screen.findByRole('button', { name: 'Close the request' }));
+
+      const dialog = await screen.findByRole('alertdialog');
+      await user.click(within(dialog).getByRole('button', { name: 'Close the request' }));
+
+      expect(await screen.findByText('The request could not be closed')).toBeDefined();
+      expect(screen.getByRole('alertdialog')).toBe(dialog);
+      expect(screen.queryByText('This request is fulfilled')).toBeNull();
+    });
+
+    it('does not offer the actions to another member', async () => {
+      server.request = createRequest();
+
+      renderPage();
+
+      await screen.findByRole('heading', { level: 1 });
+
+      expect(screen.queryByRole('heading', { name: 'Your request' })).toBeNull();
+    });
+
+    it('does not offer the actions on a closed request', async () => {
+      server.request = createRequest({ requester: me, status: RequestStatus.canceled });
+
+      renderPage();
+
+      await screen.findByRole('heading', { level: 1 });
+
+      expect(screen.queryByRole('heading', { name: 'Your request' })).toBeNull();
+    });
+  });
 });
 
 function renderPage() {
@@ -267,6 +382,7 @@ class Server extends FakeServer {
   answers: unknown[] = [];
   failing = false;
   answerFailing = false;
+  statusFailing = false;
 
   init() {
     this.register('GET /api/session/member', () => this.json(me));
@@ -303,6 +419,19 @@ class Server extends FakeServer {
 
       return this.noContent();
     });
+
+    this.register('PUT /api/requests/r1/fulfil', () => this.changeStatus(RequestStatus.fulfilled));
+    this.register('PUT /api/requests/r1/cancel', () => this.changeStatus(RequestStatus.canceled));
+  }
+
+  private changeStatus(status: RequestStatus) {
+    if (this.statusFailing) {
+      return this.json({ error: 'Internal server error' }, { status: 500 });
+    }
+
+    defined(this.request).status = status;
+
+    return this.noContent();
   }
 }
 

@@ -34,6 +34,7 @@ msgid "Answers"
 msgstr "Answers"
 
 #: src/pages/authentication.tsx
+#: src/pages/request.tsx
 msgid "Back"
 msgstr "Back"
 
@@ -49,6 +50,15 @@ msgstr "Can you help?"
 msgid "Can't help"
 msgstr "Can't help"
 
+#: src/pages/request.tsx
+msgid "Cancel the request"
+msgstr "Cancel the request"
+
+#. placeholder {0}: request.title
+#: src/pages/request.tsx
+msgid "Cancel the request “{0}”?"
+msgstr "Cancel the request “{0}”?"
+
 #: src/pages/requests.tsx
 msgid "Canceled"
 msgstr "Canceled"
@@ -60,6 +70,24 @@ msgstr "Check your internet access, then try again."
 #: src/pages/requests.tsx
 msgid "Clear filters"
 msgstr "Clear filters"
+
+#: src/main.tsx
+#: src/pages/request.tsx
+msgid "Close"
+msgstr "Close"
+
+#: src/pages/request.tsx
+msgid "Close it once you have been helped, or cancel it if you no longer need help."
+msgstr "Close it once you have been helped, or cancel it if you no longer need help."
+
+#: src/pages/request.tsx
+msgid "Close the request"
+msgstr "Close the request"
+
+#. placeholder {0}: request.title
+#: src/pages/request.tsx
+msgid "Close the request “{0}”?"
+msgstr "Close the request “{0}”?"
 
 #: src/pages/request.tsx
 msgid "Comments"
@@ -73,6 +101,14 @@ msgstr "Community"
 #: src/pages/request.tsx
 msgid "Contact {firstName} to arrange the details."
 msgstr "Contact {firstName} to arrange the details."
+
+#: src/pages/request.tsx
+msgid "Edit"
+msgstr "Edit"
+
+#: src/main.tsx
+msgid "Edit the request"
+msgstr "Edit the request"
 
 #: src/pages/authentication.tsx
 msgid "Email address"
@@ -143,6 +179,10 @@ msgstr "Main navigation"
 msgid "Members"
 msgstr "Members"
 
+#: src/pages/request.tsx
+msgid "Members will no longer be able to answer it. Those who offered help or commented will be notified."
+msgstr "Members will no longer be able to answer it. Those who offered help or commented will be notified."
+
 #: src/layout/layout.tsx
 msgid "More"
 msgstr "More"
@@ -193,6 +233,14 @@ msgstr "Post a request"
 #: src/app/routes.ts
 msgid "Profile"
 msgstr "Profile"
+
+#: src/pages/request.tsx
+msgid "Request canceled"
+msgstr "Request canceled"
+
+#: src/pages/request.tsx
+msgid "Request closed"
+msgstr "Request closed"
 
 #: src/pages/request.tsx
 msgid "Request not found"
@@ -258,6 +306,14 @@ msgstr "Sign-in failed. Try again in a few moments."
 msgid "The link may be wrong, or the request may no longer exist."
 msgstr "The link may be wrong, or the request may no longer exist."
 
+#: src/pages/request.tsx
+msgid "The request could not be canceled"
+msgstr "The request could not be canceled"
+
+#: src/pages/request.tsx
+msgid "The request could not be closed"
+msgstr "The request could not be closed"
+
 #: src/pages/authentication.tsx
 msgid "The sign-in code could not be sent. Try again in a few moments."
 msgstr "The sign-in code could not be sent. Try again in a few moments."
@@ -315,9 +371,21 @@ msgid "You can help"
 msgstr "You can help"
 
 #: src/pages/request.tsx
+msgid "You can still send them after closing it."
+msgstr "You can still send them after closing it."
+
+#: src/pages/request.tsx
 msgid "You can't help"
 msgstr "You can't help"
 
 #: src/pages/request.tsx
+msgid "You have not sent any <0/> for this request"
+msgstr "You have not sent any <0/> for this request"
+
+#: src/pages/request.tsx
 msgid "Your answer could not be saved"
 msgstr "Your answer could not be saved"
+
+#: src/pages/request.tsx
+msgid "Your request"
+msgstr "Your request"

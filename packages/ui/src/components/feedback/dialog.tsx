@@ -77,7 +77,7 @@ export function DialogContent({ closeLabel, className, children, ...props }: Dia
         <ArkDialog.Content
           {...props}
           className={clsx(
-            'relative stack max-h-4/5 w-full rounded-t-xl bg-surface-raised pb-safe-area shadow-lg md:max-h-full md:max-w-120 md:rounded-xl md:pb-0',
+            'relative stack max-h-4/5 w-full rounded-t-xl bg-surface-raised pb-safe-area shadow-lg md:max-h-full md:max-w-dialog md:rounded-xl md:pb-0',
             'data-[state=closed]:animate-sheet-out data-[state=open]:animate-sheet-in md:data-[state=closed]:animate-dialog-out md:data-[state=open]:animate-dialog-in',
             className,
           )}

@@ -330,6 +330,8 @@
 
   --max-width-content: 45rem;
   --max-width-page: 75rem;
+  --max-width-dialog: 36rem;
+  --max-width-toast: 30rem;
 
   /* Breakpoints */
   --breakpoint-xs: 30rem;
@@ -515,5 +517,29 @@
     height: 0;
     color: var(--text-color-subtle);
     pointer-events: none;
+  }
+}
+
+@utility toast {
+  translate: var(--x) var(--y);
+  scale: var(--scale);
+  z-index: var(--z-index);
+  opacity: var(--opacity);
+  height: var(--height);
+  width: 100%;
+  max-width: var(--max-width-toast);
+  will-change: translate, scale, opacity;
+  transition-property: translate, scale, opacity, height;
+  transition-duration: var(--duration-base);
+  transition-timing-function: var(--ease-standard);
+
+  /* Behind the front toast, a toast takes its height and hides its content, until the toasts spread out. */
+  &[data-overlap][data-sibling] > * {
+    height: 100%;
+    overflow: hidden;
+  }
+
+  &[data-overlap][data-sibling] > * > * {
+    opacity: 0;
   }
 }

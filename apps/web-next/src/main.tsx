@@ -1,6 +1,7 @@
 import { i18n } from '@lingui/core';
 import { msg } from '@lingui/core/macro';
 import { I18nProvider } from '@lingui/react';
+import { Toaster } from '@sel/ui';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { StrictMode } from 'react';
@@ -61,6 +62,10 @@ const router = createBrowserRouter([
             Component: RequestPage,
           },
           {
+            path: routes.editRequest(':requestId'),
+            element: <PlaceholderPage title={msg`Edit the request`} />,
+          },
+          {
             path: routes.events(),
             element: <PlaceholderPage title={navigation.exchanges.events.label} />,
           },
@@ -99,6 +104,7 @@ createRoot(document.getElementById('root')!).render(
     <I18nProvider i18n={i18n}>
       <QueryClientProvider client={queryClient}>
         <RouterProvider router={router} />
+        <Toaster closeLabel={i18n._(msg`Close`)} />
         <ReactQueryDevtools />
       </QueryClientProvider>
     </I18nProvider>

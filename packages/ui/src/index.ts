@@ -45,7 +45,7 @@ export {
   EmptyStateTitle,
 } from './components/feedback/empty-state';
 export { Skeleton } from './components/feedback/skeleton';
-export { Toast } from './components/feedback/toast';
+export { showToast, Toast, Toaster } from './components/feedback/toast';
 export { Checkbox } from './components/forms/checkbox';
 export { Chip } from './components/forms/chip';
 export { Field, FieldError, FieldHeader, FieldHint, FieldLabel, FieldRoot } from './components/forms/field';

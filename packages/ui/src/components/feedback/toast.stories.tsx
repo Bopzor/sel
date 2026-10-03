@@ -1,7 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { fn } from 'storybook/test';
 
-import { Toast } from './toast';
+import { Button } from '../actions/button';
+
+import { showToast, Toast, Toaster } from './toast';
 
 export default {
   title: 'Components/Feedback/Toast',
@@ -21,10 +23,23 @@ export const Info: Story = {
   args: { tone: 'info' },
 };
 
-export const Danger: Story = {
-  args: { tone: 'danger' },
+export const Error: Story = {
+  args: { tone: 'error' },
 };
 
 export const WithClose: Story = {
   args: { onClose: fn(), closeLabel: 'Close' },
+};
+
+export const WithToaster: Story = {
+  decorators: [],
+  render: () => (
+    <div className="row gap-3">
+      <Button onClick={() => showToast('Request posted')}>Show a toast</Button>
+      <Button variant="secondary" onClick={() => showToast('The request could not be closed', 'error')}>
+        Show an error
+      </Button>
+      <Toaster closeLabel="Close" />
+    </div>
+  ),
 };

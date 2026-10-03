@@ -1,6 +1,7 @@
 import { i18n } from '@lingui/core';
 import { I18nProvider } from '@lingui/react';
 import { createConfig } from '@sel/shared';
+import { Toaster } from '@sel/ui';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { render } from '@testing-library/react';
 import { createMemoryRouter, RouterProvider, type RouteObject } from 'react-router';
@@ -11,12 +12,16 @@ import { queryClient } from 'src/app/query-client';
 export function renderTestPage(path: string, routes: RouteObject[]) {
   const router = createTestRouter(path, routes);
 
-  queryClient.setQueryData(queries.config().queryKey, createConfig());
+  queryClient.setQueryData(
+    queries.config().queryKey,
+    createConfig({ currency: 'unit', currencyPlural: 'units' }),
+  );
 
   render(
     <I18nProvider i18n={i18n}>
       <QueryClientProvider client={queryClient}>
         <RouterProvider router={router} />
+        <Toaster closeLabel="Close" />
       </QueryClientProvider>
     </I18nProvider>,
   );

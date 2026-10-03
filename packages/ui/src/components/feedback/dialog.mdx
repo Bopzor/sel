@@ -52,7 +52,7 @@ A form spans the body and the footer, so that Enter submits it and the main acti
 
 On open, focus goes to the first interactive element and stays trapped in the window; on close, it returns to the button that opened it (Ark UI's `Dialog`). The close button comes last in the document, although it is shown at the top right, so that the focus goes to the content first. An `alert` dialog focuses the close button instead, so that Enter does not confirm a destructive action by accident.
 
-The window is `bg-surface-raised` with `shadow-lg` over a `bg-overlay` scrim: at the bottom with `radius-xl` top corners on mobile, above the phone's home indicator; centered, 480px wide at most, with `radius-xl` corners from `md`.
+The window is `bg-surface-raised` with `shadow-lg` over a `bg-overlay` scrim: at the bottom with `radius-xl` top corners on mobile, above the phone's home indicator; centered, `max-w-dialog` (576px) wide at most, with `radius-xl` corners from `md`.
 
 <Primary />
 
