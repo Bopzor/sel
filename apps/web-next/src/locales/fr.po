@@ -7,59 +7,59 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: fr\n"
 
-#: src/pages/request.tsx
-#: src/pages/requests.tsx
+#: src/components/comments.tsx
+#: src/pages/requests/list/request-item.tsx
 msgid "{commentsCount, plural, one {# comment} other {# comments}}"
 msgstr "{commentsCount, plural, one {# commentaire} other {# commentaires}}"
 
-#: src/pages/request.tsx
+#: src/pages/requests/details/request-answer.tsx
 msgid "{firstName} knows you are not available."
 msgstr "{firstName} sait que vous n'êtes pas disponible."
 
-#: src/pages/request.tsx
+#: src/pages/requests/details/request-answer.tsx
 msgid "{firstName} will be notified of your answer."
 msgstr "Votre réponse sera transmise à {firstName}."
 
-#: src/pages/requests.tsx
+#: src/pages/requests/list/request-item.tsx
 msgid "{total, plural, one {# request} other {# requests}}"
 msgstr "{total, plural, one {# demande} other {# demandes}}"
 
-#: src/pages/requests.tsx
+#: src/pages/requests/list/requests-filters.tsx
 msgctxt "requests filter"
 msgid "All"
 msgstr "Toutes"
 
-#: src/pages/request.tsx
+#: src/pages/requests/details/request-answers.tsx
 msgid "Answers"
 msgstr "Réponses"
 
-#: src/pages/authentication.tsx
-#: src/pages/request.tsx
+#: src/pages/authentication/authentication.tsx
+#: src/pages/requests/details/requester-actions.tsx
 msgid "Back"
 msgstr "Retour"
 
-#: src/pages/request.tsx
+#: src/pages/requests/details/request-answers.tsx
 msgid "Can help"
 msgstr "Peut aider"
 
-#: src/pages/request.tsx
+#: src/pages/requests/details/request-answer.tsx
 msgid "Can you help?"
 msgstr "Pouvez-vous aider ?"
 
-#: src/pages/request.tsx
+#: src/pages/requests/details/request-answers.tsx
 msgid "Can't help"
 msgstr "Ne peut pas aider"
 
-#: src/pages/request.tsx
+#: src/pages/requests/details/requester-actions.tsx
 msgid "Cancel the request"
 msgstr "Annuler la demande"
 
 #. placeholder {0}: request.title
-#: src/pages/request.tsx
+#: src/pages/requests/details/requester-actions.tsx
 msgid "Cancel the request “{0}”?"
 msgstr "Annuler la demande « {0} » ?"
 
-#: src/pages/requests.tsx
+#: src/pages/requests/list/request-item.tsx
 msgid "Canceled"
 msgstr "Annulée"
 
@@ -67,29 +67,29 @@ msgstr "Annulée"
 msgid "Check your internet access, then try again."
 msgstr "Vérifiez votre accès à internet, puis réessayez."
 
-#: src/pages/requests.tsx
+#: src/pages/requests/list/request-item.tsx
 msgid "Clear filters"
 msgstr "Effacer les filtres"
 
 #: src/main.tsx
-#: src/pages/request.tsx
+#: src/pages/requests/details/requester-actions.tsx
 msgid "Close"
 msgstr "Fermer"
 
-#: src/pages/request.tsx
+#: src/pages/requests/details/requester-actions.tsx
 msgid "Close it once you have been helped, or cancel it if you no longer need help."
 msgstr "Clôturez-la une fois que vous avez reçu de l'aide, ou annulez-la si vous n'en avez plus besoin."
 
-#: src/pages/request.tsx
+#: src/pages/requests/details/requester-actions.tsx
 msgid "Close the request"
 msgstr "Clôturer la demande"
 
 #. placeholder {0}: request.title
-#: src/pages/request.tsx
+#: src/pages/requests/details/requester-actions.tsx
 msgid "Close the request “{0}”?"
 msgstr "Clôturer la demande « {0} » ?"
 
-#: src/pages/request.tsx
+#: src/components/comments.tsx
 msgid "Comments"
 msgstr "Commentaires"
 
@@ -98,11 +98,11 @@ msgstr "Commentaires"
 msgid "Community"
 msgstr "Communauté"
 
-#: src/pages/request.tsx
+#: src/pages/requests/details/request-answer.tsx
 msgid "Contact {firstName} to arrange the details."
 msgstr "Contactez {firstName} pour vous organiser."
 
-#: src/pages/request.tsx
+#: src/pages/requests/details/requester-actions.tsx
 msgid "Edit"
 msgstr "Modifier"
 
@@ -110,23 +110,23 @@ msgstr "Modifier"
 msgid "Edit the request"
 msgstr "Modifier la demande"
 
-#: src/pages/authentication.tsx
+#: src/pages/authentication/authentication.tsx
 msgid "Email address"
 msgstr "Adresse email"
 
-#: src/pages/authentication.tsx
+#: src/pages/authentication/authentication.tsx
 msgid "Enter a valid email address, for example my@email.com."
 msgstr "Saisissez une adresse email valide, par exemple mon@email.com."
 
-#: src/pages/authentication.tsx
+#: src/pages/authentication/authentication.tsx
 msgid "Enter the 6 digits of the code received by email."
 msgstr "Saisissez les 6 chiffres du code reçu par email."
 
-#: src/pages/authentication.tsx
+#: src/pages/authentication/authentication.tsx
 msgid "Enter the email address of your LETS account to access the app."
 msgstr "Entrez l'adresse email de votre compte du SEL pour accéder à l'app."
 
-#: src/pages/authentication.tsx
+#: src/pages/authentication/authentication.tsx
 msgid "Enter the sign-in code received by email."
 msgstr "Entrez le code de connexion reçu par email."
 
@@ -139,7 +139,7 @@ msgstr "Événements"
 msgid "Exchanges"
 msgstr "Échanges"
 
-#: src/pages/requests.tsx
+#: src/pages/requests/list/request-item.tsx
 msgid "Fulfilled"
 msgstr "Clôturée"
 
@@ -147,19 +147,19 @@ msgstr "Clôturée"
 msgid "Home"
 msgstr "Accueil"
 
-#: src/pages/request.tsx
+#: src/pages/requests/details/request-answer.tsx
 msgid "I can help"
 msgstr "Je peux aider"
 
-#: src/pages/request.tsx
+#: src/pages/requests/details/request-answer.tsx
 msgid "I can't"
 msgstr "Je ne peux pas"
 
-#: src/pages/authentication.tsx
+#: src/pages/authentication/authentication.tsx
 msgid "If nothing arrives in the next few minutes, check your spam folder or contact us."
 msgstr "Si vous n'avez rien reçu dans les prochaines minutes, vérifiez dans vos spams ou contactez-nous."
 
-#: src/pages/authentication.tsx
+#: src/pages/authentication/authentication.tsx
 msgid "If your email address is allowed, an email containing a sign-in code has been sent to <0>{email}</0>."
 msgstr "Si votre adresse email est autorisée, un email contenant un code de connexion vous a été envoyé à l'adresse <0>{email}</0>."
 
@@ -179,7 +179,7 @@ msgstr "Navigation principale"
 msgid "Members"
 msgstr "Membres"
 
-#: src/pages/request.tsx
+#: src/pages/requests/details/requester-actions.tsx
 msgid "Members will no longer be able to answer it. Those who offered help or commented will be notified."
 msgstr "Les membres ne pourront plus y répondre. Les personnes qui ont proposé leur aide ou commenté seront prévenues."
 
@@ -192,41 +192,41 @@ msgstr "Plus"
 msgid "My account"
 msgstr "Mon compte"
 
-#: src/pages/requests.tsx
+#: src/pages/requests/list/requests-filters.tsx
 msgid "My requests"
 msgstr "Mes demandes"
 
-#: src/pages/authentication.tsx
+#: src/pages/authentication/authentication.tsx
 msgid "my@email.com"
 msgstr "mon@email.com"
 
-#: src/pages/requests.tsx
+#: src/pages/requests/list/requests-page.tsx
 msgid "New request"
 msgstr "Nouvelle demande"
 
-#: src/pages/request.tsx
+#: src/components/comments.tsx
 msgid "No comments yet."
 msgstr "Aucun commentaire pour le moment."
 
-#: src/pages/request.tsx
+#: src/pages/requests/details/request-answers.tsx
 msgid "No one has answered yet."
 msgstr "Personne n’a encore répondu."
 
-#: src/pages/requests.tsx
+#: src/pages/requests/list/request-item.tsx
 msgid "No request matches these filters"
 msgstr "Aucune demande ne correspond à ces filtres"
 
-#: src/pages/requests.tsx
+#: src/pages/requests/list/request-item.tsx
 msgid "No requests"
 msgstr "Aucune demande"
 
-#: src/pages/requests.tsx
+#: src/pages/requests/list/requests-filters.tsx
 msgctxt "requests filter"
 msgid "Open"
 msgstr "En cours"
 
 #: src/main.tsx
-#: src/pages/requests.tsx
+#: src/pages/requests/list/request-item.tsx
 msgid "Post a request"
 msgstr "Nouvelle demande"
 
@@ -234,25 +234,25 @@ msgstr "Nouvelle demande"
 msgid "Profile"
 msgstr "Profil"
 
-#: src/pages/request.tsx
+#: src/pages/requests/details/requester-actions.tsx
 msgid "Request canceled"
 msgstr "Demande annulée"
 
-#: src/pages/request.tsx
+#: src/pages/requests/details/requester-actions.tsx
 msgid "Request closed"
 msgstr "Demande clôturée"
 
-#: src/pages/request.tsx
+#: src/pages/requests/details/request-page.tsx
 msgid "Request not found"
 msgstr "Demande introuvable"
 
-#: src/pages/request.tsx
+#: src/pages/requests/details/requester.tsx
 msgid "Requested by"
 msgstr "Demandé par"
 
 #: src/app/routes.ts
-#: src/pages/request.tsx
-#: src/pages/requests.tsx
+#: src/pages/requests/details/request-page.tsx
+#: src/pages/requests/list/requests-page.tsx
 msgid "Requests"
 msgstr "Demandes"
 
@@ -260,15 +260,15 @@ msgstr "Demandes"
 msgid "Retry"
 msgstr "Réessayer"
 
-#: src/pages/requests.tsx
+#: src/pages/requests/list/requests-filters.tsx
 msgid "Search"
 msgstr "Rechercher"
 
-#: src/pages/requests.tsx
+#: src/pages/requests/list/requests-filters.tsx
 msgid "Search the requests"
 msgstr "Rechercher parmi les demandes"
 
-#: src/pages/request.tsx
+#: src/pages/requests/details/request-page.tsx
 msgid "See the requests"
 msgstr "Voir les demandes"
 
@@ -281,11 +281,11 @@ msgid "Show more"
 msgstr "Afficher plus"
 
 #. placeholder {0}: requests.length
-#: src/pages/requests.tsx
+#: src/pages/requests/list/request-item.tsx
 msgid "Showing {0} of {total} requests"
 msgstr "{0} demandes affichées sur {total}"
 
-#: src/pages/authentication.tsx
+#: src/pages/authentication/authentication.tsx
 msgid "Sign in"
 msgstr "Connexion"
 
@@ -294,51 +294,51 @@ msgstr "Connexion"
 msgid "Sign out"
 msgstr "Se déconnecter"
 
-#: src/pages/authentication.tsx
+#: src/pages/authentication/authentication.tsx
 msgid "Sign-in code"
 msgstr "Code de connexion"
 
-#: src/pages/authentication.tsx
+#: src/pages/authentication/authentication.tsx
 msgid "Sign-in failed. Try again in a few moments."
 msgstr "La connexion a échoué. Réessayez dans quelques instants."
 
-#: src/pages/request.tsx
+#: src/pages/requests/details/request-page.tsx
 msgid "The link may be wrong, or the request may no longer exist."
 msgstr "Le lien est peut-être erroné, ou la demande n’existe plus."
 
-#: src/pages/request.tsx
+#: src/pages/requests/details/requester-actions.tsx
 msgid "The request could not be canceled"
 msgstr "La demande n'a pas pu être annulée"
 
-#: src/pages/request.tsx
+#: src/pages/requests/details/requester-actions.tsx
 msgid "The request could not be closed"
 msgstr "La demande n'a pas pu être clôturée"
 
-#: src/pages/authentication.tsx
+#: src/pages/authentication/authentication.tsx
 msgid "The sign-in code could not be sent. Try again in a few moments."
 msgstr "Le code de connexion n'a pas pu être envoyé. Réessayez dans quelques instants."
 
-#: src/pages/authentication.tsx
+#: src/pages/authentication/authentication.tsx
 msgid "This code has been replaced by a newer one: use the one from the latest email."
 msgstr "Ce code a été remplacé par un plus récent : utilisez celui du dernier email reçu."
 
-#: src/pages/authentication.tsx
+#: src/pages/authentication/authentication.tsx
 msgid "This code has expired. Go back to receive a new one."
 msgstr "Ce code a expiré. Revenez en arrière pour en recevoir un nouveau."
 
-#: src/pages/authentication.tsx
+#: src/pages/authentication/authentication.tsx
 msgid "This code is not valid. Check that it matches the one in the email."
 msgstr "Ce code n'est pas valide. Vérifiez qu'il correspond à celui de l'email."
 
-#: src/pages/request.tsx
+#: src/pages/requests/details/request-status.tsx
 msgid "This request is fulfilled"
 msgstr "Cette demande est clôturée"
 
-#: src/pages/request.tsx
+#: src/pages/requests/details/request-status.tsx
 msgid "This request was canceled"
 msgstr "Cette demande a été annulée"
 
-#: src/pages/requests.tsx
+#: src/pages/requests/list/request-item.tsx
 msgid "Try other words, or clear the filters."
 msgstr "Essayez d'autres mots, ou effacez les filtres."
 
@@ -346,46 +346,46 @@ msgstr "Essayez d'autres mots, ou effacez les filtres."
 msgid "Unable to load more elements"
 msgstr "Impossible d'afficher plus d'éléments"
 
-#: src/pages/request.tsx
+#: src/components/comments.tsx
 msgid "Unable to load the comments"
 msgstr "Impossible de charger les commentaires"
 
-#: src/pages/request.tsx
+#: src/pages/requests/details/request-page.tsx
 msgid "Unable to load the request"
 msgstr "Impossible de charger la demande"
 
-#: src/pages/requests.tsx
+#: src/pages/requests/list/request-item.tsx
 msgid "Unable to load the requests"
 msgstr "Impossible de charger les demandes"
 
-#: src/pages/requests.tsx
+#: src/pages/requests/list/request-item.tsx
 msgid "When a member needs a hand, their request appears here."
 msgstr "Quand un membre a besoin d'un coup de main, sa demande apparaît ici."
 
-#: src/pages/request.tsx
+#: src/pages/requests/details/request-answer.tsx
 msgid "Withdraw my answer"
 msgstr "Retirer ma réponse"
 
-#: src/pages/request.tsx
+#: src/pages/requests/details/request-answer.tsx
 msgid "You can help"
 msgstr "Vous pouvez aider"
 
-#: src/pages/request.tsx
+#: src/pages/requests/details/requester-actions.tsx
 msgid "You can still send them after closing it."
 msgstr "Vous pourrez toujours en envoyer après l'avoir clôturée."
 
-#: src/pages/request.tsx
+#: src/pages/requests/details/request-answer.tsx
 msgid "You can't help"
 msgstr "Vous ne pouvez pas aider"
 
-#: src/pages/request.tsx
+#: src/pages/requests/details/requester-actions.tsx
 msgid "You have not sent any <0/> for this request"
 msgstr "Vous n'avez pas envoyé de <0/> pour cette demande"
 
-#: src/pages/request.tsx
+#: src/pages/requests/details/request-answer.tsx
 msgid "Your answer could not be saved"
 msgstr "Votre réponse n'a pas pu être enregistrée"
 
-#: src/pages/request.tsx
+#: src/pages/requests/details/requester-actions.tsx
 msgid "Your request"
 msgstr "Votre demande"

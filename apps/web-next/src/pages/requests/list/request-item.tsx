@@ -1,8 +1,7 @@
-import { Plural, Trans, useLingui } from '@lingui/react/macro';
+import { Plural, Trans } from '@lingui/react/macro';
 import { RequestStatus, type RequestListItem } from '@sel/shared';
-import { Badge, Button, Card, Chip, EmptyState, Input, LinkButton, ListItem, Skeleton } from '@sel/ui';
+import { Badge, Button, Card, EmptyState, LinkButton, ListItem, Skeleton } from '@sel/ui';
 import { useInfiniteQuery, useSuspenseQuery } from '@tanstack/react-query';
-import { z } from 'zod';
 
 import { formatMemberName } from 'src/app/format';
 import { queries } from 'src/app/queries';
@@ -12,102 +11,16 @@ import { Link } from 'src/components/link';
 import { MemberAvatar } from 'src/components/member-avatar';
 import { FetchNextPageError, Pagination } from 'src/components/pagination';
 import { RelativeDate } from 'src/components/relative-date';
-import { useDebouncedValue } from 'src/hooks/use-debounced-value';
-import { useFilters } from 'src/hooks/use-filters';
 
-const filtersSchema = z.object({
-  status: z.enum([RequestStatus.pending, 'all']).catch(RequestStatus.pending),
-  search: z.string().catch(''),
-  mine: z.stringbool().catch(false),
-});
-
-type Filters = z.output<typeof filtersSchema>;
-
-export function RequestsPage() {
-  const { filters, setFilters, hasFilters, resetFilters } = useFilters(filtersSchema);
-
-  const [search, setSearch, clearSearch] = useDebouncedValue(filters.search, (value) =>
-    setFilters({ search: value }, { replace: true }),
-  );
-
-  const clearFilters = () => {
-    clearSearch();
-    resetFilters();
-  };
-
-  return (
-    <div className="stack gap-6">
-      <header className="row flex-wrap items-center justify-between gap-4">
-        <h1 className="text-title-1">
-          <Trans>Requests</Trans>
-        </h1>
-
-        <LinkButton Link={Link} href={routes.createRequest()} icon="add" className="max-sm:w-full xl:w-aside">
-          <Trans>New request</Trans>
-        </LinkButton>
-      </header>
-
-      <div className="stack gap-6 xl:flex-row-reverse xl:items-start xl:gap-10">
-        <aside className="xl:sticky xl:top-10 xl:w-aside xl:shrink-0">
-          <FiltersBar filters={filters} search={search} onSearch={setSearch} onChange={setFilters} />
-        </aside>
-
-        <div className="min-w-0 flex-1">
-          <RequestList filters={filters} hasFilters={hasFilters} onClearFilters={clearFilters} />
-        </div>
-      </div>
-    </div>
-  );
-}
-
-type FiltersBarProps = {
-  filters: Filters;
-  search: string;
-  onSearch: (search: string) => void;
-  onChange: (changes: Partial<Filters>) => void;
-};
-
-function FiltersBar({ filters, search, onSearch, onChange }: FiltersBarProps) {
-  const { t } = useLingui();
-
-  const statuses = [
-    { value: RequestStatus.pending, label: t({ message: 'Open', context: 'requests filter' }) },
-    { value: 'all', label: t({ message: 'All', context: 'requests filter' }) },
-  ] as const;
-
-  return (
-    <div className="stack gap-3">
-      <Input
-        type="search"
-        icon="search"
-        aria-label={t`Search the requests`}
-        placeholder={t`Search`}
-        value={search}
-        onChange={(event) => onSearch(event.target.value)}
-      />
-
-      <div className="row flex-wrap gap-2">
-        {statuses.map(({ value, label }) => (
-          <Chip key={value} selected={filters.status === value} onChange={() => onChange({ status: value })}>
-            {label}
-          </Chip>
-        ))}
-
-        <Chip icon="profile" selected={filters.mine} onChange={(mine) => onChange({ mine })}>
-          <Trans>My requests</Trans>
-        </Chip>
-      </div>
-    </div>
-  );
-}
+import type { RequestFilters } from './requests-filters';
 
 type RequestListProps = {
-  filters: Filters;
+  filters: RequestFilters;
   hasFilters: boolean;
   onClearFilters: () => void;
 };
 
-function RequestList({ filters, hasFilters, onClearFilters }: RequestListProps) {
+export function RequestList({ filters, hasFilters, onClearFilters }: RequestListProps) {
   const { data: me } = useSuspenseQuery(queries.session());
 
   const query = useInfiniteQuery(

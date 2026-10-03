@@ -16,7 +16,7 @@ import { requireSession } from 'src/app/session';
 import { FakeServer } from 'src/tests/fake-server';
 import { renderTestPage } from 'src/tests/test-page';
 
-import { RequestPage } from './request';
+import { RequestPage } from './request-page';
 
 const me = createAuthenticatedMember({ id: 'me', firstName: 'Jason', lastName: 'Talon' });
 const claire: LightMember = { id: 'claire', number: 12, firstName: 'Claire', lastName: 'Dubois' };

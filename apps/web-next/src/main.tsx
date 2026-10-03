@@ -16,11 +16,11 @@ import { applyTheme } from './app/theme';
 import './index.css';
 import { Layout } from './layout/layout';
 import { messages } from './locales/fr.po';
-import { AuthenticationPage } from './pages/authentication';
+import { AuthenticationPage } from './pages/authentication/authentication';
 import { NavigationPage } from './pages/navigation';
 import { PlaceholderPage } from './pages/placeholder';
-import { RequestPage } from './pages/request';
-import { RequestsPage } from './pages/requests';
+import { RequestPage } from './pages/requests/details/request-page';
+import { RequestsPage } from './pages/requests/list/requests-page';
 
 i18n.loadAndActivate({ locale: 'fr', messages });
 
