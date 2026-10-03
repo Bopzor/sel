@@ -15,19 +15,19 @@ When a list is empty (no request, no exchange, a search with no result).
 ## Parts
 
 ```tsx
-<EmptyState icon="search">
-  <EmptyStateTitle>No results</EmptyStateTitle>
-  <EmptyStateDescription>Try other words, or broaden the search.</EmptyStateDescription>
-  <EmptyStateAction>
+<EmptyState.Root icon="search">
+  <EmptyState.Title>No results</EmptyState.Title>
+  <EmptyState.Description>Try other words, or broaden the search.</EmptyState.Description>
+  <EmptyState.Action>
     <Button variant="secondary">Clear the search</Button>
-  </EmptyStateAction>
-</EmptyState>
+  </EmptyState.Action>
+</EmptyState.Root>
 ```
 
-- `EmptyState` (required): `icon`, the icon of the content type.
-- `EmptyStateTitle` (required): what is missing, in one sentence. A heading of `level` 1, 2, or 3 (2 by default, to adjust to the page hierarchy).
-- `EmptyStateDescription`: why, or what will happen.
-- `EmptyStateAction`: a `Button` that helps get out of it (post, broaden the search).
+- `EmptyState.Root` (required): `icon`, the icon of the content type.
+- `EmptyState.Title` (required): what is missing, in one sentence. A heading of `level` 1, 2, or 3 (2 by default, to adjust to the page hierarchy).
+- `EmptyState.Description`: why, or what will happen.
+- `EmptyState.Action`: a `Button` that helps get out of it (post, broaden the search).
 
 <Primary />
 

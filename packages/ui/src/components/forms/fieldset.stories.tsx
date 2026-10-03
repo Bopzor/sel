@@ -1,35 +1,35 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
 import { Checkbox } from './checkbox';
-import { Fieldset, FieldsetError, FieldsetHeader, FieldsetHint, FieldsetLegend } from './fieldset';
-import { Radio, RadioGroup } from './radio-group';
+import * as Fieldset from './fieldset';
+import * as RadioGroup from './radio-group';
 
 export default {
   title: 'Components/Forms/Fieldset',
-  component: Fieldset,
+  component: Fieldset.Root,
   args: {
     invalid: false,
     disabled: false,
   },
   render: (args) => (
-    <Fieldset {...args}>
-      <FieldsetHeader>
-        <FieldsetLegend>Question</FieldsetLegend>
-        <FieldsetHint>Hint that helps to answer.</FieldsetHint>
-      </FieldsetHeader>
+    <Fieldset.Root {...args}>
+      <Fieldset.Header>
+        <Fieldset.Legend>Question</Fieldset.Legend>
+        <Fieldset.Hint>Hint that helps to answer.</Fieldset.Hint>
+      </Fieldset.Header>
 
-      <RadioGroup name="question">
-        <Radio value="first" label="First option" />
-        <Radio value="second" label="Second option" />
-        <Radio value="third" label="Third option" />
-      </RadioGroup>
+      <RadioGroup.Root name="question">
+        <RadioGroup.Item value="first" label="First option" />
+        <RadioGroup.Item value="second" label="Second option" />
+        <RadioGroup.Item value="third" label="Third option" />
+      </RadioGroup.Root>
 
-      <FieldsetError>Error message that says what to choose.</FieldsetError>
-    </Fieldset>
+      <Fieldset.Error>Error message that says what to choose.</Fieldset.Error>
+    </Fieldset.Root>
   ),
-} satisfies Meta<typeof Fieldset>;
+} satisfies Meta<typeof Fieldset.Root>;
 
-type Story = StoryObj<typeof Fieldset>;
+type Story = StoryObj<typeof Fieldset.Root>;
 
 export const Playground: Story = {};
 
@@ -44,10 +44,10 @@ export const Disabled: Story = {
 export const Checkboxes: Story = {
   args: { invalid: true },
   render: (args) => (
-    <Fieldset {...args}>
-      <FieldsetLegend>Terms</FieldsetLegend>
+    <Fieldset.Root {...args}>
+      <Fieldset.Legend>Terms</Fieldset.Legend>
       <Checkbox label="I accept the terms" required invalid={args.invalid} />
-      <FieldsetError>Accept the terms to continue.</FieldsetError>
-    </Fieldset>
+      <Fieldset.Error>Accept the terms to continue.</Fieldset.Error>
+    </Fieldset.Root>
   ),
 };

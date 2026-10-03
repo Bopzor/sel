@@ -1,16 +1,7 @@
 import type { MessageDescriptor } from '@lingui/core';
 import { msg } from '@lingui/core/macro';
 import { Trans, useLingui } from '@lingui/react/macro';
-import {
-  Card,
-  Icon,
-  ListItem,
-  ListItemButton,
-  ListItemChevron,
-  ListItemContent,
-  ListItemLink,
-  ListItemTitle,
-} from '@sel/ui';
+import { Card, Icon, ListItem } from '@sel/ui';
 import { entries } from '@sel/utils';
 
 import { navigation, type NavigationItem } from 'src/app/routes';
@@ -31,14 +22,14 @@ export function NavigationPage() {
       {entries(navigation).map(([group, items]) => (
         <section key={group} className="stack gap-2">
           {labels[group] && <h2 className="text-caption text-subtle">{i18n._(labels[group])}</h2>}
-          <Card>
+          <Card.Root>
             <ul>
               {Object.values(items).map((entry) => (
                 <Entry key={entry.path} {...entry} />
               ))}
               {group === 'account' && <SignOutItem />}
             </ul>
-          </Card>
+          </Card.Root>
         </section>
       ))}
     </div>
@@ -49,17 +40,17 @@ function Entry({ path, label, icon }: NavigationItem) {
   const { t } = useLingui();
 
   return (
-    <ListItem>
+    <ListItem.Root>
       <Icon name={icon} className="text-muted" />
-      <ListItemContent>
-        <ListItemTitle>
-          <ListItemLink Link={Link} href={path}>
+      <ListItem.Content>
+        <ListItem.Title>
+          <ListItem.Link Link={Link} href={path}>
             {t(label)}
-          </ListItemLink>
-        </ListItemTitle>
-      </ListItemContent>
-      <ListItemChevron />
-    </ListItem>
+          </ListItem.Link>
+        </ListItem.Title>
+      </ListItem.Content>
+      <ListItem.Chevron />
+    </ListItem.Root>
   );
 }
 
@@ -67,15 +58,15 @@ function SignOutItem() {
   const signOut = useSignOut();
 
   return (
-    <ListItem>
+    <ListItem.Root>
       <Icon name="sign-out" className="text-muted" />
-      <ListItemContent>
-        <ListItemTitle>
-          <ListItemButton onClick={signOut}>
+      <ListItem.Content>
+        <ListItem.Title>
+          <ListItem.Button onClick={signOut}>
             <Trans>Sign out</Trans>
-          </ListItemButton>
-        </ListItemTitle>
-      </ListItemContent>
-    </ListItem>
+          </ListItem.Button>
+        </ListItem.Title>
+      </ListItem.Content>
+    </ListItem.Root>
   );
 }

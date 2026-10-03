@@ -63,24 +63,24 @@ The simplest solution that meets today's needs wins. Simple code is easier to re
 A component that has more than one content area, or whose content the consumer arranges, comes as a set of small parts rather than as props that hold content (`title`, `actions`, `footer`, `items`…):
 
 ```tsx
-<Dialog open={open} onClose={close}>
-  <DialogContent closeLabel="Close">
-    <DialogHeader>
-      <DialogTitle>Delete the item?</DialogTitle>
-      <DialogDescription>It cannot be undone.</DialogDescription>
-    </DialogHeader>
-    <DialogFooter>…</DialogFooter>
-  </DialogContent>
-</Dialog>
+<Dialog.Root open={open} onClose={close}>
+  <Dialog.Content closeLabel="Close">
+    <Dialog.Header>
+      <Dialog.Title>Delete the item?</Dialog.Title>
+      <Dialog.Description>It cannot be undone.</Dialog.Description>
+    </Dialog.Header>
+    <Dialog.Footer>…</Dialog.Footer>
+  </Dialog.Content>
+</Dialog.Root>
 ```
 
 - An atomic control (`Button`, `Input`, `Checkbox`, `Badge`…) stays a single component.
-- Parts are exported flat, named after the component (`DialogTitle`, not `Dialog.Title`), and live in the component's file.
+- Parts live in the component's file, which exports them by their part name (`Root`, `Title`…). `index.ts` exports the file as a namespace named after the component (`export * as Dialog`), so that the parts read `Dialog.Root`, `Dialog.Title`. The root part is always `Root`.
 - Each part follows the rules of [Props](#props): it extends the props of the element it renders, and passes `className` and the other props through.
 - The parts share their state through Ark's context (Dialog, Tabs, Field, Fieldset…), or through a React context of the component when Ark has none.
-- What accessibility needs is kept in a required part, so that leaving out an optional part cannot break it: the close button of a dialog is part of `DialogContent`, which requires its name.
+- What accessibility needs is kept in a required part, so that leaving out an optional part cannot break it: the close button of a dialog is part of `Dialog.Content`, which requires its name.
 - The guideline lists the parts, which ones are required and in which order they go.
-- `Field` is the only component that also comes as a shortcut (`<Field label hint error>`), built from its parts, for the common case of a field.
+- `FormField` is the only shortcut built from a component's parts (`<FormField label hint error>`, from `Field`'s), for the common case of a field.
 
 ## Behavior and accessibility
 

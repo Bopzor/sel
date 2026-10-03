@@ -3,13 +3,13 @@ import { useState } from 'react';
 
 import { Badge } from '../display/badge';
 
-import { Tab, TabList, TabPanel, Tabs } from './tabs';
+import * as Tabs from './tabs';
 
 const views = ['First', 'Second', 'Third'];
 
 export default {
   title: 'Components/Navigation/Tabs',
-  component: Tabs,
+  component: Tabs.Root,
   args: {
     defaultValue: 'First',
   },
@@ -17,24 +17,24 @@ export default {
     children: { control: false },
   },
   render: (args) => (
-    <Tabs {...args}>
-      <TabList aria-label="Views">
+    <Tabs.Root {...args}>
+      <Tabs.List aria-label="Views">
         {views.map((view) => (
-          <Tab key={view} value={view}>
+          <Tabs.TabsTab key={view} value={view}>
             {view}
-          </Tab>
+          </Tabs.TabsTab>
         ))}
-      </TabList>
+      </Tabs.List>
       {views.map((view) => (
-        <TabPanel key={view} value={view}>
+        <Tabs.Panel key={view} value={view}>
           <p className="pt-4 text-body text-default">Content: {view}</p>
-        </TabPanel>
+        </Tabs.Panel>
       ))}
-    </Tabs>
+    </Tabs.Root>
   ),
-} satisfies Meta<typeof Tabs>;
+} satisfies Meta<typeof Tabs.Root>;
 
-type Story = StoryObj<typeof Tabs>;
+type Story = StoryObj<typeof Tabs.Root>;
 
 export const Playground: Story = {};
 
@@ -44,48 +44,48 @@ export const Controlled: Story = {
     const [value, setValue] = useState('Second');
 
     return (
-      <Tabs {...args} defaultValue={undefined} value={value} onChange={setValue}>
-        <TabList aria-label="Views">
+      <Tabs.Root {...args} defaultValue={undefined} value={value} onChange={setValue}>
+        <Tabs.List aria-label="Views">
           {views.map((view) => (
-            <Tab key={view} value={view}>
+            <Tabs.TabsTab key={view} value={view}>
               {view}
-            </Tab>
+            </Tabs.TabsTab>
           ))}
-        </TabList>
-        <TabPanel value={value}>
+        </Tabs.List>
+        <Tabs.Panel value={value}>
           <p className="pt-4 text-body text-default">Content: {value}</p>
-        </TabPanel>
-      </Tabs>
+        </Tabs.Panel>
+      </Tabs.Root>
     );
   },
 };
 
 export const WithBadges: Story = {
   render: (args) => (
-    <Tabs {...args}>
-      <TabList aria-label="Views">
+    <Tabs.Root {...args}>
+      <Tabs.List aria-label="Views">
         {views.map((view, index) => (
-          <Tab key={view} value={view}>
+          <Tabs.TabsTab key={view} value={view}>
             {view}
             <Badge>{index + 2}</Badge>
-          </Tab>
+          </Tabs.TabsTab>
         ))}
-      </TabList>
-    </Tabs>
+      </Tabs.List>
+    </Tabs.Root>
   ),
 };
 
 export const FiveTabs: Story = {
   args: { defaultValue: 'First view' },
   render: (args) => (
-    <Tabs {...args}>
-      <TabList aria-label="Views">
+    <Tabs.Root {...args}>
+      <Tabs.List aria-label="Views">
         {['First view', 'Second view', 'Third view', 'Fourth view', 'Fifth view'].map((view) => (
-          <Tab key={view} value={view}>
+          <Tabs.TabsTab key={view} value={view}>
             {view}
-          </Tab>
+          </Tabs.TabsTab>
         ))}
-      </TabList>
-    </Tabs>
+      </Tabs.List>
+    </Tabs.Root>
   ),
 };

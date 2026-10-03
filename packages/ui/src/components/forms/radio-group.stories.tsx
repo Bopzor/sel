@@ -1,12 +1,12 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
 
-import { Fieldset, FieldsetError, FieldsetLegend } from './fieldset';
-import { Radio, RadioCard, RadioGroup } from './radio-group';
+import * as Fieldset from './fieldset';
+import * as RadioGroup from './radio-group';
 
 export default {
   title: 'Components/Forms/RadioGroup',
-  component: RadioGroup,
+  component: RadioGroup.Root,
   args: {
     'aria-label': 'Question',
     defaultValue: 'first',
@@ -16,35 +16,35 @@ export default {
     children: { control: false },
   },
   render: (args) => (
-    <RadioGroup {...args}>
-      <Radio value="first" label="First option" />
-      <Radio value="second" label="Second option" />
-      <Radio value="third" label="Third option" />
-    </RadioGroup>
+    <RadioGroup.Root {...args}>
+      <RadioGroup.Item value="first" label="First option" />
+      <RadioGroup.Item value="second" label="Second option" />
+      <RadioGroup.Item value="third" label="Third option" />
+    </RadioGroup.Root>
   ),
-} satisfies Meta<typeof RadioGroup>;
+} satisfies Meta<typeof RadioGroup.Root>;
 
-type Story = StoryObj<typeof RadioGroup>;
+type Story = StoryObj<typeof RadioGroup.Root>;
 
 export const Playground: Story = {};
 
 export const WithDescriptions: Story = {
   render: (args) => (
-    <RadioGroup {...args}>
-      <Radio value="first" label="First option" description="Description of the first option." />
-      <Radio value="second" label="Second option" description="Description of the second option." />
-      <Radio value="third" label="Third option" description="Description of the third option." />
-    </RadioGroup>
+    <RadioGroup.Root {...args}>
+      <RadioGroup.Item value="first" label="First option" description="Description of the first option." />
+      <RadioGroup.Item value="second" label="Second option" description="Description of the second option." />
+      <RadioGroup.Item value="third" label="Third option" description="Description of the third option." />
+    </RadioGroup.Root>
   ),
 };
 
 export const Cards: Story = {
   render: (args) => (
-    <RadioGroup {...args} className="gap-3">
-      <RadioCard value="first" label="First option" description="Description of the first option." />
-      <RadioCard value="second" label="Second option" description="Description of the second option." />
-      <RadioCard value="third" label="Third option" description="Description of the third option." />
-    </RadioGroup>
+    <RadioGroup.Root {...args} className="gap-3">
+      <RadioGroup.Card value="first" label="First option" description="Description of the first option." />
+      <RadioGroup.Card value="second" label="Second option" description="Description of the second option." />
+      <RadioGroup.Card value="third" label="Third option" description="Description of the third option." />
+    </RadioGroup.Root>
   ),
   decorators: [(Story) => <div className="max-w-content">{Story()}</div>],
 };
@@ -62,25 +62,25 @@ export const InvalidCards: Story = {
 export const InFieldset: Story = {
   args: { 'aria-label': undefined, defaultValue: null, required: true },
   render: (args) => (
-    <Fieldset invalid>
-      <FieldsetLegend>Question</FieldsetLegend>
-      <RadioGroup {...args}>
-        <Radio value="first" label="First option" />
-        <Radio value="second" label="Second option" />
-        <Radio value="third" label="Third option" />
-      </RadioGroup>
-      <FieldsetError>Error message that says what to choose.</FieldsetError>
-    </Fieldset>
+    <Fieldset.Root invalid>
+      <Fieldset.Legend>Question</Fieldset.Legend>
+      <RadioGroup.Root {...args}>
+        <RadioGroup.Item value="first" label="First option" />
+        <RadioGroup.Item value="second" label="Second option" />
+        <RadioGroup.Item value="third" label="Third option" />
+      </RadioGroup.Root>
+      <Fieldset.Error>Error message that says what to choose.</Fieldset.Error>
+    </Fieldset.Root>
   ),
 };
 
 export const DisabledOption: Story = {
   render: (args) => (
-    <RadioGroup {...args}>
-      <Radio value="first" label="First option" />
-      <Radio value="second" label="Second option" />
-      <Radio value="third" label="Third option" disabled />
-    </RadioGroup>
+    <RadioGroup.Root {...args}>
+      <RadioGroup.Item value="first" label="First option" />
+      <RadioGroup.Item value="second" label="Second option" />
+      <RadioGroup.Item value="third" label="Third option" disabled />
+    </RadioGroup.Root>
   ),
 };
 
@@ -95,11 +95,11 @@ export const Controlled: Story = {
     const [value, setValue] = useState<string | null>(null);
 
     return (
-      <RadioGroup {...args} value={value} onChange={setValue}>
-        <Radio value="first" label="First option" />
-        <Radio value="second" label="Second option" />
-        <Radio value="third" label="Third option" />
-      </RadioGroup>
+      <RadioGroup.Root {...args} value={value} onChange={setValue}>
+        <RadioGroup.Item value="first" label="First option" />
+        <RadioGroup.Item value="second" label="Second option" />
+        <RadioGroup.Item value="third" label="Third option" />
+      </RadioGroup.Root>
     );
   },
 };

@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
 
-import { BottomNav, BottomNavItem } from './bottom-nav';
+import * as BottomNav from './bottom-nav';
 
 import type { IconName } from '../display/icon';
 
@@ -18,7 +18,7 @@ function Entries({ items }: { items: Entry[] }) {
   const [value, setValue] = useState('home');
 
   return items.map((item) => (
-    <BottomNavItem
+    <BottomNav.Item
       key={item.value}
       href={`#${item.value}`}
       icon={item.icon}
@@ -26,13 +26,13 @@ function Entries({ items }: { items: Entry[] }) {
       onClick={() => setValue(item.value)}
     >
       {item.label}
-    </BottomNavItem>
+    </BottomNav.Item>
   ));
 }
 
 export default {
   title: 'Components/Navigation/BottomNav',
-  component: BottomNav,
+  component: BottomNav.Root,
   args: {
     'aria-label': 'Main navigation',
     children: undefined,
@@ -41,21 +41,21 @@ export default {
     children: { control: false },
   },
   render: (args) => (
-    <BottomNav {...args}>
+    <BottomNav.Root {...args}>
       <Entries items={items} />
-    </BottomNav>
+    </BottomNav.Root>
   ),
-} satisfies Meta<typeof BottomNav>;
+} satisfies Meta<typeof BottomNav.Root>;
 
-type Story = StoryObj<typeof BottomNav>;
+type Story = StoryObj<typeof BottomNav.Root>;
 
 export const Playground: Story = {};
 
 export const ThreeEntries: Story = {
   render: (args) => (
-    <BottomNav {...args}>
+    <BottomNav.Root {...args}>
       <Entries items={items.slice(0, 3)} />
-    </BottomNav>
+    </BottomNav.Root>
   ),
 };
 
@@ -71,9 +71,9 @@ export const Fixed: Story = {
           </p>
         ))}
       </div>
-      <BottomNav {...args}>
+      <BottomNav.Root {...args}>
         <Entries items={items} />
-      </BottomNav>
+      </BottomNav.Root>
     </div>
   ),
 };

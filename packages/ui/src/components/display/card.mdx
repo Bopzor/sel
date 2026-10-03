@@ -17,27 +17,27 @@ A rounded surface that groups content, with an optional header, body and footer.
 ## Parts
 
 ```tsx
-<Card>
-  <CardHeader>
-    <CardTitle>Title</CardTitle>
-    <CardDescription>Author · Date</CardDescription>
-    <CardAction>
+<Card.Root>
+  <Card.Header>
+    <Card.Title>Title</Card.Title>
+    <Card.Description>Author · Date</Card.Description>
+    <Card.Action>
       <Badge>Category</Badge>
-    </CardAction>
-  </CardHeader>
-  <CardBody>…</CardBody>
-  <CardFooter>…</CardFooter>
-</Card>
+    </Card.Action>
+  </Card.Header>
+  <Card.Body>…</Card.Body>
+  <Card.Footer>…</Card.Footer>
+</Card.Root>
 ```
 
-- `Card` (required): the surface. Its parts pad themselves; content placed directly in it, such as a `ul` of `ListItem`s, goes from edge to edge.
-- `CardHeader`: the title, the description and the action.
-- `CardTitle`: the title, a heading of `level` 2, 3 or 4 (3 by default, to adjust to the page hierarchy).
-- `CardDescription`: under the title: author, date.
-- `CardAction`: a badge or an icon button at the top right, written after the title and the description.
-- `CardBody`: the content.
-- `CardFooter`: one or two buttons.
-- `CardLink` or `CardButton`, inside the `CardTitle`: the whole card becomes a link or a button, named by the title, which covers the card. `CardLink` takes the router's link component as `Link` (an `<a>` by default). The `CardAction` and the `CardFooter` stay above it, so that their buttons keep their own action.
+- `Card.Root` (required): the surface. Its parts pad themselves; content placed directly in it, such as a `ul` of `ListItem`s, goes from edge to edge.
+- `Card.Header`: the title, the description and the action.
+- `Card.Title`: the title, a heading of `level` 2, 3 or 4 (3 by default, to adjust to the page hierarchy).
+- `Card.Description`: under the title: author, date.
+- `Card.Action`: a badge or an icon button at the top right, written after the title and the description.
+- `Card.Body`: the content.
+- `Card.Footer`: one or two buttons.
+- `Card.Link` or `Card.Button`, inside the `Card.Title`: the whole card becomes a link or a button, named by the title, which covers the card. `Card.Link` takes the router's link component as `Link` (an `<a>` by default). The `Card.Action` and the `Card.Footer` stay above it, so that their buttons keep their own action.
 
 Do not nest cards.
 

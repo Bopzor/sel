@@ -15,25 +15,25 @@ For lists of members, exchanges, notifications, settings. Rows go in a `ul`, usu
 ## Parts
 
 ```tsx
-<ListItem>
+<ListItem.Root>
   <Avatar name="Jane Doe" decorative />
-  <ListItemContent>
-    <ListItemTitle>
-      <ListItemLink href="…">Jane Doe</ListItemLink>
-    </ListItemTitle>
-    <ListItemDescription>Description</ListItemDescription>
-  </ListItemContent>
-  <ListItemChevron />
-</ListItem>
+  <ListItem.Content>
+    <ListItem.Title>
+      <ListItem.Link href="…">Jane Doe</ListItem.Link>
+    </ListItem.Title>
+    <ListItem.Description>Description</ListItem.Description>
+  </ListItem.Content>
+  <ListItem.Chevron />
+</ListItem.Root>
 ```
 
-- `ListItem` (required): the row, an `li`.
+- `ListItem.Root` (required): the row, an `li`.
 - A leading `Avatar` or `Icon`, first in the row.
-- `ListItemContent` (required): the title and the description, which take the remaining width.
-- `ListItemTitle` (required), `ListItemDescription`: two lines at most.
-- `ListItemHeader`: the `ListItemTitle`, then a badge, an amount or a date on the title's line. The description below keeps the full width, even on a phone.
-- `ListItemChevron`: shows that the row opens a detail.
-- `ListItemLink` or `ListItemButton`, inside the `ListItemTitle`: the whole row becomes a link or a button, named by the title, which covers the row. `ListItemLink` takes the router's link component as `Link` (an `<a>` by default).
+- `ListItem.Content` (required): the title and the description, which take the remaining width.
+- `ListItem.Title` (required), `ListItem.Description`: two lines at most.
+- `ListItem.Header`: the `ListItem.Title`, then a badge, an amount or a date on the title's line. The description below keeps the full width, even on a phone.
+- `ListItem.Chevron`: shows that the row opens a detail.
+- `ListItem.Link` or `ListItem.Button`, inside the `ListItem.Title`: the whole row becomes a link or a button, named by the title, which covers the row. `ListItem.Link` takes the router's link component as `Link` (an `<a>` by default).
 
 <Primary />
 

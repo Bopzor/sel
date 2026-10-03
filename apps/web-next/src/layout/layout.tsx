@@ -1,15 +1,7 @@
 import type { MessageDescriptor } from '@lingui/core';
 import { msg } from '@lingui/core/macro';
 import { Trans, useLingui } from '@lingui/react/macro';
-import {
-  BottomNav,
-  BottomNavItem,
-  SideNav,
-  SideNavFooter,
-  SideNavHeader,
-  SideNavItem,
-  SideNavSection,
-} from '@sel/ui';
+import { BottomNav, SideNav } from '@sel/ui';
 import { entries } from '@sel/utils';
 import { Outlet, ScrollRestoration, useMatch } from 'react-router';
 
@@ -37,32 +29,32 @@ export function Layout() {
 
   return (
     <div className="row min-h-dvh">
-      <SideNav
+      <SideNav.Root
         aria-label={t`Main navigation`}
         className="sticky top-0 hidden h-dvh shrink-0 overflow-y-auto lg:stack"
       >
-        <SideNavHeader logo={config.logoUrl} name={config.letsName} place={config.place} />
+        <SideNav.Header logo={config.logoUrl} name={config.letsName} place={config.place} />
 
         {entries(navigation)
           .filter(([group]) => group !== 'account')
           .map(([group, items]) => (
-            <SideNavSection key={group} title={labels[group] && i18n._(labels[group])}>
+            <SideNav.Section key={group} title={labels[group] && i18n._(labels[group])}>
               {Object.values(items).map((item) => (
                 <SideNavLink key={item.path} {...item} />
               ))}
-            </SideNavSection>
+            </SideNav.Section>
           ))}
 
-        <SideNavFooter>
-          <SideNavSection title={labels.account && i18n._(labels.account)}>
+        <SideNav.Footer>
+          <SideNav.Section title={labels.account && i18n._(labels.account)}>
             {Object.values(navigation.account).map((item) => (
               <SideNavLink key={item.path} {...item} />
             ))}
 
             <SignOutItem />
-          </SideNavSection>
-        </SideNavFooter>
-      </SideNav>
+          </SideNav.Section>
+        </SideNav.Footer>
+      </SideNav.Root>
 
       <main className="min-w-0 flex-1 pb-bottom-nav lg:pb-0">
         <div className="mx-auto max-w-page px-4 py-6 md:px-6 lg:p-10">
@@ -72,11 +64,11 @@ export function Layout() {
 
       <ScrollRestoration />
 
-      <BottomNav aria-label={t`Main navigation`} fixed className="lg:hidden">
+      <BottomNav.Root aria-label={t`Main navigation`} fixed className="lg:hidden">
         {bottomNav.map((item) => (
           <BottomNavLink key={item.path} {...item} />
         ))}
-      </BottomNav>
+      </BottomNav.Root>
     </div>
   );
 }
@@ -85,9 +77,9 @@ function SignOutItem() {
   const signOut = useSignOut();
 
   return (
-    <SideNavItem icon="sign-out" onClick={signOut}>
+    <SideNav.Item icon="sign-out" onClick={signOut}>
       <Trans>Sign out</Trans>
-    </SideNavItem>
+    </SideNav.Item>
   );
 }
 
@@ -96,9 +88,9 @@ function SideNavLink({ path, label, icon }: NavigationItem) {
   const match = useMatch(path === '/' ? path : path + '/*');
 
   return (
-    <SideNavItem Link={Link} href={path} icon={icon} active={match !== null}>
+    <SideNav.Item Link={Link} href={path} icon={icon} active={match !== null}>
       {t(label)}
-    </SideNavItem>
+    </SideNav.Item>
   );
 }
 
@@ -107,8 +99,8 @@ function BottomNavLink({ path, label, icon }: NavigationItem) {
   const match = useMatch(path === '/' ? path : path + '/*');
 
   return (
-    <BottomNavItem Link={Link} href={path} icon={icon} active={match !== null}>
+    <BottomNav.Item Link={Link} href={path} icon={icon} active={match !== null}>
       {t(label)}
-    </BottomNavItem>
+    </BottomNav.Item>
   );
 }

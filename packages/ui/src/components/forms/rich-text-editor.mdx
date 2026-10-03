@@ -6,7 +6,7 @@ import * as RichTextEditorStories from './rich-text-editor.stories';
 
 # RichTextEditor
 
-A multi-line input with simple formatting: bold, italic, underline, links and lists. It has no label: put it in a `Field`, which adds the label, the hint and the error, and gives it its states. It has the same box as `TextArea`, and a formatting toolbar under the text.
+A multi-line input with simple formatting: bold, italic, underline, links and lists. It has no label: put it in a `FormField`, which adds the label, the hint and the error, and gives it its states. It has the same box as `TextArea`, and a formatting toolbar under the text.
 
 ## When to use it
 
@@ -16,31 +16,31 @@ For a text that other members read, where a list or a link helps: the message of
 
 - `value` + `onChange(html)`: the editor is always controlled. The content is HTML, an empty string when the editor is empty. The application sanitizes this HTML before showing it with `RichText`.
 - `onBlur` and `ref` (whose `focus()` moves the focus to the text), for a form library: with react-hook-form, the editor goes through a `Controller`.
-- `disabled`, `required`, `aria-invalid`, `id`, `aria-label`, `aria-labelledby`, `aria-describedby`: they override the `Field`'s. Outside a `Field`, an `aria-label`, like `Input`.
+- `disabled`, `required`, `aria-invalid`, `id`, `aria-label`, `aria-labelledby`, `aria-describedby`: they override the `FormField`'s. Outside a `FormField`, an `aria-label`, like `Input`.
 - `placeholder`: an example of content, never a replacement for the label.
-- `children`: its `RichTextToolbar` (see below).
+- `children`: its `RichTextEditor.Toolbar` (see below).
 
 ## Parts
 
 ```tsx
-<RichTextEditor value={value} onChange={setValue}>
-  <RichTextToolbar>
-    <RichTextBold label="Bold" />
-    <RichTextItalic label="Italic" />
-    <RichTextUnderline label="Underline" />
-    <RichTextLink labels={linkLabels} />
-    <RichTextBulletList label="Bulleted list" />
-    <RichTextOrderedList label="Numbered list" />
-    <RichTextToolbarEnd>…</RichTextToolbarEnd>
-  </RichTextToolbar>
-</RichTextEditor>
+<RichTextEditor.Root value={value} onChange={setValue}>
+  <RichTextEditor.Toolbar>
+    <RichTextEditor.Bold label="Bold" />
+    <RichTextEditor.Italic label="Italic" />
+    <RichTextEditor.Underline label="Underline" />
+    <RichTextEditor.Link labels={linkLabels} />
+    <RichTextEditor.BulletList label="Bulleted list" />
+    <RichTextEditor.OrderedList label="Numbered list" />
+    <RichTextEditor.ToolbarEnd>…</RichTextEditor.ToolbarEnd>
+  </RichTextEditor.Toolbar>
+</RichTextEditor.Root>
 ```
 
-- `RichTextToolbar`: the bar under the text. The formats offered are the buttons it contains, in that order.
-- `RichTextBold`, `RichTextItalic`, `RichTextUnderline`, `RichTextBulletList`, `RichTextOrderedList`: a format each, named by `label` in the application's language.
-- `RichTextLink`: the link button and its dialog, with their texts in `labels` (`button`, which is also the dialog's title, `url`, `invalid`, `apply`, `remove`, `cancel`, `close`).
-- `RichTextToolbarEnd`: actions placed at the end of the toolbar, such as an attachment button or the send button of a comment. The editor only renders them.
-- `RichTextToolbarButton`: a button with the style of the toolbar, for an action of the application (attaching a file). It is disabled with the editor.
+- `RichTextEditor.Toolbar`: the bar under the text. The formats offered are the buttons it contains, in that order.
+- `RichTextEditor.Bold`, `RichTextEditor.Italic`, `RichTextEditor.Underline`, `RichTextEditor.BulletList`, `RichTextEditor.OrderedList`: a format each, named by `label` in the application's language.
+- `RichTextEditor.Link`: the link button and its dialog, with their texts in `labels` (`button`, which is also the dialog's title, `url`, `invalid`, `apply`, `remove`, `cancel`, `close`).
+- `RichTextEditor.ToolbarEnd`: actions placed at the end of the toolbar, such as an attachment button or the send button of a comment. The editor only renders them.
+- `RichTextEditor.ToolbarButton`: a button with the style of the toolbar, for an action of the application (attaching a file). It is disabled with the editor.
 
 ## Rules
 
@@ -53,7 +53,7 @@ For a text that other members read, where a list or a link helps: the message of
 
 ## Accessibility
 
-The editable text is a `role="textbox"` with `aria-multiline`, named by the `Field`'s label, described by its hint and linked to its error with `aria-errormessage`, and marked with `aria-invalid`, `aria-required` and `aria-disabled`. A click on the label moves the focus to the text. When the link dialog closes, the focus goes back to the text.
+The editable text is a `role="textbox"` with `aria-multiline`, named by the `FormField`'s label, described by its hint and linked to its error with `aria-errormessage`, and marked with `aria-invalid`, `aria-required` and `aria-disabled`. A click on the label moves the focus to the text. When the link dialog closes, the focus goes back to the text.
 
 <Primary />
 

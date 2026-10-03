@@ -2,24 +2,14 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState, type FormEvent } from 'react';
 
 import { Button } from '../actions/button';
-import { Field } from '../forms/field';
+import { FormField } from '../forms/form-field';
 import { Input } from '../forms/input';
 
-import {
-  Dialog,
-  DialogBody,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from './dialog';
+import * as Dialog from './dialog';
 
 export default {
   title: 'Components/Feedback/Dialog',
-  component: Dialog,
+  component: Dialog.Root,
   args: {
     alert: false,
     children: undefined,
@@ -34,28 +24,28 @@ export default {
     return (
       <>
         <Button onClick={() => setOpen(true)}>Open</Button>
-        <Dialog {...args} open={open} onClose={close}>
-          <DialogContent closeLabel="Close">
-            <DialogHeader>
-              <DialogTitle>Confirm the action?</DialogTitle>
-              <DialogDescription>Description of the consequences of the action.</DialogDescription>
-            </DialogHeader>
-            <DialogFooter>
+        <Dialog.Root {...args} open={open} onClose={close}>
+          <Dialog.Content closeLabel="Close">
+            <Dialog.Header>
+              <Dialog.Title>Confirm the action?</Dialog.Title>
+              <Dialog.Description>Description of the consequences of the action.</Dialog.Description>
+            </Dialog.Header>
+            <Dialog.Footer>
               <Button variant={args.alert ? 'danger' : 'primary'} onClick={close}>
                 Confirm
               </Button>
               <Button variant="secondary" onClick={close}>
                 Cancel
               </Button>
-            </DialogFooter>
-          </DialogContent>
-        </Dialog>
+            </Dialog.Footer>
+          </Dialog.Content>
+        </Dialog.Root>
       </>
     );
   },
-} satisfies Meta<typeof Dialog>;
+} satisfies Meta<typeof Dialog.Root>;
 
-type Story = StoryObj<typeof Dialog>;
+type Story = StoryObj<typeof Dialog.Root>;
 
 export const Playground: Story = {};
 
@@ -63,28 +53,28 @@ export const Alert: Story = {
   args: { alert: true },
 };
 
-/** A DialogTrigger opens the dialog and a DialogClose closes it: the dialog holds its own state. */
+/** A Dialog.Trigger opens the dialog and a Dialog.Close closes it: the dialog holds its own state. */
 export const Uncontrolled: Story = {
   render: (args) => (
-    <Dialog {...args}>
-      <DialogTrigger>
+    <Dialog.Root {...args}>
+      <Dialog.Trigger>
         <Button>Open</Button>
-      </DialogTrigger>
-      <DialogContent closeLabel="Close">
-        <DialogHeader>
-          <DialogTitle>Confirm the action?</DialogTitle>
-          <DialogDescription>Description of the consequences of the action.</DialogDescription>
-        </DialogHeader>
-        <DialogFooter>
-          <DialogClose>
+      </Dialog.Trigger>
+      <Dialog.Content closeLabel="Close">
+        <Dialog.Header>
+          <Dialog.Title>Confirm the action?</Dialog.Title>
+          <Dialog.Description>Description of the consequences of the action.</Dialog.Description>
+        </Dialog.Header>
+        <Dialog.Footer>
+          <Dialog.Close>
             <Button>Confirm</Button>
-          </DialogClose>
-          <DialogClose>
+          </Dialog.Close>
+          <Dialog.Close>
             <Button variant="secondary">Cancel</Button>
-          </DialogClose>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+          </Dialog.Close>
+        </Dialog.Footer>
+      </Dialog.Content>
+    </Dialog.Root>
   ),
 };
 
@@ -103,26 +93,26 @@ export const WithForm: Story = {
     return (
       <>
         <Button onClick={() => setOpen(true)}>Open</Button>
-        <Dialog {...args} open={open} onClose={close}>
-          <DialogContent closeLabel="Close">
-            <DialogHeader>
-              <DialogTitle>Title of the form</DialogTitle>
-            </DialogHeader>
+        <Dialog.Root {...args} open={open} onClose={close}>
+          <Dialog.Content closeLabel="Close">
+            <Dialog.Header>
+              <Dialog.Title>Title of the form</Dialog.Title>
+            </Dialog.Header>
             <form onSubmit={handleSubmit} className="contents">
-              <DialogBody>
-                <Field label="Label">
+              <Dialog.Body>
+                <FormField label="Label">
                   <Input value={value} onChange={(event) => setValue(event.target.value)} />
-                </Field>
-              </DialogBody>
-              <DialogFooter>
+                </FormField>
+              </Dialog.Body>
+              <Dialog.Footer>
                 <Button type="submit">Save</Button>
                 <Button variant="secondary" onClick={close}>
                   Cancel
                 </Button>
-              </DialogFooter>
+              </Dialog.Footer>
             </form>
-          </DialogContent>
-        </Dialog>
+          </Dialog.Content>
+        </Dialog.Root>
       </>
     );
   },
@@ -131,45 +121,45 @@ export const WithForm: Story = {
 /** The body scrolls when the window is too small; the title and the buttons stay visible. */
 export const LongContent: Story = {
   render: (args) => (
-    <Dialog {...args}>
-      <DialogTrigger>
+    <Dialog.Root {...args}>
+      <Dialog.Trigger>
         <Button>Open</Button>
-      </DialogTrigger>
-      <DialogContent closeLabel="Close">
-        <DialogHeader>
-          <DialogTitle>Title of the dialog</DialogTitle>
-        </DialogHeader>
-        <DialogBody className="stack gap-4">
+      </Dialog.Trigger>
+      <Dialog.Content closeLabel="Close">
+        <Dialog.Header>
+          <Dialog.Title>Title of the dialog</Dialog.Title>
+        </Dialog.Header>
+        <Dialog.Body className="stack gap-4">
           {Array.from({ length: 12 }, (_, index) => (
             <p key={index} className="text-body text-default">
               Paragraph {index + 1} of a content longer than the screen, which scrolls between the header and
               the footer.
             </p>
           ))}
-        </DialogBody>
-        <DialogFooter>
-          <DialogClose>
+        </Dialog.Body>
+        <Dialog.Footer>
+          <Dialog.Close>
             <Button>Confirm</Button>
-          </DialogClose>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+          </Dialog.Close>
+        </Dialog.Footer>
+      </Dialog.Content>
+    </Dialog.Root>
   ),
 };
 
 /** Information only: the close button is the only action. */
 export const NoActions: Story = {
   render: (args) => (
-    <Dialog {...args}>
-      <DialogTrigger>
+    <Dialog.Root {...args}>
+      <Dialog.Trigger>
         <Button>Open</Button>
-      </DialogTrigger>
-      <DialogContent closeLabel="Close">
-        <DialogHeader>
-          <DialogTitle>Title of the dialog</DialogTitle>
-          <DialogDescription>Information that does not ask for a choice.</DialogDescription>
-        </DialogHeader>
-      </DialogContent>
-    </Dialog>
+      </Dialog.Trigger>
+      <Dialog.Content closeLabel="Close">
+        <Dialog.Header>
+          <Dialog.Title>Title of the dialog</Dialog.Title>
+          <Dialog.Description>Information that does not ask for a choice.</Dialog.Description>
+        </Dialog.Header>
+      </Dialog.Content>
+    </Dialog.Root>
   ),
 };

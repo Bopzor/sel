@@ -2,7 +2,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { i18n, type MessageDescriptor } from '@lingui/core';
 import { msg } from '@lingui/core/macro';
 import { Trans, useLingui } from '@lingui/react/macro';
-import { Button, Card, CardBody, CardFooter, CardHeader } from '@sel/ui';
+import { Button, Card } from '@sel/ui';
 import { useMutation } from '@tanstack/react-query';
 import { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -25,8 +25,8 @@ export function AuthenticationPage() {
 
   return (
     <main className="row min-h-dvh items-center justify-center bg-page p-4">
-      <Card className="w-full max-w-content">
-        <CardHeader className="bg-primary pb-5 text-on-primary">
+      <Card.Root className="w-full max-w-content">
+        <Card.Header className="bg-primary pb-5 text-on-primary">
           <div className="row items-center gap-4">
             {/* The name next to it says what the logo shows. */}
             <img src={config.logoUrl} alt="" className="size-logo shrink-0 rounded-md bg-surface" />
@@ -35,7 +35,7 @@ export function AuthenticationPage() {
               <p className="text-body-sm">{config.place}</p>
             </div>
           </div>
-        </CardHeader>
+        </Card.Header>
 
         {step.name === 'email' ? (
           <EmailStep initialEmail={step.email} onSent={(email) => setStep({ name: 'code', email })} />
@@ -46,7 +46,7 @@ export function AuthenticationPage() {
             onBack={() => setStep({ name: 'email', email: step.email })}
           />
         )}
-      </Card>
+      </Card.Root>
     </main>
   );
 }
@@ -84,7 +84,7 @@ function EmailStep({ initialEmail, onSent }: { initialEmail?: string; onSent: (e
 
   return (
     <form noValidate onSubmit={(event) => void submit(event)} className="contents">
-      <CardBody className="stack gap-6">
+      <Card.Body className="stack gap-6">
         <p>
           <Trans>Enter the email address of your LETS account to access the app.</Trans>
         </p>
@@ -97,13 +97,13 @@ function EmailStep({ initialEmail, onSent }: { initialEmail?: string; onSent: (e
           autoComplete="email"
           placeholder={t`my@email.com`}
         />
-      </CardBody>
+      </Card.Body>
 
-      <CardFooter className="justify-end">
+      <Card.Footer className="justify-end">
         <Button type="submit" loading={request.isPending}>
           <Trans>Sign in</Trans>
         </Button>
-      </CardFooter>
+      </Card.Footer>
     </form>
   );
 }
@@ -161,7 +161,7 @@ function CodeStep({ email, initialCode, onBack }: CodeStepProps) {
 
   return (
     <form noValidate onSubmit={(event) => void submit(event)} className="contents">
-      <CardBody className="stack gap-6 pt-2">
+      <Card.Body className="stack gap-6 pt-2">
         <div className="stack gap-3">
           {email === undefined ? (
             <p>
@@ -194,13 +194,13 @@ function CodeStep({ email, initialCode, onBack }: CodeStepProps) {
           }}
           className="[&_input]:text-center [&_input]:tracking-[0.5em]"
         />
-      </CardBody>
+      </Card.Body>
 
-      <CardFooter className="justify-end">
+      <Card.Footer className="justify-end">
         <Button variant="secondary" onClick={onBack}>
           <Trans>Back</Trans>
         </Button>
-      </CardFooter>
+      </Card.Footer>
     </form>
   );
 }

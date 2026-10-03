@@ -4,81 +4,72 @@ import { fn } from 'storybook/test';
 import { Avatar } from './avatar';
 import { Badge } from './badge';
 import { Icon } from './icon';
-import {
-  ListItem,
-  ListItemButton,
-  ListItemChevron,
-  ListItemContent,
-  ListItemDescription,
-  ListItemHeader,
-  ListItemLink,
-  ListItemTitle,
-} from './list-item';
+import * as ListItem from './list-item';
 
 export default {
   title: 'Components/Display/ListItem',
-  component: ListItem,
+  component: ListItem.Root,
   decorators: [(Story) => <ul className="max-w-content">{Story()}</ul>],
   render: (args) => (
-    <ListItem {...args}>
-      <ListItemContent>
-        <ListItemTitle>Title</ListItemTitle>
-        <ListItemDescription>Description</ListItemDescription>
-      </ListItemContent>
-    </ListItem>
+    <ListItem.Root {...args}>
+      <ListItem.Content>
+        <ListItem.Title>Title</ListItem.Title>
+        <ListItem.Description>Description</ListItem.Description>
+      </ListItem.Content>
+    </ListItem.Root>
   ),
-} satisfies Meta<typeof ListItem>;
+} satisfies Meta<typeof ListItem.Root>;
 
-type Story = StoryObj<typeof ListItem>;
+type Story = StoryObj<typeof ListItem.Root>;
 
 export const Playground: Story = {};
 
 export const Rows: Story = {
   render: () => (
     <>
-      <ListItem>
+      <ListItem.Root>
         <Avatar name="Jane Doe" decorative />
-        <ListItemContent>
-          <ListItemHeader>
-            <ListItemTitle>Jane Doe</ListItemTitle>
+        <ListItem.Content>
+          <ListItem.Header>
+            <ListItem.Title>Jane Doe</ListItem.Title>
             <span className="text-body-sm text-muted">Date</span>
-          </ListItemHeader>
-          <ListItemDescription>Description</ListItemDescription>
-        </ListItemContent>
-      </ListItem>
+          </ListItem.Header>
+          <ListItem.Description>Description</ListItem.Description>
+        </ListItem.Content>
+      </ListItem.Root>
 
-      <ListItem>
+      <ListItem.Root>
         <Icon name="notifications" className="text-muted" />
-        <ListItemContent>
-          <ListItemHeader>
-            <ListItemTitle>Title</ListItemTitle>
+        <ListItem.Content>
+          <ListItem.Header>
+            <ListItem.Title>Title</ListItem.Title>
             <Badge tone="success">Done</Badge>
-          </ListItemHeader>
-          <ListItemDescription>
+          </ListItem.Header>
+          <ListItem.Description>
             A longer description that wraps over two lines at most, and is cut beyond that, to keep the rows
             of a list at a similar height.
-          </ListItemDescription>
-        </ListItemContent>
-      </ListItem>
+          </ListItem.Description>
+        </ListItem.Content>
+      </ListItem.Root>
 
-      <ListItem>
+      <ListItem.Root>
         <Icon name="settings" className="text-muted" />
-        <ListItemContent>
-          <ListItemTitle>
-            <ListItemLink href="#settings">Settings</ListItemLink>
-          </ListItemTitle>
-        </ListItemContent>
-        <ListItemChevron />
-      </ListItem>
+        <ListItem.Content>
+          <ListItem.Title>
+            <ListItem.Link href="#settings">Settings</ListItem.Link>
+          </ListItem.Title>
+        </ListItem.Content>
+        <ListItem.Chevron />
+      </ListItem.Root>
 
-      <ListItem>
+      <ListItem.Root>
         <Icon name="sign-out" className="text-muted" />
-        <ListItemContent>
-          <ListItemTitle>
-            <ListItemButton onClick={fn()}>Action</ListItemButton>
-          </ListItemTitle>
-        </ListItemContent>
-      </ListItem>
+        <ListItem.Content>
+          <ListItem.Title>
+            <ListItem.Button onClick={fn()}>Action</ListItem.Button>
+          </ListItem.Title>
+        </ListItem.Content>
+      </ListItem.Root>
     </>
   ),
 };

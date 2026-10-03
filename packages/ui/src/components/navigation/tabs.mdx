@@ -15,22 +15,22 @@ For two to five views of the same level (Requests / Events / Information). Not t
 ## Parts
 
 ```tsx
-<Tabs value={value} onChange={setValue}>
-  <TabList aria-label="Views">
-    <Tab value="requests">Requests</Tab>
-    <Tab value="events">
+<Tabs.Root value={value} onChange={setValue}>
+  <Tabs.List aria-label="Views">
+    <Tabs.Tab value="requests">Requests</Tabs.Tab>
+    <Tabs.Tab value="events">
       Events <Badge>2</Badge>
-    </Tab>
-  </TabList>
-  <TabPanel value="requests">…</TabPanel>
-  <TabPanel value="events">…</TabPanel>
-</Tabs>
+    </Tabs.Tab>
+  </Tabs.List>
+  <Tabs.Panel value="requests">…</Tabs.Panel>
+  <Tabs.Panel value="events">…</Tabs.Panel>
+</Tabs.Root>
 ```
 
-- `Tabs` (required): `value` + `onChange(value)`, or `defaultValue` for uncontrolled tabs.
-- `TabList` (required): the tabs, named by its `aria-label`.
-- `Tab` (required): the name of a view and its `value`. A `Badge` may follow the name, such as a count.
-- `TabPanel`: the view of the tab with the same `value`. Only the active panel is rendered.
+- `Tabs.Root` (required): `value` + `onChange(value)`, or `defaultValue` for uncontrolled tabs.
+- `Tabs.List` (required): the tabs, named by its `aria-label`.
+- `Tabs.Tab` (required): the name of a view and its `value`. A `Badge` may follow the name, such as a count.
+- `Tabs.Panel`: the view of the tab with the same `value`. Only the active panel is rendered.
 
 Height 48px, active tab in `text-primary` with a 3px `bg-primary` underline. Built on Ark UI: arrow keys move between tabs, and the active tab is linked to its panel.
 

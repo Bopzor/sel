@@ -4,7 +4,7 @@ import { useId, type ComponentProps, type ReactNode } from 'react';
 
 import { definedAttributes, type Override } from '../../utils';
 
-type RadioGroupProps = Override<
+type RadioGroupRootProps = Override<
   ComponentProps<'div'>,
   {
     /** null while no option is chosen. */
@@ -17,13 +17,13 @@ type RadioGroupProps = Override<
     required?: boolean;
     /** Marks every option as invalid. */
     invalid?: boolean;
-    /** Radios or RadioCards. */
+    /** RadioGroup.Items or RadioGroup.Cards. */
     children: ReactNode;
   }
 >;
 
-/** The options of a single choice: Radios or RadioCards. The question and the error go on a fieldset around it. */
-export function RadioGroup({
+/** The options of a single choice: RadioGroup.Items or RadioGroup.Cards. The question and the error go on a fieldset around it. */
+function RadioGroupRoot({
   value,
   defaultValue,
   onChange,
@@ -34,7 +34,7 @@ export function RadioGroup({
   invalid,
   className,
   ...props
-}: RadioGroupProps) {
+}: RadioGroupRootProps) {
   // A prop left undefined is not passed to Ark, so that it does not erase the state of a fieldset around the group.
   // Inside Ark's Fieldset, the group is named by the legend and takes the fieldset's disabled and invalid states.
   const rootProps = definedAttributes({ value, defaultValue, name, form, disabled, required, invalid });
@@ -62,7 +62,7 @@ type RadioProps = Override<
 >;
 
 /** A 24px radio button and its label, both clickable. */
-export function Radio({ label, description, className, ...props }: RadioProps) {
+function RadioGroupItem({ label, description, className, ...props }: RadioProps) {
   return (
     <ArkRadioGroup.Item
       {...props}
@@ -83,7 +83,7 @@ export function Radio({ label, description, className, ...props }: RadioProps) {
 }
 
 /** An option as a large card, for a structuring choice that needs an explanation. */
-export function RadioCard({ label, description, className, ...props }: RadioProps) {
+function RadioGroupCard({ label, description, className, ...props }: RadioProps) {
   return (
     <ArkRadioGroup.Item {...props} className={clsx(radioCardStyles, className)}>
       {/* The whole card shows the focus ring. */}
@@ -138,3 +138,5 @@ const radioCardStyles = clsx(
   'not-data-disabled:data-[state=checked]:border-primary not-data-disabled:data-[state=checked]:bg-primary-subtle not-data-disabled:data-[state=checked]:ring-1 not-data-disabled:data-[state=checked]:ring-primary not-data-disabled:data-[state=checked]:ring-inset',
   'data-disabled:border-default data-disabled:bg-disabled',
 );
+
+export { RadioGroupCard as Card, RadioGroupItem as Item, RadioGroupRoot as Root };

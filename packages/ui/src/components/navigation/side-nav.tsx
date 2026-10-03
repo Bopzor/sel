@@ -5,7 +5,7 @@ import { Icon, type IconName } from '../display/icon';
 
 import type { LinkComponent, Override } from '../../utils';
 
-type SideNavProps = Override<
+type SideNavRootProps = Override<
   ComponentProps<'nav'>,
   {
     /** Accessible name of the navigation ("Main navigation"). */
@@ -13,8 +13,8 @@ type SideNavProps = Override<
   }
 >;
 
-/** The side navigation: a SideNavHeader, SideNavSections of SideNavItems, and a SideNavFooter. */
-export function SideNav({ className, ...props }: SideNavProps) {
+/** The side navigation: a SideNav.Header, SideNav.Sections of SideNav.Items, and a SideNav.Footer. */
+function SideNavRoot({ className, ...props }: SideNavRootProps) {
   return (
     <nav {...props} className={clsx('stack w-sidebar gap-6 border-r bg-surface px-4 py-6', className)} />
   );
@@ -34,7 +34,7 @@ type SideNavHeaderProps = Override<
 >;
 
 /** The instance's identity, at the top. */
-export function SideNavHeader({ logo, name, place, className, ...props }: SideNavHeaderProps) {
+function SideNavHeader({ logo, name, place, className, ...props }: SideNavHeaderProps) {
   return (
     <div {...props} className={clsx('row items-center gap-2.5', className)}>
       {/* The name next to it says what the logo shows. */}
@@ -52,12 +52,12 @@ type SideNavSectionProps = Override<
   {
     /** Omitted for the first section, the main entries. */
     title?: string;
-    /** SideNavItems. */
+    /** SideNav.Items. */
     children: ReactNode;
   }
 >;
 
-export function SideNavSection({ title, className, children, ...props }: SideNavSectionProps) {
+function SideNavSection({ title, className, children, ...props }: SideNavSectionProps) {
   const titleId = useId();
 
   return (
@@ -88,15 +88,7 @@ type SideNavItemProps = {
 } & ({ Link?: LinkComponent; href: string } | { Link?: never; href?: never });
 
 /** An entry: a link with an href, a button without (signing out). */
-export function SideNavItem({
-  Link,
-  icon,
-  active = false,
-  badge,
-  className,
-  children,
-  ...props
-}: SideNavItemProps) {
+function SideNavItem({ Link, icon, active = false, badge, className, children, ...props }: SideNavItemProps) {
   const Component = props.href ? (Link ?? 'a') : 'button';
 
   return (
@@ -120,7 +112,15 @@ export function SideNavItem({
   );
 }
 
-/** At the bottom: the member's account, signing out. SideNavItems go in a SideNavSection inside it. */
-export function SideNavFooter({ className, ...props }: ComponentProps<'div'>) {
+/** At the bottom: the member's account, signing out. SideNav.Items go in a SideNav.Section inside it. */
+function SideNavFooter({ className, ...props }: ComponentProps<'div'>) {
   return <div {...props} className={clsx('mt-auto stack gap-1', className)} />;
 }
+
+export {
+  SideNavRoot as Root,
+  SideNavHeader as Header,
+  SideNavSection as Section,
+  SideNavItem as Item,
+  SideNavFooter as Footer,
+};

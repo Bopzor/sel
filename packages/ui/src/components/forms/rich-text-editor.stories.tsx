@@ -3,22 +3,10 @@ import { useState } from 'react';
 
 import { Button } from '../actions/button';
 
-import { Field } from './field';
-import {
-  RichTextBold,
-  RichTextBulletList,
-  RichTextEditor,
-  RichTextItalic,
-  RichTextLink,
-  RichTextOrderedList,
-  RichTextToolbar,
-  RichTextToolbarButton,
-  RichTextToolbarEnd,
-  RichTextUnderline,
-  type RichTextLinkLabels,
-} from './rich-text-editor';
+import { FormField } from './form-field';
+import * as RichTextEditor from './rich-text-editor';
 
-const linkLabels: RichTextLinkLabels = {
+const linkLabels: RichTextEditor.LinkLabels = {
   button: 'Link',
   url: 'Address',
   invalid: 'What to do to fix the address.',
@@ -29,14 +17,14 @@ const linkLabels: RichTextLinkLabels = {
 };
 
 const toolbar = (
-  <RichTextToolbar>
-    <RichTextBold label="Bold" />
-    <RichTextItalic label="Italic" />
-    <RichTextUnderline label="Underline" />
-    <RichTextLink labels={linkLabels} />
-    <RichTextBulletList label="Bulleted list" />
-    <RichTextOrderedList label="Numbered list" />
-  </RichTextToolbar>
+  <RichTextEditor.Toolbar>
+    <RichTextEditor.Bold label="Bold" />
+    <RichTextEditor.Italic label="Italic" />
+    <RichTextEditor.Underline label="Underline" />
+    <RichTextEditor.Link labels={linkLabels} />
+    <RichTextEditor.BulletList label="Bulleted list" />
+    <RichTextEditor.OrderedList label="Numbered list" />
+  </RichTextEditor.Toolbar>
 );
 
 const formattedValue = [
@@ -47,7 +35,7 @@ const formattedValue = [
 
 export default {
   title: 'Components/Forms/RichTextEditor',
-  component: RichTextEditor,
+  component: RichTextEditor.Root,
   args: {
     placeholder: 'Placeholder text',
     value: '',
@@ -60,14 +48,14 @@ export default {
     const [value, setValue] = useState(args.value);
 
     return (
-      <Field label="Message">
-        <RichTextEditor {...args} value={value} onChange={setValue} />
-      </Field>
+      <FormField label="Message">
+        <RichTextEditor.Root {...args} value={value} onChange={setValue} />
+      </FormField>
     );
   },
-} satisfies Meta<typeof RichTextEditor>;
+} satisfies Meta<typeof RichTextEditor.Root>;
 
-type Story = StoryObj<typeof RichTextEditor>;
+type Story = StoryObj<typeof RichTextEditor.Root>;
 
 export const Playground: Story = {};
 
@@ -82,9 +70,13 @@ export const Invalid: Story = {
     const [value, setValue] = useState(args.value);
 
     return (
-      <Field label="Message" hint="Hint text, shown before the field." error="What to do to fix the text.">
-        <RichTextEditor {...args} value={value} onChange={setValue} />
-      </Field>
+      <FormField
+        label="Message"
+        hint="Hint text, shown before the field."
+        error="What to do to fix the text."
+      >
+        <RichTextEditor.Root {...args} value={value} onChange={setValue} />
+      </FormField>
     );
   },
 };
@@ -100,10 +92,10 @@ export const Disabled: Story = {
 export const MinimalToolbar: Story = {
   args: {
     children: (
-      <RichTextToolbar>
-        <RichTextBold label="Bold" />
-        <RichTextItalic label="Italic" />
-      </RichTextToolbar>
+      <RichTextEditor.Toolbar>
+        <RichTextEditor.Bold label="Bold" />
+        <RichTextEditor.Italic label="Italic" />
+      </RichTextEditor.Toolbar>
     ),
   },
 };
@@ -114,21 +106,21 @@ export const WithToolbarEnd: Story = {
     const [value, setValue] = useState('');
 
     return (
-      <Field label="Message">
-        <RichTextEditor {...args} value={value} onChange={setValue}>
-          <RichTextToolbar>
-            <RichTextBold label="Bold" />
-            <RichTextItalic label="Italic" />
-            <RichTextLink labels={linkLabels} />
-            <RichTextToolbarEnd>
-              <RichTextToolbarButton icon="attachment" label="Attach a file" />
+      <FormField label="Message">
+        <RichTextEditor.Root {...args} value={value} onChange={setValue}>
+          <RichTextEditor.Toolbar>
+            <RichTextEditor.Bold label="Bold" />
+            <RichTextEditor.Italic label="Italic" />
+            <RichTextEditor.Link labels={linkLabels} />
+            <RichTextEditor.ToolbarEnd>
+              <RichTextEditor.ToolbarButton icon="attachment" label="Attach a file" />
               <Button size="sm" onClick={() => setValue('')}>
                 Send
               </Button>
-            </RichTextToolbarEnd>
-          </RichTextToolbar>
-        </RichTextEditor>
-      </Field>
+            </RichTextEditor.ToolbarEnd>
+          </RichTextEditor.Toolbar>
+        </RichTextEditor.Root>
+      </FormField>
     );
   },
 };

@@ -4,7 +4,7 @@ import type { ComponentProps } from 'react';
 
 import type { Override } from '../../utils';
 
-type TabsProps = Override<
+type TabsRootProps = Override<
   ComponentProps<'div'>,
   {
     value?: string;
@@ -13,8 +13,8 @@ type TabsProps = Override<
   }
 >;
 
-/** Two to five views of the same content: a TabList of Tabs, then a TabPanel for each tab. */
-export function Tabs({ onChange, className, ...props }: TabsProps) {
+/** Two to five views of the same content: a Tabs.List of Tabs.Tab, then a Tabs.Panel for each tab. */
+function TabsRoot({ onChange, className, ...props }: TabsRootProps) {
   // Only the active panel is rendered.
   return (
     <ArkTabs.Root
@@ -35,13 +35,13 @@ type TabListProps = Override<
   }
 >;
 
-export function TabList({ className, ...props }: TabListProps) {
+function TabsList({ className, ...props }: TabListProps) {
   // Scrolls horizontally when the tabs do not fit, on mobile.
   return <ArkTabs.List {...props} className={clsx('row overflow-x-auto border-b', className)} />;
 }
 
 /** The name of a view, with its value. It may hold a Badge, after the name. */
-export function Tab({ className, ...props }: Override<ComponentProps<'button'>, { value: string }>) {
+function TabsTab({ className, ...props }: Override<ComponentProps<'button'>, { value: string }>) {
   return (
     <ArkTabs.Trigger
       {...props}
@@ -56,6 +56,8 @@ export function Tab({ className, ...props }: Override<ComponentProps<'button'>, 
 }
 
 /** The view of a tab, with the same value. */
-export function TabPanel(props: Override<ComponentProps<'div'>, { value: string }>) {
+function TabPanel(props: Override<ComponentProps<'div'>, { value: string }>) {
   return <ArkTabs.Content {...props} />;
 }
+
+export { TabsList as List, TabPanel as Panel, TabsRoot as Root, TabsTab };

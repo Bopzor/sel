@@ -1,11 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
-import { Field } from './field';
+import { FormField } from './form-field';
 import { Input } from './input';
 
 export default {
   title: 'Components/Forms/Field',
-  component: Field,
+  component: FormField,
   args: {
     label: 'Label',
   },
@@ -13,14 +13,14 @@ export default {
     children: { control: false },
   },
   render: (args) => (
-    <Field {...args}>
+    <FormField {...args}>
       <Input />
-    </Field>
+    </FormField>
   ),
   decorators: [(Story) => <div className="max-w-content">{Story()}</div>],
-} satisfies Meta<typeof Field>;
+} satisfies Meta<typeof FormField>;
 
-type Story = StoryObj<typeof Field>;
+type Story = StoryObj<typeof FormField>;
 
 export const Playground: Story = {};
 

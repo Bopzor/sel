@@ -6,75 +6,58 @@ import { IconButton } from '../actions/icon-button';
 
 import { Avatar } from './avatar';
 import { Badge } from './badge';
-import {
-  Card,
-  CardAction,
-  CardBody,
-  CardButton,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardLink,
-  CardTitle,
-} from './card';
-import {
-  ListItem,
-  ListItemChevron,
-  ListItemContent,
-  ListItemDescription,
-  ListItemLink,
-  ListItemTitle,
-} from './list-item';
+import * as Card from './card';
+import * as ListItem from './list-item';
 
 export default {
   title: 'Components/Display/Card',
-  component: Card,
+  component: Card.Root,
   decorators: [(Story) => <div className="max-w-content">{Story()}</div>],
   render: (args) => (
-    <Card {...args}>
-      <CardHeader>
-        <CardTitle>Card title</CardTitle>
-        <CardDescription>Subtitle</CardDescription>
-      </CardHeader>
-      <CardBody>
+    <Card.Root {...args}>
+      <Card.Header>
+        <Card.Title>Card title</Card.Title>
+        <Card.Description>Subtitle</Card.Description>
+      </Card.Header>
+      <Card.Body>
         <p className="text-body">The content of the card, a few lines of text.</p>
-      </CardBody>
-    </Card>
+      </Card.Body>
+    </Card.Root>
   ),
-} satisfies Meta<typeof Card>;
+} satisfies Meta<typeof Card.Root>;
 
-type Story = StoryObj<typeof Card>;
+type Story = StoryObj<typeof Card.Root>;
 
 export const Playground: Story = {};
 
 export const WithActionAndFooter: Story = {
   render: () => (
-    <Card>
-      <CardHeader>
-        <CardTitle>Card title</CardTitle>
-        <CardDescription>Author · Date</CardDescription>
-        <CardAction>
+    <Card.Root>
+      <Card.Header>
+        <Card.Title>Card title</Card.Title>
+        <Card.Description>Author · Date</Card.Description>
+        <Card.Action>
           <Badge tone="primary">Category</Badge>
-        </CardAction>
-      </CardHeader>
-      <CardBody>
+        </Card.Action>
+      </Card.Header>
+      <Card.Body>
         <p className="text-body">The content of the card, a few lines of text.</p>
-      </CardBody>
-      <CardFooter>
+      </Card.Body>
+      <Card.Footer>
         <Button>Primary</Button>
         <Button variant="secondary">Secondary</Button>
-      </CardFooter>
-    </Card>
+      </Card.Footer>
+    </Card.Root>
   ),
 };
 
 export const BodyOnly: Story = {
   render: () => (
-    <Card>
-      <CardBody>
+    <Card.Root>
+      <Card.Body>
         <p className="text-body">A card without a title, holding a few lines of text.</p>
-      </CardBody>
-    </Card>
+      </Card.Body>
+    </Card.Root>
   ),
 };
 
@@ -82,62 +65,62 @@ export const BodyOnly: Story = {
 export const Clickable: Story = {
   render: () => (
     <div className="stack gap-4">
-      <Card>
-        <CardHeader>
-          <CardTitle>
-            <CardLink href="#card">A card that is a link</CardLink>
-          </CardTitle>
-          <CardDescription>Author · Date</CardDescription>
-        </CardHeader>
-        <CardBody>
+      <Card.Root>
+        <Card.Header>
+          <Card.Title>
+            <Card.Link href="#card">A card that is a link</Card.Link>
+          </Card.Title>
+          <Card.Description>Author · Date</Card.Description>
+        </Card.Header>
+        <Card.Body>
           <p className="text-body">The whole card opens the detail.</p>
-        </CardBody>
-      </Card>
+        </Card.Body>
+      </Card.Root>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>
-            <CardButton onClick={fn()}>A card that is a button</CardButton>
-          </CardTitle>
-          <CardDescription>Author · Date</CardDescription>
-          <CardAction>
+      <Card.Root>
+        <Card.Header>
+          <Card.Title>
+            <Card.Button onClick={fn()}>A card that is a button</Card.Button>
+          </Card.Title>
+          <Card.Description>Author · Date</Card.Description>
+          <Card.Action>
             <IconButton icon="more" label="More actions" size="sm" onClick={fn()} />
-          </CardAction>
-        </CardHeader>
-        <CardBody>
+          </Card.Action>
+        </Card.Header>
+        <Card.Body>
           <p className="text-body">The whole card triggers an action.</p>
-        </CardBody>
-        <CardFooter>
+        </Card.Body>
+        <Card.Footer>
           <Button size="sm" variant="secondary" onClick={fn()}>
             Secondary action
           </Button>
-        </CardFooter>
-      </Card>
+        </Card.Footer>
+      </Card.Root>
     </div>
   ),
 };
 
-/** A list placed without CardBody goes from edge to edge. */
+/** A list placed without Card.Body goes from edge to edge. */
 export const WithList: Story = {
   render: () => (
-    <Card>
-      <CardHeader>
-        <CardTitle>List title</CardTitle>
-      </CardHeader>
+    <Card.Root>
+      <Card.Header>
+        <Card.Title>List title</Card.Title>
+      </Card.Header>
       <ul className="border-t">
         {['Jane Doe', 'John Smith'].map((name) => (
-          <ListItem key={name}>
+          <ListItem.Root key={name}>
             <Avatar name={name} decorative />
-            <ListItemContent>
-              <ListItemTitle>
-                <ListItemLink href={`#${name}`}>{name}</ListItemLink>
-              </ListItemTitle>
-              <ListItemDescription>Description</ListItemDescription>
-            </ListItemContent>
-            <ListItemChevron />
-          </ListItem>
+            <ListItem.Content>
+              <ListItem.Title>
+                <ListItem.Link href={`#${name}`}>{name}</ListItem.Link>
+              </ListItem.Title>
+              <ListItem.Description>Description</ListItem.Description>
+            </ListItem.Content>
+            <ListItem.Chevron />
+          </ListItem.Root>
         ))}
       </ul>
-    </Card>
+    </Card.Root>
   ),
 };

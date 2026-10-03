@@ -2,7 +2,7 @@ import { Field } from '@ark-ui/react/field';
 import clsx from 'clsx';
 import type { ComponentProps } from 'react';
 
-import { fieldBoxStyles } from './field';
+import { fieldBoxStyles } from './field-box';
 
 import type { Override } from '../../utils';
 

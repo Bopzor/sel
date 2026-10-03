@@ -4,7 +4,7 @@ import type { ComponentProps, ReactNode } from 'react';
 
 import { Icon } from '../display/icon';
 
-import { fieldBoxStyles } from './field';
+import { fieldBoxStyles } from './field-box';
 
 import type { Override } from '../../utils';
 

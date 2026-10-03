@@ -4,7 +4,7 @@ import { useState } from 'react';
 import logo from '../../assets/logo.svg';
 import { Badge } from '../display/badge';
 
-import { SideNav, SideNavFooter, SideNavHeader, SideNavItem, SideNavSection } from './side-nav';
+import * as SideNav from './side-nav';
 
 import type { IconName } from '../display/icon';
 
@@ -36,7 +36,7 @@ const sections: { title?: string; items: Entry[] }[] = [
 
 export default {
   title: 'Components/Navigation/SideNav',
-  component: SideNav,
+  component: SideNav.Root,
   args: {
     'aria-label': 'Main navigation',
   },
@@ -48,12 +48,12 @@ export default {
     const [value, setValue] = useState('home');
 
     return (
-      <SideNav {...args} className="min-h-screen">
-        <SideNavHeader logo={logo} name="Instance name" place="Geographical area" />
+      <SideNav.Root {...args} className="min-h-screen">
+        <SideNav.Header logo={logo} name="Instance name" place="Geographical area" />
         {sections.map((section, index) => (
-          <SideNavSection key={index} title={section.title}>
+          <SideNav.Section key={index} title={section.title}>
             {section.items.map((item) => (
-              <SideNavItem
+              <SideNav.Item
                 key={item.value}
                 href={`#${item.value}`}
                 icon={item.icon}
@@ -61,62 +61,62 @@ export default {
                 onClick={() => setValue(item.value)}
               >
                 {item.label}
-              </SideNavItem>
+              </SideNav.Item>
             ))}
-          </SideNavSection>
+          </SideNav.Section>
         ))}
-      </SideNav>
+      </SideNav.Root>
     );
   },
-} satisfies Meta<typeof SideNav>;
+} satisfies Meta<typeof SideNav.Root>;
 
-type Story = StoryObj<typeof SideNav>;
+type Story = StoryObj<typeof SideNav.Root>;
 
 export const Playground: Story = {};
 
 /** A count after an entry's label, and the account's entries at the bottom. */
 export const WithBadgeAndFooter: Story = {
   render: (args) => (
-    <SideNav {...args} className="min-h-screen">
-      <SideNavHeader logo={logo} name="Instance name" place="Geographical area" />
-      <SideNavSection>
-        <SideNavItem href="#home" icon="home" active>
+    <SideNav.Root {...args} className="min-h-screen">
+      <SideNav.Header logo={logo} name="Instance name" place="Geographical area" />
+      <SideNav.Section>
+        <SideNav.Item href="#home" icon="home" active>
           Home
-        </SideNavItem>
-        <SideNavItem href="#notifications" icon="notifications" badge={<Badge tone="primary">3</Badge>}>
+        </SideNav.Item>
+        <SideNav.Item href="#notifications" icon="notifications" badge={<Badge tone="primary">3</Badge>}>
           Notifications
-        </SideNavItem>
-      </SideNavSection>
-      <SideNavFooter>
-        <SideNavSection>
-          <SideNavItem href="#profile" icon="profile">
+        </SideNav.Item>
+      </SideNav.Section>
+      <SideNav.Footer>
+        <SideNav.Section>
+          <SideNav.Item href="#profile" icon="profile">
             Profile
-          </SideNavItem>
-          <SideNavItem href="#sign-out" icon="sign-out">
+          </SideNav.Item>
+          <SideNav.Item href="#sign-out" icon="sign-out">
             Sign out
-          </SideNavItem>
-        </SideNavSection>
-      </SideNavFooter>
-    </SideNav>
+          </SideNav.Item>
+        </SideNav.Section>
+      </SideNav.Footer>
+    </SideNav.Root>
   ),
 };
 
 export const LongName: Story = {
   render: (args) => (
-    <SideNav {...args} className="min-h-screen">
-      <SideNavHeader
+    <SideNav.Root {...args} className="min-h-screen">
+      <SideNav.Header
         logo={logo}
         name="A very long instance name that does not fit"
         place="A long geographical area name"
       />
-    </SideNav>
+    </SideNav.Root>
   ),
 };
 
 export const WithoutPlace: Story = {
   render: (args) => (
-    <SideNav {...args} className="min-h-screen">
-      <SideNavHeader logo={logo} name="Instance name" />
-    </SideNav>
+    <SideNav.Root {...args} className="min-h-screen">
+      <SideNav.Header logo={logo} name="Instance name" />
+    </SideNav.Root>
   ),
 };

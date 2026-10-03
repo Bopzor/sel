@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
 
-import { Field } from './field';
+import { FormField } from './form-field';
 import { Select } from './select';
 
 const options = (
@@ -23,9 +23,9 @@ export default {
     placeholder: 'Choose an option',
   },
   render: (args) => (
-    <Field label="Label">
+    <FormField label="Label">
       <Select {...args} />
-    </Field>
+    </FormField>
   ),
   argTypes: {
     children: { control: false },
@@ -74,9 +74,9 @@ export const Controlled: Story = {
     const [value, setValue] = useState('');
 
     return (
-      <Field label="Label" hint={value === '' ? 'Nothing chosen' : `Chosen: ${value}`}>
+      <FormField label="Label" hint={value === '' ? 'Nothing chosen' : `Chosen: ${value}`}>
         <Select {...args} value={value} onChange={(event) => setValue(event.target.value)} />
-      </Field>
+      </FormField>
     );
   },
 };

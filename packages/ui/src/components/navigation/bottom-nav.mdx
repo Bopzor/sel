@@ -19,18 +19,18 @@ The bar keeps four entries even as the application grows (loans, skills director
 ## Parts
 
 ```tsx
-<BottomNav aria-label="Main navigation" fixed>
-  <BottomNavItem href="/" icon="home" active>
+<BottomNav.Root aria-label="Main navigation" fixed>
+  <BottomNav.Item href="/" icon="home" active>
     Home
-  </BottomNavItem>
-  <BottomNavItem href="/requests" icon="request">
+  </BottomNav.Item>
+  <BottomNav.Item href="/requests" icon="request">
     Requests
-  </BottomNavItem>
-</BottomNav>
+  </BottomNav.Item>
+</BottomNav.Root>
 ```
 
-- `BottomNav` (required): the `<nav>`, named by its `aria-label` ("Main navigation"). `fixed`: fixed position at the bottom, which takes the phones' safe area into account.
-- `BottomNavItem`: an entry, a link with its `icon` and a one-word label, four at most; it takes the router's link component as `Link` (an `<a>` by default). `active` marks the entry of the current page (`bg-primary-subtle` pill, `text-primary` text and icon) with `aria-current="page"`.
+- `BottomNav.Root` (required): the `<nav>`, named by its `aria-label` ("Main navigation"). `fixed`: fixed position at the bottom, which takes the phones' safe area into account.
+- `BottomNav.Item`: an entry, a link with its `icon` and a one-word label, four at most; it takes the router's link component as `Link` (an `<a>` by default). `active` marks the entry of the current page (`bg-primary-subtle` pill, `text-primary` text and icon) with `aria-current="page"`.
 
 The page content reserves `spacing-bottom-nav` at the bottom (`pb-bottom-nav`) so it does not go under the bar.
 

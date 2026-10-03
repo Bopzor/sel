@@ -9,11 +9,11 @@ import type { Override } from '../../utils';
 
 type Tone = 'info' | 'success' | 'warning' | 'danger';
 
-type AlertProps = Override<
+type AlertRootProps = Override<
   ComponentProps<'div'>,
   {
     tone?: Tone;
-    /** An AlertTitle, an AlertDescription, AlertActions. */
+    /** An Alert.Title, an Alert.Description, Alert.Actions. */
     children: ReactNode;
   }
 > &
@@ -26,7 +26,7 @@ type AlertProps = Override<
       }
   );
 
-export function Alert({ tone = 'info', onClose, closeLabel, className, children, ...props }: AlertProps) {
+function AlertRoot({ tone = 'info', onClose, closeLabel, className, children, ...props }: AlertRootProps) {
   return (
     <div
       {...props}
@@ -43,17 +43,17 @@ export function Alert({ tone = 'info', onClose, closeLabel, className, children,
 }
 
 /** A short sentence. */
-export function AlertTitle({ className, ...props }: ComponentProps<'p'>) {
+function AlertTitle({ className, ...props }: ComponentProps<'p'>) {
   return <p {...props} className={clsx('text-body-strong text-default', className)} />;
 }
 
 /** What happened, and what to do. */
-export function AlertDescription({ className, ...props }: ComponentProps<'div'>) {
+function AlertDescription({ className, ...props }: ComponentProps<'div'>) {
   return <div {...props} className={clsx('text-body-sm text-default', className)} />;
 }
 
 /** Small buttons (size="sm"). */
-export function AlertActions({ className, ...props }: ComponentProps<'div'>) {
+function AlertActions({ className, ...props }: ComponentProps<'div'>) {
   return <div {...props} className={clsx('mt-2 row flex-wrap gap-2', className)} />;
 }
 
@@ -85,3 +85,5 @@ const iconStyles = cva('mt-0.5', {
     },
   },
 });
+
+export { AlertRoot as Root, AlertTitle as Title, AlertDescription as Description, AlertActions as Actions };

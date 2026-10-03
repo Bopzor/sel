@@ -1,16 +1,16 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
 
-import { Field } from './field';
+import { FormField } from './form-field';
 import { TextArea } from './text-area';
 
 export default {
   title: 'Components/Forms/TextArea',
   component: TextArea,
   render: (args) => (
-    <Field label="Label">
+    <FormField label="Label">
       <TextArea {...args} />
-    </Field>
+    </FormField>
   ),
   decorators: [(Story) => <div className="max-w-content">{Story()}</div>],
 } satisfies Meta<typeof TextArea>;
@@ -36,9 +36,9 @@ export const Controlled: Story = {
     const [value, setValue] = useState('');
 
     return (
-      <Field label="Label" hint={`${value.length} characters`}>
+      <FormField label="Label" hint={`${value.length} characters`}>
         <TextArea {...args} value={value} onChange={(event) => setValue(event.target.value)} />
-      </Field>
+      </FormField>
     );
   },
 };

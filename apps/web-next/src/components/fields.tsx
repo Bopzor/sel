@@ -1,4 +1,4 @@
-import { Field, Input } from '@sel/ui';
+import { FormField, Input } from '@sel/ui';
 import type { ChangeEvent, ComponentProps, ReactNode } from 'react';
 import { useController, type Control, type FieldPath, type FieldValues } from 'react-hook-form';
 
@@ -28,8 +28,8 @@ export function InputField<Values extends FieldValues, Transformed>({
   };
 
   return (
-    <Field label={label} hint={hint} error={fieldState.error?.message}>
+    <FormField label={label} hint={hint} error={fieldState.error?.message}>
       <Input {...props} {...field} onChange={handleChange} />
-    </Field>
+    </FormField>
   );
 }

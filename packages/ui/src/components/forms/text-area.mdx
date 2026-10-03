@@ -6,7 +6,7 @@ import * as TextAreaStories from './text-area.stories';
 
 # TextArea
 
-A multi-line text input. It has no label: put it in a `Field`, which adds the label, the hint and the error, and gives it its states.
+A multi-line text input. It has no label: put it in a `FormField`, which adds the label, the hint and the error, and gives it its states.
 
 ## When to use it
 
@@ -16,12 +16,12 @@ For the description of a request, a comment, a profile presentation.
 
 - The HTML props of `<textarea>`, as they are: `value` + `onChange(event)` for a controlled textarea, `defaultValue` for an uncontrolled one, `ref`, `name`, `onBlur`, `maxLength`, `placeholder`… The props of react-hook-form's `register()` can be spread on it.
 - `rows`: 4 by default; the user can enlarge it vertically.
-- Outside a `Field`: an `aria-label`, like `Input`.
+- Outside a `FormField`: an `aria-label`, like `Input`.
 
 ## Rules
 
 - The textarea has the same box as `Input`: border, focus ring, and states that follow the textarea's `disabled` and `aria-invalid`.
-- Inside a `Field`, the textarea takes its id, its links and its states from it; its own props override them.
+- Inside a `FormField`, the textarea takes its id, its links and its states from it; its own props override them.
 
 <Primary />
 

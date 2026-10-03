@@ -2,34 +2,13 @@ import { Plural, Trans, useLingui } from '@lingui/react/macro';
 import { RequestStatus, type Comment, type Request, type RequestAnswer, type Requester } from '@sel/shared';
 import {
   Alert,
-  AlertDescription,
-  AlertTitle,
   Button,
   Card,
-  CardBody,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
   Dialog,
-  DialogBody,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
   EmptyState,
-  EmptyStateAction,
-  EmptyStateDescription,
-  EmptyStateTitle,
   Icon,
   LinkButton,
   ListItem,
-  ListItemContent,
-  ListItemHeader,
-  ListItemTitle,
   showToast,
   Skeleton,
 } from '@sel/ui';
@@ -99,11 +78,11 @@ function RequestDetails({ request }: { request: Request }) {
         <div className="stack max-w-content gap-4">
           <StatusAlert status={request.status} />
 
-          <Card>
-            <CardBody>
+          <Card.Root>
+            <Card.Body>
               <MessageContent message={request.message} />
-            </CardBody>
-          </Card>
+            </Card.Body>
+          </Card.Root>
         </div>
 
         <aside className="stack gap-6 xl:sticky xl:top-10 xl:col-start-2 xl:row-span-2 xl:row-start-1 xl:w-aside">
@@ -124,21 +103,21 @@ function RequestDetails({ request }: { request: Request }) {
 function StatusAlert({ status }: { status: RequestStatus }) {
   if (status === RequestStatus.fulfilled) {
     return (
-      <Alert tone="success">
-        <AlertTitle>
+      <Alert.Root tone="success">
+        <Alert.Title>
           <Trans>This request is fulfilled</Trans>
-        </AlertTitle>
-      </Alert>
+        </Alert.Title>
+      </Alert.Root>
     );
   }
 
   if (status === RequestStatus.canceled) {
     return (
-      <Alert tone="warning">
-        <AlertTitle>
+      <Alert.Root tone="warning">
+        <Alert.Title>
           <Trans>This request was canceled</Trans>
-        </AlertTitle>
-      </Alert>
+        </Alert.Title>
+      </Alert.Root>
     );
   }
 
@@ -161,8 +140,8 @@ function RequesterCard({ requester }: { requester: Requester }) {
   );
 
   return (
-    <Card>
-      <CardBody className="stack gap-4">
+    <Card.Root>
+      <Card.Body className="stack gap-4">
         <div className="row items-center gap-3">
           <MemberAvatar member={requester} size="lg" decorative />
 
@@ -180,8 +159,8 @@ function RequesterCard({ requester }: { requester: Requester }) {
             {emailItem}
           </ul>
         )}
-      </CardBody>
-    </Card>
+      </Card.Body>
+    </Card.Root>
   );
 }
 
@@ -198,18 +177,18 @@ function ContactItem({ icon, href, children }: { icon: 'phone' | 'email'; href: 
 
 function RequesterActionsCard({ request }: { request: Request }) {
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle level={2}>
+    <Card.Root>
+      <Card.Header>
+        <Card.Title level={2}>
           <Trans>Your request</Trans>
-        </CardTitle>
+        </Card.Title>
 
-        <CardDescription>
+        <Card.Description>
           <Trans>Close it once you have been helped, or cancel it if you no longer need help.</Trans>
-        </CardDescription>
-      </CardHeader>
+        </Card.Description>
+      </Card.Header>
 
-      <CardFooter>
+      <Card.Footer>
         <FulfilRequestDialog request={request} />
 
         <LinkButton
@@ -223,8 +202,8 @@ function RequesterActionsCard({ request }: { request: Request }) {
         </LinkButton>
 
         <CancelRequestDialog request={request} />
-      </CardFooter>
-    </Card>
+      </Card.Footer>
+    </Card.Root>
   );
 }
 
@@ -239,51 +218,51 @@ function FulfilRequestDialog({ request }: { request: Request }) {
   );
 
   return (
-    <Dialog alert>
-      <DialogTrigger>
+    <Dialog.Root alert>
+      <Dialog.Trigger>
         <Button icon="check" className="w-full">
           <Trans>Close the request</Trans>
         </Button>
-      </DialogTrigger>
+      </Dialog.Trigger>
 
-      <DialogContent closeLabel={t`Close`}>
-        <DialogHeader>
-          <DialogTitle>
+      <Dialog.Content closeLabel={t`Close`}>
+        <Dialog.Header>
+          <Dialog.Title>
             <Trans>Close the request “{request.title}”?</Trans>
-          </DialogTitle>
-          <DialogDescription>
+          </Dialog.Title>
+          <Dialog.Description>
             <Trans>
               Members will no longer be able to answer it. Those who offered help or commented will be
               notified.
             </Trans>
-          </DialogDescription>
-        </DialogHeader>
+          </Dialog.Description>
+        </Dialog.Header>
 
         {!request.hasTransactions && (
-          <DialogBody>
-            <Alert tone="info">
-              <AlertTitle>
+          <Dialog.Body>
+            <Alert.Root tone="info">
+              <Alert.Title>
                 <Trans>You have not sent any {<Unit plural />} for this request</Trans>
-              </AlertTitle>
-              <AlertDescription>
+              </Alert.Title>
+              <Alert.Description>
                 <Trans>You can still send them after closing it.</Trans>
-              </AlertDescription>
-            </Alert>
-          </DialogBody>
+              </Alert.Description>
+            </Alert.Root>
+          </Dialog.Body>
         )}
 
-        <DialogFooter>
+        <Dialog.Footer>
           <Button loading={mutation.isPending} onClick={() => mutation.mutate()}>
             <Trans>Close the request</Trans>
           </Button>
-          <DialogClose>
+          <Dialog.Close>
             <Button variant="secondary">
               <Trans>Back</Trans>
             </Button>
-          </DialogClose>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+          </Dialog.Close>
+        </Dialog.Footer>
+      </Dialog.Content>
+    </Dialog.Root>
   );
 }
 
@@ -298,38 +277,38 @@ function CancelRequestDialog({ request }: { request: Request }) {
   );
 
   return (
-    <Dialog alert>
-      <DialogTrigger>
+    <Dialog.Root alert>
+      <Dialog.Trigger>
         <Button variant="ghost" className="grow">
           <Trans>Cancel the request</Trans>
         </Button>
-      </DialogTrigger>
+      </Dialog.Trigger>
 
-      <DialogContent closeLabel={t`Close`}>
-        <DialogHeader>
-          <DialogTitle>
+      <Dialog.Content closeLabel={t`Close`}>
+        <Dialog.Header>
+          <Dialog.Title>
             <Trans>Cancel the request “{request.title}”?</Trans>
-          </DialogTitle>
-          <DialogDescription>
+          </Dialog.Title>
+          <Dialog.Description>
             <Trans>
               Members will no longer be able to answer it. Those who offered help or commented will be
               notified.
             </Trans>
-          </DialogDescription>
-        </DialogHeader>
+          </Dialog.Description>
+        </Dialog.Header>
 
-        <DialogFooter>
+        <Dialog.Footer>
           <Button variant="danger" loading={mutation.isPending} onClick={() => mutation.mutate()}>
             <Trans>Cancel the request</Trans>
           </Button>
-          <DialogClose>
+          <Dialog.Close>
             <Button variant="secondary">
               <Trans>Back</Trans>
             </Button>
-          </DialogClose>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+          </Dialog.Close>
+        </Dialog.Footer>
+      </Dialog.Content>
+    </Dialog.Root>
   );
 }
 
@@ -368,28 +347,28 @@ function AnswerCard({ request, memberId }: { request: Request; memberId: string 
   const pending = (value: Answer) => mutation.isPending && mutation.variables === value;
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle level={2}>
+    <Card.Root>
+      <Card.Header>
+        <Card.Title level={2}>
           {answer === undefined && <Trans>Can you help?</Trans>}
           {answer === 'positive' && <Trans>You can help</Trans>}
           {answer === 'negative' && <Trans>You can't help</Trans>}
-        </CardTitle>
+        </Card.Title>
 
-        <CardDescription>
+        <Card.Description>
           {answer === undefined && <Trans>{firstName} will be notified of your answer.</Trans>}
           {answer === 'positive' && <Trans>Contact {firstName} to arrange the details.</Trans>}
           {answer === 'negative' && <Trans>{firstName} knows you are not available.</Trans>}
-        </CardDescription>
-      </CardHeader>
+        </Card.Description>
+      </Card.Header>
 
       {mutation.isError && (
-        <CardBody>
+        <Card.Body>
           <ApiFailed title={<Trans>Your answer could not be saved</Trans>} />
-        </CardBody>
+        </Card.Body>
       )}
 
-      <CardFooter>
+      <Card.Footer>
         {answer === undefined && (
           <>
             <Button
@@ -419,8 +398,8 @@ function AnswerCard({ request, memberId }: { request: Request; memberId: string 
             <Trans>Withdraw my answer</Trans>
           </Button>
         )}
-      </CardFooter>
-    </Card>
+      </Card.Footer>
+    </Card.Root>
   );
 }
 
@@ -442,9 +421,9 @@ function Answers({ answers }: { answers: RequestAnswer[] }) {
       )}
 
       {answers.length > 0 && (
-        <Card>
+        <Card.Root>
           <AnswersList answers={sorted} />
-        </Card>
+        </Card.Root>
       )}
     </section>
   );
@@ -508,9 +487,9 @@ function Comments({ requestId }: { requestId: string }) {
         }
       >
         {(comments) => (
-          <Card>
+          <Card.Root>
             <CommentsList comments={comments} />
-          </Card>
+          </Card.Root>
         )}
       </QueryResult>
     </section>
@@ -521,18 +500,18 @@ function CommentsList({ comments }: { comments: Comment[] }) {
   return (
     <ul>
       {comments.map((comment) => (
-        <ListItem key={comment.id}>
+        <ListItem.Root key={comment.id}>
           <MemberAvatar member={comment.author} size="sm" decorative className="self-start" />
 
-          <ListItemContent>
-            <ListItemHeader>
-              <ListItemTitle className="text-body-strong">{formatMemberName(comment.author)}</ListItemTitle>
+          <ListItem.Content>
+            <ListItem.Header>
+              <ListItem.Title className="text-body-strong">{formatMemberName(comment.author)}</ListItem.Title>
               <RelativeDate date={comment.date} className="text-caption text-subtle" />
-            </ListItemHeader>
+            </ListItem.Header>
 
             <MessageContent message={comment.message} />
-          </ListItemContent>
-        </ListItem>
+          </ListItem.Content>
+        </ListItem.Root>
       ))}
     </ul>
   );
@@ -546,20 +525,20 @@ function RequestSkeleton() {
         <Skeleton className="w-24" />
       </div>
 
-      <Card className="max-w-content">
-        <CardBody className="stack gap-3">
+      <Card.Root className="max-w-content">
+        <Card.Body className="stack gap-3">
           <Skeleton />
           <Skeleton />
           <Skeleton className="w-1/2" />
-        </CardBody>
-      </Card>
+        </Card.Body>
+      </Card.Root>
     </div>
   );
 }
 
 function CommentsSkeleton() {
   return (
-    <Card aria-busy>
+    <Card.Root aria-busy>
       <ul>
         {Array.from({ length: 2 }, (_, index) => (
           <li key={index} className="row items-start gap-3 p-4 not-last:border-b md:px-6">
@@ -571,24 +550,24 @@ function CommentsSkeleton() {
           </li>
         ))}
       </ul>
-    </Card>
+    </Card.Root>
   );
 }
 
 function RequestNotFound() {
   return (
-    <EmptyState icon="request">
-      <EmptyStateTitle level={1}>
+    <EmptyState.Root icon="request">
+      <EmptyState.Title level={1}>
         <Trans>Request not found</Trans>
-      </EmptyStateTitle>
-      <EmptyStateDescription>
+      </EmptyState.Title>
+      <EmptyState.Description>
         <Trans>The link may be wrong, or the request may no longer exist.</Trans>
-      </EmptyStateDescription>
-      <EmptyStateAction>
+      </EmptyState.Description>
+      <EmptyState.Action>
         <LinkButton Link={Link} href={routes.requests()} variant="secondary">
           <Trans>See the requests</Trans>
         </LinkButton>
-      </EmptyStateAction>
-    </EmptyState>
+      </EmptyState.Action>
+    </EmptyState.Root>
   );
 }

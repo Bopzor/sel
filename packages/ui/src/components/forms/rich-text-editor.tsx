@@ -21,19 +21,13 @@ import {
 import { definedAttributes, type Override } from '../../utils';
 import { Button } from '../actions/button';
 import { Icon, type IconName } from '../display/icon';
-import {
-  Dialog,
-  DialogBody,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from '../feedback/dialog';
+import * as Dialog from '../feedback/dialog';
 
-import { Field, fieldBoxStyles } from './field';
+import { fieldBoxStyles } from './field-box';
+import { FormField } from './form-field';
 import { Input } from './input';
 
-type RichTextEditorProps = {
+type RichTextEditorRootProps = {
   /** The content as HTML, an empty string when the editor is empty. */
   value: string;
   onChange: (html: string) => void;
@@ -50,11 +44,11 @@ type RichTextEditorProps = {
   'aria-labelledby'?: string;
   'aria-describedby'?: string;
   className?: string;
-  /** A RichTextToolbar, under the text. */
+  /** A RichTextEditor.Toolbar, under the text. */
   children?: ReactNode;
 };
 
-export function RichTextEditor({
+function RichTextEditorRoot({
   value,
   onChange,
   onBlur,
@@ -63,7 +57,7 @@ export function RichTextEditor({
   className,
   children,
   ...props
-}: RichTextEditorProps) {
+}: RichTextEditorRootProps) {
   // The editable element is not a native control: it gets the textbox role, and the links and the states of Ark's
   // field context by hand. Its own props override them, like Field.Input's.
   const field = useFieldContext();
@@ -173,18 +167,18 @@ function useRichTextEditor() {
 }
 
 /** The formatting buttons, under the text: the formats offered are the buttons it contains. */
-export function RichTextToolbar({ className, ...props }: ComponentProps<'div'>) {
+function RichTextToolbar({ className, ...props }: ComponentProps<'div'>) {
   return <div {...props} className={clsx('row flex-wrap items-center gap-1 border-t p-1', className)} />;
 }
 
 /** Actions at the end of the toolbar, such as an attachment button or the send button of a comment. */
-export function RichTextToolbarEnd({ className, ...props }: ComponentProps<'div'>) {
+function RichTextToolbarEnd({ className, ...props }: ComponentProps<'div'>) {
   return <div {...props} className={clsx('ml-auto row items-center gap-2', className)} />;
 }
 
 // The format buttons are named by their label, in the application's language.
 
-export function RichTextBold({ label }: { label: string }) {
+function RichTextBold({ label }: { label: string }) {
   return (
     <FormatButton
       icon="bold"
@@ -195,7 +189,7 @@ export function RichTextBold({ label }: { label: string }) {
   );
 }
 
-export function RichTextItalic({ label }: { label: string }) {
+function RichTextItalic({ label }: { label: string }) {
   return (
     <FormatButton
       icon="italic"
@@ -206,7 +200,7 @@ export function RichTextItalic({ label }: { label: string }) {
   );
 }
 
-export function RichTextUnderline({ label }: { label: string }) {
+function RichTextUnderline({ label }: { label: string }) {
   return (
     <FormatButton
       icon="underline"
@@ -217,7 +211,7 @@ export function RichTextUnderline({ label }: { label: string }) {
   );
 }
 
-export function RichTextBulletList({ label }: { label: string }) {
+function RichTextBulletList({ label }: { label: string }) {
   return (
     <FormatButton
       icon="bullet-list"
@@ -228,7 +222,7 @@ export function RichTextBulletList({ label }: { label: string }) {
   );
 }
 
-export function RichTextOrderedList({ label }: { label: string }) {
+function RichTextOrderedList({ label }: { label: string }) {
   return (
     <FormatButton
       icon="ordered-list"
@@ -254,7 +248,7 @@ function FormatButton({ icon, label, format, run }: FormatButtonProps) {
   return <RichTextToolbarButton icon={icon} label={label} pressed={pressed} onClick={() => run(editor)} />;
 }
 
-export type RichTextLinkLabels = {
+type RichTextLinkLabels = {
   /** The link button, also the title of the link dialog. */
   button: string;
   /** Label of the address field. */
@@ -272,7 +266,7 @@ export type RichTextLinkLabels = {
  * The link button, which opens a dialog with the address. The labels are the texts of the button and of its dialog,
  * in the application's language.
  */
-export function RichTextLink({ labels }: { labels: RichTextLinkLabels }) {
+function RichTextLink({ labels }: { labels: RichTextLinkLabels }) {
   const { editor } = useRichTextEditor();
   const pressed = useEditorState({ editor, selector: ({ editor }) => editor.isActive('link') });
 
@@ -326,16 +320,16 @@ export function RichTextLink({ labels }: { labels: RichTextLinkLabels }) {
     <>
       <RichTextToolbarButton icon="link" label={labels.button} pressed={pressed} onClick={openDialog} />
 
-      <Dialog open={open} onClose={() => setOpen(false)} finalFocus={() => editor.view.dom}>
-        <DialogContent closeLabel={labels.close}>
-          <DialogHeader>
-            <DialogTitle>{labels.button}</DialogTitle>
-          </DialogHeader>
+      <Dialog.Root open={open} onClose={() => setOpen(false)} finalFocus={() => editor.view.dom}>
+        <Dialog.Content closeLabel={labels.close}>
+          <Dialog.Header>
+            <Dialog.Title>{labels.button}</Dialog.Title>
+          </Dialog.Header>
 
           {/* noValidate: an address without a scheme is not a valid url for the browser, and gets https:// here. */}
           <form onSubmit={apply} noValidate className="contents">
-            <DialogBody>
-              <Field label={labels.url} error={invalid ? labels.invalid : undefined}>
+            <Dialog.Body>
+              <FormField label={labels.url} error={invalid ? labels.invalid : undefined}>
                 <Input
                   value={url}
                   onChange={(event) => setUrl(event.target.value)}
@@ -343,10 +337,10 @@ export function RichTextLink({ labels }: { labels: RichTextLinkLabels }) {
                   inputMode="url"
                   autoComplete="url"
                 />
-              </Field>
-            </DialogBody>
+              </FormField>
+            </Dialog.Body>
 
-            <DialogFooter>
+            <Dialog.Footer>
               <Button type="submit">{labels.apply}</Button>
               {editing && (
                 <Button variant="secondary" onClick={remove}>
@@ -356,10 +350,10 @@ export function RichTextLink({ labels }: { labels: RichTextLinkLabels }) {
               <Button variant="secondary" onClick={() => setOpen(false)}>
                 {labels.cancel}
               </Button>
-            </DialogFooter>
+            </Dialog.Footer>
           </form>
-        </DialogContent>
-      </Dialog>
+        </Dialog.Content>
+      </Dialog.Root>
     </>
   );
 }
@@ -376,7 +370,7 @@ type RichTextToolbarButtonProps = Override<
 >;
 
 /** A button of the toolbar, for an action of the application (attaching a file). Disabled with the editor. */
-export function RichTextToolbarButton({
+function RichTextToolbarButton({
   icon,
   label,
   pressed,
@@ -441,3 +435,17 @@ function toHref(url: string) {
 
   return `https://${url}`;
 }
+
+export {
+  RichTextEditorRoot as Root,
+  RichTextToolbar as Toolbar,
+  RichTextToolbarEnd as ToolbarEnd,
+  RichTextToolbarButton as ToolbarButton,
+  RichTextBold as Bold,
+  RichTextItalic as Italic,
+  RichTextUnderline as Underline,
+  RichTextBulletList as BulletList,
+  RichTextOrderedList as OrderedList,
+  RichTextLink as Link,
+  type RichTextLinkLabels as LinkLabels,
+};

@@ -1,25 +1,6 @@
 import { Plural, Trans, useLingui } from '@lingui/react/macro';
 import { RequestStatus, type RequestListItem } from '@sel/shared';
-import {
-  Badge,
-  Button,
-  Card,
-  Chip,
-  EmptyState,
-  EmptyStateAction,
-  EmptyStateDescription,
-  EmptyStateTitle,
-  Input,
-  LinkButton,
-  ListItem,
-  ListItemChevron,
-  ListItemContent,
-  ListItemDescription,
-  ListItemHeader,
-  ListItemLink,
-  ListItemTitle,
-  Skeleton,
-} from '@sel/ui';
+import { Badge, Button, Card, Chip, EmptyState, Input, LinkButton, ListItem, Skeleton } from '@sel/ui';
 import { useInfiniteQuery, useSuspenseQuery } from '@tanstack/react-query';
 import { z } from 'zod';
 
@@ -160,7 +141,7 @@ function RequestList({ filters, hasFilters, onClearFilters }: RequestListProps) 
 
   return (
     <div className="stack gap-4">
-      <Card
+      <Card.Root
         aria-busy={query.isPlaceholderData}
         className={query.isPlaceholderData ? 'opacity-60 transition' : 'transition'}
       >
@@ -169,7 +150,7 @@ function RequestList({ filters, hasFilters, onClearFilters }: RequestListProps) 
             <RequestListItem key={request.id} request={request} />
           ))}
         </ul>
-      </Card>
+      </Card.Root>
 
       <FetchNextPageError query={query} />
 
@@ -197,21 +178,21 @@ function RequestListItem({ request }: { request: RequestListItem }) {
   const name = formatMemberName(requester);
 
   return (
-    <ListItem>
+    <ListItem.Root>
       <MemberAvatar member={requester} decorative className="self-start" />
 
-      <ListItemContent className="gap-1">
-        <ListItemHeader>
-          <ListItemTitle className="text-body-strong">
-            <ListItemLink Link={Link} href={routes.request(request.id)}>
+      <ListItem.Content className="gap-1">
+        <ListItem.Header>
+          <ListItem.Title className="text-body-strong">
+            <ListItem.Link Link={Link} href={routes.request(request.id)}>
               {request.title}
-            </ListItemLink>
-          </ListItemTitle>
+            </ListItem.Link>
+          </ListItem.Title>
 
           {request.status !== RequestStatus.pending && <StatusBadge status={request.status} />}
-        </ListItemHeader>
+        </ListItem.Header>
 
-        <ListItemDescription>{excerpt(request.message.body)}</ListItemDescription>
+        <ListItem.Description>{excerpt(request.message.body)}</ListItem.Description>
 
         <p className="mt-1 text-caption text-subtle">
           <span className="font-semibold">{name}</span>
@@ -228,10 +209,10 @@ function RequestListItem({ request }: { request: RequestListItem }) {
             </>
           )}
         </p>
-      </ListItemContent>
+      </ListItem.Content>
 
-      <ListItemChevron />
-    </ListItem>
+      <ListItem.Chevron />
+    </ListItem.Root>
   );
 }
 
@@ -261,55 +242,55 @@ function excerpt(html: string) {
 
 function RequestListSkeleton() {
   return (
-    <Card aria-busy>
+    <Card.Root aria-busy>
       <ul>
         {Array.from({ length: 5 }, (_, index) => (
-          <ListItem key={index} className="items-start">
+          <ListItem.Root key={index} className="items-start">
             <Skeleton variant="circle" />
-            <ListItemContent className="gap-2 py-0.5">
+            <ListItem.Content className="gap-2 py-0.5">
               <Skeleton className="w-2/3" />
               <Skeleton className="w-full" />
               <Skeleton className="h-3 w-1/3" />
-            </ListItemContent>
-          </ListItem>
+            </ListItem.Content>
+          </ListItem.Root>
         ))}
       </ul>
-    </Card>
+    </Card.Root>
   );
 }
 
 function NoRequest() {
   return (
-    <EmptyState icon="request">
-      <EmptyStateTitle>
+    <EmptyState.Root icon="request">
+      <EmptyState.Title>
         <Trans>No requests</Trans>
-      </EmptyStateTitle>
-      <EmptyStateDescription>
+      </EmptyState.Title>
+      <EmptyState.Description>
         <Trans>When a member needs a hand, their request appears here.</Trans>
-      </EmptyStateDescription>
-      <EmptyStateAction>
+      </EmptyState.Description>
+      <EmptyState.Action>
         <LinkButton Link={Link} href={routes.createRequest()} icon="add">
           <Trans>Post a request</Trans>
         </LinkButton>
-      </EmptyStateAction>
-    </EmptyState>
+      </EmptyState.Action>
+    </EmptyState.Root>
   );
 }
 
 function NoMatchingRequest({ onClearFilters }: { onClearFilters: () => void }) {
   return (
-    <EmptyState icon="search">
-      <EmptyStateTitle>
+    <EmptyState.Root icon="search">
+      <EmptyState.Title>
         <Trans>No request matches these filters</Trans>
-      </EmptyStateTitle>
-      <EmptyStateDescription>
+      </EmptyState.Title>
+      <EmptyState.Description>
         <Trans>Try other words, or clear the filters.</Trans>
-      </EmptyStateDescription>
-      <EmptyStateAction>
+      </EmptyState.Description>
+      <EmptyState.Action>
         <Button variant="secondary" onClick={onClearFilters}>
           <Trans>Clear filters</Trans>
         </Button>
-      </EmptyStateAction>
-    </EmptyState>
+      </EmptyState.Action>
+    </EmptyState.Root>
   );
 }

@@ -5,19 +5,19 @@ import { Icon, type IconName } from '../display/icon';
 
 import type { LinkComponent, Override } from '../../utils';
 
-type BottomNavProps = Override<
+type BottomNavRootProps = Override<
   ComponentProps<'nav'>,
   {
     /** Accessible name of the navigation ("Main navigation"). */
     'aria-label': string;
     /** Fixes the bar at the bottom of the screen, above the phone's home indicator. */
     fixed?: boolean;
-    /** Four BottomNavItems at most. */
+    /** Four BottomNav.Items at most. */
     children: ReactNode;
   }
 >;
 
-export function BottomNav({ fixed = false, className, children, ...props }: BottomNavProps) {
+function BottomNavRoot({ fixed = false, className, children, ...props }: BottomNavRootProps) {
   return (
     <nav
       {...props}
@@ -46,7 +46,7 @@ type BottomNavItemProps = Override<
 >;
 
 /** An entry, a link. */
-export function BottomNavItem({
+function BottomNavItem({
   Link = 'a',
   icon,
   active = false,
@@ -78,3 +78,5 @@ export function BottomNavItem({
     </li>
   );
 }
+
+export { BottomNavRoot as Root, BottomNavItem as Item };

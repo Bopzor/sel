@@ -1,5 +1,5 @@
 import { Trans } from '@lingui/react/macro';
-import { Alert, AlertActions, AlertDescription, AlertTitle, Button } from '@sel/ui';
+import { Alert, Button } from '@sel/ui';
 import type { UseQueryResult } from '@tanstack/react-query';
 
 import { ApiError } from 'src/app/api';
@@ -55,20 +55,20 @@ export function ApiFailed({
   retry?: () => void;
 }) {
   return (
-    <Alert tone="danger">
-      <AlertTitle>{title}</AlertTitle>
+    <Alert.Root tone="danger">
+      <Alert.Title>{title}</Alert.Title>
 
-      <AlertDescription>
+      <Alert.Description>
         <Trans>Check your internet access, then try again.</Trans>
-      </AlertDescription>
+      </Alert.Description>
 
       {retry && (
-        <AlertActions>
+        <Alert.Actions>
           <Button size="sm" variant="secondary" loading={retrying} onClick={retry}>
             <Trans>Retry</Trans>
           </Button>
-        </AlertActions>
+        </Alert.Actions>
       )}
-    </Alert>
+    </Alert.Root>
   );
 }
