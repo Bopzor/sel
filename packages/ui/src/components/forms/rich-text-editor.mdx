@@ -6,7 +6,7 @@ import * as RichTextEditorStories from './rich-text-editor.stories';
 
 # RichTextEditor
 
-A multi-line input with simple formatting: bold, italic, underline, links and lists. It has no label: put it in a `FormField`, which adds the label, the hint and the error, and gives it its states. It has the same box as `TextArea`, and a formatting toolbar under the text.
+A multi-line input with simple formatting: bold, italic, underline, links and lists. It has no label: put it in a `FormField`, which adds the label, the hint and the error, and gives it its states. `RichTextEditor.Root` holds the editor and renders no box of its own: `RichTextEditor.Textarea` is the ready-made layout, with the same box as `TextArea` and a formatting toolbar under the text, and `RichTextEditor.EditorContent` lets the application lay the parts out itself.
 
 ## When to use it
 
@@ -18,25 +18,41 @@ For a text that other members read, where a list or a link helps: the message of
 - `onBlur` and `ref` (whose `focus()` moves the focus to the text), for a form library: with react-hook-form, the editor goes through a `Controller`.
 - `disabled`, `required`, `aria-invalid`, `id`, `aria-label`, `aria-labelledby`, `aria-describedby`: they override the `FormField`'s. Outside a `FormField`, an `aria-label`, like `Input`.
 - `placeholder`: an example of content, never a replacement for the label.
-- `children`: its `RichTextEditor.Toolbar` (see below).
+- `children`: the parts of the editor (see below). `Root` accepts no `className`: the box belongs to `Textarea`.
 
 ## Parts
 
 ```tsx
 <RichTextEditor.Root value={value} onChange={setValue}>
-  <RichTextEditor.Toolbar>
-    <RichTextEditor.Bold label="Bold" />
-    <RichTextEditor.Italic label="Italic" />
-    <RichTextEditor.Underline label="Underline" />
-    <RichTextEditor.Link labels={linkLabels} />
-    <RichTextEditor.BulletList label="Bulleted list" />
-    <RichTextEditor.OrderedList label="Numbered list" />
-    <RichTextEditor.ToolbarEnd>…</RichTextEditor.ToolbarEnd>
-  </RichTextEditor.Toolbar>
+  <RichTextEditor.Textarea
+    toolbar={
+      <RichTextEditor.Toolbar>
+        <RichTextEditor.Bold label="Bold" />
+        <RichTextEditor.Italic label="Italic" />
+        <RichTextEditor.Underline label="Underline" />
+        <RichTextEditor.Link labels={linkLabels} />
+        <RichTextEditor.BulletList label="Bulleted list" />
+        <RichTextEditor.OrderedList label="Numbered list" />
+        <RichTextEditor.ToolbarEnd>…</RichTextEditor.ToolbarEnd>
+      </RichTextEditor.Toolbar>
+    }
+  />
 </RichTextEditor.Root>
 ```
 
-- `RichTextEditor.Toolbar`: the bar under the text. The formats offered are the buttons it contains, in that order.
+For another layout (a comment with the avatar beside the text, for example), skip `Textarea` and place the parts inside `Root`:
+
+```tsx
+<RichTextEditor.Root value={value} onChange={setValue}>
+  <RichTextEditor.EditorContent className="h-20 resize-y" />
+  <RichTextEditor.Toolbar>…</RichTextEditor.Toolbar>
+</RichTextEditor.Root>
+```
+
+- `RichTextEditor.Root`: the editor and its state. It renders only its children, which must be inside it.
+- `RichTextEditor.Textarea`: the field box with the text and, under it, the `toolbar` prop. `className` adjusts the box. The text is at least `min-h-32` high and grows with its content; the toolbar sits in a `p-1` wrapper.
+- `RichTextEditor.EditorContent`: the editable text alone, a `div` that takes its props (`className` for the size, `resize-y`…). The editable element grows to fill it and takes the full width.
+- `RichTextEditor.Toolbar`: the row of buttons, with a `gap-1` and no border or padding of its own. The formats offered are the buttons it contains, in that order.
 - `RichTextEditor.Bold`, `RichTextEditor.Italic`, `RichTextEditor.Underline`, `RichTextEditor.BulletList`, `RichTextEditor.OrderedList`: a format each, named by `label` in the application's language.
 - `RichTextEditor.Link`: the link button and its dialog, with their texts in `labels` (`button`, which is also the dialog's title, `url`, `invalid`, `apply`, `remove`, `cancel`, `close`).
 - `RichTextEditor.ToolbarEnd`: actions placed at the end of the toolbar, such as an attachment button or the send button of a comment. The editor only renders them.
@@ -49,7 +65,7 @@ For a text that other members read, where a list or a link helps: the message of
 - A pasted address becomes a link on its own. A link does not open on click while editing.
 - The toolbar buttons show their state with `aria-pressed` and the `bg-primary-subtle` background, like the active entry of a navigation. They keep the focus and the selection in the text when clicked with the mouse.
 - The keyboard shortcuts of the formats work too: Ctrl/⌘ + B, I, U, and Ctrl/⌘ + Shift + 7 and 8 for the lists.
-- The text is `body`, like `TextArea`. The content is styled by the typography plugin's `prose` class and the `prose-theme` utility, like `RichText`, which shows it without editing: spaced paragraphs, bulleted and numbered lists, `text-primary` underlined links.
+- In `Textarea`, the text is `body`, like `TextArea`. The content is styled by the typography plugin's `prose` class and the `prose-theme` utility, like `RichText`, which shows it without editing: spaced paragraphs, bulleted and numbered lists, `text-primary` underlined links.
 
 ## Accessibility
 

@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { useState } from 'react';
+import { useState, type ComponentProps, type ReactNode } from 'react';
 
 import { Button } from '../actions/button';
 
@@ -33,29 +33,31 @@ const formattedValue = [
   '<ol><li><p>First step</p></li><li><p>Second step</p></li></ol>',
 ].join('');
 
+type RichTextEditorStoryArgs = ComponentProps<typeof RichTextEditor.Root> & {
+  toolbar?: ReactNode;
+};
+
 export default {
   title: 'Components/Forms/RichTextEditor',
   component: RichTextEditor.Root,
   args: {
     placeholder: 'Placeholder text',
     value: '',
-    children: toolbar,
-  },
-  argTypes: {
-    children: { control: false },
   },
   render: function Render(args) {
     const [value, setValue] = useState(args.value);
 
     return (
       <FormField label="Message">
-        <RichTextEditor.Root {...args} value={value} onChange={setValue} />
+        <RichTextEditor.Root {...args} value={value} onChange={setValue}>
+          <RichTextEditor.Textarea toolbar={toolbar} />
+        </RichTextEditor.Root>
       </FormField>
     );
   },
-} satisfies Meta<typeof RichTextEditor.Root>;
+} satisfies Meta<RichTextEditorStoryArgs>;
 
-type Story = StoryObj<typeof RichTextEditor.Root>;
+type Story = StoryObj<RichTextEditorStoryArgs>;
 
 export const Playground: Story = {};
 
@@ -75,7 +77,9 @@ export const Invalid: Story = {
         hint="Hint text, shown before the field."
         error="What to do to fix the text."
       >
-        <RichTextEditor.Root {...args} value={value} onChange={setValue} />
+        <RichTextEditor.Root {...args} value={value} onChange={setValue}>
+          <RichTextEditor.Textarea toolbar={toolbar} />
+        </RichTextEditor.Root>
       </FormField>
     );
   },
@@ -91,7 +95,7 @@ export const Disabled: Story = {
 /** Only the formats that the text needs. */
 export const MinimalToolbar: Story = {
   args: {
-    children: (
+    toolbar: (
       <RichTextEditor.Toolbar>
         <RichTextEditor.Bold label="Bold" />
         <RichTextEditor.Italic label="Italic" />
@@ -108,19 +112,37 @@ export const WithToolbarEnd: Story = {
     return (
       <FormField label="Message">
         <RichTextEditor.Root {...args} value={value} onChange={setValue}>
-          <RichTextEditor.Toolbar>
-            <RichTextEditor.Bold label="Bold" />
-            <RichTextEditor.Italic label="Italic" />
-            <RichTextEditor.Link labels={linkLabels} />
-            <RichTextEditor.ToolbarEnd>
-              <RichTextEditor.ToolbarButton icon="attachment" label="Attach a file" />
-              <Button size="sm" onClick={() => setValue('')}>
-                Send
-              </Button>
-            </RichTextEditor.ToolbarEnd>
-          </RichTextEditor.Toolbar>
+          <RichTextEditor.Textarea
+            toolbar={
+              <RichTextEditor.Toolbar>
+                <RichTextEditor.Bold label="Bold" />
+                <RichTextEditor.Italic label="Italic" />
+                <RichTextEditor.Link labels={linkLabels} />
+                <RichTextEditor.ToolbarEnd>
+                  <RichTextEditor.ToolbarButton icon="attachment" label="Attach a file" />
+                  <Button size="sm" onClick={() => setValue('')}>
+                    Send
+                  </Button>
+                </RichTextEditor.ToolbarEnd>
+              </RichTextEditor.Toolbar>
+            }
+          />
         </RichTextEditor.Root>
       </FormField>
+    );
+  },
+};
+
+/** Without `Textarea`, the layout is the application's: `EditorContent` is the editable text, `Toolbar` goes anywhere inside `Root`. */
+export const CustomLayout: Story = {
+  render: function Render(args) {
+    const [value, setValue] = useState('');
+
+    return (
+      <RichTextEditor.Root {...args} value={value} onChange={setValue}>
+        <RichTextEditor.EditorContent className="stack h-20 rounded-md border px-4 py-3 text-body" />
+        {toolbar}
+      </RichTextEditor.Root>
     );
   },
 };

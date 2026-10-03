@@ -7,7 +7,7 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: fr\n"
 
-#: src/components/comments.tsx
+#: src/components/comments-section.tsx
 #: src/pages/requests/list/request-item.tsx
 msgid "{commentsCount, plural, one {# comment} other {# comments}}"
 msgstr "{commentsCount, plural, one {# commentaire} other {# commentaires}}"
@@ -24,19 +24,35 @@ msgstr "Votre réponse sera transmise à {firstName}."
 msgid "{total, plural, one {# request} other {# requests}}"
 msgstr "{total, plural, one {# demande} other {# demandes}}"
 
+#: src/components/comments-section.tsx
+msgid "Add attachment"
+msgstr "Ajouter une pièce jointe"
+
 #: src/pages/requests/list/requests-filters.tsx
 msgctxt "requests filter"
 msgid "All"
 msgstr "Toutes"
 
+#: src/components/comments-section.tsx
+msgid "An error happened and your comment was not posted"
+msgstr "Une erreur est survenue et votre commentaire n'a pas pu être envoyé"
+
 #: src/pages/requests/details/request-answers.tsx
 msgid "Answers"
 msgstr "Réponses"
+
+#: src/components/comments-section.tsx
+msgid "Apply"
+msgstr "Appliquer"
 
 #: src/pages/authentication/authentication.tsx
 #: src/pages/requests/details/requester-actions.tsx
 msgid "Back"
 msgstr "Retour"
+
+#: src/components/comments-section.tsx
+msgid "Bold"
+msgstr "Gras"
 
 #: src/pages/requests/details/request-answers.tsx
 msgid "Can help"
@@ -49,6 +65,10 @@ msgstr "Pouvez-vous aider ?"
 #: src/pages/requests/details/request-answers.tsx
 msgid "Can't help"
 msgstr "Ne peut pas aider"
+
+#: src/components/comments-section.tsx
+msgid "Cancel"
+msgstr "Annuler"
 
 #: src/pages/requests/details/requester-actions.tsx
 msgid "Cancel the request"
@@ -71,6 +91,7 @@ msgstr "Vérifiez votre accès à internet, puis réessayez."
 msgid "Clear filters"
 msgstr "Effacer les filtres"
 
+#: src/components/comments-section.tsx
 #: src/main.tsx
 #: src/pages/requests/details/requester-actions.tsx
 msgid "Close"
@@ -89,7 +110,7 @@ msgstr "Clôturer la demande"
 msgid "Close the request “{0}”?"
 msgstr "Clôturer la demande « {0} » ?"
 
-#: src/components/comments.tsx
+#: src/components/comments-section.tsx
 msgid "Comments"
 msgstr "Commentaires"
 
@@ -171,6 +192,18 @@ msgstr "Informations"
 msgid "Interests"
 msgstr "Centres d'intérêts"
 
+#: src/components/comments-section.tsx
+msgid "Italic"
+msgstr "Italique"
+
+#: src/components/comments-section.tsx
+msgid "Link"
+msgstr "Lien"
+
+#: src/components/comments-section.tsx
+msgid "Link target"
+msgstr "Cible du lien"
+
 #: src/layout/layout.tsx
 msgid "Main navigation"
 msgstr "Navigation principale"
@@ -204,10 +237,6 @@ msgstr "mon@email.com"
 msgid "New request"
 msgstr "Nouvelle demande"
 
-#: src/components/comments.tsx
-msgid "No comments yet."
-msgstr "Aucun commentaire pour le moment."
-
 #: src/pages/requests/details/request-answers.tsx
 msgid "No one has answered yet."
 msgstr "Personne n’a encore répondu."
@@ -233,6 +262,10 @@ msgstr "Nouvelle demande"
 #: src/app/routes.ts
 msgid "Profile"
 msgstr "Profil"
+
+#: src/components/comments-section.tsx
+msgid "Remove link"
+msgstr "Retirer le lien"
 
 #: src/pages/requests/details/requester-actions.tsx
 msgid "Request canceled"
@@ -271,6 +304,10 @@ msgstr "Rechercher parmi les demandes"
 #: src/pages/requests/details/request-page.tsx
 msgid "See the requests"
 msgstr "Voir les demandes"
+
+#: src/components/comments-section.tsx
+msgid "Send"
+msgstr "Envoyer"
 
 #: src/app/routes.ts
 msgid "Settings"
@@ -330,6 +367,11 @@ msgstr "Ce code a expiré. Revenez en arrière pour en recevoir un nouveau."
 msgid "This code is not valid. Check that it matches the one in the email."
 msgstr "Ce code n'est pas valide. Vérifiez qu'il correspond à celui de l'email."
 
+#. placeholder {0}: error.minimum
+#: src/hooks/use-zod-resolver.ts
+msgid "This field should be at least {0} characters"
+msgstr "Ce champ doit faire au moins {0} caractères"
+
 #: src/pages/requests/details/request-status.tsx
 msgid "This request is fulfilled"
 msgstr "Cette demande est clôturée"
@@ -337,6 +379,10 @@ msgstr "Cette demande est clôturée"
 #: src/pages/requests/details/request-status.tsx
 msgid "This request was canceled"
 msgstr "Cette demande a été annulée"
+
+#: src/components/comments-section.tsx
+msgid "This URL is invalid"
+msgstr "Cette URL est invalide"
 
 #: src/pages/requests/list/request-item.tsx
 msgid "Try other words, or clear the filters."
@@ -346,7 +392,7 @@ msgstr "Essayez d'autres mots, ou effacez les filtres."
 msgid "Unable to load more elements"
 msgstr "Impossible d'afficher plus d'éléments"
 
-#: src/components/comments.tsx
+#: src/components/comments-section.tsx
 msgid "Unable to load the comments"
 msgstr "Impossible de charger les commentaires"
 
@@ -365,6 +411,10 @@ msgstr "Quand un membre a besoin d'un coup de main, sa demande apparaît ici."
 #: src/pages/requests/details/request-answer.tsx
 msgid "Withdraw my answer"
 msgstr "Retirer ma réponse"
+
+#: src/components/comments-section.tsx
+msgid "Write a comment"
+msgstr "Écrire un commentaire"
 
 #: src/pages/requests/details/request-answer.tsx
 msgid "You can help"

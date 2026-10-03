@@ -31,7 +31,7 @@ export function QueryResult<T>({
     return loading;
   }
 
-  if (isEmpty(query.data)) {
+  if (isEmpty(query.data) && empty) {
     return empty;
   }
 

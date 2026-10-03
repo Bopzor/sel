@@ -9,22 +9,26 @@ import { createMemoryRouter, RouterProvider, type RouteObject } from 'react-rout
 import { queries } from 'src/app/queries';
 import { queryClient } from 'src/app/query-client';
 
-export function renderTestPage(path: string, routes: RouteObject[]) {
-  const router = createTestRouter(path, routes);
-
+export function renderTest(children: React.ReactNode) {
   queryClient.setQueryData(
     queries.config().queryKey,
     createConfig({ currency: 'unit', currencyPlural: 'units' }),
   );
 
-  render(
+  return render(
     <I18nProvider i18n={i18n}>
       <QueryClientProvider client={queryClient}>
-        <RouterProvider router={router} />
+        {children}
         <Toaster closeLabel="Close" />
       </QueryClientProvider>
     </I18nProvider>,
   );
+}
+
+export function renderTestPage(path: string, routes: RouteObject[]) {
+  const router = createTestRouter(path, routes);
+
+  renderTest(<RouterProvider router={router} />);
 
   return router;
 }

@@ -49,9 +49,9 @@ function FieldError({ className, children, ...props }: ComponentProps<'span'>) {
 }
 
 export {
-  FieldRoot as Root,
-  FieldHeader as Header,
-  FieldLabel as Label,
-  FieldHint as Hint,
   FieldError as Error,
+  FieldHeader as Header,
+  FieldHint as Hint,
+  FieldLabel as Label,
+  FieldRoot as Root,
 };

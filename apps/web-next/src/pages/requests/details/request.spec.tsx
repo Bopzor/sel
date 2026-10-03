@@ -114,14 +114,6 @@ describe('request', () => {
     expect(url?.searchParams.get('entityId')).toBe('r1');
   });
 
-  it('shows that there is no comment', async () => {
-    server.request = createRequest();
-
-    renderPage();
-
-    expect(await screen.findByText('No comments yet.')).toBeDefined();
-  });
-
   it.each([
     [RequestStatus.fulfilled, 'This request is fulfilled'],
     [RequestStatus.canceled, 'This request was canceled'],

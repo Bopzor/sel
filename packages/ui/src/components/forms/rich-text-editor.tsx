@@ -5,18 +5,7 @@ import { EditorContent, useEditor, useEditorState, type Editor } from '@tiptap/r
 import { StarterKit } from '@tiptap/starter-kit';
 import clsx from 'clsx';
 import { cva } from 'cva';
-import {
-  createContext,
-  use,
-  useCallback,
-  useEffect,
-  useImperativeHandle,
-  useState,
-  type ComponentProps,
-  type FormEvent,
-  type ReactNode,
-  type Ref,
-} from 'react';
+import { createContext, use, useCallback, useEffect, useImperativeHandle, useState } from 'react';
 
 import { definedAttributes, type Override } from '../../utils';
 import { Button } from '../actions/button';
@@ -34,7 +23,7 @@ type RichTextEditorRootProps = {
   onBlur?: () => void;
   placeholder?: string;
   /** Focuses the text, for a form library that focuses the first field in error. */
-  ref?: Ref<{ focus: () => void }>;
+  ref?: React.Ref<{ focus: () => void }>;
   // Override the field's.
   id?: string;
   disabled?: boolean;
@@ -43,9 +32,8 @@ type RichTextEditorRootProps = {
   'aria-label'?: string;
   'aria-labelledby'?: string;
   'aria-describedby'?: string;
-  className?: string;
   /** A RichTextEditor.Toolbar, under the text. */
-  children?: ReactNode;
+  children?: React.ReactNode;
 };
 
 function RichTextEditorRoot({
@@ -54,7 +42,6 @@ function RichTextEditorRoot({
   onBlur,
   placeholder,
   ref,
-  className,
   children,
   ...props
 }: RichTextEditorRootProps) {
@@ -111,7 +98,7 @@ function RichTextEditorRoot({
         'aria-required': required ? 'true' : undefined,
         'aria-disabled': disabled ? 'true' : undefined,
         'aria-placeholder': placeholder,
-        class: 'rich-text-editor prose prose-theme max-w-none min-h-32 px-4 py-3 text-body outline-none',
+        class: 'rich-text-editor prose prose-theme outline-none grow min-w-full',
       }),
     },
     shouldRerenderOnTransaction: false,
@@ -142,14 +129,7 @@ function RichTextEditorRoot({
     return () => label?.removeEventListener('click', focus);
   }, [focus, labelId]);
 
-  return (
-    <RichTextEditorContext value={{ editor, disabled }}>
-      <div className={clsx(fieldBoxStyles, 'stack', className)}>
-        <EditorContent editor={editor} />
-        {children}
-      </div>
-    </RichTextEditorContext>
-  );
+  return <RichTextEditorContext value={{ editor, disabled }}>{children}</RichTextEditorContext>;
 }
 
 type RichTextEditorContextValue = { editor: Editor; disabled: boolean };
@@ -166,13 +146,33 @@ function useRichTextEditor() {
   return context;
 }
 
+function RichTextEditorContent(props: React.ComponentProps<'div'>) {
+  const { editor } = useRichTextEditor();
+
+  return <EditorContent editor={editor} {...props} />;
+}
+
+type RichTextEditorTextareaProps = {
+  toolbar?: React.ReactNode;
+  className?: string;
+};
+
+function RichTextEditorTextarea({ toolbar, className }: RichTextEditorTextareaProps) {
+  return (
+    <div className={clsx(fieldBoxStyles, className)}>
+      <RichTextEditorContent className="stack min-h-32 px-4 pt-3" />
+      {toolbar && <div className="p-1">{toolbar}</div>}
+    </div>
+  );
+}
+
 /** The formatting buttons, under the text: the formats offered are the buttons it contains. */
-function RichTextToolbar({ className, ...props }: ComponentProps<'div'>) {
-  return <div {...props} className={clsx('row flex-wrap items-center gap-1 border-t p-1', className)} />;
+function RichTextToolbar({ className, ...props }: React.ComponentProps<'div'>) {
+  return <div {...props} className={clsx('row flex-wrap items-center gap-1', className)} />;
 }
 
 /** Actions at the end of the toolbar, such as an attachment button or the send button of a comment. */
-function RichTextToolbarEnd({ className, ...props }: ComponentProps<'div'>) {
+function RichTextToolbarEnd({ className, ...props }: React.ComponentProps<'div'>) {
   return <div {...props} className={clsx('ml-auto row items-center gap-2', className)} />;
 }
 
@@ -284,7 +284,7 @@ function RichTextLink({ labels }: { labels: RichTextLinkLabels }) {
     setOpen(true);
   };
 
-  const apply = (event: FormEvent) => {
+  const apply = (event: React.SubmitEvent) => {
     // The dialog is rendered in a portal, but React still bubbles its submit event to a form around the editor.
     event.preventDefault();
     event.stopPropagation();
@@ -359,7 +359,7 @@ function RichTextLink({ labels }: { labels: RichTextLinkLabels }) {
 }
 
 type RichTextToolbarButtonProps = Override<
-  ComponentProps<'button'>,
+  React.ComponentProps<'button'>,
   {
     icon: IconName;
     /** Accessible name, also shown as a tooltip on hover. */
@@ -404,7 +404,7 @@ function RichTextToolbarButton({
 
 // The hit area extends 2px around, to 44px, like IconButton's sm size.
 const toolbarButtonStyles = cva(
-  'relative row size-control-sm items-center justify-center rounded-md transition after:absolute after:-inset-0.5 focus-visible:focus-ring-inset',
+  'relative row size-control-sm items-center justify-center rounded-sm transition after:absolute after:-inset-0.5 focus-visible:focus-ring-inset',
   {
     variants: {
       state: {
@@ -437,15 +437,17 @@ function toHref(url: string) {
 }
 
 export {
-  RichTextEditorRoot as Root,
-  RichTextToolbar as Toolbar,
-  RichTextToolbarEnd as ToolbarEnd,
-  RichTextToolbarButton as ToolbarButton,
   RichTextBold as Bold,
-  RichTextItalic as Italic,
-  RichTextUnderline as Underline,
   RichTextBulletList as BulletList,
-  RichTextOrderedList as OrderedList,
+  RichTextEditorContent as EditorContent,
+  RichTextItalic as Italic,
   RichTextLink as Link,
+  RichTextOrderedList as OrderedList,
+  RichTextEditorRoot as Root,
+  RichTextEditorTextarea as Textarea,
+  RichTextToolbar as Toolbar,
+  RichTextToolbarButton as ToolbarButton,
+  RichTextToolbarEnd as ToolbarEnd,
+  RichTextUnderline as Underline,
   type RichTextLinkLabels as LinkLabels,
 };

@@ -1,23 +1,30 @@
-import { Plural, Trans } from '@lingui/react/macro';
-import type { Comment, CommentEntityType } from '@sel/shared';
-import { Card, ListItem, Skeleton } from '@sel/ui';
-import { useQuery } from '@tanstack/react-query';
+import { Plural, Trans, useLingui } from '@lingui/react/macro';
+import {
+  createCommentBodySchema,
+  type Comment,
+  type CommentEntityType,
+  type CreateCommentBody,
+} from '@sel/shared';
+import { Button, Card, Field, ListItem, RichTextEditor, showToast, Skeleton } from '@sel/ui';
+import { useMutation, useQuery, useQueryClient, useSuspenseQuery } from '@tanstack/react-query';
+import { useController, useForm } from 'react-hook-form';
 
+import { api } from 'src/app/api';
 import { formatMemberName } from 'src/app/format';
 import { queries } from 'src/app/queries';
+import { useZodResolver } from 'src/hooks/use-zod-resolver';
 
 import { ApiFailed, QueryResult } from './api-result';
 import { MemberAvatar } from './member-avatar';
 import { MessageContent } from './message-content';
 import { RelativeDate } from './relative-date';
 
-export function CommentsSection({
-  entityType,
-  entityId,
-}: {
+type CommentSectionProps = {
   entityType: CommentEntityType;
   entityId: string;
-}) {
+};
+
+export function CommentsSection({ entityType, entityId }: CommentSectionProps) {
   const query = useQuery(queries.comments(entityType, entityId));
   const commentsCount = query.data?.length ?? 0;
 
@@ -41,15 +48,10 @@ export function CommentsSection({
           />
         }
         loading={<CommentsSkeleton />}
-        empty={
-          <p className="text-body-sm text-muted">
-            <Trans>No comments yet.</Trans>
-          </p>
-        }
       >
         {(comments) => (
           <Card.Root>
-            <CommentsList comments={comments} />
+            <CommentsList entityType={entityType} entityId={entityId} comments={comments} />
           </Card.Root>
         )}
       </QueryResult>
@@ -57,24 +59,122 @@ export function CommentsSection({
   );
 }
 
-function CommentsList({ comments }: { comments: Comment[] }) {
+type CommentsListProps = {
+  entityType: CommentEntityType;
+  entityId: string;
+  comments: Comment[];
+};
+
+function CommentsList({ entityType, entityId, comments }: CommentsListProps) {
   return (
     <ul>
       {comments.map((comment) => (
-        <ListItem.Root key={comment.id}>
-          <MemberAvatar member={comment.author} size="sm" decorative className="self-start" />
+        <CommentItem key={comment.id} comment={comment} />
+      ))}
+
+      <CommentForm entityType={entityType} entityId={entityId} />
+    </ul>
+  );
+}
+
+function CommentItem({ comment }: { comment: Comment }) {
+  return (
+    <ListItem.Root>
+      <MemberAvatar member={comment.author} size="sm" decorative className="self-start" />
+
+      <ListItem.Content>
+        <ListItem.Header>
+          <ListItem.Title className="text-body-strong">{formatMemberName(comment.author)}</ListItem.Title>
+          <RelativeDate date={comment.date} className="text-caption text-subtle" />
+        </ListItem.Header>
+
+        <MessageContent message={comment.message} />
+      </ListItem.Content>
+    </ListItem.Root>
+  );
+}
+
+function CommentForm({ entityType, entityId }: CommentSectionProps) {
+  const { t } = useLingui();
+  const { data: me } = useSuspenseQuery(queries.session());
+
+  const queryClient = useQueryClient();
+
+  const form = useForm({
+    resolver: useZodResolver(createCommentBodySchema.pick({ body: true })),
+    defaultValues: {
+      body: '',
+    },
+  });
+
+  const postComment = useMutation({
+    mutationFn: (body: CreateCommentBody) => api('POST', '/comment', { body }),
+    onSuccess: async () => {
+      form.reset();
+      await queryClient.invalidateQueries(queries.comments(entityType, entityId));
+    },
+    onError: () => {
+      showToast(t`An error happened and your comment was not posted`, 'error');
+    },
+  });
+
+  const handleSend = () => {
+    void form.handleSubmit(({ body }) => postComment.mutate({ entityType, entityId, body, fileIds: [] }))();
+  };
+
+  const { field, fieldState } = useController({ control: form.control, name: 'body' });
+
+  return (
+    <ListItem.Root>
+      <Field.Root invalid={fieldState.invalid} className="grid grow grid-cols-[auto_1fr]">
+        <RichTextEditor.Root {...field} placeholder={t`Write a comment`}>
+          <MemberAvatar member={me} size="sm" decorative />
 
           <ListItem.Content>
             <ListItem.Header>
-              <ListItem.Title className="text-body-strong">{formatMemberName(comment.author)}</ListItem.Title>
-              <RelativeDate date={comment.date} className="text-caption text-subtle" />
+              <ListItem.Title className="text-body-strong">{formatMemberName(me)}</ListItem.Title>
             </ListItem.Header>
 
-            <MessageContent message={comment.message} />
+            <RichTextEditor.EditorContent className="stack min-h-20" />
           </ListItem.Content>
-        </ListItem.Root>
-      ))}
-    </ul>
+
+          <div className="col-span-2">
+            <Field.Error>{fieldState.error?.message}</Field.Error>
+
+            <RichTextEditor.Toolbar>
+              <RichTextEditor.Bold label={t`Bold`} />
+              <RichTextEditor.Italic label={t`Italic`} />
+              <RichTextEditor.Link
+                labels={{
+                  button: t`Link`,
+                  url: t`Link target`,
+                  invalid: t`This URL is invalid`,
+                  apply: t`Apply`,
+                  remove: t`Remove link`,
+                  cancel: t`Cancel`,
+                  close: t`Close`,
+                }}
+              />
+
+              {/* TODO */}
+              <RichTextEditor.ToolbarButton icon="attachment" label={t`Add attachment`} />
+
+              <RichTextEditor.ToolbarEnd>
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  icon="send"
+                  loading={postComment.isPending}
+                  onClick={handleSend}
+                >
+                  <Trans>Send</Trans>
+                </Button>
+              </RichTextEditor.ToolbarEnd>
+            </RichTextEditor.Toolbar>
+          </div>
+        </RichTextEditor.Root>
+      </Field.Root>
+    </ListItem.Root>
   );
 }
 
