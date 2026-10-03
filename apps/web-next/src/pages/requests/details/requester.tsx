@@ -3,6 +3,7 @@ import type { Requester } from '@sel/shared';
 import { Card, Icon } from '@sel/ui';
 
 import { formatMemberName, formatPhoneNumber } from 'src/app/format';
+import { Link } from 'src/components/link';
 import { MemberAvatar } from 'src/components/member-avatar';
 
 export function RequesterCard({ requester }: { requester: Requester }) {
@@ -23,7 +24,7 @@ export function RequesterCard({ requester }: { requester: Requester }) {
   return (
     <Card.Root>
       <Card.Body className="stack gap-4">
-        <div className="row items-center gap-3">
+        <Link href={`/members/${requester.id}`} className="row items-center gap-3">
           <MemberAvatar member={requester} size="lg" decorative />
 
           <div className="stack min-w-0">
@@ -32,7 +33,7 @@ export function RequesterCard({ requester }: { requester: Requester }) {
             </p>
             <h2 className="text-title-3">{formatMemberName(requester)}</h2>
           </div>
-        </div>
+        </Link>
 
         {(phoneNumberItem || emailItem) && (
           <ul className="stack gap-2 text-body-sm">
