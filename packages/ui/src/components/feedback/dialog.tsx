@@ -70,7 +70,7 @@ type DialogContentProps = Override<
 function DialogContent({ closeLabel, className, children, ...props }: DialogContentProps) {
   return (
     <Portal>
-      <ArkDialog.Backdrop className="fixed inset-0 z-overlay bg-overlay data-[state=closed]:animate-overlay-out data-[state=open]:animate-overlay-in" />
+      <ArkDialog.Backdrop className="fixed inset-0 z-overlay bg-overlay backdrop-blur-xs backdrop-grayscale-50 data-[state=closed]:animate-overlay-out data-[state=open]:animate-overlay-in" />
 
       {/* A sheet at the bottom on mobile, a centered window from md. */}
       <ArkDialog.Positioner className="fixed inset-0 z-dialog row items-end justify-center md:items-center md:p-6">
@@ -127,13 +127,13 @@ function DialogFooter({ className, ...props }: ComponentProps<'div'>) {
 }
 
 export {
-  DialogRoot as Root,
-  DialogTrigger as Trigger,
+  DialogBody as Body,
   DialogClose as Close,
   DialogContent as Content,
-  DialogHeader as Header,
-  DialogTitle as Title,
   DialogDescription as Description,
-  DialogBody as Body,
   DialogFooter as Footer,
+  DialogHeader as Header,
+  DialogRoot as Root,
+  DialogTitle as Title,
+  DialogTrigger as Trigger,
 };

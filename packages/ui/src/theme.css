@@ -295,6 +295,9 @@
   --radius-xl: 24px;
   --radius-full: 9999px;
 
+  /* Filters */
+  --blur-xs: 2px;
+
   /* Elevation */
   --shadow-sm: var(--elevation-sm);
   --shadow-md: var(--elevation-md);
