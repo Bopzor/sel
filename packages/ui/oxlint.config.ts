@@ -34,7 +34,10 @@ export default defineConfig({
       'error',
       {
         patterns: [
-          { pattern: '(^|:)dark:', message: 'Semantic tokens switch with the theme: use them instead of dark:.' },
+          {
+            pattern: '(^|:)dark:',
+            message: 'Semantic tokens switch with the theme: use them instead of dark:.',
+          },
         ],
       },
     ],
