@@ -8,6 +8,7 @@ import { useParams } from 'react-router';
 import { queries } from 'src/app/queries';
 import { routes } from 'src/app/routes';
 import { ApiFailed, QueryResult } from 'src/components/api-result';
+import { Bullet } from 'src/components/bullet';
 import { CommentsSection } from 'src/components/comments-section';
 import { BackButton, Link } from 'src/components/link';
 import { MessageContent } from 'src/components/message-content';
@@ -55,10 +56,7 @@ function RequestDetails({ request }: { request: Request }) {
 
   return (
     <div className="stack gap-6">
-      <header className="stack gap-1">
-        <h1 className="text-title-1">{request.title}</h1>
-        <RelativeDate date={request.date} className="text-body-sm text-muted" />
-      </header>
+      <Header request={request} />
 
       <div className="stack gap-6 xl:grid xl:grid-cols-[minmax(0,1fr)_auto] xl:grid-rows-[auto_1fr] xl:items-start xl:gap-x-10">
         <div className="stack max-w-content gap-4">
@@ -83,6 +81,27 @@ function RequestDetails({ request }: { request: Request }) {
         </div>
       </div>
     </div>
+  );
+}
+
+function Header({ request }: { request: Request }) {
+  const positiveAnswersCount = request.answers.filter(({ answer }) => answer === 'positive').length;
+
+  return (
+    <header className="stack gap-1">
+      <h1 className="text-title-1">{request.title}</h1>
+      <div className="row gap-2 text-body-sm text-muted">
+        <RelativeDate date={request.date} />
+        {positiveAnswersCount > 0 && (
+          <>
+            <Bullet />
+            <p>
+              <Trans>{positiveAnswersCount} people can help</Trans>
+            </p>
+          </>
+        )}
+      </div>
+    </header>
   );
 }
 

@@ -7,6 +7,7 @@ import { formatMemberName } from 'src/app/format';
 import { queries } from 'src/app/queries';
 import { routes } from 'src/app/routes';
 import { ApiFailed } from 'src/components/api-result';
+import { Bullet } from 'src/components/bullet';
 import { Link } from 'src/components/link';
 import { MemberAvatar } from 'src/components/member-avatar';
 import { FetchNextPageError, Pagination } from 'src/components/pagination';
@@ -78,10 +79,6 @@ export function RequestList({ filters, hasFilters, onClearFilters }: RequestList
       </Pagination>
     </div>
   );
-}
-
-function Bullet() {
-  return <span aria-hidden> &bull; </span>;
 }
 
 function RequestListItem({ request }: { request: RequestListItem }) {

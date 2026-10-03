@@ -20,6 +20,10 @@ msgstr "{firstName} sait que vous n'êtes pas disponible."
 msgid "{firstName} will be notified of your answer."
 msgstr "Votre réponse sera transmise à {firstName}."
 
+#: src/pages/requests/details/request-page.tsx
+msgid "{positiveAnswersCount} people can help"
+msgstr "{positiveAnswersCount, plural, one {# personne peut} other {# personnes peuvent}} aider"
+
 #: src/pages/requests/list/request-item.tsx
 msgid "{total, plural, one {# request} other {# requests}}"
 msgstr "{total, plural, one {# demande} other {# demandes}}"
