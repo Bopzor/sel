@@ -1,33 +1,39 @@
 import { isImage, type Attachment, type Message } from '@sel/shared';
 import { Icon, RichText } from '@sel/ui';
+import clsx from 'clsx';
 import DOMPurify from 'dompurify';
 
 import { fileUrl } from 'src/app/api';
 
+type ImageSize = 'medium' | 'small';
+
 // The server stores the HTML as the member's browser sent it.
-export function MessageContent({ message }: { message: Message }) {
+export function MessageContent({ message, imageSize }: { message: Message; imageSize?: ImageSize }) {
   const images = message.attachments.filter(isImage);
   const files = message.attachments.filter((attachment) => !isImage(attachment));
 
   return (
     <div className="stack gap-4">
       <RichText unsafeHtml={DOMPurify.sanitize(message.body)} />
-      {images.length > 0 && <ImagesList images={images} />}
+      {images.length > 0 && <ImagesList images={images} size={imageSize} />}
       {files.length > 0 && <FilesList files={files} />}
     </div>
   );
 }
 
-function ImagesList({ images }: { images: Attachment[] }) {
+function ImagesList({ images, size = 'medium' }: { images: Attachment[]; size?: ImageSize }) {
   return (
-    <ul className="grid grid-cols-2 gap-2 sm:grid-cols-3">
+    <ul className="flex flex-wrap gap-2">
       {images.map((image) => (
         <li key={image.fileId}>
           <a href={fileUrl(image.name)} target="_blank" rel="noreferrer" className="block">
             <img
               src={fileUrl(image.name)}
               alt={image.originalName}
-              className="aspect-square w-full rounded-md border object-cover"
+              className={clsx('rounded-md border object-cover', {
+                'size-24': size === 'small',
+                'size-48': size === 'medium',
+              })}
             />
           </a>
         </li>

@@ -71,7 +71,7 @@ function RequestDetails({ request }: { request: Request }) {
           </Card.Root>
         </div>
 
-        <aside className="stack gap-6 xl:sticky xl:top-10 xl:col-start-2 xl:row-span-2 xl:row-start-1 xl:w-aside">
+        <aside className="stack max-w-content gap-6 xl:sticky xl:top-10 xl:col-start-2 xl:row-span-2 xl:row-start-1 xl:w-aside">
           <RequesterCard requester={request.requester} />
           {pending && isRequester && <RequesterActionsCard request={request} />}
           {pending && !isRequester && <RequestAnswerCard request={request} memberId={me.id} />}
@@ -92,8 +92,8 @@ function Header({ request }: { request: Request }) {
   return (
     <header className="stack gap-1">
       <h1 className="text-title-1">{request.title}</h1>
-      <div className="row gap-2 text-body-sm text-muted">
-        <RelativeDate date={request.date} />
+      <div className="row flex-wrap gap-2 text-body-sm text-muted">
+        <RelativeDate date={request.date} className="whitespace-nowrap" />
         {positiveAnswersCount > 0 && (
           <>
             <Bullet />

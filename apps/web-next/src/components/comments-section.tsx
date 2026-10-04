@@ -87,10 +87,10 @@ function CommentItem({ comment }: { comment: Comment }) {
       <ListItem.Content>
         <ListItem.Header>
           <ListItem.Title className="text-body-strong">{formatMemberName(comment.author)}</ListItem.Title>
-          <RelativeDate date={comment.date} className="text-caption text-subtle" />
+          <RelativeDate date={comment.date} className="text-caption whitespace-nowrap text-subtle" />
         </ListItem.Header>
 
-        <MessageContent message={comment.message} />
+        <MessageContent message={comment.message} imageSize="small" />
       </ListItem.Content>
     </ListItem.Root>
   );
