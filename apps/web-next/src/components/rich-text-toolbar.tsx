@@ -3,6 +3,8 @@ import { Button, Dialog, RichTextEditor } from '@sel/ui';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
+import { useFileInput } from 'src/hooks/use-file-input';
+
 import { InputField } from './fields';
 
 type ToolbarItemProps = {
@@ -63,9 +65,21 @@ function OrderedList({ className }: ToolbarItemProps) {
   return <RichTextEditor.OrderedList label={t`Numbered list`} className={className} />;
 }
 
-function Attachment({ className }: ToolbarItemProps) {
+function Attachment({ onSelect, className }: ToolbarItemProps & { onSelect: (files: File[]) => void }) {
   const { t } = useLingui();
-  return <RichTextEditor.ToolbarButton icon="attachment" label={t`Attachment`} className={className} />;
+  const fileInput = useFileInput(onSelect);
+
+  return (
+    <>
+      <RichTextEditor.ToolbarButton
+        icon="attachment"
+        label={t`Attach files`}
+        onClick={fileInput.open}
+        className={className}
+      />
+      {fileInput.input}
+    </>
+  );
 }
 
 export const RichTextToolbar = {

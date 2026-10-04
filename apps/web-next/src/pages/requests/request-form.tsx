@@ -1,9 +1,10 @@
 import { Trans } from '@lingui/react/macro';
-import { createRequestBodySchema, type CreateRequestBody } from '@sel/shared';
+import { createRequestBodySchema, type Attachment, type CreateRequestBody } from '@sel/shared';
 import { Button, Card, RichTextEditor } from '@sel/ui';
 import { useMutation } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
 
+import { AttachmentsField, useAttachments } from 'src/components/attachments';
 import { FormServerErrorAlert, InputField, RichTextField, submitWithMutation } from 'src/components/fields';
 import { RichTextToolbar } from 'src/components/rich-text-toolbar';
 import { useFormApiError } from 'src/hooks/use-form-api-error';
@@ -12,13 +13,15 @@ import { useZodResolver } from 'src/hooks/use-zod-resolver';
 export function RequestForm<Result>({
   schema,
   defaultValues,
+  attachments: initialAttachments,
   mutationFn,
   onSuccess,
   submitLabel,
   errorTitle,
 }: {
   schema: typeof createRequestBodySchema;
-  defaultValues?: CreateRequestBody;
+  defaultValues?: Omit<CreateRequestBody, 'fileIds'>;
+  attachments?: Attachment[];
   mutationFn: (body: CreateRequestBody) => Promise<Result>;
   onSuccess: (result: Result) => Promise<void>;
   submitLabel: React.ReactNode;
@@ -27,10 +30,9 @@ export function RequestForm<Result>({
   const form = useForm({
     resolver: useZodResolver(schema),
     defaultValues: {
-      title: '',
-      body: '',
-      fileIds: [],
-      ...defaultValues,
+      title: defaultValues?.title ?? '',
+      body: defaultValues?.body ?? '',
+      fileIds: initialAttachments?.map(({ fileId }) => fileId) ?? [],
     },
   });
 
@@ -40,8 +42,22 @@ export function RequestForm<Result>({
     onError: useFormApiError(form),
   });
 
+  const attachments = useAttachments({
+    form,
+    name: 'fileIds',
+    initial: initialAttachments,
+  });
+
+  const onSubmit = (event: React.SubmitEvent) => {
+    if (attachments.uploading) {
+      event.preventDefault();
+    } else {
+      submitWithMutation(form, mutation)(event);
+    }
+  };
+
   return (
-    <form noValidate onSubmit={submitWithMutation(form, mutation)} className="stack gap-6">
+    <form noValidate onSubmit={onSubmit} className="stack gap-6">
       <Card.Body className="stack gap-6">
         <InputField
           control={form.control}
@@ -63,19 +79,26 @@ export function RequestForm<Result>({
               <RichTextToolbar.Link />
               <RichTextToolbar.BulletList />
               <RichTextToolbar.OrderedList />
-              <RichTextToolbar.Attachment />
             </RichTextEditor.Toolbar>
           }
         />
 
-        <FormServerErrorAlert
-          error={form.formState.errors.root}
-          title={errorTitle}
+        <AttachmentsField
+          label={<Trans>Attachments</Trans>}
+          hint={<Trans>Photos or documents, up to 10 MB per file</Trans>}
+          attachments={attachments}
         />
+
+        <FormServerErrorAlert error={form.formState.errors.root} title={errorTitle} />
       </Card.Body>
 
       <Card.Footer className="justify-end">
-        <Button type="submit" size="lg" loading={form.formState.isSubmitting} className="max-sm:w-full">
+        <Button
+          type="submit"
+          size="lg"
+          loading={form.formState.isSubmitting || attachments.uploading}
+          className="max-sm:w-full"
+        >
           {submitLabel}
         </Button>
       </Card.Footer>

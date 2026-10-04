@@ -20,6 +20,14 @@ msgstr "{firstName} sait que vous n'êtes pas disponible."
 msgid "{firstName} will be notified of your answer."
 msgstr "Votre réponse sera transmise à {firstName}."
 
+#: src/components/attachments.tsx
+msgid "{name} could not be attached. Try again in a few moments."
+msgstr "{name} n’a pas pu être joint. Réessayez dans quelques instants."
+
+#: src/components/attachments.tsx
+msgid "{name} is larger than 10 MB and was not attached"
+msgstr "{name} dépasse 10 Mo et n’a pas été joint"
+
 #: src/pages/requests/details/request-page.tsx
 msgid "{positiveAnswersCount} people can help"
 msgstr "{positiveAnswersCount, plural, one {# personne peut} other {# personnes peuvent}} aider"
@@ -31,6 +39,10 @@ msgstr "{total, plural, one {# demande} other {# demandes}}"
 #: src/pages/requests/request-form.tsx
 msgid "A few words, for example: Help to put up a shelf"
 msgstr "Quelques mots, par exemple : Aide pour poser une étagère"
+
+#: src/components/attachments.tsx
+msgid "Add files"
+msgstr "Ajouter des fichiers"
 
 #: src/pages/requests/list/requests-filters.tsx
 msgctxt "requests filter"
@@ -54,8 +66,12 @@ msgid "Ask the members for help: they will be notified and can offer theirs."
 msgstr "Demandez de l'aide aux membres : ils seront notifiés et pourront vous répondre."
 
 #: src/components/rich-text-toolbar.tsx
-msgid "Attachment"
-msgstr "Pièce jointe"
+msgid "Attach files"
+msgstr "Joindre des fichiers"
+
+#: src/pages/requests/request-form.tsx
+msgid "Attachments"
+msgstr "Pièces jointes"
 
 #: src/pages/authentication/authentication.tsx
 #: src/pages/requests/details/requester-actions.tsx
@@ -287,6 +303,10 @@ msgctxt "requests filter"
 msgid "Open"
 msgstr "En cours"
 
+#: src/pages/requests/request-form.tsx
+msgid "Photos or documents, up to 10 MB per file"
+msgstr "Photos ou documents, 10 Mo maximum par fichier"
+
 #: src/pages/requests/create/create-request-page.tsx
 #: src/pages/requests/list/requests-list.tsx
 msgid "Post a request"
@@ -299,6 +319,10 @@ msgstr "Publier la demande"
 #: src/app/routes.ts
 msgid "Profile"
 msgstr "Profil"
+
+#: src/components/attachments.tsx
+msgid "Remove {name}"
+msgstr "Retirer {name}"
 
 #: src/components/rich-text-toolbar.tsx
 msgid "Remove link"

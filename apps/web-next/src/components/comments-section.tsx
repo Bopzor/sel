@@ -15,6 +15,7 @@ import { queries } from 'src/app/queries';
 import { useZodResolver } from 'src/hooks/use-zod-resolver';
 
 import { ApiFailed, QueryResult } from './api-result';
+import { AttachmentsList, useAttachments } from './attachments';
 import { MemberAvatar } from './member-avatar';
 import { MessageContent } from './message-content';
 import { RelativeDate } from './relative-date';
@@ -102,9 +103,10 @@ function CommentForm({ entityType, entityId }: CommentSectionProps) {
   const queryClient = useQueryClient();
 
   const form = useForm({
-    resolver: useZodResolver(createCommentBodySchema.pick({ body: true })),
+    resolver: useZodResolver(createCommentBodySchema.omit({ entityType: true, entityId: true })),
     defaultValues: {
       body: '',
+      fileIds: [],
     },
   });
 
@@ -120,8 +122,14 @@ function CommentForm({ entityType, entityId }: CommentSectionProps) {
     },
   });
 
+  const attachments = useAttachments({ form, name: 'fileIds' });
+
   const handleSend = () => {
-    void form.handleSubmit(({ body }) => postComment.mutate({ entityType, entityId, body, fileIds: [] }))();
+    if (attachments.uploading) {
+      return;
+    }
+
+    void form.handleSubmit((values) => postComment.mutate({ entityType, entityId, ...values }))();
   };
 
   const { field, fieldState } = useController({ control: form.control, name: 'body' });
@@ -138,6 +146,7 @@ function CommentForm({ entityType, entityId }: CommentSectionProps) {
             </ListItem.Header>
 
             <RichTextEditor.EditorContent className="stack min-h-20" />
+            <AttachmentsList {...attachments} />
           </ListItem.Content>
 
           <div className="col-span-2">
@@ -150,13 +159,13 @@ function CommentForm({ entityType, entityId }: CommentSectionProps) {
               <RichTextToolbar.Link />
               <RichTextToolbar.BulletList className="max-sm:hidden" />
               <RichTextToolbar.OrderedList className="max-sm:hidden" />
-              <RichTextToolbar.Attachment />
+              <RichTextToolbar.Attachment onSelect={attachments.add} />
               <RichTextEditor.ToolbarEnd>
                 <Button
                   variant="secondary"
                   size="sm"
                   icon="send"
-                  loading={postComment.isPending}
+                  loading={postComment.isPending || attachments.uploading}
                   onClick={handleSend}
                 >
                   <Trans>Send</Trans>

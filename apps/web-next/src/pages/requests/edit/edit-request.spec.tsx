@@ -4,9 +4,10 @@ import {
   type LightMember,
   type Request,
   type CreateRequestBody,
+  type File as UploadedFile,
 } from '@sel/shared';
-import { createFactory } from '@sel/utils';
-import { screen } from '@testing-library/react';
+import { assert, createFactory } from '@sel/utils';
+import { screen, within } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
@@ -35,6 +36,7 @@ describe('edit request', () => {
 
     expect(await screen.findByRole('textbox', { name: /^Title/ })).toHaveProperty('value', 'Shelf');
     expect(screen.getByRole('textbox', { name: /^Message/ }).textContent).toBe('I need a drill on Saturday.');
+    expect(within(screen.getByRole('group', { name: 'Attachments' })).getByText('Shelf.jpg')).toBeDefined();
   });
 
   it('saves the changes and opens the request', async () => {
@@ -55,6 +57,34 @@ describe('edit request', () => {
         fileIds: ['f1'],
       },
     ]);
+  });
+
+  it('removes an attached file', async () => {
+    renderPage();
+
+    await user.click(await screen.findByRole('button', { name: 'Remove Shelf.jpg' }));
+
+    expect(screen.queryByText('Shelf.jpg')).toBeNull();
+
+    await user.click(screen.getByRole('button', { name: 'Save the changes' }));
+    await screen.findByText('Request edited');
+
+    expect(server.updated[0]?.fileIds).toEqual([]);
+  });
+
+  it('attaches a file next to the existing ones', async () => {
+    renderPage();
+
+    await screen.findByText('Shelf.jpg');
+    await attach(user, new File(['...'], 'plan.pdf', { type: 'application/pdf' }));
+    await screen.findByRole('button', { name: 'Remove plan.pdf' });
+
+    expect(screen.getByText('Shelf.jpg')).toBeDefined();
+
+    await user.click(screen.getByRole('button', { name: 'Save the changes' }));
+    await screen.findByText('Request edited');
+
+    expect(server.updated[0]?.fileIds).toEqual(['f1', 'f2']);
   });
 
   it('shows an alert when the changes could not be saved, and keeps the form', async () => {
@@ -98,6 +128,14 @@ describe('edit request', () => {
   });
 });
 
+async function attach(user: ReturnType<typeof userEvent.setup>, file: File) {
+  const field = screen.getByRole('group', { name: 'Attachments' });
+  const input = field.querySelector<HTMLInputElement>('input[type="file"]');
+  assert(input !== null);
+
+  await user.upload(input, file);
+}
+
 function renderPage() {
   return renderTestPage(routes.editRequest('r1'), [
     {
@@ -140,6 +178,15 @@ class Server extends FakeServer {
       }
 
       return this.json(this.request);
+    });
+
+    this.register('POST /api/files/upload', ({ body }) => {
+      const file = (body as FormData).get('file') as File;
+
+      return this.json(
+        { id: 'f2', name: 'f2.pdf', originalName: file.name, mimetype: file.type } satisfies UploadedFile,
+        { status: 201 },
+      );
     });
 
     this.register('PUT /api/requests/r1', ({ body }) => {

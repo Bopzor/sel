@@ -20,6 +20,14 @@ msgstr "{firstName} knows you are not available."
 msgid "{firstName} will be notified of your answer."
 msgstr "{firstName} will be notified of your answer."
 
+#: src/components/attachments.tsx
+msgid "{name} could not be attached. Try again in a few moments."
+msgstr "{name} could not be attached. Try again in a few moments."
+
+#: src/components/attachments.tsx
+msgid "{name} is larger than 10 MB and was not attached"
+msgstr "{name} is larger than 10 MB and was not attached"
+
 #: src/pages/requests/details/request-page.tsx
 msgid "{positiveAnswersCount} people can help"
 msgstr "{positiveAnswersCount} people can help"
@@ -31,6 +39,10 @@ msgstr "{total, plural, one {# request} other {# requests}}"
 #: src/pages/requests/request-form.tsx
 msgid "A few words, for example: Help to put up a shelf"
 msgstr "A few words, for example: Help to put up a shelf"
+
+#: src/components/attachments.tsx
+msgid "Add files"
+msgstr "Add files"
 
 #: src/pages/requests/list/requests-filters.tsx
 msgctxt "requests filter"
@@ -54,8 +66,12 @@ msgid "Ask the members for help: they will be notified and can offer theirs."
 msgstr "Ask the members for help: they will be notified and can offer theirs."
 
 #: src/components/rich-text-toolbar.tsx
-msgid "Attachment"
-msgstr "Attachment"
+msgid "Attach files"
+msgstr "Attach files"
+
+#: src/pages/requests/request-form.tsx
+msgid "Attachments"
+msgstr "Attachments"
 
 #: src/pages/authentication/authentication.tsx
 #: src/pages/requests/details/requester-actions.tsx
@@ -287,6 +303,10 @@ msgctxt "requests filter"
 msgid "Open"
 msgstr "Open"
 
+#: src/pages/requests/request-form.tsx
+msgid "Photos or documents, up to 10 MB per file"
+msgstr "Photos or documents, up to 10 MB per file"
+
 #: src/pages/requests/create/create-request-page.tsx
 #: src/pages/requests/list/requests-list.tsx
 msgid "Post a request"
@@ -299,6 +319,10 @@ msgstr "Post the request"
 #: src/app/routes.ts
 msgid "Profile"
 msgstr "Profile"
+
+#: src/components/attachments.tsx
+msgid "Remove {name}"
+msgstr "Remove {name}"
 
 #: src/components/rich-text-toolbar.tsx
 msgid "Remove link"

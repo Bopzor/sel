@@ -28,7 +28,10 @@ export async function api<Result>(
 ): Promise<Result> {
   const init: RequestInit = { method, credentials: 'include' };
 
-  if (options.body !== undefined) {
+  // The browser sets the multipart Content-Type, with its boundary.
+  if (options.body instanceof FormData) {
+    init.body = options.body;
+  } else if (options.body !== undefined) {
     init.headers = { 'Content-Type': 'application/json' };
     init.body = JSON.stringify(options.body);
   }

@@ -18,11 +18,21 @@ export abstract class FakeServer {
 
     this.requests.push(url);
 
+    const getBody = () => {
+      if (init?.body instanceof FormData) {
+        return init.body;
+      }
+
+      if (typeof init?.body === 'string') {
+        return JSON.parse(init.body);
+      }
+    };
+
     if (this.endpoints[route]) {
       return this.endpoints[route]({
         url,
         headers: new Headers(init?.headers),
-        body: typeof init?.body === 'string' ? JSON.parse(init.body) : undefined,
+        body: getBody(),
       });
     }
 

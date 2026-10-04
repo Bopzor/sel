@@ -1,5 +1,6 @@
-import { createAuthenticatedMember, type CreateRequestBody } from '@sel/shared';
-import { screen } from '@testing-library/react';
+import { createAuthenticatedMember, type CreateRequestBody, type File as UploadedFile } from '@sel/shared';
+import { assert } from '@sel/utils';
+import { screen, within } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import type z from 'zod';
@@ -98,6 +99,106 @@ describe('create request', () => {
     expect(screen.queryByRole('alert')).toBeNull();
   });
 
+  describe('attachments', () => {
+    it('offers to attach files in a field of their own', async () => {
+      renderPage();
+
+      const field = await screen.findByRole('group', { name: 'Attachments' });
+
+      expect(within(field).getByRole('button', { name: 'Add files' })).toBeDefined();
+      expect(screen.queryByRole('button', { name: 'Attach files' })).toBeNull();
+    });
+
+    it('uploads the attached files and posts their ids', async () => {
+      renderPage();
+
+      await user.type(await screen.findByRole('textbox', { name: /^Title/ }), 'Help to put up a shelf');
+      await writeMessage(user, 'I need someone with a drill on Saturday.');
+      await attach(
+        user,
+        new File(['...'], 'shelf.jpg', { type: 'image/jpeg' }),
+        new File(['...'], 'plan.pdf'),
+      );
+
+      expect(await screen.findByText('shelf.jpg')).toBeDefined();
+      expect(await screen.findByText('plan.pdf')).toBeDefined();
+
+      await user.click(screen.getByRole('button', { name: 'Post the request' }));
+      await screen.findByText('Request posted');
+
+      expect(server.uploaded).toEqual(['shelf.jpg', 'plan.pdf']);
+      expect(server.posted[0]?.fileIds).toEqual(['f1', 'f2']);
+    });
+
+    it('removes an attached file', async () => {
+      renderPage();
+
+      await user.type(await screen.findByRole('textbox', { name: /^Title/ }), 'Help to put up a shelf');
+      await writeMessage(user, 'I need someone with a drill on Saturday.');
+      await attach(user, new File(['...'], 'shelf.jpg', { type: 'image/jpeg' }));
+      await user.click(await screen.findByRole('button', { name: 'Remove shelf.jpg' }));
+
+      expect(screen.queryByText('shelf.jpg')).toBeNull();
+
+      await user.click(screen.getByRole('button', { name: 'Post the request' }));
+      await screen.findByText('Request posted');
+
+      expect(server.posted[0]?.fileIds).toEqual([]);
+    });
+
+    it('does not post the request while a file is uploading', async () => {
+      let endUpload!: () => void;
+      server.uploadGate = new Promise((resolve) => (endUpload = resolve));
+
+      renderPage();
+
+      const title = await screen.findByRole('textbox', { name: /^Title/ });
+      await user.type(title, 'Help to put up a shelf');
+      await writeMessage(user, 'I need someone with a drill on Saturday.');
+      await attach(user, new File(['...'], 'shelf.jpg', { type: 'image/jpeg' }));
+
+      expect((await screen.findByText('shelf.jpg')).closest('li')?.getAttribute('aria-busy')).toBe('true');
+
+      await user.type(title, '{Enter}');
+
+      expect(server.posted).toEqual([]);
+
+      endUpload();
+      await screen.findByRole('button', { name: 'Remove shelf.jpg' });
+      await user.type(title, '{Enter}');
+      await screen.findByText('Request posted');
+
+      expect(server.posted[0]?.fileIds).toEqual(['f1']);
+    });
+
+    it('does not upload a file larger than 10 MB', async () => {
+      renderPage();
+
+      const file = new File(['...'], 'video.mp4');
+      Object.defineProperty(file, 'size', { value: 11 * 1024 * 1024 });
+
+      await screen.findByRole('textbox', { name: /^Title/ });
+      await attach(user, file);
+
+      expect(await screen.findByText('video.mp4 is larger than 10 MB and was not attached')).toBeDefined();
+      expect(server.uploaded).toEqual([]);
+    });
+
+    it('shows that a file could not be uploaded', async () => {
+      server.uploadFailing = true;
+
+      renderPage();
+
+      await screen.findByRole('textbox', { name: /^Title/ });
+      await attach(user, new File(['...'], 'shelf.jpg', { type: 'image/jpeg' }));
+
+      expect(
+        await screen.findByText('shelf.jpg could not be attached. Try again in a few moments.'),
+      ).toBeDefined();
+      expect(screen.queryByRole('button', { name: 'Remove shelf.jpg' })).toBeNull();
+    });
+  });
+
   it('shows an alert when the server cannot be reached', async () => {
     server.offline = true;
 
@@ -120,6 +221,14 @@ async function writeMessage(user: ReturnType<typeof userEvent.setup>, text: stri
   await user.paste(text);
 }
 
+async function attach(user: ReturnType<typeof userEvent.setup>, ...files: File[]) {
+  const field = screen.getByRole('group', { name: 'Attachments' });
+  const input = field.querySelector<HTMLInputElement>('input[type="file"]');
+  assert(input !== null);
+
+  await user.upload(input, files);
+}
+
 function renderPage() {
   return renderTestPage(routes.createRequest(), [
     {
@@ -136,12 +245,33 @@ function renderPage() {
 
 class Server extends FakeServer {
   posted: CreateRequestBody[] = [];
+  uploaded: string[] = [];
+  uploadFailing = false;
+  uploadGate?: Promise<void>;
   issues: z.core.$ZodIssue[] = [];
   failing = false;
   offline = false;
 
   init() {
     this.register('GET /api/session/member', () => this.json(me));
+
+    this.register('POST /api/files/upload', async ({ body }) => {
+      await this.uploadGate;
+
+      if (this.uploadFailing) {
+        return this.json({ error: 'Internal server error' }, { status: 500 });
+      }
+
+      const file = (body as FormData).get('file') as File;
+      this.uploaded.push(file.name);
+
+      const id = `f${this.uploaded.length}`;
+
+      return this.json(
+        { id, name: `${id}.data`, originalName: file.name, mimetype: file.type } satisfies UploadedFile,
+        { status: 201 },
+      );
+    });
 
     this.register('POST /api/requests', ({ body }) => {
       if (this.offline) {

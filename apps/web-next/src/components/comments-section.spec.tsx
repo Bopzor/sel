@@ -1,4 +1,9 @@
-import { createAuthenticatedMember, type Comment, type CreateCommentBody } from '@sel/shared';
+import {
+  createAuthenticatedMember,
+  type Comment,
+  type CreateCommentBody,
+  type File as UploadedFile,
+} from '@sel/shared';
 import { assert, createFactory } from '@sel/utils';
 import { screen, within } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
@@ -101,6 +106,23 @@ describe('CommentsSection', () => {
       expect(screen.getByRole('textbox').textContent).toBe('');
     });
 
+    it('sends the attached files with the comment, and clears them once sent', async () => {
+      const user = userEvent.setup();
+
+      renderSection();
+
+      await write(user, 'Here is the plan');
+      await attach(user, new File(['...'], 'plan.pdf', { type: 'application/pdf' }));
+
+      expect(await screen.findByText('plan.pdf')).toBeDefined();
+
+      await user.click(screen.getByRole('button', { name: 'Send' }));
+      await screen.findByRole('heading', { name: '1 comment' });
+
+      expect(server.posted[0]?.fileIds).toEqual(['f1']);
+      expect(screen.queryByRole('button', { name: 'Remove plan.pdf' })).toBeNull();
+    });
+
     it('does not send a comment that is too short', async () => {
       const user = userEvent.setup();
 
@@ -135,6 +157,13 @@ async function write(user: ReturnType<typeof userEvent.setup>, text: string) {
   await user.paste(text);
 }
 
+async function attach(user: ReturnType<typeof userEvent.setup>, file: File) {
+  const input = document.querySelector<HTMLInputElement>('input[type="file"]');
+  assert(input !== null);
+
+  await user.upload(input, file);
+}
+
 function renderSection() {
   return renderTest(<CommentsSection entityType="event" entityId="e1" />);
 }
@@ -163,6 +192,15 @@ class Server extends FakeServer {
       }
 
       return this.json(this.comments);
+    });
+
+    this.register('POST /api/files/upload', ({ body }) => {
+      const file = (body as FormData).get('file') as File;
+
+      return this.json(
+        { id: 'f1', name: 'f1.pdf', originalName: file.name, mimetype: file.type } satisfies UploadedFile,
+        { status: 201 },
+      );
     });
 
     this.register('POST /api/comment', ({ body }) => {

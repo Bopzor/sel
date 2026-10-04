@@ -76,11 +76,8 @@ function EditRequest({ request }: { request: Request }) {
       <Card.Root className="max-w-content">
         <RequestForm
           schema={updateRequestBodySchema}
-          defaultValues={{
-            title: request.title,
-            body: request.message.body,
-            fileIds: request.message.attachments.map(({ fileId }) => fileId),
-          }}
+          defaultValues={{ title: request.title, body: request.message.body }}
+          attachments={request.message.attachments}
           mutationFn={(body) => api('PUT', `/requests/${request.id}`, { body })}
           onSuccess={onSuccess}
           submitLabel={<Trans>Save the changes</Trans>}
