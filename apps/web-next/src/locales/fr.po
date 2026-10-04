@@ -59,6 +59,7 @@ msgstr "Pièce jointe"
 
 #: src/pages/authentication/authentication.tsx
 #: src/pages/requests/details/requester-actions.tsx
+#: src/pages/requests/edit/edit-request-page.tsx
 msgid "Back"
 msgstr "Retour"
 
@@ -143,7 +144,7 @@ msgstr "Contactez {firstName} pour vous organiser."
 msgid "Edit"
 msgstr "Modifier"
 
-#: src/main.tsx
+#: src/pages/requests/edit/edit-request-page.tsx
 msgid "Edit the request"
 msgstr "Modifier la demande"
 
@@ -277,6 +278,10 @@ msgstr "Aucune demande"
 msgid "Numbered list"
 msgstr "Liste numérotée"
 
+#: src/pages/requests/edit/edit-request-page.tsx
+msgid "Only its author can edit a request, as long as it is open."
+msgstr "Seul son auteur peut modifier une demande, tant qu'elle est ouverte."
+
 #: src/pages/requests/list/requests-filters.tsx
 msgctxt "requests filter"
 msgid "Open"
@@ -287,7 +292,7 @@ msgstr "En cours"
 msgid "Post a request"
 msgstr "Nouvelle demande"
 
-#: src/pages/requests/request-form.tsx
+#: src/pages/requests/create/create-request-page.tsx
 msgid "Post the request"
 msgstr "Publier la demande"
 
@@ -307,7 +312,11 @@ msgstr "Demande annulée"
 msgid "Request closed"
 msgstr "Demande clôturée"
 
-#: src/pages/requests/details/request-page.tsx
+#: src/pages/requests/edit/edit-request-page.tsx
+msgid "Request edited"
+msgstr "Demande modifiée"
+
+#: src/pages/requests/request-not-found.tsx
 msgid "Request not found"
 msgstr "Demande introuvable"
 
@@ -330,6 +339,10 @@ msgstr "Demandes"
 msgid "Retry"
 msgstr "Réessayer"
 
+#: src/pages/requests/edit/edit-request-page.tsx
+msgid "Save the changes"
+msgstr "Enregistrer les modifications"
+
 #: src/pages/requests/list/requests-filters.tsx
 msgid "Search"
 msgstr "Rechercher"
@@ -338,7 +351,11 @@ msgstr "Rechercher"
 msgid "Search the requests"
 msgstr "Rechercher parmi les demandes"
 
-#: src/pages/requests/details/request-page.tsx
+#: src/pages/requests/edit/edit-request-page.tsx
+msgid "See the request"
+msgstr "Voir la demande"
+
+#: src/pages/requests/request-not-found.tsx
 msgid "See the requests"
 msgstr "Voir les demandes"
 
@@ -376,9 +393,13 @@ msgstr "Code de connexion"
 msgid "Sign-in failed. Try again in a few moments."
 msgstr "La connexion a échoué. Réessayez dans quelques instants."
 
-#: src/pages/requests/details/request-page.tsx
+#: src/pages/requests/request-not-found.tsx
 msgid "The link may be wrong, or the request may no longer exist."
 msgstr "Le lien est peut-être erroné, ou la demande n’existe plus."
+
+#: src/pages/requests/edit/edit-request-page.tsx
+msgid "The members who offered help or commented will see the new version."
+msgstr "Les membres qui ont proposé leur aide ou commenté verront la nouvelle version."
 
 #: src/pages/requests/details/requester-actions.tsx
 msgid "The request could not be canceled"
@@ -414,6 +435,10 @@ msgstr "Ce champ doit faire au moins {0} caractères"
 msgid "This field should be at most {0} characters"
 msgstr "Ce champ doit faire au plus {0} caractères"
 
+#: src/pages/requests/edit/edit-request-page.tsx
+msgid "This request cannot be edited"
+msgstr "Cette demande ne peut pas être modifiée"
+
 #: src/pages/requests/details/request-status.tsx
 msgid "This request is fulfilled"
 msgstr "Cette demande est clôturée"
@@ -443,6 +468,7 @@ msgid "Unable to load the comments"
 msgstr "Impossible de charger les commentaires"
 
 #: src/pages/requests/details/request-page.tsx
+#: src/pages/requests/edit/edit-request-page.tsx
 msgid "Unable to load the request"
 msgstr "Impossible de charger la demande"
 
@@ -494,10 +520,14 @@ msgstr "Vous n'avez pas envoyé de <0/> pour cette demande"
 msgid "Your answer could not be saved"
 msgstr "Votre réponse n'a pas pu être enregistrée"
 
+#: src/pages/requests/edit/edit-request-page.tsx
+msgid "Your changes could not be saved"
+msgstr "Vos modifications n'ont pas pu être enregistrées"
+
 #: src/pages/requests/details/requester-actions.tsx
 msgid "Your request"
 msgstr "Votre demande"
 
-#: src/pages/requests/request-form.tsx
+#: src/pages/requests/create/create-request-page.tsx
 msgid "Your request could not be posted"
 msgstr "Votre demande n'a pas pu être publiée"

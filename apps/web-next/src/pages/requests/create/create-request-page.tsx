@@ -41,6 +41,8 @@ export function CreateRequestPage() {
           schema={createRequestBodySchema}
           mutationFn={(body) => api<string>('POST', '/requests', { body })}
           onSuccess={onSuccess}
+          submitLabel={<Trans>Post the request</Trans>}
+          errorTitle={<Trans>Your request could not be posted</Trans>}
         />
       </Card.Root>
     </div>

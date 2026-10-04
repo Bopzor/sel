@@ -59,6 +59,7 @@ msgstr "Attachment"
 
 #: src/pages/authentication/authentication.tsx
 #: src/pages/requests/details/requester-actions.tsx
+#: src/pages/requests/edit/edit-request-page.tsx
 msgid "Back"
 msgstr "Back"
 
@@ -143,7 +144,7 @@ msgstr "Contact {firstName} to arrange the details."
 msgid "Edit"
 msgstr "Edit"
 
-#: src/main.tsx
+#: src/pages/requests/edit/edit-request-page.tsx
 msgid "Edit the request"
 msgstr "Edit the request"
 
@@ -277,6 +278,10 @@ msgstr "No requests"
 msgid "Numbered list"
 msgstr "Numbered list"
 
+#: src/pages/requests/edit/edit-request-page.tsx
+msgid "Only its author can edit a request, as long as it is open."
+msgstr "Only its author can edit a request, as long as it is open."
+
 #: src/pages/requests/list/requests-filters.tsx
 msgctxt "requests filter"
 msgid "Open"
@@ -287,7 +292,7 @@ msgstr "Open"
 msgid "Post a request"
 msgstr "Post a request"
 
-#: src/pages/requests/request-form.tsx
+#: src/pages/requests/create/create-request-page.tsx
 msgid "Post the request"
 msgstr "Post the request"
 
@@ -307,7 +312,11 @@ msgstr "Request canceled"
 msgid "Request closed"
 msgstr "Request closed"
 
-#: src/pages/requests/details/request-page.tsx
+#: src/pages/requests/edit/edit-request-page.tsx
+msgid "Request edited"
+msgstr "Request edited"
+
+#: src/pages/requests/request-not-found.tsx
 msgid "Request not found"
 msgstr "Request not found"
 
@@ -330,6 +339,10 @@ msgstr "Requests"
 msgid "Retry"
 msgstr "Retry"
 
+#: src/pages/requests/edit/edit-request-page.tsx
+msgid "Save the changes"
+msgstr "Save the changes"
+
 #: src/pages/requests/list/requests-filters.tsx
 msgid "Search"
 msgstr "Search"
@@ -338,7 +351,11 @@ msgstr "Search"
 msgid "Search the requests"
 msgstr "Search the requests"
 
-#: src/pages/requests/details/request-page.tsx
+#: src/pages/requests/edit/edit-request-page.tsx
+msgid "See the request"
+msgstr "See the request"
+
+#: src/pages/requests/request-not-found.tsx
 msgid "See the requests"
 msgstr "See the requests"
 
@@ -376,9 +393,13 @@ msgstr "Sign-in code"
 msgid "Sign-in failed. Try again in a few moments."
 msgstr "Sign-in failed. Try again in a few moments."
 
-#: src/pages/requests/details/request-page.tsx
+#: src/pages/requests/request-not-found.tsx
 msgid "The link may be wrong, or the request may no longer exist."
 msgstr "The link may be wrong, or the request may no longer exist."
+
+#: src/pages/requests/edit/edit-request-page.tsx
+msgid "The members who offered help or commented will see the new version."
+msgstr "The members who offered help or commented will see the new version."
 
 #: src/pages/requests/details/requester-actions.tsx
 msgid "The request could not be canceled"
@@ -414,6 +435,10 @@ msgstr "This field should be at least {0} characters"
 msgid "This field should be at most {0} characters"
 msgstr "This field should be at most {0} characters"
 
+#: src/pages/requests/edit/edit-request-page.tsx
+msgid "This request cannot be edited"
+msgstr "This request cannot be edited"
+
 #: src/pages/requests/details/request-status.tsx
 msgid "This request is fulfilled"
 msgstr "This request is fulfilled"
@@ -443,6 +468,7 @@ msgid "Unable to load the comments"
 msgstr "Unable to load the comments"
 
 #: src/pages/requests/details/request-page.tsx
+#: src/pages/requests/edit/edit-request-page.tsx
 msgid "Unable to load the request"
 msgstr "Unable to load the request"
 
@@ -494,10 +520,14 @@ msgstr "You have not sent any <0/> for this request"
 msgid "Your answer could not be saved"
 msgstr "Your answer could not be saved"
 
+#: src/pages/requests/edit/edit-request-page.tsx
+msgid "Your changes could not be saved"
+msgstr "Your changes could not be saved"
+
 #: src/pages/requests/details/requester-actions.tsx
 msgid "Your request"
 msgstr "Your request"
 
-#: src/pages/requests/request-form.tsx
+#: src/pages/requests/create/create-request-page.tsx
 msgid "Your request could not be posted"
 msgstr "Your request could not be posted"

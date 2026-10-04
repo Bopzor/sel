@@ -1,6 +1,6 @@
 import { Trans } from '@lingui/react/macro';
 import { RequestStatus, type Request } from '@sel/shared';
-import { Card, EmptyState, LinkButton, Skeleton } from '@sel/ui';
+import { Card, Skeleton } from '@sel/ui';
 import { defined } from '@sel/utils';
 import { useQuery, useSuspenseQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router';
@@ -10,9 +10,11 @@ import { routes } from 'src/app/routes';
 import { ApiFailed, QueryResult } from 'src/components/api-result';
 import { Bullet } from 'src/components/bullet';
 import { CommentsSection } from 'src/components/comments-section';
-import { BackButton, Link } from 'src/components/link';
+import { BackButton } from 'src/components/link';
 import { MessageContent } from 'src/components/message-content';
 import { RelativeDate } from 'src/components/relative-date';
+
+import { RequestNotFound } from '../request-not-found';
 
 import { RequestAnswerCard } from './request-answer';
 import { RequestAnswers } from './request-answers';
@@ -121,23 +123,5 @@ function RequestSkeleton() {
         </Card.Body>
       </Card.Root>
     </div>
-  );
-}
-
-function RequestNotFound() {
-  return (
-    <EmptyState.Root icon="request">
-      <EmptyState.Title level={1}>
-        <Trans>Request not found</Trans>
-      </EmptyState.Title>
-      <EmptyState.Description>
-        <Trans>The link may be wrong, or the request may no longer exist.</Trans>
-      </EmptyState.Description>
-      <EmptyState.Action>
-        <LinkButton Link={Link} href={routes.requests()} variant="secondary">
-          <Trans>See the requests</Trans>
-        </LinkButton>
-      </EmptyState.Action>
-    </EmptyState.Root>
   );
 }

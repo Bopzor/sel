@@ -9,16 +9,20 @@ import { RichTextToolbar } from 'src/components/rich-text-toolbar';
 import { useFormApiError } from 'src/hooks/use-form-api-error';
 import { useZodResolver } from 'src/hooks/use-zod-resolver';
 
-export function RequestForm({
+export function RequestForm<Result>({
   schema,
   defaultValues,
   mutationFn,
   onSuccess,
+  submitLabel,
+  errorTitle,
 }: {
   schema: typeof createRequestBodySchema;
   defaultValues?: CreateRequestBody;
-  mutationFn: (body: CreateRequestBody) => Promise<string>;
-  onSuccess: (requestId: string) => Promise<void>;
+  mutationFn: (body: CreateRequestBody) => Promise<Result>;
+  onSuccess: (result: Result) => Promise<void>;
+  submitLabel: React.ReactNode;
+  errorTitle: React.ReactNode;
 }) {
   const form = useForm({
     resolver: useZodResolver(schema),
@@ -66,13 +70,13 @@ export function RequestForm({
 
         <FormServerErrorAlert
           error={form.formState.errors.root}
-          title={<Trans>Your request could not be posted</Trans>}
+          title={errorTitle}
         />
       </Card.Body>
 
       <Card.Footer className="justify-end">
         <Button type="submit" size="lg" loading={form.formState.isSubmitting} className="max-sm:w-full">
-          <Trans>Post the request</Trans>
+          {submitLabel}
         </Button>
       </Card.Footer>
     </form>

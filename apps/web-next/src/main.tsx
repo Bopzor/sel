@@ -21,6 +21,7 @@ import { NavigationPage } from './pages/navigation';
 import { PlaceholderPage } from './pages/placeholder';
 import { CreateRequestPage } from './pages/requests/create/create-request-page';
 import { RequestPage } from './pages/requests/details/request-page';
+import { EditRequestPage } from './pages/requests/edit/edit-request-page';
 import { RequestsPage } from './pages/requests/list/requests-page';
 
 i18n.loadAndActivate({ locale: 'fr', messages });
@@ -64,7 +65,7 @@ const router = createBrowserRouter([
           },
           {
             path: routes.editRequest(':requestId'),
-            element: <PlaceholderPage title={msg`Edit the request`} />,
+            Component: EditRequestPage,
           },
           {
             path: routes.events(),
