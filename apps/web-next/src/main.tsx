@@ -19,6 +19,7 @@ import { messages } from './locales/fr.po';
 import { AuthenticationPage } from './pages/authentication/authentication';
 import { NavigationPage } from './pages/navigation';
 import { PlaceholderPage } from './pages/placeholder';
+import { CreateRequestPage } from './pages/requests/create/create-request-page';
 import { RequestPage } from './pages/requests/details/request-page';
 import { RequestsPage } from './pages/requests/list/requests-page';
 
@@ -55,7 +56,7 @@ const router = createBrowserRouter([
           },
           {
             path: routes.createRequest(),
-            element: <PlaceholderPage title={msg`Post a request`} />,
+            Component: CreateRequestPage,
           },
           {
             path: routes.request(':requestId'),

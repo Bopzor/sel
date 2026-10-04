@@ -16,12 +16,16 @@ export function useZodResolver<
   });
 }
 
-function useZodErrorMap(): z.core.$ZodErrorMap {
+export function useZodErrorMap(): z.core.$ZodErrorMap {
   const { t } = useLingui();
 
   return (error) => {
     if (error.code === 'too_small') {
       return t`This field should be at least ${error.minimum} characters`;
+    }
+
+    if (error.code === 'too_big') {
+      return t`This field should be at most ${error.maximum} characters`;
     }
 
     return error.message;

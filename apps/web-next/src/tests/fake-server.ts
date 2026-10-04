@@ -1,3 +1,5 @@
+import type z from 'zod';
+
 import type { HttpMethod } from 'src/app/api';
 
 type Handler = (params: { url: URL; headers: Headers; body: unknown }) => Promise<Response>;
@@ -47,6 +49,10 @@ export abstract class FakeServer {
 
   protected noContent() {
     return Promise.resolve(new Response(null, { status: 204 }));
+  }
+
+  protected validationError(issues: z.core.$ZodIssue[]) {
+    return this.json({ error: 'Validation error', issues }, { status: 400 });
   }
 
   protected paginate<T>(items: T[], params: URLSearchParams) {

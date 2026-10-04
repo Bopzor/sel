@@ -11,7 +11,8 @@ A few situations come up everywhere. They are always built the same way, so memb
 - One field per row, in the order the questions come to mind. Optional fields are marked "(optional)".
 - More than six fields: split into steps with `Stepper`, and keep the answers when going back.
 - The submit button stays enabled, even when the form is incomplete: disabled, it does not say what is missing. Validation happens on submit first, then on each change of the fields. `disabled` is kept for actions that cannot be performed at all, with the reason shown next to them.
-- On submit, if errors remain: a `danger` `Alert` at the top that lists them with a link to each field, and the focus moved to this alert.
+- On submit, if errors remain: each error under its field, and the focus on the first invalid field. An error returned by the server for a field is shown the same way, with the same message as the validation in the browser.
+- An error that no field can carry (the server cannot be reached, the action is refused): a `danger` `Alert` in the form, above the submit button, which serves as "Retry". What was typed is kept. The focus stays where it is.
 - After submitting: a `success` `Toast`, whether the member stays on the page or lands on the created content. The toast container is mounted at the root of the application, above the router, so the message survives the page change.
 - A `success` `Alert` is reserved for confirmations that must stay in view because they contain information to remember or a next step ("Your registration has been sent. A coordinator will approve it within 48 hours").
 
@@ -37,7 +38,9 @@ A few situations come up everywhere. They are always built the same way, so memb
 ## Failing
 
 - Offline: a dedicated screen replaces the page content (built like an `EmptyState`: title "You are offline", explanation, "Retry" button). The navigation stays visible. Actions are not queued; a form in progress keeps what was typed so it can be sent again once the connection is back.
-- Server error: a `danger` `Alert` with "Retry", never a technical code.
+- Server error: a `danger` `Alert` with "Retry". In a form, the submit button is the retry (see "Filling a form").
+  - An expected failure (the server cannot be reached, the action is refused, a field is invalid) is told in plain words, in the member's language.
+  - An unexpected failure keeps a plain title ("Your request could not be posted"), and its technical message is shown as the description: it tells the member what went wrong, and gives them something to pass on when they report it.
 
 ## Discovering
 

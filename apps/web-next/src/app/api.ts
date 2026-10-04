@@ -37,11 +37,11 @@ export async function api<Result>(
     await devtools(options);
   }
 
-  const response = await fetch(baseUrl + path + searchParams(options.query), init);
+  const response = await fetch(baseUrl + path + searchParams(options.query), init).catch((cause: unknown) => {
+    throw new NetworkError(cause);
+  });
 
-  const body: unknown = response.headers.get('Content-Type')?.includes('application/json')
-    ? await response.json()
-    : undefined;
+  const body: unknown = await parseBody(response);
 
   if (!response.ok) {
     throw new ApiError(response, body);
@@ -91,14 +91,30 @@ function searchParams(query: Record<string, string | number | undefined> = {}) {
   return search === '' ? '' : `?${search}`;
 }
 
+async function parseBody(response: Response): Promise<unknown> {
+  const contentType = response.headers.get('Content-Type');
+
+  if (contentType?.startsWith('application/json')) {
+    return response.json();
+  }
+
+  if (contentType?.startsWith('text/')) {
+    return response.text();
+  }
+
+  return undefined;
+}
+
 export class ApiError extends Error {
   private static errorBodySchema = z.object({
     error: z.string(),
     code: z.string().optional(),
+    issues: z.array(z.custom<z.core.$ZodIssue>()).optional(),
   });
 
   readonly status: number;
-  readonly code: string | undefined;
+  readonly code?: string;
+  readonly issues?: z.core.$ZodIssue[];
   readonly body: unknown;
 
   constructor(response: Response, body: unknown) {
@@ -112,11 +128,25 @@ export class ApiError extends Error {
 
     this.status = response.status;
     this.code = data?.code;
+    this.issues = data?.issues;
     this.body = body;
   }
 
   static is(value: unknown, status?: number): value is ApiError {
     return value instanceof ApiError && (status === undefined || value.status === status);
+  }
+}
+
+// fetch rejects only when no response was received: the server could not be reached.
+export class NetworkError extends Error {
+  override readonly name = 'NetworkError';
+
+  constructor(cause: unknown) {
+    super(cause instanceof Error ? cause.message : String(cause), { cause });
+  }
+
+  static is(value: unknown): value is NetworkError {
+    return value instanceof NetworkError;
   }
 }
 
@@ -130,6 +160,7 @@ class FakeApiError extends ApiError {
 
     const response = new Response(JSON.stringify(body), {
       status: body.status,
+      statusText: 'Fake',
       headers: { 'Content-Type': 'application/json' },
     });
 

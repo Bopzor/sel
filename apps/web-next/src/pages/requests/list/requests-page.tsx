@@ -6,8 +6,8 @@ import { Link } from 'src/components/link';
 import { useDebouncedValue } from 'src/hooks/use-debounced-value';
 import { useFilters } from 'src/hooks/use-filters';
 
-import { RequestList } from './requests-list';
 import { RequestFiltersBar, requestsFiltersSchema } from './requests-filters';
+import { RequestList } from './requests-list';
 
 export function RequestsPage() {
   const { filters, setFilters, hasFilters, resetFilters } = useFilters(requestsFiltersSchema);

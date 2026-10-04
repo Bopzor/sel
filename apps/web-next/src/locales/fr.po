@@ -28,6 +28,10 @@ msgstr "{positiveAnswersCount, plural, one {# personne peut} other {# personnes 
 msgid "{total, plural, one {# request} other {# requests}}"
 msgstr "{total, plural, one {# demande} other {# demandes}}"
 
+#: src/pages/requests/request-form.tsx
+msgid "A few words, for example: Help to put up a shelf"
+msgstr "Quelques mots, par exemple : Aide pour poser une étagère"
+
 #: src/components/comments-section.tsx
 msgid "Add attachment"
 msgstr "Ajouter une pièce jointe"
@@ -46,8 +50,13 @@ msgid "Answers"
 msgstr "Réponses"
 
 #: src/components/comments-section.tsx
+#: src/components/fields.tsx
 msgid "Apply"
 msgstr "Appliquer"
+
+#: src/pages/requests/create/create-request-page.tsx
+msgid "Ask the members for help: they will be notified and can offer theirs."
+msgstr "Demandez de l'aide aux membres : ils seront notifiés et pourront vous répondre."
 
 #: src/pages/authentication/authentication.tsx
 #: src/pages/requests/details/requester-actions.tsx
@@ -55,8 +64,13 @@ msgid "Back"
 msgstr "Retour"
 
 #: src/components/comments-section.tsx
+#: src/components/fields.tsx
 msgid "Bold"
 msgstr "Gras"
+
+#: src/components/fields.tsx
+msgid "Bulleted list"
+msgstr "Liste à puces"
 
 #: src/pages/requests/details/request-answers.tsx
 msgid "Can help"
@@ -71,6 +85,7 @@ msgid "Can't help"
 msgstr "Ne peut pas aider"
 
 #: src/components/comments-section.tsx
+#: src/components/fields.tsx
 msgid "Cancel"
 msgstr "Annuler"
 
@@ -96,6 +111,7 @@ msgid "Clear filters"
 msgstr "Effacer les filtres"
 
 #: src/components/comments-section.tsx
+#: src/components/fields.tsx
 #: src/main.tsx
 #: src/pages/requests/details/requester-actions.tsx
 msgid "Close"
@@ -197,14 +213,17 @@ msgid "Interests"
 msgstr "Centres d'intérêts"
 
 #: src/components/comments-section.tsx
+#: src/components/fields.tsx
 msgid "Italic"
 msgstr "Italique"
 
 #: src/components/comments-section.tsx
+#: src/components/fields.tsx
 msgid "Link"
 msgstr "Lien"
 
 #: src/components/comments-section.tsx
+#: src/components/fields.tsx
 msgid "Link target"
 msgstr "Cible du lien"
 
@@ -223,6 +242,10 @@ msgstr "Membres"
 #: src/pages/requests/details/requester-actions.tsx
 msgid "Members will no longer be able to answer it. Those who offered help or commented will be notified."
 msgstr "Les membres ne pourront plus y répondre. Les personnes qui ont proposé leur aide ou commenté seront prévenues."
+
+#: src/pages/requests/request-form.tsx
+msgid "Message"
+msgstr "Message"
 
 #: src/layout/layout.tsx
 msgid "More"
@@ -257,21 +280,30 @@ msgstr "Aucune demande ne correspond à ces filtres"
 msgid "No requests"
 msgstr "Aucune demande"
 
+#: src/components/fields.tsx
+msgid "Numbered list"
+msgstr "Liste numérotée"
+
 #: src/pages/requests/list/requests-filters.tsx
 msgctxt "requests filter"
 msgid "Open"
 msgstr "En cours"
 
-#: src/main.tsx
+#: src/pages/requests/create/create-request-page.tsx
 #: src/pages/requests/list/requests-list.tsx
 msgid "Post a request"
 msgstr "Nouvelle demande"
+
+#: src/pages/requests/request-form.tsx
+msgid "Post the request"
+msgstr "Publier la demande"
 
 #: src/app/routes.ts
 msgid "Profile"
 msgstr "Profil"
 
 #: src/components/comments-section.tsx
+#: src/components/fields.tsx
 msgid "Remove link"
 msgstr "Retirer le lien"
 
@@ -287,11 +319,16 @@ msgstr "Demande clôturée"
 msgid "Request not found"
 msgstr "Demande introuvable"
 
+#: src/pages/requests/create/create-request-page.tsx
+msgid "Request posted"
+msgstr "Demande publiée"
+
 #: src/pages/requests/details/requester.tsx
 msgid "Requested by"
 msgstr "Demandé par"
 
 #: src/app/routes.ts
+#: src/pages/requests/create/create-request-page.tsx
 #: src/pages/requests/details/request-page.tsx
 #: src/pages/requests/list/requests-page.tsx
 msgid "Requests"
@@ -380,6 +417,11 @@ msgstr "Ce code n'est pas valide. Vérifiez qu'il correspond à celui de l'email
 msgid "This field should be at least {0} characters"
 msgstr "Ce champ doit faire au moins {0} caractères"
 
+#. placeholder {0}: error.maximum
+#: src/hooks/use-zod-resolver.ts
+msgid "This field should be at most {0} characters"
+msgstr "Ce champ doit faire au plus {0} caractères"
+
 #: src/pages/requests/details/request-status.tsx
 msgid "This request is fulfilled"
 msgstr "Cette demande est clôturée"
@@ -389,8 +431,13 @@ msgid "This request was canceled"
 msgstr "Cette demande a été annulée"
 
 #: src/components/comments-section.tsx
+#: src/components/fields.tsx
 msgid "This URL is invalid"
 msgstr "Cette URL est invalide"
+
+#: src/pages/requests/request-form.tsx
+msgid "Title"
+msgstr "Titre"
 
 #: src/pages/requests/list/requests-list.tsx
 msgid "Try other words, or clear the filters."
@@ -411,6 +458,14 @@ msgstr "Impossible de charger la demande"
 #: src/pages/requests/list/requests-list.tsx
 msgid "Unable to load the requests"
 msgstr "Impossible de charger les demandes"
+
+#: src/hooks/use-form-api-error.ts
+msgid "Unable to reach the server, check your internet access"
+msgstr "Impossible de joindre le serveur, vérifiez votre accès à internet"
+
+#: src/pages/requests/request-form.tsx
+msgid "What you need, when, and where"
+msgstr "Ce dont vous avez besoin, quand et où"
 
 #: src/pages/requests/list/requests-list.tsx
 msgid "When a member needs a hand, their request appears here."
@@ -447,3 +502,7 @@ msgstr "Votre réponse n'a pas pu être enregistrée"
 #: src/pages/requests/details/requester-actions.tsx
 msgid "Your request"
 msgstr "Votre demande"
+
+#: src/pages/requests/request-form.tsx
+msgid "Your request could not be posted"
+msgstr "Votre demande n'a pas pu être publiée"

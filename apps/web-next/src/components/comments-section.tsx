@@ -114,6 +114,7 @@ function CommentForm({ entityType, entityId }: CommentSectionProps) {
       await queryClient.invalidateQueries(queries.comments(entityType, entityId));
     },
     onError: () => {
+      // exception: show a toast instead of an alert
       showToast(t`An error happened and your comment was not posted`, 'error');
     },
   });
