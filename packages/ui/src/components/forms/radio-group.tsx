@@ -1,8 +1,9 @@
 import { RadioGroup as ArkRadioGroup } from '@ark-ui/react/radio-group';
+import { type Override } from '@sel/utils';
 import clsx from 'clsx';
 import { useId, type ComponentProps, type ReactNode } from 'react';
 
-import { definedAttributes, type Override } from '../../utils';
+import { definedAttributes } from '../../utils';
 
 type RadioGroupRootProps = Override<
   ComponentProps<'div'>,

@@ -1,11 +1,10 @@
+import type { Override } from '@sel/utils';
 import clsx from 'clsx';
 import { cva } from 'cva';
 import type { ComponentProps, ReactNode } from 'react';
 
 import { IconButton } from '../actions/icon-button';
 import { Icon, type IconName } from '../display/icon';
-
-import type { Override } from '../../utils';
 
 type Tone = 'info' | 'success' | 'warning' | 'danger';
 
@@ -86,4 +85,4 @@ const iconStyles = cva('mt-0.5', {
   },
 });
 
-export { AlertRoot as Root, AlertTitle as Title, AlertDescription as Description, AlertActions as Actions };
+export { AlertActions as Actions, AlertDescription as Description, AlertRoot as Root, AlertTitle as Title };

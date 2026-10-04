@@ -1,4 +1,5 @@
 import { useFieldContext } from '@ark-ui/react/field';
+import { type Override } from '@sel/utils';
 import { Link } from '@tiptap/extension-link';
 import { Placeholder } from '@tiptap/extensions';
 import { EditorContent, useEditor, useEditorState, type Editor } from '@tiptap/react';
@@ -7,7 +8,7 @@ import clsx from 'clsx';
 import { cva } from 'cva';
 import { createContext, use, useCallback, useEffect, useImperativeHandle, useState } from 'react';
 
-import { definedAttributes, type Override } from '../../utils';
+import { definedAttributes } from '../../utils';
 import { Icon, type IconName } from '../display/icon';
 
 import { fieldBoxStyles } from './field-box';

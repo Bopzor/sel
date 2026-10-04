@@ -1,11 +1,10 @@
 import { Portal } from '@ark-ui/react/portal';
 import { Toast as ArkToast, Toaster as ArkToaster, createToaster } from '@ark-ui/react/toast';
+import type { Override } from '@sel/utils';
 import { cva } from 'cva';
 import { useEffect, type ComponentProps, type ReactNode } from 'react';
 
 import { Icon } from '../display/icon';
-
-import type { Override } from '../../utils';
 
 type Tone = 'success' | 'info' | 'error';
 

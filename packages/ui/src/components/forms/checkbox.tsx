@@ -1,8 +1,9 @@
 import { Checkbox as ArkCheckbox } from '@ark-ui/react/checkbox';
+import { type Override } from '@sel/utils';
 import clsx from 'clsx';
 import { useId, type ComponentProps, type ReactNode } from 'react';
 
-import { definedAttributes, type Override } from '../../utils';
+import { definedAttributes } from '../../utils';
 import { Icon } from '../display/icon';
 
 type CheckboxProps = Override<

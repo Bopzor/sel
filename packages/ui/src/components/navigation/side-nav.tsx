@@ -1,9 +1,10 @@
+import { type Override } from '@sel/utils';
 import clsx from 'clsx';
 import { useId, type ComponentProps, type ReactNode } from 'react';
 
 import { Icon, type IconName } from '../display/icon';
 
-import type { LinkComponent, Override } from '../../utils';
+import type { LinkComponent } from '../../utils';
 
 type SideNavRootProps = Override<
   ComponentProps<'nav'>,
@@ -118,9 +119,9 @@ function SideNavFooter({ className, ...props }: ComponentProps<'div'>) {
 }
 
 export {
-  SideNavRoot as Root,
-  SideNavHeader as Header,
-  SideNavSection as Section,
-  SideNavItem as Item,
   SideNavFooter as Footer,
+  SideNavHeader as Header,
+  SideNavItem as Item,
+  SideNavRoot as Root,
+  SideNavSection as Section,
 };

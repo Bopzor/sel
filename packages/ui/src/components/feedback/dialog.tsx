@@ -1,12 +1,11 @@
 import { Dialog as ArkDialog, useDialogContext } from '@ark-ui/react/dialog';
 import { ark } from '@ark-ui/react/factory';
 import { Portal } from '@ark-ui/react/portal';
+import type { Override } from '@sel/utils';
 import clsx from 'clsx';
 import type { ComponentProps, ReactElement, ReactNode } from 'react';
 
 import { IconButton } from '../actions/icon-button';
-
-import type { Override } from '../../utils';
 
 type DialogRootProps = {
   /** Controlled: open, and onClose to close it. Uncontrolled: a Dialog.Trigger opens it, a Dialog.Close closes it. */

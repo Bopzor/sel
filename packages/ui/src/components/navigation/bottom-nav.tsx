@@ -1,9 +1,10 @@
+import { type Override } from '@sel/utils';
 import clsx from 'clsx';
 import type { ComponentProps, ReactNode } from 'react';
 
 import { Icon, type IconName } from '../display/icon';
 
-import type { LinkComponent, Override } from '../../utils';
+import type { LinkComponent } from '../../utils';
 
 type BottomNavRootProps = Override<
   ComponentProps<'nav'>,
@@ -79,4 +80,4 @@ function BottomNavItem({
   );
 }
 
-export { BottomNavRoot as Root, BottomNavItem as Item };
+export { BottomNavItem as Item, BottomNavRoot as Root };

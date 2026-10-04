@@ -1,7 +1,8 @@
+import { type Override } from '@sel/utils';
 import clsx from 'clsx';
 import type { ComponentProps } from 'react';
 
-import type { LinkComponent, Override } from '../../utils';
+import type { LinkComponent } from '../../utils';
 
 /**
  * A rounded surface that groups content: Card.Header, Card.Body and Card.Footer go inside, or a list without padding. A

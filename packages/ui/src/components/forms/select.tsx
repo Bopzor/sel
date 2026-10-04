@@ -1,12 +1,11 @@
 import { Field } from '@ark-ui/react/field';
+import type { Override } from '@sel/utils';
 import clsx from 'clsx';
 import type { ComponentProps, ReactNode } from 'react';
 
 import { Icon } from '../display/icon';
 
 import { fieldBoxStyles } from './field-box';
-
-import type { Override } from '../../utils';
 
 type SelectProps = Override<
   ComponentProps<'select'>,

@@ -1,10 +1,9 @@
 import { Fieldset as ArkFieldset } from '@ark-ui/react/fieldset';
+import type { Override } from '@sel/utils';
 import clsx from 'clsx';
 import type { ComponentProps } from 'react';
 
 import { Icon } from '../display/icon';
-
-import type { Override } from '../../utils';
 
 /**
  * A group of controls that answer one question: a RadioGroup, several Checkboxes. Ark's Fieldset links the legend,
@@ -47,9 +46,9 @@ function FieldsetError({ className, children, ...props }: ComponentProps<'span'>
 }
 
 export {
-  FieldsetRoot as Root,
-  FieldsetHeader as Header,
-  FieldsetLegend as Legend,
-  FieldsetHint as Hint,
   FieldsetError as Error,
+  FieldsetHeader as Header,
+  FieldsetHint as Hint,
+  FieldsetLegend as Legend,
+  FieldsetRoot as Root,
 };

@@ -1,7 +1,6 @@
+import type { Override } from '@sel/utils';
 import { cva } from 'cva';
 import { type ComponentProps } from 'react';
-
-import type { Override } from '../../utils';
 
 type AvatarProps = Override<
   ComponentProps<'span'>,

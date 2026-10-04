@@ -1,12 +1,11 @@
 import { Field } from '@ark-ui/react/field';
+import type { Override } from '@sel/utils';
 import clsx from 'clsx';
 import type { ComponentProps } from 'react';
 
 import { Icon, type IconName } from '../display/icon';
 
 import { fieldBoxStyles } from './field-box';
-
-import type { Override } from '../../utils';
 
 type InputProps = Override<
   ComponentProps<'input'>,

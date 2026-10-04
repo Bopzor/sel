@@ -1,10 +1,9 @@
 import { Field as ArkField } from '@ark-ui/react/field';
+import type { Override } from '@sel/utils';
 import clsx from 'clsx';
 import type { ComponentProps } from 'react';
 
 import { Icon } from '../display/icon';
-
-import type { Override } from '../../utils';
 
 /**
  * Ark's Field links the label, the hint and the error to the control, and passes it disabled, invalid and required:

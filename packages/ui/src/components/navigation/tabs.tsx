@@ -1,8 +1,7 @@
 import { Tabs as ArkTabs } from '@ark-ui/react/tabs';
+import type { Override } from '@sel/utils';
 import clsx from 'clsx';
 import type { ComponentProps } from 'react';
-
-import type { Override } from '../../utils';
 
 type TabsRootProps = Override<
   ComponentProps<'div'>,

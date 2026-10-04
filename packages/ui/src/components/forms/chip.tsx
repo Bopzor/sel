@@ -1,9 +1,8 @@
+import type { Override } from '@sel/utils';
 import clsx from 'clsx';
 import type { ComponentProps, MouseEvent } from 'react';
 
 import { Icon, type IconName } from '../display/icon';
-
-import type { Override } from '../../utils';
 
 type ChipProps = Override<
   ComponentProps<'button'>,

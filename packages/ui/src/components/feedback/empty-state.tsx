@@ -1,9 +1,8 @@
+import type { Override } from '@sel/utils';
 import clsx from 'clsx';
 import type { ComponentProps } from 'react';
 
 import { Icon, type IconName } from '../display/icon';
-
-import type { Override } from '../../utils';
 
 type EmptyStateRootProps = Override<
   ComponentProps<'div'>,
@@ -45,8 +44,8 @@ function EmptyStateAction({ className, ...props }: ComponentProps<'div'>) {
 }
 
 export {
+  EmptyStateAction as Action,
+  EmptyStateDescription as Description,
   EmptyStateRoot as Root,
   EmptyStateTitle as Title,
-  EmptyStateDescription as Description,
-  EmptyStateAction as Action,
 };

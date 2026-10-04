@@ -1,10 +1,9 @@
 import { Field } from '@ark-ui/react/field';
+import type { Override } from '@sel/utils';
 import clsx from 'clsx';
 import type { ComponentProps } from 'react';
 
 import { fieldBoxStyles } from './field-box';
-
-import type { Override } from '../../utils';
 
 type TextAreaProps = Override<
   ComponentProps<'textarea'>,

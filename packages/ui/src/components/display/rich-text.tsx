@@ -1,7 +1,6 @@
+import type { Override } from '@sel/utils';
 import clsx from 'clsx';
 import type { ComponentProps } from 'react';
-
-import type { Override } from '../../utils';
 
 type RichTextProps = Override<
   ComponentProps<'div'>,
