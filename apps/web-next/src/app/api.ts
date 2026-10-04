@@ -1,3 +1,4 @@
+import type { File as UploadedFile } from '@sel/shared';
 import { assert, wait } from '@sel/utils';
 import { z } from 'zod';
 
@@ -64,6 +65,16 @@ export async function api<Result>(
 
 export function fileUrl(name: string) {
   return `${baseUrl}/files/${name}`;
+}
+
+export const maxFileSize = 10 * 1024 * 1024;
+
+export function uploadFile(file: File) {
+  const body = new FormData();
+
+  body.set('file', file);
+
+  return api<UploadedFile>('POST', '/files/upload', { body });
 }
 
 async function devtools(options: ApiOptions) {

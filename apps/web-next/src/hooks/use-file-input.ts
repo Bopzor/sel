@@ -1,7 +1,10 @@
 import { createElement, useRef } from 'react';
 
 /** A hidden file input, opened by a button of the application. */
-export function useFileInput(onSelect: (files: File[]) => void) {
+export function useFileInput(
+  onSelect: (files: File[]) => void,
+  { multiple = true, accept }: { multiple?: boolean; accept?: string } = {},
+) {
   const ref = useRef<HTMLInputElement>(null);
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -12,7 +15,7 @@ export function useFileInput(onSelect: (files: File[]) => void) {
 
   return {
     // oxlint-disable-next-line react/refs
-    input: createElement('input', { ref, type: 'file', multiple: true, hidden: true, onChange }),
+    input: createElement('input', { ref, type: 'file', multiple, accept, hidden: true, onChange }),
     open: () => ref.current?.click(),
   };
 }

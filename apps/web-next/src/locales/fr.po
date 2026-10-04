@@ -7,6 +7,12 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: fr\n"
 
+#. placeholder {0}: <>{balance} <Unit /></>
+#. placeholder {1}: <>{balance} <Unit plural /></>
+#: src/pages/profile/profile-page.tsx
+msgid "{balance, plural, one {{0}} other {{1}}}"
+msgstr "{balance, plural, one {{0}} other {{1}}}"
+
 #: src/components/comments-section.tsx
 #: src/pages/requests/list/requests-list.tsx
 msgid "{commentsCount, plural, one {# comment} other {# comments}}"
@@ -39,6 +45,10 @@ msgstr "{total, plural, one {# demande} other {# demandes}}"
 #: src/pages/requests/request-form.tsx
 msgid "A few words, for example: Help to put up a shelf"
 msgstr "Quelques mots, par exemple : Aide pour poser une étagère"
+
+#: src/pages/profile/bio-section.tsx
+msgid "About me"
+msgstr "À propos de moi"
 
 #: src/components/attachments.tsx
 msgid "Add files"
@@ -79,6 +89,10 @@ msgstr "Pièces jointes"
 msgid "Back"
 msgstr "Retour"
 
+#: src/pages/profile/profile-page.tsx
+msgid "Balance"
+msgstr "Solde"
+
 #: src/components/rich-text-toolbar.tsx
 msgid "Bold"
 msgstr "Gras"
@@ -100,6 +114,7 @@ msgid "Can't help"
 msgstr "Ne peut pas aider"
 
 #: src/components/rich-text-toolbar.tsx
+#: src/pages/profile/profile-section.tsx
 msgid "Cancel"
 msgstr "Annuler"
 
@@ -115,6 +130,10 @@ msgstr "Annuler la demande « {0} » ?"
 #: src/pages/requests/list/requests-list.tsx
 msgid "Canceled"
 msgstr "Annulée"
+
+#: src/pages/profile/identity-section.tsx
+msgid "Change the photo"
+msgstr "Changer la photo"
 
 #: src/components/api-result.tsx
 msgid "Check your internet access, then try again."
@@ -152,10 +171,15 @@ msgstr "Commentaires"
 msgid "Community"
 msgstr "Communauté"
 
+#: src/pages/profile/contact-section.tsx
+msgid "Contact"
+msgstr "Contact"
+
 #: src/pages/requests/details/request-answer.tsx
 msgid "Contact {firstName} to arrange the details."
 msgstr "Contactez {firstName} pour vous organiser."
 
+#: src/pages/profile/profile-section.tsx
 #: src/pages/requests/details/requester-actions.tsx
 msgid "Edit"
 msgstr "Modifier"
@@ -165,8 +189,13 @@ msgid "Edit the request"
 msgstr "Modifier la demande"
 
 #: src/pages/authentication/authentication.tsx
+#: src/pages/profile/contact-section.tsx
 msgid "Email address"
 msgstr "Adresse email"
+
+#: src/pages/profile/contact-section.tsx
+msgid "Enter a phone number such as 06 12 34 56 78"
+msgstr "Saisissez un numéro de téléphone comme 06 12 34 56 78"
 
 #: src/pages/authentication/authentication.tsx
 msgid "Enter a valid email address, for example my@email.com."
@@ -193,9 +222,17 @@ msgstr "Événements"
 msgid "Exchanges"
 msgstr "Échanges"
 
+#: src/pages/profile/identity-section.tsx
+msgid "First name"
+msgstr "Prénom"
+
 #: src/pages/requests/list/requests-list.tsx
 msgid "Fulfilled"
 msgstr "Clôturée"
+
+#: src/pages/profile/contact-section.tsx
+msgid "Hidden from the other members"
+msgstr "Masqué aux autres membres"
 
 #: src/app/routes.ts
 msgid "Home"
@@ -229,6 +266,10 @@ msgstr "Centres d'intérêts"
 msgid "Italic"
 msgstr "Italique"
 
+#: src/pages/profile/identity-section.tsx
+msgid "Last name"
+msgstr "Nom"
+
 #: src/components/rich-text-toolbar.tsx
 msgid "Link"
 msgstr "Lien"
@@ -245,6 +286,14 @@ msgstr "Navigation principale"
 msgid "Member"
 msgstr "Membre"
 
+#: src/pages/profile/profile-page.tsx
+msgid "Member number"
+msgstr "Numéro de membre"
+
+#: src/pages/profile/profile-page.tsx
+msgid "Member since"
+msgstr "Membre depuis"
+
 #: src/app/routes.ts
 msgid "Members"
 msgstr "Membres"
@@ -252,6 +301,10 @@ msgstr "Membres"
 #: src/pages/requests/details/requester-actions.tsx
 msgid "Members will no longer be able to answer it. Those who offered help or commented will be notified."
 msgstr "Les membres ne pourront plus y répondre. Les personnes qui ont proposé leur aide ou commenté seront prévenues."
+
+#: src/pages/profile/profile-page.tsx
+msgid "Membership"
+msgstr "Adhésion"
 
 #: src/pages/requests/request-form.tsx
 msgid "Message"
@@ -274,6 +327,10 @@ msgstr "Mes demandes"
 msgid "my@email.com"
 msgstr "mon@email.com"
 
+#: src/pages/profile/identity-section.tsx
+msgid "Name and photo"
+msgstr "Nom et photo"
+
 #: src/pages/requests/list/requests-page.tsx
 msgid "New request"
 msgstr "Nouvelle demande"
@@ -281,6 +338,10 @@ msgstr "Nouvelle demande"
 #: src/pages/requests/details/request-answers.tsx
 msgid "No one has answered yet."
 msgstr "Personne n’a encore répondu."
+
+#: src/pages/profile/contact-section.tsx
+msgid "No phone number"
+msgstr "Aucun numéro de téléphone"
 
 #: src/pages/requests/list/requests-list.tsx
 msgid "No request matches these filters"
@@ -303,6 +364,10 @@ msgctxt "requests filter"
 msgid "Open"
 msgstr "En cours"
 
+#: src/pages/profile/contact-section.tsx
+msgid "Phone number"
+msgstr "Numéro de téléphone"
+
 #: src/pages/requests/request-form.tsx
 msgid "Photos or documents, up to 10 MB per file"
 msgstr "Photos ou documents, 10 Mo maximum par fichier"
@@ -316,9 +381,18 @@ msgstr "Nouvelle demande"
 msgid "Post the request"
 msgstr "Publier la demande"
 
+#: src/pages/profile/bio-section.tsx
+msgid "Presentation"
+msgstr "Présentation"
+
 #: src/app/routes.ts
+#: src/pages/profile/profile-page.tsx
 msgid "Profile"
 msgstr "Profil"
+
+#: src/pages/profile/profile-section.tsx
+msgid "Profile updated"
+msgstr "Profil mis à jour"
 
 #: src/components/attachments.tsx
 msgid "Remove {name}"
@@ -327,6 +401,10 @@ msgstr "Retirer {name}"
 #: src/components/rich-text-toolbar.tsx
 msgid "Remove link"
 msgstr "Retirer le lien"
+
+#: src/pages/profile/identity-section.tsx
+msgid "Remove the photo"
+msgstr "Retirer la photo"
 
 #: src/pages/requests/details/requester-actions.tsx
 msgid "Request canceled"
@@ -363,6 +441,10 @@ msgstr "Demandes"
 msgid "Retry"
 msgstr "Réessayer"
 
+#: src/pages/profile/profile-section.tsx
+msgid "Save"
+msgstr "Enregistrer"
+
 #: src/pages/requests/edit/edit-request-page.tsx
 msgid "Save the changes"
 msgstr "Enregistrer les modifications"
@@ -374,6 +456,10 @@ msgstr "Rechercher"
 #: src/pages/requests/list/requests-filters.tsx
 msgid "Search the requests"
 msgstr "Rechercher parmi les demandes"
+
+#: src/pages/profile/profile-page.tsx
+msgid "See my public profile"
+msgstr "Voir mon profil public"
 
 #: src/pages/requests/edit/edit-request-page.tsx
 msgid "See the request"
@@ -394,6 +480,14 @@ msgstr "Paramètres"
 #: src/components/pagination.tsx
 msgid "Show more"
 msgstr "Afficher plus"
+
+#: src/pages/profile/contact-section.tsx
+msgid "Show my email address to the other members"
+msgstr "Afficher mon adresse email aux autres membres"
+
+#: src/pages/profile/contact-section.tsx
+msgid "Show my phone number to the other members"
+msgstr "Afficher mon numéro de téléphone aux autres membres"
 
 #. placeholder {0}: requests.length
 #: src/pages/requests/list/requests-list.tsx
@@ -425,6 +519,18 @@ msgstr "Le lien est peut-être erroné, ou la demande n’existe plus."
 msgid "The members who offered help or commented will see the new version."
 msgstr "Les membres qui ont proposé leur aide ou commenté verront la nouvelle version."
 
+#: src/pages/profile/identity-section.tsx
+msgid "The photo could not be sent. Try again in a few moments."
+msgstr "La photo n'a pas pu être envoyée. Réessayez dans quelques instants."
+
+#: src/pages/profile/identity-section.tsx
+msgid "The photo must be an image"
+msgstr "La photo doit être une image"
+
+#: src/pages/profile/identity-section.tsx
+msgid "The photo must be at most 10 MB"
+msgstr "La photo ne doit pas dépasser 10 Mo"
+
 #: src/pages/requests/details/requester-actions.tsx
 msgid "The request could not be canceled"
 msgstr "La demande n'a pas pu être annulée"
@@ -448,6 +554,10 @@ msgstr "Ce code a expiré. Revenez en arrière pour en recevoir un nouveau."
 #: src/pages/authentication/authentication.tsx
 msgid "This code is not valid. Check that it matches the one in the email."
 msgstr "Ce code n'est pas valide. Vérifiez qu'il correspond à celui de l'email."
+
+#: src/hooks/use-zod-resolver.ts
+msgid "This field is required"
+msgstr "Ce champ est obligatoire"
 
 #. placeholder {0}: error.minimum
 #: src/hooks/use-zod-resolver.ts
@@ -479,6 +589,10 @@ msgstr "Cette URL est invalide"
 msgid "Title"
 msgstr "Titre"
 
+#: src/pages/profile/contact-section.tsx
+msgid "To change it, contact an administrator."
+msgstr "Pour la modifier, contactez un administrateur."
+
 #: src/pages/requests/list/requests-list.tsx
 msgid "Try other words, or clear the filters."
 msgstr "Essayez d'autres mots, ou effacez les filtres."
@@ -507,6 +621,10 @@ msgstr "Impossible de joindre le serveur, vérifiez votre accès à internet"
 #: src/components/rich-text-toolbar.tsx
 msgid "Underline"
 msgstr "Souligné"
+
+#: src/pages/profile/contact-section.tsx
+msgid "Visible to the other members"
+msgstr "Visible par les autres membres"
 
 #: src/pages/requests/request-form.tsx
 msgid "What you need, when, and where"
@@ -540,13 +658,26 @@ msgstr "Vous ne pouvez pas aider"
 msgid "You have not sent any <0/> for this request"
 msgstr "Vous n'avez pas envoyé de <0/> pour cette demande"
 
+#: src/pages/profile/bio-section.tsx
+msgid "You have not written anything about yourself yet."
+msgstr "Vous n'avez encore rien écrit sur vous."
+
+#: src/pages/profile/bio-section.tsx
+msgid "Your activities, what you like to share or to learn"
+msgstr "Vos activités, ce que vous aimez partager ou apprendre"
+
 #: src/pages/requests/details/request-answer.tsx
 msgid "Your answer could not be saved"
 msgstr "Votre réponse n'a pas pu être enregistrée"
 
+#: src/pages/profile/profile-section.tsx
 #: src/pages/requests/edit/edit-request-page.tsx
 msgid "Your changes could not be saved"
 msgstr "Vos modifications n'ont pas pu être enregistrées"
+
+#: src/pages/profile/contact-section.tsx
+msgid "Your phone number cannot be removed, only changed"
+msgstr "Votre numéro de téléphone ne peut pas être supprimé, seulement modifié"
 
 #: src/pages/requests/details/requester-actions.tsx
 msgid "Your request"

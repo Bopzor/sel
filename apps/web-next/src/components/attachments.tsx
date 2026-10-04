@@ -1,14 +1,13 @@
 import { Trans, useLingui } from '@lingui/react/macro';
-import { isImage, type Attachment, type File as UploadedFile } from '@sel/shared';
+import { isImage, type Attachment } from '@sel/shared';
 import { Button, Fieldset, Icon, IconButton, showToast, Spinner } from '@sel/ui';
 import { Mutation, useMutation, useMutationState } from '@tanstack/react-query';
 import { useId, useState } from 'react';
 import { useController, type FieldPathByValue, type FieldValues, type UseFormReturn } from 'react-hook-form';
 
-import { api, fileUrl } from 'src/app/api';
+import { fileUrl, maxFileSize, uploadFile } from 'src/app/api';
 import { useFileInput } from 'src/hooks/use-file-input';
 
-const maxFileSize = 10 * 1024 * 1024;
 const noFileIds: string[] = [];
 
 type UseAttachmentsOptions<Values extends FieldValues, Transformed> = {
@@ -35,13 +34,7 @@ export function useAttachments<Values extends FieldValues, Transformed>({
 
   const upload = useMutation({
     mutationKey,
-    mutationFn: (file: File) => {
-      const body = new FormData();
-
-      body.set('file', file);
-
-      return api<UploadedFile>('POST', '/files/upload', { body });
-    },
+    mutationFn: uploadFile,
     // Not the callbacks of mutate, which only run for the last of the concurrent uploads.
     onSuccess: ({ id, ...file }) => {
       setUploaded((prev) => [...prev, { fileId: id, ...file }]);

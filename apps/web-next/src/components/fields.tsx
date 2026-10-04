@@ -1,4 +1,5 @@
-import { Alert, FormField, Input, RichTextEditor } from '@sel/ui';
+import { Alert, Checkbox, FormField, Input, RichTextEditor, TextArea } from '@sel/ui';
+import type { Override } from '@sel/utils';
 import { noop, type UseMutationResult } from '@tanstack/react-query';
 import {
   useController,
@@ -8,6 +9,8 @@ import {
   type GlobalError,
   type UseFormReturn,
 } from 'react-hook-form';
+
+type ControlledProps = 'value' | 'defaultValue' | 'onChange' | 'onBlur' | 'ref';
 
 type FieldProps<Values extends FieldValues, Transformed> = {
   control: Control<Values, unknown, Transformed>;
@@ -28,8 +31,10 @@ export function submitWithMutation<TFieldValues extends FieldValues, TTransforme
   };
 }
 
-type InputFieldProps<Values extends FieldValues, Transformed> = FieldProps<Values, Transformed> &
-  Omit<React.ComponentProps<typeof Input>, 'name' | 'value' | 'defaultValue' | 'onBlur' | 'ref'>;
+type InputFieldProps<Values extends FieldValues, Transformed> = Override<
+  Omit<React.ComponentProps<typeof Input>, Exclude<ControlledProps, 'onChange'>>,
+  FieldProps<Values, Transformed>
+>;
 
 export function InputField<Values extends FieldValues, Transformed>({
   control,
@@ -53,8 +58,55 @@ export function InputField<Values extends FieldValues, Transformed>({
   );
 }
 
-type RichTextFieldProps<Values extends FieldValues, Transformed> = FieldProps<Values, Transformed> & {
-  placeholder?: string;
+type TextAreaFieldProps<Values extends FieldValues, Transformed> = Override<
+  Omit<React.ComponentProps<typeof TextArea>, ControlledProps>,
+  FieldProps<Values, Transformed>
+>;
+
+export function TextAreaField<Values extends FieldValues, Transformed>({
+  control,
+  name,
+  label,
+  hint,
+  ...props
+}: TextAreaFieldProps<Values, Transformed>) {
+  const { field, fieldState } = useController({ control, name });
+
+  return (
+    <FormField label={label} hint={hint} error={fieldState.error?.message}>
+      <TextArea {...props} {...field} />
+    </FormField>
+  );
+}
+
+type CheckboxFieldProps<Values extends FieldValues, Transformed> = Override<
+  Omit<React.ComponentProps<typeof Checkbox>, ControlledProps | 'checked' | 'defaultChecked'>,
+  Omit<FieldProps<Values, Transformed>, 'hint'>
+>;
+
+export function CheckboxField<Values extends FieldValues, Transformed>({
+  control,
+  name,
+  ...props
+}: CheckboxFieldProps<Values, Transformed>) {
+  const {
+    field: { value, onChange, ...field },
+  } = useController({ control, name });
+
+  return (
+    <Checkbox
+      {...props}
+      {...field}
+      checked={Boolean(value)}
+      onChange={(event) => onChange(event.target.checked)}
+    />
+  );
+}
+
+type RichTextFieldProps<Values extends FieldValues, Transformed> = Override<
+  Omit<React.ComponentProps<typeof RichTextEditor.Root>, ControlledProps | 'children'>,
+  FieldProps<Values, Transformed>
+> & {
   toolbar: React.ReactNode;
 };
 
@@ -63,14 +115,14 @@ export function RichTextField<Values extends FieldValues, Transformed>({
   name,
   label,
   hint,
-  placeholder,
   toolbar,
+  ...props
 }: RichTextFieldProps<Values, Transformed>) {
   const { field, fieldState } = useController({ control, name });
 
   return (
     <FormField label={label} hint={hint} error={fieldState.error?.message}>
-      <RichTextEditor.Root {...field} placeholder={placeholder}>
+      <RichTextEditor.Root {...props} {...field}>
         <RichTextEditor.Textarea toolbar={toolbar} />
       </RichTextEditor.Root>
     </FormField>

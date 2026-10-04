@@ -19,6 +19,7 @@ import { messages } from './locales/fr.po';
 import { AuthenticationPage } from './pages/authentication/authentication';
 import { NavigationPage } from './pages/navigation';
 import { PlaceholderPage } from './pages/placeholder';
+import { ProfilePage } from './pages/profile/profile-page';
 import { CreateRequestPage } from './pages/requests/create/create-request-page';
 import { RequestPage } from './pages/requests/details/request-page';
 import { EditRequestPage } from './pages/requests/edit/edit-request-page';
@@ -89,7 +90,7 @@ const router = createBrowserRouter([
           },
           {
             path: routes.profile(),
-            element: <PlaceholderPage title={navigation.account.profile.label} />,
+            Component: ProfilePage,
           },
           {
             path: routes.settings(),
