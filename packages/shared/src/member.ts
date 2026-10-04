@@ -67,15 +67,15 @@ export const createMemberBodySchema = z.object({
 });
 
 export const updateMemberProfileBodySchema = z.object({
-  firstName: z.string().trim().max(256).optional(),
-  lastName: z.string().trim().max(256).optional(),
+  firstName: z.string().trim().min(1).max(256).optional(),
+  lastName: z.string().trim().min(1).max(256).optional(),
   emailVisible: z.boolean().optional(),
   phoneNumber: z
     .string()
     .regex(/^0\d{9}$/)
     .optional(),
   phoneNumberVisible: z.boolean().optional(),
-  bio: z.string().trim().max(4096).optional(),
+  bio: z.string().trim().max(4096).nullable().optional(),
   address: z
     .object({
       line1: z.string().trim().max(256),
@@ -87,7 +87,7 @@ export const updateMemberProfileBodySchema = z.object({
     })
     .nullable()
     .optional(),
-  avatarFileName: z.string().optional(),
+  avatarFileName: z.string().nullable().optional(),
   onboardingCompleted: z.boolean().optional(),
 });
 

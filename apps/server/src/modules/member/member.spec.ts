@@ -17,7 +17,7 @@ import { updateLetsConfig } from '../lets-config/lets-config.persistence';
 import { createMember } from './domain/create-member.command';
 import { updateMemberProfile } from './domain/update-member-profile.command';
 import { Member, MemberCreatedEvent, OnboardingCompletedEvent } from './member.entities';
-import { findMemberById } from './member.persistence';
+import { findMemberById, updateMember } from './member.persistence';
 import { router } from './member.router';
 
 describe('member', () => {
@@ -113,6 +113,73 @@ describe('member', () => {
     });
 
     expect(await findMemberById('memberId')).toMatchObject<Partial<Member>>(data);
+  });
+
+  it('leaves the fields that are not sent unchanged', async () => {
+    await persist.member({ id: 'memberId', firstName: 'First', bio: 'bio', phoneNumber: '0612345678' });
+
+    await updateMemberProfile({ memberId: 'memberId', data: { lastName: 'Last' } });
+
+    expect(await findMemberById('memberId')).toMatchObject<Partial<Member>>({
+      firstName: 'First',
+      lastName: 'Last',
+      bio: 'bio',
+      phoneNumber: '0612345678',
+    });
+  });
+
+  it("removes a member's bio", async () => {
+    await persist.member({ id: 'memberId', bio: 'bio' });
+
+    await updateMemberProfile({ memberId: 'memberId', data: { bio: null } });
+
+    expect(await findMemberById('memberId')).toHaveProperty('bio', null);
+  });
+
+  it('stores an empty bio as null', async () => {
+    await persist.member({ id: 'memberId', bio: 'bio' });
+
+    await updateMemberProfile({ memberId: 'memberId', data: { bio: '' } });
+
+    expect(await findMemberById('memberId')).toHaveProperty('bio', null);
+  });
+
+  it("sets a member's avatar", async () => {
+    await persist.member({ id: 'memberId' });
+    const fileId = await persist.file({ name: 'avatar.png', mimetype: 'image/png', uploadedBy: 'memberId' });
+
+    await updateMemberProfile({ memberId: 'memberId', data: { avatarFileName: 'avatar.png' } });
+
+    expect(await findMemberById('memberId')).toHaveProperty('avatarId', fileId);
+  });
+
+  it("removes a member's avatar", async () => {
+    await persist.member({ id: 'memberId' });
+    const fileId = await persist.file({ name: 'avatar.png', mimetype: 'image/png', uploadedBy: 'memberId' });
+    await updateMember('memberId', { avatarId: fileId });
+
+    await updateMemberProfile({ memberId: 'memberId', data: { avatarFileName: null } });
+
+    expect(await findMemberById('memberId')).toHaveProperty('avatarId', null);
+  });
+
+  it('rejects an avatar that is not an image', async () => {
+    await persist.member({ id: 'memberId' });
+    await persist.file({ name: 'doc.pdf', mimetype: 'application/pdf', uploadedBy: 'memberId' });
+
+    await expect(
+      updateMemberProfile({ memberId: 'memberId', data: { avatarFileName: 'doc.pdf' } }),
+    ).rejects.toThrow('The avatar must be an image');
+  });
+
+  it('rejects an avatar uploaded by another member', async () => {
+    await persist.member({ id: 'memberId' });
+    await persist.member({ id: 'otherMemberId' });
+    await persist.file({ name: 'avatar.png', mimetype: 'image/png', uploadedBy: 'otherMemberId' });
+
+    await expect(
+      updateMemberProfile({ memberId: 'memberId', data: { avatarFileName: 'avatar.png' } }),
+    ).rejects.toThrow('The avatar must be uploaded by the member');
   });
 
   it("set the member's status to active when onboarding is completed", async () => {
