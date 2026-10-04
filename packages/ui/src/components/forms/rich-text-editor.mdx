@@ -30,7 +30,7 @@ For a text that other members read, where a list or a link helps: the message of
         <RichTextEditor.Bold label="Bold" />
         <RichTextEditor.Italic label="Italic" />
         <RichTextEditor.Underline label="Underline" />
-        <RichTextEditor.Link labels={linkLabels} />
+        <RichTextEditor.Link label="Link" onClick={openLinkDialog} />
         <RichTextEditor.BulletList label="Bulleted list" />
         <RichTextEditor.OrderedList label="Numbered list" />
         <RichTextEditor.ToolbarEnd>…</RichTextEditor.ToolbarEnd>
@@ -54,14 +54,14 @@ For another layout (a comment with the avatar beside the text, for example), ski
 - `RichTextEditor.EditorContent`: the editable text alone, a `div` that takes its props (`className` for the size, `resize-y`…). The editable element grows to fill it and takes the full width.
 - `RichTextEditor.Toolbar`: the row of buttons, with a `gap-1` and no border or padding of its own. The formats offered are the buttons it contains, in that order.
 - `RichTextEditor.Bold`, `RichTextEditor.Italic`, `RichTextEditor.Underline`, `RichTextEditor.BulletList`, `RichTextEditor.OrderedList`: a format each, named by `label` in the application's language.
-- `RichTextEditor.Link`: the link button and its dialog, with their texts in `labels` (`button`, which is also the dialog's title, `url`, `invalid`, `apply`, `remove`, `cancel`, `close`).
+- `RichTextEditor.Link`: the link button, named by `label`. The dialog asking for the address belongs to the application: `onClick` receives the link target, with the `href` of the link at the selection (undefined outside a link), `setLink(href)`, `removeLink()` and `getElement()`, the editable element to give the focus back to when the dialog closes.
 - `RichTextEditor.ToolbarEnd`: actions placed at the end of the toolbar, such as an attachment button or the send button of a comment. The editor only renders them.
 - `RichTextEditor.ToolbarButton`: a button with the style of the toolbar, for an action of the application (attaching a file). It is disabled with the editor.
 
 ## Rules
 
 - Pasted content keeps paragraphs, bold, italic, underline, links and lists, and loses the rest (headings, colors, tables).
-- The link button opens a dialog with the address. An address without a scheme ("example.org") gets `https://`. With no selected text, the address is inserted as the link's text. An unsafe address (`javascript:`) is refused, with the `invalid` error under the field.
+- `setLink` links the selected text or, with no selected text, inserts the address as the link's text. It refuses an unsafe address (`javascript:`) and returns false, for the dialog to show an error.
 - A pasted address becomes a link on its own. A link does not open on click while editing.
 - The toolbar buttons show their state with `aria-pressed` and the `bg-primary-subtle` background, like the active entry of a navigation. They keep the focus and the selection in the text when clicked with the mouse.
 - The keyboard shortcuts of the formats work too: Ctrl/⌘ + B, I, U, and Ctrl/⌘ + Shift + 7 and 8 for the lists.

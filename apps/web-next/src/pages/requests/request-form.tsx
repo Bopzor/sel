@@ -1,10 +1,11 @@
 import { Trans } from '@lingui/react/macro';
 import { createRequestBodySchema, type CreateRequestBody } from '@sel/shared';
-import { Button, Card } from '@sel/ui';
+import { Button, Card, RichTextEditor } from '@sel/ui';
 import { useMutation } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
 
 import { FormServerErrorAlert, InputField, RichTextField, submitWithMutation } from 'src/components/fields';
+import { RichTextToolbar } from 'src/components/rich-text-toolbar';
 import { useFormApiError } from 'src/hooks/use-form-api-error';
 import { useZodResolver } from 'src/hooks/use-zod-resolver';
 
@@ -50,6 +51,17 @@ export function RequestForm({
           name="body"
           label={<Trans>Message</Trans>}
           hint={<Trans>What you need, when, and where</Trans>}
+          toolbar={
+            <RichTextEditor.Toolbar>
+              <RichTextToolbar.Bold />
+              <RichTextToolbar.Italic />
+              <RichTextToolbar.Underline />
+              <RichTextToolbar.Link />
+              <RichTextToolbar.BulletList />
+              <RichTextToolbar.OrderedList />
+              <RichTextToolbar.Attachment />
+            </RichTextEditor.Toolbar>
+          }
         />
 
         <FormServerErrorAlert

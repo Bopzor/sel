@@ -32,10 +32,6 @@ msgstr "{total, plural, one {# demande} other {# demandes}}"
 msgid "A few words, for example: Help to put up a shelf"
 msgstr "Quelques mots, par exemple : Aide pour poser une étagère"
 
-#: src/components/comments-section.tsx
-msgid "Add attachment"
-msgstr "Ajouter une pièce jointe"
-
 #: src/pages/requests/list/requests-filters.tsx
 msgctxt "requests filter"
 msgid "All"
@@ -49,8 +45,7 @@ msgstr "Une erreur est survenue et votre commentaire n'a pas pu être envoyé"
 msgid "Answers"
 msgstr "Réponses"
 
-#: src/components/comments-section.tsx
-#: src/components/fields.tsx
+#: src/components/rich-text-toolbar.tsx
 msgid "Apply"
 msgstr "Appliquer"
 
@@ -58,17 +53,20 @@ msgstr "Appliquer"
 msgid "Ask the members for help: they will be notified and can offer theirs."
 msgstr "Demandez de l'aide aux membres : ils seront notifiés et pourront vous répondre."
 
+#: src/components/rich-text-toolbar.tsx
+msgid "Attachment"
+msgstr "Pièce jointe"
+
 #: src/pages/authentication/authentication.tsx
 #: src/pages/requests/details/requester-actions.tsx
 msgid "Back"
 msgstr "Retour"
 
-#: src/components/comments-section.tsx
-#: src/components/fields.tsx
+#: src/components/rich-text-toolbar.tsx
 msgid "Bold"
 msgstr "Gras"
 
-#: src/components/fields.tsx
+#: src/components/rich-text-toolbar.tsx
 msgid "Bulleted list"
 msgstr "Liste à puces"
 
@@ -84,8 +82,7 @@ msgstr "Pouvez-vous aider ?"
 msgid "Can't help"
 msgstr "Ne peut pas aider"
 
-#: src/components/comments-section.tsx
-#: src/components/fields.tsx
+#: src/components/rich-text-toolbar.tsx
 msgid "Cancel"
 msgstr "Annuler"
 
@@ -110,8 +107,7 @@ msgstr "Vérifiez votre accès à internet, puis réessayez."
 msgid "Clear filters"
 msgstr "Effacer les filtres"
 
-#: src/components/comments-section.tsx
-#: src/components/fields.tsx
+#: src/components/rich-text-toolbar.tsx
 #: src/main.tsx
 #: src/pages/requests/details/requester-actions.tsx
 msgid "Close"
@@ -212,18 +208,15 @@ msgstr "Informations"
 msgid "Interests"
 msgstr "Centres d'intérêts"
 
-#: src/components/comments-section.tsx
-#: src/components/fields.tsx
+#: src/components/rich-text-toolbar.tsx
 msgid "Italic"
 msgstr "Italique"
 
-#: src/components/comments-section.tsx
-#: src/components/fields.tsx
+#: src/components/rich-text-toolbar.tsx
 msgid "Link"
 msgstr "Lien"
 
-#: src/components/comments-section.tsx
-#: src/components/fields.tsx
+#: src/components/rich-text-toolbar.tsx
 msgid "Link target"
 msgstr "Cible du lien"
 
@@ -280,7 +273,7 @@ msgstr "Aucune demande ne correspond à ces filtres"
 msgid "No requests"
 msgstr "Aucune demande"
 
-#: src/components/fields.tsx
+#: src/components/rich-text-toolbar.tsx
 msgid "Numbered list"
 msgstr "Liste numérotée"
 
@@ -302,8 +295,7 @@ msgstr "Publier la demande"
 msgid "Profile"
 msgstr "Profil"
 
-#: src/components/comments-section.tsx
-#: src/components/fields.tsx
+#: src/components/rich-text-toolbar.tsx
 msgid "Remove link"
 msgstr "Retirer le lien"
 
@@ -430,8 +422,7 @@ msgstr "Cette demande est clôturée"
 msgid "This request was canceled"
 msgstr "Cette demande a été annulée"
 
-#: src/components/comments-section.tsx
-#: src/components/fields.tsx
+#: src/components/rich-text-toolbar.tsx
 msgid "This URL is invalid"
 msgstr "Cette URL est invalide"
 
@@ -462,6 +453,10 @@ msgstr "Impossible de charger les demandes"
 #: src/hooks/use-form-api-error.ts
 msgid "Unable to reach the server, check your internet access"
 msgstr "Impossible de joindre le serveur, vérifiez votre accès à internet"
+
+#: src/components/rich-text-toolbar.tsx
+msgid "Underline"
+msgstr "Souligné"
 
 #: src/pages/requests/request-form.tsx
 msgid "What you need, when, and where"

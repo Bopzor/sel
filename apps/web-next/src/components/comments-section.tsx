@@ -18,6 +18,7 @@ import { ApiFailed, QueryResult } from './api-result';
 import { MemberAvatar } from './member-avatar';
 import { MessageContent } from './message-content';
 import { RelativeDate } from './relative-date';
+import { RichTextToolbar } from './rich-text-toolbar';
 
 type CommentSectionProps = {
   entityType: CommentEntityType;
@@ -143,23 +144,13 @@ function CommentForm({ entityType, entityId }: CommentSectionProps) {
             <Field.Error>{fieldState.error?.message}</Field.Error>
 
             <RichTextEditor.Toolbar>
-              <RichTextEditor.Bold label={t`Bold`} />
-              <RichTextEditor.Italic label={t`Italic`} />
-              <RichTextEditor.Link
-                labels={{
-                  button: t`Link`,
-                  url: t`Link target`,
-                  invalid: t`This URL is invalid`,
-                  apply: t`Apply`,
-                  remove: t`Remove link`,
-                  cancel: t`Cancel`,
-                  close: t`Close`,
-                }}
-              />
-
-              {/* TODO */}
-              <RichTextEditor.ToolbarButton icon="attachment" label={t`Add attachment`} />
-
+              <RichTextToolbar.Bold />
+              <RichTextToolbar.Italic />
+              <RichTextToolbar.Underline className="max-xs:hidden" />
+              <RichTextToolbar.Link />
+              <RichTextToolbar.BulletList className="max-sm:hidden" />
+              <RichTextToolbar.OrderedList className="max-sm:hidden" />
+              <RichTextToolbar.Attachment />
               <RichTextEditor.ToolbarEnd>
                 <Button
                   variant="secondary"

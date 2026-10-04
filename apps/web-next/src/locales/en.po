@@ -32,10 +32,6 @@ msgstr "{total, plural, one {# request} other {# requests}}"
 msgid "A few words, for example: Help to put up a shelf"
 msgstr "A few words, for example: Help to put up a shelf"
 
-#: src/components/comments-section.tsx
-msgid "Add attachment"
-msgstr "Add attachment"
-
 #: src/pages/requests/list/requests-filters.tsx
 msgctxt "requests filter"
 msgid "All"
@@ -49,8 +45,7 @@ msgstr "An error happened and your comment was not posted"
 msgid "Answers"
 msgstr "Answers"
 
-#: src/components/comments-section.tsx
-#: src/components/fields.tsx
+#: src/components/rich-text-toolbar.tsx
 msgid "Apply"
 msgstr "Apply"
 
@@ -58,17 +53,20 @@ msgstr "Apply"
 msgid "Ask the members for help: they will be notified and can offer theirs."
 msgstr "Ask the members for help: they will be notified and can offer theirs."
 
+#: src/components/rich-text-toolbar.tsx
+msgid "Attachment"
+msgstr "Attachment"
+
 #: src/pages/authentication/authentication.tsx
 #: src/pages/requests/details/requester-actions.tsx
 msgid "Back"
 msgstr "Back"
 
-#: src/components/comments-section.tsx
-#: src/components/fields.tsx
+#: src/components/rich-text-toolbar.tsx
 msgid "Bold"
 msgstr "Bold"
 
-#: src/components/fields.tsx
+#: src/components/rich-text-toolbar.tsx
 msgid "Bulleted list"
 msgstr "Bulleted list"
 
@@ -84,8 +82,7 @@ msgstr "Can you help?"
 msgid "Can't help"
 msgstr "Can't help"
 
-#: src/components/comments-section.tsx
-#: src/components/fields.tsx
+#: src/components/rich-text-toolbar.tsx
 msgid "Cancel"
 msgstr "Cancel"
 
@@ -110,8 +107,7 @@ msgstr "Check your internet access, then try again."
 msgid "Clear filters"
 msgstr "Clear filters"
 
-#: src/components/comments-section.tsx
-#: src/components/fields.tsx
+#: src/components/rich-text-toolbar.tsx
 #: src/main.tsx
 #: src/pages/requests/details/requester-actions.tsx
 msgid "Close"
@@ -212,18 +208,15 @@ msgstr "Information"
 msgid "Interests"
 msgstr "Interests"
 
-#: src/components/comments-section.tsx
-#: src/components/fields.tsx
+#: src/components/rich-text-toolbar.tsx
 msgid "Italic"
 msgstr "Italic"
 
-#: src/components/comments-section.tsx
-#: src/components/fields.tsx
+#: src/components/rich-text-toolbar.tsx
 msgid "Link"
 msgstr "Link"
 
-#: src/components/comments-section.tsx
-#: src/components/fields.tsx
+#: src/components/rich-text-toolbar.tsx
 msgid "Link target"
 msgstr "Link target"
 
@@ -280,7 +273,7 @@ msgstr "No request matches these filters"
 msgid "No requests"
 msgstr "No requests"
 
-#: src/components/fields.tsx
+#: src/components/rich-text-toolbar.tsx
 msgid "Numbered list"
 msgstr "Numbered list"
 
@@ -302,8 +295,7 @@ msgstr "Post the request"
 msgid "Profile"
 msgstr "Profile"
 
-#: src/components/comments-section.tsx
-#: src/components/fields.tsx
+#: src/components/rich-text-toolbar.tsx
 msgid "Remove link"
 msgstr "Remove link"
 
@@ -430,8 +422,7 @@ msgstr "This request is fulfilled"
 msgid "This request was canceled"
 msgstr "This request was canceled"
 
-#: src/components/comments-section.tsx
-#: src/components/fields.tsx
+#: src/components/rich-text-toolbar.tsx
 msgid "This URL is invalid"
 msgstr "This URL is invalid"
 
@@ -462,6 +453,10 @@ msgstr "Unable to load the requests"
 #: src/hooks/use-form-api-error.ts
 msgid "Unable to reach the server, check your internet access"
 msgstr "Unable to reach the server, check your internet access"
+
+#: src/components/rich-text-toolbar.tsx
+msgid "Underline"
+msgstr "Underline"
 
 #: src/pages/requests/request-form.tsx
 msgid "What you need, when, and where"

@@ -8,13 +8,9 @@ import { cva } from 'cva';
 import { createContext, use, useCallback, useEffect, useImperativeHandle, useState } from 'react';
 
 import { definedAttributes, type Override } from '../../utils';
-import { Button } from '../actions/button';
 import { Icon, type IconName } from '../display/icon';
-import * as Dialog from '../feedback/dialog';
 
 import { fieldBoxStyles } from './field-box';
-import { FormField } from './form-field';
-import { Input } from './input';
 
 type RichTextEditorRootProps = {
   /** The content as HTML, an empty string when the editor is empty. */
@@ -132,6 +128,11 @@ function RichTextEditorRoot({
   return <RichTextEditorContext value={{ editor, disabled }}>{children}</RichTextEditorContext>;
 }
 
+// tiptap renders an empty editor as an empty paragraph.
+function getValue(editor: Editor) {
+  return editor.isEmpty ? '' : editor.getHTML();
+}
+
 type RichTextEditorContextValue = { editor: Editor; disabled: boolean };
 
 const RichTextEditorContext = createContext<RichTextEditorContextValue | null>(null);
@@ -176,186 +177,115 @@ function RichTextToolbarEnd({ className, ...props }: React.ComponentProps<'div'>
   return <div {...props} className={clsx('ml-auto row items-center gap-2', className)} />;
 }
 
-// The format buttons are named by their label, in the application's language.
-
-function RichTextBold({ label }: { label: string }) {
-  return (
-    <FormatButton
-      icon="bold"
-      label={label}
-      format="bold"
-      run={(editor) => editor.chain().focus().toggleBold().run()}
-    />
-  );
-}
-
-function RichTextItalic({ label }: { label: string }) {
-  return (
-    <FormatButton
-      icon="italic"
-      label={label}
-      format="italic"
-      run={(editor) => editor.chain().focus().toggleItalic().run()}
-    />
-  );
-}
-
-function RichTextUnderline({ label }: { label: string }) {
-  return (
-    <FormatButton
-      icon="underline"
-      label={label}
-      format="underline"
-      run={(editor) => editor.chain().focus().toggleUnderline().run()}
-    />
-  );
-}
-
-function RichTextBulletList({ label }: { label: string }) {
-  return (
-    <FormatButton
-      icon="bullet-list"
-      label={label}
-      format="bulletList"
-      run={(editor) => editor.chain().focus().toggleBulletList().run()}
-    />
-  );
-}
-
-function RichTextOrderedList({ label }: { label: string }) {
-  return (
-    <FormatButton
-      icon="ordered-list"
-      label={label}
-      format="orderedList"
-      run={(editor) => editor.chain().focus().toggleOrderedList().run()}
-    />
-  );
-}
-
 type FormatButtonProps = {
   label: string;
-  icon: IconName;
-  /** The name of tiptap's mark or node, which makes the button pressed when the selection has it. */
-  format: string;
-  run: (editor: Editor) => void;
+  className?: string;
 };
 
-function FormatButton({ icon, label, format, run }: FormatButtonProps) {
-  const { editor } = useRichTextEditor();
-  const pressed = useEditorState({ editor, selector: ({ editor }) => editor.isActive(format) });
-
-  return <RichTextToolbarButton icon={icon} label={label} pressed={pressed} onClick={() => run(editor)} />;
+function RichTextBold({ label, className }: FormatButtonProps) {
+  const props = useFormatCommand('bold', 'toggleBold');
+  return <RichTextToolbarButton {...props} icon="bold" label={label} className={className} />;
 }
 
-type RichTextLinkLabels = {
-  /** The link button, also the title of the link dialog. */
-  button: string;
-  /** Label of the address field. */
-  url: string;
-  /** Error of the address field, for an address that cannot be a link ("javascript:…"). */
-  invalid: string;
-  apply: string;
-  remove: string;
-  cancel: string;
-  /** Accessible name of the dialog's close button. */
-  close: string;
+function RichTextItalic({ label, className }: FormatButtonProps) {
+  const props = useFormatCommand('italic', 'toggleItalic');
+  return <RichTextToolbarButton {...props} icon="italic" label={label} className={className} />;
+}
+
+function RichTextUnderline({ label, className }: FormatButtonProps) {
+  const props = useFormatCommand('underline', 'toggleUnderline');
+  return <RichTextToolbarButton {...props} icon="underline" label={label} className={className} />;
+}
+
+function RichTextBulletList({ label, className }: FormatButtonProps) {
+  const props = useFormatCommand('bulletList', 'toggleBulletList');
+  return <RichTextToolbarButton {...props} icon="bullet-list" label={label} className={className} />;
+}
+
+function RichTextOrderedList({ label, className }: FormatButtonProps) {
+  const props = useFormatCommand('orderedList', 'toggleOrderedList');
+  return <RichTextToolbarButton {...props} icon="ordered-list" label={label} className={className} />;
+}
+
+type FormatCommand =
+  | 'toggleBold'
+  | 'toggleItalic'
+  | 'toggleUnderline'
+  | 'toggleBulletList'
+  | 'toggleOrderedList';
+
+function useFormatCommand(format: string, command: FormatCommand) {
+  const { editor } = useRichTextEditor();
+
+  return {
+    pressed: useEditorState({ editor, selector: ({ editor }) => editor.isActive(format) }),
+    onClick: () => editor.chain().focus()[command]().run(),
+  };
+}
+
+type RichTextLinkTarget = {
+  href: string | undefined;
+  setLink: (href: string) => boolean;
+  removeLink: () => void;
+  getElement: () => HTMLElement;
 };
 
-/**
- * The link button, which opens a dialog with the address. The labels are the texts of the button and of its dialog,
- * in the application's language.
- */
-function RichTextLink({ labels }: { labels: RichTextLinkLabels }) {
+type RichTextLinkProps = {
+  label: string;
+  onClick: (target: RichTextLinkTarget) => void;
+  className?: string;
+};
+
+function RichTextLink({ label, onClick, className }: RichTextLinkProps) {
   const { editor } = useRichTextEditor();
   const pressed = useEditorState({ editor, selector: ({ editor }) => editor.isActive('link') });
 
-  const [open, setOpen] = useState(false);
-  const [url, setUrl] = useState('');
-  const [invalid, setInvalid] = useState(false);
-  const [editing, setEditing] = useState(false);
-
-  const openDialog = () => {
-    const href: string | undefined = editor.getAttributes('link').href;
-
-    setUrl(href ?? '');
-    setEditing(href !== undefined);
-    setInvalid(false);
-    setOpen(true);
-  };
-
-  const apply = (event: React.SubmitEvent) => {
-    // The dialog is rendered in a portal, but React still bubbles its submit event to a form around the editor.
-    event.preventDefault();
-    event.stopPropagation();
-
-    const href = toHref(url.trim());
-
-    // The link extension refuses unsafe addresses; the insertion below would not check them.
-    if (href !== '' && !editor.can().setLink({ href })) {
-      setInvalid(true);
-      return;
-    }
-
-    if (href === '') {
-      editor.chain().extendMarkRange('link').unsetLink().run();
-    } else if (editor.state.selection.empty && !editor.isActive('link')) {
-      editor
-        .chain()
-        .insertContent({ type: 'text', text: href, marks: [{ type: 'link', attrs: { href } }] })
-        .run();
-    } else {
-      editor.chain().extendMarkRange('link').setLink({ href }).run();
-    }
-
-    setOpen(false);
-  };
-
-  const remove = () => {
-    editor.chain().extendMarkRange('link').unsetLink().run();
-    setOpen(false);
+  const handleClick = () => {
+    onClick({
+      href: editor.getAttributes('link').href,
+      setLink: (href) => setLink(editor, href),
+      removeLink: () => removeLink(editor),
+      getElement: () => getElement(editor),
+    });
   };
 
   return (
-    <>
-      <RichTextToolbarButton icon="link" label={labels.button} pressed={pressed} onClick={openDialog} />
-
-      <Dialog.Root open={open} onClose={() => setOpen(false)} finalFocus={() => editor.view.dom}>
-        <Dialog.Content closeLabel={labels.close}>
-          <Dialog.Header>
-            <Dialog.Title>{labels.button}</Dialog.Title>
-          </Dialog.Header>
-
-          {/* noValidate: an address without a scheme is not a valid url for the browser, and gets https:// here. */}
-          <form onSubmit={apply} noValidate className="contents">
-            <Dialog.Body>
-              <FormField label={labels.url} error={invalid ? labels.invalid : undefined}>
-                <Input
-                  value={url}
-                  onChange={(event) => setUrl(event.target.value)}
-                  type="url"
-                  inputMode="url"
-                  autoComplete="url"
-                />
-              </FormField>
-            </Dialog.Body>
-
-            <Dialog.Footer>
-              <Button type="submit">{labels.apply}</Button>
-              {editing && (
-                <Button variant="secondary" onClick={remove}>
-                  {labels.remove}
-                </Button>
-              )}
-              <Button variant="secondary" onClick={() => setOpen(false)}>
-                {labels.cancel}
-              </Button>
-            </Dialog.Footer>
-          </form>
-        </Dialog.Content>
-      </Dialog.Root>
-    </>
+    <RichTextToolbarButton
+      icon="link"
+      label={label}
+      pressed={pressed}
+      onClick={handleClick}
+      className={className}
+    />
   );
+}
+
+function setLink(editor: Editor, href: string) {
+  // The link extension refuses unsafe addresses; the insertion below would not check them.
+  if (!editor.can().setLink({ href })) {
+    return false;
+  }
+
+  if (editor.state.selection.empty && !editor.isActive('link')) {
+    editor
+      .chain()
+      .insertContent({ type: 'text', text: href, marks: [{ type: 'link', attrs: { href } }] })
+      .run();
+  } else {
+    editor.chain().extendMarkRange('link').setLink({ href }).run();
+  }
+
+  return true;
+}
+
+function removeLink(editor: Editor) {
+  editor.chain().extendMarkRange('link').unsetLink().run();
+}
+
+// Not inlined: the React Compiler would read editor.view.dom during render to memoize the callback,
+// and tiptap throws until the view is mounted.
+function getElement(editor: Editor) {
+  return editor.view.dom;
 }
 
 type RichTextToolbarButtonProps = Override<
@@ -422,20 +352,6 @@ function getToolbarButtonState({ pressed, disabled }: { pressed?: boolean; disab
   return 'default';
 }
 
-// tiptap renders an empty editor as an empty paragraph.
-function getValue(editor: Editor) {
-  return editor.isEmpty ? '' : editor.getHTML();
-}
-
-// An address typed without a scheme ("example.org") is a web address, not a path.
-function toHref(url: string) {
-  if (url === '' || /^[a-z][a-z\d+.-]*:/i.test(url)) {
-    return url;
-  }
-
-  return `https://${url}`;
-}
-
 export {
   RichTextBold as Bold,
   RichTextBulletList as BulletList,
@@ -449,5 +365,5 @@ export {
   RichTextToolbarButton as ToolbarButton,
   RichTextToolbarEnd as ToolbarEnd,
   RichTextUnderline as Underline,
-  type RichTextLinkLabels as LinkLabels,
+  type RichTextLinkTarget as LinkTarget,
 };

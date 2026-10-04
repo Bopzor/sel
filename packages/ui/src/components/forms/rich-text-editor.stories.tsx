@@ -6,22 +6,12 @@ import { Button } from '../actions/button';
 import { FormField } from './form-field';
 import * as RichTextEditor from './rich-text-editor';
 
-const linkLabels: RichTextEditor.LinkLabels = {
-  button: 'Link',
-  url: 'Address',
-  invalid: 'What to do to fix the address.',
-  apply: 'Apply',
-  remove: 'Remove the link',
-  cancel: 'Cancel',
-  close: 'Close',
-};
-
 const toolbar = (
   <RichTextEditor.Toolbar>
     <RichTextEditor.Bold label="Bold" />
     <RichTextEditor.Italic label="Italic" />
     <RichTextEditor.Underline label="Underline" />
-    <RichTextEditor.Link labels={linkLabels} />
+    <RichTextEditor.Link label="Link" onClick={editLink} />
     <RichTextEditor.BulletList label="Bulleted list" />
     <RichTextEditor.OrderedList label="Numbered list" />
   </RichTextEditor.Toolbar>
@@ -117,7 +107,7 @@ export const WithToolbarEnd: Story = {
               <RichTextEditor.Toolbar>
                 <RichTextEditor.Bold label="Bold" />
                 <RichTextEditor.Italic label="Italic" />
-                <RichTextEditor.Link labels={linkLabels} />
+                <RichTextEditor.Link label="Link" onClick={editLink} />
                 <RichTextEditor.ToolbarEnd>
                   <RichTextEditor.ToolbarButton icon="attachment" label="Attach a file" />
                   <Button size="sm" onClick={() => setValue('')}>
@@ -146,3 +136,13 @@ export const CustomLayout: Story = {
     );
   },
 };
+
+function editLink(target: RichTextEditor.LinkTarget) {
+  const href = window.prompt('Address', target.href ?? '');
+
+  if (href === '') {
+    target.removeLink();
+  } else if (href !== null) {
+    target.setLink(href);
+  }
+}

@@ -118,7 +118,7 @@ function DialogDescription({ className, ...props }: ComponentProps<'p'>) {
 
 /** The content between the header and the footer, such as a short form. It scrolls when the window is too small. */
 function DialogBody({ className, ...props }: ComponentProps<'div'>) {
-  return <div {...props} className={clsx('min-h-0 overflow-y-auto px-4 md:px-6', className)} />;
+  return <div {...props} className={clsx('min-h-0 overflow-y-auto px-4 py-1 md:px-6', className)} />;
 }
 
 /** The buttons, the main action first: on top on mobile, on the right from md. */
