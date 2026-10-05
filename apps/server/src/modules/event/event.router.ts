@@ -40,13 +40,14 @@ const isOrganizer: RequestHandler<{ eventId: string }> = async (req, res, next) 
 };
 
 router.get('/', async (req, res) => {
+  const member = getAuthenticatedMember();
   const query = shared.listEventsQuerySchema.parse(req.query);
   const { total, events } = await listEvents(query);
 
   res.setHeader('x-pagination-total', total);
   res.setHeader('x-pagination-page-size', query.pageSize);
 
-  res.json(events.map(serializeEventListItem));
+  res.json(events.map((event) => serializeEventListItem(event, member.id)));
 });
 
 router.get('/:eventId', async (req, res) => {
@@ -74,10 +75,10 @@ router.param('eventId', async (req, res, next) => {
   const event = await findEventById(req.params.eventId);
 
   if (!event) {
-    next();
-  } else {
-    eventContext.run(event, next);
+    throw new NotFound('Event not found');
   }
+
+  eventContext.run(event, next);
 });
 
 router.post('/', async (req, res) => {
@@ -139,15 +140,20 @@ function serializeEventListItem(
   event: Event & {
     organizer: MemberWithAvatar;
     message: MessageWithAttachments;
+    participants: EventParticipation[];
   },
+  memberId: string,
 ): shared.EventsListItem {
   return {
     id: event.id,
     title: event.title,
     date: event.date?.toISOString() ?? undefined,
+    location: event.location ?? undefined,
     kind: event.kind,
     organizer: serializeOrganizer(event.organizer),
     message: serializeMessage(event.message),
+    participantsCount: event.participants.filter(({ participation }) => participation === 'yes').length,
+    participation: event.participants.find(({ participantId }) => participantId === memberId)?.participation,
   };
 }
 
