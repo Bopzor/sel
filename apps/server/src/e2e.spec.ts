@@ -1,6 +1,6 @@
 import { addDuration, createDate, createId, defined } from '@sel/utils';
 import supertest from 'supertest';
-import { afterEach, beforeAll, beforeEach, describe, it } from 'vitest';
+import { afterEach, beforeAll, beforeEach, describe, expect, it } from 'vitest';
 
 import { persist } from './factories';
 import { container } from './infrastructure/container';
@@ -8,6 +8,7 @@ import { StubEmailSender } from './infrastructure/email';
 import { HttpStatus } from './infrastructure/http';
 import { initialize } from './initialize';
 import { TokenType } from './modules/authentication/authentication.entities';
+import { updateLetsConfig } from './modules/lets-config/lets-config.persistence';
 import { createMember } from './modules/member/domain/create-member.command';
 import { resetDatabase, schema } from './persistence';
 import { clearDatabase, db } from './persistence/database';
@@ -116,5 +117,21 @@ describe('end-to-end', () => {
       .expect(201);
 
     await container.resolve(TOKENS.events).waitForListeners();
+  });
+
+  it('serves the web app manifest from the config', async () => {
+    await updateLetsConfig({ letsName: 'SEL', place: 'Cavaillon', primaryColor: '#005f7e' });
+
+    const response = await supertest(server())
+      .get('/manifest.webmanifest')
+      .expect(HttpStatus.ok)
+      .expect('Content-Type', /application\/manifest\+json/);
+
+    expect(response.body).toMatchObject({
+      name: 'SEL',
+      short_name: 'SEL',
+      description: "L'application du Système d'Échange Local de Cavaillon.",
+      theme_color: '#005f7e',
+    });
   });
 });

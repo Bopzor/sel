@@ -40,6 +40,7 @@ export function server() {
 
   app.use('/health', health);
   app.use('/config', configHandler);
+  app.use('/manifest.webmanifest', manifestHandler);
 
   app.use(maintenanceHandler);
   app.use(authenticationProvider);
@@ -134,6 +135,30 @@ const configHandler: RequestHandler = async (req, res) => {
 
   res.json(result);
   res.end();
+};
+
+const manifestHandler: RequestHandler = async (req, res) => {
+  const { letsName, place, primaryColor } = await getLetsConfig();
+
+  res.type('application/manifest+json');
+
+  res.json({
+    name: letsName,
+    short_name: letsName,
+    description: `L'application du Système d'Échange Local de ${place}.`,
+    lang: 'fr',
+    start_url: '/',
+    scope: '/',
+    display: 'standalone',
+    background_color: '#FFFFFF',
+    theme_color: primaryColor,
+    icons: [
+      { src: '/pwa-64x64.png', sizes: '64x64', type: 'image/png' },
+      { src: '/pwa-192x192.png', sizes: '192x192', type: 'image/png' },
+      { src: '/pwa-512x512.png', sizes: '512x512', type: 'image/png' },
+      { src: '/maskable-icon-512x512.png', sizes: '512x512', type: 'image/png', purpose: 'maskable' },
+    ],
+  });
 };
 
 const fallbackRequestHandler: RequestHandler = (req, res) => {
