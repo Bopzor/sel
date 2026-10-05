@@ -87,6 +87,20 @@ describe('push notifications prompt', () => {
     expect(server.registered).toEqual([]);
   });
 
+  it('reports when this device could not be registered', async () => {
+    server.failing = true;
+    render();
+
+    await user.click(await screen.findByRole('button', { name: 'Allow on this device' }));
+
+    expect(
+      await screen.findByText(
+        'Notifications could not be enabled on this device. Try again in a few moments.',
+      ),
+    ).toBeInTheDocument();
+    expect(server.registered).toEqual([]);
+  });
+
   it('is not shown again once dismissed', async () => {
     render();
 
@@ -123,9 +137,14 @@ describe('push notifications prompt', () => {
 
 class Server extends FakeServer {
   registered: unknown[] = [];
+  failing = false;
 
   init() {
     this.register('POST /api/session/notifications/register-device', ({ body }) => {
+      if (this.failing) {
+        return this.json({ error: 'Internal server error' }, { status: 500 });
+      }
+
       this.registered.push(body);
 
       return this.noContent();

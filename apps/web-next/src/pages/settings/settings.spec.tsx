@@ -126,6 +126,22 @@ describe('settings', () => {
       );
     });
 
+    it('reports when this device could not be registered after enabling the push notifications', async () => {
+      server.member.notificationDelivery.push = false;
+      server.failingRegistration = true;
+      vi.stubGlobal('Notification', { permission: 'granted' });
+      renderPage();
+
+      await user.click(await screen.findByRole('switch', { name: 'On your devices' }));
+
+      expect(
+        await screen.findByText(
+          'Notifications could not be enabled on this device. Try again in a few moments.',
+        ),
+      ).toBeInTheDocument();
+      expect(server.member.notificationDelivery.push).toBe(true);
+    });
+
     it('explains when this browser cannot receive the notifications', async () => {
       vi.stubGlobal('__ENV__', {});
       renderPage();
@@ -185,6 +201,7 @@ class Server extends FakeServer {
   updated: UpdateNotificationDeliveryData[] = [];
   registered: unknown[] = [];
   failing = false;
+  failingRegistration = false;
 
   init() {
     this.register('GET /api/session/member', () => this.json(this.member));
@@ -203,6 +220,10 @@ class Server extends FakeServer {
     });
 
     this.register('POST /api/session/notifications/register-device', ({ body }) => {
+      if (this.failingRegistration) {
+        return this.json({ error: 'Internal server error' }, { status: 500 });
+      }
+
       this.registered.push(body);
 
       return this.noContent();

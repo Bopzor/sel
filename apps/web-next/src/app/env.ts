@@ -4,5 +4,7 @@ declare global {
 }
 
 export function getEnv(name: keyof ImportMetaEnv & `VITE_${string}`) {
-  return globalThis.__ENV__[name] ?? import.meta.env[name];
+  // runtime environment variables are '' when unset
+  // oxlint-disable-next-line typescript/prefer-nullish-coalescing
+  return globalThis.__ENV__[name] || import.meta.env[name];
 }

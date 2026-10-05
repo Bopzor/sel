@@ -32,12 +32,19 @@ self.addEventListener('notificationclick', (event) => {
 });
 
 async function focusOrOpen(link: string) {
+  const href = new URL(link).href;
   const clients = await self.clients.matchAll({ type: 'window' });
-  const client = clients.find(({ url }) => new URL(url).href === new URL(link).href);
+  const client = clients.find(({ url }) => url === href) ?? clients[0];
 
-  if (client) {
-    await client.focus();
-  } else {
-    await self.clients.openWindow(link);
+  if (!client) {
+    await self.clients.openWindow(href);
+    return;
+  }
+
+  // Focused before navigating: the permission to focus a window only lasts for a short time after the click.
+  const focused = await client.focus();
+
+  if (focused.url !== href) {
+    await focused.navigate(href);
   }
 }

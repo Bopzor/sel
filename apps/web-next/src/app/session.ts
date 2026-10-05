@@ -2,6 +2,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { redirect, useNavigate, type MiddlewareFunction } from 'react-router';
 
 import { api, ApiError } from './api';
+import { unsubscribePushNotification } from './push-notifications';
 import { queries } from './queries';
 import { queryClient } from './query-client';
 import { routes } from './routes';
@@ -56,8 +57,13 @@ export function useSignOut() {
   const { mutate } = useMutation({
     mutationFn: () => api('DELETE', '/session'),
     onSuccess: async () => {
+      // Not awaited: navigator.serviceWorker.ready never resolves when the service worker could not be registered.
+      // oxlint-disable-next-line no-console
+      unsubscribePushNotification().catch(console.error);
+
       // Before navigating: the authentication page would find the member's session in the cache.
       queryClient.clear();
+
       await navigate(routes.authentication());
     },
   });

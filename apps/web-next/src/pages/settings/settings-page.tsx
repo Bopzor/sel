@@ -58,8 +58,9 @@ function NotificationsSection() {
       showToast(t`The notification settings could not be saved`, 'error');
       form.reset(me.notificationDelivery);
     },
-    // Awaited, so that the switches show the pending values until the session is refetched.
-    onSettled: () => queryClient.invalidateQueries(queries.session()),
+    onSettled: async () => {
+      await queryClient.invalidateQueries(queries.session());
+    },
   });
 
   const changeHandler = (field: 'email' | 'push', onChange: (event: React.ChangeEvent) => void) => {

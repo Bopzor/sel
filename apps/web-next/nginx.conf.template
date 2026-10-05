@@ -21,11 +21,6 @@ server {
         add_header Cache-Control "no-cache";
     }
 
-    location = /manifest.webmanifest {
-        proxy_pass ${SERVER_URL}/manifest.webmanifest;
-        proxy_set_header X-Forwarded-Host $host;
-    }
-
     location ~* \.(?:css|js|png|svg|ico|woff2)$ {
         expires 30d;
         add_header Cache-Control "public";

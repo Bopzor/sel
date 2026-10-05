@@ -39,9 +39,6 @@ export default defineConfig(({ mode }) => ({
         target: 'http://localhost:3000',
         rewrite: (path) => path.replace(/^\/api/, ''),
       },
-      '/manifest.webmanifest': {
-        target: 'http://localhost:3000',
-      },
     },
   },
   envDir: mode === 'test' ? false : undefined,

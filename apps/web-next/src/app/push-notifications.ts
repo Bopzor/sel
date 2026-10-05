@@ -23,6 +23,13 @@ export async function requestPushPermission() {
   return permission;
 }
 
+export async function unsubscribePushNotification() {
+  const { pushManager } = await navigator.serviceWorker.ready;
+  const subscription = await pushManager.getSubscription();
+
+  await subscription?.unsubscribe();
+}
+
 export async function registerDevice() {
   const { pushManager } = await navigator.serviceWorker.ready;
   const applicationServerKey = getEnv('VITE_WEB_PUSH_PUBLIC_KEY');

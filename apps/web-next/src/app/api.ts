@@ -2,7 +2,7 @@ import type { File as UploadedFile } from '@sel/shared';
 import { assert, wait } from '@sel/utils';
 import { z } from 'zod';
 
-const baseUrl = import.meta.env.VITE_API_URL ?? '/api';
+const baseUrl = '/api';
 
 export type HttpMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
 
