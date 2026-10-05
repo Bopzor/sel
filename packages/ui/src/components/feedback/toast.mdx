@@ -11,7 +11,8 @@ A short, temporary notification at the bottom of the screen, to confirm an actio
 ## When to use it
 
 - To confirm an action ("Request posted"), including when it leads to another page: the toast container lives at the root of the application and survives navigation.
-- To report that an action failed (`danger`), when the member stays where they were and can try again.
+- To report that an action failed (`error`), when the member stays where they were and can try again.
+- To report that an action did not have its effect because of something the member did or must change (`warning`): notifications blocked in the browser.
 - Never for a blocking error or information to remember (deadline, next step): use `Alert`.
 
 ## Showing a toast
@@ -22,11 +23,11 @@ A short, temporary notification at the bottom of the screen, to confirm an actio
 
 // Anywhere in the application, after an action.
 showToast('Request posted');
-showToast('The request could not be closed', 'danger');
+showToast('The request could not be closed', 'error');
 ```
 
 - `Toaster`: renders the toasts shown with `showToast`. Mounted once, at the root of the application. `closeLabel` names the close button of each toast.
-- `showToast(message, tone)`: `message` is three to six words; `tone` is `success` (default), `info` or `danger`.
+- `showToast(message, tone)`: `message` is three to six words; `tone` is `success` (default), `info`, `warning` or `error`.
 - `Toast`: the rendering of a single toast, used by `Toaster`. `children` is the message, `tone` its tone, and `onClose` + `closeLabel` add a close button.
 
 ## Rules

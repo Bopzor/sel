@@ -6,7 +6,7 @@ import { useEffect, type ComponentProps, type ReactNode } from 'react';
 
 import { Icon } from '../display/icon';
 
-type Tone = 'success' | 'info' | 'error';
+type Tone = 'success' | 'info' | 'warning' | 'error';
 
 type ToastProps = Override<
   ComponentProps<'div'>,
@@ -53,6 +53,7 @@ const toastStyles = cva('row items-center gap-3 rounded-lg py-1 pr-1 pl-4 shadow
     tone: {
       success: 'bg-success text-on-success',
       info: 'bg-info text-on-info',
+      warning: 'bg-warning text-on-warning',
       error: 'bg-danger text-on-danger',
     },
   },

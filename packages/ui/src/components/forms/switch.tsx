@@ -91,7 +91,10 @@ function SwitchHiddenInput({ checked, ...props }: ComponentProps<'input'>) {
   const { defaultChecked, ...inputProps } = useSwitchContext().getHiddenInputProps();
 
   return (
-    <input {...mergeProps(inputProps, props)} {...(checked === undefined ? { defaultChecked } : { checked })} />
+    <input
+      {...mergeProps(inputProps, props)}
+      {...(checked === undefined ? { defaultChecked } : { checked })}
+    />
   );
 }
 
