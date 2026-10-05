@@ -28,7 +28,7 @@ export function IdentitySection({ member }: { member: AuthenticatedMember }) {
   }
 
   return (
-    <ProfileSection title={title} onEdit={section.edit} focusEdit={section.returnFocus}>
+    <ProfileSection title={title} onEdit={section.edit} focusEdit={section.focusEdit}>
       <div className="row items-center gap-4">
         <MemberAvatar member={member} size="lg" decorative />
         <p className="text-title-3">{formatMemberName(member)}</p>

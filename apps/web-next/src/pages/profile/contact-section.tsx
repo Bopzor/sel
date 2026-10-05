@@ -10,6 +10,7 @@ import { useFormApiError } from 'src/hooks/use-form-api-error';
 import { useZodResolver } from 'src/hooks/use-zod-resolver';
 
 import {
+  ProfileInfoVisibility,
   ProfileSection,
   ProfileSectionForm,
   useSectionEditing,
@@ -25,7 +26,7 @@ export function ContactSection({ member }: { member: AuthenticatedMember }) {
   }
 
   return (
-    <ProfileSection title={title} onEdit={section.edit} focusEdit={section.returnFocus}>
+    <ProfileSection title={title} onEdit={section.edit} focusEdit={section.focusEdit}>
       <ul className="stack gap-4">
         <ContactItem icon="email" value={member.email} visible={member.emailVisible} />
         <ContactItem
@@ -56,13 +57,7 @@ function ContactItem({ icon, value, empty, visible }: ContactItemProps) {
         {value !== undefined && (
           <>
             <span className="wrap-break-word">{value}</span>
-            <span className="text-body-sm text-muted">
-              {visible ? (
-                <Trans>Visible to the other members</Trans>
-              ) : (
-                <Trans>Hidden from the other members</Trans>
-              )}
-            </span>
+            <ProfileInfoVisibility visible={visible} />
           </>
         )}
       </div>
@@ -103,7 +98,7 @@ function ContactForm({ title, member, onClose }: ContactFormProps) {
           label={<Trans>Email address</Trans>}
           hint={<Trans>To change it, contact an administrator.</Trans>}
         >
-          <Input type="email" value={member.email} readOnly />
+          <Input type="email" value={member.email} readOnly autoFocus />
         </FormField>
 
         <CheckboxField
@@ -120,7 +115,6 @@ function ContactForm({ title, member, onClose }: ContactFormProps) {
           label={<Trans>Phone number</Trans>}
           type="tel"
           autoComplete="tel"
-          autoFocus
         />
 
         <CheckboxField

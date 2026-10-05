@@ -15,7 +15,7 @@ export function useSectionEditing() {
 
   return {
     editing: editing === true,
-    returnFocus: editing === false,
+    focusEdit: editing === false,
     edit: () => setEditing(true),
     close: () => setEditing(false),
   };
@@ -58,6 +58,14 @@ export function ProfileSection({ title, onEdit, focusEdit, children }: ProfileSe
 
       <Card.Body>{children}</Card.Body>
     </Card.Root>
+  );
+}
+
+export function ProfileInfoVisibility({ visible }: { visible: boolean }) {
+  return (
+    <span className="text-body-sm text-muted">
+      {visible ? <Trans>Visible to the other members</Trans> : <Trans>Hidden from the other members</Trans>}
+    </span>
   );
 }
 

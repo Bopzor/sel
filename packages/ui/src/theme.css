@@ -494,6 +494,7 @@
 /* The state of the control inside a field's box (Input, TextArea, Select, RichTextEditor's textbox), read from its
    attributes. Only the control counts: not a disabled <option>, nor a disabled button placed in the box. */
 @custom-variant field-disabled (&:has(:is(input, textarea, select):disabled, [role='textbox'][aria-disabled='true']));
+@custom-variant field-read-only (&:has(:is(input, textarea):read-only, [role='textbox'][aria-readonly='true']));
 @custom-variant field-invalid (&:has(:is(input, textarea, select, [role='textbox'])[aria-invalid='true']));
 
 @utility prose-theme {

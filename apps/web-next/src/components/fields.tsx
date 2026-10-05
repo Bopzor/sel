@@ -1,9 +1,10 @@
 import { Alert, Checkbox, FormField, Input, RichTextEditor, TextArea } from '@sel/ui';
 import type { Override } from '@sel/utils';
-import { noop, type UseMutationResult } from '@tanstack/react-query';
+import { noop } from '@tanstack/react-query';
 import {
   useController,
   type Control,
+  type FieldErrors,
   type FieldPath,
   type FieldValues,
   type GlobalError,
@@ -19,12 +20,13 @@ type FieldProps<Values extends FieldValues, Transformed> = {
   hint?: React.ReactNode;
 };
 
-export function submitWithMutation<TFieldValues extends FieldValues, TTransformedValues>(
-  form: UseFormReturn<TFieldValues, unknown, TTransformedValues>,
-  mutation: UseMutationResult<unknown, Error, TTransformedValues>,
+export function submitWithMutation<Values extends FieldValues, Transformed>(
+  form: UseFormReturn<Values, unknown, Transformed>,
+  mutation: { mutateAsync: (variables: Transformed) => Promise<unknown> },
+  { onInvalid }: { onInvalid?: (errors: FieldErrors<Values>) => void } = {},
 ): React.EventHandler<React.SyntheticEvent> {
   // The mutation's onError handles the failure; handleSubmit would rethrow it as an unhandled rejection.
-  const submit = form.handleSubmit((body) => mutation.mutateAsync(body).catch(noop));
+  const submit = form.handleSubmit((body) => mutation.mutateAsync(body).catch(noop), onInvalid);
 
   return (event) => {
     void submit(event);

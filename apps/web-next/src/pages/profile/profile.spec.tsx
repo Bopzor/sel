@@ -1,4 +1,5 @@
 import {
+  createAddress,
   createAuthenticatedMember,
   type AuthenticatedMember,
   type UpdateMemberProfileData,
@@ -7,7 +8,7 @@ import {
 import { assert } from '@sel/utils';
 import { screen, within } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { routes } from 'src/app/routes';
 import { requireSession } from 'src/app/session';
@@ -44,17 +45,22 @@ describe('profile', () => {
 
     expect(within(getSection('About me')).getByText('I like gardening.')).toBeDefined();
 
+    const address = getSection('Address');
+    expect(within(address).getByText('8 Boulevard du Port Building B 80000 Amiens')).toBeDefined();
+    expect(within(address).getByText('Visible to the other members')).toBeDefined();
+
     expect(screen.getByRole('link', { name: 'See my public profile' }).getAttribute('href')).toBe(
       routes.member('me'),
     );
   });
 
-  it('shows when the member has no phone number and no presentation', async () => {
-    server.member = { ...server.member, phoneNumber: undefined, bio: undefined };
+  it('shows when the member has no phone number, no address and no presentation', async () => {
+    server.member = { ...server.member, phoneNumber: undefined, address: undefined, bio: undefined };
 
     renderPage();
 
     expect(within(await findSection('Contact')).getByText('No phone number')).toBeDefined();
+    expect(within(getSection('Address')).getByText('You have not entered your address yet.')).toBeDefined();
     expect(within(getSection('About me')).getByText(/You have not written anything/)).toBeDefined();
   });
 
@@ -240,6 +246,176 @@ describe('profile', () => {
     expect(server.updated).toEqual([]);
   });
 
+  describe('address search', () => {
+    beforeEach(() => {
+      vi.useFakeTimers({ shouldAdvanceTime: true });
+      user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
+    });
+
+    afterEach(() => {
+      vi.useRealTimers();
+    });
+
+    async function search(text: string) {
+      await user.type(screen.getByRole('searchbox', { name: /^Search for an address/ }), text);
+      await vi.advanceTimersByTimeAsync(1000);
+    }
+
+    it("finds the member's address", async () => {
+      server.member = { ...server.member, address: undefined };
+
+      renderPage();
+
+      await edit('Address');
+      await user.type(screen.getByRole('searchbox', { name: /^Search for an address/ }), '8 bd du port');
+
+      const results = screen.getByRole('list', { name: 'Addresses found' });
+      expect(results.getAttribute('aria-busy')).toBe('true');
+      expect(server.find('/geocodage/search')).toEqual([]);
+
+      await vi.advanceTimersByTimeAsync(1000);
+      await user.click(await screen.findByRole('button', { name: '8 Boulevard du Port' }));
+
+      expect(server.find('/geocodage/search').map((url) => url.searchParams.get('q'))).toEqual([
+        '8 bd du port',
+      ]);
+      expect(screen.queryByRole('searchbox')).toBeNull();
+
+      const line1 = screen.getByRole('textbox', { name: /^Number and street/ });
+      expect(line1).toHaveProperty('value', '8 Boulevard du Port');
+      expect(document.activeElement).toBe(line1);
+
+      await user.type(screen.getByRole('textbox', { name: /^Address complement/ }), 'Building B');
+      await user.click(screen.getByRole('button', { name: 'Save' }));
+      await screen.findByText('Profile updated');
+
+      expect(server.updated).toEqual([
+        {
+          address: {
+            line1: '8 Boulevard du Port',
+            line2: 'Building B',
+            postalCode: '80000',
+            city: 'Amiens',
+            country: 'France',
+            position: [2.290084, 49.897442],
+          },
+        },
+      ]);
+    });
+
+    it('tells when no address is found', async () => {
+      renderPage();
+
+      await edit('Address');
+      await user.click(screen.getByRole('button', { name: 'Search for an address' }));
+      await search('nowhere');
+
+      expect(await screen.findByText(/^No address found/)).toBeDefined();
+      expect(screen.queryByRole('list', { name: 'Addresses found' })).toBeNull();
+    });
+
+    it('tells when the address search is not available', async () => {
+      server.addressSearchFailing = true;
+
+      renderPage();
+
+      await edit('Address');
+      await user.click(screen.getByRole('button', { name: 'Search for an address' }));
+      await search('8 bd du port');
+
+      expect(await screen.findByText(/^The search is not available at the moment/)).toBeDefined();
+    });
+  });
+
+  it("enters the member's address manually", async () => {
+    server.member = { ...server.member, address: undefined };
+
+    renderPage();
+
+    await edit('Address');
+    await user.click(screen.getByRole('button', { name: 'Manual entry' }));
+
+    expect(document.activeElement).toBe(screen.getByRole('textbox', { name: /^Number and street/ }));
+
+    await user.keyboard('1 chemin des Vignes');
+    await user.type(screen.getByRole('textbox', { name: /^Postal code/ }), '75000');
+    await user.type(screen.getByRole('textbox', { name: /^City/ }), 'Paris');
+    await user.click(screen.getByRole('button', { name: 'Save' }));
+    await screen.findByText('Profile updated');
+
+    expect(server.updated).toEqual([
+      {
+        address: { line1: '1 chemin des Vignes', postalCode: '75000', city: 'Paris', country: 'France' },
+      },
+    ]);
+  });
+
+  it('does not accept an incomplete address', async () => {
+    renderPage();
+
+    await edit('Address');
+    await user.clear(screen.getByRole('textbox', { name: /^Number and street/ }));
+    await user.clear(screen.getByRole('textbox', { name: /^Postal code/ }));
+    await user.click(screen.getByRole('button', { name: 'Save' }));
+
+    expect(await screen.findAllByText('This field is required')).toHaveLength(2);
+    expect(server.updated).toEqual([]);
+  });
+
+  it('switches to manual mode when the address in incomplete', async () => {
+    renderPage();
+
+    await edit('Address');
+    await user.clear(screen.getByRole('textbox', { name: /^Number and street/ }));
+    await user.click(screen.getByRole('button', { name: /Search for an address/ }));
+    await user.click(screen.getByRole('button', { name: 'Save' }));
+
+    expect(await screen.findByRole('textbox', { name: /^Number and street/ })).toHaveAccessibleErrorMessage(
+      'This field is required',
+    );
+
+    expect(server.updated).toEqual([]);
+  });
+
+  it('forgets the position of an address changed by hand', async () => {
+    renderPage();
+
+    await edit('Address');
+
+    const line1 = screen.getByRole('textbox', { name: /^Number and street/ });
+    await user.clear(line1);
+    await user.type(line1, '10 Boulevard du Port');
+    await user.click(screen.getByRole('button', { name: 'Save' }));
+    await screen.findByText('Profile updated');
+
+    expect(server.updated).toEqual([
+      {
+        address: {
+          line1: '10 Boulevard du Port',
+          line2: 'Building B',
+          postalCode: '80000',
+          city: 'Amiens',
+          country: 'France',
+        },
+      },
+    ]);
+  });
+
+  it("removes the member's address", async () => {
+    renderPage();
+
+    await edit('Address');
+    await user.click(screen.getByRole('button', { name: 'Remove my address' }));
+
+    expect(document.activeElement).toBe(screen.getByRole('searchbox', { name: /^Search for an address/ }));
+
+    await user.click(screen.getByRole('button', { name: 'Save' }));
+    await screen.findByText('Profile updated');
+
+    expect(server.updated).toEqual([{ address: null }]);
+    expect(within(getSection('Address')).getByText('You have not entered your address yet.')).toBeDefined();
+  });
+
   it("edits the member's presentation", async () => {
     renderPage();
 
@@ -331,6 +507,14 @@ class Server extends FakeServer {
     phoneNumber: '0612345678',
     phoneNumberVisible: true,
     bio: 'I like gardening.',
+    address: createAddress({
+      line1: '8 Boulevard du Port',
+      line2: 'Building B',
+      postalCode: '80000',
+      city: 'Amiens',
+      country: 'France',
+      position: [2.290084, 49.897442],
+    }),
     membershipStartDate: '2024-03-12T10:00:00.000Z',
     balance: 15,
   });
@@ -340,6 +524,7 @@ class Server extends FakeServer {
   uploadFailing = false;
   uploadGate?: Promise<void>;
   failing = false;
+  addressSearchFailing = false;
 
   init() {
     this.register('GET /api/session/member', () => this.json(this.member));
@@ -360,6 +545,16 @@ class Server extends FakeServer {
       );
     });
 
+    this.register('GET /geocodage/search', ({ url }) => {
+      if (this.addressSearchFailing) {
+        return Promise.resolve(new Response(null, { status: 503 }));
+      }
+
+      const features = url.searchParams.get('q') === '8 bd du port' ? [geocodingFeature] : [];
+
+      return this.json({ type: 'FeatureCollection', features });
+    });
+
     this.register('PUT /api/members/me/profile', ({ body }) => {
       if (this.failing) {
         return this.json({ error: 'Internal server error' }, { status: 500 });
@@ -373,9 +568,23 @@ class Server extends FakeServer {
         ...data,
         avatar: data.avatarFileName === undefined ? this.member.avatar : (data.avatarFileName ?? undefined),
         bio: data.bio === undefined ? this.member.bio : (data.bio ?? undefined),
-      } as AuthenticatedMember;
+        address: data.address === undefined ? this.member.address : (data.address ?? undefined),
+      };
 
       return Promise.resolve(new Response(null, { status: 200 }));
     });
   }
 }
+
+const geocodingFeature = {
+  type: 'Feature',
+  geometry: { type: 'Point', coordinates: [2.290084, 49.897442] },
+  properties: {
+    id: '80021_6590_00008',
+    type: 'housenumber',
+    label: '8 Boulevard du Port 80000 Amiens',
+    name: '8 Boulevard du Port',
+    postcode: '80000',
+    city: 'Amiens',
+  },
+};

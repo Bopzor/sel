@@ -8,6 +8,7 @@ import { routes } from 'src/app/routes';
 import { Link } from 'src/components/link';
 import { Unit } from 'src/components/unit';
 
+import { AddressSection } from './address-section';
 import { BioSection } from './bio-section';
 import { ContactSection } from './contact-section';
 import { IdentitySection } from './identity-section';
@@ -31,6 +32,7 @@ export function ProfilePage() {
       <div className="mx-auto stack w-full max-w-content gap-6">
         <IdentitySection member={member} />
         <ContactSection member={member} />
+        <AddressSection member={member} />
         <BioSection member={member} />
         <MembershipCard member={member} />
       </div>

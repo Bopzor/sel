@@ -22,7 +22,7 @@ export function BioSection({ member }: { member: AuthenticatedMember }) {
   }
 
   return (
-    <ProfileSection title={title} onEdit={section.edit} focusEdit={section.returnFocus}>
+    <ProfileSection title={title} onEdit={section.edit} focusEdit={section.focusEdit}>
       {member.bio ? (
         <p className="wrap-break-word whitespace-pre-line">{member.bio}</p>
       ) : (

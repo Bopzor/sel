@@ -54,6 +54,18 @@ msgstr "About me"
 msgid "Add files"
 msgstr "Add files"
 
+#: src/pages/profile/address-section.tsx
+msgid "Address"
+msgstr "Address"
+
+#: src/pages/profile/address-section.tsx
+msgid "Address complement (optional)"
+msgstr "Address complement (optional)"
+
+#: src/pages/profile/address-section.tsx
+msgid "Addresses found"
+msgstr "Addresses found"
+
 #: src/pages/requests/list/requests-filters.tsx
 msgctxt "requests filter"
 msgid "All"
@@ -138,6 +150,10 @@ msgstr "Change the photo"
 #: src/components/api-result.tsx
 msgid "Check your internet access, then try again."
 msgstr "Check your internet access, then try again."
+
+#: src/pages/profile/address-section.tsx
+msgid "City"
+msgstr "City"
 
 #: src/pages/requests/list/requests-list.tsx
 msgid "Clear filters"
@@ -226,11 +242,15 @@ msgstr "Exchanges"
 msgid "First name"
 msgstr "First name"
 
+#: src/pages/profile/address-section.tsx
+msgid "For example, 12 rue de la Paix, Lyon"
+msgstr "For example, 12 rue de la Paix, Lyon"
+
 #: src/pages/requests/list/requests-list.tsx
 msgid "Fulfilled"
 msgstr "Fulfilled"
 
-#: src/pages/profile/contact-section.tsx
+#: src/pages/profile/profile-section.tsx
 msgid "Hidden from the other members"
 msgstr "Hidden from the other members"
 
@@ -281,6 +301,10 @@ msgstr "Link target"
 #: src/layout/layout.tsx
 msgid "Main navigation"
 msgstr "Main navigation"
+
+#: src/pages/profile/address-section.tsx
+msgid "Manual entry"
+msgstr "Manual entry"
 
 #: src/main.tsx
 msgid "Member"
@@ -335,6 +359,10 @@ msgstr "Name and photo"
 msgid "New request"
 msgstr "New request"
 
+#: src/pages/profile/address-section.tsx
+msgid "No address found. Check what you typed, or enter your address manually."
+msgstr "No address found. Check what you typed, or enter your address manually."
+
 #: src/pages/requests/details/request-answers.tsx
 msgid "No one has answered yet."
 msgstr "No one has answered yet."
@@ -350,6 +378,10 @@ msgstr "No request matches these filters"
 #: src/pages/requests/list/requests-list.tsx
 msgid "No requests"
 msgstr "No requests"
+
+#: src/pages/profile/address-section.tsx
+msgid "Number and street"
+msgstr "Number and street"
 
 #: src/components/rich-text-toolbar.tsx
 msgid "Numbered list"
@@ -381,6 +413,10 @@ msgstr "Post a request"
 msgid "Post the request"
 msgstr "Post the request"
 
+#: src/pages/profile/address-section.tsx
+msgid "Postal code"
+msgstr "Postal code"
+
 #: src/pages/profile/bio-section.tsx
 msgid "Presentation"
 msgstr "Presentation"
@@ -401,6 +437,10 @@ msgstr "Remove {name}"
 #: src/components/rich-text-toolbar.tsx
 msgid "Remove link"
 msgstr "Remove link"
+
+#: src/pages/profile/address-section.tsx
+msgid "Remove my address"
+msgstr "Remove my address"
 
 #: src/pages/profile/identity-section.tsx
 msgid "Remove the photo"
@@ -452,6 +492,10 @@ msgstr "Save the changes"
 #: src/pages/requests/list/requests-filters.tsx
 msgid "Search"
 msgstr "Search"
+
+#: src/pages/profile/address-section.tsx
+msgid "Search for an address"
+msgstr "Search for an address"
 
 #: src/pages/requests/list/requests-filters.tsx
 msgid "Search the requests"
@@ -539,6 +583,10 @@ msgstr "The request could not be canceled"
 msgid "The request could not be closed"
 msgstr "The request could not be closed"
 
+#: src/pages/profile/address-section.tsx
+msgid "The search is not available at the moment. Enter your address manually."
+msgstr "The search is not available at the moment. Enter your address manually."
+
 #: src/pages/authentication/authentication.tsx
 msgid "The sign-in code could not be sent. Try again in a few moments."
 msgstr "The sign-in code could not be sent. Try again in a few moments."
@@ -556,6 +604,7 @@ msgid "This code is not valid. Check that it matches the one in the email."
 msgstr "This code is not valid. Check that it matches the one in the email."
 
 #: src/hooks/use-zod-resolver.ts
+#: src/pages/profile/address-section.tsx
 msgid "This field is required"
 msgstr "This field is required"
 
@@ -622,7 +671,7 @@ msgstr "Unable to reach the server, check your internet access"
 msgid "Underline"
 msgstr "Underline"
 
-#: src/pages/profile/contact-section.tsx
+#: src/pages/profile/profile-section.tsx
 msgid "Visible to the other members"
 msgstr "Visible to the other members"
 
@@ -653,6 +702,10 @@ msgstr "You can still send them after closing it."
 #: src/pages/requests/details/request-answer.tsx
 msgid "You can't help"
 msgstr "You can't help"
+
+#: src/pages/profile/address-section.tsx
+msgid "You have not entered your address yet."
+msgstr "You have not entered your address yet."
 
 #: src/pages/requests/details/requester-actions.tsx
 msgid "You have not sent any <0/> for this request"

@@ -14,6 +14,7 @@ import {
   type InfiniteData,
 } from '@tanstack/react-query';
 
+import { searchAddresses } from './address-search';
 import { api } from './api';
 
 type Paginated<T> = { total: number; items: T[] };
@@ -63,6 +64,16 @@ export const queries = {
       queryKey: ['request', { id: requestId }],
       queryFn: () => {
         return api<Request>('GET', `/requests/${requestId}`);
+      },
+    });
+  },
+
+  searchAddresses: (text: string) => {
+    return queryOptions({
+      staleTime: 'static',
+      queryKey: ['address-search', text],
+      queryFn: ({ signal }) => {
+        return searchAddresses(text, signal);
       },
     });
   },

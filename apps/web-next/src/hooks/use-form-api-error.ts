@@ -6,7 +6,9 @@ import { ApiError, NetworkError } from 'src/app/api';
 
 import { useZodErrorMap } from './use-zod-resolver';
 
-export function useFormApiError<Values extends FieldValues>(form: UseFormReturn<Values>) {
+export function useFormApiError<Values extends FieldValues, Transformed>(
+  form: UseFormReturn<Values, unknown, Transformed>,
+) {
   const { t } = useLingui();
   const errorMap = useZodErrorMap();
 

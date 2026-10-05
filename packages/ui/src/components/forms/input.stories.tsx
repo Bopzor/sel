@@ -40,6 +40,10 @@ export const Disabled: Story = {
   args: { defaultValue: 'Value', disabled: true },
 };
 
+export const ReadOnly: Story = {
+  args: { defaultValue: 'Value', readOnly: true },
+};
+
 /** value + onChange, as with any <input>. */
 export const Controlled: Story = {
   render: function Render(args) {
