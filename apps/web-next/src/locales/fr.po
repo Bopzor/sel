@@ -71,6 +71,14 @@ msgctxt "requests filter"
 msgid "All"
 msgstr "Toutes"
 
+#: src/pages/settings/settings-page.tsx
+msgid "Allow on this device"
+msgstr "Autoriser sur cet appareil"
+
+#: src/pages/settings/settings-page.tsx
+msgid "Allow them in the browser to receive them here."
+msgstr "Autorisez-les dans le navigateur pour les recevoir ici."
+
 #: src/components/comments-section.tsx
 msgid "An error happened and your comment was not posted"
 msgstr "Une erreur est survenue et votre commentaire n'a pas pu être envoyé"
@@ -616,6 +624,14 @@ msgstr "Les membres qui ont proposé leur aide ou commenté verront la nouvelle 
 msgid "The notification settings could not be saved"
 msgstr "Les paramètres de notification n'ont pas pu être enregistrés"
 
+#: src/pages/settings/settings-page.tsx
+msgid "The notifications are blocked on this device. Allow them in the browser settings to receive them."
+msgstr "Les notifications sont bloquées sur cet appareil. Autorisez-les dans les paramètres du navigateur pour les recevoir."
+
+#: src/pages/settings/settings-page.tsx
+msgid "The notifications will appear on this device"
+msgstr "Les notifications apparaîtront sur cet appareil"
+
 #: src/pages/profile/identity-section.tsx
 msgid "The photo could not be sent. Try again in a few moments."
 msgstr "La photo n'a pas pu être envoyée. Réessayez dans quelques instants."
@@ -644,6 +660,10 @@ msgstr "La recherche n'est pas disponible pour le moment. Saisissez votre adress
 msgid "The sign-in code could not be sent. Try again in a few moments."
 msgstr "Le code de connexion n'a pas pu être envoyé. Réessayez dans quelques instants."
 
+#: src/pages/settings/settings-page.tsx
+msgid "This browser cannot receive the notifications. On an iPhone, add the app to the home screen first."
+msgstr "Ce navigateur ne peut pas recevoir les notifications. Sur iPhone, ajoutez d'abord l'application à l'écran d'accueil."
+
 #: src/pages/authentication/authentication.tsx
 msgid "This code has been replaced by a newer one: use the one from the latest email."
 msgstr "Ce code a été remplacé par un plus récent : utilisez celui du dernier email reçu."
@@ -655,6 +675,14 @@ msgstr "Ce code a expiré. Revenez en arrière pour en recevoir un nouveau."
 #: src/pages/authentication/authentication.tsx
 msgid "This code is not valid. Check that it matches the one in the email."
 msgstr "Ce code n'est pas valide. Vérifiez qu'il correspond à celui de l'email."
+
+#: src/pages/settings/settings-page.tsx
+msgid "This device could not be registered. Try again in a few moments."
+msgstr "Cet appareil n'a pas pu être enregistré. Réessayez dans quelques instants."
+
+#: src/pages/settings/settings-page.tsx
+msgid "This device does not receive the notifications"
+msgstr "Cet appareil ne reçoit pas les notifications"
 
 #: src/hooks/use-zod-resolver.ts
 #: src/pages/profile/address-section.tsx

@@ -26,6 +26,7 @@ describe('settings', () => {
   });
 
   afterEach(() => {
+    Reflect.deleteProperty(navigator, 'serviceWorker');
     localStorage.clear();
     activateLocale('en');
     delete document.documentElement.dataset.theme;
@@ -69,6 +70,78 @@ describe('settings', () => {
     expect(server.updated).toEqual([{ email: false, push: false }]);
   });
 
+  describe('push notifications on this device', () => {
+    let pushManager: FakePushManager;
+
+    beforeEach(() => {
+      server.member.notificationDelivery.push = true;
+      pushManager = new FakePushManager();
+
+      vi.stubGlobal('__ENV__', { VITE_WEB_PUSH_PUBLIC_KEY: 'public-key' });
+      vi.stubGlobal('PushManager', FakePushManager);
+      vi.stubGlobal('Notification', {
+        permission: 'default',
+        requestPermission: () => Promise.resolve('granted'),
+      });
+
+      Object.defineProperty(navigator, 'serviceWorker', {
+        configurable: true,
+        value: { ready: Promise.resolve({ pushManager }) },
+      });
+    });
+
+    it('registers this device', async () => {
+      renderPage();
+
+      await user.click(await screen.findByRole('button', { name: 'Allow on this device' }));
+
+      expect(await screen.findByText('The notifications will appear on this device')).toBeInTheDocument();
+      expect(screen.queryByText('This device does not receive the notifications')).not.toBeInTheDocument();
+      expect(pushManager.options).toEqual({ userVisibleOnly: true, applicationServerKey: 'public-key' });
+      expect(server.registered).toEqual([{ deviceType: 'desktop', subscription: subscriptionJson }]);
+    });
+
+    it('does not register this device when the member refuses', async () => {
+      vi.stubGlobal('Notification', {
+        permission: 'default',
+        requestPermission: () => Promise.resolve('denied'),
+      });
+      renderPage();
+
+      await user.click(await screen.findByRole('button', { name: 'Allow on this device' }));
+
+      expect(await screen.findByText(/The notifications are blocked on this device/)).toBeInTheDocument();
+      expect(server.registered).toEqual([]);
+    });
+
+    it('registers this device when the push notifications are enabled and already allowed', async () => {
+      server.member.notificationDelivery.push = false;
+      vi.stubGlobal('Notification', { permission: 'granted' });
+      renderPage();
+
+      await user.click(await screen.findByRole('switch', { name: 'Push notifications' }));
+
+      await vi.waitFor(() =>
+        expect(server.registered).toEqual([{ deviceType: 'desktop', subscription: subscriptionJson }]),
+      );
+    });
+
+    it('explains when this browser cannot receive the notifications', async () => {
+      vi.stubGlobal('__ENV__', {});
+      renderPage();
+
+      expect(await screen.findByText(/This browser cannot receive the notifications/)).toBeInTheDocument();
+    });
+
+    it('does not show the device state when the push notifications are disabled', async () => {
+      server.member.notificationDelivery.push = false;
+      renderPage();
+
+      expect(await screen.findByRole('switch', { name: 'Push notifications' })).not.toBeChecked();
+      expect(screen.queryByText('This device does not receive the notifications')).not.toBeInTheDocument();
+    });
+  });
+
   it('follows the device appearance by default', async () => {
     renderPage();
 
@@ -99,7 +172,7 @@ describe('settings', () => {
 
 function renderPage() {
   renderTestPage(routes.settings(), [
-    { path: routes.settings(), loader: requireSession, Component: SettingsPage },
+    { path: routes.settings(), middleware: [requireSession], Component: SettingsPage },
   ]);
 }
 
@@ -110,6 +183,7 @@ class Server extends FakeServer {
   });
 
   updated: UpdateNotificationDeliveryData[] = [];
+  registered: unknown[] = [];
   failing = false;
 
   init() {
@@ -127,5 +201,29 @@ class Server extends FakeServer {
 
       return this.noContent();
     });
+
+    this.register('POST /api/session/notifications/register-device', ({ body }) => {
+      this.registered.push(body);
+
+      return this.noContent();
+    });
+  }
+}
+
+const subscriptionJson = { endpoint: 'https://push.example/1', keys: { p256dh: 'p256dh', auth: 'auth' } };
+
+class FakePushManager {
+  options?: PushSubscriptionOptionsInit;
+  private subscription: { toJSON: () => unknown } | null = null;
+
+  getSubscription() {
+    return Promise.resolve(this.subscription);
+  }
+
+  subscribe(options: PushSubscriptionOptionsInit) {
+    this.options = options;
+    this.subscription = { toJSON: () => subscriptionJson };
+
+    return Promise.resolve(this.subscription);
   }
 }

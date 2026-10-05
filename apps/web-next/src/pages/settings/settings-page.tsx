@@ -1,14 +1,15 @@
 import { Trans, useLingui } from '@lingui/react/macro';
 import type { UpdateNotificationDeliveryData } from '@sel/shared';
-import { Card, RadioGroup, showToast, Switch } from '@sel/ui';
+import { Alert, Button, Card, RadioGroup, showToast, Switch } from '@sel/ui';
 import { entries } from '@sel/utils';
 import { useMutation, useQueryClient, useSuspenseQuery } from '@tanstack/react-query';
 import { useId, useState } from 'react';
-import { Controller, useForm } from 'react-hook-form';
+import { Controller, useForm, useWatch } from 'react-hook-form';
 
 import { api } from 'src/app/api';
 import { colorSchemes, getColorScheme, setColorScheme, type ColorScheme } from 'src/app/color-scheme';
 import { localeNames, setLocale, type Locale } from 'src/app/locale';
+import { getPushPermission, registerDevice } from 'src/app/push-notifications';
 import { queries } from 'src/app/queries';
 
 export function SettingsPage() {
@@ -37,9 +38,18 @@ function NotificationsSection() {
     defaultValues: me.notificationDelivery,
   });
 
+  const push = useWatch({ control: form.control, name: 'push' });
+
   const mutation = useMutation({
     mutationFn: (body: UpdateNotificationDeliveryData) => {
       return api('PUT', `/members/${me.id}/notification-delivery`, { body });
+    },
+    onSuccess: (_, body) => {
+      if (body.push && getPushPermission() === 'granted') {
+        registerDevice().catch(() => {
+          showToast(t`This device could not be registered. Try again in a few moments.`, 'error');
+        });
+      }
     },
     onError: () => {
       showToast(t`The notification settings could not be saved`, 'error');
@@ -75,6 +85,7 @@ function NotificationsSection() {
             />
           )}
         />
+
         <Controller
           control={form.control}
           name="push"
@@ -92,9 +103,85 @@ function NotificationsSection() {
             />
           )}
         />
+
+        {push && <DeviceRegistration />}
       </div>
     </SettingsSection>
   );
+}
+
+function DeviceRegistration() {
+  const { t } = useLingui();
+  const [permission, setPermission] = useState(getPushPermission);
+
+  const mutation = useMutation({
+    mutationFn: async () => {
+      const permission = await Notification.requestPermission();
+
+      setPermission(permission);
+
+      if (permission === 'granted') {
+        await registerDevice();
+      }
+
+      return permission;
+    },
+    onSuccess: (permission) => {
+      if (permission === 'granted') {
+        showToast(t`The notifications will appear on this device`);
+      }
+    },
+    onError: () => showToast(t`This device could not be registered. Try again in a few moments.`, 'error'),
+  });
+
+  if (permission === 'default') {
+    return (
+      <Alert.Root tone="info">
+        <Alert.Title>
+          <Trans>This device does not receive the notifications</Trans>
+        </Alert.Title>
+        <Alert.Description>
+          <Trans>Allow them in the browser to receive them here.</Trans>
+        </Alert.Description>
+        <Alert.Actions>
+          <Button
+            size="sm"
+            variant="secondary"
+            loading={mutation.isPending}
+            onClick={() => mutation.mutate()}
+          >
+            <Trans>Allow on this device</Trans>
+          </Button>
+        </Alert.Actions>
+      </Alert.Root>
+    );
+  }
+
+  if (permission === 'denied') {
+    return (
+      <Alert.Root tone="warning">
+        <Alert.Description>
+          <Trans>
+            The notifications are blocked on this device. Allow them in the browser settings to receive them.
+          </Trans>
+        </Alert.Description>
+      </Alert.Root>
+    );
+  }
+
+  if (permission === 'unsupported') {
+    return (
+      <Alert.Root tone="info">
+        <Alert.Description>
+          <Trans>
+            This browser cannot receive the notifications. On an iPhone, add the app to the home screen first.
+          </Trans>
+        </Alert.Description>
+      </Alert.Root>
+    );
+  }
+
+  return null;
 }
 
 function AppearanceSection() {

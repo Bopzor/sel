@@ -137,16 +137,8 @@ describe('authentication', () => {
 
 function renderApp(path: string) {
   return renderTestPage(path, [
-    {
-      path: routes.authentication(),
-      loader: requireNoSession,
-      Component: AuthenticationPage,
-    },
-    {
-      path: '*',
-      loader: requireSession,
-      element: <h1>Page</h1>,
-    },
+    { path: routes.authentication(), middleware: [requireNoSession], Component: AuthenticationPage },
+    { path: '*', middleware: [requireSession], element: <h1>Page</h1> },
   ]);
 }
 

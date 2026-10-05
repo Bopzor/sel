@@ -490,11 +490,7 @@ function sectionOf(heading: HTMLElement) {
 
 function renderPage() {
   return renderTestPage(routes.profile(), [
-    {
-      path: routes.profile(),
-      loader: requireSession,
-      Component: ProfilePage,
-    },
+    { path: routes.profile(), middleware: [requireSession], Component: ProfilePage },
   ]);
 }
 

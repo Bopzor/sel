@@ -1,29 +1,25 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { redirect, useNavigate, type LoaderFunctionArgs } from 'react-router';
+import { redirect, useNavigate, type MiddlewareFunction } from 'react-router';
 
 import { api, ApiError } from './api';
 import { queries } from './queries';
 import { queryClient } from './query-client';
 import { routes } from './routes';
 
-export async function requireSession({ request }: LoaderFunctionArgs) {
-  if (await hasSession()) {
-    return null;
+export const requireSession: MiddlewareFunction = async ({ request }) => {
+  if (!(await hasSession())) {
+    const { pathname, search } = new URL(request.url);
+    const next = pathname + search;
+
+    throw redirect(routes.authentication(next === routes.home() ? undefined : next));
   }
+};
 
-  const { pathname, search } = new URL(request.url);
-  const next = pathname + search;
-
-  return redirect(routes.authentication(next === routes.home() ? undefined : next));
-}
-
-export async function requireNoSession({ request }: LoaderFunctionArgs) {
+export const requireNoSession: MiddlewareFunction = async ({ request }) => {
   if (await hasSession()) {
-    return redirect(nextUrl(new URL(request.url).searchParams));
+    throw redirect(nextUrl(new URL(request.url).searchParams));
   }
-
-  return null;
-}
+};
 
 // Only a page of the app, so that a link can't lead the member to another site.
 export function nextUrl(searchParams: URLSearchParams) {

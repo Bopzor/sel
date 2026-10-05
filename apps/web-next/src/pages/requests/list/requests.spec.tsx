@@ -259,11 +259,7 @@ function findItems() {
 
 function renderPage(path: string) {
   return renderTestPage(path, [
-    {
-      path: routes.requests(),
-      loader: requireSession,
-      Component: RequestsPage,
-    },
+    { path: routes.requests(), middleware: [requireSession], Component: RequestsPage },
   ]);
 }
 

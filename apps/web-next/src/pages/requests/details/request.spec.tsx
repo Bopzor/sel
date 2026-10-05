@@ -342,11 +342,7 @@ describe('request', () => {
 
 function renderPage() {
   return renderTestPage(routes.request('r1'), [
-    {
-      path: routes.request(':requestId'),
-      loader: requireSession,
-      Component: RequestPage,
-    },
+    { path: routes.request(':requestId'), middleware: [requireSession], Component: RequestPage },
   ]);
 }
 

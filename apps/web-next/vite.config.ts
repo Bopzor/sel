@@ -9,7 +9,7 @@ import { VitePWA } from 'vite-plugin-pwa';
 
 import packageJson from './package.json' with { type: 'json' };
 
-export default defineConfig({
+export default defineConfig(({ mode }) => ({
   plugins: [
     react(),
     lingui({ failOnMissing: true }),
@@ -44,6 +44,7 @@ export default defineConfig({
       },
     },
   },
+  envDir: mode === 'test' ? false : undefined,
   resolve: {
     tsconfigPaths: true,
   },
@@ -55,4 +56,4 @@ export default defineConfig({
     setupFiles: ['src/tests/setup.ts'],
     fsModuleCache: true,
   },
-});
+}));

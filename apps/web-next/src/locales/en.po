@@ -71,6 +71,14 @@ msgctxt "requests filter"
 msgid "All"
 msgstr "All"
 
+#: src/pages/settings/settings-page.tsx
+msgid "Allow on this device"
+msgstr "Allow on this device"
+
+#: src/pages/settings/settings-page.tsx
+msgid "Allow them in the browser to receive them here."
+msgstr "Allow them in the browser to receive them here."
+
 #: src/components/comments-section.tsx
 msgid "An error happened and your comment was not posted"
 msgstr "An error happened and your comment was not posted"
@@ -616,6 +624,14 @@ msgstr "The members who offered help or commented will see the new version."
 msgid "The notification settings could not be saved"
 msgstr "The notification settings could not be saved"
 
+#: src/pages/settings/settings-page.tsx
+msgid "The notifications are blocked on this device. Allow them in the browser settings to receive them."
+msgstr "The notifications are blocked on this device. Allow them in the browser settings to receive them."
+
+#: src/pages/settings/settings-page.tsx
+msgid "The notifications will appear on this device"
+msgstr "The notifications will appear on this device"
+
 #: src/pages/profile/identity-section.tsx
 msgid "The photo could not be sent. Try again in a few moments."
 msgstr "The photo could not be sent. Try again in a few moments."
@@ -644,6 +660,10 @@ msgstr "The search is not available at the moment. Enter your address manually."
 msgid "The sign-in code could not be sent. Try again in a few moments."
 msgstr "The sign-in code could not be sent. Try again in a few moments."
 
+#: src/pages/settings/settings-page.tsx
+msgid "This browser cannot receive the notifications. On an iPhone, add the app to the home screen first."
+msgstr "This browser cannot receive the notifications. On an iPhone, add the app to the home screen first."
+
 #: src/pages/authentication/authentication.tsx
 msgid "This code has been replaced by a newer one: use the one from the latest email."
 msgstr "This code has been replaced by a newer one: use the one from the latest email."
@@ -655,6 +675,14 @@ msgstr "This code has expired. Go back to receive a new one."
 #: src/pages/authentication/authentication.tsx
 msgid "This code is not valid. Check that it matches the one in the email."
 msgstr "This code is not valid. Check that it matches the one in the email."
+
+#: src/pages/settings/settings-page.tsx
+msgid "This device could not be registered. Try again in a few moments."
+msgstr "This device could not be registered. Try again in a few moments."
+
+#: src/pages/settings/settings-page.tsx
+msgid "This device does not receive the notifications"
+msgstr "This device does not receive the notifications"
 
 #: src/hooks/use-zod-resolver.ts
 #: src/pages/profile/address-section.tsx

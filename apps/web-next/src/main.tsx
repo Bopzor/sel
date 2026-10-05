@@ -10,6 +10,8 @@ import { createBrowserRouter, RouterProvider } from 'react-router';
 import { watchColorScheme } from './app/color-scheme';
 import { loadConfig } from './app/config';
 import { activateLocale, getLocale } from './app/locale';
+import { getPushPermission, registerDevice } from './app/push-notifications';
+import { queries } from './app/queries';
 import { queryClient } from './app/query-client';
 import { navigation, routes } from './app/routes';
 import { requireNoSession, requireSession } from './app/session';
@@ -30,10 +32,36 @@ import { SettingsPage } from './pages/settings/settings-page';
 activateLocale(getLocale());
 watchColorScheme();
 
+// Middlewares run on each navigation: these flags make them run once per page load.
+let initialized = false;
+let sessionInitialized = false;
+
 async function initialize() {
+  if (initialized) {
+    return;
+  }
+
   const config = await loadConfig();
 
   applyTheme(config.theme);
+  initialized = true;
+}
+
+function initializeSession() {
+  if (sessionInitialized) {
+    return;
+  }
+
+  const member = queryClient.getQueryData(queries.session().queryKey);
+
+  // Keeps the registration up to date when the browser renews it. Not awaited: navigator.serviceWorker.ready never
+  // resolves when the service worker could not be registered.
+  if (member?.notificationDelivery.push && getPushPermission() === 'granted') {
+    // oxlint-disable-next-line no-console
+    registerDevice().catch(console.error);
+  }
+
+  sessionInitialized = true;
 }
 
 const router = createBrowserRouter([
@@ -42,12 +70,12 @@ const router = createBrowserRouter([
     children: [
       {
         path: routes.authentication(),
-        loader: requireNoSession,
+        middleware: [requireNoSession],
         HydrateFallback: () => null,
         Component: AuthenticationPage,
       },
       {
-        loader: requireSession,
+        middleware: [requireSession, initializeSession],
         HydrateFallback: () => null,
         Component: Layout,
         children: [

@@ -23,6 +23,7 @@ export default defineConfig({
     'typescript/consistent-type-definitions': 'off',
     'react/react-in-jsx-scope': 'off',
     'react/no-unescaped-entities': 'off',
+    'typescript/only-throw-error': ['error', { allow: [{ from: 'lib', name: 'Response' }] }],
     ...tanstackQuery.configs.recommended.rules,
     ...tailwind.configs.correctness.rules,
     ...tailwind.configs.stylistic.rules,

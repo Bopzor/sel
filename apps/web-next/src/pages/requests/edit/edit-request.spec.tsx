@@ -142,15 +142,8 @@ async function attach(user: ReturnType<typeof userEvent.setup>, file: File) {
 
 function renderPage() {
   return renderTestPage(routes.editRequest('r1'), [
-    {
-      path: routes.editRequest(':requestId'),
-      loader: requireSession,
-      Component: EditRequestPage,
-    },
-    {
-      path: routes.request(':requestId'),
-      Component: () => null,
-    },
+    { path: routes.editRequest(':requestId'), middleware: [requireSession], Component: EditRequestPage },
+    { path: routes.request(':requestId'), Component: () => null },
   ]);
 }
 
