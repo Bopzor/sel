@@ -42,15 +42,15 @@ describe('settings', () => {
     renderPage();
 
     expect(await screen.findByRole('switch', { name: 'By email' })).toBeChecked();
-    expect(screen.getByRole('switch', { name: 'Push notifications' })).not.toBeChecked();
+    expect(screen.getByRole('switch', { name: 'On your devices' })).not.toBeChecked();
   });
 
   it('enables the push notifications', async () => {
     renderPage();
 
-    await user.click(await screen.findByRole('switch', { name: 'Push notifications' }));
+    await user.click(await screen.findByRole('switch', { name: 'On your devices' }));
 
-    expect(screen.getByRole('switch', { name: 'Push notifications' })).toBeChecked();
+    expect(screen.getByRole('switch', { name: 'On your devices' })).toBeChecked();
     expect(server.updated).toEqual([{ email: true, push: true }]);
     expect(server.member.notificationDelivery).toEqual({ email: true, push: true });
   });
@@ -95,8 +95,8 @@ describe('settings', () => {
 
       await user.click(await screen.findByRole('button', { name: 'Allow on this device' }));
 
-      expect(await screen.findByText('The notifications will appear on this device')).toBeInTheDocument();
-      expect(screen.queryByText('This device does not receive the notifications')).not.toBeInTheDocument();
+      expect(await screen.findByText('This device will receive notifications')).toBeInTheDocument();
+      expect(screen.queryByText('This device does not receive notifications yet')).not.toBeInTheDocument();
       expect(pushManager.options).toEqual({ userVisibleOnly: true, applicationServerKey: 'public-key' });
       expect(server.registered).toEqual([{ deviceType: 'desktop', subscription: subscriptionJson }]);
     });
@@ -110,7 +110,7 @@ describe('settings', () => {
 
       await user.click(await screen.findByRole('button', { name: 'Allow on this device' }));
 
-      expect(await screen.findByText(/The notifications are blocked on this device/)).toBeInTheDocument();
+      expect(await screen.findByText(/Notifications are blocked on this device/)).toBeInTheDocument();
       expect(server.registered).toEqual([]);
     });
 
@@ -119,7 +119,7 @@ describe('settings', () => {
       vi.stubGlobal('Notification', { permission: 'granted' });
       renderPage();
 
-      await user.click(await screen.findByRole('switch', { name: 'Push notifications' }));
+      await user.click(await screen.findByRole('switch', { name: 'On your devices' }));
 
       await vi.waitFor(() =>
         expect(server.registered).toEqual([{ deviceType: 'desktop', subscription: subscriptionJson }]),
@@ -130,15 +130,15 @@ describe('settings', () => {
       vi.stubGlobal('__ENV__', {});
       renderPage();
 
-      expect(await screen.findByText(/This browser cannot receive the notifications/)).toBeInTheDocument();
+      expect(await screen.findByText(/This browser cannot receive notifications/)).toBeInTheDocument();
     });
 
     it('does not show the device state when the push notifications are disabled', async () => {
       server.member.notificationDelivery.push = false;
       renderPage();
 
-      expect(await screen.findByRole('switch', { name: 'Push notifications' })).not.toBeChecked();
-      expect(screen.queryByText('This device does not receive the notifications')).not.toBeInTheDocument();
+      expect(await screen.findByRole('switch', { name: 'On your devices' })).not.toBeChecked();
+      expect(screen.queryByText('This device does not receive notifications yet')).not.toBeInTheDocument();
     });
   });
 

@@ -13,6 +13,16 @@ export function getPushPermission(): PushPermission {
   return supported ? Notification.permission : 'unsupported';
 }
 
+export async function requestPushPermission() {
+  const permission = await Notification.requestPermission();
+
+  if (permission === 'granted') {
+    await registerDevice();
+  }
+
+  return permission;
+}
+
 export async function registerDevice() {
   const { pushManager } = await navigator.serviceWorker.ready;
   const applicationServerKey = getEnv('VITE_WEB_PUSH_PUBLIC_KEY');

@@ -72,12 +72,13 @@ msgid "All"
 msgstr "Toutes"
 
 #: src/pages/settings/settings-page.tsx
+msgid "Allow notifications to receive them here too."
+msgstr "Autorisez les notifications pour les recevoir ici aussi."
+
+#: src/layout/push-notifications-prompt.tsx
+#: src/pages/settings/settings-page.tsx
 msgid "Allow on this device"
 msgstr "Autoriser sur cet appareil"
-
-#: src/pages/settings/settings-page.tsx
-msgid "Allow them in the browser to receive them here."
-msgstr "Autorisez-les dans le navigateur pour les recevoir ici."
 
 #: src/components/comments-section.tsx
 msgid "An error happened and your comment was not posted"
@@ -181,6 +182,7 @@ msgstr "Effacer les filtres"
 
 #: src/components/rich-text-toolbar.tsx
 #: src/components/toaster.tsx
+#: src/layout/push-notifications-prompt.tsx
 #: src/pages/requests/details/requester-actions.tsx
 msgid "Close"
 msgstr "Fermer"
@@ -265,6 +267,10 @@ msgstr "Échanges"
 #: src/pages/profile/identity-section.tsx
 msgid "First name"
 msgstr "Prénom"
+
+#: src/layout/push-notifications-prompt.tsx
+msgid "Follow the activity of the LETS, even when the app is closed."
+msgstr "Suivez l'activité du SEL, même lorsque l'application est fermée."
 
 #: src/pages/profile/address-section.tsx
 msgid "For example, 12 rue de la Paix, Lyon"
@@ -424,8 +430,21 @@ msgid "Notifications appear on the devices where you allowed them, even when the
 msgstr "Les notifications apparaissent sur les appareils où vous les avez autorisées, même lorsque l'application est fermée."
 
 #: src/pages/settings/settings-page.tsx
+msgid "Notifications are blocked on this device. To receive them, allow them in the browser settings."
+msgstr "Les notifications sont bloquées sur cet appareil. Pour les recevoir, autorisez-les dans les paramètres du navigateur."
+
+#: src/layout/push-notifications-prompt.tsx
+msgid "Notifications are blocked on this device. You can allow them in the browser settings."
+msgstr "Les notifications sont bloquées sur cet appareil. Vous pouvez les autoriser dans les paramètres du navigateur."
+
+#: src/pages/settings/settings-page.tsx
 msgid "Notifications are sent to your email address."
 msgstr "Les notifications sont envoyées à votre adresse email."
+
+#: src/layout/push-notifications-prompt.tsx
+#: src/pages/settings/settings-page.tsx
+msgid "Notifications could not be enabled on this device. Try again in a few moments."
+msgstr "Les notifications n'ont pas pu être activées sur cet appareil. Réessayez dans quelques instants."
 
 #: src/pages/profile/address-section.tsx
 msgid "Number and street"
@@ -434,6 +453,10 @@ msgstr "Numéro et rue"
 #: src/components/rich-text-toolbar.tsx
 msgid "Numbered list"
 msgstr "Liste numérotée"
+
+#: src/pages/settings/settings-page.tsx
+msgid "On your devices"
+msgstr "Sur vos appareils"
 
 #: src/pages/requests/edit/edit-request-page.tsx
 msgid "Only its author can edit a request, as long as it is open."
@@ -478,9 +501,9 @@ msgstr "Profil"
 msgid "Profile updated"
 msgstr "Profil mis à jour"
 
-#: src/pages/settings/settings-page.tsx
-msgid "Push notifications"
-msgstr "Notifications push"
+#: src/layout/push-notifications-prompt.tsx
+msgid "Receive notifications on this device?"
+msgstr "Recevoir les notifications sur cet appareil ?"
 
 #: src/components/attachments.tsx
 msgid "Remove {name}"
@@ -624,14 +647,6 @@ msgstr "Les membres qui ont proposé leur aide ou commenté verront la nouvelle 
 msgid "The notification settings could not be saved"
 msgstr "Les paramètres de notification n'ont pas pu être enregistrés"
 
-#: src/pages/settings/settings-page.tsx
-msgid "The notifications are blocked on this device. Allow them in the browser settings to receive them."
-msgstr "Les notifications sont bloquées sur cet appareil. Autorisez-les dans les paramètres du navigateur pour les recevoir."
-
-#: src/pages/settings/settings-page.tsx
-msgid "The notifications will appear on this device"
-msgstr "Les notifications apparaîtront sur cet appareil"
-
 #: src/pages/profile/identity-section.tsx
 msgid "The photo could not be sent. Try again in a few moments."
 msgstr "La photo n'a pas pu être envoyée. Réessayez dans quelques instants."
@@ -661,7 +676,7 @@ msgid "The sign-in code could not be sent. Try again in a few moments."
 msgstr "Le code de connexion n'a pas pu être envoyé. Réessayez dans quelques instants."
 
 #: src/pages/settings/settings-page.tsx
-msgid "This browser cannot receive the notifications. On an iPhone, add the app to the home screen first."
+msgid "This browser cannot receive notifications. On an iPhone, first add the app to the home screen."
 msgstr "Ce navigateur ne peut pas recevoir les notifications. Sur iPhone, ajoutez d'abord l'application à l'écran d'accueil."
 
 #: src/pages/authentication/authentication.tsx
@@ -677,12 +692,13 @@ msgid "This code is not valid. Check that it matches the one in the email."
 msgstr "Ce code n'est pas valide. Vérifiez qu'il correspond à celui de l'email."
 
 #: src/pages/settings/settings-page.tsx
-msgid "This device could not be registered. Try again in a few moments."
-msgstr "Cet appareil n'a pas pu être enregistré. Réessayez dans quelques instants."
+msgid "This device does not receive notifications yet"
+msgstr "Cet appareil ne reçoit pas encore les notifications"
 
+#: src/layout/push-notifications-prompt.tsx
 #: src/pages/settings/settings-page.tsx
-msgid "This device does not receive the notifications"
-msgstr "Cet appareil ne reçoit pas les notifications"
+msgid "This device will receive notifications"
+msgstr "Cet appareil recevra les notifications"
 
 #: src/hooks/use-zod-resolver.ts
 #: src/pages/profile/address-section.tsx
