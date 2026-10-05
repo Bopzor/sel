@@ -412,8 +412,8 @@ msgid "Notifications"
 msgstr "Notifications"
 
 #: src/pages/settings/settings-page.tsx
-msgid "Notifications appear on this device, even when the app is closed."
-msgstr "Notifications appear on this device, even when the app is closed."
+msgid "Notifications appear on the devices where you allowed them, even when the app is closed."
+msgstr "Notifications appear on the devices where you allowed them, even when the app is closed."
 
 #: src/pages/settings/settings-page.tsx
 msgid "Notifications are sent to your email address."
@@ -426,10 +426,6 @@ msgstr "Number and street"
 #: src/components/rich-text-toolbar.tsx
 msgid "Numbered list"
 msgstr "Numbered list"
-
-#: src/pages/settings/settings-page.tsx
-msgid "On this device"
-msgstr "On this device"
 
 #: src/pages/requests/edit/edit-request-page.tsx
 msgid "Only its author can edit a request, as long as it is open."
@@ -473,6 +469,10 @@ msgstr "Profile"
 #: src/pages/profile/profile-section.tsx
 msgid "Profile updated"
 msgstr "Profile updated"
+
+#: src/pages/settings/settings-page.tsx
+msgid "Push notifications"
+msgstr "Push notifications"
 
 #: src/components/attachments.tsx
 msgid "Remove {name}"
@@ -611,6 +611,10 @@ msgstr "The link may be wrong, or the request may no longer exist."
 #: src/pages/requests/edit/edit-request-page.tsx
 msgid "The members who offered help or commented will see the new version."
 msgstr "The members who offered help or commented will see the new version."
+
+#: src/pages/settings/settings-page.tsx
+msgid "The notification settings could not be saved"
+msgstr "The notification settings could not be saved"
 
 #: src/pages/profile/identity-section.tsx
 msgid "The photo could not be sent. Try again in a few moments."

@@ -412,8 +412,8 @@ msgid "Notifications"
 msgstr "Notifications"
 
 #: src/pages/settings/settings-page.tsx
-msgid "Notifications appear on this device, even when the app is closed."
-msgstr "Les notifications s'affichent sur cet appareil, même quand l'app est fermée."
+msgid "Notifications appear on the devices where you allowed them, even when the app is closed."
+msgstr "Les notifications apparaissent sur les appareils où vous les avez autorisées, même lorsque l'application est fermée."
 
 #: src/pages/settings/settings-page.tsx
 msgid "Notifications are sent to your email address."
@@ -426,10 +426,6 @@ msgstr "Numéro et rue"
 #: src/components/rich-text-toolbar.tsx
 msgid "Numbered list"
 msgstr "Liste numérotée"
-
-#: src/pages/settings/settings-page.tsx
-msgid "On this device"
-msgstr "Sur cet appareil"
 
 #: src/pages/requests/edit/edit-request-page.tsx
 msgid "Only its author can edit a request, as long as it is open."
@@ -473,6 +469,10 @@ msgstr "Profil"
 #: src/pages/profile/profile-section.tsx
 msgid "Profile updated"
 msgstr "Profil mis à jour"
+
+#: src/pages/settings/settings-page.tsx
+msgid "Push notifications"
+msgstr "Notifications push"
 
 #: src/components/attachments.tsx
 msgid "Remove {name}"
@@ -611,6 +611,10 @@ msgstr "Le lien est peut-être erroné, ou la demande n’existe plus."
 #: src/pages/requests/edit/edit-request-page.tsx
 msgid "The members who offered help or commented will see the new version."
 msgstr "Les membres qui ont proposé leur aide ou commenté verront la nouvelle version."
+
+#: src/pages/settings/settings-page.tsx
+msgid "The notification settings could not be saved"
+msgstr "Les paramètres de notification n'ont pas pu être enregistrés"
 
 #: src/pages/profile/identity-section.tsx
 msgid "The photo could not be sent. Try again in a few moments."
