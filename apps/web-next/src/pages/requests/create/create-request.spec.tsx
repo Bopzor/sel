@@ -1,6 +1,6 @@
 import { createAuthenticatedMember, type CreateRequestBody, type File as UploadedFile } from '@sel/shared';
 import { assert } from '@sel/utils';
-import { screen, within } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import type z from 'zod';
@@ -31,7 +31,7 @@ describe('create request', () => {
     await writeMessage(user, 'I need someone with a drill on Saturday.');
     await user.click(screen.getByRole('button', { name: 'Post the request' }));
 
-    expect(await screen.findByText('Request posted')).toBeDefined();
+    expect(await screen.findByText('Request posted')).toBeInTheDocument();
     expect(router.state.location.pathname).toBe(routes.request('r1'));
 
     expect(server.posted).toEqual([
@@ -48,10 +48,10 @@ describe('create request', () => {
 
     await user.click(await screen.findByRole('button', { name: 'Post the request' }));
 
-    expect(await screen.findByText('This field should be at least 5 characters')).toBeDefined();
-    expect(screen.getByText('This field should be at least 15 characters')).toBeDefined();
-    expect(document.activeElement).toBe(screen.getByRole('textbox', { name: /^Title/ }));
-    expect(screen.queryByRole('alert')).toBeNull();
+    expect(await screen.findByText('This field should be at least 5 characters')).toBeInTheDocument();
+    expect(screen.getByText('This field should be at least 15 characters')).toBeInTheDocument();
+    expect(screen.getByRole('textbox', { name: /^Title/ })).toHaveFocus();
+    expect(screen.queryByRole('alert')).not.toBeInTheDocument();
     expect(server.posted).toEqual([]);
   });
 
@@ -73,9 +73,9 @@ describe('create request', () => {
     await writeMessage(user, 'I need someone with a drill on Saturday.');
     await user.click(screen.getByRole('button', { name: 'Post the request' }));
 
-    expect(await screen.findByText('This field should be at most 200 characters')).toBeDefined();
-    expect(document.activeElement).toBe(screen.getByRole('textbox', { name: /^Message/ }));
-    expect(screen.queryByRole('alert')).toBeNull();
+    expect(await screen.findByText('This field should be at most 200 characters')).toBeInTheDocument();
+    expect(screen.getByRole('textbox', { name: /^Message/ })).toHaveFocus();
+    expect(screen.queryByRole('alert')).not.toBeInTheDocument();
   });
 
   it('shows an alert when the request could not be posted, and keeps the form', async () => {
@@ -89,14 +89,14 @@ describe('create request', () => {
 
     const alert = await screen.findByRole('alert');
 
-    expect(alert.textContent).toContain('Your request could not be posted');
-    expect(screen.getByRole('textbox', { name: /^Title/ })).toHaveProperty('value', 'Help to put up a shelf');
+    expect(alert).toHaveTextContent('Your request could not be posted');
+    expect(screen.getByRole('textbox', { name: /^Title/ })).toHaveValue('Help to put up a shelf');
 
     server.failing = false;
     await user.click(screen.getByRole('button', { name: 'Post the request' }));
 
-    expect(await screen.findByText('Request posted')).toBeDefined();
-    expect(screen.queryByRole('alert')).toBeNull();
+    expect(await screen.findByText('Request posted')).toBeInTheDocument();
+    expect(screen.queryByRole('alert')).not.toBeInTheDocument();
   });
 
   describe('attachments', () => {
@@ -105,8 +105,8 @@ describe('create request', () => {
 
       const field = await screen.findByRole('group', { name: 'Attachments' });
 
-      expect(within(field).getByRole('button', { name: 'Add files' })).toBeDefined();
-      expect(screen.queryByRole('button', { name: 'Attach files' })).toBeNull();
+      expect(field).toContainOneByRole('button', { name: 'Add files' });
+      expect(screen.queryByRole('button', { name: 'Attach files' })).not.toBeInTheDocument();
     });
 
     it('uploads the attached files and posts their ids', async () => {
@@ -120,8 +120,8 @@ describe('create request', () => {
         new File(['...'], 'plan.pdf'),
       );
 
-      expect(await screen.findByText('shelf.jpg')).toBeDefined();
-      expect(await screen.findByText('plan.pdf')).toBeDefined();
+      expect(await screen.findByText('shelf.jpg')).toBeInTheDocument();
+      expect(await screen.findByText('plan.pdf')).toBeInTheDocument();
 
       await user.click(screen.getByRole('button', { name: 'Post the request' }));
       await screen.findByText('Request posted');
@@ -138,7 +138,7 @@ describe('create request', () => {
       await attach(user, new File(['...'], 'shelf.jpg', { type: 'image/jpeg' }));
       await user.click(await screen.findByRole('button', { name: 'Remove shelf.jpg' }));
 
-      expect(screen.queryByText('shelf.jpg')).toBeNull();
+      expect(screen.queryByText('shelf.jpg')).not.toBeInTheDocument();
 
       await user.click(screen.getByRole('button', { name: 'Post the request' }));
       await screen.findByText('Request posted');
@@ -157,7 +157,7 @@ describe('create request', () => {
       await writeMessage(user, 'I need someone with a drill on Saturday.');
       await attach(user, new File(['...'], 'shelf.jpg', { type: 'image/jpeg' }));
 
-      expect((await screen.findByText('shelf.jpg')).closest('li')?.getAttribute('aria-busy')).toBe('true');
+      expect((await screen.findByText('shelf.jpg')).closest('li')).toHaveAttribute('aria-busy', 'true');
 
       await user.type(title, '{Enter}');
 
@@ -180,7 +180,9 @@ describe('create request', () => {
       await screen.findByRole('textbox', { name: /^Title/ });
       await attach(user, file);
 
-      expect(await screen.findByText('video.mp4 is larger than 10 MB and was not attached')).toBeDefined();
+      expect(
+        await screen.findByText('video.mp4 is larger than 10 MB and was not attached'),
+      ).toBeInTheDocument();
       expect(server.uploaded).toEqual([]);
     });
 
@@ -194,8 +196,8 @@ describe('create request', () => {
 
       expect(
         await screen.findByText('shelf.jpg could not be attached. Try again in a few moments.'),
-      ).toBeDefined();
-      expect(screen.queryByRole('button', { name: 'Remove shelf.jpg' })).toBeNull();
+      ).toBeInTheDocument();
+      expect(screen.queryByRole('button', { name: 'Remove shelf.jpg' })).not.toBeInTheDocument();
     });
   });
 
@@ -210,8 +212,8 @@ describe('create request', () => {
 
     const alert = await screen.findByRole('alert');
 
-    expect(alert.textContent).toContain('Unable to reach the server, check your internet access');
-    expect(alert.textContent).not.toContain('Failed to fetch');
+    expect(alert).toHaveTextContent('Unable to reach the server, check your internet access');
+    expect(alert).not.toHaveTextContent('Failed to fetch');
   });
 });
 

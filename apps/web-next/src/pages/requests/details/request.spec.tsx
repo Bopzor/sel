@@ -44,17 +44,14 @@ describe('request', () => {
 
     renderPage();
 
-    expect(await screen.findByRole('heading', { level: 1, name: 'Cat sitting' })).toBeDefined();
-    expect(screen.getByText('I am away for a week.')).toBeDefined();
-    expect(screen.getByRole('img', { name: 'Whiskers.jpg' })).toHaveProperty(
-      'src',
-      'http://localhost:8000/api/files/cat.jpg',
-    );
-    expect(screen.getByRole('link', { name: 'Instructions.pdf' })).toHaveProperty(
+    expect(await screen.findByRole('heading', { level: 1, name: 'Cat sitting' })).toBeInTheDocument();
+    expect(screen.getByText('I am away for a week.')).toBeInTheDocument();
+    expect(screen.getByRole('img', { name: 'Whiskers.jpg' })).toHaveAttribute('src', '/api/files/cat.jpg');
+    expect(screen.getByRole('link', { name: 'Instructions.pdf' })).toHaveAttribute(
       'href',
-      'http://localhost:8000/api/files/notes.pdf',
+      '/api/files/notes.pdf',
     );
-    expect(screen.queryByRole('status')).toBeNull();
+    expect(screen.queryByRole('status')).not.toBeInTheDocument();
   });
 
   it("shows the requester's contact details", async () => {
@@ -64,9 +61,9 @@ describe('request', () => {
 
     renderPage();
 
-    expect(await screen.findByRole('heading', { name: 'Claire Dubois' })).toBeDefined();
-    expect(screen.getByRole('link', { name: '06 12 34 56 78' })).toHaveProperty('href', 'tel:0612345678');
-    expect(screen.getByRole('link', { name: 'claire@example.com' })).toHaveProperty(
+    expect(await screen.findByRole('heading', { name: 'Claire Dubois' })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: '06 12 34 56 78' })).toHaveAttribute('href', 'tel:0612345678');
+    expect(screen.getByRole('link', { name: 'claire@example.com' })).toHaveAttribute(
       'href',
       'mailto:claire@example.com',
     );
@@ -84,8 +81,8 @@ describe('request', () => {
 
     const answers = within(await findSection('Answers')).getAllByRole('listitem');
 
-    expect(answers[0]?.textContent).toContain('Julien PetitCan help');
-    expect(answers[1]?.textContent).toContain("Claire DuboisCan't help");
+    expect(answers[0]).toHaveTextContent('Julien PetitCan help');
+    expect(answers[1]).toHaveTextContent("Claire DuboisCan't help");
   });
 
   it('shows that no one has answered', async () => {
@@ -93,7 +90,7 @@ describe('request', () => {
 
     renderPage();
 
-    expect(await screen.findByText('No one has answered yet.')).toBeDefined();
+    expect(await screen.findByText('No one has answered yet.')).toBeInTheDocument();
   });
 
   it('lists the comments', async () => {
@@ -106,8 +103,8 @@ describe('request', () => {
 
     const comments = await findSection('1 comment');
 
-    expect(within(comments).getByText('Julien Petit')).toBeDefined();
-    expect(within(comments).getByText('I can help.')).toBeDefined();
+    expect(comments).toContainOneByText('Julien Petit');
+    expect(comments).toContainOneByText('I can help.');
 
     const [url] = server.find('/api/comment');
     expect(url?.searchParams.get('entityType')).toBe('request');
@@ -122,7 +119,7 @@ describe('request', () => {
 
     renderPage();
 
-    expect((await screen.findByRole('status')).textContent).toBe(message);
+    expect(await screen.findByRole('status')).toHaveTextContent(message);
   });
 
   it('shows that the request does not exist', async () => {
@@ -130,11 +127,8 @@ describe('request', () => {
 
     renderPage();
 
-    expect(await screen.findByRole('heading', { name: 'Request not found' })).toBeDefined();
-    expect(screen.getByRole('link', { name: 'See the requests' })).toHaveProperty(
-      'href',
-      'http://localhost:8000/requests',
-    );
+    expect(await screen.findByRole('heading', { name: 'Request not found' })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'See the requests' })).toHaveAttribute('href', '/requests');
   });
 
   it('retries loading the request after a failure', async () => {
@@ -150,7 +144,7 @@ describe('request', () => {
     server.failing = false;
     await user.click(screen.getByRole('button', { name: 'Retry' }));
 
-    expect(await screen.findByRole('heading', { level: 1, name: 'Cat sitting' })).toBeDefined();
+    expect(await screen.findByRole('heading', { level: 1, name: 'Cat sitting' })).toBeInTheDocument();
   });
 
   describe('answer', () => {
@@ -163,12 +157,12 @@ describe('request', () => {
 
       await user.click(await screen.findByRole('button', { name: 'I can help' }));
 
-      expect(await screen.findByRole('heading', { name: 'You can help' })).toBeDefined();
-      expect(screen.getByText('Contact Claire to arrange the details.')).toBeDefined();
+      expect(await screen.findByRole('heading', { name: 'You can help' })).toBeInTheDocument();
+      expect(screen.getByText('Contact Claire to arrange the details.')).toBeInTheDocument();
       expect(server.answers).toEqual(['positive']);
 
       const answers = within(await findSection('Answers')).getAllByRole('listitem');
-      expect(answers[0]?.textContent).toContain('Jason TalonCan help');
+      expect(answers[0]).toHaveTextContent('Jason TalonCan help');
     });
 
     it('answers that the member cannot help', async () => {
@@ -180,7 +174,7 @@ describe('request', () => {
 
       await user.click(await screen.findByRole('button', { name: "I can't" }));
 
-      expect(await screen.findByRole('heading', { name: "You can't help" })).toBeDefined();
+      expect(await screen.findByRole('heading', { name: "You can't help" })).toBeInTheDocument();
       expect(server.answers).toEqual(['negative']);
     });
 
@@ -193,8 +187,8 @@ describe('request', () => {
 
       await user.click(await screen.findByRole('button', { name: 'Withdraw my answer' }));
 
-      expect(await screen.findByRole('heading', { name: 'Can you help?' })).toBeDefined();
-      expect(screen.getByText('No one has answered yet.')).toBeDefined();
+      expect(await screen.findByRole('heading', { name: 'Can you help?' })).toBeInTheDocument();
+      expect(screen.getByText('No one has answered yet.')).toBeInTheDocument();
       expect(server.answers).toEqual([null]);
     });
 
@@ -208,8 +202,8 @@ describe('request', () => {
 
       await user.click(await screen.findByRole('button', { name: 'I can help' }));
 
-      expect(await screen.findByText('Your answer could not be saved')).toBeDefined();
-      expect(screen.getByRole('heading', { name: 'Can you help?' })).toBeDefined();
+      expect(await screen.findByText('Your answer could not be saved')).toBeInTheDocument();
+      expect(screen.getByRole('heading', { name: 'Can you help?' })).toBeInTheDocument();
     });
 
     it("does not offer to answer the member's own request", async () => {
@@ -219,7 +213,7 @@ describe('request', () => {
 
       await screen.findByRole('heading', { level: 1 });
 
-      expect(screen.queryByRole('heading', { name: 'Can you help?' })).toBeNull();
+      expect(screen.queryByRole('heading', { name: 'Can you help?' })).not.toBeInTheDocument();
     });
 
     it('does not offer to answer a closed request', async () => {
@@ -229,7 +223,7 @@ describe('request', () => {
 
       await screen.findByRole('heading', { level: 1 });
 
-      expect(screen.queryByRole('heading', { name: 'Can you help?' })).toBeNull();
+      expect(screen.queryByRole('heading', { name: 'Can you help?' })).not.toBeInTheDocument();
     });
   });
 
@@ -239,11 +233,8 @@ describe('request', () => {
 
       renderPage();
 
-      expect(await screen.findByRole('heading', { name: 'Your request' })).toBeDefined();
-      expect(screen.getByRole('link', { name: 'Edit' })).toHaveProperty(
-        'href',
-        'http://localhost:8000/requests/r1/edit',
-      );
+      expect(await screen.findByRole('heading', { name: 'Your request' })).toBeInTheDocument();
+      expect(screen.getByRole('link', { name: 'Edit' })).toHaveAttribute('href', '/requests/r1/edit');
     });
 
     it('closes the request', async () => {
@@ -256,14 +247,14 @@ describe('request', () => {
       await user.click(await screen.findByRole('button', { name: 'Close the request' }));
 
       const dialog = await screen.findByRole('alertdialog', { name: 'Close the request “Cat sitting”?' });
-      expect(within(dialog).getByText('You have not sent any units for this request')).toBeDefined();
+      expect(dialog).toContainOneByText('You have not sent any units for this request');
 
       await user.click(within(dialog).getByRole('button', { name: 'Close the request' }));
 
-      expect(await screen.findByText('Request closed')).toBeDefined();
-      expect(screen.getByText('This request is fulfilled')).toBeDefined();
-      expect(screen.queryByRole('heading', { name: 'Your request' })).toBeNull();
-      expect(screen.queryByRole('alertdialog')).toBeNull();
+      expect(await screen.findByText('Request closed')).toBeInTheDocument();
+      expect(screen.getByText('This request is fulfilled')).toBeInTheDocument();
+      expect(screen.queryByRole('heading', { name: 'Your request' })).not.toBeInTheDocument();
+      expect(screen.queryByRole('alertdialog')).not.toBeInTheDocument();
     });
 
     it('does not mention the units when some were sent', async () => {
@@ -276,7 +267,7 @@ describe('request', () => {
       await user.click(await screen.findByRole('button', { name: 'Close the request' }));
 
       await screen.findByRole('alertdialog');
-      expect(screen.queryByText('You have not sent any units for this request')).toBeNull();
+      expect(screen.queryByText('You have not sent any units for this request')).not.toBeInTheDocument();
     });
 
     it('cancels the request', async () => {
@@ -291,8 +282,8 @@ describe('request', () => {
       const dialog = await screen.findByRole('alertdialog', { name: 'Cancel the request “Cat sitting”?' });
       await user.click(within(dialog).getByRole('button', { name: 'Cancel the request' }));
 
-      expect(await screen.findByText('Request canceled')).toBeDefined();
-      expect(screen.getByText('This request was canceled')).toBeDefined();
+      expect(await screen.findByText('Request canceled')).toBeInTheDocument();
+      expect(screen.getByText('This request was canceled')).toBeInTheDocument();
     });
 
     it('keeps the request open when going back', async () => {
@@ -305,7 +296,7 @@ describe('request', () => {
       await user.click(await screen.findByRole('button', { name: 'Cancel the request' }));
       await user.click(within(await screen.findByRole('alertdialog')).getByRole('button', { name: 'Back' }));
 
-      expect(screen.queryByRole('alertdialog')).toBeNull();
+      expect(screen.queryByRole('alertdialog')).not.toBeInTheDocument();
       expect(server.find('/api/requests/r1/cancel')).toEqual([]);
     });
 
@@ -322,9 +313,9 @@ describe('request', () => {
       const dialog = await screen.findByRole('alertdialog');
       await user.click(within(dialog).getByRole('button', { name: 'Close the request' }));
 
-      expect(await screen.findByText('The request could not be closed')).toBeDefined();
+      expect(await screen.findByText('The request could not be closed')).toBeInTheDocument();
       expect(screen.getByRole('alertdialog')).toBe(dialog);
-      expect(screen.queryByText('This request is fulfilled')).toBeNull();
+      expect(screen.queryByText('This request is fulfilled')).not.toBeInTheDocument();
     });
 
     it('does not offer the actions to another member', async () => {
@@ -334,7 +325,7 @@ describe('request', () => {
 
       await screen.findByRole('heading', { level: 1 });
 
-      expect(screen.queryByRole('heading', { name: 'Your request' })).toBeNull();
+      expect(screen.queryByRole('heading', { name: 'Your request' })).not.toBeInTheDocument();
     });
 
     it('does not offer the actions on a closed request', async () => {
@@ -344,7 +335,7 @@ describe('request', () => {
 
       await screen.findByRole('heading', { level: 1 });
 
-      expect(screen.queryByRole('heading', { name: 'Your request' })).toBeNull();
+      expect(screen.queryByRole('heading', { name: 'Your request' })).not.toBeInTheDocument();
     });
   });
 });

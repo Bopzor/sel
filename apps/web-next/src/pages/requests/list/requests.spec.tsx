@@ -40,12 +40,9 @@ describe('requests', () => {
 
     const [item] = await findItems();
 
-    expect(within(item).getByRole('link', { name: 'Cat sitting' })).toHaveProperty(
-      'href',
-      'http://localhost:8000/requests/r1',
-    );
-    expect(item.textContent).toContain('I am away for a week. Feed Whiskers');
-    expect(item.textContent).toContain('Claire Dubois');
+    expect(within(item).getByRole('link', { name: 'Cat sitting' })).toHaveAttribute('href', '/requests/r1');
+    expect(item).toHaveTextContent('I am away for a week. Feed Whiskers');
+    expect(item).toHaveTextContent('Claire Dubois');
 
     expect(server.find('/api/requests')[0]?.searchParams.get('status')).toBe(RequestStatus.pending);
   });
@@ -65,8 +62,8 @@ describe('requests', () => {
 
     const [fulfilled, canceled] = await findItems();
 
-    expect(fulfilled.textContent).toContain('Fulfilled');
-    expect(canceled.textContent).toContain('Canceled');
+    expect(fulfilled).toHaveTextContent('Fulfilled');
+    expect(canceled).toHaveTextContent('Canceled');
     expect(router.state.location.search).toBe('?status=all');
   });
 
@@ -82,7 +79,7 @@ describe('requests', () => {
 
     await vi.waitFor(() => expect(screen.getAllByRole('listitem')).toHaveLength(1));
 
-    expect(screen.getByRole('link', { name: 'Cat sitting' })).toBeDefined();
+    expect(screen.getByRole('link', { name: 'Cat sitting' })).toBeInTheDocument();
     expect(router.state.location.search).toBe('?search=cat');
   });
 
@@ -101,7 +98,7 @@ describe('requests', () => {
 
     await vi.waitFor(() => expect(screen.getAllByRole('listitem')).toHaveLength(1));
 
-    expect(screen.getByRole('link', { name: 'Ride to the station' })).toBeDefined();
+    expect(screen.getByRole('link', { name: 'Ride to the station' })).toBeInTheDocument();
     expect(server.find('/api/requests').at(-1)?.searchParams.get('requesterId')).toBe(me.id);
   });
 
@@ -116,9 +113,9 @@ describe('requests', () => {
     expect(request?.searchParams.get('requesterId')).toBe(me.id);
     expect(request?.searchParams.get('search')).toBe('cat');
 
-    expect(screen.getByRole('button', { name: 'All' }).getAttribute('aria-pressed')).toBe('true');
-    expect(screen.getByRole('button', { name: 'My requests' }).getAttribute('aria-pressed')).toBe('true');
-    expect(screen.getByRole('searchbox', { name: 'Search the requests' })).toHaveProperty('value', 'cat');
+    expect(screen.getByRole('button', { name: 'All' })).toBePressed();
+    expect(screen.getByRole('button', { name: 'My requests' })).toBePressed();
+    expect(screen.getByRole('searchbox', { name: 'Search the requests' })).toHaveValue('cat');
   });
 
   it('resets the search when the URL changes', async () => {
@@ -126,11 +123,11 @@ describe('requests', () => {
 
     const searchbox = await screen.findByRole('searchbox', { name: 'Search the requests' });
 
-    expect(searchbox).toHaveProperty('value', 'cat');
+    expect(searchbox).toHaveValue('cat');
 
     await act(() => router.navigate(routes.requests()));
 
-    expect(searchbox).toHaveProperty('value', '');
+    expect(searchbox).toHaveValue('');
   });
 
   it('invites to post a request when there is none', async () => {
@@ -138,9 +135,9 @@ describe('requests', () => {
 
     await screen.findByText('No requests');
 
-    expect(screen.getByRole('link', { name: 'Post a request' })).toHaveProperty(
+    expect(screen.getByRole('link', { name: 'Post a request' })).toHaveAttribute(
       'href',
-      `http://localhost:8000${routes.createRequest()}`,
+      routes.createRequest(),
     );
   });
 
@@ -156,7 +153,7 @@ describe('requests', () => {
     await findItems();
 
     expect(router.state.location.search).toBe('');
-    expect(screen.getByRole('searchbox', { name: 'Search the requests' })).toHaveProperty('value', '');
+    expect(screen.getByRole('searchbox', { name: 'Search the requests' })).toHaveValue('');
   });
 
   it('shows more requests', async () => {
@@ -167,14 +164,14 @@ describe('requests', () => {
     renderPage(routes.requests());
 
     expect(await findItems()).toHaveLength(10);
-    expect(screen.getByRole('status').textContent).toBe('Showing 10 of 12 requests');
+    expect(screen.getByRole('status')).toHaveTextContent('Showing 10 of 12 requests');
 
     await user.click(screen.getByRole('button', { name: 'Show more' }));
 
     await vi.waitFor(() => expect(screen.getAllByRole('listitem')).toHaveLength(12));
 
-    expect(screen.getByRole('status').textContent).toBe('12 requests');
-    expect(screen.queryByRole('button', { name: 'Show more' })).toBeNull();
+    expect(screen.getByRole('status')).toHaveTextContent(/^12 requests$/);
+    expect(screen.queryByRole('button', { name: 'Show more' })).not.toBeInTheDocument();
     expect(server.find('/api/requests').at(-1)?.searchParams.get('page')).toBe('2');
   });
 
@@ -207,8 +204,8 @@ describe('requests', () => {
     // The query notifies its observers in a timeout.
     await act(() => new Promise((resolve) => setTimeout(resolve)));
 
-    expect(screen.queryByText('Unable to load the requests')).toBeNull();
-    expect(screen.getByRole('link', { name: 'Cat sitting' })).toBeDefined();
+    expect(screen.queryByText('Unable to load the requests')).not.toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Cat sitting' })).toBeInTheDocument();
   });
 
   it('retries when more requests fail to load', async () => {
@@ -226,14 +223,14 @@ describe('requests', () => {
     await screen.findByText('Unable to load more elements');
 
     expect(screen.getAllByRole('listitem')).toHaveLength(10);
-    expect(screen.queryByRole('button', { name: 'Show more' })).toBeNull();
+    expect(screen.queryByRole('button', { name: 'Show more' })).not.toBeInTheDocument();
 
     server.failing = false;
     await user.click(screen.getByRole('button', { name: 'Retry' }));
 
     await vi.waitFor(() => expect(screen.getAllByRole('listitem')).toHaveLength(12));
 
-    expect(screen.queryByText('Unable to load more elements')).toBeNull();
+    expect(screen.queryByText('Unable to load more elements')).not.toBeInTheDocument();
   });
 });
 

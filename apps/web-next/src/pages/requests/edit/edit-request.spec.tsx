@@ -34,9 +34,13 @@ describe('edit request', () => {
   it('fills the form with the request', async () => {
     renderPage();
 
-    expect(await screen.findByRole('textbox', { name: /^Title/ })).toHaveProperty('value', 'Shelf');
-    expect(screen.getByRole('textbox', { name: /^Message/ }).textContent).toBe('I need a drill on Saturday.');
-    expect(within(screen.getByRole('group', { name: 'Attachments' })).getByText('Shelf.jpg')).toBeDefined();
+    expect(await screen.findByRole('textbox', { name: /^Title/ })).toHaveValue('Shelf');
+    expect(screen.getByRole('textbox', { name: /^Message/ })).toHaveTextContent(
+      'I need a drill on Saturday.',
+    );
+    expect(
+      within(screen.getByRole('group', { name: 'Attachments' })).getByText('Shelf.jpg'),
+    ).toBeInTheDocument();
   });
 
   it('saves the changes and opens the request', async () => {
@@ -47,7 +51,7 @@ describe('edit request', () => {
     await user.type(title, 'Help to put up a shelf');
     await user.click(screen.getByRole('button', { name: 'Save the changes' }));
 
-    expect(await screen.findByText('Request edited')).toBeDefined();
+    expect(await screen.findByText('Request edited')).toBeInTheDocument();
     expect(router.state.location.pathname).toBe(routes.request('r1'));
 
     expect(server.updated).toEqual([
@@ -64,7 +68,7 @@ describe('edit request', () => {
 
     await user.click(await screen.findByRole('button', { name: 'Remove Shelf.jpg' }));
 
-    expect(screen.queryByText('Shelf.jpg')).toBeNull();
+    expect(screen.queryByText('Shelf.jpg')).not.toBeInTheDocument();
 
     await user.click(screen.getByRole('button', { name: 'Save the changes' }));
     await screen.findByText('Request edited');
@@ -79,7 +83,7 @@ describe('edit request', () => {
     await attach(user, new File(['...'], 'plan.pdf', { type: 'application/pdf' }));
     await screen.findByRole('button', { name: 'Remove plan.pdf' });
 
-    expect(screen.getByText('Shelf.jpg')).toBeDefined();
+    expect(screen.getByText('Shelf.jpg')).toBeInTheDocument();
 
     await user.click(screen.getByRole('button', { name: 'Save the changes' }));
     await screen.findByText('Request edited');
@@ -98,8 +102,8 @@ describe('edit request', () => {
 
     const alert = await screen.findByRole('alert');
 
-    expect(alert.textContent).toContain('Your changes could not be saved');
-    expect(title).toHaveProperty('value', 'Shelf on Saturday');
+    expect(alert).toHaveTextContent('Your changes could not be saved');
+    expect(title).toHaveValue('Shelf on Saturday');
   });
 
   it("does not show the form for another member's request", async () => {
@@ -107,8 +111,8 @@ describe('edit request', () => {
 
     renderPage();
 
-    expect(await screen.findByRole('heading', { name: 'This request cannot be edited' })).toBeDefined();
-    expect(screen.queryByRole('textbox', { name: /^Title/ })).toBeNull();
+    expect(await screen.findByRole('heading', { name: 'This request cannot be edited' })).toBeInTheDocument();
+    expect(screen.queryByRole('textbox', { name: /^Title/ })).not.toBeInTheDocument();
   });
 
   it('does not show the form for a closed request', async () => {
@@ -116,7 +120,7 @@ describe('edit request', () => {
 
     renderPage();
 
-    expect(await screen.findByRole('heading', { name: 'This request cannot be edited' })).toBeDefined();
+    expect(await screen.findByRole('heading', { name: 'This request cannot be edited' })).toBeInTheDocument();
   });
 
   it('shows when the request does not exist', async () => {
@@ -124,7 +128,7 @@ describe('edit request', () => {
 
     renderPage();
 
-    expect(await screen.findByRole('heading', { name: 'Request not found' })).toBeDefined();
+    expect(await screen.findByRole('heading', { name: 'Request not found' })).toBeInTheDocument();
   });
 });
 

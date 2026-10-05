@@ -75,7 +75,7 @@ describe('RelativeDate', () => {
   it('shows the full date as a title', () => {
     const time = renderDate(ago(60));
 
-    expect(time.getAttribute('title')).toBe('Monday, June 15, 2026');
-    expect(time.getAttribute('datetime')).toBe(ago(60).toISOString());
+    expect(time).toHaveAttribute('title', 'Monday, June 15, 2026');
+    expect(time).toHaveAttribute('datetime', ago(60).toISOString());
   });
 });

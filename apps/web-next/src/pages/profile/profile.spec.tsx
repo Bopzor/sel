@@ -31,25 +31,26 @@ describe('profile', () => {
     renderPage();
 
     const membership = await findSection('Membership');
-    expect(within(membership).getByText('42')).toBeDefined();
-    expect(within(membership).getByText('March 12, 2024')).toBeDefined();
-    expect(within(membership).getByText('15 units')).toBeDefined();
+    expect(membership).toContainOneByText('42');
+    expect(membership).toContainOneByText('March 12, 2024');
+    expect(membership).toContainOneByText('15 units');
 
-    expect(within(getSection('Name and photo')).getByText('Jason Talon')).toBeDefined();
+    expect(getSection('Name and photo')).toContainOneByText('Jason Talon');
 
     const contact = getSection('Contact');
-    expect(within(contact).getByText('jason@domain.tld')).toBeDefined();
-    expect(within(contact).getByText('Hidden from the other members')).toBeDefined();
-    expect(within(contact).getByText('06 12 34 56 78')).toBeDefined();
-    expect(within(contact).getByText('Visible to the other members')).toBeDefined();
+    expect(contact).toContainOneByText('jason@domain.tld');
+    expect(contact).toContainOneByText('Hidden from the other members');
+    expect(contact).toContainOneByText('06 12 34 56 78');
+    expect(contact).toContainOneByText('Visible to the other members');
 
-    expect(within(getSection('About me')).getByText('I like gardening.')).toBeDefined();
+    expect(getSection('About me')).toContainOneByText('I like gardening.');
 
     const address = getSection('Address');
-    expect(within(address).getByText('8 Boulevard du Port Building B 80000 Amiens')).toBeDefined();
-    expect(within(address).getByText('Visible to the other members')).toBeDefined();
+    expect(address).toContainOneByText('8 Boulevard du Port Building B 80000 Amiens');
+    expect(address).toContainOneByText('Visible to the other members');
 
-    expect(screen.getByRole('link', { name: 'See my public profile' }).getAttribute('href')).toBe(
+    expect(screen.getByRole('link', { name: 'See my public profile' })).toHaveAttribute(
+      'href',
       routes.member('me'),
     );
   });
@@ -59,9 +60,9 @@ describe('profile', () => {
 
     renderPage();
 
-    expect(within(await findSection('Contact')).getByText('No phone number')).toBeDefined();
-    expect(within(getSection('Address')).getByText('You have not entered your address yet.')).toBeDefined();
-    expect(within(getSection('About me')).getByText(/You have not written anything/)).toBeDefined();
+    expect(await findSection('Contact')).toContainOneByText('No phone number');
+    expect(getSection('Address')).toContainOneByText('You have not entered your address yet.');
+    expect(getSection('About me')).toContainOneByText(/You have not written anything/);
   });
 
   it("edits the member's name", async () => {
@@ -74,9 +75,9 @@ describe('profile', () => {
     await user.type(firstName, 'Jay');
     await user.click(screen.getByRole('button', { name: 'Save' }));
 
-    expect(await screen.findByText('Profile updated')).toBeDefined();
+    expect(await screen.findByText('Profile updated')).toBeInTheDocument();
     expect(server.updated).toEqual([{ firstName: 'Jay', lastName: 'Talon' }]);
-    expect(within(getSection('Name and photo')).getByText('Jay Talon')).toBeDefined();
+    expect(getSection('Name and photo')).toContainOneByText('Jay Talon');
   });
 
   it('does not accept an empty name', async () => {
@@ -86,7 +87,7 @@ describe('profile', () => {
     await user.clear(screen.getByRole('textbox', { name: /^Last name/ }));
     await user.click(screen.getByRole('button', { name: 'Save' }));
 
-    expect(await screen.findByText('This field is required')).toBeDefined();
+    expect(await screen.findByText('This field is required')).toBeInTheDocument();
     expect(server.updated).toEqual([]);
   });
 
@@ -133,7 +134,7 @@ describe('profile', () => {
     await edit('Name and photo');
     await uploadPhoto(user, new File(['...'], 'me.pdf', { type: 'application/pdf' }));
 
-    expect(await screen.findByText('The photo must be an image')).toBeDefined();
+    expect(await screen.findByText('The photo must be an image')).toBeInTheDocument();
     expect(server.uploaded).toEqual([]);
   });
 
@@ -146,7 +147,7 @@ describe('profile', () => {
     await edit('Name and photo');
     await uploadPhoto(user, file);
 
-    expect(await screen.findByText('The photo must be at most 10 MB')).toBeDefined();
+    expect(await screen.findByText('The photo must be at most 10 MB')).toBeInTheDocument();
     expect(server.uploaded).toEqual([]);
   });
 
@@ -159,7 +160,9 @@ describe('profile', () => {
     await edit('Name and photo');
     await uploadPhoto(user, new File(['...'], 'me.png', { type: 'image/png' }));
 
-    expect(await screen.findByText('The photo could not be sent. Try again in a few moments.')).toBeDefined();
+    expect(
+      await screen.findByText('The photo could not be sent. Try again in a few moments.'),
+    ).toBeInTheDocument();
 
     await user.click(screen.getByRole('button', { name: 'Save' }));
     await screen.findByText('Profile updated');
@@ -187,14 +190,14 @@ describe('profile', () => {
     await user.type(screen.getByRole('textbox', { name: /^First name/ }), 'y');
     await user.click(screen.getByRole('button', { name: 'Cancel' }));
 
-    expect(within(getSection('Name and photo')).getByText('Jason Talon')).toBeDefined();
-    expect(document.activeElement).toBe(
+    expect(getSection('Name and photo')).toContainOneByText('Jason Talon');
+    expect(
       within(getSection('Name and photo')).getByRole('button', { name: 'Edit Name and photo' }),
-    );
+    ).toHaveFocus();
 
     await edit('Name and photo');
 
-    expect(screen.getByRole('textbox', { name: /^First name/ })).toHaveProperty('value', 'Jason');
+    expect(screen.getByRole('textbox', { name: /^First name/ })).toHaveValue('Jason');
     expect(server.updated).toEqual([]);
   });
 
@@ -204,11 +207,11 @@ describe('profile', () => {
     await edit('Contact');
 
     const email = screen.getByRole('textbox', { name: /^Email address/ });
-    expect(email).toHaveProperty('value', 'jason@domain.tld');
-    expect(email).toHaveProperty('readOnly', true);
+    expect(email).toHaveValue('jason@domain.tld');
+    expect(email).toHaveAttribute('readonly');
 
     const phoneNumber = screen.getByRole('textbox', { name: /^Phone number/ });
-    expect(phoneNumber).toHaveProperty('value', '06 12 34 56 78');
+    expect(phoneNumber).toHaveValue('06 12 34 56 78');
 
     await user.clear(phoneNumber);
     await user.type(phoneNumber, '+33 7.98.76.54.32');
@@ -231,7 +234,7 @@ describe('profile', () => {
     await user.type(phoneNumber, '12 34');
     await user.click(screen.getByRole('button', { name: 'Save' }));
 
-    expect(await screen.findByText('Enter a phone number such as 06 12 34 56 78')).toBeDefined();
+    expect(await screen.findByText('Enter a phone number such as 06 12 34 56 78')).toBeInTheDocument();
     expect(server.updated).toEqual([]);
   });
 
@@ -242,7 +245,7 @@ describe('profile', () => {
     await user.clear(screen.getByRole('textbox', { name: /^Phone number/ }));
     await user.click(screen.getByRole('button', { name: 'Save' }));
 
-    expect(await screen.findByText('Your phone number cannot be removed, only changed')).toBeDefined();
+    expect(await screen.findByText('Your phone number cannot be removed, only changed')).toBeInTheDocument();
     expect(server.updated).toEqual([]);
   });
 
@@ -270,7 +273,7 @@ describe('profile', () => {
       await user.type(screen.getByRole('searchbox', { name: /^Search for an address/ }), '8 bd du port');
 
       const results = screen.getByRole('list', { name: 'Addresses found' });
-      expect(results.getAttribute('aria-busy')).toBe('true');
+      expect(results).toHaveAttribute('aria-busy', 'true');
       expect(server.find('/geocodage/search')).toEqual([]);
 
       await vi.advanceTimersByTimeAsync(1000);
@@ -279,11 +282,11 @@ describe('profile', () => {
       expect(server.find('/geocodage/search').map((url) => url.searchParams.get('q'))).toEqual([
         '8 bd du port',
       ]);
-      expect(screen.queryByRole('searchbox')).toBeNull();
+      expect(screen.queryByRole('searchbox')).not.toBeInTheDocument();
 
       const line1 = screen.getByRole('textbox', { name: /^Number and street/ });
-      expect(line1).toHaveProperty('value', '8 Boulevard du Port');
-      expect(document.activeElement).toBe(line1);
+      expect(line1).toHaveValue('8 Boulevard du Port');
+      expect(line1).toHaveFocus();
 
       await user.type(screen.getByRole('textbox', { name: /^Address complement/ }), 'Building B');
       await user.click(screen.getByRole('button', { name: 'Save' }));
@@ -310,8 +313,8 @@ describe('profile', () => {
       await user.click(screen.getByRole('button', { name: 'Search for an address' }));
       await search('nowhere');
 
-      expect(await screen.findByText(/^No address found/)).toBeDefined();
-      expect(screen.queryByRole('list', { name: 'Addresses found' })).toBeNull();
+      expect(await screen.findByText(/^No address found/)).toBeInTheDocument();
+      expect(screen.queryByRole('list', { name: 'Addresses found' })).not.toBeInTheDocument();
     });
 
     it('tells when the address search is not available', async () => {
@@ -323,7 +326,7 @@ describe('profile', () => {
       await user.click(screen.getByRole('button', { name: 'Search for an address' }));
       await search('8 bd du port');
 
-      expect(await screen.findByText(/^The search is not available at the moment/)).toBeDefined();
+      expect(await screen.findByText(/^The search is not available at the moment/)).toBeInTheDocument();
     });
   });
 
@@ -335,7 +338,7 @@ describe('profile', () => {
     await edit('Address');
     await user.click(screen.getByRole('button', { name: 'Manual entry' }));
 
-    expect(document.activeElement).toBe(screen.getByRole('textbox', { name: /^Number and street/ }));
+    expect(screen.getByRole('textbox', { name: /^Number and street/ })).toHaveFocus();
 
     await user.keyboard('1 chemin des Vignes');
     await user.type(screen.getByRole('textbox', { name: /^Postal code/ }), '75000');
@@ -407,13 +410,13 @@ describe('profile', () => {
     await edit('Address');
     await user.click(screen.getByRole('button', { name: 'Remove my address' }));
 
-    expect(document.activeElement).toBe(screen.getByRole('searchbox', { name: /^Search for an address/ }));
+    expect(screen.getByRole('searchbox', { name: /^Search for an address/ })).toHaveFocus();
 
     await user.click(screen.getByRole('button', { name: 'Save' }));
     await screen.findByText('Profile updated');
 
     expect(server.updated).toEqual([{ address: null }]);
-    expect(within(getSection('Address')).getByText('You have not entered your address yet.')).toBeDefined();
+    expect(getSection('Address')).toContainOneByText('You have not entered your address yet.');
   });
 
   it("edits the member's presentation", async () => {
@@ -428,7 +431,7 @@ describe('profile', () => {
     await screen.findByText('Profile updated');
 
     expect(server.updated).toEqual([{ bio: 'I like cooking.' }]);
-    expect(within(getSection('About me')).getByText('I like cooking.')).toBeDefined();
+    expect(getSection('About me')).toContainOneByText('I like cooking.');
   });
 
   it("removes the member's presentation", async () => {
@@ -440,7 +443,7 @@ describe('profile', () => {
     await screen.findByText('Profile updated');
 
     expect(server.updated).toEqual([{ bio: '' }]);
-    expect(within(getSection('About me')).getByText(/You have not written anything/)).toBeDefined();
+    expect(getSection('About me')).toContainOneByText(/You have not written anything/);
   });
 
   it('shows an alert when the changes could not be saved, and keeps the form', async () => {
@@ -452,9 +455,8 @@ describe('profile', () => {
     await user.type(screen.getByRole('textbox', { name: /^Presentation/ }), ' And cooking.');
     await user.click(screen.getByRole('button', { name: 'Save' }));
 
-    expect((await screen.findByRole('alert')).textContent).toContain('Your changes could not be saved');
-    expect(screen.getByRole('textbox', { name: /^Presentation/ })).toHaveProperty(
-      'value',
+    expect(await screen.findByRole('alert')).toHaveTextContent('Your changes could not be saved');
+    expect(screen.getByRole('textbox', { name: /^Presentation/ })).toHaveValue(
       'I like gardening. And cooking.',
     );
   });

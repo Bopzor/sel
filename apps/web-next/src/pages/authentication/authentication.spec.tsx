@@ -93,7 +93,7 @@ describe('authentication', () => {
 
     await user.type(input, '@domain.tld');
 
-    expect(screen.queryByText(error)).toBeNull();
+    expect(screen.queryByText(error)).not.toBeInTheDocument();
   });
 
   it('explains why a code is rejected', async () => {
@@ -113,10 +113,7 @@ describe('authentication', () => {
     await user.click(screen.getByRole('button', { name: 'Sign in' }));
     await user.click(await screen.findByRole('button', { name: 'Back' }));
 
-    expect(screen.getByRole('textbox', { name: 'Email address' })).toHaveProperty(
-      'value',
-      'member@domain.tld',
-    );
+    expect(screen.getByRole('textbox', { name: 'Email address' })).toHaveValue('member@domain.tld');
   });
 
   it('redirects a signed-in member to the requested page', async () => {

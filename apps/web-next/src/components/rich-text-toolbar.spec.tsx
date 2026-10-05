@@ -33,8 +33,8 @@ describe('RichTextToolbar.Link', () => {
 
     const link = getEditor().querySelector('a');
 
-    expect(link?.getAttribute('href')).toBe('https://example.org');
-    expect(link?.textContent).toBe('https://example.org');
+    expect(link).toHaveAttribute('href', 'https://example.org');
+    expect(link).toHaveTextContent('https://example.org');
     expect(onSubmit).not.toHaveBeenCalled();
   });
 
@@ -58,10 +58,12 @@ describe('RichTextToolbar.Link', () => {
     await user.type(getUrlInput(), 'javascript:alert(1)');
     await user.click(getDialogButton('Apply'));
 
-    expect(await screen.findByText('This URL is invalid')).toBeDefined();
-    expect(screen.getByRole('dialog')).toBeDefined();
+    expect(await screen.findByText('This URL is invalid')).toBeInTheDocument();
+    expect(screen.getByRole('dialog')).toBeInTheDocument();
     // The modal dialog hides the rest of the page from the accessibility tree.
-    expect(screen.getByRole('textbox', { name: 'Message', hidden: true }).querySelector('a')).toBeNull();
+    expect(
+      screen.getByRole('textbox', { name: 'Message', hidden: true }).querySelector('a'),
+    ).not.toBeInTheDocument();
   });
 
   it('shows the address of the link at the selection, every time the dialog opens', async () => {
@@ -70,7 +72,7 @@ describe('RichTextToolbar.Link', () => {
     await placeCaretInLink();
     await openDialog();
 
-    expect(getUrlInput()).toHaveProperty('value', 'https://a.org');
+    expect(getUrlInput()).toHaveValue('https://a.org');
 
     await user.click(getDialogButton('Cancel'));
     await waitForDialogClosed();
@@ -78,7 +80,7 @@ describe('RichTextToolbar.Link', () => {
     await placeCaretInLink();
     await openDialog();
 
-    expect(getUrlInput()).toHaveProperty('value', 'https://a.org');
+    expect(getUrlInput()).toHaveValue('https://a.org');
   });
 
   it('removes the link at the selection', async () => {
@@ -90,8 +92,8 @@ describe('RichTextToolbar.Link', () => {
 
     await waitForDialogClosed();
 
-    expect(getEditor().querySelector('a')).toBeNull();
-    expect(getEditor().textContent).toBe('a.org');
+    expect(getEditor().querySelector('a')).not.toBeInTheDocument();
+    expect(getEditor()).toHaveTextContent('a.org');
   });
 
   it('removes the link when the address is cleared', async () => {
@@ -104,7 +106,7 @@ describe('RichTextToolbar.Link', () => {
 
     await waitForDialogClosed();
 
-    expect(getEditor().querySelector('a')).toBeNull();
+    expect(getEditor().querySelector('a')).not.toBeInTheDocument();
   });
 
   function getEditor() {
@@ -125,7 +127,7 @@ describe('RichTextToolbar.Link', () => {
   }
 
   async function waitForDialogClosed() {
-    await waitFor(() => expect(screen.queryByRole('dialog')).toBeNull());
+    await waitFor(() => expect(screen.queryByRole('dialog')).not.toBeInTheDocument());
   }
 
   // A click does not place the caret in happy-dom's contenteditable: the selection is set by hand.
@@ -139,9 +141,7 @@ describe('RichTextToolbar.Link', () => {
     getEditor().focus();
     document.getSelection()?.setBaseAndExtent(text, 1, text, 1);
 
-    await waitFor(() =>
-      expect(screen.getByRole('button', { name: 'Link' }).getAttribute('aria-pressed')).toBe('true'),
-    );
+    await waitFor(() => expect(screen.getByRole('button', { name: 'Link' })).toBePressed());
   }
 });
 

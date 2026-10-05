@@ -29,8 +29,8 @@ describe('CommentsSection', () => {
   it('shows a skeleton while loading', async () => {
     renderSection();
 
-    expect(await screen.findByRole('heading', { name: 'Comments' })).toBeDefined();
-    expect(document.querySelector('[aria-busy]')).not.toBeNull();
+    expect(await screen.findByRole('heading', { name: 'Comments' })).toBeInTheDocument();
+    expect(document.querySelector('[aria-busy]')).toBeInTheDocument();
 
     await screen.findByRole('button', { name: 'Send' });
   });
@@ -45,10 +45,10 @@ describe('CommentsSection', () => {
 
     const section = await findSection('2 comments');
 
-    expect(within(section).getByText('Julien Petit')).toBeDefined();
-    expect(within(section).getByText('I can help.')).toBeDefined();
-    expect(within(section).getByText('Claire Dubois')).toBeDefined();
-    expect(within(section).getByText('Thank you!')).toBeDefined();
+    expect(section).toContainOneByText('Julien Petit');
+    expect(section).toContainOneByText('I can help.');
+    expect(section).toContainOneByText('Claire Dubois');
+    expect(section).toContainOneByText('Thank you!');
   });
 
   it('shows the form with the name of the member', async () => {
@@ -56,8 +56,8 @@ describe('CommentsSection', () => {
 
     const section = await findSection('Comments');
 
-    expect(await within(section).findByText('Jason Talon')).toBeDefined();
-    expect(within(section).getByRole('button', { name: 'Send' })).toBeDefined();
+    expect(await within(section).findByText('Jason Talon')).toBeInTheDocument();
+    expect(section).toContainOneByRole('button', { name: 'Send' });
   });
 
   it('retries loading the comments after a failure', async () => {
@@ -73,7 +73,7 @@ describe('CommentsSection', () => {
     server.failing = false;
     await user.click(screen.getByRole('button', { name: 'Retry' }));
 
-    expect(await screen.findByText('Hello there')).toBeDefined();
+    expect(await screen.findByText('Hello there')).toBeInTheDocument();
   });
 
   describe('posting a comment', () => {
@@ -85,8 +85,8 @@ describe('CommentsSection', () => {
       await write(user, 'A brand new comment');
       await user.click(screen.getByRole('button', { name: 'Send' }));
 
-      expect(await screen.findByRole('heading', { name: '1 comment' })).toBeDefined();
-      expect(await screen.findByText('A brand new comment')).toBeDefined();
+      expect(await screen.findByRole('heading', { name: '1 comment' })).toBeInTheDocument();
+      expect(await screen.findByText('A brand new comment')).toBeInTheDocument();
 
       expect(server.posted).toEqual([
         { entityType: 'event', entityId: 'e1', body: '<p>A brand new comment</p>', fileIds: [] },
@@ -103,7 +103,7 @@ describe('CommentsSection', () => {
 
       await screen.findByRole('heading', { name: '1 comment' });
 
-      expect(screen.getByRole('textbox').textContent).toBe('');
+      expect(screen.getByRole('textbox')).toHaveTextContent('');
     });
 
     it('sends the attached files with the comment, and clears them once sent', async () => {
@@ -114,13 +114,13 @@ describe('CommentsSection', () => {
       await write(user, 'Here is the plan');
       await attach(user, new File(['...'], 'plan.pdf', { type: 'application/pdf' }));
 
-      expect(await screen.findByText('plan.pdf')).toBeDefined();
+      expect(await screen.findByText('plan.pdf')).toBeInTheDocument();
 
       await user.click(screen.getByRole('button', { name: 'Send' }));
       await screen.findByRole('heading', { name: '1 comment' });
 
       expect(server.posted[0]?.fileIds).toEqual(['f1']);
-      expect(screen.queryByRole('button', { name: 'Remove plan.pdf' })).toBeNull();
+      expect(screen.queryByRole('button', { name: 'Remove plan.pdf' })).not.toBeInTheDocument();
     });
 
     it('does not send a comment that is too short', async () => {
@@ -131,7 +131,7 @@ describe('CommentsSection', () => {
       await write(user, 'Hi');
       await user.click(screen.getByRole('button', { name: 'Send' }));
 
-      expect(await screen.findByText('This field should be at least 10 characters')).toBeDefined();
+      expect(await screen.findByText('This field should be at least 10 characters')).toBeInTheDocument();
       expect(server.posted).toEqual([]);
     });
 
@@ -145,8 +145,10 @@ describe('CommentsSection', () => {
       await write(user, 'A brand new comment');
       await user.click(screen.getByRole('button', { name: 'Send' }));
 
-      expect(await screen.findByText('An error happened and your comment was not posted')).toBeDefined();
-      expect(screen.getByRole('textbox').textContent).toBe('A brand new comment');
+      expect(
+        await screen.findByText('An error happened and your comment was not posted'),
+      ).toBeInTheDocument();
+      expect(screen.getByRole('textbox')).toHaveTextContent('A brand new comment');
     });
   });
 });
