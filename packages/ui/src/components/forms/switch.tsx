@@ -1,4 +1,5 @@
-import { Switch as ArkSwitch } from '@ark-ui/react/switch';
+import { Switch as ArkSwitch, useSwitchContext } from '@ark-ui/react/switch';
+import { mergeProps } from '@ark-ui/react/utils';
 import { type Override } from '@sel/utils';
 import clsx from 'clsx';
 import { useId, type ComponentProps, type ReactNode } from 'react';
@@ -73,12 +74,24 @@ export function Switch({
 
       {/* The native input, visually hidden, gets the input props (onChange, onBlur, ref). Ark renders a plain
           checkbox: the role makes screen readers announce "on" and "off". */}
-      <ArkSwitch.HiddenInput
+      <SwitchHiddenInput
         {...props}
+        checked={checked}
         role="switch"
         aria-describedby={clsx(Boolean(description) && descriptionId, ariaDescribedBy) || undefined}
       />
     </ArkSwitch.Root>
+  );
+}
+
+// Replaces Ark's HiddenInput, which only sets defaultChecked: when the switch is controlled, React must control the
+// input too, or a click that the owner rejects or reverts leaves the input out of sync, and React can miss the next
+// change.
+function SwitchHiddenInput({ checked, ...props }: ComponentProps<'input'>) {
+  const { defaultChecked, ...inputProps } = useSwitchContext().getHiddenInputProps();
+
+  return (
+    <input {...mergeProps(inputProps, props)} {...(checked === undefined ? { defaultChecked } : { checked })} />
   );
 }
 
