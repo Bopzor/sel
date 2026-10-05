@@ -5,6 +5,7 @@ import babel from '@rolldown/plugin-babel';
 import tailwindcss from '@tailwindcss/vite';
 import react, { reactCompilerPreset } from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
+import { VitePWA } from 'vite-plugin-pwa';
 
 import packageJson from './package.json' with { type: 'json' };
 
@@ -14,6 +15,16 @@ export default defineConfig({
     lingui({ failOnMissing: true }),
     babel({ presets: [reactCompilerPreset(), linguiTransformerBabelPreset()] }),
     tailwindcss(),
+    VitePWA({
+      strategies: 'injectManifest',
+      srcDir: 'src',
+      filename: 'sw.ts',
+      injectRegister: 'script-defer',
+      injectManifest: { injectionPoint: undefined },
+      pwaAssets: { image: 'public/logo.svg' },
+      manifest: false,
+      devOptions: { enabled: true, type: 'module' },
+    }),
   ],
   define: {
     __APP_VERSION__: JSON.stringify(packageJson.version),
@@ -27,6 +38,9 @@ export default defineConfig({
       '/api': {
         target: 'http://localhost:3000',
         rewrite: (path) => path.replace(/^\/api/, ''),
+      },
+      '/manifest.webmanifest': {
+        target: 'http://localhost:3000',
       },
     },
   },

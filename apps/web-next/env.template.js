@@ -1,0 +1,3 @@
+globalThis.__ENV__ = {
+  VITE_WEB_PUSH_PUBLIC_KEY: '$VITE_WEB_PUSH_PUBLIC_KEY',
+};
