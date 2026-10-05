@@ -1,13 +1,13 @@
 import { i18n } from '@lingui/core';
 import { I18nProvider } from '@lingui/react';
 import { createConfig } from '@sel/shared';
-import { Toaster } from '@sel/ui';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { render } from '@testing-library/react';
 import { createMemoryRouter, RouterProvider, type RouteObject } from 'react-router';
 
 import { queries } from 'src/app/queries';
 import { queryClient } from 'src/app/query-client';
+import { Toaster } from 'src/components/toaster';
 
 export function renderTest(children: React.ReactNode) {
   queryClient.setQueryData(
@@ -19,7 +19,7 @@ export function renderTest(children: React.ReactNode) {
     <I18nProvider i18n={i18n}>
       <QueryClientProvider client={queryClient}>
         {children}
-        <Toaster closeLabel="Close" />
+        <Toaster />
       </QueryClientProvider>
     </I18nProvider>,
   );

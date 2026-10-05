@@ -79,6 +79,14 @@ msgstr "Une erreur est survenue et votre commentaire n'a pas pu être envoyé"
 msgid "Answers"
 msgstr "Réponses"
 
+#: src/pages/settings/settings-page.tsx
+msgid "Appearance"
+msgstr "Apparence"
+
+#: src/pages/settings/settings-page.tsx
+msgid "Applies to this device only."
+msgstr "S'applique uniquement à cet appareil."
+
 #: src/components/rich-text-toolbar.tsx
 msgid "Apply"
 msgstr "Appliquer"
@@ -112,6 +120,10 @@ msgstr "Gras"
 #: src/components/rich-text-toolbar.tsx
 msgid "Bulleted list"
 msgstr "Liste à puces"
+
+#: src/pages/settings/settings-page.tsx
+msgid "By email"
+msgstr "Par email"
 
 #: src/pages/requests/details/request-answers.tsx
 msgid "Can help"
@@ -160,7 +172,7 @@ msgid "Clear filters"
 msgstr "Effacer les filtres"
 
 #: src/components/rich-text-toolbar.tsx
-#: src/main.tsx
+#: src/components/toaster.tsx
 #: src/pages/requests/details/requester-actions.tsx
 msgid "Close"
 msgstr "Fermer"
@@ -194,6 +206,10 @@ msgstr "Contact"
 #: src/pages/requests/details/request-answer.tsx
 msgid "Contact {firstName} to arrange the details."
 msgstr "Contactez {firstName} pour vous organiser."
+
+#: src/pages/settings/settings-page.tsx
+msgid "Dark"
+msgstr "Sombre"
 
 #: src/pages/profile/profile-section.tsx
 #: src/pages/requests/details/requester-actions.tsx
@@ -258,6 +274,10 @@ msgstr "Masqué aux autres membres"
 msgid "Home"
 msgstr "Accueil"
 
+#: src/pages/settings/settings-page.tsx
+msgid "How you are told about the activity of the LETS."
+msgstr "Comment être tenu au courant de l'activité du SEL."
+
 #: src/pages/requests/details/request-answer.tsx
 msgid "I can help"
 msgstr "Je peux aider"
@@ -286,9 +306,17 @@ msgstr "Centres d'intérêts"
 msgid "Italic"
 msgstr "Italique"
 
+#: src/pages/settings/settings-page.tsx
+msgid "Language"
+msgstr "Langue"
+
 #: src/pages/profile/identity-section.tsx
 msgid "Last name"
 msgstr "Nom"
+
+#: src/pages/settings/settings-page.tsx
+msgid "Light"
+msgstr "Clair"
 
 #: src/components/rich-text-toolbar.tsx
 msgid "Link"
@@ -379,6 +407,18 @@ msgstr "Aucune demande ne correspond à ces filtres"
 msgid "No requests"
 msgstr "Aucune demande"
 
+#: src/pages/settings/settings-page.tsx
+msgid "Notifications"
+msgstr "Notifications"
+
+#: src/pages/settings/settings-page.tsx
+msgid "Notifications appear on this device, even when the app is closed."
+msgstr "Les notifications s'affichent sur cet appareil, même quand l'app est fermée."
+
+#: src/pages/settings/settings-page.tsx
+msgid "Notifications are sent to your email address."
+msgstr "Les notifications sont envoyées à votre adresse email."
+
 #: src/pages/profile/address-section.tsx
 msgid "Number and street"
 msgstr "Numéro et rue"
@@ -386,6 +426,10 @@ msgstr "Numéro et rue"
 #: src/components/rich-text-toolbar.tsx
 msgid "Numbered list"
 msgstr "Liste numérotée"
+
+#: src/pages/settings/settings-page.tsx
+msgid "On this device"
+msgstr "Sur cet appareil"
 
 #: src/pages/requests/edit/edit-request-page.tsx
 msgid "Only its author can edit a request, as long as it is open."
@@ -481,6 +525,10 @@ msgstr "Demandes"
 msgid "Retry"
 msgstr "Réessayer"
 
+#: src/pages/settings/settings-page.tsx
+msgid "Same as the device"
+msgstr "Comme l'appareil"
+
 #: src/pages/profile/profile-section.tsx
 msgid "Save"
 msgstr "Enregistrer"
@@ -518,6 +566,7 @@ msgid "Send"
 msgstr "Envoyer"
 
 #: src/app/routes.ts
+#: src/pages/settings/settings-page.tsx
 msgid "Settings"
 msgstr "Paramètres"
 
@@ -670,6 +719,10 @@ msgstr "Impossible de joindre le serveur, vérifiez votre accès à internet"
 #: src/components/rich-text-toolbar.tsx
 msgid "Underline"
 msgstr "Souligné"
+
+#: src/pages/settings/settings-page.tsx
+msgid "Version {version}"
+msgstr "Version {version}"
 
 #: src/pages/profile/profile-section.tsx
 msgid "Visible to the other members"

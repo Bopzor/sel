@@ -6,6 +6,8 @@ import tailwindcss from '@tailwindcss/vite';
 import react, { reactCompilerPreset } from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
 
+import packageJson from './package.json' with { type: 'json' };
+
 export default defineConfig({
   plugins: [
     react(),
@@ -13,6 +15,9 @@ export default defineConfig({
     babel({ presets: [reactCompilerPreset(), linguiTransformerBabelPreset()] }),
     tailwindcss(),
   ],
+  define: {
+    __APP_VERSION__: JSON.stringify(packageJson.version),
+  },
   build: {
     sourcemap: true,
   },

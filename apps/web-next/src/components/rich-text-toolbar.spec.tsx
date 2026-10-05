@@ -1,6 +1,6 @@
 import { RichTextEditor } from '@sel/ui';
 import { screen, waitFor, within } from '@testing-library/react';
-import { userEvent } from '@testing-library/user-event';
+import { userEvent, type UserEvent } from '@testing-library/user-event';
 import { useState } from 'react';
 import { beforeEach, describe, expect, it, vi, type Mock } from 'vitest';
 
@@ -9,7 +9,7 @@ import { renderTest } from 'src/tests/test-page';
 import { RichTextToolbar } from './rich-text-toolbar';
 
 describe('RichTextToolbar.Link', () => {
-  let user: ReturnType<typeof userEvent.setup>;
+  let user: UserEvent;
   let onSubmit: Mock<(event: React.SubmitEvent) => void>;
 
   beforeEach(() => {

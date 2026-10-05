@@ -7,7 +7,7 @@ import {
 } from '@sel/shared';
 import { assert } from '@sel/utils';
 import { screen, within } from '@testing-library/react';
-import { userEvent } from '@testing-library/user-event';
+import { userEvent, type UserEvent } from '@testing-library/user-event';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { routes } from 'src/app/routes';
@@ -18,7 +18,7 @@ import { renderTestPage } from 'src/tests/test-page';
 import { ProfilePage } from './profile-page';
 
 describe('profile', () => {
-  let user: ReturnType<typeof userEvent.setup>;
+  let user: UserEvent;
   let server: Server;
 
   beforeEach(() => {

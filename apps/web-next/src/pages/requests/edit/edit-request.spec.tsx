@@ -1,14 +1,14 @@
 import {
   createAuthenticatedMember,
   RequestStatus,
+  type CreateRequestBody,
   type LightMember,
   type Request,
-  type CreateRequestBody,
   type File as UploadedFile,
 } from '@sel/shared';
 import { assert, createFactory } from '@sel/utils';
 import { screen, within } from '@testing-library/react';
-import { userEvent } from '@testing-library/user-event';
+import { userEvent, type UserEvent } from '@testing-library/user-event';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { routes } from 'src/app/routes';
@@ -22,7 +22,7 @@ const me = createAuthenticatedMember({ id: 'me', firstName: 'Jason', lastName: '
 const claire: LightMember = { id: 'claire', number: 12, firstName: 'Claire', lastName: 'Dubois' };
 
 describe('edit request', () => {
-  let user: ReturnType<typeof userEvent.setup>;
+  let user: UserEvent;
   let server: Server;
 
   beforeEach(() => {

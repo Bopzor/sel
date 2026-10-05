@@ -1,21 +1,22 @@
 import { i18n } from '@lingui/core';
 import { msg } from '@lingui/core/macro';
 import { I18nProvider } from '@lingui/react';
-import { Toaster } from '@sel/ui';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router';
 
+import { watchColorScheme } from './app/color-scheme';
 import { loadConfig } from './app/config';
+import { activateLocale, getLocale } from './app/locale';
 import { queryClient } from './app/query-client';
 import { navigation, routes } from './app/routes';
 import { requireNoSession, requireSession } from './app/session';
 import { applyTheme } from './app/theme';
+import { Toaster } from './components/toaster';
 import './index.css';
 import { Layout } from './layout/layout';
-import { messages } from './locales/fr.po';
 import { AuthenticationPage } from './pages/authentication/authentication';
 import { NavigationPage } from './pages/navigation';
 import { PlaceholderPage } from './pages/placeholder';
@@ -24,8 +25,10 @@ import { CreateRequestPage } from './pages/requests/create/create-request-page';
 import { RequestPage } from './pages/requests/details/request-page';
 import { EditRequestPage } from './pages/requests/edit/edit-request-page';
 import { RequestsPage } from './pages/requests/list/requests-page';
+import { SettingsPage } from './pages/settings/settings-page';
 
-i18n.loadAndActivate({ locale: 'fr', messages });
+activateLocale(getLocale());
+watchColorScheme();
 
 async function initialize() {
   const config = await loadConfig();
@@ -94,7 +97,7 @@ const router = createBrowserRouter([
           },
           {
             path: routes.settings(),
-            element: <PlaceholderPage title={navigation.account.settings.label} />,
+            Component: SettingsPage,
           },
           {
             path: routes.navigation(),
@@ -111,7 +114,7 @@ createRoot(document.getElementById('root')!).render(
     <I18nProvider i18n={i18n}>
       <QueryClientProvider client={queryClient}>
         <RouterProvider router={router} />
-        <Toaster closeLabel={i18n._(msg`Close`)} />
+        <Toaster />
         <ReactQueryDevtools />
       </QueryClientProvider>
     </I18nProvider>

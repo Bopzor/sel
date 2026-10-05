@@ -1,7 +1,7 @@
 import { createAuthenticatedMember, type CreateRequestBody, type File as UploadedFile } from '@sel/shared';
 import { assert } from '@sel/utils';
 import { screen } from '@testing-library/react';
-import { userEvent } from '@testing-library/user-event';
+import { userEvent, type UserEvent } from '@testing-library/user-event';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import type z from 'zod';
 
@@ -15,7 +15,7 @@ import { CreateRequestPage } from './create-request-page';
 const me = createAuthenticatedMember({ id: 'me', firstName: 'Jason', lastName: 'Talon' });
 
 describe('create request', () => {
-  let user: ReturnType<typeof userEvent.setup>;
+  let user: UserEvent;
   let server: Server;
 
   beforeEach(() => {
