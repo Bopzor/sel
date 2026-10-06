@@ -19,7 +19,7 @@ const config: Config = {
   email: { host: '', port: 0, secure: false, sender: '', password: '' },
   push: { subject: 'mailto:', ...vapidKeys },
   slack: { webhookUrl: '' },
-  minio: {
+  s3: {
     endPoint: '',
     port: 0,
     useSSL: false,
