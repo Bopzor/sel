@@ -11,6 +11,15 @@ export type Information = {
   publishedAt: string;
 };
 
+export const listInformationQuerySchema = z.object({
+  search: z.string().optional(),
+  authorId: z.string().optional(),
+  page: z.coerce.number().min(1).default(1),
+  pageSize: z.coerce.number().min(1).max(100).default(10),
+});
+
+export type ListInformationQuery = z.input<typeof listInformationQuerySchema>;
+
 export const createInformationBodySchema = z.object({
   title: z.string().trim().min(5).max(255),
   body: z.string().trim().min(15),

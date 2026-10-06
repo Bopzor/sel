@@ -16,6 +16,7 @@ import { MessageWithAttachments, withAttachments } from '../messages/message.ent
 import { serializeMessage } from '../messages/message.serializer';
 
 import { createInformation } from './domain/create-information.command';
+import { listInformation } from './domain/list-information.query';
 import { updateInformation } from './domain/update-information.command';
 import { Information } from './information.entities';
 import { findInformationById } from './information.persistence';
@@ -37,16 +38,11 @@ const isAuthor: RequestHandler<{ informationId: string }> = async (req, res, nex
 };
 
 router.get('/', async (req, res) => {
-  const information = await db.query.information.findMany({
-    with: {
-      author: withAvatar,
-      message: withAttachments,
-      comments: {
-        with: { author: withAvatar, message: withAttachments },
-      },
-    },
-    orderBy: { publishedAt: 'desc' },
-  });
+  const query = shared.listInformationQuerySchema.parse(req.query);
+  const { total, information } = await listInformation(query);
+
+  res.setHeader('x-pagination-total', total);
+  res.setHeader('x-pagination-page-size', query.pageSize);
 
   res.json(information.map(serializeInformation));
 });
