@@ -20,6 +20,9 @@ import { Toaster } from './components/toaster';
 import './index.css';
 import { Layout } from './layout/layout';
 import { AuthenticationPage } from './pages/authentication/authentication';
+import { CreateEventPage } from './pages/events/create/create-event-page';
+import { EventPage } from './pages/events/details/event-page';
+import { EditEventPage } from './pages/events/edit/edit-event-page';
 import { EventsPage } from './pages/events/list/events-page';
 import { NavigationPage } from './pages/navigation';
 import { PlaceholderPage } from './pages/placeholder';
@@ -103,6 +106,18 @@ const router = createBrowserRouter([
           {
             path: routes.events(),
             Component: EventsPage,
+          },
+          {
+            path: routes.createEvent(),
+            Component: CreateEventPage,
+          },
+          {
+            path: routes.event(':eventId'),
+            Component: EventPage,
+          },
+          {
+            path: routes.editEvent(':eventId'),
+            Component: EditEventPage,
           },
           {
             path: routes.information(),

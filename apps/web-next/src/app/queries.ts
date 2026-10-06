@@ -3,6 +3,7 @@ import {
   type Comment,
   type CommentEntityType,
   type Config,
+  type Event,
   type EventsListItem,
   type ListEventsQuery,
   type ListRequestsQuery,
@@ -81,6 +82,15 @@ export const queries = {
       getNextPageParam,
       placeholderData: keepPreviousData,
       select: flattenPages,
+    });
+  },
+
+  event: (eventId: string) => {
+    return queryOptions({
+      queryKey: ['event', { id: eventId }],
+      queryFn: () => {
+        return api<Event>('GET', `/events/${eventId}`);
+      },
     });
   },
 
