@@ -250,6 +250,10 @@ msgstr "City"
 msgid "Clear filters"
 msgstr "Clear filters"
 
+#: src/pages/members/list/members-list.tsx
+msgid "Clear the search"
+msgstr "Clear the search"
+
 #: src/components/address-form-dialog.tsx
 #: src/components/rich-text-toolbar.tsx
 #: src/components/toaster.tsx
@@ -392,6 +396,11 @@ msgstr "Exchanges"
 msgid "First name"
 msgstr "First name"
 
+#: src/pages/members/list/members-page.tsx
+msgctxt "members sort"
+msgid "First name"
+msgstr "First name"
+
 #: src/layout/push-notifications-prompt.tsx
 msgid "Follow the activity of the LETS, even when the app is closed."
 msgstr "Follow the activity of the LETS, even when the app is closed."
@@ -508,6 +517,11 @@ msgstr "Language"
 msgid "Last name"
 msgstr "Last name"
 
+#: src/pages/members/list/members-page.tsx
+msgctxt "members sort"
+msgid "Last name"
+msgstr "Last name"
+
 #: src/pages/events/event-form.tsx
 msgid "Leave it empty if the date is not set yet"
 msgstr "Leave it empty if the date is not set yet"
@@ -562,6 +576,7 @@ msgid "Member since"
 msgstr "Member since"
 
 #: src/app/routes.ts
+#: src/pages/members/list/members-page.tsx
 msgid "Members"
 msgstr "Members"
 
@@ -609,6 +624,11 @@ msgstr "my@email.com"
 msgid "Name and photo"
 msgstr "Name and photo"
 
+#: src/pages/members/list/members-list.tsx
+msgctxt "member"
+msgid "New"
+msgstr "New"
+
 #: src/pages/events/list/events-page.tsx
 msgid "New event"
 msgstr "New event"
@@ -620,6 +640,11 @@ msgstr "New information"
 #: src/pages/requests/list/requests-page.tsx
 msgid "New request"
 msgstr "New request"
+
+#: src/pages/members/list/members-page.tsx
+msgctxt "members sort"
+msgid "Newest"
+msgstr "Newest"
 
 #: src/components/address-search.tsx
 msgid "No address found. Check what you typed, or enter the address manually."
@@ -636,6 +661,14 @@ msgstr "No information"
 #: src/pages/information/list/information-list.tsx
 msgid "No information matches these filters"
 msgstr "No information matches these filters"
+
+#: src/pages/members/list/members-list.tsx
+msgid "No member matches this search"
+msgstr "No member matches this search"
+
+#: src/pages/members/list/members-list.tsx
+msgid "No members"
+msgstr "No members"
 
 #: src/pages/requests/details/request-answers.tsx
 msgid "No one has answered yet."
@@ -898,6 +931,10 @@ msgstr "Search"
 msgid "Search for an address"
 msgstr "Search for an address"
 
+#: src/pages/members/list/members-page.tsx
+msgid "Search members"
+msgstr "Search members"
+
 #: src/pages/events/list/events-filters.tsx
 msgid "Search the events"
 msgstr "Search the events"
@@ -1005,6 +1042,10 @@ msgstr "Sign-in code"
 msgid "Sign-in failed. Try again in a few moments."
 msgstr "Sign-in failed. Try again in a few moments."
 
+#: src/pages/members/list/members-page.tsx
+msgid "Sort"
+msgstr "Sort"
+
 #: src/pages/error-page.tsx
 msgid "The application is under maintenance"
 msgstr "The application is under maintenance"
@@ -1032,6 +1073,10 @@ msgstr "The link may be wrong, or the page may no longer exist."
 #: src/pages/requests/request-not-found.tsx
 msgid "The link may be wrong, or the request may no longer exist."
 msgstr "The link may be wrong, or the request may no longer exist."
+
+#: src/pages/members/list/members-list.tsx
+msgid "The members of the association appear here once their account is active."
+msgstr "The members of the association appear here once their account is active."
 
 #: src/pages/events/edit/edit-event-page.tsx
 msgid "The members who are coming or who commented will see the new version."
@@ -1208,6 +1253,10 @@ msgstr "Unable to load the information"
 msgctxt "information list"
 msgid "Unable to load the information"
 msgstr "Unable to load the information"
+
+#: src/pages/members/list/members-list.tsx
+msgid "Unable to load the members"
+msgstr "Unable to load the members"
 
 #: src/pages/requests/details/request-page.tsx
 #: src/pages/requests/edit/edit-request-page.tsx

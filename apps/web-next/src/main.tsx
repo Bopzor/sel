@@ -31,6 +31,7 @@ import { CreateInformationPage } from './pages/information/create/create-informa
 import { InformationDetailsPage } from './pages/information/details/information-details-page';
 import { EditInformationPage } from './pages/information/edit/edit-information-page';
 import { InformationPage } from './pages/information/list/information-page';
+import { MembersPage } from './pages/members/list/members-page';
 import { NavigationPage } from './pages/navigation';
 import { PlaceholderPage } from './pages/placeholder';
 import { ProfilePage } from './pages/profile/profile-page';
@@ -135,7 +136,7 @@ const authenticatedRoutes: RouteObject[] = [
   },
   {
     path: routes.members(),
-    element: <PlaceholderPage title={navigation.community.members.label} />,
+    Component: MembersPage,
   },
   {
     path: routes.member(':memberId'),

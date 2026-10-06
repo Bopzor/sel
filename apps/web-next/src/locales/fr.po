@@ -250,6 +250,10 @@ msgstr "Ville"
 msgid "Clear filters"
 msgstr "Effacer les filtres"
 
+#: src/pages/members/list/members-list.tsx
+msgid "Clear the search"
+msgstr "Effacer la recherche"
+
 #: src/components/address-form-dialog.tsx
 #: src/components/rich-text-toolbar.tsx
 #: src/components/toaster.tsx
@@ -392,6 +396,11 @@ msgstr "Échanges"
 msgid "First name"
 msgstr "Prénom"
 
+#: src/pages/members/list/members-page.tsx
+msgctxt "members sort"
+msgid "First name"
+msgstr "Prénom"
+
 #: src/layout/push-notifications-prompt.tsx
 msgid "Follow the activity of the LETS, even when the app is closed."
 msgstr "Suivez l'activité du SEL, même lorsque l'application est fermée."
@@ -508,6 +517,11 @@ msgstr "Langue"
 msgid "Last name"
 msgstr "Nom"
 
+#: src/pages/members/list/members-page.tsx
+msgctxt "members sort"
+msgid "Last name"
+msgstr "Nom"
+
 #: src/pages/events/event-form.tsx
 msgid "Leave it empty if the date is not set yet"
 msgstr "Laissez vide si la date n'est pas encore fixée"
@@ -562,6 +576,7 @@ msgid "Member since"
 msgstr "Membre depuis"
 
 #: src/app/routes.ts
+#: src/pages/members/list/members-page.tsx
 msgid "Members"
 msgstr "Membres"
 
@@ -609,6 +624,11 @@ msgstr "mon@email.com"
 msgid "Name and photo"
 msgstr "Nom et photo"
 
+#: src/pages/members/list/members-list.tsx
+msgctxt "member"
+msgid "New"
+msgstr "Arrivé(e) récemment"
+
 #: src/pages/events/list/events-page.tsx
 msgid "New event"
 msgstr "Nouvel événement"
@@ -620,6 +640,11 @@ msgstr "Nouvelle information"
 #: src/pages/requests/list/requests-page.tsx
 msgid "New request"
 msgstr "Nouvelle demande"
+
+#: src/pages/members/list/members-page.tsx
+msgctxt "members sort"
+msgid "Newest"
+msgstr "Date d'adhésion"
 
 #: src/components/address-search.tsx
 msgid "No address found. Check what you typed, or enter the address manually."
@@ -636,6 +661,14 @@ msgstr "Aucune information"
 #: src/pages/information/list/information-list.tsx
 msgid "No information matches these filters"
 msgstr "Aucune information ne correspond à ces filtres"
+
+#: src/pages/members/list/members-list.tsx
+msgid "No member matches this search"
+msgstr "Aucun membre ne correspond à cette recherche"
+
+#: src/pages/members/list/members-list.tsx
+msgid "No members"
+msgstr "Aucun membre"
 
 #: src/pages/requests/details/request-answers.tsx
 msgid "No one has answered yet."
@@ -898,6 +931,10 @@ msgstr "Rechercher"
 msgid "Search for an address"
 msgstr "Rechercher une adresse"
 
+#: src/pages/members/list/members-page.tsx
+msgid "Search members"
+msgstr "Rechercher un membre"
+
 #: src/pages/events/list/events-filters.tsx
 msgid "Search the events"
 msgstr "Rechercher parmi les événements"
@@ -1005,6 +1042,10 @@ msgstr "Code de connexion"
 msgid "Sign-in failed. Try again in a few moments."
 msgstr "La connexion a échoué. Réessayez dans quelques instants."
 
+#: src/pages/members/list/members-page.tsx
+msgid "Sort"
+msgstr "Trier"
+
 #: src/pages/error-page.tsx
 msgid "The application is under maintenance"
 msgstr "L'application est en maintenance"
@@ -1032,6 +1073,10 @@ msgstr "Le lien est peut-être erroné, ou la page n'existe plus."
 #: src/pages/requests/request-not-found.tsx
 msgid "The link may be wrong, or the request may no longer exist."
 msgstr "Le lien est peut-être erroné, ou la demande n’existe plus."
+
+#: src/pages/members/list/members-list.tsx
+msgid "The members of the association appear here once their account is active."
+msgstr "Les membres de l'association apparaissent ici une fois leur compte activé."
 
 #: src/pages/events/edit/edit-event-page.tsx
 msgid "The members who are coming or who commented will see the new version."
@@ -1208,6 +1253,10 @@ msgstr "Impossible de charger l'information"
 msgctxt "information list"
 msgid "Unable to load the information"
 msgstr "Impossible de charger les informations"
+
+#: src/pages/members/list/members-list.tsx
+msgid "Unable to load the members"
+msgstr "Impossible de charger les membres"
 
 #: src/pages/requests/details/request-page.tsx
 #: src/pages/requests/edit/edit-request-page.tsx

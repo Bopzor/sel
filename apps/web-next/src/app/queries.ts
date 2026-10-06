@@ -9,6 +9,8 @@ import {
   type ListInformationQuery,
   type ListEventsQuery,
   type ListRequestsQuery,
+  type Member,
+  type MembersSort,
   type Request,
   type RequestListItem,
 } from '@sel/shared';
@@ -118,6 +120,16 @@ export const queries = {
       queryFn: () => {
         return api<Information>('GET', `/information/${informationId}`);
       },
+    });
+  },
+
+  listMembers: (query: { sort: MembersSort }) => {
+    return queryOptions({
+      queryKey: ['members', query],
+      queryFn: () => {
+        return api<Member[]>('GET', '/members', { query });
+      },
+      placeholderData: keepPreviousData,
     });
   },
 
