@@ -1,12 +1,11 @@
 import { i18n } from '@lingui/core';
-import { msg } from '@lingui/core/macro';
 import { I18nProvider } from '@lingui/react';
 import { wrapCreateBrowserRouter } from '@sentry/react/react-router';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-import { createBrowserRouter, RouterProvider, type RouteObject } from 'react-router';
+import { createBrowserRouter, RouterProvider } from 'react-router';
 
 import { watchColorScheme } from './app/color-scheme';
 import { loadConfig } from './app/config';
@@ -14,7 +13,7 @@ import { activateLocale, getLocale } from './app/locale';
 import { getPushPermission, registerDevice } from './app/push-notifications';
 import { queries } from './app/queries';
 import { queryClient } from './app/query-client';
-import { navigation, routes } from './app/routes';
+import { routes } from './app/routes';
 import { captureError, initSentry } from './app/sentry';
 import { requireNoSession, requireSession } from './app/session';
 import { applyTheme } from './app/theme';
@@ -33,7 +32,6 @@ import { EditInformationPage } from './pages/information/edit/edit-information-p
 import { InformationPage } from './pages/information/list/information-page';
 import { MembersPage } from './pages/members/list/members-page';
 import { NavigationPage } from './pages/navigation';
-import { PlaceholderPage } from './pages/placeholder';
 import { ProfilePage } from './pages/profile/profile-page';
 import { CreateRequestPage } from './pages/requests/create/create-request-page';
 import { RequestPage } from './pages/requests/details/request-page';
@@ -77,88 +75,32 @@ function initializeSession() {
   sessionInitialized = true;
 }
 
-const authenticatedRoutes: RouteObject[] = [
-  {
-    path: routes.home(),
-    element: <PlaceholderPage title={navigation.main.home.label} />,
-  },
-  {
-    path: routes.requests(),
-    Component: RequestsPage,
-  },
-  {
-    path: routes.createRequest(),
-    Component: CreateRequestPage,
-  },
-  {
-    path: routes.request(':requestId'),
-    Component: RequestPage,
-  },
-  {
-    path: routes.editRequest(':requestId'),
-    Component: EditRequestPage,
-  },
-  {
-    path: routes.events(),
-    Component: EventsPage,
-  },
-  {
-    path: routes.createEvent(),
-    Component: CreateEventPage,
-  },
-  {
-    path: routes.event(':eventId'),
-    Component: EventPage,
-  },
-  {
-    path: routes.editEvent(':eventId'),
-    Component: EditEventPage,
-  },
-  {
-    path: routes.information(),
-    Component: InformationPage,
-  },
-  {
-    path: routes.createInformation(),
-    Component: CreateInformationPage,
-  },
-  {
-    path: routes.informationDetails(':informationId'),
-    Component: InformationDetailsPage,
-  },
-  {
-    path: routes.editInformation(':informationId'),
-    Component: EditInformationPage,
-  },
-  {
-    path: routes.interests(),
-    element: <PlaceholderPage title={navigation.community.interests.label} />,
-  },
-  {
-    path: routes.members(),
-    Component: MembersPage,
-  },
-  {
-    path: routes.member(':memberId'),
-    element: <PlaceholderPage title={msg`Member`} />,
-  },
-  {
-    path: routes.profile(),
-    Component: ProfilePage,
-  },
-  {
-    path: routes.settings(),
-    Component: SettingsPage,
-  },
-  {
-    path: routes.navigation(),
-    Component: NavigationPage,
-  },
-  {
-    path: '*',
-    Component: NotFoundPage,
-  },
-];
+function PlaceholderPage() {
+  return null;
+}
+
+const authenticatedRoutes: Record<string, React.ComponentType> = {
+  [routes.home()]: PlaceholderPage,
+  [routes.requests()]: RequestsPage,
+  [routes.createRequest()]: CreateRequestPage,
+  [routes.request(':requestId')]: RequestPage,
+  [routes.editRequest(':requestId')]: EditRequestPage,
+  [routes.events()]: EventsPage,
+  [routes.createEvent()]: CreateEventPage,
+  [routes.event(':eventId')]: EventPage,
+  [routes.editEvent(':eventId')]: EditEventPage,
+  [routes.information()]: InformationPage,
+  [routes.createInformation()]: CreateInformationPage,
+  [routes.informationDetails(':informationId')]: InformationDetailsPage,
+  [routes.editInformation(':informationId')]: EditInformationPage,
+  [routes.interests()]: PlaceholderPage,
+  [routes.members()]: MembersPage,
+  [routes.member(':memberId')]: PlaceholderPage,
+  [routes.profile()]: ProfilePage,
+  [routes.settings()]: SettingsPage,
+  [routes.navigation()]: NavigationPage,
+  '*': NotFoundPage,
+};
 
 function HydrateFallback() {
   return null;
@@ -181,7 +123,7 @@ const router = wrapCreateBrowserRouter(createBrowserRouter)([
         children: [
           {
             ErrorBoundary: PageErrorBoundary,
-            children: authenticatedRoutes,
+            children: Object.entries(authenticatedRoutes).map(([path, Component]) => ({ path, Component })),
           },
         ],
       },
