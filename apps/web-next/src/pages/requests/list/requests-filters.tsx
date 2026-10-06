@@ -1,15 +1,12 @@
 import { Trans, useLingui } from '@lingui/react/macro';
 import { RequestStatus } from '@sel/shared';
 import { Chip, Input } from '@sel/ui';
-import z from 'zod';
 
-export const requestsFiltersSchema = z.object({
-  status: z.enum([RequestStatus.pending, 'all']).catch(RequestStatus.pending),
-  search: z.string().catch(''),
-  mine: z.stringbool().catch(false),
-});
-
-export type RequestFilters = z.output<typeof requestsFiltersSchema>;
+export type RequestFilters = {
+  status: 'pending' | 'all';
+  search: string;
+  mine: boolean;
+};
 
 type FiltersBarProps = {
   filters: RequestFilters;

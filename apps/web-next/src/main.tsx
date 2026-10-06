@@ -20,6 +20,7 @@ import { Toaster } from './components/toaster';
 import './index.css';
 import { Layout } from './layout/layout';
 import { AuthenticationPage } from './pages/authentication/authentication';
+import { EventsPage } from './pages/events/list/events-page';
 import { NavigationPage } from './pages/navigation';
 import { PlaceholderPage } from './pages/placeholder';
 import { ProfilePage } from './pages/profile/profile-page';
@@ -101,7 +102,7 @@ const router = createBrowserRouter([
           },
           {
             path: routes.events(),
-            element: <PlaceholderPage title={navigation.exchanges.events.label} />,
+            Component: EventsPage,
           },
           {
             path: routes.information(),

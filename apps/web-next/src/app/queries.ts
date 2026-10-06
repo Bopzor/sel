@@ -3,6 +3,8 @@ import {
   type Comment,
   type CommentEntityType,
   type Config,
+  type EventsListItem,
+  type ListEventsQuery,
   type ListRequestsQuery,
   type Request,
   type RequestListItem,
@@ -51,9 +53,7 @@ export const queries = {
         });
       },
       initialPageParam: 1,
-      getNextPageParam: (lastPage, pages) => {
-        return pages.length * pageSize < lastPage.total ? pages.length + 1 : undefined;
-      },
+      getNextPageParam,
       placeholderData: keepPreviousData,
       select: flattenPages,
     });
@@ -65,6 +65,22 @@ export const queries = {
       queryFn: () => {
         return api<Request>('GET', `/requests/${requestId}`);
       },
+    });
+  },
+
+  listEvents: (query: Omit<ListEventsQuery, 'year'>) => {
+    return infiniteQueryOptions({
+      queryKey: ['events', query],
+      queryFn: ({ pageParam }) => {
+        return api<Paginated<EventsListItem>>('GET', '/events', {
+          query: { ...query, page: pageParam, pageSize },
+          paginated: true,
+        });
+      },
+      initialPageParam: 1,
+      getNextPageParam,
+      placeholderData: keepPreviousData,
+      select: flattenPages,
     });
   },
 
@@ -87,6 +103,10 @@ export const queries = {
     });
   },
 };
+
+function getNextPageParam(lastPage: { total: number }, pages: unknown[]) {
+  return pages.length * pageSize < lastPage.total ? pages.length + 1 : undefined;
+}
 
 // An item created or deleted between two pages shifts the next ones: an item can come back on the next page.
 function flattenPages<T extends { id: string }>(data: InfiniteData<Paginated<T>>): Paginated<T> {

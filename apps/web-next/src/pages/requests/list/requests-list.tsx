@@ -4,7 +4,7 @@ import { Badge, Button, Card, EmptyState, LinkButton, Skeleton } from '@sel/ui';
 import { useInfiniteQuery, useSuspenseQuery } from '@tanstack/react-query';
 import clsx from 'clsx';
 
-import { formatMemberName } from 'src/app/format';
+import { formatExcerpt, formatMemberName } from 'src/app/format';
 import { queries } from 'src/app/queries';
 import { routes } from 'src/app/routes';
 import { ApiFailed } from 'src/components/api-result';
@@ -104,7 +104,7 @@ function RequestCard({ request }: { request: RequestListItem }) {
             {request.status !== RequestStatus.pending && <StatusBadge status={request.status} />}
           </div>
 
-          <p className="line-clamp-2 text-body-sm text-muted">{excerpt(request.message.body)}</p>
+          <p className="line-clamp-2 text-body-sm text-muted">{formatExcerpt(request.message.body)}</p>
 
           <p className="mt-1 text-caption text-subtle">
             <span className="font-semibold">{name}</span>
@@ -140,15 +140,6 @@ function StatusBadge({ status }: { status: RequestStatus }) {
       {fulfilled ? <Trans>Fulfilled</Trans> : <Trans>Canceled</Trans>}
     </Badge>
   );
-}
-
-// Plain text: the formatting does not fit in two lines. The blocks are separated by a space.
-function excerpt(html: string) {
-  const { body } = new DOMParser().parseFromString(html, 'text/html');
-
-  body.querySelectorAll('p, li, br').forEach((element) => element.after(' '));
-
-  return body.textContent.replace(/\s+/g, ' ').trim();
 }
 
 function RequestListSkeleton() {

@@ -11,3 +11,23 @@ export function formatPhoneNumber(phoneNumber: string) {
 export function formatAddressLines({ line1, line2, postalCode, city }: Address) {
   return [line1, line2, `${postalCode} ${city}`].filter(Boolean);
 }
+
+export function formatEventDate(date: Date, locale: string, now = new Date()) {
+  return date.toLocaleString(locale, {
+    weekday: 'long',
+    day: 'numeric',
+    month: 'long',
+    year: date.getFullYear() === now.getFullYear() ? undefined : 'numeric',
+    hour: 'numeric',
+    minute: '2-digit',
+  });
+}
+
+// Plain text: the formatting does not fit in a clamped line. The blocks are separated by a space.
+export function formatExcerpt(html: string) {
+  const { body } = new DOMParser().parseFromString(html, 'text/html');
+
+  body.querySelectorAll('p, li, br').forEach((element) => element.after(' '));
+
+  return body.textContent.replace(/\s+/g, ' ').trim();
+}
