@@ -1,6 +1,6 @@
 import { Trans } from '@lingui/react/macro';
 import { addressSchema, createEventBodySchema, EventKind, type Address, type Event } from '@sel/shared';
-import { Button, Card, Fieldset, FormField, Input, RadioGroup, RichTextEditor } from '@sel/ui';
+import { Button, Card, Fieldset, FormField, Input, RadioGroup } from '@sel/ui';
 import { useMutation } from '@tanstack/react-query';
 import { useState } from 'react';
 import { Controller, useForm, useWatch, type UseFormReturn } from 'react-hook-form';
@@ -11,7 +11,6 @@ import { AddressFormDialog } from 'src/components/address-form-dialog';
 import { AddressSearchResults, useAddressSearch } from 'src/components/address-search';
 import { AttachmentsField, useAttachments } from 'src/components/attachments';
 import { FormServerErrorAlert, InputField, RichTextField, submitWithMutation } from 'src/components/fields';
-import { RichTextToolbar } from 'src/components/rich-text-toolbar';
 import { useFormApiError } from 'src/hooks/use-form-api-error';
 import { useZodResolver } from 'src/hooks/use-zod-resolver';
 
@@ -124,17 +123,8 @@ export function EventForm<Result>({
           name="body"
           label={<Trans>Message</Trans>}
           hint={<Trans>The program, what to bring, how to get there</Trans>}
-          toolbar={
-            <RichTextEditor.Toolbar>
-              <RichTextToolbar.Bold />
-              <RichTextToolbar.Italic />
-              <RichTextToolbar.Underline />
-              <RichTextToolbar.Link />
-              <RichTextToolbar.BulletList />
-              <RichTextToolbar.OrderedList />
-            </RichTextEditor.Toolbar>
-          }
         />
+
         <AttachmentsField
           label={<Trans>Attachments</Trans>}
           hint={<Trans>Photos or documents, up to 10 MB per file</Trans>}

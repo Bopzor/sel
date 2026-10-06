@@ -1,5 +1,5 @@
 import { Trans } from '@lingui/react/macro';
-import { createRequestBodySchema, type Attachment, type CreateRequestBody } from '@sel/shared';
+import { createInformationBodySchema, type CreateInformationBody, type Information } from '@sel/shared';
 import { Button, Card } from '@sel/ui';
 import { useMutation } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
@@ -9,29 +9,25 @@ import { FormServerErrorAlert, InputField, RichTextField, submitWithMutation } f
 import { useFormApiError } from 'src/hooks/use-form-api-error';
 import { useZodResolver } from 'src/hooks/use-zod-resolver';
 
-export function RequestForm<Result>({
-  schema,
-  defaultValues,
-  attachments: initialAttachments,
+export function InformationForm<Result>({
+  information,
   mutationFn,
   onSuccess,
   submitLabel,
   errorTitle,
 }: {
-  schema: typeof createRequestBodySchema;
-  defaultValues?: Omit<CreateRequestBody, 'fileIds'>;
-  attachments?: Attachment[];
-  mutationFn: (body: CreateRequestBody) => Promise<Result>;
+  information?: Information;
+  mutationFn: (body: CreateInformationBody) => Promise<Result>;
   onSuccess: (result: Result) => Promise<void>;
   submitLabel: React.ReactNode;
   errorTitle: React.ReactNode;
 }) {
   const form = useForm({
-    resolver: useZodResolver(schema),
+    resolver: useZodResolver(createInformationBodySchema),
     defaultValues: {
-      title: defaultValues?.title ?? '',
-      body: defaultValues?.body ?? '',
-      fileIds: initialAttachments?.map(({ fileId }) => fileId) ?? [],
+      title: information?.title ?? '',
+      body: information?.message.body ?? '',
+      fileIds: information?.message.attachments.map(({ fileId }) => fileId) ?? [],
     },
   });
 
@@ -44,7 +40,7 @@ export function RequestForm<Result>({
   const attachments = useAttachments({
     form,
     name: 'fileIds',
-    initial: initialAttachments,
+    initial: information?.message.attachments,
   });
 
   const onSubmit = (event: React.SubmitEvent) => {
@@ -62,15 +58,10 @@ export function RequestForm<Result>({
           control={form.control}
           name="title"
           label={<Trans>Title</Trans>}
-          hint={<Trans>A few words, for example: Help to put up a shelf</Trans>}
+          hint={<Trans>A few words, for example: Next general assembly</Trans>}
         />
 
-        <RichTextField
-          control={form.control}
-          name="body"
-          label={<Trans>Message</Trans>}
-          hint={<Trans>What you need, when, and where</Trans>}
-        />
+        <RichTextField control={form.control} name="body" label={<Trans>Message</Trans>} />
 
         <AttachmentsField
           label={<Trans>Attachments</Trans>}

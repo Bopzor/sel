@@ -12,7 +12,7 @@ import { Toaster } from 'src/components/toaster';
 export function renderTest(children: React.ReactNode) {
   queryClient.setQueryData(
     queries.config().queryKey,
-    createConfig({ currency: 'unit', currencyPlural: 'units' }),
+    createConfig({ letsName: 'Lets Test', currency: 'unit', currencyPlural: 'units' }),
   );
 
   return render(

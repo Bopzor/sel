@@ -5,6 +5,8 @@ import {
   type Config,
   type Event,
   type EventsListItem,
+  type Information,
+  type ListInformationQuery,
   type ListEventsQuery,
   type ListRequestsQuery,
   type Request,
@@ -90,6 +92,31 @@ export const queries = {
       queryKey: ['event', { id: eventId }],
       queryFn: () => {
         return api<Event>('GET', `/events/${eventId}`);
+      },
+    });
+  },
+
+  listInformation: (query: ListInformationQuery) => {
+    return infiniteQueryOptions({
+      queryKey: ['information-list', query],
+      queryFn: ({ pageParam }) => {
+        return api<Paginated<Information>>('GET', '/information', {
+          query: { ...query, page: pageParam, pageSize },
+          paginated: true,
+        });
+      },
+      initialPageParam: 1,
+      getNextPageParam,
+      placeholderData: keepPreviousData,
+      select: flattenPages,
+    });
+  },
+
+  information: (informationId: string) => {
+    return queryOptions({
+      queryKey: ['information', { id: informationId }],
+      queryFn: () => {
+        return api<Information>('GET', `/information/${informationId}`);
       },
     });
   },

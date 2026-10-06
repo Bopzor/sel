@@ -27,6 +27,10 @@ import { CreateEventPage } from './pages/events/create/create-event-page';
 import { EventPage } from './pages/events/details/event-page';
 import { EditEventPage } from './pages/events/edit/edit-event-page';
 import { EventsPage } from './pages/events/list/events-page';
+import { CreateInformationPage } from './pages/information/create/create-information-page';
+import { InformationDetailsPage } from './pages/information/details/information-details-page';
+import { EditInformationPage } from './pages/information/edit/edit-information-page';
+import { InformationPage } from './pages/information/list/information-page';
 import { NavigationPage } from './pages/navigation';
 import { PlaceholderPage } from './pages/placeholder';
 import { ProfilePage } from './pages/profile/profile-page';
@@ -111,7 +115,19 @@ const authenticatedRoutes: RouteObject[] = [
   },
   {
     path: routes.information(),
-    element: <PlaceholderPage title={navigation.community.information.label} />,
+    Component: InformationPage,
+  },
+  {
+    path: routes.createInformation(),
+    Component: CreateInformationPage,
+  },
+  {
+    path: routes.informationDetails(':informationId'),
+    Component: InformationDetailsPage,
+  },
+  {
+    path: routes.editInformation(':informationId'),
+    Component: EditInformationPage,
   },
   {
     path: routes.interests(),

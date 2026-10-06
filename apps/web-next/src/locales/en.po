@@ -51,6 +51,10 @@ msgstr "{positiveAnswersCount} people can help"
 msgid "{total, plural, one {# event} other {# events}}"
 msgstr "{total, plural, one {# event} other {# events}}"
 
+#: src/pages/information/list/information-list.tsx
+msgid "{total, plural, one {# piece of information} other {# pieces of information}}"
+msgstr "{total, plural, one {# piece of information} other {# pieces of information}}"
+
 #: src/pages/requests/list/requests-list.tsx
 msgid "{total, plural, one {# request} other {# requests}}"
 msgstr "{total, plural, one {# request} other {# requests}}"
@@ -58,6 +62,10 @@ msgstr "{total, plural, one {# request} other {# requests}}"
 #: src/pages/requests/request-form.tsx
 msgid "A few words, for example: Help to put up a shelf"
 msgstr "A few words, for example: Help to put up a shelf"
+
+#: src/pages/information/information-form.tsx
+msgid "A few words, for example: Next general assembly"
+msgstr "A few words, for example: Next general assembly"
 
 #: src/pages/events/event-form.tsx
 msgid "A few words, for example: Picnic at the lake"
@@ -152,12 +160,14 @@ msgid "Attach files"
 msgstr "Attach files"
 
 #: src/pages/events/event-form.tsx
+#: src/pages/information/information-form.tsx
 #: src/pages/requests/request-form.tsx
 msgid "Attachments"
 msgstr "Attachments"
 
 #: src/pages/authentication/authentication.tsx
 #: src/pages/events/edit/edit-event-page.tsx
+#: src/pages/information/edit/edit-information-page.tsx
 #: src/pages/requests/details/requester-actions.tsx
 #: src/pages/requests/edit/edit-request-page.tsx
 msgid "Back"
@@ -235,6 +245,7 @@ msgid "City"
 msgstr "City"
 
 #: src/pages/events/list/events-list.tsx
+#: src/pages/information/list/information-list.tsx
 #: src/pages/requests/list/requests-list.tsx
 msgid "Clear filters"
 msgstr "Clear filters"
@@ -306,6 +317,7 @@ msgstr "Date to be defined"
 
 #: src/pages/events/details/organizer-actions.tsx
 #: src/pages/events/event-form.tsx
+#: src/pages/information/details/information-details-page.tsx
 #: src/pages/profile/profile-section.tsx
 #: src/pages/requests/details/requester-actions.tsx
 msgid "Edit"
@@ -314,6 +326,10 @@ msgstr "Edit"
 #: src/pages/events/edit/edit-event-page.tsx
 msgid "Edit the event"
 msgstr "Edit the event"
+
+#: src/pages/information/edit/edit-information-page.tsx
+msgid "Edit the information"
+msgstr "Edit the information"
 
 #: src/pages/requests/edit/edit-request-page.tsx
 msgid "Edit the request"
@@ -438,8 +454,23 @@ msgid "If your email address is allowed, an email containing a sign-in code has 
 msgstr "If your email address is allowed, an email containing a sign-in code has been sent to <0>{email}</0>."
 
 #: src/app/routes.ts
+#: src/pages/information/create/create-information-page.tsx
+#: src/pages/information/details/information-details-page.tsx
+#: src/pages/information/list/information-page.tsx
 msgid "Information"
 msgstr "Information"
+
+#: src/pages/information/edit/edit-information-page.tsx
+msgid "Information edited"
+msgstr "Information edited"
+
+#: src/pages/information/information-not-found.tsx
+msgid "Information not found"
+msgstr "Information not found"
+
+#: src/pages/information/create/create-information-page.tsx
+msgid "Information published"
+msgstr "Information published"
 
 #: src/app/routes.ts
 msgid "Interests"
@@ -460,6 +491,10 @@ msgstr "It will be back soon."
 #: src/components/rich-text-toolbar.tsx
 msgid "Italic"
 msgstr "Italic"
+
+#: src/pages/information/details/information-details-page.tsx
+msgid "Keep it up to date for the members who read it."
+msgstr "Keep it up to date for the members who read it."
 
 #: src/pages/events/details/organizer-actions.tsx
 msgid "Keep it up to date, and notify the members of what they need to know."
@@ -540,6 +575,7 @@ msgstr "Membership"
 
 #: src/pages/events/details/notify-dialog.tsx
 #: src/pages/events/event-form.tsx
+#: src/pages/information/information-form.tsx
 #: src/pages/requests/request-form.tsx
 msgid "Message"
 msgstr "Message"
@@ -557,6 +593,10 @@ msgstr "My account"
 msgid "My events"
 msgstr "My events"
 
+#: src/pages/information/list/information-filters.tsx
+msgid "My information"
+msgstr "My information"
+
 #: src/pages/requests/list/requests-filters.tsx
 msgid "My requests"
 msgstr "My requests"
@@ -573,6 +613,10 @@ msgstr "Name and photo"
 msgid "New event"
 msgstr "New event"
 
+#: src/pages/information/list/information-page.tsx
+msgid "New information"
+msgstr "New information"
+
 #: src/pages/requests/list/requests-page.tsx
 msgid "New request"
 msgstr "New request"
@@ -584,6 +628,14 @@ msgstr "No address found. Check what you typed, or enter the address manually."
 #: src/pages/events/list/events-list.tsx
 msgid "No event matches these filters"
 msgstr "No event matches these filters"
+
+#: src/pages/information/list/information-list.tsx
+msgid "No information"
+msgstr "No information"
+
+#: src/pages/information/list/information-list.tsx
+msgid "No information matches these filters"
+msgstr "No information matches these filters"
 
 #: src/pages/requests/details/request-answers.tsx
 msgid "No one has answered yet."
@@ -659,6 +711,10 @@ msgstr "On your devices"
 msgid "Only its author can edit a request, as long as it is open."
 msgstr "Only its author can edit a request, as long as it is open."
 
+#: src/pages/information/edit/edit-information-page.tsx
+msgid "Only its author can edit this information."
+msgstr "Only its author can edit this information."
+
 #: src/pages/events/edit/edit-event-page.tsx
 msgid "Only its organizer can edit an event."
 msgstr "Only its organizer can edit an event."
@@ -708,6 +764,7 @@ msgid "Phone number"
 msgstr "Phone number"
 
 #: src/pages/events/event-form.tsx
+#: src/pages/information/information-form.tsx
 #: src/pages/requests/request-form.tsx
 msgid "Photos or documents, up to 10 MB per file"
 msgstr "Photos or documents, up to 10 MB per file"
@@ -738,6 +795,19 @@ msgstr "Profile"
 #: src/pages/profile/profile-section.tsx
 msgid "Profile updated"
 msgstr "Profile updated"
+
+#: src/pages/information/create/create-information-page.tsx
+#: src/pages/information/list/information-list.tsx
+msgid "Publish information"
+msgstr "Publish information"
+
+#: src/pages/information/create/create-information-page.tsx
+msgid "Publish the information"
+msgstr "Publish the information"
+
+#: src/pages/information/details/information-details-page.tsx
+msgid "Published by"
+msgstr "Published by"
 
 #: src/layout/push-notifications-prompt.tsx
 msgid "Receive notifications on this device?"
@@ -813,11 +883,13 @@ msgid "Save"
 msgstr "Save"
 
 #: src/pages/events/edit/edit-event-page.tsx
+#: src/pages/information/edit/edit-information-page.tsx
 #: src/pages/requests/edit/edit-request-page.tsx
 msgid "Save the changes"
 msgstr "Save the changes"
 
 #: src/pages/events/list/events-filters.tsx
+#: src/pages/information/list/information-filters.tsx
 #: src/pages/requests/list/requests-filters.tsx
 msgid "Search"
 msgstr "Search"
@@ -829,6 +901,10 @@ msgstr "Search for an address"
 #: src/pages/events/list/events-filters.tsx
 msgid "Search the events"
 msgstr "Search the events"
+
+#: src/pages/information/list/information-filters.tsx
+msgid "Search the information"
+msgstr "Search the information"
 
 #: src/pages/requests/list/requests-filters.tsx
 msgid "Search the requests"
@@ -845,6 +921,15 @@ msgstr "See the event"
 #: src/pages/events/event-not-found.tsx
 msgid "See the events"
 msgstr "See the events"
+
+#: src/pages/information/edit/edit-information-page.tsx
+msgid "See the information"
+msgstr "See the information"
+
+#: src/pages/information/information-not-found.tsx
+msgctxt "information list"
+msgid "See the information"
+msgstr "See the information"
 
 #: src/pages/requests/edit/edit-request-page.tsx
 msgid "See the request"
@@ -863,6 +948,10 @@ msgstr "Send"
 #: src/pages/settings/settings-page.tsx
 msgid "Settings"
 msgstr "Settings"
+
+#: src/pages/information/create/create-information-page.tsx
+msgid "Share news with the members: they will be notified and can comment."
+msgstr "Share news with the members: they will be notified and can comment."
 
 #: src/pages/events/details/organizer.tsx
 msgid "Shared by"
@@ -888,6 +977,11 @@ msgstr "Show my phone number to the other members"
 #: src/pages/events/list/events-list.tsx
 msgid "Showing {0} of {total} events"
 msgstr "Showing {0} of {total} events"
+
+#. placeholder {0}: items.length
+#: src/pages/information/list/information-list.tsx
+msgid "Showing {0} of {total} pieces of information"
+msgstr "Showing {0} of {total} pieces of information"
 
 #. placeholder {0}: requests.length
 #: src/pages/requests/list/requests-list.tsx
@@ -919,9 +1013,17 @@ msgstr "The application is under maintenance"
 msgid "The event could not be created"
 msgstr "The event could not be created"
 
+#: src/pages/information/create/create-information-page.tsx
+msgid "The information could not be published"
+msgstr "The information could not be published"
+
 #: src/pages/events/event-not-found.tsx
 msgid "The link may be wrong, or the event may no longer exist."
 msgstr "The link may be wrong, or the event may no longer exist."
+
+#: src/pages/information/information-not-found.tsx
+msgid "The link may be wrong, or the information may no longer exist."
+msgstr "The link may be wrong, or the information may no longer exist."
 
 #: src/pages/error-page.tsx
 msgid "The link may be wrong, or the page may no longer exist."
@@ -938,6 +1040,10 @@ msgstr "The members who are coming or who commented will see the new version."
 #: src/pages/requests/edit/edit-request-page.tsx
 msgid "The members who offered help or commented will see the new version."
 msgstr "The members who offered help or commented will see the new version."
+
+#: src/pages/information/edit/edit-information-page.tsx
+msgid "The members will see the new version."
+msgstr "The members will see the new version."
 
 #: src/pages/events/details/notify-dialog.tsx
 msgid "The notification could not be sent"
@@ -1039,6 +1145,10 @@ msgstr "This field should be at least {0} characters"
 msgid "This field should be at most {0} characters"
 msgstr "This field should be at most {0} characters"
 
+#: src/pages/information/edit/edit-information-page.tsx
+msgid "This information cannot be edited"
+msgstr "This information cannot be edited"
+
 #: src/pages/requests/edit/edit-request-page.tsx
 msgid "This request cannot be edited"
 msgstr "This request cannot be edited"
@@ -1057,6 +1167,7 @@ msgstr "This URL is invalid"
 
 #: src/pages/events/details/notify-dialog.tsx
 #: src/pages/events/event-form.tsx
+#: src/pages/information/information-form.tsx
 #: src/pages/requests/request-form.tsx
 msgid "Title"
 msgstr "Title"
@@ -1066,6 +1177,7 @@ msgid "To change it, contact an administrator."
 msgstr "To change it, contact an administrator."
 
 #: src/pages/events/list/events-list.tsx
+#: src/pages/information/list/information-list.tsx
 #: src/pages/requests/list/requests-list.tsx
 msgid "Try other words, or clear the filters."
 msgstr "Try other words, or clear the filters."
@@ -1086,6 +1198,16 @@ msgstr "Unable to load the event"
 #: src/pages/events/list/events-list.tsx
 msgid "Unable to load the events"
 msgstr "Unable to load the events"
+
+#: src/pages/information/details/information-details-page.tsx
+#: src/pages/information/edit/edit-information-page.tsx
+msgid "Unable to load the information"
+msgstr "Unable to load the information"
+
+#: src/pages/information/list/information-list.tsx
+msgctxt "information list"
+msgid "Unable to load the information"
+msgstr "Unable to load the information"
 
 #: src/pages/requests/details/request-page.tsx
 #: src/pages/requests/edit/edit-request-page.tsx
@@ -1132,6 +1254,10 @@ msgstr "When a member needs a hand, their request appears here."
 #: src/pages/events/list/events-list.tsx
 msgid "When a member organizes an event, it appears here."
 msgstr "When a member organizes an event, it appears here."
+
+#: src/pages/information/list/information-list.tsx
+msgid "When a member shares news with the others, it appears here."
+msgstr "When a member shares news with the others, it appears here."
 
 #: src/pages/events/details/participation.tsx
 #: src/pages/requests/details/request-answer.tsx
@@ -1192,6 +1318,7 @@ msgid "Your answer could not be saved"
 msgstr "Your answer could not be saved"
 
 #: src/pages/events/edit/edit-event-page.tsx
+#: src/pages/information/edit/edit-information-page.tsx
 #: src/pages/profile/profile-section.tsx
 #: src/pages/requests/edit/edit-request-page.tsx
 msgid "Your changes could not be saved"
@@ -1200,6 +1327,10 @@ msgstr "Your changes could not be saved"
 #: src/pages/events/details/organizer-actions.tsx
 msgid "Your event"
 msgstr "Your event"
+
+#: src/pages/information/details/information-details-page.tsx
+msgid "Your information"
+msgstr "Your information"
 
 #: src/pages/profile/contact-section.tsx
 msgid "Your phone number cannot be removed, only changed"

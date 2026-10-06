@@ -125,8 +125,8 @@ export const api = {
 
   // information
 
-  listInformation: endpoint('get', '/information').types<{
-    result: shared.Information[];
+  listInformation: endpoint('get', '/information', { paginated: true }).types<{
+    result: Paginated<shared.Information>;
   }>(),
 
   getInformation: endpoint('get', '/information/:informationId').types<{

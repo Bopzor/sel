@@ -11,6 +11,8 @@ import {
   type UseFormReturn,
 } from 'react-hook-form';
 
+import { RichTextToolbar } from './rich-text-toolbar';
+
 type ControlledProps = 'value' | 'defaultValue' | 'onChange' | 'onBlur' | 'ref';
 
 type FieldProps<Values extends FieldValues, Transformed> = {
@@ -108,16 +110,13 @@ export function CheckboxField<Values extends FieldValues, Transformed>({
 type RichTextFieldProps<Values extends FieldValues, Transformed> = Override<
   Omit<React.ComponentProps<typeof RichTextEditor.Root>, ControlledProps | 'children'>,
   FieldProps<Values, Transformed>
-> & {
-  toolbar: React.ReactNode;
-};
+>;
 
 export function RichTextField<Values extends FieldValues, Transformed>({
   control,
   name,
   label,
   hint,
-  toolbar,
   ...props
 }: RichTextFieldProps<Values, Transformed>) {
   const { field, fieldState } = useController({ control, name });
@@ -125,7 +124,18 @@ export function RichTextField<Values extends FieldValues, Transformed>({
   return (
     <FormField label={label} hint={hint} error={fieldState.error?.message}>
       <RichTextEditor.Root {...props} {...field}>
-        <RichTextEditor.Textarea toolbar={toolbar} />
+        <RichTextEditor.Textarea
+          toolbar={
+            <RichTextEditor.Toolbar>
+              <RichTextToolbar.Bold />
+              <RichTextToolbar.Italic />
+              <RichTextToolbar.Underline />
+              <RichTextToolbar.Link />
+              <RichTextToolbar.BulletList />
+              <RichTextToolbar.OrderedList />
+            </RichTextEditor.Toolbar>
+          }
+        />
       </RichTextEditor.Root>
     </FormField>
   );
