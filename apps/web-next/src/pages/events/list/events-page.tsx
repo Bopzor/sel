@@ -10,7 +10,7 @@ import { useFilters } from 'src/hooks/use-filters';
 import { EventFiltersBar } from './events-filters';
 import { EventList } from './events-list';
 
-export const filtersSchema = z.object({
+const filtersSchema = z.object({
   timing: z.enum(['upcoming', 'past', 'all']).catch('upcoming'),
   search: z.string().catch(''),
   mine: z.stringbool().catch(false),

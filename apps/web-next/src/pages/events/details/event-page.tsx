@@ -151,7 +151,7 @@ function Message({ event }: { event: Event }) {
   );
 }
 
-export function formatDate(date: Date, locale: string, now = new Date()) {
+function formatDate(date: Date, locale: string, now = new Date()) {
   return date.toLocaleString(locale, {
     weekday: 'long',
     day: 'numeric',

@@ -238,11 +238,9 @@ function LocationField({ event, form }: LocationField) {
             />
           </FormField>
 
-          {addressSearch.status && (
-            <p aria-live="polite" className="text-body-sm text-muted">
-              {addressSearch.status}
-            </p>
-          )}
+          <p aria-live="polite" className="text-body-sm text-muted empty:hidden">
+            {addressSearch.status}
+          </p>
 
           {addressSearch.suggestions.length > 0 && (
             <div className="text-body-sm text-subtle">

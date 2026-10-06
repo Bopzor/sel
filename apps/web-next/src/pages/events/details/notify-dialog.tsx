@@ -40,7 +40,11 @@ export function NotifyDialog({ event }: { event: Event }) {
 
 function NotifyForm({ event, onSent }: { event: Event; onSent: () => void }) {
   const { t } = useLingui();
-  const participantsCount = event.participants.filter(({ participation }) => participation === 'yes').length;
+
+  // The organizer sends the notification: they do not receive it.
+  const participantsCount = event.participants
+    .filter(({ id }) => id !== event.organizer.id)
+    .filter(({ participation }) => participation === 'yes').length;
 
   const form = useForm({
     resolver: useZodResolver(sendEventNotificationBodySchema),

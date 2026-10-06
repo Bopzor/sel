@@ -27,26 +27,29 @@ describe('events', () => {
       createEvent({
         id: 'e1',
         title: 'Picnic at the lake',
-        date: new Date(new Date().getFullYear() + 1, 4, 14, 18, 30).toISOString(),
+        date: new Date('2026-05-14T18:30').toISOString(),
         location: { line1: '1 chemin du Lac', postalCode: '74000', city: 'Annecy', country: 'France' },
         message: { body: '<p>Bring something to share.</p>', attachments: [] },
         participantsCount: 3,
       }),
+      createEvent({ id: 'e2', title: 'Village fair', date: undefined }),
     ];
 
     renderPage(routes.events());
 
-    const [item] = await findItems();
+    const [item, undated] = await findItems();
 
     expect(within(item).getByRole('link', { name: 'Picnic at the lake' })).toHaveAttribute(
       'href',
       '/events/e1',
     );
     expect(item).toHaveTextContent('Bring something to share.');
-    expect(item).toHaveTextContent('6:30 PM');
+    expect(item).toHaveTextContent(/May 14, 2026 6:30 PM/);
     expect(item).toHaveTextContent('Annecy');
-    expect(item).toHaveTextContent('Claire Dubois');
     expect(item).toHaveTextContent('3 participants');
+
+    expect(within(undated).getByRole('link', { name: 'Village fair' })).toHaveAttribute('href', '/events/e2');
+    expect(undated).toHaveTextContent('Date to be defined');
 
     const [request] = server.find('/api/events');
 

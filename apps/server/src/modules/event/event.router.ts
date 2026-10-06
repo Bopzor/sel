@@ -39,6 +39,18 @@ const isOrganizer: RequestHandler<{ eventId: string }> = async (req, res, next) 
   next();
 };
 
+router.param('eventId', async (req, res, next) => {
+  assert(typeof req.params.eventId === 'string');
+
+  const event = await findEventById(req.params.eventId);
+
+  if (!event) {
+    throw new NotFound('Event not found');
+  }
+
+  eventContext.run(event, next);
+});
+
 router.get('/', async (req, res) => {
   const member = getAuthenticatedMember();
   const query = shared.listEventsQuerySchema.parse(req.query);
@@ -62,23 +74,7 @@ router.get('/:eventId', async (req, res) => {
     },
   });
 
-  if (!event) {
-    throw new NotFound('Event not found');
-  }
-
-  res.json(serializeEvent(event));
-});
-
-router.param('eventId', async (req, res, next) => {
-  assert(typeof req.params.eventId === 'string');
-
-  const event = await findEventById(req.params.eventId);
-
-  if (!event) {
-    throw new NotFound('Event not found');
-  }
-
-  eventContext.run(event, next);
+  res.json(serializeEvent(defined(event)));
 });
 
 router.post('/', async (req, res) => {

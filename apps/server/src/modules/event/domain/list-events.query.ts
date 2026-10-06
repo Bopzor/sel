@@ -59,8 +59,9 @@ export async function listEvents(query: ListEventsQuery) {
     conditions.push(eq(sql`EXTRACT(YEAR FROM ${schema.events.date})`, query.year));
   }
 
-  const orderBy = (date: typeof schema.events.date) => {
-    return query.timing === 'upcoming' ? asc(date) : nullsFirst(desc(date));
+  // The events without a date are tied: the creation date keeps their order stable across the pages.
+  const orderBy = ({ date, createdAt }: typeof schema.events) => {
+    return [query.timing === 'upcoming' ? asc(date) : nullsFirst(desc(date)), desc(createdAt)];
   };
 
   const [total, ids] = await paginated(
@@ -70,7 +71,7 @@ export async function listEvents(query: ListEventsQuery) {
       .from(schema.events)
       .leftJoin(schema.messages, eq(schema.events.messageId, schema.messages.id))
       .where(and(...conditions))
-      .orderBy(orderBy(schema.events.date))
+      .orderBy(...orderBy(schema.events))
       .$dynamic(),
   );
 
@@ -83,7 +84,7 @@ export async function listEvents(query: ListEventsQuery) {
         message: withAttachments,
         participants: true,
       },
-      orderBy: ({ date }) => orderBy(date),
+      orderBy,
     }),
   };
 }

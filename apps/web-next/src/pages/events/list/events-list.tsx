@@ -123,6 +123,7 @@ function EventCard({ event }: { event: EventsListItem }) {
               <Trans>Date to be defined</Trans>
             ) : (
               <time dateTime={event.date}>
+                <span className="sr-only">{`${date.toLocaleDateString(i18n.locale, { dateStyle: 'long' })} `}</span>
                 {date.toLocaleTimeString(i18n.locale, { hour: 'numeric', minute: '2-digit' })}
               </time>
             )}

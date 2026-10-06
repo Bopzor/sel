@@ -117,11 +117,9 @@ function AddressForm({ title, member, onClose }: AddressFormProps) {
             />
           </FormField>
 
-          {addressSearch.status && (
-            <p aria-live="polite" className="text-body-sm text-muted">
-              {addressSearch.status}
-            </p>
-          )}
+          <p aria-live="polite" className="text-body-sm text-muted empty:hidden">
+            {addressSearch.status}
+          </p>
 
           <AddressSearchResults {...addressSearch} onSelect={onSelect} />
 
