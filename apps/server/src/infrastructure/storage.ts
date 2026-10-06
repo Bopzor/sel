@@ -1,9 +1,18 @@
 import { basename } from 'node:path';
 import * as stream from 'node:stream';
+import type { Readable } from 'stream';
 
+import {
+  S3Client,
+  PutObjectCommand,
+  GetObjectCommand,
+  ListObjectsV2Command,
+  NoSuchKey,
+  _Object as S3Object,
+  NoSuchBucket,
+} from '@aws-sdk/client-s3';
 import { assert, createObjectFromPath } from '@sel/utils';
 import { injectableClass } from 'ditox';
-import * as minio from 'minio';
 import { mergeDeep, setPath } from 'remeda';
 
 import { TOKENS } from '../tokens';
@@ -11,19 +20,13 @@ import { TOKENS } from '../tokens';
 import { Config } from './config';
 import { NotFound } from './http';
 
-type ObjectInfo = {
-  name?: string;
-  lastModified?: Date;
-  size?: number;
-};
-
 class FileNotFound extends NotFound {
   constructor() {
     super('File not found');
   }
 }
 
-type Bucket = keyof Config['minio']['buckets'];
+type Bucket = keyof Config['s3']['buckets'];
 
 type Directory = {
   name: string;
@@ -36,8 +39,8 @@ type File = {
   updated: string;
 };
 
-type ObjectInfoTree = {
-  [key: string]: ObjectInfo | ObjectInfoTree;
+type S3ObjectTree = {
+  [key: string]: S3Object | S3ObjectTree;
 };
 
 export interface Storage {
@@ -46,72 +49,105 @@ export interface Storage {
   getFile(bucket: Bucket, name: string): Promise<stream.Readable>;
 }
 
-export class MinioStorage implements Storage {
+export class S3Storage implements Storage {
   static inject = injectableClass(this, TOKENS.config);
-  private minio: minio.Client;
+  private s3: S3Client;
 
   constructor(private config: Config) {
-    this.minio = new minio.Client(config.minio);
+    const protocol = config.s3.useSSL ? 'https' : 'http';
+    const endpoint = `${protocol}://${config.s3.endPoint}:${config.s3.port}`;
+
+    this.s3 = new S3Client({
+      endpoint,
+      region: 'us-east-1',
+      credentials: {
+        accessKeyId: config.s3.accessKey,
+        secretAccessKey: config.s3.secretKey,
+      },
+      forcePathStyle: true,
+    });
   }
 
   async listFiles(bucket: Bucket): Promise<Directory> {
-    const objects = await this.listBucketFiles(bucket);
+    const objects = await this.listBucketFiles(this.config.s3.buckets[bucket]);
     let root: object = {};
 
     for (const object of objects) {
-      const path = object.name?.split('/') ?? [];
+      const path = object.Key?.split('/') ?? [];
 
       root = mergeDeep(root, createObjectFromPath(path));
       root = setPath(root, path as [], object);
     }
 
-    return this.createDirectory('.', root as ObjectInfoTree);
+    return this.createDirectory('.', root as S3ObjectTree);
   }
 
-  private listBucketFiles(bucket: string): Promise<ObjectInfo[]> {
-    return new Promise<ObjectInfo[]>((resolve, reject) => {
-      const stream = this.minio.listObjects(bucket, undefined, true);
+  private async listBucketFiles(bucket: string): Promise<S3Object[]> {
+    const data: S3Object[] = [];
+    let continuationToken: string | undefined;
 
-      const data: ObjectInfo[] = [];
+    do {
+      const response = await this.s3.send(
+        new ListObjectsV2Command({
+          Bucket: bucket,
+          ContinuationToken: continuationToken,
+        }),
+      );
 
-      stream.on('data', (info) => data.push(info));
-      stream.on('end', () => resolve(data));
-      stream.on('error', reject);
-    });
+      data.push(...(response.Contents ?? []));
+      continuationToken = response.NextContinuationToken;
+    } while (continuationToken);
+
+    return data;
   }
 
-  private createDirectory(name: string, content: ObjectInfoTree): Directory {
+  private createDirectory(name: string, content: S3ObjectTree): Directory {
     return {
       name,
-      files: Object.entries(content).map(([name, content]): File | Directory => {
-        if (this.isObjectInfo(content)) {
-          return {
-            name: basename(content.name!),
-            size: content.size!,
-            updated: new Date(content.lastModified!).toISOString(),
-          };
-        } else {
-          return this.createDirectory(name, content);
-        }
-      }),
+      files: Object.entries(content)
+        .filter(([name]) => name !== '')
+        .map(([name, content]): File | Directory => {
+          if (this.isS3Object(content)) {
+            return {
+              name: basename(content.Key!),
+              size: content.Size!,
+              updated: new Date(content.LastModified!).toISOString(),
+            };
+          } else {
+            return this.createDirectory(name, content);
+          }
+        }),
     };
   }
 
-  private isObjectInfo(value: object): value is ObjectInfo {
-    return 'size' in value && typeof value.size === 'number';
+  private isS3Object(value: object): value is S3Object {
+    return 'Size' in value && Boolean(value.Size);
   }
 
   async storeFile(bucket: Bucket, name: string, buffer: Buffer, contentType: string): Promise<void> {
-    await this.minio.putObject(this.config.minio.buckets[bucket], name, buffer, buffer.byteLength, {
-      'Content-Type': contentType,
-    });
+    await this.s3.send(
+      new PutObjectCommand({
+        Bucket: this.config.s3.buckets[bucket],
+        Key: name,
+        Body: buffer,
+        ContentType: contentType,
+        ContentLength: buffer.byteLength,
+      }),
+    );
   }
 
-  async getFile(bucket: Bucket, name: string): Promise<stream.Readable> {
+  async getFile(bucket: Bucket, name: string): Promise<Readable> {
     try {
-      return await this.minio.getObject(this.config.minio.buckets[bucket], name);
+      const response = await this.s3.send(
+        new GetObjectCommand({
+          Bucket: this.config.s3.buckets[bucket],
+          Key: name,
+        }),
+      );
+
+      return response.Body as Readable;
     } catch (error) {
-      if (error instanceof minio.S3Error && error.code === 'NoSuchKey') {
+      if (error instanceof NoSuchKey || error instanceof NoSuchBucket) {
         throw new FileNotFound();
       }
 

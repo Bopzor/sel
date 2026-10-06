@@ -42,7 +42,7 @@ export interface Config {
     webhookUrl: string;
   };
 
-  minio: {
+  s3: {
     endPoint: string;
     port: number;
     useSSL: boolean;
@@ -98,15 +98,15 @@ export function createEnvConfig(): Config {
       webhookUrl: getEnv('SLACK_WEBHOOK_URL'),
     },
 
-    minio: {
-      endPoint: getEnv('MINIO_ENDPOINT'),
-      port: getEnv('MINIO_PORT', Number.parseInt),
-      useSSL: getEnv('MINIO_USE_SSL', parseBoolean),
-      accessKey: getEnv('MINIO_ACCESS_KEY'),
-      secretKey: getEnv('MINIO_SECRET_KEY'),
+    s3: {
+      endPoint: getEnv('S3_ENDPOINT'),
+      port: getEnv('S3_PORT', Number.parseInt),
+      useSSL: getEnv('S3_USE_SSL', parseBoolean),
+      accessKey: getEnv('S3_ACCESS_KEY'),
+      secretKey: getEnv('S3_SECRET_KEY'),
       buckets: {
-        documents: getEnv('MINIO_BUCKET_DOCUMENTS'),
-        userUploads: getEnv('MINIO_BUCKET_USER_UPLOADS'),
+        documents: getEnv('S3_BUCKET_DOCUMENTS'),
+        userUploads: getEnv('S3_BUCKET_USER_UPLOADS'),
       },
     },
   };
