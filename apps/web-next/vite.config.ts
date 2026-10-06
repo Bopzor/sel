@@ -51,6 +51,7 @@ export default defineConfig(({ mode }) => ({
     // happy-dom's default page (about:blank) has no origin to resolve the app's relative URLs.
     environmentOptions: { happyDOM: { url: 'http://localhost:8000' } },
     setupFiles: ['src/tests/setup.ts'],
+    isolate: false,
     fsModuleCache: true,
   },
 }));

@@ -119,6 +119,10 @@ msgstr "An event of the LETS, for its members."
 msgid "An event organized by others, that you share with the members."
 msgstr "An event organized by others, that you share with the members."
 
+#: src/pages/error-page.tsx
+msgid "An unexpected error happened"
+msgstr "An unexpected error happened"
+
 #: src/pages/requests/details/request-answers.tsx
 msgid "Answers"
 msgstr "Answers"
@@ -158,6 +162,10 @@ msgstr "Attachments"
 #: src/pages/requests/edit/edit-request-page.tsx
 msgid "Back"
 msgstr "Back"
+
+#: src/pages/error-page.tsx
+msgid "Back to home"
+msgstr "Back to home"
 
 #: src/pages/profile/profile-page.tsx
 msgid "Balance"
@@ -213,6 +221,7 @@ msgid "Change the photo"
 msgstr "Change the photo"
 
 #: src/components/api-result.tsx
+#: src/pages/error-page.tsx
 msgid "Check your internet access, then try again."
 msgstr "Check your internet access, then try again."
 
@@ -439,6 +448,14 @@ msgstr "Interests"
 #: src/pages/events/create/create-event-page.tsx
 msgid "Invite the members: they will be notified and can tell whether they are coming."
 msgstr "Invite the members: they will be notified and can tell whether they are coming."
+
+#: src/pages/error-page.tsx
+msgid "It will be back on {date}."
+msgstr "It will be back on {date}."
+
+#: src/pages/error-page.tsx
+msgid "It will be back soon."
+msgstr "It will be back soon."
 
 #: src/components/rich-text-toolbar.tsx
 msgid "Italic"
@@ -669,6 +686,10 @@ msgstr "Organizer"
 msgid "Outside event"
 msgstr "Outside event"
 
+#: src/pages/error-page.tsx
+msgid "Page not found"
+msgstr "Page not found"
+
 #: src/pages/events/details/participants.tsx
 msgid "Participants"
 msgstr "Participants"
@@ -778,6 +799,7 @@ msgid "Requests"
 msgstr "Requests"
 
 #: src/components/api-result.tsx
+#: src/pages/error-page.tsx
 msgid "Retry"
 msgstr "Retry"
 
@@ -846,6 +868,10 @@ msgstr "Settings"
 msgid "Shared by"
 msgstr "Shared by"
 
+#: src/pages/error-page.tsx
+msgid "Show details"
+msgstr "Show details"
+
 #: src/components/pagination.tsx
 msgid "Show more"
 msgstr "Show more"
@@ -885,6 +911,10 @@ msgstr "Sign-in code"
 msgid "Sign-in failed. Try again in a few moments."
 msgstr "Sign-in failed. Try again in a few moments."
 
+#: src/pages/error-page.tsx
+msgid "The application is under maintenance"
+msgstr "The application is under maintenance"
+
 #: src/pages/events/create/create-event-page.tsx
 msgid "The event could not be created"
 msgstr "The event could not be created"
@@ -892,6 +922,10 @@ msgstr "The event could not be created"
 #: src/pages/events/event-not-found.tsx
 msgid "The link may be wrong, or the event may no longer exist."
 msgstr "The link may be wrong, or the event may no longer exist."
+
+#: src/pages/error-page.tsx
+msgid "The link may be wrong, or the page may no longer exist."
+msgstr "The link may be wrong, or the page may no longer exist."
 
 #: src/pages/requests/request-not-found.tsx
 msgid "The link may be wrong, or the request may no longer exist."
@@ -1061,6 +1095,10 @@ msgstr "Unable to load the request"
 #: src/pages/requests/list/requests-list.tsx
 msgid "Unable to load the requests"
 msgstr "Unable to load the requests"
+
+#: src/pages/error-page.tsx
+msgid "Unable to reach the server"
+msgstr "Unable to reach the server"
 
 #: src/hooks/use-form-api-error.ts
 msgid "Unable to reach the server, check your internet access"

@@ -119,6 +119,10 @@ msgstr "Un événement du SEL, pour ses membres."
 msgid "An event organized by others, that you share with the members."
 msgstr "Un événement organisé par d'autres, que vous partagez avec les membres."
 
+#: src/pages/error-page.tsx
+msgid "An unexpected error happened"
+msgstr "Une erreur inattendue s'est produite"
+
 #: src/pages/requests/details/request-answers.tsx
 msgid "Answers"
 msgstr "Réponses"
@@ -158,6 +162,10 @@ msgstr "Pièces jointes"
 #: src/pages/requests/edit/edit-request-page.tsx
 msgid "Back"
 msgstr "Retour"
+
+#: src/pages/error-page.tsx
+msgid "Back to home"
+msgstr "Retour à l'accueil"
 
 #: src/pages/profile/profile-page.tsx
 msgid "Balance"
@@ -213,6 +221,7 @@ msgid "Change the photo"
 msgstr "Changer la photo"
 
 #: src/components/api-result.tsx
+#: src/pages/error-page.tsx
 msgid "Check your internet access, then try again."
 msgstr "Vérifiez votre accès à internet, puis réessayez."
 
@@ -439,6 +448,14 @@ msgstr "Centres d'intérêts"
 #: src/pages/events/create/create-event-page.tsx
 msgid "Invite the members: they will be notified and can tell whether they are coming."
 msgstr "Invitez les membres : ils seront notifiés et pourront dire s'ils viennent."
+
+#: src/pages/error-page.tsx
+msgid "It will be back on {date}."
+msgstr "Elle sera de retour le {date}."
+
+#: src/pages/error-page.tsx
+msgid "It will be back soon."
+msgstr "Elle sera bientôt de retour."
 
 #: src/components/rich-text-toolbar.tsx
 msgid "Italic"
@@ -669,6 +686,10 @@ msgstr "Organisateur"
 msgid "Outside event"
 msgstr "Événement extérieur"
 
+#: src/pages/error-page.tsx
+msgid "Page not found"
+msgstr "Page introuvable"
+
 #: src/pages/events/details/participants.tsx
 msgid "Participants"
 msgstr "Participants"
@@ -778,6 +799,7 @@ msgid "Requests"
 msgstr "Demandes"
 
 #: src/components/api-result.tsx
+#: src/pages/error-page.tsx
 msgid "Retry"
 msgstr "Réessayer"
 
@@ -846,6 +868,10 @@ msgstr "Paramètres"
 msgid "Shared by"
 msgstr "Relayé par"
 
+#: src/pages/error-page.tsx
+msgid "Show details"
+msgstr "Détails"
+
 #: src/components/pagination.tsx
 msgid "Show more"
 msgstr "Afficher plus"
@@ -885,6 +911,10 @@ msgstr "Code de connexion"
 msgid "Sign-in failed. Try again in a few moments."
 msgstr "La connexion a échoué. Réessayez dans quelques instants."
 
+#: src/pages/error-page.tsx
+msgid "The application is under maintenance"
+msgstr "L'application est en maintenance"
+
 #: src/pages/events/create/create-event-page.tsx
 msgid "The event could not be created"
 msgstr "L'événement n'a pas pu être créé"
@@ -892,6 +922,10 @@ msgstr "L'événement n'a pas pu être créé"
 #: src/pages/events/event-not-found.tsx
 msgid "The link may be wrong, or the event may no longer exist."
 msgstr "Le lien est peut-être erroné, ou l'événement n'existe plus."
+
+#: src/pages/error-page.tsx
+msgid "The link may be wrong, or the page may no longer exist."
+msgstr "Le lien est peut-être erroné, ou la page n'existe plus."
 
 #: src/pages/requests/request-not-found.tsx
 msgid "The link may be wrong, or the request may no longer exist."
@@ -1061,6 +1095,10 @@ msgstr "Impossible de charger la demande"
 #: src/pages/requests/list/requests-list.tsx
 msgid "Unable to load the requests"
 msgstr "Impossible de charger les demandes"
+
+#: src/pages/error-page.tsx
+msgid "Unable to reach the server"
+msgstr "Impossible de joindre le serveur"
 
 #: src/hooks/use-form-api-error.ts
 msgid "Unable to reach the server, check your internet access"

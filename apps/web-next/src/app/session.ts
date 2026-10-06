@@ -1,3 +1,4 @@
+import * as Sentry from '@sentry/react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { redirect, useNavigate, type MiddlewareFunction } from 'react-router';
 
@@ -39,7 +40,12 @@ export function nextUrl(searchParams: URLSearchParams) {
 
 async function hasSession() {
   try {
-    await queryClient.query({ ...queries.session(), staleTime: 'static' });
+    const member = await queryClient.query({ ...queries.session(), staleTime: 'static' });
+
+    Sentry.setUser({
+      id: member.id,
+    });
+
     return true;
   } catch (error) {
     if (ApiError.is(error, 401)) {
@@ -63,6 +69,7 @@ export function useSignOut() {
 
       // Before navigating: the authentication page would find the member's session in the cache.
       queryClient.clear();
+      Sentry.setUser(null);
 
       await navigate(routes.authentication());
     },

@@ -21,4 +21,5 @@ afterEach(() => {
   cleanup();
   queryClient.clear();
   vi.unstubAllGlobals();
+  vi.restoreAllMocks();
 });
