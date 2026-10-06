@@ -7,6 +7,11 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: en\n"
 
+#. placeholder {0}: coming.length
+#: src/pages/events/details/participants.tsx
+msgid "{0, plural, one {# participant} other {# participants}}"
+msgstr "{0, plural, one {# participant} other {# participants}}"
+
 #. placeholder {0}: <>{balance} <Unit /></>
 #. placeholder {1}: <>{balance} <Unit plural /></>
 #: src/pages/profile/profile-page.tsx
@@ -34,9 +39,17 @@ msgstr "{name} could not be attached. Try again in a few moments."
 msgid "{name} is larger than 10 MB and was not attached"
 msgstr "{name} is larger than 10 MB and was not attached"
 
+#: src/pages/events/list/events-list.tsx
+msgid "{participantsCount, plural, one {# participant} other {# participants}}"
+msgstr "{participantsCount, plural, one {# participant} other {# participants}}"
+
 #: src/pages/requests/details/request-page.tsx
 msgid "{positiveAnswersCount} people can help"
 msgstr "{positiveAnswersCount} people can help"
+
+#: src/pages/events/list/events-list.tsx
+msgid "{total, plural, one {# event} other {# events}}"
+msgstr "{total, plural, one {# event} other {# events}}"
 
 #: src/pages/requests/list/requests-list.tsx
 msgid "{total, plural, one {# request} other {# requests}}"
@@ -45,6 +58,10 @@ msgstr "{total, plural, one {# request} other {# requests}}"
 #: src/pages/requests/request-form.tsx
 msgid "A few words, for example: Help to put up a shelf"
 msgstr "A few words, for example: Help to put up a shelf"
+
+#: src/pages/events/event-form.tsx
+msgid "A few words, for example: Picnic at the lake"
+msgstr "A few words, for example: Picnic at the lake"
 
 #: src/pages/profile/bio-section.tsx
 msgid "About me"
@@ -58,18 +75,28 @@ msgstr "Add files"
 msgid "Address"
 msgstr "Address"
 
+#: src/components/address-form-dialog.tsx
 #: src/pages/profile/address-section.tsx
 msgid "Address complement (optional)"
 msgstr "Address complement (optional)"
 
-#: src/pages/profile/address-section.tsx
+#: src/components/address-search.tsx
 msgid "Addresses found"
 msgstr "Addresses found"
+
+#: src/pages/events/list/events-filters.tsx
+msgctxt "events filter"
+msgid "All"
+msgstr "All"
 
 #: src/pages/requests/list/requests-filters.tsx
 msgctxt "requests filter"
 msgid "All"
 msgstr "All"
+
+#: src/pages/events/details/notify-dialog.tsx
+msgid "All the members"
+msgstr "All the members"
 
 #: src/pages/settings/settings-page.tsx
 msgid "Allow notifications to receive them here too."
@@ -83,6 +110,14 @@ msgstr "Allow on this device"
 #: src/components/comments-section.tsx
 msgid "An error happened and your comment was not posted"
 msgstr "An error happened and your comment was not posted"
+
+#: src/pages/events/event-form.tsx
+msgid "An event of the LETS, for its members."
+msgstr "An event of the LETS, for its members."
+
+#: src/pages/events/event-form.tsx
+msgid "An event organized by others, that you share with the members."
+msgstr "An event organized by others, that you share with the members."
 
 #: src/pages/requests/details/request-answers.tsx
 msgid "Answers"
@@ -100,6 +135,10 @@ msgstr "Applies to this device only."
 msgid "Apply"
 msgstr "Apply"
 
+#: src/pages/events/details/participation.tsx
+msgid "Are you coming?"
+msgstr "Are you coming?"
+
 #: src/pages/requests/create/create-request-page.tsx
 msgid "Ask the members for help: they will be notified and can offer theirs."
 msgstr "Ask the members for help: they will be notified and can offer theirs."
@@ -108,11 +147,13 @@ msgstr "Ask the members for help: they will be notified and can offer theirs."
 msgid "Attach files"
 msgstr "Attach files"
 
+#: src/pages/events/event-form.tsx
 #: src/pages/requests/request-form.tsx
 msgid "Attachments"
 msgstr "Attachments"
 
 #: src/pages/authentication/authentication.tsx
+#: src/pages/events/edit/edit-event-page.tsx
 #: src/pages/requests/details/requester-actions.tsx
 #: src/pages/requests/edit/edit-request-page.tsx
 msgid "Back"
@@ -146,7 +187,10 @@ msgstr "Can you help?"
 msgid "Can't help"
 msgstr "Can't help"
 
+#: src/components/address-form-dialog.tsx
 #: src/components/rich-text-toolbar.tsx
+#: src/pages/events/details/notify-dialog.tsx
+#: src/pages/events/event-form.tsx
 #: src/pages/profile/profile-section.tsx
 msgid "Cancel"
 msgstr "Cancel"
@@ -172,17 +216,25 @@ msgstr "Change the photo"
 msgid "Check your internet access, then try again."
 msgstr "Check your internet access, then try again."
 
+#: src/pages/events/event-form.tsx
+msgid "Choose an address in the list below"
+msgstr "Choose an address in the list below"
+
+#: src/components/address-form-dialog.tsx
 #: src/pages/profile/address-section.tsx
 msgid "City"
 msgstr "City"
 
+#: src/pages/events/list/events-list.tsx
 #: src/pages/requests/list/requests-list.tsx
 msgid "Clear filters"
 msgstr "Clear filters"
 
+#: src/components/address-form-dialog.tsx
 #: src/components/rich-text-toolbar.tsx
 #: src/components/toaster.tsx
 #: src/layout/push-notifications-prompt.tsx
+#: src/pages/events/details/notify-dialog.tsx
 #: src/pages/requests/details/requester-actions.tsx
 msgid "Close"
 msgstr "Close"
@@ -199,6 +251,10 @@ msgstr "Close the request"
 #: src/pages/requests/details/requester-actions.tsx
 msgid "Close the request “{0}”?"
 msgstr "Close the request “{0}”?"
+
+#: src/pages/events/list/events-list.tsx
+msgid "Coming"
+msgstr "Coming"
 
 #: src/components/comments-section.tsx
 msgid "Comments"
@@ -217,14 +273,38 @@ msgstr "Contact"
 msgid "Contact {firstName} to arrange the details."
 msgstr "Contact {firstName} to arrange the details."
 
+#: src/pages/events/create/create-event-page.tsx
+#: src/pages/events/list/events-list.tsx
+msgid "Create an event"
+msgstr "Create an event"
+
+#: src/pages/events/create/create-event-page.tsx
+msgid "Create the event"
+msgstr "Create the event"
+
 #: src/pages/settings/settings-page.tsx
 msgid "Dark"
 msgstr "Dark"
 
+#: src/pages/events/event-form.tsx
+msgid "Date and time (optional)"
+msgstr "Date and time (optional)"
+
+#: src/pages/events/details/event-page.tsx
+#: src/pages/events/list/events-list.tsx
+msgid "Date to be defined"
+msgstr "Date to be defined"
+
+#: src/pages/events/details/organizer-actions.tsx
+#: src/pages/events/event-form.tsx
 #: src/pages/profile/profile-section.tsx
 #: src/pages/requests/details/requester-actions.tsx
 msgid "Edit"
 msgstr "Edit"
+
+#: src/pages/events/edit/edit-event-page.tsx
+msgid "Edit the event"
+msgstr "Edit the event"
 
 #: src/pages/requests/edit/edit-request-page.tsx
 msgid "Edit the request"
@@ -247,6 +327,10 @@ msgstr "Enter a valid email address, for example my@email.com."
 msgid "Enter the 6 digits of the code received by email."
 msgstr "Enter the 6 digits of the code received by email."
 
+#: src/pages/events/event-form.tsx
+msgid "Enter the address of the event"
+msgstr "Enter the address of the event"
+
 #: src/pages/authentication/authentication.tsx
 msgid "Enter the email address of your LETS account to access the app."
 msgstr "Enter the email address of your LETS account to access the app."
@@ -255,7 +339,22 @@ msgstr "Enter the email address of your LETS account to access the app."
 msgid "Enter the sign-in code received by email."
 msgstr "Enter the sign-in code received by email."
 
+#: src/pages/events/create/create-event-page.tsx
+msgid "Event created"
+msgstr "Event created"
+
+#: src/pages/events/edit/edit-event-page.tsx
+msgid "Event edited"
+msgstr "Event edited"
+
+#: src/pages/events/event-not-found.tsx
+msgid "Event not found"
+msgstr "Event not found"
+
 #: src/app/routes.ts
+#: src/pages/events/create/create-event-page.tsx
+#: src/pages/events/details/event-page.tsx
+#: src/pages/events/list/events-page.tsx
 msgid "Events"
 msgstr "Events"
 
@@ -275,6 +374,10 @@ msgstr "Follow the activity of the LETS, even when the app is closed."
 #: src/pages/profile/address-section.tsx
 msgid "For example, 12 rue de la Paix, Lyon"
 msgstr "For example, 12 rue de la Paix, Lyon"
+
+#: src/pages/events/details/notify-dialog.tsx
+msgid "For example: The meeting point has changed"
+msgstr "For example: The meeting point has changed"
 
 #: src/pages/requests/list/requests-list.tsx
 msgid "Fulfilled"
@@ -300,6 +403,23 @@ msgstr "I can help"
 msgid "I can't"
 msgstr "I can't"
 
+#: src/pages/events/details/participation.tsx
+msgid "I can't come anymore"
+msgstr "I can't come anymore"
+
+#: src/pages/events/details/participation.tsx
+#: src/pages/events/list/events-filters.tsx
+msgid "I'm coming"
+msgstr "I'm coming"
+
+#: src/pages/events/details/participation.tsx
+msgid "I'm coming after all"
+msgstr "I'm coming after all"
+
+#: src/pages/events/details/participation.tsx
+msgid "I'm not coming"
+msgstr "I'm not coming"
+
 #: src/pages/authentication/authentication.tsx
 msgid "If nothing arrives in the next few minutes, check your spam folder or contact us."
 msgstr "If nothing arrives in the next few minutes, check your spam folder or contact us."
@@ -316,9 +436,17 @@ msgstr "Information"
 msgid "Interests"
 msgstr "Interests"
 
+#: src/pages/events/create/create-event-page.tsx
+msgid "Invite the members: they will be notified and can tell whether they are coming."
+msgstr "Invite the members: they will be notified and can tell whether they are coming."
+
 #: src/components/rich-text-toolbar.tsx
 msgid "Italic"
 msgstr "Italic"
+
+#: src/pages/events/details/organizer-actions.tsx
+msgid "Keep it up to date, and notify the members of what they need to know."
+msgstr "Keep it up to date, and notify the members of what they need to know."
 
 #: src/pages/settings/settings-page.tsx
 msgid "Language"
@@ -327,6 +455,14 @@ msgstr "Language"
 #: src/pages/profile/identity-section.tsx
 msgid "Last name"
 msgstr "Last name"
+
+#: src/pages/events/event-form.tsx
+msgid "Leave it empty if the date is not set yet"
+msgstr "Leave it empty if the date is not set yet"
+
+#: src/pages/events/event-form.tsx
+msgid "Leave it empty if the location is not decided yet"
+msgstr "Leave it empty if the location is not decided yet"
 
 #: src/pages/settings/settings-page.tsx
 msgid "Light"
@@ -340,10 +476,23 @@ msgstr "Link"
 msgid "Link target"
 msgstr "Link target"
 
+#: src/pages/events/event-form.tsx
+msgid "Location"
+msgstr "Location"
+
+#: src/pages/events/event-form.tsx
+msgid "Location (optional)"
+msgstr "Location (optional)"
+
+#: src/pages/events/details/event-page.tsx
+msgid "Location to be defined"
+msgstr "Location to be defined"
+
 #: src/layout/layout.tsx
 msgid "Main navigation"
 msgstr "Main navigation"
 
+#: src/pages/events/event-form.tsx
 #: src/pages/profile/address-section.tsx
 msgid "Manual entry"
 msgstr "Manual entry"
@@ -372,6 +521,8 @@ msgstr "Members will no longer be able to answer it. Those who offered help or c
 msgid "Membership"
 msgstr "Membership"
 
+#: src/pages/events/details/notify-dialog.tsx
+#: src/pages/events/event-form.tsx
 #: src/pages/requests/request-form.tsx
 msgid "Message"
 msgstr "Message"
@@ -385,6 +536,10 @@ msgstr "More"
 msgid "My account"
 msgstr "My account"
 
+#: src/pages/events/list/events-filters.tsx
+msgid "My events"
+msgstr "My events"
+
 #: src/pages/requests/list/requests-filters.tsx
 msgid "My requests"
 msgstr "My requests"
@@ -397,17 +552,29 @@ msgstr "my@email.com"
 msgid "Name and photo"
 msgstr "Name and photo"
 
+#: src/pages/events/list/events-page.tsx
+msgid "New event"
+msgstr "New event"
+
 #: src/pages/requests/list/requests-page.tsx
 msgid "New request"
 msgstr "New request"
 
-#: src/pages/profile/address-section.tsx
-msgid "No address found. Check what you typed, or enter your address manually."
-msgstr "No address found. Check what you typed, or enter your address manually."
+#: src/components/address-search.tsx
+msgid "No address found. Check what you typed, or enter the address manually."
+msgstr "No address found. Check what you typed, or enter the address manually."
+
+#: src/pages/events/list/events-list.tsx
+msgid "No event matches these filters"
+msgstr "No event matches these filters"
 
 #: src/pages/requests/details/request-answers.tsx
 msgid "No one has answered yet."
 msgstr "No one has answered yet."
+
+#: src/pages/events/details/participants.tsx
+msgid "No one has said they are coming yet."
+msgstr "No one has said they are coming yet."
 
 #: src/pages/profile/contact-section.tsx
 msgid "No phone number"
@@ -420,6 +587,14 @@ msgstr "No request matches these filters"
 #: src/pages/requests/list/requests-list.tsx
 msgid "No requests"
 msgstr "No requests"
+
+#: src/pages/events/list/events-list.tsx
+msgid "No upcoming events"
+msgstr "No upcoming events"
+
+#: src/pages/events/details/notify-dialog.tsx
+msgid "Notification sent"
+msgstr "Notification sent"
 
 #: src/pages/settings/settings-page.tsx
 msgid "Notifications"
@@ -446,6 +621,11 @@ msgstr "Notifications are sent to your email address."
 msgid "Notifications could not be enabled on this device. Try again in a few moments."
 msgstr "Notifications could not be enabled on this device. Try again in a few moments."
 
+#: src/pages/events/details/notify-dialog.tsx
+msgid "Notify the members"
+msgstr "Notify the members"
+
+#: src/components/address-form-dialog.tsx
 #: src/pages/profile/address-section.tsx
 msgid "Number and street"
 msgstr "Number and street"
@@ -462,15 +642,51 @@ msgstr "On your devices"
 msgid "Only its author can edit a request, as long as it is open."
 msgstr "Only its author can edit a request, as long as it is open."
 
+#: src/pages/events/edit/edit-event-page.tsx
+msgid "Only its organizer can edit an event."
+msgstr "Only its organizer can edit an event."
+
 #: src/pages/requests/list/requests-filters.tsx
 msgctxt "requests filter"
 msgid "Open"
 msgstr "Open"
 
+#: src/pages/events/details/organizer.tsx
+msgid "Organized by"
+msgstr "Organized by"
+
+#: src/pages/events/event-form.tsx
+msgid "Organized by the LETS"
+msgstr "Organized by the LETS"
+
+#: src/pages/events/event-form.tsx
+msgid "Organizer"
+msgstr "Organizer"
+
+#: src/pages/events/details/event-page.tsx
+#: src/pages/events/event-form.tsx
+#: src/pages/events/list/events-list.tsx
+msgid "Outside event"
+msgstr "Outside event"
+
+#: src/pages/events/details/participants.tsx
+msgid "Participants"
+msgstr "Participants"
+
+#: src/pages/events/list/events-filters.tsx
+msgctxt "events filter"
+msgid "Past"
+msgstr "Past"
+
+#: src/pages/events/details/event-page.tsx
+msgid "Past event"
+msgstr "Past event"
+
 #: src/pages/profile/contact-section.tsx
 msgid "Phone number"
 msgstr "Phone number"
 
+#: src/pages/events/event-form.tsx
 #: src/pages/requests/request-form.tsx
 msgid "Photos or documents, up to 10 MB per file"
 msgstr "Photos or documents, up to 10 MB per file"
@@ -484,6 +700,7 @@ msgstr "Post a request"
 msgid "Post the request"
 msgstr "Post the request"
 
+#: src/components/address-form-dialog.tsx
 #: src/pages/profile/address-section.tsx
 msgid "Postal code"
 msgstr "Postal code"
@@ -505,6 +722,10 @@ msgstr "Profile updated"
 msgid "Receive notifications on this device?"
 msgstr "Receive notifications on this device?"
 
+#: src/pages/events/details/notify-dialog.tsx
+msgid "Recipients"
+msgstr "Recipients"
+
 #: src/components/attachments.tsx
 msgid "Remove {name}"
 msgstr "Remove {name}"
@@ -516,6 +737,10 @@ msgstr "Remove link"
 #: src/pages/profile/address-section.tsx
 msgid "Remove my address"
 msgstr "Remove my address"
+
+#: src/pages/events/event-form.tsx
+msgid "Remove the location"
+msgstr "Remove the location"
 
 #: src/pages/profile/identity-section.tsx
 msgid "Remove the photo"
@@ -560,14 +785,17 @@ msgstr "Retry"
 msgid "Same as the device"
 msgstr "Same as the device"
 
+#: src/pages/events/event-form.tsx
 #: src/pages/profile/profile-section.tsx
 msgid "Save"
 msgstr "Save"
 
+#: src/pages/events/edit/edit-event-page.tsx
 #: src/pages/requests/edit/edit-request-page.tsx
 msgid "Save the changes"
 msgstr "Save the changes"
 
+#: src/pages/events/list/events-filters.tsx
 #: src/pages/requests/list/requests-filters.tsx
 msgid "Search"
 msgstr "Search"
@@ -576,6 +804,10 @@ msgstr "Search"
 msgid "Search for an address"
 msgstr "Search for an address"
 
+#: src/pages/events/list/events-filters.tsx
+msgid "Search the events"
+msgstr "Search the events"
+
 #: src/pages/requests/list/requests-filters.tsx
 msgid "Search the requests"
 msgstr "Search the requests"
@@ -583,6 +815,14 @@ msgstr "Search the requests"
 #: src/pages/profile/profile-page.tsx
 msgid "See my public profile"
 msgstr "See my public profile"
+
+#: src/pages/events/edit/edit-event-page.tsx
+msgid "See the event"
+msgstr "See the event"
+
+#: src/pages/events/event-not-found.tsx
+msgid "See the events"
+msgstr "See the events"
 
 #: src/pages/requests/edit/edit-request-page.tsx
 msgid "See the request"
@@ -593,6 +833,7 @@ msgid "See the requests"
 msgstr "See the requests"
 
 #: src/components/comments-section.tsx
+#: src/pages/events/details/notify-dialog.tsx
 msgid "Send"
 msgstr "Send"
 
@@ -600,6 +841,10 @@ msgstr "Send"
 #: src/pages/settings/settings-page.tsx
 msgid "Settings"
 msgstr "Settings"
+
+#: src/pages/events/details/organizer.tsx
+msgid "Shared by"
+msgstr "Shared by"
 
 #: src/components/pagination.tsx
 msgid "Show more"
@@ -612,6 +857,11 @@ msgstr "Show my email address to the other members"
 #: src/pages/profile/contact-section.tsx
 msgid "Show my phone number to the other members"
 msgstr "Show my phone number to the other members"
+
+#. placeholder {0}: events.length
+#: src/pages/events/list/events-list.tsx
+msgid "Showing {0} of {total} events"
+msgstr "Showing {0} of {total} events"
 
 #. placeholder {0}: requests.length
 #: src/pages/requests/list/requests-list.tsx
@@ -635,17 +885,45 @@ msgstr "Sign-in code"
 msgid "Sign-in failed. Try again in a few moments."
 msgstr "Sign-in failed. Try again in a few moments."
 
+#: src/pages/events/create/create-event-page.tsx
+msgid "The event could not be created"
+msgstr "The event could not be created"
+
+#: src/pages/events/event-not-found.tsx
+msgid "The link may be wrong, or the event may no longer exist."
+msgstr "The link may be wrong, or the event may no longer exist."
+
 #: src/pages/requests/request-not-found.tsx
 msgid "The link may be wrong, or the request may no longer exist."
 msgstr "The link may be wrong, or the request may no longer exist."
+
+#: src/pages/events/edit/edit-event-page.tsx
+msgid "The members who are coming or who commented will see the new version."
+msgstr "The members who are coming or who commented will see the new version."
 
 #: src/pages/requests/edit/edit-request-page.tsx
 msgid "The members who offered help or commented will see the new version."
 msgstr "The members who offered help or commented will see the new version."
 
+#: src/pages/events/details/notify-dialog.tsx
+msgid "The notification could not be sent"
+msgstr "The notification could not be sent"
+
 #: src/pages/settings/settings-page.tsx
 msgid "The notification settings could not be saved"
 msgstr "The notification settings could not be saved"
+
+#: src/pages/events/details/participation.tsx
+msgid "The organizer will know who to expect."
+msgstr "The organizer will know who to expect."
+
+#: src/pages/events/details/notify-dialog.tsx
+msgid "The other members"
+msgstr "The other members"
+
+#: src/pages/events/details/notify-dialog.tsx
+msgid "The participants ({participantsCount})"
+msgstr "The participants ({participantsCount})"
 
 #: src/pages/profile/identity-section.tsx
 msgid "The photo could not be sent. Try again in a few moments."
@@ -659,6 +937,10 @@ msgstr "The photo must be an image"
 msgid "The photo must be at most 10 MB"
 msgstr "The photo must be at most 10 MB"
 
+#: src/pages/events/event-form.tsx
+msgid "The program, what to bring, how to get there"
+msgstr "The program, what to bring, how to get there"
+
 #: src/pages/requests/details/requester-actions.tsx
 msgid "The request could not be canceled"
 msgstr "The request could not be canceled"
@@ -667,13 +949,17 @@ msgstr "The request could not be canceled"
 msgid "The request could not be closed"
 msgstr "The request could not be closed"
 
-#: src/pages/profile/address-section.tsx
-msgid "The search is not available at the moment. Enter your address manually."
-msgstr "The search is not available at the moment. Enter your address manually."
+#: src/components/address-search.tsx
+msgid "The search is not available at the moment. Enter the address manually."
+msgstr "The search is not available at the moment. Enter the address manually."
 
 #: src/pages/authentication/authentication.tsx
 msgid "The sign-in code could not be sent. Try again in a few moments."
 msgstr "The sign-in code could not be sent. Try again in a few moments."
+
+#: src/pages/events/details/notify-dialog.tsx
+msgid "They receive it by email or on their devices, depending on their settings."
+msgstr "They receive it by email or on their devices, depending on their settings."
 
 #: src/pages/settings/settings-page.tsx
 msgid "This browser cannot receive notifications. On an iPhone, first add the app to the home screen."
@@ -699,6 +985,10 @@ msgstr "This device does not receive notifications yet"
 #: src/pages/settings/settings-page.tsx
 msgid "This device will receive notifications"
 msgstr "This device will receive notifications"
+
+#: src/pages/events/edit/edit-event-page.tsx
+msgid "This event cannot be edited"
+msgstr "This event cannot be edited"
 
 #: src/hooks/use-zod-resolver.ts
 #: src/pages/profile/address-section.tsx
@@ -731,6 +1021,8 @@ msgstr "This request was canceled"
 msgid "This URL is invalid"
 msgstr "This URL is invalid"
 
+#: src/pages/events/details/notify-dialog.tsx
+#: src/pages/events/event-form.tsx
 #: src/pages/requests/request-form.tsx
 msgid "Title"
 msgstr "Title"
@@ -739,6 +1031,7 @@ msgstr "Title"
 msgid "To change it, contact an administrator."
 msgstr "To change it, contact an administrator."
 
+#: src/pages/events/list/events-list.tsx
 #: src/pages/requests/list/requests-list.tsx
 msgid "Try other words, or clear the filters."
 msgstr "Try other words, or clear the filters."
@@ -750,6 +1043,15 @@ msgstr "Unable to load more elements"
 #: src/components/comments-section.tsx
 msgid "Unable to load the comments"
 msgstr "Unable to load the comments"
+
+#: src/pages/events/details/event-page.tsx
+#: src/pages/events/edit/edit-event-page.tsx
+msgid "Unable to load the event"
+msgstr "Unable to load the event"
+
+#: src/pages/events/list/events-list.tsx
+msgid "Unable to load the events"
+msgstr "Unable to load the events"
 
 #: src/pages/requests/details/request-page.tsx
 #: src/pages/requests/edit/edit-request-page.tsx
@@ -768,6 +1070,11 @@ msgstr "Unable to reach the server, check your internet access"
 msgid "Underline"
 msgstr "Underline"
 
+#: src/pages/events/list/events-filters.tsx
+msgctxt "events filter"
+msgid "Upcoming"
+msgstr "Upcoming"
+
 #: src/pages/settings/settings-page.tsx
 msgid "Version {version}"
 msgstr "Version {version}"
@@ -784,6 +1091,11 @@ msgstr "What you need, when, and where"
 msgid "When a member needs a hand, their request appears here."
 msgstr "When a member needs a hand, their request appears here."
 
+#: src/pages/events/list/events-list.tsx
+msgid "When a member organizes an event, it appears here."
+msgstr "When a member organizes an event, it appears here."
+
+#: src/pages/events/details/participation.tsx
 #: src/pages/requests/details/request-answer.tsx
 msgid "Withdraw my answer"
 msgstr "Withdraw my answer"
@@ -791,6 +1103,18 @@ msgstr "Withdraw my answer"
 #: src/components/comments-section.tsx
 msgid "Write a comment"
 msgstr "Write a comment"
+
+#: src/pages/events/details/participation.tsx
+msgid "You are coming"
+msgstr "You are coming"
+
+#: src/pages/events/details/participation.tsx
+msgid "You are not coming"
+msgstr "You are not coming"
+
+#: src/pages/events/details/participation.tsx
+msgid "You can change your mind until the event."
+msgstr "You can change your mind until the event."
 
 #: src/pages/requests/details/request-answer.tsx
 msgid "You can help"
@@ -816,18 +1140,28 @@ msgstr "You have not sent any <0/> for this request"
 msgid "You have not written anything about yourself yet."
 msgstr "You have not written anything about yourself yet."
 
+#: src/pages/events/details/participation.tsx
+msgid "You will be notified of the new comments."
+msgstr "You will be notified of the new comments."
+
 #: src/pages/profile/bio-section.tsx
 msgid "Your activities, what you like to share or to learn"
 msgstr "Your activities, what you like to share or to learn"
 
+#: src/pages/events/details/participation.tsx
 #: src/pages/requests/details/request-answer.tsx
 msgid "Your answer could not be saved"
 msgstr "Your answer could not be saved"
 
+#: src/pages/events/edit/edit-event-page.tsx
 #: src/pages/profile/profile-section.tsx
 #: src/pages/requests/edit/edit-request-page.tsx
 msgid "Your changes could not be saved"
 msgstr "Your changes could not be saved"
+
+#: src/pages/events/details/organizer-actions.tsx
+msgid "Your event"
+msgstr "Your event"
 
 #: src/pages/profile/contact-section.tsx
 msgid "Your phone number cannot be removed, only changed"

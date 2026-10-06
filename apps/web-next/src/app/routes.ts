@@ -11,6 +11,7 @@ export const routes = {
   events: () => '/events',
   createEvent: () => '/events/new',
   event: (eventId: string) => `/events/${eventId}`,
+  editEvent: (eventId: string) => `/events/${eventId}/edit`,
   information: () => '/information',
   members: () => '/members',
   member: (memberId: string) => `/members/${memberId}`,
