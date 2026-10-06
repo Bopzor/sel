@@ -1,15 +1,13 @@
 import { Trans, useLingui } from '@lingui/react/macro';
 import { updateMemberProfileBodySchema, type Address, type AuthenticatedMember } from '@sel/shared';
-import { Button, FormField, Icon, Input, ListItem, Skeleton } from '@sel/ui';
-import { useQuery } from '@tanstack/react-query';
+import { Button, FormField, Icon, Input } from '@sel/ui';
 import { useState } from 'react';
 import { useForm, type UseFormReturn } from 'react-hook-form';
-import z from 'zod';
+import type z from 'zod';
 
 import { formatAddressLines } from 'src/app/format';
-import { queries } from 'src/app/queries';
+import { AddressSearchResults, useAddressSearch } from 'src/components/address-search';
 import { InputField, submitWithMutation } from 'src/components/fields';
-import { useDebouncedValue } from 'src/hooks/use-debounced-value';
 import { useFormApiError } from 'src/hooks/use-form-api-error';
 import { useZodResolver } from 'src/hooks/use-zod-resolver';
 
@@ -60,7 +58,9 @@ type AddressFormProps = {
 };
 
 function AddressForm({ title, member, onClose }: AddressFormProps) {
-  const [mode, setMode] = useState<'search' | 'manual'>(member.address === undefined ? 'search' : 'manual');
+  const addressSearch = useAddressSearch();
+  const [mode, setMode] = useState<'search' | 'manual'>(member.address ? 'manual' : 'search');
+  const [focus, setFocus] = useState(false);
 
   const form = useForm({
     resolver: useZodResolver(useSchema()),
@@ -72,6 +72,28 @@ function AddressForm({ title, member, onClose }: AddressFormProps) {
     onError: useFormApiError(form),
   });
 
+  const setAddress = (address: Partial<Address>) => {
+    form.setValue('address', toFormValues(address), { shouldDirty: true });
+    form.clearErrors('address');
+  };
+
+  const onSelect = (address: Address) => {
+    setAddress(address);
+    setFocus(true);
+    setMode('manual');
+  };
+
+  const showSearch = () => {
+    form.clearErrors('address');
+    setFocus(true);
+    setMode('search');
+  };
+
+  const onRemove = () => {
+    setAddress({});
+    showSearch();
+  };
+
   return (
     <ProfileSectionForm
       formState={form.formState}
@@ -80,134 +102,61 @@ function AddressForm({ title, member, onClose }: AddressFormProps) {
       onSubmit={submitWithMutation(form, mutation, { onInvalid: () => setMode('manual') })}
     >
       {mode === 'search' && (
-        <>
-          <AddressSearch
-            onSelect={(address) => {
-              form.reset({ address: toFormValues(address) }, { keepDefaultValues: true });
-              setMode('manual');
-            }}
-          />
+        <div className="stack gap-3">
+          <FormField
+            label={<Trans>Search for an address</Trans>}
+            hint={<Trans>For example, 12 rue de la Paix, Lyon</Trans>}
+          >
+            <Input
+              type="search"
+              icon="search"
+              // Enter would submit the form, and save the address that was there before the search.
+              onKeyDown={(event) => event.key === 'Enter' && event.preventDefault()}
+              autoFocus={focus}
+              {...addressSearch.inputProps}
+            />
+          </FormField>
+
+          {addressSearch.status && (
+            <p aria-live="polite" className="text-body-sm text-muted">
+              {addressSearch.status}
+            </p>
+          )}
+
+          <AddressSearchResults {...addressSearch} onSelect={onSelect} />
 
           <Button variant="secondary" size="sm" onClick={() => setMode('manual')} className="self-start">
             <Trans>Manual entry</Trans>
           </Button>
+        </div>
+      )}
+
+      {mode === 'manual' && (
+        <>
+          <ManualAddressFields form={form} />
+
+          <div className="row flex-wrap gap-2">
+            <Button variant="secondary" size="sm" onClick={showSearch}>
+              <Trans>Search for an address</Trans>
+            </Button>
+
+            <Button variant="ghost" size="sm" onClick={onRemove}>
+              <Trans>Remove my address</Trans>
+            </Button>
+          </div>
         </>
       )}
-
-      {mode === 'manual' && <ManualAddressForm form={form} onSearch={() => setMode('search')} />}
     </ProfileSectionForm>
-  );
-}
-
-const minSearchLength = 3;
-
-function AddressSearch({ onSelect }: { onSelect: (address: Address) => void }) {
-  const { t } = useLingui();
-
-  const [text, setText] = useState('');
-  const [value, handleChange] = useDebouncedValue(text, setText, 1000);
-
-  const search = text.trim();
-  const enabled = search.length >= minSearchLength;
-  const query = useQuery({ ...queries.searchAddresses(search), enabled });
-  const suggestions = enabled ? (query.data ?? []) : [];
-
-  const debouncing = value.trim() !== search && value.trim().length >= minSearchLength;
-  const loading = debouncing || (enabled && query.isFetching);
-
-  const getStatus = () => {
-    if (!enabled || loading || suggestions.length > 0) {
-      return undefined;
-    }
-
-    if (query.isError) {
-      return t`The search is not available at the moment. Enter your address manually.`;
-    }
-
-    return t`No address found. Check what you typed, or enter your address manually.`;
-  };
-
-  return (
-    <div className="stack gap-3">
-      <FormField
-        label={<Trans>Search for an address</Trans>}
-        hint={<Trans>For example, 12 rue de la Paix, Lyon</Trans>}
-      >
-        <Input
-          type="search"
-          icon="search"
-          value={value}
-          onChange={(event) => handleChange(event.target.value)}
-          // Enter would submit the form, and save the address that was there before the search.
-          onKeyDown={(event) => event.key === 'Enter' && event.preventDefault()}
-          autoFocus
-        />
-      </FormField>
-
-      <p aria-live="polite" className="text-body-sm text-muted empty:hidden">
-        {getStatus()}
-      </p>
-
-      {loading && <AddressesSkeleton />}
-
-      {!loading && suggestions.length > 0 && (
-        <ul aria-label={t`Addresses found`} className="rounded-md border">
-          {suggestions.map(({ id, address }) => (
-            <AddressSuggestion key={id} address={address} onSelect={() => onSelect(address)} />
-          ))}
-        </ul>
-      )}
-    </div>
-  );
-}
-
-function AddressesSkeleton() {
-  const { t } = useLingui();
-
-  return (
-    <ul aria-label={t`Addresses found`} aria-busy className="rounded-md border">
-      {[1, 2, 3].map((index) => (
-        <ListItem.Root key={index}>
-          <Skeleton variant="rect" className="size-icon-md" />
-          <ListItem.Content className="gap-2">
-            <Skeleton className="w-1/2" />
-            <Skeleton className="w-1/4" />
-          </ListItem.Content>
-        </ListItem.Root>
-      ))}
-    </ul>
-  );
-}
-
-function AddressSuggestion({ address, onSelect }: { address: Address; onSelect: () => void }) {
-  return (
-    <ListItem.Root>
-      <Icon name="location" className="text-subtle" />
-      <ListItem.Content>
-        <ListItem.Title>
-          <ListItem.Button onClick={onSelect}>{address.line1}</ListItem.Button>
-        </ListItem.Title>
-        <ListItem.Description>
-          {address.postalCode} {address.city}
-        </ListItem.Description>
-      </ListItem.Content>
-    </ListItem.Root>
   );
 }
 
 type AddressSchema = ReturnType<typeof useSchema>;
 
-type ManualAddressFormProps = {
+type ManualAddressFieldsProps = {
   form: UseFormReturn<z.input<AddressSchema>, unknown, z.output<AddressSchema>>;
-  onSearch: () => void;
 };
 
-function ManualAddressForm({ form, onSearch }: ManualAddressFormProps) {
-  const removeAddress = () => {
-    form.reset({ address: toFormValues({}) }, { keepDefaultValues: true });
-    onSearch();
-  };
-
+function ManualAddressFields({ form }: ManualAddressFieldsProps) {
   // An address changed by hand is no longer at the position found by the search.
   const clearPosition = () => {
     form.setValue('address.position', undefined);
@@ -250,16 +199,6 @@ function ManualAddressForm({ form, onSearch }: ManualAddressFormProps) {
             onChange={clearPosition}
           />
         </div>
-      </div>
-
-      <div className="row flex-wrap gap-2">
-        <Button variant="secondary" size="sm" onClick={onSearch}>
-          <Trans>Search for an address</Trans>
-        </Button>
-
-        <Button variant="ghost" size="sm" onClick={removeAddress}>
-          <Trans>Remove my address</Trans>
-        </Button>
       </div>
     </>
   );
