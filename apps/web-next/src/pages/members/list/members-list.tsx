@@ -15,10 +15,11 @@ import { Link } from 'src/components/link';
 type MembersListProps = {
   sort: MembersSort;
   search: string;
-  onClearSearch: () => void;
+  committee: boolean;
+  onClearFilters: () => void;
 };
 
-export function MembersList({ sort, search, onClearSearch }: MembersListProps) {
+export function MembersList({ sort, search, committee, onClearFilters }: MembersListProps) {
   const query = useQuery(queries.listMembers({ sort }));
 
   // With data, a failed refetch keeps the list on screen.
@@ -41,10 +42,12 @@ export function MembersList({ sort, search, onClearSearch }: MembersListProps) {
   }
 
   const normalizedSearch = normalize(search.trim());
-  const members = query.data.filter((member) => matchesSearch(member, normalizedSearch));
+  const members = query.data
+    .filter((member) => !committee || member.committeeMember)
+    .filter((member) => matchesSearch(member, normalizedSearch));
 
   if (members.length === 0) {
-    return <NoMatchingMembers onClearSearch={onClearSearch} />;
+    return <NoMatchingMembers onClearFilters={onClearFilters} />;
   }
 
   return (
@@ -97,6 +100,14 @@ function MemberCard({ member }: { member: Member }) {
 
 function MemberImage({ member }: { member: Member }) {
   const badge = () => {
+    if (member.committeeMember) {
+      return (
+        <Badge tone="accent" className="absolute -top-3 -right-3 max-sm:hidden">
+          <Trans>Committee member</Trans>
+        </Badge>
+      );
+    }
+
     if (differenceInCalendarDays(new Date(), member.membershipStartDate) < 60) {
       return (
         <Badge tone="primary" className="absolute -top-3 -right-3 max-sm:hidden">
@@ -159,15 +170,15 @@ function NoMembers() {
   );
 }
 
-function NoMatchingMembers({ onClearSearch }: { onClearSearch: () => void }) {
+function NoMatchingMembers({ onClearFilters }: { onClearFilters: () => void }) {
   return (
     <EmptyState.Root icon="search">
       <EmptyState.Title>
-        <Trans>No member matches this search</Trans>
+        <Trans>No member matches these filters</Trans>
       </EmptyState.Title>
       <EmptyState.Action>
-        <Button variant="secondary" onClick={onClearSearch}>
-          <Trans>Clear the search</Trans>
+        <Button variant="secondary" onClick={onClearFilters}>
+          <Trans>Clear filters</Trans>
         </Button>
       </EmptyState.Action>
     </EmptyState.Root>

@@ -10,6 +10,7 @@ import { MembersList } from './members-list';
 const filtersSchema = z.object({
   search: z.string().catch(''),
   sort: z.enum(MembersSort).catch(MembersSort.firstName),
+  committee: z.stringbool().catch(false),
 });
 
 export function MembersPage() {
@@ -26,7 +27,8 @@ export function MembersPage() {
       <MembersList
         sort={filters.sort}
         search={filters.search}
-        onClearSearch={() => setFilters({ search: '' })}
+        committee={filters.committee}
+        onClearFilters={() => setFilters({ search: '', committee: false })}
       />
     </div>
   );
@@ -47,7 +49,7 @@ function Filters({ filters, setFilters }: FiltersProps) {
   ];
 
   return (
-    <div className="stack gap-3 md:flex-row md:items-center md:justify-between">
+    <div className="stack gap-3 min-[1400px]:flex-row min-[1400px]:items-center min-[1400px]:justify-between">
       <Input
         type="search"
         icon="search"
@@ -55,15 +57,34 @@ function Filters({ filters, setFilters }: FiltersProps) {
         placeholder={t`Search members`}
         value={filters.search}
         onChange={(event) => setFilters({ search: event.target.value }, { replace: true })}
-        className="max-w-110 flex-1"
+        className="max-w-110 min-[1400px]:flex-1"
       />
 
-      <div role="group" aria-label={t`Sort`} className="row flex-wrap gap-2">
-        {sorts.map(({ value, label }) => (
-          <Chip key={value} selected={filters.sort === value} onChange={() => setFilters({ sort: value })}>
-            {label}
+      <div className="stack gap-2 sm:flex-row sm:items-center sm:gap-3">
+        <div role="group" aria-label={t`Sort`} className="row flex-wrap gap-2">
+          {sorts.map(({ value, label }) => (
+            <Chip
+              key={value}
+              selected={filters.sort === value}
+              onChange={() => setFilters({ sort: value })}
+              className="whitespace-nowrap"
+            >
+              {label}
+            </Chip>
+          ))}
+        </div>
+
+        <div aria-hidden className="h-6 border-l-2 max-sm:hidden" />
+
+        <div className="row flex-wrap gap-2">
+          <Chip
+            selected={filters.committee}
+            onChange={(committee) => setFilters({ committee })}
+            className="whitespace-nowrap"
+          >
+            <Trans>Committee members</Trans>
           </Chip>
-        ))}
+        </div>
       </div>
     </div>
   );

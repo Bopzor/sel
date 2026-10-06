@@ -1,0 +1,1 @@
+ALTER TYPE "member_role" ADD VALUE 'committee' BEFORE 'system';

@@ -18,6 +18,7 @@ export type MemberStatus = ValueOf<typeof MemberStatus>;
 export const MemberRole = {
   member: 'member',
   admin: 'admin',
+  committee: 'committee',
   system: 'system',
 } as const;
 
@@ -36,6 +37,7 @@ export type Member = {
   membershipStartDate: string;
   balance: number;
   interests: MemberInterest[];
+  committeeMember: boolean;
 };
 
 export type LightMember = {
@@ -54,6 +56,7 @@ export const createMember = createFactory<Member>(() => ({
   membershipStartDate: createDate().toISOString(),
   balance: 0,
   interests: [],
+  committeeMember: false,
 }));
 
 export const listMembersQuerySchema = z.object({

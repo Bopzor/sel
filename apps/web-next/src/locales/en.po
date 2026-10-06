@@ -246,13 +246,10 @@ msgstr "City"
 
 #: src/pages/events/list/events-list.tsx
 #: src/pages/information/list/information-list.tsx
+#: src/pages/members/list/members-list.tsx
 #: src/pages/requests/list/requests-list.tsx
 msgid "Clear filters"
 msgstr "Clear filters"
-
-#: src/pages/members/list/members-list.tsx
-msgid "Clear the search"
-msgstr "Clear the search"
 
 #: src/components/address-form-dialog.tsx
 #: src/components/rich-text-toolbar.tsx
@@ -283,6 +280,14 @@ msgstr "Coming"
 #: src/components/comments-section.tsx
 msgid "Comments"
 msgstr "Comments"
+
+#: src/pages/members/list/members-list.tsx
+msgid "Committee member"
+msgstr "Committee member"
+
+#: src/pages/members/list/members-page.tsx
+msgid "Committee members"
+msgstr "Committee members"
 
 #: src/layout/layout.tsx
 #: src/pages/navigation.tsx
@@ -663,8 +668,8 @@ msgid "No information matches these filters"
 msgstr "No information matches these filters"
 
 #: src/pages/members/list/members-list.tsx
-msgid "No member matches this search"
-msgstr "No member matches this search"
+msgid "No member matches these filters"
+msgstr "No member matches these filters"
 
 #: src/pages/members/list/members-list.tsx
 msgid "No members"

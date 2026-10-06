@@ -53,6 +53,29 @@ describe('members', () => {
     expect(item).toHaveTextContent('New');
   });
 
+  it('shows the committee members', async () => {
+    server.members = [createMember({ firstName: 'Claire', committeeMember: true })];
+
+    renderPage(routes.members());
+
+    const [item] = await findItems();
+
+    expect(item).toHaveTextContent('Committee member');
+  });
+
+  it('shows only the committee badge for a committee member who joined recently', async () => {
+    server.members = [
+      createMember({ firstName: 'Claire', committeeMember: true, membershipStartDate: new Date().toISOString() }),
+    ];
+
+    renderPage(routes.members());
+
+    const [item] = await findItems();
+
+    expect(item).toHaveTextContent('Committee member');
+    expect(item).not.toHaveTextContent('New');
+  });
+
   it('searches the members by name', async () => {
     const user = userEvent.setup();
 
@@ -126,19 +149,38 @@ describe('members', () => {
     expect(router.state.location.search).toBe('?sort=membershipDate');
   });
 
-  it('clears the search when no member matches it', async () => {
+  it('shows only the committee members', async () => {
     const user = userEvent.setup();
 
-    server.members = [createMember({ firstName: 'Claire' })];
+    server.members = [
+      createMember({ firstName: 'Claire', lastName: 'Dubois', committeeMember: true }),
+      createMember({ firstName: 'Paul', lastName: 'Martin' }),
+    ];
 
-    const router = renderPage(`${routes.members()}?search=paul`);
+    const router = renderPage(routes.members());
 
-    await user.click(await screen.findByRole('button', { name: 'Clear the search' }));
+    await findItems();
+    await user.click(screen.getByRole('button', { name: 'Committee members' }));
+
+    expect(screen.getAllByRole('listitem')).toHaveLength(1);
+    expect(screen.getByRole('link', { name: 'Claire Dubois' })).toBeInTheDocument();
+    expect(router.state.location.search).toBe('?committee=true');
+  });
+
+  it('clears the filters when no member matches them', async () => {
+    const user = userEvent.setup();
+
+    server.members = [createMember({ firstName: 'Claire', committeeMember: true })];
+
+    const router = renderPage(`${routes.members()}?search=paul&committee=true`);
+
+    await user.click(await screen.findByRole('button', { name: 'Clear filters' }));
 
     await findItems();
 
     expect(router.state.location.search).toBe('');
     expect(screen.getByRole('searchbox', { name: 'Search members' })).toHaveValue('');
+    expect(screen.getByRole('button', { name: 'Committee members' })).toHaveAttribute('aria-pressed', 'false');
   });
 
   it('retries when the members fail to load', async () => {
@@ -168,6 +210,7 @@ const createMember = createFactory<Member>(() => ({
   membershipStartDate: longAgo,
   balance: 0,
   interests: [],
+  committeeMember: false,
 }));
 
 // The skeleton's items have no link.

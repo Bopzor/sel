@@ -66,6 +66,7 @@ function serializeAuthenticatedMember(
       push: member.notificationDelivery.includes(NotificationDeliveryType.push),
     },
     interests: member.memberInterests.map(serializeMemberInterest).sort(compareMemberInterests),
+    committeeMember: member.roles.includes(shared.MemberRole.committee),
   };
 }
 

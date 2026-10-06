@@ -29,4 +29,5 @@ export const createAuthenticatedMember = createFactory<AuthenticatedMember>(() =
   },
   balance: 0,
   interests: [],
+  committeeMember: false,
 }));

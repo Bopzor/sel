@@ -155,6 +155,7 @@ function serializeMemberFull(
     membershipStartDate: member.membershipStartDate?.toISOString(),
     balance: member.balance,
     interests: member.memberInterests.map(serializeMemberInterest).sort(compareMemberInterests),
+    committeeMember: member.roles.includes(shared.MemberRole.committee),
   };
 }
 

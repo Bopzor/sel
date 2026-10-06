@@ -231,4 +231,21 @@ describe('member', () => {
     const inactiveMemberId = await persist.member({ status: shared.MemberStatus.inactive });
     await agent.get(`/${inactiveMemberId}`).set('Cookie', 'token=token').expect(404);
   });
+
+  it('tells whether a member is part of the committee', async () => {
+    const authenticatedMemberId = await persist.member({ firstName: 'Claire' });
+    await persist.member({ firstName: 'Paul', roles: [shared.MemberRole.committee] });
+
+    await persist.token({ memberId: authenticatedMemberId, value: 'token', type: TokenType.session });
+
+    const app = express();
+    app.use('/', router);
+
+    const response = await supertest(app).get('/?sort=firstName').set('Cookie', 'token=token').expect(200);
+
+    expect(response.body).toMatchObject([
+      { firstName: 'Claire', committeeMember: false },
+      { firstName: 'Paul', committeeMember: true },
+    ]);
+  });
 });
