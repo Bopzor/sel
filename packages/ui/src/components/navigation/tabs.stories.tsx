@@ -20,9 +20,9 @@ export default {
     <Tabs.Root {...args}>
       <Tabs.List aria-label="Views">
         {views.map((view) => (
-          <Tabs.TabsTab key={view} value={view}>
+          <Tabs.Tab key={view} value={view}>
             {view}
-          </Tabs.TabsTab>
+          </Tabs.Tab>
         ))}
       </Tabs.List>
       {views.map((view) => (
@@ -47,9 +47,9 @@ export const Controlled: Story = {
       <Tabs.Root {...args} defaultValue={undefined} value={value} onChange={setValue}>
         <Tabs.List aria-label="Views">
           {views.map((view) => (
-            <Tabs.TabsTab key={view} value={view}>
+            <Tabs.Tab key={view} value={view}>
               {view}
-            </Tabs.TabsTab>
+            </Tabs.Tab>
           ))}
         </Tabs.List>
         <Tabs.Panel value={value}>
@@ -65,10 +65,10 @@ export const WithBadges: Story = {
     <Tabs.Root {...args}>
       <Tabs.List aria-label="Views">
         {views.map((view, index) => (
-          <Tabs.TabsTab key={view} value={view}>
+          <Tabs.Tab key={view} value={view}>
             {view}
             <Badge>{index + 2}</Badge>
-          </Tabs.TabsTab>
+          </Tabs.Tab>
         ))}
       </Tabs.List>
     </Tabs.Root>
@@ -81,9 +81,9 @@ export const FiveTabs: Story = {
     <Tabs.Root {...args}>
       <Tabs.List aria-label="Views">
         {['First view', 'Second view', 'Third view', 'Fourth view', 'Fifth view'].map((view) => (
-          <Tabs.TabsTab key={view} value={view}>
+          <Tabs.Tab key={view} value={view}>
             {view}
-          </Tabs.TabsTab>
+          </Tabs.Tab>
         ))}
       </Tabs.List>
     </Tabs.Root>

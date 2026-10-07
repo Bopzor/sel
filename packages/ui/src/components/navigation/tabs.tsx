@@ -59,4 +59,4 @@ function TabPanel(props: Override<ComponentProps<'div'>, { value: string }>) {
   return <ArkTabs.Content {...props} />;
 }
 
-export { TabsList as List, TabPanel as Panel, TabsRoot as Root, TabsTab };
+export { TabsList as List, TabPanel as Panel, TabsRoot as Root, TabsTab as Tab };
