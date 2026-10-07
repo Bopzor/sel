@@ -68,9 +68,9 @@ export class MinioStorage implements Storage {
     return this.createDirectory('.', root as ObjectInfoTree);
   }
 
-  private listBucketFiles(bucket: string): Promise<ObjectInfo[]> {
+  private listBucketFiles(bucket: Bucket): Promise<ObjectInfo[]> {
     return new Promise<ObjectInfo[]>((resolve, reject) => {
-      const stream = this.minio.listObjects(bucket, undefined, true);
+      const stream = this.minio.listObjects(this.config.minio.buckets[bucket], undefined, true);
 
       const data: ObjectInfo[] = [];
 
