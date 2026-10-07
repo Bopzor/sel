@@ -1,4 +1,4 @@
-import type { File as UploadedFile } from '@sel/shared';
+import type { Document, File as UploadedFile } from '@sel/shared';
 import { assert, wait } from '@sel/utils';
 import { z } from 'zod';
 
@@ -65,6 +65,10 @@ export async function api<Result>(
 
 export function fileUrl(name: string) {
   return `${baseUrl}/files/${name}`;
+}
+
+export function documentUrl(document: Document) {
+  return baseUrl + document.url;
 }
 
 export const maxFileSize = 10 * 1024 * 1024;

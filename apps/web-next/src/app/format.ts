@@ -20,3 +20,15 @@ export function formatExcerpt(html: string) {
 
   return body.textContent.replace(/\s+/g, ' ').trim();
 }
+
+export function formatFileSize(bytes: number, locale: string) {
+  const kilobytes = Math.max(1, Math.round(bytes / 1000));
+
+  if (kilobytes < 1000) {
+    return new Intl.NumberFormat(locale, { style: 'unit', unit: 'kilobyte' }).format(kilobytes);
+  }
+
+  return new Intl.NumberFormat(locale, { style: 'unit', unit: 'megabyte', maximumFractionDigits: 1 }).format(
+    bytes / 1000 / 1000,
+  );
+}

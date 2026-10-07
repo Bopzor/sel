@@ -324,6 +324,11 @@ msgstr "Date et heure (facultatif)"
 msgid "Date to be defined"
 msgstr "Date à définir"
 
+#: src/app/routes.ts
+#: src/pages/documents/documents-page.tsx
+msgid "Documents"
+msgstr "Documents"
+
 #: src/pages/events/details/organizer-actions.tsx
 #: src/pages/events/event-form.tsx
 #: src/pages/information/details/information-details-page.tsx
@@ -568,10 +573,6 @@ msgstr "Navigation principale"
 msgid "Manual entry"
 msgstr "Saisie manuelle"
 
-#: src/main.tsx
-msgid "Member"
-msgstr "Membre"
-
 #: src/pages/profile/profile-page.tsx
 msgid "Member number"
 msgstr "Numéro de membre"
@@ -654,6 +655,10 @@ msgstr "Date d'adhésion"
 #: src/components/address-search.tsx
 msgid "No address found. Check what you typed, or enter the address manually."
 msgstr "Aucune adresse trouvée. Vérifiez votre saisie, ou saisissez l'adresse manuellement."
+
+#: src/pages/documents/documents-list.tsx
+msgid "No documents"
+msgstr "Aucun document"
 
 #: src/pages/events/list/events-list.tsx
 msgid "No event matches these filters"
@@ -1055,6 +1060,10 @@ msgstr "Trier"
 msgid "The application is under maintenance"
 msgstr "L'application est en maintenance"
 
+#: src/pages/documents/documents-list.tsx
+msgid "The documents shared by the committee, such as the statutes and the meeting minutes, appear here."
+msgstr "Les documents partagés par le comité, comme les statuts et les comptes rendus de réunion, apparaissent ici."
+
 #: src/pages/events/create/create-event-page.tsx
 msgid "The event could not be created"
 msgstr "L'événement n'a pas pu être créé"
@@ -1239,6 +1248,10 @@ msgstr "Impossible d'afficher plus d'éléments"
 #: src/components/comments-section.tsx
 msgid "Unable to load the comments"
 msgstr "Impossible de charger les commentaires"
+
+#: src/pages/documents/documents-list.tsx
+msgid "Unable to load the documents"
+msgstr "Impossible de charger les documents"
 
 #: src/pages/events/details/event-page.tsx
 #: src/pages/events/edit/edit-event-page.tsx

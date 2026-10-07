@@ -21,6 +21,7 @@ import { Toaster } from './components/toaster';
 import './index.css';
 import { Layout } from './layout/layout';
 import { AuthenticationPage } from './pages/authentication/authentication';
+import { DocumentsPage } from './pages/documents/documents-page';
 import { NotFoundPage, PageErrorBoundary, RootErrorBoundary } from './pages/error-page';
 import { CreateEventPage } from './pages/events/create/create-event-page';
 import { EventPage } from './pages/events/details/event-page';
@@ -94,6 +95,7 @@ const authenticatedRoutes: Record<string, React.ComponentType> = {
   [routes.informationDetails(':informationId')]: InformationDetailsPage,
   [routes.editInformation(':informationId')]: EditInformationPage,
   [routes.interests()]: PlaceholderPage,
+  [routes.documents()]: DocumentsPage,
   [routes.members()]: MembersPage,
   [routes.member(':memberId')]: PlaceholderPage,
   [routes.profile()]: ProfilePage,

@@ -16,6 +16,7 @@ export const routes = {
   createInformation: () => '/information/new',
   informationDetails: (informationId: string) => `/information/${informationId}`,
   editInformation: (informationId: string) => `/information/${informationId}/edit`,
+  documents: () => '/documents',
   members: () => '/members',
   member: (memberId: string) => `/members/${memberId}`,
   interests: () => '/interests',
@@ -65,6 +66,11 @@ export const navigation = {
       path: routes.information(),
       label: msg`Information`,
       icon: 'information',
+    },
+    documents: {
+      path: routes.documents(),
+      label: msg`Documents`,
+      icon: 'document',
     },
   },
 

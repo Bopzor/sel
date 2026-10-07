@@ -324,6 +324,11 @@ msgstr "Date and time (optional)"
 msgid "Date to be defined"
 msgstr "Date to be defined"
 
+#: src/app/routes.ts
+#: src/pages/documents/documents-page.tsx
+msgid "Documents"
+msgstr "Documents"
+
 #: src/pages/events/details/organizer-actions.tsx
 #: src/pages/events/event-form.tsx
 #: src/pages/information/details/information-details-page.tsx
@@ -568,10 +573,6 @@ msgstr "Main navigation"
 msgid "Manual entry"
 msgstr "Manual entry"
 
-#: src/main.tsx
-msgid "Member"
-msgstr "Member"
-
 #: src/pages/profile/profile-page.tsx
 msgid "Member number"
 msgstr "Member number"
@@ -654,6 +655,10 @@ msgstr "Newest"
 #: src/components/address-search.tsx
 msgid "No address found. Check what you typed, or enter the address manually."
 msgstr "No address found. Check what you typed, or enter the address manually."
+
+#: src/pages/documents/documents-list.tsx
+msgid "No documents"
+msgstr "No documents"
 
 #: src/pages/events/list/events-list.tsx
 msgid "No event matches these filters"
@@ -1055,6 +1060,10 @@ msgstr "Sort"
 msgid "The application is under maintenance"
 msgstr "The application is under maintenance"
 
+#: src/pages/documents/documents-list.tsx
+msgid "The documents shared by the committee, such as the statutes and the meeting minutes, appear here."
+msgstr "The documents shared by the committee, such as the statutes and the meeting minutes, appear here."
+
 #: src/pages/events/create/create-event-page.tsx
 msgid "The event could not be created"
 msgstr "The event could not be created"
@@ -1239,6 +1248,10 @@ msgstr "Unable to load more elements"
 #: src/components/comments-section.tsx
 msgid "Unable to load the comments"
 msgstr "Unable to load the comments"
+
+#: src/pages/documents/documents-list.tsx
+msgid "Unable to load the documents"
+msgstr "Unable to load the documents"
 
 #: src/pages/events/details/event-page.tsx
 #: src/pages/events/edit/edit-event-page.tsx

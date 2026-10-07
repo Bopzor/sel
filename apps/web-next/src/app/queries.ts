@@ -3,6 +3,7 @@ import {
   type Comment,
   type CommentEntityType,
   type Config,
+  type DocumentsGroup,
   type Event,
   type EventsListItem,
   type Information,
@@ -130,6 +131,15 @@ export const queries = {
         return api<Member[]>('GET', '/members', { query });
       },
       placeholderData: keepPreviousData,
+    });
+  },
+
+  listDocuments: () => {
+    return queryOptions({
+      queryKey: ['documents'],
+      queryFn: () => {
+        return api<DocumentsGroup[]>('GET', '/documents');
+      },
     });
   },
 
