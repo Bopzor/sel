@@ -1,12 +1,12 @@
-import { Plural, Trans, useLingui } from '@lingui/react/macro';
+import { Trans, useLingui } from '@lingui/react/macro';
 import type { AuthenticatedMember } from '@sel/shared';
 import { LinkButton } from '@sel/ui';
 import { useSuspenseQuery } from '@tanstack/react-query';
 
 import { queries } from 'src/app/queries';
 import { routes } from 'src/app/routes';
+import { Amount } from 'src/components/amount';
 import { Link } from 'src/components/link';
-import { Unit } from 'src/components/unit';
 
 import { AddressSection } from './address-section';
 import { BioSection } from './bio-section';
@@ -51,8 +51,7 @@ function MembershipCard({ member }: { member: AuthenticatedMember }) {
         <MembershipItem label={<Trans>Member number</Trans>}>{number}</MembershipItem>
         <MembershipItem label={<Trans>Member since</Trans>}>{since}</MembershipItem>
         <MembershipItem label={<Trans>Balance</Trans>}>
-          {/* oxfmt-ignore */}
-          <Plural value={balance} one={<>{balance} <Unit /></>} other={<>{balance} <Unit plural /></>} />
+          <Amount value={balance} />
         </MembershipItem>
       </dl>
     </ProfileSection>

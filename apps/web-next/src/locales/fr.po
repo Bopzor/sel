@@ -12,16 +12,16 @@ msgstr ""
 msgid "{0, plural, one {# participant} other {# participants}}"
 msgstr "{0, plural, one {# participant} other {# participants}}"
 
-#. placeholder {0}: <>{balance} <Unit /></>
-#. placeholder {1}: <>{balance} <Unit plural /></>
-#: src/pages/profile/profile-page.tsx
-msgid "{balance, plural, one {{0}} other {{1}}}"
-msgstr "{balance, plural, one {{0}} other {{1}}}"
-
 #: src/components/comments-section.tsx
 #: src/pages/requests/list/requests-list.tsx
 msgid "{commentsCount, plural, one {# comment} other {# comments}}"
 msgstr "{commentsCount, plural, one {# commentaire} other {# commentaires}}"
+
+#. placeholder {0}: <> {formatted} <Unit /> </>
+#. placeholder {1}: <> {formatted} <Unit plural /> </>
+#: src/components/amount.tsx
+msgid "{count, plural, one {{0}} other {{1}}}"
+msgstr "{count, plural, one {{0}} other {{1}}}"
 
 #: src/pages/requests/details/request-answer.tsx
 msgid "{firstName} knows you are not available."
