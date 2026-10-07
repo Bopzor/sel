@@ -90,16 +90,16 @@ function EventCard({ event }: { event: EventsListItem }) {
 
   return (
     <Card.Root>
-      <Card.Body className="row items-start gap-3 p-3! md:gap-4 md:p-4!">
+      <Card.Body compact className="row items-start gap-3 md:gap-4">
         <DateIcon date={date} />
 
         <div className="stack min-w-0 flex-1 gap-1">
           <div className="row items-center justify-between gap-3">
-            <Card.Title level={2} className="line-clamp-2 text-body-strong!">
+            <h2 className="line-clamp-2 text-body-strong">
               <Card.Link Link={Link} href={routes.event(event.id)}>
                 {event.title}
               </Card.Link>
-            </Card.Title>
+            </h2>
 
             <div className="row shrink-0 gap-2">
               {event.participation === 'yes' && (
@@ -181,7 +181,7 @@ function EventListSkeleton() {
       {Array.from({ length: 5 }, (_, index) => (
         <li key={index}>
           <Card.Root>
-            <Card.Body className="row items-start gap-3">
+            <Card.Body compact className="row items-start gap-3">
               <Skeleton variant="rect" className="size-14" />
               <div className="stack min-w-0 flex-1 gap-2 py-0.5">
                 <Skeleton className="w-2/3" />

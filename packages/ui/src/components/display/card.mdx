@@ -37,7 +37,8 @@ A rounded surface that groups content, with an optional header, body and footer.
 - `Card.Action`: a badge or an icon button at the top right, written after the title and the description.
 - `Card.Body`: the content.
 - `Card.Footer`: one or two buttons.
-- `Card.Link` or `Card.Button`, inside the `Card.Title`: the whole card becomes a link or a button, named by the title, which covers the card. `Card.Link` takes the router's link component as `Link` (an `<a>` by default). The `Card.Action` and the `Card.Footer` stay above it, so that their buttons keep their own action.
+- `compact`, on `Card.Header`, `Card.Body` and `Card.Footer`: a tighter padding, for the cards of a feed or of a grid, read one after the other. Their title is a heading styled by the application (`text-body-strong`, for example) rather than a `Card.Title`.
+- `Card.Link` or `Card.Button`, inside the `Card.Title` or the card's heading: the whole card becomes a link or a button, named by the title, which covers the card. `Card.Link` takes the router's link component as `Link` (an `<a>` by default). The `Card.Action` and the `Card.Footer` stay above it, so that their buttons keep their own action.
 
 Do not nest cards.
 

@@ -124,3 +124,24 @@ export const WithList: Story = {
     </Card.Root>
   ),
 };
+
+/** Tighter padding, for the cards of a feed or a grid. The title is a heading styled by the application. */
+export const Compact: Story = {
+  render: () => (
+    <div className="stack gap-4">
+      {['A first post', 'A second post'].map((title) => (
+        <Card.Root key={title}>
+          <Card.Body compact className="row items-start gap-3">
+            <Avatar name="Jane Doe" decorative />
+            <div className="stack min-w-0 flex-1 gap-1">
+              <h3 className="line-clamp-2 text-body-strong">
+                <Card.Link href={`#${title}`}>{title}</Card.Link>
+              </h3>
+              <p className="line-clamp-2 text-body-sm text-muted">The first lines of the post.</p>
+            </div>
+          </Card.Body>
+        </Card.Root>
+      ))}
+    </div>
+  ),
+};

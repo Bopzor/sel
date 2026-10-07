@@ -1,5 +1,6 @@
 import { type Override } from '@sel/utils';
 import clsx from 'clsx';
+import { cva } from 'cva';
 import type { ComponentProps } from 'react';
 
 import type { LinkComponent } from '../../utils';
@@ -22,14 +23,26 @@ function CardRoot({ className, ...props }: ComponentProps<'div'>) {
   );
 }
 
+type SectionProps = Override<ComponentProps<'div'>, { compact?: boolean }>;
+
 // Each part pads itself: a list placed between them, without a part, goes from edge to edge.
-const section = clsx('px-5 first:pt-5 last:pb-5 md:px-6 first:md:pt-6 last:md:pb-6');
+const sectionStyles = cva('', {
+  variants: {
+    compact: {
+      false: 'px-5 first:pt-5 last:pb-5 md:px-6 first:md:pt-6 last:md:pb-6',
+      true: 'px-3 first:pt-3 last:pb-3 md:px-4 first:md:pt-4 last:md:pb-4',
+    },
+  },
+});
 
 /** The title, the description under it, and an action at the top right. */
-function CardHeader({ className, ...props }: ComponentProps<'div'>) {
+function CardHeader({ compact = false, className, ...props }: SectionProps) {
   // The action is placed in a second column, as wide as its content.
   return (
-    <div {...props} className={clsx(section, 'grid grid-cols-1 items-start gap-x-3 gap-y-1', className)} />
+    <div
+      {...props}
+      className={clsx(sectionStyles({ compact }), 'grid grid-cols-1 items-start gap-x-3 gap-y-1', className)}
+    />
   );
 }
 
@@ -56,14 +69,16 @@ function CardAction({ className, ...props }: ComponentProps<'div'>) {
   return <div {...props} className={clsx('relative col-start-2 row-span-2 row-start-1', className)} />;
 }
 
-function CardBody({ className, ...props }: ComponentProps<'div'>) {
-  return <div {...props} className={clsx(section, className)} />;
+function CardBody({ compact = false, className, ...props }: SectionProps) {
+  return <div {...props} className={sectionStyles({ compact, className })} />;
 }
 
 /** One or two buttons. */
-function CardFooter({ className, ...props }: ComponentProps<'div'>) {
+function CardFooter({ compact = false, className, ...props }: SectionProps) {
   // Positioned, so that its buttons stay above the cover of a clickable card.
-  return <div {...props} className={clsx(section, 'relative row flex-wrap gap-3', className)} />;
+  return (
+    <div {...props} className={clsx(sectionStyles({ compact }), 'relative row flex-wrap gap-3', className)} />
+  );
 }
 
 // The link or button of the title covers the whole card with its ::after, so that the card has a single interactive

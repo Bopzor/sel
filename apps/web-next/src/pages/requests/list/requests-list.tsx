@@ -90,16 +90,16 @@ function RequestCard({ request }: { request: RequestListItem }) {
 
   return (
     <Card.Root>
-      <Card.Body className="row items-start gap-2 p-3! md:gap-3 md:p-4!">
+      <Card.Body compact className="row items-start gap-2 md:gap-3">
         <MemberAvatar member={requester} decorative />
 
         <div className="stack min-w-0 flex-1 gap-1">
           <div className="row items-center justify-between gap-3">
-            <Card.Title level={2} className="line-clamp-2 text-body-strong!">
+            <h2 className="line-clamp-2 text-body-strong">
               <Card.Link Link={Link} href={routes.request(request.id)}>
                 {request.title}
               </Card.Link>
-            </Card.Title>
+            </h2>
 
             {request.status !== RequestStatus.pending && <StatusBadge status={request.status} />}
           </div>
@@ -148,7 +148,7 @@ function RequestListSkeleton() {
       {Array.from({ length: 5 }, (_, index) => (
         <li key={index}>
           <Card.Root>
-            <Card.Body className="row items-start gap-3">
+            <Card.Body compact className="row items-start gap-3">
               <Skeleton variant="circle" />
               <div className="stack min-w-0 flex-1 gap-2 py-0.5">
                 <Skeleton className="w-2/3" />
