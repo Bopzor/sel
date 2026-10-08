@@ -3,6 +3,7 @@ import { i18n, type MessageDescriptor } from '@lingui/core';
 import { msg } from '@lingui/core/macro';
 import { Trans, useLingui } from '@lingui/react/macro';
 import { Button, Card } from '@sel/ui';
+import { defined } from '@sel/utils';
 import { useMutation } from '@tanstack/react-query';
 import { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -213,7 +214,7 @@ function verificationError(error: Error) {
   };
 
   if (ApiError.is(error) && error.code && error.code in messages) {
-    return messages[error.code];
+    return defined(messages[error.code]);
   }
 
   return msg`Sign-in failed. Try again in a few moments.`;

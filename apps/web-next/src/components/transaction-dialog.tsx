@@ -101,7 +101,7 @@ function TransactionFlow({
   const steps: Step[] = direction && counterpart ? ['details', 'recap'] : ['exchange', 'details', 'recap'];
 
   const [step, setStep] = useState(steps[0]);
-  const stepNumber = steps.indexOf(step) + 1;
+  const stepNumber = steps.indexOf(step!) + 1;
   const stepCount = steps.length;
 
   const [values, setValues] = useState<TransactionDetails>({
@@ -351,7 +351,7 @@ function CounterpartField({ form, query, meId, findMember }: CounterpartFieldPro
           onKeyDown={(event) => {
             if (event.key === 'Enter' && members && members.length > 0) {
               event.preventDefault();
-              onChange(members[0].id);
+              onChange(members[0]?.id);
             }
           }}
           autoFocus={changed}

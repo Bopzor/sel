@@ -1,5 +1,5 @@
 import { createAuthenticatedMember, EventKind, type EventsListItem, type LightMember } from '@sel/shared';
-import { addDuration, createFactory } from '@sel/utils';
+import { addDuration, assert, createFactory } from '@sel/utils';
 import { screen, within } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
@@ -48,6 +48,7 @@ describe('events', () => {
     expect(item).toHaveTextContent('Annecy');
     expect(item).toHaveTextContent('3 participants');
 
+    assert(undated);
     expect(within(undated).getByRole('link', { name: 'Village fair' })).toHaveAttribute('href', '/events/e2');
     expect(undated).toHaveTextContent('Date to be defined');
 
@@ -182,7 +183,7 @@ function findItems() {
   return vi.waitFor(() => {
     const items = screen.getAllByRole('listitem');
     items.forEach((item) => within(item).getByRole('link'));
-    return items;
+    return items as [HTMLElement, ...HTMLElement[]];
   });
 }
 

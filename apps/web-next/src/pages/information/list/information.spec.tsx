@@ -1,5 +1,5 @@
 import { createAuthenticatedMember, type Information, type LightMember } from '@sel/shared';
-import { createFactory } from '@sel/utils';
+import { assert, createFactory } from '@sel/utils';
 import { act, screen, within } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
@@ -35,6 +35,8 @@ describe('information', () => {
     renderPage(routes.information());
 
     const [item] = await findItems();
+
+    assert(item);
 
     expect(within(item).getByRole('link', { name: 'General assembly' })).toHaveAttribute(
       'href',
@@ -198,7 +200,7 @@ function findItems() {
   return vi.waitFor(() => {
     const items = screen.getAllByRole('listitem');
     items.forEach((item) => within(item).getByRole('link'));
-    return items;
+    return items as [HTMLElement, ...HTMLElement[]];
   });
 }
 

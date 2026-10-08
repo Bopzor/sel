@@ -253,7 +253,7 @@ function findItems() {
   return vi.waitFor(() => {
     const items = screen.getAllByRole('listitem');
     items.forEach((item) => within(item).getByRole('link'));
-    return items;
+    return items as [HTMLElement, ...HTMLElement[]];
   });
 }
 
