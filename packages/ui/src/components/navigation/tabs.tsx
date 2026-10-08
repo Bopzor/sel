@@ -3,6 +3,8 @@ import type { Override } from '@sel/utils';
 import clsx from 'clsx';
 import type { ComponentProps } from 'react';
 
+import type { LinkComponent } from '../../utils';
+
 type TabsRootProps = Override<
   ComponentProps<'div'>,
   {
@@ -19,6 +21,7 @@ function TabsRoot({ onChange, className, ...props }: TabsRootProps) {
     <ArkTabs.Root
       {...props}
       onValueChange={(details) => onChange?.(details.value)}
+      navigate={null}
       lazyMount
       unmountOnExit
       className={clsx('stack', className)}
@@ -39,18 +42,37 @@ function TabsList({ className, ...props }: TabListProps) {
   return <ArkTabs.List {...props} className={clsx('row overflow-x-auto border-b', className)} />;
 }
 
+type TabsTabProps = Override<
+  ComponentProps<'button'>,
+  {
+    value: string;
+    /** With an href, the tab is a link: the navigation selects it, through the Root's value. */
+    href?: string;
+    Link?: LinkComponent;
+  }
+>;
+
 /** The name of a view, with its value. It may hold a Badge, after the name. */
-function TabsTab({ className, ...props }: Override<ComponentProps<'button'>, { value: string }>) {
+function TabsTab({ href, Link = 'a', className, children, ...props }: TabsTabProps) {
+  const tabClassName = clsx(
+    // The focus ring is drawn inside, since the scrolling list clips its overflow.
+    'relative inline-flex h-control-md shrink-0 cursor-pointer items-center gap-2 px-4 text-label whitespace-nowrap transition select-none after:absolute after:inset-x-0 after:bottom-0 after:h-0.75 focus-visible:focus-ring-inset',
+    'not-data-selected:text-muted hover:not-data-selected:text-default data-selected:text-primary data-selected:after:bg-primary',
+    className,
+  );
+
+  if (href !== undefined) {
+    return (
+      <ArkTabs.Trigger {...props} asChild className={tabClassName}>
+        <Link href={href}>{children}</Link>
+      </ArkTabs.Trigger>
+    );
+  }
+
   return (
-    <ArkTabs.Trigger
-      {...props}
-      className={clsx(
-        // The focus ring is drawn inside, since the scrolling list clips its overflow.
-        'relative inline-flex h-control-md shrink-0 cursor-pointer items-center gap-2 px-4 text-label whitespace-nowrap transition select-none after:absolute after:inset-x-0 after:bottom-0 after:h-0.75 focus-visible:focus-ring-inset',
-        'not-data-selected:text-muted hover:not-data-selected:text-default data-selected:text-primary data-selected:after:bg-primary',
-        className,
-      )}
-    />
+    <ArkTabs.Trigger {...props} className={tabClassName}>
+      {children}
+    </ArkTabs.Trigger>
   );
 }
 

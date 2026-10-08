@@ -38,7 +38,10 @@ describe('members', () => {
 
     const [item] = await findItems();
 
-    expect(within(item).getByRole('link', { name: 'Claire Dubois' })).toHaveAttribute('href', '/members/claire');
+    expect(within(item).getByRole('link', { name: 'Claire Dubois' })).toHaveAttribute(
+      'href',
+      '/members/claire',
+    );
     expect(item).toHaveTextContent('I love gardening.');
     expect(item).not.toHaveTextContent('New');
   });
@@ -65,7 +68,11 @@ describe('members', () => {
 
   it('shows only the committee badge for a committee member who joined recently', async () => {
     server.members = [
-      createMember({ firstName: 'Claire', committeeMember: true, membershipStartDate: new Date().toISOString() }),
+      createMember({
+        firstName: 'Claire',
+        committeeMember: true,
+        membershipStartDate: new Date().toISOString(),
+      }),
     ];
 
     renderPage(routes.members());
@@ -180,7 +187,10 @@ describe('members', () => {
 
     expect(router.state.location.search).toBe('');
     expect(screen.getByRole('searchbox', { name: 'Search members' })).toHaveValue('');
-    expect(screen.getByRole('button', { name: 'Committee members' })).toHaveAttribute('aria-pressed', 'false');
+    expect(screen.getByRole('button', { name: 'Committee members' })).toHaveAttribute(
+      'aria-pressed',
+      'false',
+    );
   });
 
   it('retries when the members fail to load', async () => {
@@ -223,7 +233,9 @@ function findItems() {
 }
 
 function renderPage(path: string) {
-  return renderTestPage(path, [{ path: routes.members(), middleware: [requireSession], Component: MembersPage }]);
+  return renderTestPage(path, [
+    { path: routes.members(), middleware: [requireSession], Component: MembersPage },
+  ]);
 }
 
 class Server extends FakeServer {

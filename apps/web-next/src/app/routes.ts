@@ -18,7 +18,10 @@ export const routes = {
   editInformation: (informationId: string) => `/information/${informationId}/edit`,
   documents: () => '/documents',
   members: () => '/members',
-  member: (memberId: string) => `/members/${memberId}`,
+  membersMap: (memberId?: string) =>
+    '/members/map?' + new URLSearchParams(memberId ? { memberId } : {}).toString(),
+  member: (memberId: string, tab?: 'exchanges' | 'activity') =>
+    `/members/${memberId}` + (tab ? `/${tab}` : ''),
   interests: () => '/interests',
   profile: () => '/profile',
   settings: () => '/settings',

@@ -75,6 +75,20 @@ export const WithBadges: Story = {
   ),
 };
 
+export const Links: Story = {
+  render: (args) => (
+    <Tabs.Root {...args}>
+      <Tabs.List aria-label="Views">
+        {views.map((view) => (
+          <Tabs.Tab key={view} value={view} href={`#${view.toLowerCase()}`}>
+            {view}
+          </Tabs.Tab>
+        ))}
+      </Tabs.List>
+    </Tabs.Root>
+  ),
+};
+
 export const FiveTabs: Story = {
   args: { defaultValue: 'First view' },
   render: (args) => (

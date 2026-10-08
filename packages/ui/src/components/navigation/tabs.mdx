@@ -32,6 +32,24 @@ For two to five views of the same level (Requests / Events / Information). Not t
 - `Tabs.Tab` (required): the name of a view and its `value`. A `Badge` may follow the name, such as a count.
 - `Tabs.Panel`: the view of the tab with the same `value`. Only the active panel is rendered.
 
+## Tabs as links
+
+When each view has its own URL, a tab takes an `href` and the router's `Link`: it can be opened in a new browser tab, and the back button returns to the previous view. The `value` of `Tabs.Root` comes from the URL, without `onChange`: the navigation changes the view.
+
+```tsx
+<Tabs.Root value={tab}>
+  <Tabs.List aria-label="Views">
+    <Tabs.Tab value="overview" Link={Link} href="/members/1">
+      Overview
+    </Tabs.Tab>
+    <Tabs.Tab value="exchanges" Link={Link} href="/members/1/exchanges">
+      Exchanges
+    </Tabs.Tab>
+  </Tabs.List>
+  …
+</Tabs.Root>
+```
+
 Height 48px, active tab in `text-primary` with a 3px `bg-primary` underline. Built on Ark UI: arrow keys move between tabs, and the active tab is linked to its panel.
 
 <Primary />

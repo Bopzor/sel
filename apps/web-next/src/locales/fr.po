@@ -31,6 +31,10 @@ msgstr "{firstName} sait que vous n'êtes pas disponible."
 msgid "{firstName} will be notified of your answer."
 msgstr "Votre réponse sera transmise à {firstName}."
 
+#: src/pages/members/details/member-sidebar.tsx
+msgid "{months, plural, one {# month} other {# months}}"
+msgstr "{months, plural, one {# mois} other {# mois}}"
+
 #: src/components/attachments.tsx
 msgid "{name} could not be attached. Try again in a few moments."
 msgstr "{name} n’a pas pu être joint. Réessayez dans quelques instants."
@@ -67,6 +71,10 @@ msgstr "{total, plural, one {# information} other {# informations}}"
 msgid "{total, plural, one {# request} other {# requests}}"
 msgstr "{total, plural, one {# demande} other {# demandes}}"
 
+#: src/pages/members/details/member-sidebar.tsx
+msgid "{years, plural, one {# year} other {# years}}"
+msgstr "{years, plural, one {# an} other {# ans}}"
+
 #: src/pages/requests/request-form.tsx
 msgid "A few words, for example: Help to put up a shelf"
 msgstr "Quelques mots, par exemple : Aide pour poser une étagère"
@@ -83,10 +91,19 @@ msgstr "Quelques mots, par exemple : Pique-nique au lac"
 msgid "About me"
 msgstr "À propos de moi"
 
+#: src/pages/members/details/member-page.tsx
+msgid "Activity"
+msgstr "Activité"
+
 #: src/components/attachments.tsx
 msgid "Add files"
 msgstr "Ajouter des fichiers"
 
+#: src/pages/members/details/member-sidebar.tsx
+msgid "Add to my contacts"
+msgstr "Ajouter à mes contacts"
+
+#: src/pages/members/details/member-sidebar.tsx
 #: src/pages/profile/address-section.tsx
 msgid "Address"
 msgstr "Adresse"
@@ -311,6 +328,7 @@ msgstr "Commentaire (facultatif)"
 msgid "Comments"
 msgstr "Commentaires"
 
+#: src/pages/members/details/member-sidebar.tsx
 #: src/pages/members/list/members-list.tsx
 msgid "Committee member"
 msgstr "Membre du CA"
@@ -328,6 +346,7 @@ msgstr "Communauté"
 msgid "Confirmation"
 msgstr "Confirmation"
 
+#: src/pages/members/details/member-sidebar.tsx
 #: src/pages/profile/contact-section.tsx
 msgid "Contact"
 msgstr "Contact"
@@ -335,6 +354,14 @@ msgstr "Contact"
 #: src/pages/requests/details/request-answer.tsx
 msgid "Contact {firstName} to arrange the details."
 msgstr "Contactez {firstName} pour vous organiser."
+
+#: src/pages/members/details/member-sidebar.tsx
+msgid "Copy the email address"
+msgstr "Copier l'adresse email"
+
+#: src/pages/members/details/member-sidebar.tsx
+msgid "Copy the phone number"
+msgstr "Copier le numéro de téléphone"
 
 #: src/pages/events/create/create-event-page.tsx
 #: src/pages/events/list/events-list.tsx
@@ -380,6 +407,10 @@ msgstr "Documents"
 msgid "Edit"
 msgstr "Modifier"
 
+#: src/pages/members/details/member-sidebar.tsx
+msgid "Edit my profile"
+msgstr "Modifier mon profil"
+
 #: src/pages/events/edit/edit-event-page.tsx
 msgid "Edit the event"
 msgstr "Modifier l'événement"
@@ -396,6 +427,10 @@ msgstr "Modifier la demande"
 #: src/pages/profile/contact-section.tsx
 msgid "Email address"
 msgstr "Adresse email"
+
+#: src/pages/members/details/member-sidebar.tsx
+msgid "Email address copied"
+msgstr "Adresse email copiée"
 
 #: src/pages/profile/contact-section.tsx
 msgid "Enter a phone number such as 06 12 34 56 78"
@@ -444,7 +479,12 @@ msgstr "Événements"
 msgid "Exchange"
 msgstr "Échange"
 
+#: src/pages/members/details/member-sidebar.tsx
+msgid "Exchange <0/>"
+msgstr "Echanger des <0/>"
+
 #: src/layout/layout.tsx
+#: src/pages/members/details/member-page.tsx
 #: src/pages/navigation.tsx
 msgid "Exchanges"
 msgstr "Échanges"
@@ -592,6 +632,10 @@ msgstr "Laissez vide si la date n'est pas encore fixée"
 msgid "Leave it empty if the location is not decided yet"
 msgstr "Laissez vide si le lieu n'est pas encore décidé"
 
+#: src/pages/members/details/member-sidebar.tsx
+msgid "less than a month"
+msgstr "moins d'un mois"
+
 #: src/pages/settings/settings-page.tsx
 msgid "Light"
 msgstr "Clair"
@@ -629,16 +673,33 @@ msgstr "Saisie manuelle"
 msgid "Member"
 msgstr "Membre"
 
+#: src/pages/members/details/member-sidebar.tsx
+msgid "Member #{number}"
+msgstr "Membre n°{number}"
+
+#: src/pages/members/details/member-not-found.tsx
+msgid "Member not found"
+msgstr "Membre introuvable"
+
 #: src/pages/profile/profile-page.tsx
 msgid "Member number"
 msgstr "Numéro de membre"
+
+#: src/pages/members/details/member-page.tsx
+msgid "Member sections"
+msgstr "Sections du membre"
 
 #: src/pages/profile/profile-page.tsx
 msgid "Member since"
 msgstr "Membre depuis"
 
+#: src/pages/members/details/member-sidebar.tsx
+msgid "Member since {since} ({duration})"
+msgstr "Membre depuis {since} ({duration})"
+
 #: src/app/routes.ts
 #: src/components/transaction-dialog.tsx
+#: src/pages/members/details/member-page.tsx
 #: src/pages/members/list/members-page.tsx
 msgid "Members"
 msgstr "Membres"
@@ -854,6 +915,10 @@ msgstr "Organisateur"
 msgid "Outside event"
 msgstr "Événement extérieur"
 
+#: src/pages/members/details/member-page.tsx
+msgid "Overview"
+msgstr "Aperçu"
+
 #: src/pages/error-page.tsx
 msgid "Page not found"
 msgstr "Page introuvable"
@@ -874,6 +939,10 @@ msgstr "Événement passé"
 #: src/pages/profile/contact-section.tsx
 msgid "Phone number"
 msgstr "Numéro de téléphone"
+
+#: src/pages/members/details/member-sidebar.tsx
+msgid "Phone number copied"
+msgstr "Numéro de téléphone copié"
 
 #: src/pages/events/event-form.tsx
 #: src/pages/information/information-form.tsx
@@ -1072,6 +1141,10 @@ msgctxt "information list"
 msgid "See the information"
 msgstr "Voir les informations"
 
+#: src/pages/members/details/member-not-found.tsx
+msgid "See the members"
+msgstr "Voir les membres"
+
 #: src/pages/requests/edit/edit-request-page.tsx
 msgid "See the request"
 msgstr "Voir la demande"
@@ -1134,6 +1207,10 @@ msgstr "Afficher mon adresse email aux autres membres"
 #: src/pages/profile/contact-section.tsx
 msgid "Show my phone number to the other members"
 msgstr "Afficher mon numéro de téléphone aux autres membres"
+
+#: src/pages/members/details/member-sidebar.tsx
+msgid "Show on the members map"
+msgstr "Voir sur la carte des membres"
 
 #. placeholder {0}: events.length
 #: src/pages/events/list/events-list.tsx
@@ -1206,6 +1283,10 @@ msgstr "Le lien est peut-être erroné, ou l'événement n'existe plus."
 #: src/pages/information/information-not-found.tsx
 msgid "The link may be wrong, or the information may no longer exist."
 msgstr "Le lien est peut-être erroné, ou l’information n’existe plus."
+
+#: src/pages/members/details/member-not-found.tsx
+msgid "The link may be wrong, or the member may no longer be active."
+msgstr "Le lien est peut-être erroné, ou le membre n'est peut-être plus actif."
 
 #: src/pages/error-page.tsx
 msgid "The link may be wrong, or the page may no longer exist."
@@ -1390,6 +1471,10 @@ msgstr "Pour la modifier, contactez un administrateur."
 msgid "Try other words, or clear the filters."
 msgstr "Essayez d'autres mots, ou effacez les filtres."
 
+#: src/hooks/use-clipboard.tsx
+msgid "Unable to copy"
+msgstr "Impossible de copier"
+
 #: src/components/pagination.tsx
 msgid "Unable to load more elements"
 msgstr "Impossible d'afficher plus d'éléments"
@@ -1420,6 +1505,10 @@ msgstr "Impossible de charger l'information"
 msgctxt "information list"
 msgid "Unable to load the information"
 msgstr "Impossible de charger les informations"
+
+#: src/pages/members/details/member-page.tsx
+msgid "Unable to load the member"
+msgstr "Impossible de charger le membre"
 
 #: src/components/transaction-dialog.tsx
 #: src/pages/members/list/members-list.tsx

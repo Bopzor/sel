@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
 import { Avatar } from './avatar';
+import { Icon } from './icon';
 
 const photo =
   'data:image/svg+xml,' +
@@ -17,7 +18,7 @@ export default {
     decorative: false,
   },
   argTypes: {
-    size: { control: 'inline-radio', options: ['sm', 'md', 'lg'] },
+    size: { control: 'inline-radio', options: ['sm', 'md', 'lg', 'full'] },
   },
 } satisfies Meta<typeof Avatar>;
 
@@ -37,6 +38,25 @@ export const Sizes: Story = {
 
 export const Photo: Story = {
   render: () => <Avatar name="Jane Doe" src={photo} />,
+};
+
+export const FullSize: Story = {
+  render: () => (
+    <div className="row gap-4">
+      <div className="w-40">
+        <Avatar name="Jane Doe" src={photo} size="full" className="border shadow-sm" />
+      </div>
+      <div className="w-40">
+        <Avatar
+          name="Jane Doe"
+          size="full"
+          neutral
+          placeholder={<Icon name="profile" className="size-1/3! opacity-40" />}
+          className="border shadow-sm"
+        />
+      </div>
+    </div>
+  ),
 };
 
 export const NextToAName: Story = {

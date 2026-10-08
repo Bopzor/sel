@@ -32,7 +32,9 @@ import { CreateInformationPage } from './pages/information/create/create-informa
 import { InformationDetailsPage } from './pages/information/details/information-details-page';
 import { EditInformationPage } from './pages/information/edit/edit-information-page';
 import { InformationPage } from './pages/information/list/information-page';
+import { MemberPage } from './pages/members/details/member-page';
 import { MembersPage } from './pages/members/list/members-page';
+import { MembersMapPage } from './pages/members/map/members-map.page';
 import { NavigationPage } from './pages/navigation';
 import { ProfilePage } from './pages/profile/profile-page';
 import { CreateRequestPage } from './pages/requests/create/create-request-page';
@@ -98,7 +100,8 @@ const authenticatedRoutes: Record<string, React.ComponentType> = {
   [routes.interests()]: PlaceholderPage,
   [routes.documents()]: DocumentsPage,
   [routes.members()]: MembersPage,
-  [routes.member(':memberId')]: PlaceholderPage,
+  [routes.membersMap()]: MembersMapPage,
+  [`${routes.member(':memberId')}/:tab?`]: MemberPage,
   [routes.profile()]: ProfilePage,
   [routes.settings()]: SettingsPage,
   [routes.navigation()]: NavigationPage,

@@ -5,12 +5,12 @@ import { differenceInCalendarDays, removeDiacriticCharacters } from '@sel/utils'
 import { useQuery } from '@tanstack/react-query';
 import clsx from 'clsx';
 
-import { fileUrl } from 'src/app/api';
 import { formatMemberName } from 'src/app/format';
 import { queries } from 'src/app/queries';
 import { routes } from 'src/app/routes';
 import { ApiFailed } from 'src/components/api-result';
 import { Link } from 'src/components/link';
+import { MemberAvatar } from 'src/components/member-avatar';
 
 type MembersListProps = {
   sort: MembersSort;
@@ -119,19 +119,14 @@ function MemberImage({ member }: { member: Member }) {
 
   return (
     <div className="relative w-full">
-      {member.avatar && (
-        <img
-          src={fileUrl(member.avatar)}
-          alt=""
-          className="aspect-square w-full rounded-lg border object-cover shadow-sm"
-        />
-      )}
-
-      {!member.avatar && (
-        <div className="flex aspect-square w-full items-center justify-center rounded-lg bg-page">
-          <Icon name="profile" className="size-1/3! text-subtle opacity-40" />
-        </div>
-      )}
+      <MemberAvatar
+        member={member}
+        size="full"
+        decorative
+        neutral
+        placeholder={<Icon name="profile" className="size-1/3! opacity-40" />}
+        className="border shadow-sm"
+      />
 
       {badge()}
     </div>

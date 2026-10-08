@@ -9,21 +9,34 @@ type AvatarProps = Override<
     src?: string;
     /** Hides the avatar from screen readers, when the name is written right next to it. */
     decorative?: boolean;
-    size?: 'sm' | 'md' | 'lg';
+    /** full: a square with rounded corners, as wide as its container. */
+    size?: 'sm' | 'md' | 'lg' | 'full';
+    neutral?: boolean;
+    placeholder?: React.ReactNode;
     children?: never;
   }
 >;
 
-export function Avatar({ name, src, decorative = false, size = 'md', className, ...props }: AvatarProps) {
+export function Avatar({
+  name,
+  src,
+  decorative = false,
+  size = 'md',
+  neutral = false,
+  placeholder,
+  className,
+  ...props
+}: AvatarProps) {
   return (
     <span
       {...props}
-      className={avatarStyles({ size, className })}
+      className={avatarStyles({ size, neutral, className })}
       role={decorative ? undefined : 'img'}
       aria-label={decorative ? undefined : name}
       aria-hidden={decorative || undefined}
     >
-      {src ? <img src={src} alt="" className="size-full object-cover" /> : initials(name)}
+      {src && <img src={src} alt="" className="size-full object-cover" />}
+      {!src && (placeholder ?? initials(name))}
     </span>
   );
 }
@@ -37,13 +50,18 @@ function initials(name: string) {
 }
 
 const avatarStyles = cva(
-  'inline-flex shrink-0 items-center justify-center overflow-hidden rounded-full bg-avatar text-avatar uppercase select-none',
+  'inline-flex shrink-0 items-center justify-center overflow-hidden uppercase select-none',
   {
     variants: {
       size: {
-        sm: 'size-avatar-sm text-caption',
-        md: 'size-avatar-md text-body-strong',
-        lg: 'size-avatar-lg text-title-2',
+        sm: 'size-avatar-sm rounded-full text-caption',
+        md: 'size-avatar-md rounded-full text-body-strong',
+        lg: 'size-avatar-lg rounded-full text-title-2',
+        full: 'aspect-square w-full rounded-lg align-top',
+      },
+      neutral: {
+        false: 'bg-avatar text-avatar',
+        true: 'bg-page text-subtle',
       },
     },
   },

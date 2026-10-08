@@ -134,6 +134,15 @@ export const queries = {
     });
   },
 
+  member: (memberId: string) => {
+    return queryOptions({
+      queryKey: ['members', memberId],
+      queryFn: () => {
+        return api<Member>('GET', `/members/${memberId}`);
+      },
+    });
+  },
+
   listDocuments: () => {
     return queryOptions({
       queryKey: ['documents'],
