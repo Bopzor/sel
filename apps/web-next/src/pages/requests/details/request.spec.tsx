@@ -2,6 +2,7 @@ import {
   createAuthenticatedMember,
   RequestStatus,
   type Comment,
+  type CreateTransactionBody,
   type LightMember,
   type Request,
   type SetRequestAnswerBody,
@@ -338,6 +339,85 @@ describe('request', () => {
       expect(screen.queryByRole('heading', { name: 'Your request' })).not.toBeInTheDocument();
     });
   });
+
+  describe('exchange', () => {
+    async function fillAmount(dialog: HTMLElement) {
+      const user = userEvent.setup();
+
+      await user.type(within(dialog).getByRole('textbox', { name: 'Amount' }), '20');
+      await user.click(within(dialog).getByRole('button', { name: 'Next' }));
+    }
+
+    it('sends units from the requester to a member, linked to the request', async () => {
+      const user = userEvent.setup();
+
+      server.request = createRequest({ requester: me, title: 'Cat sitting' });
+
+      renderPage();
+
+      await user.click(await screen.findByRole('button', { name: 'Create exchange' }));
+
+      const dialog = await screen.findByRole('dialog', { name: 'Send units' });
+      expect(within(dialog).queryByRole('radiogroup')).not.toBeInTheDocument();
+
+      const members = await within(dialog).findByRole('list', { name: 'Members' });
+      await user.click(within(members).getByRole('button', { name: 'Claire Dubois' }));
+      await user.click(within(dialog).getByRole('button', { name: 'Next' }));
+      await fillAmount(dialog);
+      await user.click(within(dialog).getByRole('button', { name: 'Send 20 units' }));
+
+      expect(await screen.findByText('The exchange is recorded')).toBeInTheDocument();
+      expect(server.transactions).toEqual<CreateTransactionBody[]>([
+        { payerId: 'me', recipientId: 'claire', amount: 20, description: 'Cat sitting', requestId: 'r1' },
+      ]);
+    });
+
+    it('offers the requester to send units on a closed request', async () => {
+      server.request = createRequest({ requester: me, status: RequestStatus.fulfilled });
+
+      renderPage();
+
+      expect(await screen.findByRole('button', { name: 'Create exchange' })).toBeInTheDocument();
+    });
+
+    it('requests units from the requester to a member who can help', async () => {
+      const user = userEvent.setup();
+
+      server.request = createRequest({
+        title: 'Cat sitting',
+        answers: [{ id: 'a1', member: me, answer: 'positive' }],
+      });
+
+      renderPage();
+
+      await user.click(await screen.findByRole('button', { name: 'Create exchange' }));
+
+      const dialog = await screen.findByRole('dialog', { name: 'Request units from Claire Dubois' });
+      expect(dialog).toHaveTextContent('Step 1 of 2');
+      expect(within(dialog).getByRole('textbox', { name: /^Reason/ })).toHaveValue('Cat sitting');
+
+      await fillAmount(dialog);
+      await user.click(within(dialog).getByRole('button', { name: 'Request 20 units' }));
+
+      expect(await screen.findByText('The request is sent to Claire Dubois')).toBeInTheDocument();
+      expect(server.transactions).toEqual<CreateTransactionBody[]>([
+        { payerId: 'claire', recipientId: 'me', amount: 20, description: 'Cat sitting', requestId: 'r1' },
+      ]);
+    });
+
+    it.each([
+      ['has not answered', []],
+      ["can't help", [{ id: 'a1', member: me, answer: 'negative' as const }]],
+    ])('does not offer an exchange to a member who %s', async (_, answers) => {
+      server.request = createRequest({ answers });
+
+      renderPage();
+
+      await screen.findByRole('heading', { level: 1 });
+
+      expect(screen.queryByRole('button', { name: 'Create exchange' })).not.toBeInTheDocument();
+    });
+  });
 });
 
 function renderPage() {
@@ -362,6 +442,7 @@ class Server extends FakeServer {
   failing = false;
   answerFailing = false;
   statusFailing = false;
+  transactions: CreateTransactionBody[] = [];
 
   init() {
     this.register('GET /api/session/member', () => this.json(me));
@@ -379,6 +460,13 @@ class Server extends FakeServer {
     });
 
     this.register('GET /api/comment', () => this.json(this.comments));
+    this.register('GET /api/members', () => this.json([claire, julien]));
+
+    this.register('POST /api/transactions', ({ body }) => {
+      this.transactions.push(body as CreateTransactionBody);
+
+      return this.json('transactionId', { status: 201 });
+    });
 
     this.register('POST /api/requests/r1/answer', ({ body }) => {
       if (this.answerFailing) {

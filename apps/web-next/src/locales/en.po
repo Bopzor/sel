@@ -7,6 +7,14 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: en\n"
 
+#: src/components/transaction-dialog.tsx
+msgid " from {name}"
+msgstr " from {name}"
+
+#: src/components/transaction-dialog.tsx
+msgid " to {name}"
+msgstr " to {name}"
+
 #. placeholder {0}: coming.length
 #: src/pages/events/details/participants.tsx
 msgid "{0, plural, one {# participant} other {# participants}}"
@@ -342,6 +350,7 @@ msgid "Create an event"
 msgstr "Create an event"
 
 #: src/pages/home/home-page.tsx
+#: src/pages/requests/details/request-page.tsx
 msgid "Create exchange"
 msgstr "Create exchange"
 
@@ -961,9 +970,10 @@ msgctxt "amount"
 msgid "Request <0/>"
 msgstr "Request <0/>"
 
+#. placeholder {0}: name && <Trans> from {name}</Trans>
 #: src/components/transaction-dialog.tsx
-msgid "Request <0/> from {name}"
-msgstr "Request <0/> from {name}"
+msgid "Request <0/>{0}"
+msgstr "Request <0/>{0}"
 
 #: src/pages/requests/details/requester-actions.tsx
 msgid "Request canceled"
@@ -1093,9 +1103,10 @@ msgctxt "amount"
 msgid "Send <0/>"
 msgstr "Send <0/>"
 
+#. placeholder {0}: name && <Trans> to {name}</Trans>
 #: src/components/transaction-dialog.tsx
-msgid "Send <0/> to {name}"
-msgstr "Send <0/> to {name}"
+msgid "Send <0/>{0}"
+msgstr "Send <0/>{0}"
 
 #: src/app/routes.ts
 #: src/pages/settings/settings-page.tsx

@@ -1,8 +1,9 @@
 import { Trans } from '@lingui/react/macro';
-import { RequestStatus, type Request } from '@sel/shared';
-import { Card, Skeleton } from '@sel/ui';
+import { RequestStatus, type LightMember, type Request } from '@sel/shared';
+import { Button, Card, Skeleton } from '@sel/ui';
 import { defined } from '@sel/utils';
 import { useQuery, useSuspenseQuery } from '@tanstack/react-query';
+import { useState } from 'react';
 import { useParams } from 'react-router';
 
 import { queries } from 'src/app/queries';
@@ -13,6 +14,7 @@ import { CommentsSection } from 'src/components/comments-section';
 import { BackButton } from 'src/components/link';
 import { MessageContent } from 'src/components/message-content';
 import { RelativeDate } from 'src/components/relative-date';
+import { TransactionDialog, type TransactionDirection } from 'src/components/transaction-dialog';
 
 import { RequestNotFound } from '../request-not-found';
 
@@ -55,6 +57,7 @@ function RequestDetails({ request }: { request: Request }) {
   const { data: me } = useSuspenseQuery(queries.session());
   const pending = request.status === RequestStatus.pending;
   const isRequester = request.requester.id === me.id;
+  const canHelp = request.answers.some(({ member, answer }) => member.id === me.id && answer === 'positive');
 
   return (
     <div className="stack gap-6">
@@ -75,6 +78,10 @@ function RequestDetails({ request }: { request: Request }) {
           <RequesterCard requester={request.requester} />
           {pending && isRequester && <RequesterActionsCard request={request} />}
           {pending && !isRequester && <RequestAnswerCard request={request} memberId={me.id} />}
+          {isRequester && <CreateTransaction request={request} direction="send" />}
+          {canHelp && (
+            <CreateTransaction request={request} direction="request" counterpart={request.requester} />
+          )}
           <RequestAnswers answers={request.answers} />
         </aside>
 
@@ -83,6 +90,33 @@ function RequestDetails({ request }: { request: Request }) {
         </div>
       </div>
     </div>
+  );
+}
+
+type CreateTransactionProps = {
+  request: Request;
+  direction: TransactionDirection;
+  counterpart?: LightMember;
+};
+
+function CreateTransaction({ request, direction, counterpart }: CreateTransactionProps) {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <>
+      <Button icon="exchange" onClick={() => setOpen(true)}>
+        <Trans>Create exchange</Trans>
+      </Button>
+
+      <TransactionDialog
+        open={open}
+        onClose={() => setOpen(false)}
+        direction={direction}
+        counterpart={counterpart}
+        requestId={request.id}
+        defaultDescription={request.title}
+      />
+    </>
   );
 }
 
