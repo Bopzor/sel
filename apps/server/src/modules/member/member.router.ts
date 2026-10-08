@@ -82,6 +82,10 @@ router.post('/', async (req, res) => {
 });
 
 router.get('/:memberId', async (req, res) => {
+  if (getMember().status === shared.MemberStatus.inactive) {
+    throw new NotFound('Member is no longer active', { code: 'MemberInactive' });
+  }
+
   const member = await db.query.members.findFirst({
     where: {
       id: req.params.memberId,

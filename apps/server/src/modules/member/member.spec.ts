@@ -7,6 +7,7 @@ import { afterEach, beforeAll, beforeEach, describe, expect, it } from 'vitest';
 import { persist } from 'src/factories';
 import { container } from 'src/infrastructure/container';
 import { StubEvents } from 'src/infrastructure/events';
+import { NotFound } from 'src/infrastructure/http';
 import { resetDatabase } from 'src/persistence';
 import { clearDatabase } from 'src/persistence/database';
 import { TOKENS } from 'src/tokens';
@@ -216,20 +217,46 @@ describe('member', () => {
   });
 
   it('fails to retrieve a member that is not active', async () => {
-    const authenticatedMemberId = await persist.member({});
+    const onboardingMemberId = await persist.member({ status: shared.MemberStatus.onboarding });
+    const systemMemberId = await persist.member({ status: shared.MemberStatus.system });
 
-    await persist.token({ memberId: authenticatedMemberId, value: 'token', type: TokenType.session });
+    const errors: unknown[] = [];
 
     const app = express();
-    app.use('/', router);
+    app.use(router);
+    app.use(((err, req, res, _next) => {
+      errors.push(err);
+      res.end();
+    }) satisfies express.ErrorRequestHandler);
 
-    const agent = supertest.agent(app);
+    for (const memberId of [onboardingMemberId, systemMemberId, 'unknownId']) {
+      await supertest(app).get(`/${memberId}`);
+    }
 
-    const onboardingMemberId = await persist.member({ status: shared.MemberStatus.onboarding });
-    await agent.get(`/${onboardingMemberId}`).set('Cookie', 'token=token').expect(404);
+    expect(errors).toHaveLength(3);
 
+    for (const error of errors) {
+      expect(error).toBeInstanceOf(NotFound);
+      expect(error).not.toHaveProperty('payload.code');
+    }
+  });
+
+  it('tells when a member is no longer active', async () => {
     const inactiveMemberId = await persist.member({ status: shared.MemberStatus.inactive });
-    await agent.get(`/${inactiveMemberId}`).set('Cookie', 'token=token').expect(404);
+
+    let error: unknown;
+
+    const app = express();
+    app.use(router);
+    app.use(((err, req, res, _next) => {
+      error = err;
+      res.end();
+    }) satisfies express.ErrorRequestHandler);
+
+    await supertest(app).get(`/${inactiveMemberId}`);
+
+    expect(error).toBeInstanceOf(NotFound);
+    expect(error).toHaveProperty('payload.code', 'MemberInactive');
   });
 
   it('tells whether a member is part of the committee', async () => {
@@ -239,7 +266,7 @@ describe('member', () => {
     await persist.token({ memberId: authenticatedMemberId, value: 'token', type: TokenType.session });
 
     const app = express();
-    app.use('/', router);
+    app.use(router);
 
     const response = await supertest(app).get('/?sort=firstName').set('Cookie', 'token=token').expect(200);
 
