@@ -34,5 +34,8 @@ export function downloadVCard(member: Member) {
   link.download = `${formatMemberName(member)}.vcf`;
   link.click();
 
-  URL.revokeObjectURL(url);
+  // download may be async
+  setTimeout(() => {
+    URL.revokeObjectURL(url);
+  }, 100);
 }

@@ -49,9 +49,13 @@ function MembershipCard({ member }: { member: AuthenticatedMember }) {
   return (
     <ProfileSection title={<Trans>Membership</Trans>}>
       <dl className="grid gap-4 sm:grid-cols-3">
-        <DefinitionItem label={<Trans>Member number</Trans>}>{number}</DefinitionItem>
-        <DefinitionItem label={<Trans>Member since</Trans>}>{since}</DefinitionItem>
-        <DefinitionItem label={<Trans>Balance</Trans>}>
+        <DefinitionItem label={<Trans>Member number</Trans>} className="text-title-3 tabular-nums">
+          {number}
+        </DefinitionItem>
+        <DefinitionItem label={<Trans>Member since</Trans>} className="text-title-3">
+          {since}
+        </DefinitionItem>
+        <DefinitionItem label={<Trans>Balance</Trans>} className="text-title-2 tabular-nums">
           <Amount value={balance} />
         </DefinitionItem>
       </dl>

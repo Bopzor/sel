@@ -224,12 +224,19 @@ function AddressCard({ member }: { member: Member }) {
           {formatAddressLines(address).join('\n')}
         </address>
 
-        {address.position && <AddressMap position={address.position} />}
+        {address.position && (
+          <>
+            <AddressMap position={address.position} />
 
-        <Link href={routes.membersMap(member.id)} className="row items-center gap-2 text-primary underline">
-          <Icon name="map" size="sm" />
-          <Trans>Show on the members map</Trans>
-        </Link>
+            <Link
+              href={routes.membersMap(member.id)}
+              className="row items-center gap-2 text-primary underline"
+            >
+              <Icon name="map" size="sm" />
+              <Trans>Show on the members map</Trans>
+            </Link>
+          </>
+        )}
       </Card.Body>
     </Card.Root>
   );

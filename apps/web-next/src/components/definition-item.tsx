@@ -1,9 +1,14 @@
-// Goes inside a <dl>.
-export function DefinitionItem({ label, children }: { label: React.ReactNode; children: React.ReactNode }) {
+type DefinitionItem = {
+  label: React.ReactNode;
+  className?: string;
+  children: React.ReactNode;
+};
+
+export function DefinitionItem({ label, className, children }: DefinitionItem) {
   return (
     <div className="stack gap-1">
       <dt className="text-body-sm text-muted">{label}</dt>
-      <dd className="text-title-2 tabular-nums">{children}</dd>
+      <dd className={className}>{children}</dd>
     </div>
   );
 }
