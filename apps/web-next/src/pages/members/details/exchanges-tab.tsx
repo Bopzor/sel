@@ -105,7 +105,7 @@ function PendingTransactions({ member }: { member: Member }) {
   const query = useInfiniteQuery(queries.listMemberTransactions(member.id, { status: 'pending' }));
   const titleId = useId();
 
-  if (query.data?.items.length === 0) {
+  if (query.data?.items.length === 0 || query.isLoading) {
     return null;
   }
 
@@ -124,7 +124,7 @@ function PendingTransactions({ member }: { member: Member }) {
             retry={() => void query.refetch()}
           />
         }
-        loading={<TransactionListSkeleton count={1} />}
+        loading={null}
       >
         {({ items: transactions, total }) => (
           <div className="stack gap-4">

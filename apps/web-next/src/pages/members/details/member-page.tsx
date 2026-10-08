@@ -88,7 +88,8 @@ function MemberTabs({ member, tab }: { member: Member; tab: MemberTab }) {
 
       <Tabs.Panel value="overview" />
       <Tabs.Panel value="exchanges">
-        <ExchangesTab member={member} />
+        {/* force re-render if the member changes */}
+        <ExchangesTab key={member.id} member={member} />
       </Tabs.Panel>
       <Tabs.Panel value="activity" />
     </Tabs.Root>
