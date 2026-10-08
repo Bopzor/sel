@@ -9,6 +9,7 @@ import { useConfig } from 'src/app/config';
 import { navigation, routes, type NavigationItem } from 'src/app/routes';
 import { useSignOut } from 'src/app/session';
 import { Link } from 'src/components/link';
+import { PendingTransactionsAlert } from 'src/layout/pending-transactions-alert';
 import { PushNotificationsPrompt } from 'src/layout/push-notifications-prompt';
 
 export function Layout() {
@@ -59,6 +60,7 @@ export function Layout() {
 
       <main className="min-w-0 flex-1 pb-bottom-nav lg:pb-0">
         <div className="mx-auto max-w-page px-3 py-6 sm:px-4 md:px-6 lg:p-10">
+          <PendingTransactionsAlert />
           <PushNotificationsPrompt />
           <Outlet />
         </div>

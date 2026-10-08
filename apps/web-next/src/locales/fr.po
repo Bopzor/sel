@@ -79,6 +79,10 @@ msgstr "{total, plural, one {# information} other {# informations}}"
 msgid "{total, plural, one {# request} other {# requests}}"
 msgstr "{total, plural, one {# demande} other {# demandes}}"
 
+#: src/layout/pending-transactions-alert.tsx
+msgid "{total, plural, one {An exchange is waiting for your approval} other {# exchanges are waiting for your approval}}"
+msgstr "{total, plural, one {Un échange attend votre validation} other {# échanges attendent votre validation}}"
+
 #: src/pages/members/details/member-sidebar.tsx
 msgid "{years, plural, one {# year} other {# years}}"
 msgstr "{years, plural, one {# an} other {# ans}}"
@@ -1228,6 +1232,10 @@ msgstr "Voir les informations"
 msgid "See the members"
 msgstr "Voir les membres"
 
+#: src/layout/pending-transactions-alert.tsx
+msgid "See the pending exchanges"
+msgstr "Voir les échanges en attente"
+
 #: src/pages/requests/edit/edit-request-page.tsx
 msgid "See the request"
 msgstr "Voir la demande"
@@ -1480,6 +1488,10 @@ msgstr "La recherche n'est pas disponible pour le moment. Saisissez l'adresse ma
 #: src/pages/authentication/authentication.tsx
 msgid "The sign-in code could not be sent. Try again in a few moments."
 msgstr "Le code de connexion n'a pas pu être envoyé. Réessayez dans quelques instants."
+
+#: src/layout/pending-transactions-alert.tsx
+msgid "The units will move once you accept."
+msgstr "Les unités seront transférées une fois que vous aurez accepté."
 
 #: src/pages/members/details/former-member.tsx
 msgid "Their profile is no longer available."
