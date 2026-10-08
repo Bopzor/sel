@@ -11,11 +11,14 @@ import { TOKENS } from 'src/tokens';
 
 import { File } from '../file/file.entity';
 import { Interest, MemberInterest } from '../interest/interest.entities';
+import { Request } from '../request/request.entities';
 
 import { changeNotificationDeliveryType } from './domain/change-notification-delivery-type.command';
 import { createMember } from './domain/create-member.command';
+import { getMemberTransactionStats } from './domain/get-member-transaction-stats.query';
+import { listMemberTransactions } from './domain/list-member-transactions.query';
 import { updateMemberProfile } from './domain/update-member-profile.command';
-import { Member, MemberWithAvatar, withAvatar } from './member.entities';
+import { Member, MemberWithAvatar } from './member.entities';
 import { findMemberById } from './member.persistence';
 import { serializeMember, serializeMemberContact } from './member.serializer';
 
@@ -108,19 +111,25 @@ router.get('/:memberId', async (req, res) => {
 
 router.get('/:memberId/transactions', async (req, res) => {
   const { id: memberId } = getMember();
+  const query = shared.listMemberTransactionsQuerySchema.parse(req.query);
 
-  const transactions = await db.query.transactions.findMany({
-    where: {
-      status: shared.TransactionStatus.completed,
-      OR: [{ payerId: memberId }, { recipientId: memberId }],
-    },
-    with: {
-      payer: withAvatar,
-      recipient: withAvatar,
-    },
+  const { total, transactions } = await listMemberTransactions({
+    memberId,
+    ...query,
   });
 
+  if (total !== undefined) {
+    res.setHeader('x-pagination-total', total);
+    res.setHeader('x-pagination-page-size', query.pageSize);
+  }
+
   res.json(transactions.map(serializeTransaction));
+});
+
+router.get('/:memberId/transactions/stats', async (req, res) => {
+  const { id: memberId } = getMember();
+
+  res.json(await getMemberTransactionStats(memberId));
 });
 
 router.put('/:memberId/profile', isAuthenticatedMember, async (req, res) => {
@@ -178,6 +187,7 @@ function serializeTransaction(
   transaction: typeof schema.transactions.$inferSelect & {
     payer: MemberWithAvatar;
     recipient: MemberWithAvatar;
+    request: Request | null;
   },
 ): shared.Transaction {
   return {
@@ -187,6 +197,11 @@ function serializeTransaction(
     description: transaction.description,
     payer: serializeMember(transaction.payer),
     recipient: serializeMember(transaction.recipient),
-    date: transaction.createdAt.toISOString(),
+    payerComment: transaction.payerComment ?? undefined,
+    recipientComment: transaction.recipientComment ?? undefined,
+    request: transaction.request
+      ? { id: transaction.request.id, title: transaction.request.title }
+      : undefined,
+    date: (transaction.completedAt ?? transaction.createdAt).toISOString(),
   };
 }

@@ -10,6 +10,7 @@ import { TOKENS } from 'src/tokens';
 
 import { MemberWithAvatar, withAvatar } from '../member/member.entities';
 import { serializeMember } from '../member/member.serializer';
+import { Request } from '../request/request.entities';
 
 import { acceptTransaction } from './domain/accept-transaction.command';
 import { cancelTransaction } from './domain/cancel-transaction.command';
@@ -26,6 +27,7 @@ router.get('/', async (req, res) => {
     with: {
       payer: withAvatar,
       recipient: withAvatar,
+      request: true,
     },
     orderBy: { createdAt: 'desc' },
   });
@@ -46,6 +48,7 @@ router.get('/:transactionId', async (req, res) => {
     with: {
       payer: withAvatar,
       recipient: withAvatar,
+      request: true,
     },
   });
 
@@ -101,7 +104,7 @@ router.put('/:transactionId/cancel', async (req, res) => {
 
 function serializeTransaction(
   this: void,
-  transaction: Transaction & Record<'payer' | 'recipient', MemberWithAvatar>,
+  transaction: Transaction & Record<'payer' | 'recipient', MemberWithAvatar> & { request: Request | null },
 ): shared.Transaction {
   return {
     id: transaction.id,
@@ -110,6 +113,11 @@ function serializeTransaction(
     description: transaction.description,
     payer: serializeMember(transaction.payer),
     recipient: serializeMember(transaction.recipient),
-    date: transaction.createdAt.toISOString(),
+    payerComment: transaction.payerComment ?? undefined,
+    recipientComment: transaction.recipientComment ?? undefined,
+    request: transaction.request
+      ? { id: transaction.request.id, title: transaction.request.title }
+      : undefined,
+    date: (transaction.completedAt ?? transaction.createdAt).toISOString(),
   };
 }

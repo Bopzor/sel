@@ -72,6 +72,7 @@ export const api = {
 
   listMemberTransactions: endpoint('get', '/members/:memberId/transactions').types<{
     path: { memberId: string };
+    query: typeof shared.listMemberTransactionsQuerySchema;
     result: shared.Transaction[];
   }>(),
 

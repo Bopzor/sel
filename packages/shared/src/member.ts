@@ -48,6 +48,13 @@ export type LightMember = {
   avatar?: string;
 };
 
+export type MemberTransactionStats = {
+  given: number;
+  received: number;
+  count: number;
+  partners: number;
+};
+
 export const createMember = createFactory<Member>(() => ({
   id: createId(),
   firstName: '',

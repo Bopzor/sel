@@ -86,6 +86,7 @@ describe('transactions service', () => {
     creatorId: '',
     requestId: '',
     eventId: '',
+    completedAt: null,
     createdAt: createDate(),
     updatedAt: createDate(),
   }));
@@ -105,6 +106,7 @@ describe('transactions service', () => {
 
     expect(transaction.id).toEqual('transactionId');
     expect(transaction.status).toEqual(shared.TransactionStatus.completed);
+    expect(transaction.completedAt).toEqual(now);
     expect(payer.balance).toEqual(0);
     expect(recipient.balance).toEqual(2);
 
@@ -127,6 +129,7 @@ describe('transactions service', () => {
 
     expect(transaction.id).toEqual('transactionId');
     expect(transaction.status).toEqual(shared.TransactionStatus.pending);
+    expect(transaction.completedAt).toBeNull();
     expect(payer.balance).toEqual(1);
     expect(recipient.balance).toEqual(1);
 
@@ -168,10 +171,12 @@ describe('transactions service', () => {
       transaction,
       payer,
       recipient,
+      now,
       publisher,
     });
 
     expect(transaction.status).toEqual(shared.TransactionStatus.completed);
+    expect(transaction.completedAt).toEqual(now);
     expect(payer.balance).toEqual(0);
     expect(recipient.balance).toEqual(2);
 
@@ -315,6 +320,7 @@ describe('transactions service', () => {
         transaction,
         payer: createMember(),
         recipient: createMember(),
+        now,
         publisher,
       });
     }).toThrow(new TransactionIsNotPendingError('transactionId', shared.TransactionStatus.completed));

@@ -62,6 +62,7 @@ export class TransactionService {
       recipientComment: null,
       requestId: request?.id ?? null,
       eventId: eventId ?? null,
+      completedAt: null,
       createdAt: now,
       updatedAt: now,
     };
@@ -77,7 +78,7 @@ export class TransactionService {
     publisher.publish(new TransactionCreatedEvent(transactionId));
 
     if (creator.id === payer.id) {
-      this.completeTransaction({ transaction, payer, recipient, publisher });
+      this.completeTransaction({ transaction, payer, recipient, now, publisher });
     } else {
       publisher.publish(new TransactionPendingEvent(transactionId));
     }
@@ -97,15 +98,17 @@ export class TransactionService {
     transaction: Transaction;
     payer: Member;
     recipient: Member;
+    now: Date;
     publisher: EventPublisher;
   }): void {
-    const { transaction, payer, recipient, publisher } = params;
+    const { transaction, payer, recipient, now, publisher } = params;
 
     if (transaction.status !== TransactionStatus.pending) {
       throw new TransactionIsNotPendingError(transaction.id, transaction.status);
     }
 
     transaction.status = TransactionStatus.completed;
+    transaction.completedAt = now;
     payer.balance -= transaction.amount;
     recipient.balance += transaction.amount;
 

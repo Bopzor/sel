@@ -18,12 +18,24 @@ export type Transaction = {
   description: string;
   payer: LightMember;
   recipient: LightMember;
+  payerComment?: string;
+  recipientComment?: string;
+  request?: { id: string; title: string };
   date: string;
 };
 
 export const listTransactionsQuerySchema = z.object({
   memberId: z.string().optional(),
 });
+
+export const listMemberTransactionsQuerySchema = z.object({
+  status: z.enum(TransactionStatus).optional(),
+  counterpartId: z.string().optional(),
+  page: z.coerce.number().min(1).optional(),
+  pageSize: z.coerce.number().min(1).max(100).default(10),
+});
+
+export type ListMemberTransactionsQuery = z.input<typeof listMemberTransactionsQuerySchema>;
 
 export const createTransactionBodySchema = z.object({
   payerId: z.string(),

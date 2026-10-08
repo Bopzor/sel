@@ -275,4 +275,71 @@ describe('member', () => {
       { firstName: 'Paul', committeeMember: true },
     ]);
   });
+
+  describe('transactions', () => {
+    const app = express();
+    app.use(router);
+
+    let memberId: string, matId: string;
+
+    beforeEach(async () => {
+      memberId = await persist.member();
+      matId = await persist.member();
+    });
+
+    const transaction = (values: Parameters<typeof persist.transaction>[0]) => {
+      return persist.transaction({ payerId: memberId, recipientId: matId, creatorId: memberId, ...values });
+    };
+
+    it("lists a member's transactions with their comments, request and date", async () => {
+      const messageId = await persist.message();
+      const requestId = await persist.request({ requesterId: memberId, title: 'Request', messageId });
+      const completedAt = new Date(2025, 0, 2);
+
+      await transaction({
+        payerComment: 'Thanks',
+        recipientComment: 'You are welcome',
+        requestId,
+        completedAt,
+      });
+      await transaction({ status: shared.TransactionStatus.pending, createdAt: new Date(2025, 0, 1) });
+
+      const response = await supertest(app).get(`/${memberId}/transactions`).expect(200);
+
+      expect(response.body).toMatchObject([
+        { date: new Date(2025, 0, 1).toISOString() },
+        {
+          payerComment: 'Thanks',
+          recipientComment: 'You are welcome',
+          request: { id: requestId, title: 'Request' },
+          date: completedAt.toISOString(),
+        },
+      ]);
+      expect(response.headers).not.toHaveProperty('x-pagination-total');
+    });
+
+    it("paginates a member's transactions", async () => {
+      await transaction({});
+      await transaction({});
+
+      const response = await supertest(app).get(`/${memberId}/transactions?page=1&pageSize=1`).expect(200);
+
+      expect(response.body).toHaveLength(1);
+      expect(response.headers).toHaveProperty('x-pagination-total', '2');
+      expect(response.headers).toHaveProperty('x-pagination-page-size', '1');
+    });
+
+    it("computes a member's transaction stats", async () => {
+      await transaction({ amount: 2 });
+
+      const response = await supertest(app).get(`/${memberId}/transactions/stats`).expect(200);
+
+      expect(response.body).toEqual<shared.MemberTransactionStats>({
+        given: 2,
+        received: 0,
+        count: 1,
+        partners: 1,
+      });
+    });
+  });
 });

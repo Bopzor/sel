@@ -38,6 +38,7 @@ export async function acceptTransaction(command: AcceptTransactionCommand): Prom
     transaction,
     payer,
     recipient,
+    now,
     publisher,
   });
 

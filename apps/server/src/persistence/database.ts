@@ -50,6 +50,7 @@ export async function clearDatabase() {
   assert(import.meta.env.MODE === 'test');
 
   await db.delete(schema.comments);
+  await db.delete(schema.transactions);
   await db.delete(schema.membersInterests);
   await db.delete(schema.interests);
   await db.delete(schema.information);
@@ -57,7 +58,6 @@ export async function clearDatabase() {
   await db.delete(schema.requests);
   await db.delete(schema.eventParticipations);
   await db.delete(schema.events);
-  await db.delete(schema.transactions);
   await db.update(schema.members).set({ avatarId: null });
   await db.delete(schema.files);
   await db.delete(schema.memberDevices);
