@@ -56,11 +56,11 @@
     --neutral-950: #211f1c;
 
     /* Dark theme surfaces, from the lowest to the highest. */
-    --dark-0: #0c0b09;
-    --dark-1: #13110f;
-    --dark-2: #1d1b18;
-    --dark-3: #272521;
-    --dark-4: #383531;
+    --dark-0: #090a0c;
+    --dark-1: #0f1013;
+    --dark-2: #18191d;
+    --dark-3: #212327;
+    --dark-4: #313638;
 
     /* Success. */
     --green-50: #e5ffe8;
