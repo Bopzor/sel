@@ -67,6 +67,13 @@ describe('listMemberTransactions', () => {
     expect((await listTransactionIds({ counterpartId: 'matId' })).sort()).toEqual(['paidId', 'receivedId']);
   });
 
+  it('lists the transactions with a payer', async () => {
+    await transaction({ id: 'paidId', payerId: 'memberId', recipientId: 'matId' });
+    await transaction({ payerId: 'matId', recipientId: 'memberId' });
+
+    expect(await listTransactionIds({ payerId: 'memberId' })).toEqual(['paidId']);
+  });
+
   it('paginates the transactions', async () => {
     await transaction({ id: 'firstId', completedAt: date(1) });
     await transaction({ id: 'secondId', completedAt: date(2) });

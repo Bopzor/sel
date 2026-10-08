@@ -9,6 +9,7 @@ type ListMemberTransactionsQuery = {
   memberId: string;
   status?: shared.TransactionStatus;
   counterpartId?: string;
+  payerId?: string;
   page?: number;
   pageSize: number;
 };
@@ -28,6 +29,10 @@ export async function listMemberTransactions(query: ListMemberTransactionsQuery)
     conditions.push(
       or(eq(transactions.payerId, query.counterpartId), eq(transactions.recipientId, query.counterpartId))!,
     );
+  }
+
+  if (query.payerId) {
+    conditions.push(eq(transactions.payerId, query.payerId));
   }
 
   const orderBy = ({ status, completedAt, createdAt }: typeof schema.transactions) => [

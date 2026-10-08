@@ -41,6 +41,7 @@ export const listTransactionsQuerySchema = z.object({
 export const listMemberTransactionsQuerySchema = z.object({
   status: z.enum(TransactionStatus).optional(),
   counterpartId: z.string().optional(),
+  payerId: z.string().optional(),
   page: z.coerce.number().min(1).optional(),
   pageSize: z.coerce.number().min(1).max(100).default(10),
 });
