@@ -6,7 +6,7 @@ import * as StepperStories from './stepper.stories';
 
 # Stepper
 
-A progress indicator for a multi-step flow: "Step 2 of 3", the name of the step and a segmented bar.
+A progress indicator for a multi-step flow: the name of the current step, "Step 2 of 3" and a segmented bar.
 
 ## When to use it
 
@@ -18,7 +18,7 @@ For any flow longer than one screen: sending units, signing up, creating an even
 - `current`: number of the current step (starting at 1).
 - `progressLabel`: the progress in words, in the application's language ("Step 2 of 3").
 
-The names of all the steps are shown from 768px.
+Only the name of the current step is shown; screen readers get the names of all the steps.
 
 <Primary />
 

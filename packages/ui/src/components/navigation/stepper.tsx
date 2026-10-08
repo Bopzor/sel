@@ -15,30 +15,22 @@ export function Stepper({ steps, current: currentProp, progressLabel, className,
 
   return (
     <div {...props} className={clsx('stack gap-2', className)}>
-      <p className="stack">
-        <span className="text-caption text-muted">{progressLabel}</span>
-        <span aria-hidden className="text-title-3 text-default md:hidden">
+      <p className="row items-baseline justify-between gap-4 text-caption">
+        <span aria-hidden className="text-default">
           {steps[current - 1]}
         </span>
+        <span className="text-muted">{progressLabel}</span>
       </p>
 
-      {/* Below md, only the current step's name is shown (above); the list keeps every name for screen readers. */}
+      {/* Only the current step's name is shown (above); the list keeps every name for screen readers. */}
       <ol className="row gap-1">
         {steps.map((step, index) => (
           <li
             key={index}
             aria-current={index + 1 === current ? 'step' : undefined}
-            className="stack flex-1 gap-2"
+            className={clsx('h-1 flex-1 rounded-full', index < current ? 'bg-primary' : 'bg-track')}
           >
-            <span className={clsx('h-1 rounded-full', index < current ? 'bg-primary' : 'bg-track')} />
-            <span
-              className={clsx(
-                'sr-only text-caption md:not-sr-only',
-                index + 1 === current ? 'text-primary' : 'text-muted',
-              )}
-            >
-              {step}
-            </span>
+            <span className="sr-only">{step}</span>
           </li>
         ))}
       </ol>

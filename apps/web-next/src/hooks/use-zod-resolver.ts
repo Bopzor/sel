@@ -24,6 +24,30 @@ export function useZodErrorMap(): z.core.$ZodErrorMap {
       return t`This field is required`;
     }
 
+    if (error.code === 'invalid_value') {
+      return t`Select an option`;
+    }
+
+    if (error.code === 'invalid_type' && error.expected === 'number') {
+      return t`This field should be a number`;
+    }
+
+    if (error.code === 'invalid_type' && error.expected === 'int') {
+      return t`This field should be a whole number`;
+    }
+
+    if (error.code === 'invalid_type' && error.input === undefined) {
+      return t`This field is required`;
+    }
+
+    if (error.code === 'too_small' && error.origin === 'number') {
+      return t`This field should be at least ${error.minimum}`;
+    }
+
+    if (error.code === 'too_big' && error.origin === 'number') {
+      return t`This field should be at most ${error.maximum}`;
+    }
+
     if (error.code === 'too_small') {
       return t`This field should be at least ${error.minimum} characters`;
     }

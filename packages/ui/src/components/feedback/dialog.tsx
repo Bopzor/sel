@@ -60,8 +60,9 @@ function DialogClose({ children }: { children: ReactElement }) {
 type DialogContentProps = Override<
   ComponentProps<'div'>,
   {
-    /** Accessible name of the close button, in the application's language. */
-    closeLabel: string;
+    /** Accessible name of the close button, in the application's language. Without it, there is no close button:
+     *  for a flow whose footer has its own way out, such as a Stepper that takes the top of the window. */
+    closeLabel?: string;
   }
 >;
 
@@ -88,11 +89,13 @@ function DialogContent({ closeLabel, className, children, ...props }: DialogCont
           {/* Last in the document, so that the focus goes to the content first on open (an alert dialog focuses
               this button instead, so that Enter does not confirm a destructive action by accident). Positioned by a
               wrapper: IconButton is relative, for its hit area. */}
-          <div className="absolute top-3 right-3">
-            <ArkDialog.CloseTrigger asChild>
-              <IconButton icon="close" label={closeLabel} size="sm" />
-            </ArkDialog.CloseTrigger>
-          </div>
+          {closeLabel !== undefined && (
+            <div className="absolute top-3 right-3">
+              <ArkDialog.CloseTrigger asChild>
+                <IconButton icon="close" label={closeLabel} size="sm" />
+              </ArkDialog.CloseTrigger>
+            </div>
+          )}
         </ArkDialog.Content>
       </ArkDialog.Positioner>
     </Portal>

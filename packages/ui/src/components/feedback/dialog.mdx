@@ -40,7 +40,7 @@ A modal window: a sheet that slides up from the bottom on mobile, a centered win
   - `alert`: `role="alertdialog"` for a destructive confirmation; a click on the scrim does not close it, the member has to choose.
   - `finalFocus`: the element that gets the focus on close, when it is not the button that opened the dialog.
 - `Dialog.Trigger`: wraps the `Button` that opens the dialog.
-- `Dialog.Content` (required): the window and its close button, named by `closeLabel` ("Close").
+- `Dialog.Content` (required): the window and its close button, named by `closeLabel` ("Close"). Without `closeLabel`, there is no close button. Escape and a click on the scrim still close it. Not for an `alert` dialog, which focuses the close button on open.
 - `Dialog.Header`: the title and the description, leaving room for the close button.
 - `Dialog.Title` (required): the question, which repeats the action ("Send 20 units to Lucas Petit?"). It names the dialog.
 - `Dialog.Description`: the concrete consequences (new balance). It describes the dialog.

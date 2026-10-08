@@ -35,9 +35,17 @@ msgstr "{firstName} will be notified of your answer."
 msgid "{name} could not be attached. Try again in a few moments."
 msgstr "{name} could not be attached. Try again in a few moments."
 
+#: src/components/transaction-dialog.tsx
+msgid "{name} does not need to confirm: the exchange is completed right away."
+msgstr "{name} does not need to confirm: the exchange is completed right away."
+
 #: src/components/attachments.tsx
 msgid "{name} is larger than 10 MB and was not attached"
 msgstr "{name} is larger than 10 MB and was not attached"
+
+#: src/components/transaction-dialog.tsx
+msgid "{name} needs to confirm to complete the exchange."
+msgstr "{name} needs to confirm to complete the exchange."
 
 #: src/pages/events/list/events-list.tsx
 msgid "{participantsCount, plural, one {# participant} other {# participants}}"
@@ -115,6 +123,10 @@ msgstr "Allow notifications to receive them here too."
 msgid "Allow on this device"
 msgstr "Allow on this device"
 
+#: src/components/transaction-dialog.tsx
+msgid "Amount"
+msgstr "Amount"
+
 #: src/components/comments-section.tsx
 msgid "An error happened and your comment was not posted"
 msgstr "An error happened and your comment was not posted"
@@ -165,6 +177,7 @@ msgstr "Attach files"
 msgid "Attachments"
 msgstr "Attachments"
 
+#: src/components/transaction-dialog.tsx
 #: src/pages/authentication/authentication.tsx
 #: src/pages/events/edit/edit-event-page.tsx
 #: src/pages/information/edit/edit-information-page.tsx
@@ -207,6 +220,7 @@ msgstr "Can't help"
 
 #: src/components/address-form-dialog.tsx
 #: src/components/rich-text-toolbar.tsx
+#: src/components/transaction-dialog.tsx
 #: src/pages/events/details/notify-dialog.tsx
 #: src/pages/events/event-form.tsx
 #: src/pages/profile/profile-section.tsx
@@ -225,6 +239,14 @@ msgstr "Cancel the request “{0}”?"
 #: src/pages/requests/list/requests-list.tsx
 msgid "Canceled"
 msgstr "Canceled"
+
+#: src/components/transaction-dialog.tsx
+msgid "Change"
+msgstr "Change"
+
+#: src/components/transaction-dialog.tsx
+msgid "Change the member"
+msgstr "Change the member"
 
 #: src/pages/profile/identity-section.tsx
 msgid "Change the photo"
@@ -277,6 +299,14 @@ msgstr "Close the request “{0}”?"
 msgid "Coming"
 msgstr "Coming"
 
+#: src/components/transaction-dialog.tsx
+msgid "Comment"
+msgstr "Comment"
+
+#: src/components/transaction-dialog.tsx
+msgid "Comment (optional)"
+msgstr "Comment (optional)"
+
 #: src/components/comments-section.tsx
 msgid "Comments"
 msgstr "Comments"
@@ -294,6 +324,10 @@ msgstr "Committee members"
 msgid "Community"
 msgstr "Community"
 
+#: src/components/transaction-dialog.tsx
+msgid "Confirmation"
+msgstr "Confirmation"
+
 #: src/pages/profile/contact-section.tsx
 msgid "Contact"
 msgstr "Contact"
@@ -306,6 +340,10 @@ msgstr "Contact {firstName} to arrange the details."
 #: src/pages/events/list/events-list.tsx
 msgid "Create an event"
 msgstr "Create an event"
+
+#: src/pages/home/home-page.tsx
+msgid "Create exchange"
+msgstr "Create exchange"
 
 #: src/pages/events/create/create-event-page.tsx
 msgid "Create the event"
@@ -323,6 +361,10 @@ msgstr "Date and time (optional)"
 #: src/pages/events/list/events-list.tsx
 msgid "Date to be defined"
 msgstr "Date to be defined"
+
+#: src/components/transaction-dialog.tsx
+msgid "Details"
+msgstr "Details"
 
 #: src/app/routes.ts
 #: src/pages/documents/documents-page.tsx
@@ -397,6 +439,10 @@ msgstr "Event not found"
 msgid "Events"
 msgstr "Events"
 
+#: src/components/transaction-dialog.tsx
+msgid "Exchange"
+msgstr "Exchange"
+
 #: src/layout/layout.tsx
 #: src/pages/navigation.tsx
 msgid "Exchanges"
@@ -419,6 +465,10 @@ msgstr "Follow the activity of the LETS, even when the app is closed."
 msgid "For example, 12 rue de la Paix, Lyon"
 msgstr "For example, 12 rue de la Paix, Lyon"
 
+#: src/components/transaction-dialog.tsx
+msgid "For example: Help with moving"
+msgstr "For example: Help with moving"
+
 #: src/pages/events/details/notify-dialog.tsx
 msgid "For example: The meeting point has changed"
 msgstr "For example: The meeting point has changed"
@@ -432,6 +482,7 @@ msgid "Hidden from the other members"
 msgstr "Hidden from the other members"
 
 #: src/app/routes.ts
+#: src/pages/home/home-page.tsx
 msgid "Home"
 msgstr "Home"
 
@@ -573,6 +624,10 @@ msgstr "Main navigation"
 msgid "Manual entry"
 msgstr "Manual entry"
 
+#: src/components/transaction-dialog.tsx
+msgid "Member"
+msgstr "Member"
+
 #: src/pages/profile/profile-page.tsx
 msgid "Member number"
 msgstr "Member number"
@@ -582,6 +637,7 @@ msgid "Member since"
 msgstr "Member since"
 
 #: src/app/routes.ts
+#: src/components/transaction-dialog.tsx
 #: src/pages/members/list/members-page.tsx
 msgid "Members"
 msgstr "Members"
@@ -639,6 +695,10 @@ msgstr "New"
 msgid "New event"
 msgstr "New event"
 
+#: src/components/transaction-dialog.tsx
+msgid "New exchange"
+msgstr "New exchange"
+
 #: src/pages/information/list/information-page.tsx
 msgid "New information"
 msgstr "New information"
@@ -651,6 +711,10 @@ msgstr "New request"
 msgctxt "members sort"
 msgid "Newest"
 msgstr "Newest"
+
+#: src/components/transaction-dialog.tsx
+msgid "Next"
+msgstr "Next"
 
 #: src/components/address-search.tsx
 msgid "No address found. Check what you typed, or enter the address manually."
@@ -675,6 +739,10 @@ msgstr "No information matches these filters"
 #: src/pages/members/list/members-list.tsx
 msgid "No member matches these filters"
 msgstr "No member matches these filters"
+
+#: src/components/transaction-dialog.tsx
+msgid "No member matches this search"
+msgstr "No member matches this search"
 
 #: src/pages/members/list/members-list.tsx
 msgid "No members"
@@ -852,6 +920,10 @@ msgstr "Publish the information"
 msgid "Published by"
 msgstr "Published by"
 
+#: src/components/transaction-dialog.tsx
+msgid "Reason"
+msgstr "Reason"
+
 #: src/layout/push-notifications-prompt.tsx
 msgid "Receive notifications on this device?"
 msgstr "Receive notifications on this device?"
@@ -879,6 +951,19 @@ msgstr "Remove the location"
 #: src/pages/profile/identity-section.tsx
 msgid "Remove the photo"
 msgstr "Remove the photo"
+
+#: src/components/transaction-dialog.tsx
+msgid "Request <0/>"
+msgstr "Request <0/>"
+
+#: src/components/transaction-dialog.tsx
+msgctxt "amount"
+msgid "Request <0/>"
+msgstr "Request <0/>"
+
+#: src/components/transaction-dialog.tsx
+msgid "Request <0/> from {name}"
+msgstr "Request <0/> from {name}"
 
 #: src/pages/requests/details/requester-actions.tsx
 msgid "Request canceled"
@@ -937,6 +1022,10 @@ msgstr "Save the changes"
 msgid "Search"
 msgstr "Search"
 
+#: src/components/transaction-dialog.tsx
+msgid "Search a member"
+msgstr "Search a member"
+
 #: src/pages/profile/address-section.tsx
 msgid "Search for an address"
 msgstr "Search for an address"
@@ -986,10 +1075,27 @@ msgstr "See the request"
 msgid "See the requests"
 msgstr "See the requests"
 
+#: src/hooks/use-zod-resolver.ts
+msgid "Select an option"
+msgstr "Select an option"
+
 #: src/components/comments-section.tsx
 #: src/pages/events/details/notify-dialog.tsx
 msgid "Send"
 msgstr "Send"
+
+#: src/components/transaction-dialog.tsx
+msgid "Send <0/>"
+msgstr "Send <0/>"
+
+#: src/components/transaction-dialog.tsx
+msgctxt "amount"
+msgid "Send <0/>"
+msgstr "Send <0/>"
+
+#: src/components/transaction-dialog.tsx
+msgid "Send <0/> to {name}"
+msgstr "Send <0/> to {name}"
 
 #: src/app/routes.ts
 #: src/pages/settings/settings-page.tsx
@@ -1056,6 +1162,10 @@ msgstr "Sign-in failed. Try again in a few moments."
 msgid "Sort"
 msgstr "Sort"
 
+#: src/components/transaction-dialog.tsx
+msgid "Step {stepNumber} of {stepCount}"
+msgstr "Step {stepNumber} of {stepCount}"
+
 #: src/pages/error-page.tsx
 msgid "The application is under maintenance"
 msgstr "The application is under maintenance"
@@ -1067,6 +1177,14 @@ msgstr "The documents shared by the committee, such as the statutes and the meet
 #: src/pages/events/create/create-event-page.tsx
 msgid "The event could not be created"
 msgstr "The event could not be created"
+
+#: src/components/transaction-dialog.tsx
+msgid "The exchange could not be created"
+msgstr "The exchange could not be created"
+
+#: src/components/transaction-dialog.tsx
+msgid "The exchange is recorded"
+msgstr "The exchange is recorded"
 
 #: src/pages/information/create/create-information-page.tsx
 msgid "The information could not be published"
@@ -1148,6 +1266,10 @@ msgstr "The request could not be canceled"
 msgid "The request could not be closed"
 msgstr "The request could not be closed"
 
+#: src/components/transaction-dialog.tsx
+msgid "The request is sent to {name}"
+msgstr "The request is sent to {name}"
+
 #: src/components/address-search.tsx
 msgid "The search is not available at the moment. Enter the address manually."
 msgstr "The search is not available at the moment. Enter the address manually."
@@ -1194,10 +1316,28 @@ msgstr "This event cannot be edited"
 msgid "This field is required"
 msgstr "This field is required"
 
+#: src/hooks/use-zod-resolver.ts
+msgid "This field should be a number"
+msgstr "This field should be a number"
+
+#: src/hooks/use-zod-resolver.ts
+msgid "This field should be a whole number"
+msgstr "This field should be a whole number"
+
+#. placeholder {0}: error.minimum
+#: src/hooks/use-zod-resolver.ts
+msgid "This field should be at least {0}"
+msgstr "This field should be at least {0}"
+
 #. placeholder {0}: error.minimum
 #: src/hooks/use-zod-resolver.ts
 msgid "This field should be at least {0} characters"
 msgstr "This field should be at least {0} characters"
+
+#. placeholder {0}: error.maximum
+#: src/hooks/use-zod-resolver.ts
+msgid "This field should be at most {0}"
+msgstr "This field should be at most {0}"
 
 #. placeholder {0}: error.maximum
 #: src/hooks/use-zod-resolver.ts
@@ -1272,6 +1412,7 @@ msgctxt "information list"
 msgid "Unable to load the information"
 msgstr "Unable to load the information"
 
+#: src/components/transaction-dialog.tsx
 #: src/pages/members/list/members-list.tsx
 msgid "Unable to load the members"
 msgstr "Unable to load the members"
@@ -1309,6 +1450,10 @@ msgstr "Version {version}"
 #: src/pages/profile/profile-section.tsx
 msgid "Visible to the other members"
 msgstr "Visible to the other members"
+
+#: src/components/transaction-dialog.tsx
+msgid "What do you want to do?"
+msgstr "What do you want to do?"
 
 #: src/pages/requests/request-form.tsx
 msgid "What you need, when, and where"

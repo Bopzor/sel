@@ -27,6 +27,7 @@ import { CreateEventPage } from './pages/events/create/create-event-page';
 import { EventPage } from './pages/events/details/event-page';
 import { EditEventPage } from './pages/events/edit/edit-event-page';
 import { EventsPage } from './pages/events/list/events-page';
+import { HomePage } from './pages/home/home-page';
 import { CreateInformationPage } from './pages/information/create/create-information-page';
 import { InformationDetailsPage } from './pages/information/details/information-details-page';
 import { EditInformationPage } from './pages/information/edit/edit-information-page';
@@ -81,7 +82,7 @@ function PlaceholderPage() {
 }
 
 const authenticatedRoutes: Record<string, React.ComponentType> = {
-  [routes.home()]: PlaceholderPage,
+  [routes.home()]: HomePage,
   [routes.requests()]: RequestsPage,
   [routes.createRequest()]: CreateRequestPage,
   [routes.request(':requestId')]: RequestPage,
