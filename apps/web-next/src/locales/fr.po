@@ -1141,6 +1141,7 @@ msgctxt "information list"
 msgid "See the information"
 msgstr "Voir les informations"
 
+#: src/pages/members/details/former-member.tsx
 #: src/pages/members/details/member-not-found.tsx
 msgid "See the members"
 msgstr "Voir les membres"
@@ -1284,10 +1285,6 @@ msgstr "Le lien est peut-être erroné, ou l'événement n'existe plus."
 msgid "The link may be wrong, or the information may no longer exist."
 msgstr "Le lien est peut-être erroné, ou l’information n’existe plus."
 
-#: src/pages/members/details/member-not-found.tsx
-msgid "The link may be wrong, or the member may no longer be active."
-msgstr "Le lien est peut-être erroné, ou le membre n'est peut-être plus actif."
-
 #: src/pages/error-page.tsx
 msgid "The link may be wrong, or the page may no longer exist."
 msgstr "Le lien est peut-être erroné, ou la page n'existe plus."
@@ -1295,6 +1292,10 @@ msgstr "Le lien est peut-être erroné, ou la page n'existe plus."
 #: src/pages/requests/request-not-found.tsx
 msgid "The link may be wrong, or the request may no longer exist."
 msgstr "Le lien est peut-être erroné, ou la demande n’existe plus."
+
+#: src/pages/members/details/member-not-found.tsx
+msgid "The link may be wrong."
+msgstr "Le lien est peut-être erroné."
 
 #: src/pages/members/list/members-list.tsx
 msgid "The members of the association appear here once their account is active."
@@ -1368,6 +1369,10 @@ msgstr "La recherche n'est pas disponible pour le moment. Saisissez l'adresse ma
 msgid "The sign-in code could not be sent. Try again in a few moments."
 msgstr "Le code de connexion n'a pas pu être envoyé. Réessayez dans quelques instants."
 
+#: src/pages/members/details/former-member.tsx
+msgid "Their profile is no longer available."
+msgstr "Son profil n'est plus disponible."
+
 #: src/pages/events/details/notify-dialog.tsx
 msgid "They receive it by email or on their devices, depending on their settings."
 msgstr "Ils la reçoivent par email ou sur leurs appareils, selon leurs réglages."
@@ -1437,6 +1442,10 @@ msgstr "Ce champ doit faire au plus {0} caractères"
 #: src/pages/information/edit/edit-information-page.tsx
 msgid "This information cannot be edited"
 msgstr "Cette information ne peut pas être modifiée"
+
+#: src/pages/members/details/former-member.tsx
+msgid "This person is no longer a member"
+msgstr "Cette personne n'est plus membre"
 
 #: src/pages/requests/edit/edit-request-page.tsx
 msgid "This request cannot be edited"

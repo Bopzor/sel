@@ -119,6 +119,16 @@ describe('member', () => {
     expect(await screen.findByRole('heading', { level: 1, name: 'Member not found' })).toBeInTheDocument();
   });
 
+  it('tells when the person is no longer a member', async () => {
+    server.inactive = true;
+
+    renderPage(routes.member('claire'));
+
+    expect(
+      await screen.findByRole('heading', { level: 1, name: 'This person is no longer a member' }),
+    ).toBeInTheDocument();
+  });
+
   it('selects the tab from the URL', async () => {
     server.member = createClaire();
 
@@ -167,6 +177,7 @@ function renderPage(path: string) {
 
 class Server extends FakeServer {
   member: Member | undefined;
+  inactive = false;
 
   init() {
     this.register('GET /api/session/member', () => this.json(me));
@@ -176,6 +187,10 @@ class Server extends FakeServer {
   }
 
   private notFound() {
+    if (this.inactive) {
+      return this.json({ error: 'Member is no longer active', code: 'MemberInactive' }, { status: 404 });
+    }
+
     return this.json({ error: 'Member not found' }, { status: 404 });
   }
 }

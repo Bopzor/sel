@@ -1141,6 +1141,7 @@ msgctxt "information list"
 msgid "See the information"
 msgstr "See the information"
 
+#: src/pages/members/details/former-member.tsx
 #: src/pages/members/details/member-not-found.tsx
 msgid "See the members"
 msgstr "See the members"
@@ -1284,10 +1285,6 @@ msgstr "The link may be wrong, or the event may no longer exist."
 msgid "The link may be wrong, or the information may no longer exist."
 msgstr "The link may be wrong, or the information may no longer exist."
 
-#: src/pages/members/details/member-not-found.tsx
-msgid "The link may be wrong, or the member may no longer be active."
-msgstr "The link may be wrong, or the member may no longer be active."
-
 #: src/pages/error-page.tsx
 msgid "The link may be wrong, or the page may no longer exist."
 msgstr "The link may be wrong, or the page may no longer exist."
@@ -1295,6 +1292,10 @@ msgstr "The link may be wrong, or the page may no longer exist."
 #: src/pages/requests/request-not-found.tsx
 msgid "The link may be wrong, or the request may no longer exist."
 msgstr "The link may be wrong, or the request may no longer exist."
+
+#: src/pages/members/details/member-not-found.tsx
+msgid "The link may be wrong."
+msgstr "The link may be wrong."
 
 #: src/pages/members/list/members-list.tsx
 msgid "The members of the association appear here once their account is active."
@@ -1368,6 +1369,10 @@ msgstr "The search is not available at the moment. Enter the address manually."
 msgid "The sign-in code could not be sent. Try again in a few moments."
 msgstr "The sign-in code could not be sent. Try again in a few moments."
 
+#: src/pages/members/details/former-member.tsx
+msgid "Their profile is no longer available."
+msgstr "Their profile is no longer available."
+
 #: src/pages/events/details/notify-dialog.tsx
 msgid "They receive it by email or on their devices, depending on their settings."
 msgstr "They receive it by email or on their devices, depending on their settings."
@@ -1437,6 +1442,10 @@ msgstr "This field should be at most {0} characters"
 #: src/pages/information/edit/edit-information-page.tsx
 msgid "This information cannot be edited"
 msgstr "This information cannot be edited"
+
+#: src/pages/members/details/former-member.tsx
+msgid "This person is no longer a member"
+msgstr "This person is no longer a member"
 
 #: src/pages/requests/edit/edit-request-page.tsx
 msgid "This request cannot be edited"

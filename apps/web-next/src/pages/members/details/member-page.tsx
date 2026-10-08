@@ -5,11 +5,13 @@ import { defined } from '@sel/utils';
 import { useQuery } from '@tanstack/react-query';
 import { Navigate, Link as RouterLink, useParams } from 'react-router';
 
+import { ApiError } from 'src/app/api';
 import { queries } from 'src/app/queries';
 import { routes } from 'src/app/routes';
 import { ApiFailed, QueryResult } from 'src/components/api-result';
 import { BackButton } from 'src/components/link';
 
+import { FormerMember } from './former-member';
 import { MemberNotFound } from './member-not-found';
 import { MemberSidebar } from './member-sidebar';
 
@@ -38,7 +40,7 @@ export function MemberPage() {
 
       <QueryResult
         query={query}
-        notFound={<MemberNotFound />}
+        notFound={isFormerMember(query.error) ? <FormerMember /> : <MemberNotFound />}
         failed={
           <ApiFailed
             title={<Trans>Unable to load the member</Trans>}
@@ -88,6 +90,10 @@ function MemberTabs({ member, tab }: { member: Member; tab: MemberTab }) {
       <Tabs.Panel value="activity" />
     </Tabs.Root>
   );
+}
+
+function isFormerMember(error: Error | null) {
+  return ApiError.is(error, 404) && error.code === 'MemberInactive';
 }
 
 // Switching tabs keeps the scroll position: the sidebar and the tab list stay where they are.
