@@ -57,7 +57,10 @@ describe('members map', () => {
   it("opens the selected member's popup", async () => {
     renderPage(routes.membersMap('claire'));
 
-    expect(await screen.findByRole('link', { name: 'Claire Dubois' })).toHaveAttribute('href', '/members/claire');
+    expect(await screen.findByRole('link', { name: 'Claire Dubois' })).toHaveAttribute(
+      'href',
+      '/members/claire',
+    );
     expect(screen.queryByRole('link', { name: 'Paul Martin' })).not.toBeInTheDocument();
   });
 });

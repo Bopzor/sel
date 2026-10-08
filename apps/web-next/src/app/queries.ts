@@ -9,11 +9,14 @@ import {
   type Information,
   type ListEventsQuery,
   type ListInformationQuery,
+  type ListMemberTransactionsQuery,
   type ListRequestsQuery,
   type Member,
   type MembersSort,
+  type MemberTransactionStats,
   type Request,
   type RequestListItem,
+  type Transaction,
 } from '@sel/shared';
 import {
   infiniteQueryOptions,
@@ -140,6 +143,34 @@ export const queries = {
       queryFn: () => {
         return api<Member>('GET', `/members/${memberId}`);
       },
+    });
+  },
+
+  memberTransactionStats: (memberId: string) => {
+    return queryOptions({
+      queryKey: ['members', memberId, 'transaction-stats'],
+      queryFn: () => {
+        return api<MemberTransactionStats>('GET', `/members/${memberId}/transactions/stats`);
+      },
+    });
+  },
+
+  listMemberTransactions: (
+    memberId: string,
+    query: Omit<ListMemberTransactionsQuery, 'page' | 'pageSize'>,
+  ) => {
+    return infiniteQueryOptions({
+      queryKey: ['members', memberId, 'transactions', query],
+      queryFn: ({ pageParam }) => {
+        return api<Paginated<Transaction>>('GET', `/members/${memberId}/transactions`, {
+          query: { ...query, page: pageParam, pageSize },
+          paginated: true,
+        });
+      },
+      initialPageParam: 1,
+      getNextPageParam,
+      placeholderData: keepPreviousData,
+      select: flattenPages,
     });
   },
 

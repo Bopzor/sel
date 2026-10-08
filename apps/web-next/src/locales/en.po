@@ -51,6 +51,10 @@ msgstr "{name} is larger than 10 MB and was not attached"
 msgid "{name} needs to confirm to complete the exchange."
 msgstr "{name} needs to confirm to complete the exchange."
 
+#: src/pages/members/details/exchanges-tab.tsx
+msgid "{name}'s exchanges will appear here."
+msgstr "{name}'s exchanges will appear here."
+
 #: src/pages/events/list/events-list.tsx
 msgid "{participantsCount, plural, one {# participant} other {# participants}}"
 msgstr "{participantsCount, plural, one {# participant} other {# participants}}"
@@ -62,6 +66,10 @@ msgstr "{positiveAnswersCount} people can help"
 #: src/pages/events/list/events-list.tsx
 msgid "{total, plural, one {# event} other {# events}}"
 msgstr "{total, plural, one {# event} other {# events}}"
+
+#: src/pages/members/details/exchanges-tab.tsx
+msgid "{total, plural, one {# exchange} other {# exchanges}}"
+msgstr "{total, plural, one {# exchange} other {# exchanges}}"
 
 #: src/pages/information/list/information-list.tsx
 msgid "{total, plural, one {# piece of information} other {# pieces of information}}"
@@ -91,6 +99,10 @@ msgstr "A few words, for example: Picnic at the lake"
 msgid "About me"
 msgstr "About me"
 
+#: src/pages/members/details/exchanges-tab.tsx
+msgid "Accept"
+msgstr "Accept"
+
 #: src/pages/members/details/member-page.tsx
 msgid "Activity"
 msgstr "Activity"
@@ -119,6 +131,11 @@ msgstr "Addresses found"
 
 #: src/pages/events/list/events-filters.tsx
 msgctxt "events filter"
+msgid "All"
+msgstr "All"
+
+#: src/pages/members/details/exchanges-tab.tsx
+msgctxt "exchanges filter"
 msgid "All"
 msgstr "All"
 
@@ -207,6 +224,7 @@ msgstr "Back"
 msgid "Back to home"
 msgstr "Back to home"
 
+#: src/pages/members/details/exchanges-tab.tsx
 #: src/pages/profile/profile-page.tsx
 msgid "Balance"
 msgstr "Balance"
@@ -254,6 +272,11 @@ msgid "Cancel the request “{0}”?"
 msgstr "Cancel the request “{0}”?"
 
 #: src/pages/requests/list/requests-list.tsx
+msgid "Canceled"
+msgstr "Canceled"
+
+#: src/pages/members/details/exchanges-tab.tsx
+msgctxt "exchanges filter"
 msgid "Canceled"
 msgstr "Canceled"
 
@@ -342,6 +365,11 @@ msgstr "Committee members"
 msgid "Community"
 msgstr "Community"
 
+#: src/pages/members/details/exchanges-tab.tsx
+msgctxt "exchanges filter"
+msgid "Completed"
+msgstr "Completed"
+
 #: src/components/transaction-dialog.tsx
 msgid "Confirmation"
 msgstr "Confirmation"
@@ -389,6 +417,10 @@ msgstr "Date and time (optional)"
 #: src/pages/events/list/events-list.tsx
 msgid "Date to be defined"
 msgstr "Date to be defined"
+
+#: src/pages/members/details/exchanges-tab.tsx
+msgid "Decline"
+msgstr "Decline"
 
 #: src/components/transaction-dialog.tsx
 msgid "Details"
@@ -483,7 +515,16 @@ msgstr "Exchange"
 msgid "Exchange <0/>"
 msgstr "Exchange <0/>"
 
+#: src/pages/members/details/exchanges-tab.tsx
+msgid "Exchange accepted"
+msgstr "Exchange accepted"
+
+#: src/pages/members/details/exchanges-tab.tsx
+msgid "Exchange declined"
+msgstr "Exchange declined"
+
 #: src/layout/layout.tsx
+#: src/pages/members/details/exchanges-tab.tsx
 #: src/pages/members/details/member-page.tsx
 #: src/pages/navigation.tsx
 msgid "Exchanges"
@@ -518,9 +559,17 @@ msgstr "For example: The meeting point has changed"
 msgid "Fulfilled"
 msgstr "Fulfilled"
 
+#: src/pages/members/details/exchanges-tab.tsx
+msgid "Given"
+msgstr "Given"
+
 #: src/pages/profile/profile-section.tsx
 msgid "Hidden from the other members"
 msgstr "Hidden from the other members"
+
+#: src/pages/members/details/exchanges-tab.tsx
+msgid "History"
+msgstr "History"
 
 #: src/app/routes.ts
 #: src/pages/home/home-page.tsx
@@ -791,6 +840,10 @@ msgstr "Next"
 msgid "No address found. Check what you typed, or enter the address manually."
 msgstr "No address found. Check what you typed, or enter the address manually."
 
+#: src/pages/members/details/exchanges-tab.tsx
+msgid "No canceled exchanges"
+msgstr "No canceled exchanges"
+
 #: src/pages/documents/documents-list.tsx
 msgid "No documents"
 msgstr "No documents"
@@ -798,6 +851,14 @@ msgstr "No documents"
 #: src/pages/events/list/events-list.tsx
 msgid "No event matches these filters"
 msgstr "No event matches these filters"
+
+#: src/pages/members/details/exchanges-tab.tsx
+msgid "No exchanges with {name} yet"
+msgstr "No exchanges with {name} yet"
+
+#: src/pages/members/details/exchanges-tab.tsx
+msgid "No exchanges yet"
+msgstr "No exchanges yet"
 
 #: src/pages/information/list/information-list.tsx
 msgid "No information"
@@ -936,6 +997,10 @@ msgstr "Page not found"
 msgid "Participants"
 msgstr "Participants"
 
+#: src/pages/members/details/exchanges-tab.tsx
+msgid "Partners"
+msgstr "Partners"
+
 #: src/pages/events/list/events-filters.tsx
 msgctxt "events filter"
 msgid "Past"
@@ -944,6 +1009,10 @@ msgstr "Past"
 #: src/pages/events/details/event-page.tsx
 msgid "Past event"
 msgstr "Past event"
+
+#: src/pages/members/details/exchanges-tab.tsx
+msgid "Pending"
+msgstr "Pending"
 
 #: src/pages/profile/contact-section.tsx
 msgid "Phone number"
@@ -1006,6 +1075,10 @@ msgstr "Reason"
 #: src/layout/push-notifications-prompt.tsx
 msgid "Receive notifications on this device?"
 msgstr "Receive notifications on this device?"
+
+#: src/pages/members/details/exchanges-tab.tsx
+msgid "Received"
+msgstr "Received"
 
 #: src/pages/events/details/notify-dialog.tsx
 msgid "Recipients"
@@ -1202,6 +1275,10 @@ msgstr "Share news with the members: they will be notified and can comment."
 msgid "Shared by"
 msgstr "Shared by"
 
+#: src/pages/members/details/exchanges-tab.tsx
+msgid "Show all the exchanges"
+msgstr "Show all the exchanges"
+
 #: src/pages/error-page.tsx
 msgid "Show details"
 msgstr "Show details"
@@ -1222,6 +1299,10 @@ msgstr "Show my phone number to the other members"
 msgid "Show on the members map"
 msgstr "Show on the members map"
 
+#: src/pages/members/details/exchanges-tab.tsx
+msgid "Show the completed exchanges"
+msgstr "Show the completed exchanges"
+
 #: src/pages/members/details/member-sidebar.tsx
 msgid "Show the map"
 msgstr "Show the map"
@@ -1230,6 +1311,16 @@ msgstr "Show the map"
 #: src/pages/events/list/events-list.tsx
 msgid "Showing {0} of {total} events"
 msgstr "Showing {0} of {total} events"
+
+#. placeholder {0}: transactions.length
+#: src/pages/members/details/exchanges-tab.tsx
+msgid "Showing {0} of {total} exchanges"
+msgstr "Showing {0} of {total} exchanges"
+
+#. placeholder {0}: transactions.length
+#: src/pages/members/details/exchanges-tab.tsx
+msgid "Showing {0} of {total} pending exchanges"
+msgstr "Showing {0} of {total} pending exchanges"
 
 #. placeholder {0}: items.length
 #: src/pages/information/list/information-list.tsx
@@ -1270,6 +1361,10 @@ msgstr "Step {stepNumber} of {stepCount}"
 msgid "The application is under maintenance"
 msgstr "The application is under maintenance"
 
+#: src/pages/members/details/exchanges-tab.tsx
+msgid "The declined exchanges will appear here."
+msgstr "The declined exchanges will appear here."
+
 #: src/pages/documents/documents-list.tsx
 msgid "The documents shared by the committee, such as the statutes and the meeting minutes, appear here."
 msgstr "The documents shared by the committee, such as the statutes and the meeting minutes, appear here."
@@ -1281,6 +1376,10 @@ msgstr "The event could not be created"
 #: src/components/transaction-dialog.tsx
 msgid "The exchange could not be created"
 msgstr "The exchange could not be created"
+
+#: src/pages/members/details/exchanges-tab.tsx
+msgid "The exchange could not be updated"
+msgstr "The exchange could not be updated"
 
 #: src/components/transaction-dialog.tsx
 msgid "The exchange is recorded"
@@ -1518,6 +1617,14 @@ msgstr "Unable to load the event"
 msgid "Unable to load the events"
 msgstr "Unable to load the events"
 
+#: src/pages/members/details/exchanges-tab.tsx
+msgid "Unable to load the exchanges"
+msgstr "Unable to load the exchanges"
+
+#: src/pages/members/details/exchanges-tab.tsx
+msgid "Unable to load the exchanges summary"
+msgstr "Unable to load the exchanges summary"
+
 #: src/pages/information/details/information-details-page.tsx
 #: src/pages/information/edit/edit-information-page.tsx
 msgid "Unable to load the information"
@@ -1537,6 +1644,10 @@ msgstr "Unable to load the member"
 #: src/pages/members/map/members-map-page.tsx
 msgid "Unable to load the members"
 msgstr "Unable to load the members"
+
+#: src/pages/members/details/exchanges-tab.tsx
+msgid "Unable to load the pending exchanges"
+msgstr "Unable to load the pending exchanges"
 
 #: src/pages/requests/details/request-page.tsx
 #: src/pages/requests/edit/edit-request-page.tsx
@@ -1572,6 +1683,10 @@ msgstr "Version {version}"
 msgid "Visible to the other members"
 msgstr "Visible to the other members"
 
+#: src/pages/members/details/exchanges-tab.tsx
+msgid "Waiting for {payer} to confirm"
+msgstr "Waiting for {payer} to confirm"
+
 #: src/components/transaction-dialog.tsx
 msgid "What do you want to do?"
 msgstr "What do you want to do?"
@@ -1591,6 +1706,10 @@ msgstr "When a member organizes an event, it appears here."
 #: src/pages/information/list/information-list.tsx
 msgid "When a member shares news with the others, it appears here."
 msgstr "When a member shares news with the others, it appears here."
+
+#: src/pages/members/details/exchanges-tab.tsx
+msgid "With me"
+msgstr "With me"
 
 #: src/pages/events/details/participation.tsx
 #: src/pages/requests/details/request-answer.tsx
@@ -1660,6 +1779,10 @@ msgstr "Your changes could not be saved"
 #: src/pages/events/details/organizer-actions.tsx
 msgid "Your event"
 msgstr "Your event"
+
+#: src/pages/members/details/exchanges-tab.tsx
+msgid "Your exchanges will appear here."
+msgstr "Your exchanges will appear here."
 
 #: src/pages/information/details/information-details-page.tsx
 msgid "Your information"

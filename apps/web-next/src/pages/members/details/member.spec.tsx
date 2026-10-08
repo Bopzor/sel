@@ -77,6 +77,7 @@ describe('member', () => {
         postalCode: '74000',
         city: 'Annecy',
         country: 'France',
+        position: [4, 2],
       }),
     });
 
@@ -198,6 +199,14 @@ class Server extends FakeServer {
 
     this.register('GET /api/members/claire', () => (this.member ? this.json(this.member) : this.notFound()));
     this.register('GET /api/members/me', () => (this.member ? this.json(this.member) : this.notFound()));
+
+    this.register('GET /api/members/claire/transactions/stats', () => {
+      return this.json({ given: 0, received: 0, count: 0, partners: 0 });
+    });
+
+    this.register('GET /api/members/claire/transactions', () => {
+      return this.json([], { headers: { 'X-Pagination-Total': '0' } });
+    });
   }
 
   private notFound() {

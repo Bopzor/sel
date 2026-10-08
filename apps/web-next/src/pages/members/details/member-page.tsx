@@ -11,6 +11,7 @@ import { routes } from 'src/app/routes';
 import { ApiFailed, QueryResult } from 'src/components/api-result';
 import { BackButton } from 'src/components/link';
 
+import { ExchangesTab } from './exchanges-tab';
 import { FormerMember } from './former-member';
 import { MemberNotFound } from './member-not-found';
 import { MemberSidebar } from './member-sidebar';
@@ -86,7 +87,9 @@ function MemberTabs({ member, tab }: { member: Member; tab: MemberTab }) {
       </Tabs.List>
 
       <Tabs.Panel value="overview" />
-      <Tabs.Panel value="exchanges" />
+      <Tabs.Panel value="exchanges">
+        <ExchangesTab member={member} />
+      </Tabs.Panel>
       <Tabs.Panel value="activity" />
     </Tabs.Root>
   );
