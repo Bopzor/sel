@@ -7,14 +7,6 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: en\n"
 
-#: src/components/transaction-dialog.tsx
-msgid " from {name}"
-msgstr " from {name}"
-
-#: src/components/transaction-dialog.tsx
-msgid " to {name}"
-msgstr " to {name}"
-
 #. placeholder {0}: coming.length
 #: src/pages/events/details/participants.tsx
 msgid "{0, plural, one {# participant} other {# participants}}"
@@ -962,6 +954,14 @@ msgid "Remove the photo"
 msgstr "Remove the photo"
 
 #: src/components/transaction-dialog.tsx
+msgid "Request {units}"
+msgstr "Request {units}"
+
+#: src/components/transaction-dialog.tsx
+msgid "Request {units} from {name}"
+msgstr "Request {units} from {name}"
+
+#: src/components/transaction-dialog.tsx
 msgid "Request <0/>"
 msgstr "Request <0/>"
 
@@ -969,11 +969,6 @@ msgstr "Request <0/>"
 msgctxt "amount"
 msgid "Request <0/>"
 msgstr "Request <0/>"
-
-#. placeholder {0}: name && <Trans> from {name}</Trans>
-#: src/components/transaction-dialog.tsx
-msgid "Request <0/>{0}"
-msgstr "Request <0/>{0}"
 
 #: src/pages/requests/details/requester-actions.tsx
 msgid "Request canceled"
@@ -1095,6 +1090,14 @@ msgid "Send"
 msgstr "Send"
 
 #: src/components/transaction-dialog.tsx
+msgid "Send {units}"
+msgstr "Send {units}"
+
+#: src/components/transaction-dialog.tsx
+msgid "Send {units} to {name}"
+msgstr "Send {units} to {name}"
+
+#: src/components/transaction-dialog.tsx
 msgid "Send <0/>"
 msgstr "Send <0/>"
 
@@ -1102,11 +1105,6 @@ msgstr "Send <0/>"
 msgctxt "amount"
 msgid "Send <0/>"
 msgstr "Send <0/>"
-
-#. placeholder {0}: name && <Trans> to {name}</Trans>
-#: src/components/transaction-dialog.tsx
-msgid "Send <0/>{0}"
-msgstr "Send <0/>{0}"
 
 #: src/app/routes.ts
 #: src/pages/settings/settings-page.tsx

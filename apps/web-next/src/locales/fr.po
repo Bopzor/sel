@@ -7,14 +7,6 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: fr\n"
 
-#: src/components/transaction-dialog.tsx
-msgid " from {name}"
-msgstr " à {name}"
-
-#: src/components/transaction-dialog.tsx
-msgid " to {name}"
-msgstr " à {name}"
-
 #. placeholder {0}: coming.length
 #: src/pages/events/details/participants.tsx
 msgid "{0, plural, one {# participant} other {# participants}}"
@@ -962,6 +954,14 @@ msgid "Remove the photo"
 msgstr "Retirer la photo"
 
 #: src/components/transaction-dialog.tsx
+msgid "Request {units}"
+msgstr "Demander des {units}"
+
+#: src/components/transaction-dialog.tsx
+msgid "Request {units} from {name}"
+msgstr "Demander des {units} à {name}"
+
+#: src/components/transaction-dialog.tsx
 msgid "Request <0/>"
 msgstr "Demander des <0/>"
 
@@ -969,11 +969,6 @@ msgstr "Demander des <0/>"
 msgctxt "amount"
 msgid "Request <0/>"
 msgstr "Demander <0/>"
-
-#. placeholder {0}: name && <Trans> from {name}</Trans>
-#: src/components/transaction-dialog.tsx
-msgid "Request <0/>{0}"
-msgstr "Demander des <0/>{0}"
 
 #: src/pages/requests/details/requester-actions.tsx
 msgid "Request canceled"
@@ -1095,6 +1090,14 @@ msgid "Send"
 msgstr "Envoyer"
 
 #: src/components/transaction-dialog.tsx
+msgid "Send {units}"
+msgstr "Envoyer des {units}"
+
+#: src/components/transaction-dialog.tsx
+msgid "Send {units} to {name}"
+msgstr "Envoyer des {units} à {name}"
+
+#: src/components/transaction-dialog.tsx
 msgid "Send <0/>"
 msgstr "Envoyer des <0/>"
 
@@ -1102,11 +1105,6 @@ msgstr "Envoyer des <0/>"
 msgctxt "amount"
 msgid "Send <0/>"
 msgstr "Envoyer <0/>"
-
-#. placeholder {0}: name && <Trans> to {name}</Trans>
-#: src/components/transaction-dialog.tsx
-msgid "Send <0/>{0}"
-msgstr "Envoyer des <0/>{0}"
 
 #: src/app/routes.ts
 #: src/pages/settings/settings-page.tsx

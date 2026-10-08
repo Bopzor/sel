@@ -168,23 +168,15 @@ function TransactionFlow({
 }
 
 function DialogTitle({ exchange }: { exchange: Pick<TransactionDetails, 'direction' | 'counterpart'> }) {
+  const { t } = useLingui();
   const { direction, counterpart } = exchange;
   const name = counterpart && formatMemberName(counterpart);
+  const { currencyPlural: units } = useConfig();
 
   return (
     <Dialog.Title className="sr-only">
-      {direction === 'send' && (
-        <Trans>
-          Send <Unit plural />
-          {name && <Trans> to {name}</Trans>}
-        </Trans>
-      )}
-      {direction === 'request' && (
-        <Trans>
-          Request <Unit plural />
-          {name && <Trans> from {name}</Trans>}
-        </Trans>
-      )}
+      {direction === 'send' && (name ? t`Send ${units} to ${name}` : t`Send ${units}`)}
+      {direction === 'request' && (name ? t`Request ${units} from ${name}` : t`Request ${units}`)}
       {!direction && <Trans>New exchange</Trans>}
     </Dialog.Title>
   );
