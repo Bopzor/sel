@@ -6,6 +6,7 @@ import { useSuspenseQuery } from '@tanstack/react-query';
 import { queries } from 'src/app/queries';
 import { routes } from 'src/app/routes';
 import { Amount } from 'src/components/amount';
+import { DefinitionItem } from 'src/components/definition-item';
 import { Link } from 'src/components/link';
 
 import { AddressSection } from './address-section';
@@ -48,21 +49,12 @@ function MembershipCard({ member }: { member: AuthenticatedMember }) {
   return (
     <ProfileSection title={<Trans>Membership</Trans>}>
       <dl className="grid gap-4 sm:grid-cols-3">
-        <MembershipItem label={<Trans>Member number</Trans>}>{number}</MembershipItem>
-        <MembershipItem label={<Trans>Member since</Trans>}>{since}</MembershipItem>
-        <MembershipItem label={<Trans>Balance</Trans>}>
+        <DefinitionItem label={<Trans>Member number</Trans>}>{number}</DefinitionItem>
+        <DefinitionItem label={<Trans>Member since</Trans>}>{since}</DefinitionItem>
+        <DefinitionItem label={<Trans>Balance</Trans>}>
           <Amount value={balance} />
-        </MembershipItem>
+        </DefinitionItem>
       </dl>
     </ProfileSection>
-  );
-}
-
-function MembershipItem({ label, children }: { label: React.ReactNode; children: React.ReactNode }) {
-  return (
-    <div className="stack gap-1">
-      <dt className="text-body-sm text-muted">{label}</dt>
-      <dd className="text-body-strong">{children}</dd>
-    </div>
   );
 }
