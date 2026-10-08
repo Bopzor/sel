@@ -19,7 +19,7 @@ export const routes = {
   documents: () => '/documents',
   members: () => '/members',
   membersMap: (memberId?: string) =>
-    '/members/map?' + new URLSearchParams(memberId ? { memberId } : {}).toString(),
+    '/members/map' + (memberId ? '?' + new URLSearchParams({ memberId }).toString() : ''),
   member: (memberId: string, tab?: 'exchanges' | 'activity') =>
     `/members/${memberId}` + (tab ? `/${tab}` : ''),
   interests: () => '/interests',

@@ -1,10 +1,5 @@
 import { Trans, useLingui } from '@lingui/react/macro';
-import {
-  createTransactionBodySchema,
-  MembersSort,
-  type CreateTransactionBody,
-  type LightMember,
-} from '@sel/shared';
+import { createTransactionBodySchema, type CreateTransactionBody, type LightMember } from '@sel/shared';
 import {
   Alert,
   Button,
@@ -214,7 +209,7 @@ function ExchangeStep({ direction, counterpart, defaultValues, onNext }: Exchang
   });
 
   const membersQuery = useQuery({
-    ...queries.listMembers({ sort: MembersSort.firstName }),
+    ...queries.listMembers(),
     enabled: counterpart === undefined,
   });
 

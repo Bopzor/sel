@@ -1,9 +1,9 @@
 import { Plural, Trans, useLingui } from '@lingui/react/macro';
 import type { Member } from '@sel/shared';
-import { Badge, Button, Card, Icon, IconButton, LinkButton, showToast } from '@sel/ui';
+import { Badge, Button, Card, Icon, IconButton, LinkButton, showToast, Skeleton } from '@sel/ui';
 import { differenceInMonths } from '@sel/utils';
 import { useSuspenseQuery } from '@tanstack/react-query';
-import { useId, useState } from 'react';
+import { lazy, Suspense, useId, useState } from 'react';
 
 import { formatAddressLines, formatMemberName, formatPhoneNumber } from 'src/app/format';
 import { queries } from 'src/app/queries';
@@ -13,6 +13,7 @@ import { MemberAvatar } from 'src/components/member-avatar';
 import { TransactionDialog } from 'src/components/transaction-dialog';
 import { Unit } from 'src/components/unit';
 import { useClipboard } from 'src/hooks/use-clipboard';
+import { useMediaQuery } from 'src/hooks/use-media-query';
 
 import { downloadVCard } from './vcard';
 
@@ -223,11 +224,34 @@ function AddressCard({ member }: { member: Member }) {
           {formatAddressLines(address).join('\n')}
         </address>
 
+        {address.position && <AddressMap position={address.position} />}
+
         <Link href={routes.membersMap(member.id)} className="row items-center gap-2 text-primary underline">
           <Icon name="map" size="sm" />
           <Trans>Show on the members map</Trans>
         </Link>
       </Card.Body>
     </Card.Root>
+  );
+}
+
+const MemberMap = lazy(() => import('./member-map').then((module) => ({ default: module.MemberMap })));
+
+function AddressMap({ position }: { position: [number, number] }) {
+  const desktop = useMediaQuery('(min-width: 80rem)');
+  const [shown, setShown] = useState(false);
+
+  if (!desktop && !shown) {
+    return (
+      <Button variant="secondary" icon="map" onClick={() => setShown(true)}>
+        <Trans>Show the map</Trans>
+      </Button>
+    );
+  }
+
+  return (
+    <Suspense fallback={<Skeleton variant="rect" className="h-48 w-full rounded-md" />}>
+      <MemberMap position={position} />
+    </Suspense>
   );
 }

@@ -669,6 +669,10 @@ msgstr "Main navigation"
 msgid "Manual entry"
 msgstr "Manual entry"
 
+#: src/pages/members/list/members-page.tsx
+msgid "Map"
+msgstr "Map"
+
 #: src/components/transaction-dialog.tsx
 msgid "Member"
 msgstr "Member"
@@ -701,8 +705,13 @@ msgstr "Member since {since} ({duration})"
 #: src/components/transaction-dialog.tsx
 #: src/pages/members/details/member-page.tsx
 #: src/pages/members/list/members-page.tsx
+#: src/pages/members/map/members-map-page.tsx
 msgid "Members"
 msgstr "Members"
+
+#: src/pages/members/map/members-map-page.tsx
+msgid "Members map"
+msgstr "Members map"
 
 #: src/pages/requests/details/requester-actions.tsx
 msgid "Members will no longer be able to answer it. Those who offered help or commented will be notified."
@@ -1213,6 +1222,10 @@ msgstr "Show my phone number to the other members"
 msgid "Show on the members map"
 msgstr "Show on the members map"
 
+#: src/pages/members/details/member-sidebar.tsx
+msgid "Show the map"
+msgstr "Show the map"
+
 #. placeholder {0}: events.length
 #: src/pages/events/list/events-list.tsx
 msgid "Showing {0} of {total} events"
@@ -1521,6 +1534,7 @@ msgstr "Unable to load the member"
 
 #: src/components/transaction-dialog.tsx
 #: src/pages/members/list/members-list.tsx
+#: src/pages/members/map/members-map-page.tsx
 msgid "Unable to load the members"
 msgstr "Unable to load the members"
 

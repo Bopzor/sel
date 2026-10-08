@@ -1,8 +1,10 @@
 import { Trans, useLingui } from '@lingui/react/macro';
 import { MembersSort } from '@sel/shared';
-import { Chip, Input } from '@sel/ui';
+import { Chip, Input, LinkButton } from '@sel/ui';
 import z from 'zod';
 
+import { routes } from 'src/app/routes';
+import { Link } from 'src/components/link';
 import { useFilters } from 'src/hooks/use-filters';
 
 import { MembersList } from './members-list';
@@ -18,9 +20,15 @@ export function MembersPage() {
 
   return (
     <div className="stack gap-6">
-      <h1 className="text-title-1">
-        <Trans>Members</Trans>
-      </h1>
+      <div className="row items-center justify-between gap-4">
+        <h1 className="text-title-1">
+          <Trans>Members</Trans>
+        </h1>
+
+        <LinkButton Link={Link} href={routes.membersMap()} variant="secondary" icon="map">
+          <Trans>Map</Trans>
+        </LinkButton>
+      </div>
 
       <Filters filters={filters} setFilters={setFilters} />
 

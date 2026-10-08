@@ -7,8 +7,8 @@ import {
   type Event,
   type EventsListItem,
   type Information,
-  type ListInformationQuery,
   type ListEventsQuery,
+  type ListInformationQuery,
   type ListRequestsQuery,
   type Member,
   type MembersSort,
@@ -124,7 +124,7 @@ export const queries = {
     });
   },
 
-  listMembers: (query: { sort: MembersSort }) => {
+  listMembers: (query: { sort?: MembersSort } = {}) => {
     return queryOptions({
       queryKey: ['members', query],
       queryFn: () => {

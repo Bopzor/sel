@@ -91,6 +91,20 @@ describe('member', () => {
     );
   });
 
+  it("shows the member's address on a map", async () => {
+    server.member = createClaire({
+      address: createAddress({ line1: '1 rue des Lilas', city: 'Annecy', position: [6.12, 45.9] }),
+    });
+
+    renderPage(routes.member('claire'));
+
+    const address = await screen.findByRole('region', { name: 'Address' });
+
+    await user.click(within(address).getByRole('button', { name: 'Show the map' }));
+
+    expect(await within(address).findByRole('link', { name: 'OpenStreetMap' })).toBeInTheDocument();
+  });
+
   it('opens the exchange dialog with the member as counterpart', async () => {
     server.member = createClaire();
 

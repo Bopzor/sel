@@ -34,7 +34,7 @@ import { EditInformationPage } from './pages/information/edit/edit-information-p
 import { InformationPage } from './pages/information/list/information-page';
 import { MemberPage } from './pages/members/details/member-page';
 import { MembersPage } from './pages/members/list/members-page';
-import { MembersMapPage } from './pages/members/map/members-map.page';
+import { MembersMapPage } from './pages/members/map/members-map-page';
 import { NavigationPage } from './pages/navigation';
 import { ProfilePage } from './pages/profile/profile-page';
 import { CreateRequestPage } from './pages/requests/create/create-request-page';

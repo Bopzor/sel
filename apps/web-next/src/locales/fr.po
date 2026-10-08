@@ -669,6 +669,10 @@ msgstr "Navigation principale"
 msgid "Manual entry"
 msgstr "Saisie manuelle"
 
+#: src/pages/members/list/members-page.tsx
+msgid "Map"
+msgstr "Carte"
+
 #: src/components/transaction-dialog.tsx
 msgid "Member"
 msgstr "Membre"
@@ -701,8 +705,13 @@ msgstr "Membre depuis {since} ({duration})"
 #: src/components/transaction-dialog.tsx
 #: src/pages/members/details/member-page.tsx
 #: src/pages/members/list/members-page.tsx
+#: src/pages/members/map/members-map-page.tsx
 msgid "Members"
 msgstr "Membres"
+
+#: src/pages/members/map/members-map-page.tsx
+msgid "Members map"
+msgstr "Carte des membres"
 
 #: src/pages/requests/details/requester-actions.tsx
 msgid "Members will no longer be able to answer it. Those who offered help or commented will be notified."
@@ -1213,6 +1222,10 @@ msgstr "Afficher mon numéro de téléphone aux autres membres"
 msgid "Show on the members map"
 msgstr "Voir sur la carte des membres"
 
+#: src/pages/members/details/member-sidebar.tsx
+msgid "Show the map"
+msgstr "Afficher la carte"
+
 #. placeholder {0}: events.length
 #: src/pages/events/list/events-list.tsx
 msgid "Showing {0} of {total} events"
@@ -1521,6 +1534,7 @@ msgstr "Impossible de charger le membre"
 
 #: src/components/transaction-dialog.tsx
 #: src/pages/members/list/members-list.tsx
+#: src/pages/members/map/members-map-page.tsx
 msgid "Unable to load the members"
 msgstr "Impossible de charger les membres"
 
