@@ -4,6 +4,7 @@ import { injectableClass } from 'ditox';
 import { EventPublisher } from 'src/infrastructure/events';
 import { BadRequest, Forbidden } from 'src/infrastructure/http';
 import { Member } from 'src/modules/member';
+import { Request } from 'src/modules/request/request.entities';
 
 import {
   Transaction,
@@ -23,12 +24,13 @@ export class TransactionService {
     creator: Member;
     amount: number;
     description: string;
-    requestId?: string;
+    comment?: string;
+    request?: Request;
     eventId?: string;
     now: Date;
     publisher: EventPublisher;
   }): Transaction {
-    const { transactionId, amount, description, requestId, eventId } = params;
+    const { transactionId, amount, description, comment, request, eventId } = params;
     const { payer, recipient, creator } = params;
     const { publisher, now } = params;
 
@@ -44,6 +46,10 @@ export class TransactionService {
       throw new NegativeAmountError(amount);
     }
 
+    if (request && request.requesterId !== payer.id) {
+      throw new PayerIsNotRequesterError(request.id, payer.id, request.requesterId);
+    }
+
     const transaction: Transaction = {
       id: transactionId,
       status: TransactionStatus.pending,
@@ -54,11 +60,19 @@ export class TransactionService {
       creatorId: creator.id,
       payerComment: null,
       recipientComment: null,
-      requestId: requestId ?? null,
+      requestId: request?.id ?? null,
       eventId: eventId ?? null,
       createdAt: now,
       updatedAt: now,
     };
+
+    if (creator.id === payer.id && comment !== undefined) {
+      transaction.payerComment = comment;
+    }
+
+    if (creator.id === recipient.id && comment !== undefined) {
+      transaction.recipientComment = comment;
+    }
 
     publisher.publish(new TransactionCreatedEvent(transactionId));
 
@@ -134,6 +148,16 @@ export class InvalidTransactionCreatorError extends BadRequest {
 export class NegativeAmountError extends BadRequest {
   constructor(amount: number) {
     super('The amount must be greater than zero', { amount });
+  }
+}
+
+export class PayerIsNotRequesterError extends BadRequest {
+  constructor(requestId: string, payerId: string, requesterId: string) {
+    super('The payer of a transaction linked to a request must be the requester', {
+      requestId,
+      payerId,
+      requesterId,
+    });
   }
 }
 

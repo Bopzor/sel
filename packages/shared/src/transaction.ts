@@ -30,14 +30,18 @@ export const createTransactionBodySchema = z.object({
   recipientId: z.string(),
   amount: z.number().min(1).max(1000),
   description: z.string().min(1).max(80),
+  comment: z.string().trim().max(4096).optional(),
+  requestId: z.string().optional(),
 });
 
 export type CreateTransactionBody = z.infer<typeof createTransactionBodySchema>;
 
+/** @deprecated Use createTransactionBodySchema, with a requestId. */
 export const createRequestTransactionBodySchema = z.object({
   recipientId: z.string(),
   amount: z.number().min(1).max(1000),
   description: z.string().min(1),
 });
 
+/** @deprecated Use CreateTransactionBody, with a requestId. */
 export type CreateRequestTransactionBody = z.infer<typeof createRequestTransactionBodySchema>;

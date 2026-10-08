@@ -3,6 +3,7 @@ import { eq } from 'drizzle-orm';
 import { container } from 'src/infrastructure/container';
 import { NotFound } from 'src/infrastructure/http';
 import { findMemberById } from 'src/modules/member';
+import { findRequestById } from 'src/modules/request/request.persistence';
 import { db, schema } from 'src/persistence';
 import { TOKENS } from 'src/tokens';
 
@@ -13,6 +14,7 @@ export type CreateTransactionCommand = {
   creatorId: string;
   amount: number;
   description: string;
+  comment?: string;
   requestId?: string;
   eventId?: string;
 };
@@ -22,7 +24,8 @@ export async function createTransaction(command: CreateTransactionCommand): Prom
   const events = container.resolve(TOKENS.events);
   const transactionService = container.resolve(TOKENS.transactionService);
 
-  const { transactionId, payerId, recipientId, creatorId, amount, description, requestId, eventId } = command;
+  const { transactionId, payerId, recipientId, creatorId, amount, description, comment, requestId, eventId } =
+    command;
 
   const payer = await findMemberById(payerId);
   const recipient = await findMemberById(recipientId);
@@ -33,6 +36,12 @@ export async function createTransaction(command: CreateTransactionCommand): Prom
 
   if (!recipient) {
     throw new NotFound('Recipient not found', { recipientId });
+  }
+
+  const request = requestId === undefined ? undefined : await findRequestById(requestId);
+
+  if (requestId !== undefined && !request) {
+    throw new NotFound('Request not found', { requestId });
   }
 
   const creator = creatorId === payerId ? payer : recipient;
@@ -46,7 +55,8 @@ export async function createTransaction(command: CreateTransactionCommand): Prom
     creator,
     amount,
     description,
-    requestId,
+    comment,
+    request,
     eventId,
     now,
     publisher,

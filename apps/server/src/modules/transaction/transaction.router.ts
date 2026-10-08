@@ -68,6 +68,8 @@ router.post('/', async (req, res) => {
     payerId: body.payerId,
     recipientId: body.recipientId,
     creatorId: member.id,
+    comment: body.comment,
+    requestId: body.requestId,
   });
 
   res.status(HttpStatus.created).send(transactionId);

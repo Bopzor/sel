@@ -148,6 +148,7 @@ router.put('/:requestId/cancel', isRequester, async (req, res) => {
   res.status(HttpStatus.noContent).end();
 });
 
+/** @deprecated Use POST /transactions, with a requestId. */
 router.post('/:requestId/transaction', async (req, res) => {
   const member = getAuthenticatedMember();
   const request = getRequest();
