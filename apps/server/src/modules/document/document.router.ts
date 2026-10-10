@@ -6,6 +6,8 @@ import { TOKENS } from 'src/tokens';
 
 export const router = Router();
 
+const collator = new Intl.Collator('fr', { numeric: true });
+
 router.get('/', async (req, res: Response<shared.DocumentsGroup[]>) => {
   const storage = container.resolve(TOKENS.storage);
   const root = await storage.listFiles('documents');
@@ -13,11 +15,12 @@ router.get('/', async (req, res: Response<shared.DocumentsGroup[]>) => {
   res.json(
     root.files
       .filter((entry) => 'files' in entry)
-      .sort((a, b) => a.name.localeCompare(b.name))
+      .sort((a, b) => collator.compare(a.name, b.name))
       .map((directory) => ({
-        name: directory.name.replace(/\d+/, '').trim(),
+        name: directory.name.replace(/^\d+\s*/, ''),
         documents: directory.files
           .filter((entry) => 'size' in entry)
+          .sort((a, b) => collator.compare(a.name, b.name))
           .map((file) => ({
             url: ['', 'documents', directory.name, file.name].map(encodeURIComponent).join('/'),
             ...file,
@@ -32,6 +35,7 @@ router.get('/*path', async (req, res: Response<shared.Document>) => {
 
   const stream = await storage.getFile('documents', ['', ...params.path].join('/'));
 
+  res.type(params.path.at(-1)?.split('.').at(-1) ?? '');
   res.set('Cache-Control', ['private', 'max-age=0', 'must-revalidate'].join(', '));
 
   stream.pipe(res);

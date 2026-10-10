@@ -1,0 +1,16 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Foundations/Interaction states" />
+
+# Interaction states
+
+Every interactive element has the same states, in the same order:
+
+- **Rest**: `border-strong` outline or solid background.
+- **Hover** (desktop): `bg-surface-hover`, `bg-primary-hover` or `bg-primary-subtle` (ghost) background; `border-strong-hover` for a control outline.
+- **Press** (touch and mouse): a slight shrink (`active:scale-98`), for immediate feedback under the finger; a primary element also darkens (`bg-primary-active`).
+- **Keyboard focus**: a 3px `outline-focus` ring (`outline-width-focus`), offset by 2px (`outline-offset-focus`), never removed on buttons, links, checkboxes and tabs. The ring is applied globally on `:focus-visible` by the base styles.
+- **Field focus**: input fields (`Input`, `TextArea`, `Select`) show the same ring, drawn over the 1px border (offset -1px), on the field's box (`focus-within:focus-ring-field`), with the mouse as with the keyboard: it marks where the typing goes. The ring is on the box rather than on the `<input>`, so that it surrounds the icon, prefix and suffix too; the `<input>` itself has no outline. The border does not change.
+- **Selected**: `bg-primary-subtle` + `border-primary` + check mark.
+- **Disabled**: `bg-disabled` and `text-disabled`, with a visible explanation next to it.
+- **Error**: `border-danger`, `text-danger` message with an icon under the field. On focus, an input field's ring is `danger` rather than `outline-focus` (`focus-ring-field-invalid`).

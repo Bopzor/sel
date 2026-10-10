@@ -1,0 +1,41 @@
+import { Controls, Meta, Primary, Stories } from '@storybook/addon-docs/blocks';
+
+import * as BottomNavStories from './bottom-nav.stories';
+
+<Meta of={BottomNavStories} />
+
+# BottomNav
+
+The main navigation bar on mobile and tablet, fixed at the bottom, with four entries at most, always shown with their label.
+
+## When to use it
+
+Below 1024px, as the application's main navigation. Beyond that, it gives way to `SideNav` (`lg:hidden` on the bar).
+
+## When features multiply
+
+The bar keeps four entries even as the application grows (loans, skills directory…). The three most used sections stay in it; the fourth entry becomes "More" (`menu` icon) and opens a page that lists every section, grouped as in `SideNav`. A section moves into the bar when its usage justifies it, not because it is new.
+
+## Parts
+
+```tsx
+<BottomNav.Root aria-label="Main navigation" fixed>
+  <BottomNav.Item href="/" icon="home" active>
+    Home
+  </BottomNav.Item>
+  <BottomNav.Item href="/requests" icon="request">
+    Requests
+  </BottomNav.Item>
+</BottomNav.Root>
+```
+
+- `BottomNav.Root` (required): the `<nav>`, named by its `aria-label` ("Main navigation"). `fixed`: fixed position at the bottom, which takes the phones' safe area into account.
+- `BottomNav.Item`: an entry, a link with its `icon` and a one-word label, four at most; it takes the router's link component as `Link` (an `<a>` by default). `active` marks the entry of the current page (`bg-primary-subtle` pill, `text-primary` text and icon) with `aria-current="page"`.
+
+The page content reserves `spacing-bottom-nav` at the bottom (`pb-bottom-nav`) so it does not go under the bar.
+
+<Primary />
+
+<Controls />
+
+<Stories includePrimary={false} />

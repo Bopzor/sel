@@ -13,8 +13,8 @@ export type CreateEventCommand = {
   title: string;
   body: string;
   kind: shared.EventKind;
-  date?: string;
-  location?: shared.Address;
+  date?: string | null;
+  location?: shared.Address | null;
   fileIds: string[];
 };
 

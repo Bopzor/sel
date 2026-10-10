@@ -11,6 +11,7 @@ export * from './file';
 export * from './information';
 export * from './interest';
 export * from './member';
+export * from './member-activity';
 export * from './members-sort';
 export * from './message';
 export * from './notification';

@@ -1,0 +1,48 @@
+/* Entry stylesheet of the design system: import it once, at the root of the application. */
+
+@import 'tailwindcss';
+@import '@fontsource-variable/inter';
+@import './theme.css';
+
+@plugin '@tailwindcss/typography';
+
+@source './';
+
+@layer base {
+  body {
+    background-color: var(--background-color-page);
+    color: var(--text-color-default);
+    font-size: var(--text-body);
+    line-height: var(--text-body--line-height);
+  }
+
+  *,
+  ::before,
+  ::after,
+  ::backdrop {
+    border-color: var(--border-color-default);
+  }
+
+  :focus-visible {
+    outline: var(--outline-width-focus) solid var(--outline-color-focus);
+    outline-offset: var(--outline-offset-focus);
+  }
+
+  /* Motion is cut, but durations stay above 0 so that transitionend and animationend still fire (Ark UI waits
+     for them to unmount). An animation plays once: repeated at that duration, a loop would flicker. Loading
+     indicators keep spinning, more slowly. */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    ::before,
+    ::after {
+      transition-duration: 0.01ms !important;
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+    }
+
+    .animate-spin {
+      animation-duration: 1.5s !important;
+      animation-iteration-count: infinite !important;
+    }
+  }
+}

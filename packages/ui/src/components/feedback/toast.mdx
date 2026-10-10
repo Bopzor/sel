@@ -1,0 +1,48 @@
+import { Controls, Meta, Primary, Stories } from '@storybook/addon-docs/blocks';
+
+import * as ToastStories from './toast.stories';
+
+<Meta of={ToastStories} />
+
+# Toast
+
+A short, temporary notification at the bottom of the screen, to confirm an action.
+
+## When to use it
+
+- To confirm an action ("Request posted"), including when it leads to another page: the toast container lives at the root of the application and survives navigation.
+- To report that an action failed (`error`), when the member stays where they were and can try again.
+- To report that an action did not have its effect because of something the member did or must change (`warning`): notifications blocked in the browser.
+- Never for a blocking error or information to remember (deadline, next step): use `Alert`.
+
+## Showing a toast
+
+```tsx
+// Once, at the root of the application, above the router: the toasts survive navigation.
+<Toaster closeLabel="Close" />;
+
+// Anywhere in the application, after an action.
+showToast('Request posted');
+showToast('The request could not be closed', 'error');
+```
+
+- `Toaster`: renders the toasts shown with `showToast`. Mounted once, at the root of the application. `closeLabel` names the close button of each toast.
+- `showToast(message, tone)`: `message` is three to six words; `tone` is `success` (default), `info`, `warning` or `error`.
+- `Toast`: the rendering of a single toast, used by `Toaster`. `children` is the message, `tone` its tone, and `onClose` + `closeLabel` add a close button.
+
+## Rules
+
+- Shown for 6 seconds; the timer pauses on hover or focus.
+- Three toasts at most, piled up with the newest in front: they spread out on hover or focus, to read or close the ones behind. The next ones wait until one is gone.
+- Position: at the top right of the screen, full width on mobile, so that a toast never covers the navigation bar nor the buttons of a dialog. Each toast has a close button.
+- It slides in from the top and fades out; the toasts behind it move to make room.
+
+## Accessibility
+
+The toasts are announced politely by the toaster's live region, without moving the focus. Alt + T moves the focus to them.
+
+<Primary />
+
+<Controls />
+
+<Stories includePrimary={false} />

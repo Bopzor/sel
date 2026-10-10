@@ -1,0 +1,39 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Guidelines/Accessibility" />
+
+# Accessibility
+
+The target is WCAG 2.2 level AA across every screen, and level AAA when it costs nothing (target size, body text contrast).
+
+## Seeing
+
+- Text: 4.5:1 minimum on its background, in both themes; the documented token pairs guarantee it (`text-default`, `text-muted`, `text-subtle` on `bg-page`, `bg-surface`, `bg-surface-raised`; `text-{status}` on `bg-{status}-subtle`; `text-on-*` on their solid background).
+- Control outlines, meaningful icons and the focus ring: 3:1 minimum (`border-strong`, `outline-focus`).
+- Color is never the only cue: an error has an icon and a message, a chosen option has a check mark, a status has a word.
+- The interface stays usable at 200% zoom and with the phone's largest text size: no fixed height on a text block, no text in an image.
+
+## Touching
+
+- Hit area of 44 × 44px minimum (`touch-target`), 8px minimum gap between two targets.
+- No complex gesture is required (swipe, pinch, long press): every action also has a button.
+- Nothing depends on hover: what appears on hover on desktop is always visible on mobile.
+
+## Keyboard and screen readers
+
+- Tab order matches reading order. The focus ring is always visible (`:focus-visible`).
+- Each page has a single `h1` and a heading hierarchy without gaps. Regions are marked up (`header`, `nav`, `main`).
+- Every field has a visible `label`; hints and errors are linked to it (`aria-describedby`, `aria-errormessage`), as Ark's `Field` and `Fieldset` do.
+- Icon buttons have an `aria-label`. Decorative icons are hidden (`aria-hidden`).
+- Messages that appear without a user action are announced (`role="status"`, `role="alert"` for errors).
+- Dialogs: focus trapped, closed with Escape, focus returned to the element that opened them.
+
+## Time and motion
+
+- No time limit to fill a form; a draft is kept if the session expires.
+- Toasts stay at least 6 seconds and pause on hover and focus.
+- `prefers-reduced-motion` cuts transitions.
+
+## Checking
+
+Before release, each screen goes through: a full keyboard navigation, a VoiceOver (iOS) or TalkBack (Android) pass, a test at 200% zoom, a test with the phone's largest text size, and an automated audit (axe).

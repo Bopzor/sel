@@ -1,7 +1,7 @@
 import * as shared from '@sel/shared';
 import { integer, pgEnum, pgTable, text } from 'drizzle-orm/pg-core';
 
-import { createdAt, enumValues, id, primaryKey, updatedAt } from '../schema-utils';
+import { createdAt, date, enumValues, id, primaryKey, updatedAt } from '../schema-utils';
 
 import { events } from './events';
 import { members } from './members';
@@ -27,6 +27,7 @@ export const transactions = pgTable('transactions', {
     .notNull(),
   requestId: id('request_id').references(() => requests.id),
   eventId: id('event_id').references(() => events.id),
+  completedAt: date('completed_at'),
   createdAt,
   updatedAt,
 });

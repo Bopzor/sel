@@ -1,11 +1,13 @@
 import { identity } from './generic';
 
+import type { Entry } from './types';
+
 export function keys<T extends object>(obj: T) {
   return Object.keys(obj) as Array<keyof T>;
 }
 
 export function entries<T extends object>(obj: T) {
-  return Object.entries(obj) as Array<[keyof T, T[keyof T]]>;
+  return Object.entries(obj) as Array<Entry<T>>;
 }
 
 export function get<T, K extends keyof T>(property: K) {

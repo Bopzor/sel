@@ -1,9 +1,10 @@
 import z from 'zod';
 
-import { Address } from './address';
-import { LightMember } from './member';
-import { Message } from './message';
 import { RequestStatus } from './request';
+
+import type { Address } from './address';
+import type { LightMember } from './member';
+import type { Message } from './message';
 
 export type FeedEvent = {
   id: string;

@@ -72,6 +72,7 @@ export const api = {
 
   listMemberTransactions: endpoint('get', '/members/:memberId/transactions').types<{
     path: { memberId: string };
+    query: typeof shared.listMemberTransactionsQuerySchema;
     result: shared.Transaction[];
   }>(),
 
@@ -125,8 +126,8 @@ export const api = {
 
   // information
 
-  listInformation: endpoint('get', '/information').types<{
-    result: shared.Information[];
+  listInformation: endpoint('get', '/information', { paginated: true }).types<{
+    result: Paginated<shared.Information>;
   }>(),
 
   getInformation: endpoint('get', '/information/:informationId').types<{

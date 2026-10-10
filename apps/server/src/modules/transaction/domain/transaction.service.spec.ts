@@ -4,6 +4,7 @@ import { beforeEach, describe, expect, it } from 'vitest';
 
 import { StubEventPublisher } from 'src/infrastructure/events';
 import { Member } from 'src/modules/member';
+import { Request } from 'src/modules/request/request.entities';
 
 import {
   Transaction,
@@ -17,6 +18,7 @@ import {
   InvalidTransactionCreatorError,
   MemberIsNotPayerError,
   NegativeAmountError,
+  PayerIsNotRequesterError,
   PayerIsRecipientError,
   TransactionIsNotPendingError,
   TransactionService,
@@ -61,6 +63,17 @@ describe('transactions service', () => {
     updatedAt: createDate(),
   }));
 
+  const createRequest = createFactory<Request>(() => ({
+    id: createId(),
+    status: shared.RequestStatus.pending,
+    date: createDate(),
+    requesterId: '',
+    title: '',
+    messageId: '',
+    createdAt: createDate(),
+    updatedAt: createDate(),
+  }));
+
   const createTransaction = createFactory<Transaction>(() => ({
     id: 'transactionId',
     status: shared.TransactionStatus.pending,
@@ -73,6 +86,7 @@ describe('transactions service', () => {
     creatorId: '',
     requestId: '',
     eventId: '',
+    completedAt: null,
     createdAt: createDate(),
     updatedAt: createDate(),
   }));
@@ -92,6 +106,7 @@ describe('transactions service', () => {
 
     expect(transaction.id).toEqual('transactionId');
     expect(transaction.status).toEqual(shared.TransactionStatus.completed);
+    expect(transaction.completedAt).toEqual(now);
     expect(payer.balance).toEqual(0);
     expect(recipient.balance).toEqual(2);
 
@@ -114,11 +129,29 @@ describe('transactions service', () => {
 
     expect(transaction.id).toEqual('transactionId');
     expect(transaction.status).toEqual(shared.TransactionStatus.pending);
+    expect(transaction.completedAt).toBeNull();
     expect(payer.balance).toEqual(1);
     expect(recipient.balance).toEqual(1);
 
     expect(publisher.events).toContainEqual(new TransactionCreatedEvent('transactionId'));
     expect(publisher.events).toContainEqual(new TransactionPendingEvent('transactionId'));
+  });
+
+  it("stores the comment as the payer's comment when the payer creates the transaction", () => {
+    const payer = createMember();
+    const recipient = createMember();
+
+    const transaction = service.createTransaction({
+      ...defaultTransaction,
+      payer,
+      recipient,
+      creator: payer,
+      comment: 'comment',
+      publisher,
+    });
+
+    expect(transaction.payerComment).toEqual('comment');
+    expect(transaction.recipientComment).toBeNull();
   });
 
   it('completes a transaction as a payer', () => {
@@ -138,10 +171,12 @@ describe('transactions service', () => {
       transaction,
       payer,
       recipient,
+      now,
       publisher,
     });
 
     expect(transaction.status).toEqual(shared.TransactionStatus.completed);
+    expect(transaction.completedAt).toEqual(now);
     expect(payer.balance).toEqual(0);
     expect(recipient.balance).toEqual(2);
 
@@ -210,6 +245,40 @@ describe('transactions service', () => {
     }).toThrow(new NegativeAmountError(-1));
   });
 
+  it('links a transaction to a request', () => {
+    const payer = createMember();
+    const recipient = createMember();
+    const request = createRequest({ id: 'requestId', requesterId: payer.id });
+
+    const transaction = service.createTransaction({
+      ...defaultTransaction,
+      payer,
+      recipient,
+      creator: recipient,
+      request,
+      publisher,
+    });
+
+    expect(transaction.requestId).toEqual('requestId');
+  });
+
+  it('prevents to create a transaction linked to a request when the payer is not the requester', () => {
+    const payer = createMember();
+    const recipient = createMember();
+    const request = createRequest({ id: 'requestId', requesterId: recipient.id });
+
+    expect(() => {
+      service.createTransaction({
+        ...defaultTransaction,
+        payer,
+        recipient,
+        creator: recipient,
+        request,
+        publisher,
+      });
+    }).toThrow(new PayerIsNotRequesterError('requestId', payer.id, recipient.id));
+  });
+
   it('prevents to create a transaction with a null amount', () => {
     const payer = createMember();
     const recipient = createMember();
@@ -251,6 +320,7 @@ describe('transactions service', () => {
         transaction,
         payer: createMember(),
         recipient: createMember(),
+        now,
         publisher,
       });
     }).toThrow(new TransactionIsNotPendingError('transactionId', shared.TransactionStatus.completed));

@@ -1,0 +1,9 @@
+@import '@sel/ui/styles.css';
+@source "../../packages/ui/src";
+
+@layer base {
+  body {
+    /* Keep the same width in all pages */
+    overflow-y: scroll;
+  }
+}

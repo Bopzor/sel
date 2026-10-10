@@ -1,5 +1,5 @@
 import { Config, MemberRole } from '@sel/shared';
-import { pick } from '@sel/utils';
+import { isAfter, pick } from '@sel/utils';
 import cookieParser from 'cookie-parser';
 import express, { ErrorRequestHandler, RequestHandler } from 'express';
 import morgan from 'morgan';
@@ -8,7 +8,7 @@ import { z } from 'zod';
 import { container } from './infrastructure/container';
 import { unsetCookie } from './infrastructure/cookie';
 import { DomainError } from './infrastructure/domain-error';
-import { BadRequest, HttpStatus, Unauthorized } from './infrastructure/http';
+import { BadRequest, HttpStatus } from './infrastructure/http';
 import { hasRoles, provideAuthenticatedMember } from './infrastructure/session';
 import { TokenType } from './modules/authentication/authentication.entities';
 import { router as authentication } from './modules/authentication/authentication.router';
@@ -37,11 +37,14 @@ export function server() {
   app.use(cookieParser(config.session.secret));
   app.use(express.json());
   app.use(cacheControl);
+
   app.use('/health', health);
+  app.use('/config', configHandler);
+  app.use('/manifest.webmanifest', manifestHandler);
+
   app.use(maintenanceHandler);
   app.use(authenticationProvider);
 
-  app.use('/config', isMember, configHandler);
   app.use('/authentication', authentication);
   app.use('/session', isMember, session);
   app.use('/session/notifications', isMember, sessionNotifications);
@@ -95,14 +98,17 @@ const authenticationProvider: RequestHandler = async (req, res, next) => {
     return next();
   }
 
+  const now = container.resolve(TOKENS.date).now();
+
   const token = await db.query.tokens.findFirst({
     where: { value: tokenCookie },
     with: { member: true },
   });
 
-  if (!token || token.type !== TokenType.session) {
+  // Not rejected, so that the authentication routes still work with a stale cookie.
+  if (!token || token.type !== TokenType.session || token.revoked || isAfter(now, token.expirationDate)) {
     res.setHeader('set-cookie', unsetCookie('token'));
-    throw new Unauthorized('Invalid session token');
+    return next();
   }
 
   provideAuthenticatedMember(token.member, next);
@@ -116,7 +122,11 @@ const configHandler: RequestHandler = async (req, res) => {
   const config = await getLetsConfig();
 
   const result: Config = {
-    ...pick(config, ['maintenance', 'letsName', 'logoUrl', 'currency', 'currencyPlural']),
+    ...pick(config, ['maintenance', 'letsName', 'place', 'logoUrl', 'currency', 'currencyPlural']),
+    theme: {
+      ...pick(config, ['primaryColor', 'accentColor']),
+      customCss: config.customCss || undefined,
+    },
     map: {
       center: [config.mapLongitude, config.mapLatitude],
       zoom: Number(config.mapZoom),
@@ -127,13 +137,41 @@ const configHandler: RequestHandler = async (req, res) => {
   res.end();
 };
 
+const manifestHandler: RequestHandler = async (req, res) => {
+  const { letsName, place, primaryColor } = await getLetsConfig();
+
+  res.type('application/manifest+json');
+
+  res.json({
+    name: letsName,
+    short_name: letsName,
+    description: `L'application du Système d'Échange Local de ${place}.`,
+    lang: 'fr',
+    start_url: '/',
+    scope: '/',
+    display: 'standalone',
+    background_color: '#FFFFFF',
+    theme_color: primaryColor,
+    icons: [
+      { src: '/pwa-64x64.png', sizes: '64x64', type: 'image/png' },
+      { src: '/pwa-192x192.png', sizes: '192x192', type: 'image/png' },
+      { src: '/pwa-512x512.png', sizes: '512x512', type: 'image/png' },
+      { src: '/maskable-icon-512x512.png', sizes: '512x512', type: 'image/png', purpose: 'maskable' },
+    ],
+  });
+};
+
 const fallbackRequestHandler: RequestHandler = (req, res) => {
   res.status(HttpStatus.notFound).end();
 };
 
 const zodErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
   if (err instanceof z.ZodError) {
-    res.status(HttpStatus.badRequest).json({ error: 'Validation error', ...err.format() });
+    res.status(HttpStatus.badRequest).json({
+      error: 'Validation error',
+      issues: err.issues,
+      ...err.format(),
+    });
   } else {
     next(err);
   }

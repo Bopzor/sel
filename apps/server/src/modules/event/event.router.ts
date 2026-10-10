@@ -39,14 +39,27 @@ const isOrganizer: RequestHandler<{ eventId: string }> = async (req, res, next) 
   next();
 };
 
+router.param('eventId', async (req, res, next) => {
+  assert(typeof req.params.eventId === 'string');
+
+  const event = await findEventById(req.params.eventId);
+
+  if (!event) {
+    throw new NotFound('Event not found');
+  }
+
+  eventContext.run(event, next);
+});
+
 router.get('/', async (req, res) => {
+  const member = getAuthenticatedMember();
   const query = shared.listEventsQuerySchema.parse(req.query);
   const { total, events } = await listEvents(query);
 
   res.setHeader('x-pagination-total', total);
   res.setHeader('x-pagination-page-size', query.pageSize);
 
-  res.json(events.map(serializeEventListItem));
+  res.json(events.map((event) => serializeEventListItem(event, member.id)));
 });
 
 router.get('/:eventId', async (req, res) => {
@@ -61,23 +74,7 @@ router.get('/:eventId', async (req, res) => {
     },
   });
 
-  if (!event) {
-    throw new NotFound('Event not found');
-  }
-
-  res.json(serializeEvent(event));
-});
-
-router.param('eventId', async (req, res, next) => {
-  assert(typeof req.params.eventId === 'string');
-
-  const event = await findEventById(req.params.eventId);
-
-  if (!event) {
-    next();
-  } else {
-    eventContext.run(event, next);
-  }
+  res.json(serializeEvent(defined(event)));
 });
 
 router.post('/', async (req, res) => {
@@ -139,15 +136,20 @@ function serializeEventListItem(
   event: Event & {
     organizer: MemberWithAvatar;
     message: MessageWithAttachments;
+    participants: EventParticipation[];
   },
+  memberId: string,
 ): shared.EventsListItem {
   return {
     id: event.id,
     title: event.title,
     date: event.date?.toISOString() ?? undefined,
-    kind: event.kind as shared.EventKind,
+    location: event.location ?? undefined,
+    kind: event.kind,
     organizer: serializeOrganizer(event.organizer),
     message: serializeMessage(event.message),
+    participantsCount: event.participants.filter(({ participation }) => participation === 'yes').length,
+    participation: event.participants.find(({ participantId }) => participantId === memberId)?.participation,
   };
 }
 
@@ -162,7 +164,7 @@ function serializeEvent(
     id: event.id,
     title: event.title,
     message: serializeMessage(event.message),
-    kind: event.kind as shared.EventKind,
+    kind: event.kind,
     date: event.date?.toISOString() ?? undefined,
     location: event.location ?? undefined,
     organizer: serializeOrganizer(event.organizer),

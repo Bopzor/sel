@@ -14,10 +14,11 @@ import { findTokenById } from './token.persistence';
 export const router = express.Router();
 
 router.post('/request-authentication-code', async (req, res) => {
-  const { email } = requestAuthenticationCodeQuerySchema.parse(req.query);
+  const { email, next } = requestAuthenticationCodeQuerySchema.parse(req.query);
 
   await requestAuthenticationCode({
     email,
+    next,
   });
 
   res.status(HttpStatus.noContent).end();

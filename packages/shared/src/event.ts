@@ -1,13 +1,17 @@
+import type { ValueOf } from '@sel/utils';
 import { z } from 'zod';
 
-import { Address, addressSchema } from './address';
-import { LightMember } from './member';
-import { Message } from './message';
+import { type Address, addressSchema } from './address';
 
-export enum EventKind {
-  internal = 'internal',
-  external = 'external',
-}
+import type { LightMember } from './member';
+import type { Message } from './message';
+
+export const EventKind = {
+  internal: 'internal',
+  external: 'external',
+} as const;
+
+export type EventKind = ValueOf<typeof EventKind>;
 
 export type EventsListItem = {
   id: string;
@@ -15,7 +19,10 @@ export type EventsListItem = {
   kind: EventKind;
   organizer: EventOrganizer;
   date?: string;
+  location?: Address;
   message: Message;
+  participantsCount: number;
+  participation?: EventParticipation;
 };
 
 export type Event = {
@@ -34,7 +41,7 @@ export type EventOrganizer = LightMember & {
   phoneNumber?: string;
 };
 
-type EventParticipant = LightMember & {
+export type EventParticipant = LightMember & {
   participation: EventParticipation;
 };
 
@@ -42,17 +49,21 @@ export const listEventsQuerySchema = z.object({
   search: z.string().optional(),
   timing: z.union([z.literal('past'), z.literal('upcoming')]).optional(),
   organizerId: z.string().optional(),
+  participantId: z.string().optional(),
+  includeUndated: z.stringbool().optional(),
   year: z.coerce.number().optional(),
   page: z.coerce.number().min(1).default(1),
   pageSize: z.coerce.number().min(1).max(100).default(10),
 });
 
+export type ListEventsQuery = z.input<typeof listEventsQuerySchema>;
+
 export const createEventBodySchema = z.object({
   title: z.string().trim().min(5).max(200),
   body: z.string().trim().min(10),
   fileIds: z.array(z.string()).default([]),
-  date: z.string().datetime().optional(),
-  location: addressSchema.optional(),
+  date: z.string().datetime().nullable().optional(),
+  location: addressSchema.nullable().optional(),
   kind: z.nativeEnum(EventKind),
 });
 
@@ -62,8 +73,8 @@ export const updateEventBodySchema = z.object({
   title: z.string().trim().min(5).max(200),
   body: z.string().trim().min(10),
   fileIds: z.array(z.string()).default([]),
-  date: z.string().datetime().optional(),
-  location: addressSchema.optional(),
+  date: z.string().datetime().nullable().optional(),
+  location: addressSchema.nullable().optional(),
   kind: z.nativeEnum(EventKind).optional(),
 });
 

@@ -1,0 +1,53 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Guidelines/Layout" />
+
+# Layout
+
+Mobile first, from a 360px screen, then enriched at each breakpoint.
+
+## Breakpoints
+
+| Breakpoint   | Width         | Navigation  | Margins | Columns                            |
+| ------------ | ------------- | ----------- | ------- | ---------------------------------- |
+| Small mobile | \< `xs` 480px | `BottomNav` | `px-4`  | 1                                  |
+| Mobile       | ≥ `xs` 480px  | `BottomNav` | `px-4`  | 1                                  |
+| Large mobile | ≥ `sm` 640px  | `BottomNav` | `px-4`  | 1                                  |
+| Tablet       | ≥ `md` 768px  | `BottomNav` | `px-6`  | 1 to 2                             |
+| Desktop      | ≥ `lg` 1024px | `SideNav`   | `px-10` | 2 to 3                             |
+| Large screen | ≥ `xl` 1280px | `SideNav`   | `px-10` | centered content, `max-width-page` |
+
+Below `xs` (a phone held upright), an element can become compact to leave the width to the text: a badge shows only its icon, for example.
+
+## Structure of a screen
+
+- **Header**: page title (`title-1`), back button on the left on detail screens, one or two actions on the right.
+- **Width**: every page takes the same width, up to `max-width-page`, so that the header stays in place from one page to the next. Desktop gains columns, not wider text: a reading column (text, form, detail) is `max-width-content` (720px) at most; forms never go wider, even on large screens.
+- **Main action**: on mobile, at the bottom of the screen, full width (`<Button size="lg" className="w-full">`), above the navigation bar; on desktop, at the end of the form, aligned right.
+- **Navigation**: see below.
+
+## Navigation
+
+The navigation will evolve with new features (a section dedicated to loans, for example). It is designed to grow without being reorganized at each addition:
+
+- A single list of entries, defined in the application configuration, feeds `BottomNav` and `SideNav`. Each entry has a concept (for its icon), a one-word label and a group.
+- On mobile, `BottomNav` shows three entries, picked explicitly by the application, and a "More" entry that opens the full list. On desktop, `SideNav` shows everything, by group.
+- An instance can disable a feature: its entry disappears from both navigations with no other change.
+- Profile, settings and sign-out stay grouped under "My account".
+
+## Safe areas
+
+On phones, the bottom bar and the sheets add `env(safe-area-inset-bottom)`. The content reserves `spacing-bottom-nav` at the bottom so it never goes under the bar.
+
+The browser only reports the safe areas when the page extends under them: the application's viewport meta tag includes `viewport-fit=cover` (`<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />`). Without it, `pb-safe-area` is 0.
+
+## Density
+
+A single, comfortable density. Desktop gains columns, not smaller elements; the `sm` control size is reserved for administration areas.
+
+## Lists and feeds
+
+- Posts are shown as `Card`s in one column on mobile, in a grid of two or three columns from 1024px.
+- Lists of members and exchanges use `ListItem`s in a `Card`, from edge to edge.
+- Filters of a list: above the list; from `xl`, in a column of 22rem on the right, which stays visible while scrolling (`sticky`). They come first in the document order, for the keyboard and screen readers.
+- Loading: a `Skeleton` shaped like the content, then the content; pagination with a "Show more" button rather than infinite scroll, to keep a landmark.

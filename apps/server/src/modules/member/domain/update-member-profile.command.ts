@@ -1,7 +1,7 @@
 import * as shared from '@sel/shared';
 
 import { container } from 'src/infrastructure/container';
-import { NotFound } from 'src/infrastructure/http';
+import { BadRequest, NotFound } from 'src/infrastructure/http';
 import { db } from 'src/persistence';
 import { TOKENS } from 'src/tokens';
 
@@ -20,8 +20,6 @@ export async function updateMemberProfile(command: UpdateMemberProfileCommand): 
   const { firstName, lastName, emailVisible, phoneNumber, phoneNumberVisible, bio, address } = data;
   const { avatarFileName, onboardingCompleted } = data;
 
-  const avatarFile = avatarFileName ? await getFile(avatarFileName) : undefined;
-
   const values: Partial<MemberInsert> = {
     firstName,
     lastName,
@@ -30,8 +28,20 @@ export async function updateMemberProfile(command: UpdateMemberProfileCommand): 
     phoneNumberVisible,
     bio,
     address,
-    avatarId: avatarFile?.id,
   };
+
+  if (avatarFileName === null) {
+    values.avatarId = null;
+  }
+
+  if (avatarFileName) {
+    const file = await getAvatarFile(memberId, avatarFileName);
+    values.avatarId = file.id;
+  }
+
+  if (values.bio === '') {
+    values.bio = null;
+  }
 
   if (onboardingCompleted === true) {
     values.status = shared.MemberStatus.active;
@@ -48,13 +58,21 @@ export async function updateMemberProfile(command: UpdateMemberProfileCommand): 
   }
 }
 
-async function getFile(fileName: string) {
+async function getAvatarFile(memberId: string, fileName: string) {
   const file = await db.query.files.findFirst({
     where: { name: fileName },
   });
 
   if (!file) {
     throw new NotFound('File not found');
+  }
+
+  if (!file.mimetype.startsWith('image/')) {
+    throw new BadRequest('The avatar must be an image');
+  }
+
+  if (file.uploadedBy !== memberId) {
+    throw new BadRequest('The avatar must be uploaded by the member');
   }
 
   return file;

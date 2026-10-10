@@ -1,0 +1,42 @@
+import { Controls, Meta, Primary, Stories } from '@storybook/addon-docs/blocks';
+
+import * as ListItemStories from './list-item.stories';
+
+<Meta of={ListItemStories} />
+
+# ListItem
+
+A list row of at least 64px, with a leading element, a title, a description of two lines at most, and a chevron when the row opens a detail.
+
+## When to use it
+
+For lists of members, exchanges, notifications, settings. Rows go in a `ul`, usually inside a flush `Card`; a `border-default` separator divides them.
+
+## Parts
+
+```tsx
+<ListItem.Root>
+  <Avatar name="Jane Doe" decorative />
+  <ListItem.Content>
+    <ListItem.Title>
+      <ListItem.Link href="…">Jane Doe</ListItem.Link>
+    </ListItem.Title>
+    <ListItem.Description>Description</ListItem.Description>
+  </ListItem.Content>
+  <ListItem.Chevron />
+</ListItem.Root>
+```
+
+- `ListItem.Root` (required): the row, an `li`.
+- A leading `Avatar` or `Icon`, first in the row.
+- `ListItem.Content` (required): the title and the description, which take the remaining width.
+- `ListItem.Title` (required), `ListItem.Description`: two lines at most.
+- `ListItem.Header`: the `ListItem.Title`, then a badge, an amount or a date on the title's line. The description below keeps the full width, even on a phone.
+- `ListItem.Chevron`: shows that the row opens a detail.
+- `ListItem.Link` or `ListItem.Button`, inside the `ListItem.Title`: the whole row becomes a link or a button, named by the title, which covers the row. `ListItem.Link` takes the router's link component as `Link` (an `<a>` by default).
+
+<Primary />
+
+<Controls />
+
+<Stories includePrimary={false} />

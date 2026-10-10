@@ -2,11 +2,11 @@ import { createFactory } from '@sel/utils';
 import { z } from 'zod';
 
 export const addressSchema = z.object({
-  line1: z.string().trim(),
+  line1: z.string().trim().min(1),
   line2: z.string().trim().optional(),
-  postalCode: z.string().trim(),
-  city: z.string().trim(),
-  country: z.string().trim(),
+  postalCode: z.string().trim().min(1),
+  city: z.string().trim().min(1),
+  country: z.string().trim().min(1),
   position: z.tuple([z.number(), z.number()]).optional(),
 });
 

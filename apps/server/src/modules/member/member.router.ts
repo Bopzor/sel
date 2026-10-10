@@ -11,11 +11,16 @@ import { TOKENS } from 'src/tokens';
 
 import { File } from '../file/file.entity';
 import { Interest, MemberInterest } from '../interest/interest.entities';
+import { Request } from '../request/request.entities';
 
 import { changeNotificationDeliveryType } from './domain/change-notification-delivery-type.command';
 import { createMember } from './domain/create-member.command';
+import { getMemberActivityCounts } from './domain/get-member-activity-counts.query';
+import { getMemberActivity } from './domain/get-member-activity.query';
+import { getMemberTransactionStats } from './domain/get-member-transaction-stats.query';
+import { listMemberTransactions } from './domain/list-member-transactions.query';
 import { updateMemberProfile } from './domain/update-member-profile.command';
-import { Member, MemberWithAvatar, withAvatar } from './member.entities';
+import { Member, MemberWithAvatar } from './member.entities';
 import { findMemberById } from './member.persistence';
 import { serializeMember, serializeMemberContact } from './member.serializer';
 
@@ -62,7 +67,7 @@ router.get('/', async (req, res) => {
     with: {
       avatar: true,
       memberInterests: {
-        with: { interest: true },
+        with: { interest: { with: { image: true } } },
       },
     },
   });
@@ -82,6 +87,10 @@ router.post('/', async (req, res) => {
 });
 
 router.get('/:memberId', async (req, res) => {
+  if (getMember().status === shared.MemberStatus.inactive) {
+    throw new NotFound('Member is no longer active', { code: 'MemberInactive' });
+  }
+
   const member = await db.query.members.findFirst({
     where: {
       id: req.params.memberId,
@@ -90,7 +99,7 @@ router.get('/:memberId', async (req, res) => {
     with: {
       avatar: true,
       memberInterests: {
-        with: { interest: true },
+        with: { interest: { with: { image: true } } },
       },
     },
   });
@@ -104,19 +113,43 @@ router.get('/:memberId', async (req, res) => {
 
 router.get('/:memberId/transactions', async (req, res) => {
   const { id: memberId } = getMember();
+  const query = shared.listMemberTransactionsQuerySchema.parse(req.query);
 
-  const transactions = await db.query.transactions.findMany({
-    where: {
-      status: shared.TransactionStatus.completed,
-      OR: [{ payerId: memberId }, { recipientId: memberId }],
-    },
-    with: {
-      payer: withAvatar,
-      recipient: withAvatar,
-    },
+  const { total, transactions } = await listMemberTransactions({
+    memberId,
+    ...query,
   });
 
+  if (total !== undefined) {
+    res.setHeader('x-pagination-total', total);
+    res.setHeader('x-pagination-page-size', query.pageSize);
+  }
+
   res.json(transactions.map(serializeTransaction));
+});
+
+router.get('/:memberId/transactions/stats', async (req, res) => {
+  const { id: memberId } = getMember();
+
+  res.json(await getMemberTransactionStats(memberId));
+});
+
+router.get('/:memberId/activity', async (req, res) => {
+  const { id: memberId } = getMember();
+  const query = shared.listMemberActivityQuerySchema.parse(req.query);
+
+  const { total, items } = await getMemberActivity({ memberId, ...query });
+
+  res.setHeader('x-pagination-total', total);
+  res.setHeader('x-pagination-page-size', query.pageSize);
+
+  res.json(items);
+});
+
+router.get('/:memberId/activity/counts', async (req, res) => {
+  const { id: memberId } = getMember();
+
+  res.json(await getMemberActivityCounts(memberId));
 });
 
 router.put('/:memberId/profile', isAuthenticatedMember, async (req, res) => {
@@ -141,7 +174,10 @@ router.put('/:memberId/notification-delivery', isAuthenticatedMember, async (req
 });
 
 function serializeMemberFull(
-  member: Member & { avatar: File | null; memberInterests: Array<MemberInterest & { interest: Interest }> },
+  member: Member & {
+    avatar: File | null;
+    memberInterests: Array<MemberInterest & { interest: Interest & { image: File | null } }>;
+  },
 ): shared.Member {
   const compareMemberInterests = (a: shared.MemberInterest, b: shared.MemberInterest) => {
     return a.label.localeCompare(b.label);
@@ -155,17 +191,19 @@ function serializeMemberFull(
     membershipStartDate: member.membershipStartDate?.toISOString(),
     balance: member.balance,
     interests: member.memberInterests.map(serializeMemberInterest).sort(compareMemberInterests),
+    committeeMember: member.roles.includes(shared.MemberRole.committee),
   };
 }
 
 function serializeMemberInterest(
-  memberInterest: MemberInterest & { interest: Interest },
+  memberInterest: MemberInterest & { interest: Interest & { image: File | null } },
 ): shared.MemberInterest {
   return {
     id: memberInterest.id,
     interestId: memberInterest.interestId,
     label: memberInterest.interest.label,
     description: memberInterest.description ?? undefined,
+    image: memberInterest.interest.image?.name,
   };
 }
 
@@ -173,6 +211,7 @@ function serializeTransaction(
   transaction: typeof schema.transactions.$inferSelect & {
     payer: MemberWithAvatar;
     recipient: MemberWithAvatar;
+    request: Request | null;
   },
 ): shared.Transaction {
   return {
@@ -182,6 +221,11 @@ function serializeTransaction(
     description: transaction.description,
     payer: serializeMember(transaction.payer),
     recipient: serializeMember(transaction.recipient),
-    date: transaction.createdAt.toISOString(),
+    payerComment: transaction.payerComment ?? undefined,
+    recipientComment: transaction.recipientComment ?? undefined,
+    request: transaction.request
+      ? { id: transaction.request.id, title: transaction.request.title }
+      : undefined,
+    date: (transaction.completedAt ?? transaction.createdAt).toISOString(),
   };
 }

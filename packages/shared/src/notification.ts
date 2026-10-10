@@ -1,7 +1,8 @@
 import { z } from 'zod';
 
-import { EventParticipation } from './event';
-import { RequestAnswer, RequestStatus } from './request';
+import { type RequestAnswer, RequestStatus } from './request';
+
+import type { EventParticipation } from './event';
 
 export const registerDeviceBodySchema = z.object({
   subscription: z.record(z.any(), z.any()),

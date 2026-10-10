@@ -1,5 +1,5 @@
 import { getId } from '@sel/utils';
-import { and, asc, desc, eq, gte, ilike, lt, or, SQL, sql } from 'drizzle-orm';
+import { and, asc, desc, eq, exists, gte, ilike, isNull, lt, or, SQL, sql } from 'drizzle-orm';
 
 import { withAvatar } from 'src/modules/member/member.entities';
 import { withAttachments } from 'src/modules/messages/message.entities';
@@ -9,6 +9,8 @@ type ListEventsQuery = {
   search?: string;
   timing?: 'past' | 'upcoming';
   organizerId?: string;
+  participantId?: string;
+  includeUndated?: boolean;
   year?: number;
   page: number;
   pageSize: number;
@@ -24,7 +26,8 @@ export async function listEvents(query: ListEventsQuery) {
   }
 
   if (query.timing === 'upcoming') {
-    conditions.push(gte(schema.events.date, new Date()));
+    const upcoming = gte(schema.events.date, new Date());
+    conditions.push(query.includeUndated ? or(upcoming, isNull(schema.events.date))! : upcoming);
   }
 
   if (query.timing === 'past') {
@@ -35,12 +38,31 @@ export async function listEvents(query: ListEventsQuery) {
     conditions.push(eq(schema.events.organizerId, query.organizerId));
   }
 
+  if (query.participantId) {
+    conditions.push(
+      exists(
+        db
+          .select()
+          .from(schema.eventParticipations)
+          .where(
+            and(
+              eq(schema.eventParticipations.eventId, schema.events.id),
+              eq(schema.eventParticipations.participantId, query.participantId),
+              eq(schema.eventParticipations.participation, 'yes'),
+            ),
+          ),
+      ),
+    );
+  }
+
   if (query.year) {
     conditions.push(eq(sql`EXTRACT(YEAR FROM ${schema.events.date})`, query.year));
   }
 
-  const orderBy =
-    query.timing === 'upcoming' ? asc(schema.events.date) : nullsFirst(desc(schema.events.date));
+  // The events without a date are tied: the creation date keeps their order stable across the pages.
+  const orderBy = ({ date, createdAt }: typeof schema.events) => {
+    return [query.timing === 'upcoming' ? asc(date) : nullsFirst(desc(date)), desc(createdAt)];
+  };
 
   const [total, ids] = await paginated(
     query,
@@ -49,7 +71,7 @@ export async function listEvents(query: ListEventsQuery) {
       .from(schema.events)
       .leftJoin(schema.messages, eq(schema.events.messageId, schema.messages.id))
       .where(and(...conditions))
-      .orderBy(orderBy)
+      .orderBy(...orderBy(schema.events))
       .$dynamic(),
   );
 
@@ -60,8 +82,9 @@ export async function listEvents(query: ListEventsQuery) {
       with: {
         organizer: withAvatar,
         message: withAttachments,
+        participants: true,
       },
-      orderBy: () => orderBy,
+      orderBy,
     }),
   };
 }

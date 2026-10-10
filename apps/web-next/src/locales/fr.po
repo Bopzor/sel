@@ -1,0 +1,1961 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2026-10-01 19:06+0200\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: fr\n"
+
+#. placeholder {0}: coming.length
+#: src/pages/events/details/participants.tsx
+msgid "{0, plural, one {# participant} other {# participants}}"
+msgstr "{0, plural, one {# participant} other {# participants}}"
+
+#: src/components/comments-section.tsx
+#: src/pages/requests/list/requests-list.tsx
+msgid "{commentsCount, plural, one {# comment} other {# comments}}"
+msgstr "{commentsCount, plural, one {# commentaire} other {# commentaires}}"
+
+#. placeholder {0}: <> {formatted} <Unit /> </>
+#. placeholder {1}: <> {formatted} <Unit plural /> </>
+#: src/components/amount.tsx
+msgid "{count, plural, one {{0}} other {{1}}}"
+msgstr "{count, plural, one {{0}} other {{1}}}"
+
+#: src/pages/requests/details/request-answer.tsx
+msgid "{firstName} knows you are not available."
+msgstr "{firstName} sait que vous n'êtes pas disponible."
+
+#: src/pages/requests/details/request-answer.tsx
+msgid "{firstName} will be notified of your answer."
+msgstr "Votre réponse sera transmise à {firstName}."
+
+#: src/pages/members/details/member-sidebar.tsx
+msgid "{months, plural, one {# month} other {# months}}"
+msgstr "{months, plural, one {# mois} other {# mois}}"
+
+#: src/components/attachments.tsx
+msgid "{name} could not be attached. Try again in a few moments."
+msgstr "{name} n’a pas pu être joint. Réessayez dans quelques instants."
+
+#: src/components/transaction-dialog.tsx
+msgid "{name} does not need to confirm: the exchange is completed right away."
+msgstr "Aucune confirmation n'est attendue de la part de {name} : l'échange est conclu immédiatement."
+
+#: src/pages/members/details/overview-tab.tsx
+msgid "{name} hasn't shared any interest yet."
+msgstr "{name} n'a pas encore partagé de centre d'intérêt."
+
+#: src/pages/members/details/overview-tab.tsx
+msgid "{name} hasn't written a bio yet."
+msgstr "{name} n'a pas encore écrit de présentation."
+
+#: src/components/attachments.tsx
+msgid "{name} is larger than 10 MB and was not attached"
+msgstr "{name} dépasse 10 Mo et n’a pas été joint"
+
+#: src/components/transaction-dialog.tsx
+msgid "{name} needs to confirm to complete the exchange."
+msgstr "Une confirmation de la part de {name} est nécessaire pour conclure l'échange."
+
+#: src/pages/members/details/exchanges-tab.tsx
+msgid "{name}'s exchanges will appear here."
+msgstr "Les échanges de {name} apparaîtront ici."
+
+#: src/pages/members/details/activity-tab.tsx
+msgid "{name}'s requests, events and offers to help will appear here."
+msgstr "Les demandes, événements et propositions d'aide de {name} apparaîtront ici."
+
+#: src/pages/events/list/events-list.tsx
+msgid "{participantsCount, plural, one {# participant} other {# participants}}"
+msgstr "{participantsCount, plural, one {# participant} other {# participants}}"
+
+#: src/pages/requests/details/request-page.tsx
+msgid "{positiveAnswersCount} people can help"
+msgstr "{positiveAnswersCount, plural, one {# personne peut} other {# personnes peuvent}} aider"
+
+#: src/pages/members/details/activity-tab.tsx
+msgid "{total, plural, one {# activity} other {# activities}}"
+msgstr "{total, plural, one {# activité} other {# activités}}"
+
+#: src/pages/events/list/events-list.tsx
+msgid "{total, plural, one {# event} other {# events}}"
+msgstr "{total, plural, one {# événement} other {# événements}}"
+
+#: src/pages/members/details/exchanges-tab.tsx
+msgid "{total, plural, one {# exchange} other {# exchanges}}"
+msgstr "{total, plural, one {# échange} other {# échanges}}"
+
+#: src/pages/information/list/information-list.tsx
+msgid "{total, plural, one {# piece of information} other {# pieces of information}}"
+msgstr "{total, plural, one {# information} other {# informations}}"
+
+#: src/pages/requests/list/requests-list.tsx
+msgid "{total, plural, one {# request} other {# requests}}"
+msgstr "{total, plural, one {# demande} other {# demandes}}"
+
+#: src/layout/pending-transactions-alert.tsx
+msgid "{total, plural, one {An exchange is waiting for your approval} other {# exchanges are waiting for your approval}}"
+msgstr "{total, plural, one {Un échange attend votre validation} other {# échanges attendent votre validation}}"
+
+#: src/pages/members/details/member-sidebar.tsx
+msgid "{years, plural, one {# year} other {# years}}"
+msgstr "{years, plural, one {# an} other {# ans}}"
+
+#: src/pages/requests/request-form.tsx
+msgid "A few words, for example: Help to put up a shelf"
+msgstr "Quelques mots, par exemple : Aide pour poser une étagère"
+
+#: src/pages/information/information-form.tsx
+msgid "A few words, for example: Next general assembly"
+msgstr "Quelques mots, par exemple : Prochaine assemblée générale"
+
+#: src/pages/events/event-form.tsx
+msgid "A few words, for example: Picnic at the lake"
+msgstr "Quelques mots, par exemple : Pique-nique au lac"
+
+#: src/pages/members/details/overview-tab.tsx
+msgid "About"
+msgstr "Présentation"
+
+#: src/pages/profile/bio-section.tsx
+msgid "About me"
+msgstr "À propos de moi"
+
+#: src/pages/members/details/exchanges-tab.tsx
+msgid "Accept"
+msgstr "Accepter"
+
+#: src/pages/members/details/member-page.tsx
+#: src/pages/members/details/overview-tab.tsx
+msgid "Activity"
+msgstr "Activité"
+
+#: src/components/attachments.tsx
+msgid "Add files"
+msgstr "Ajouter des fichiers"
+
+#: src/pages/members/details/member-sidebar.tsx
+msgid "Add to my contacts"
+msgstr "Ajouter à mes contacts"
+
+#: src/pages/members/details/member-sidebar.tsx
+#: src/pages/profile/address-section.tsx
+msgid "Address"
+msgstr "Adresse"
+
+#: src/components/address-form-dialog.tsx
+#: src/pages/profile/address-section.tsx
+msgid "Address complement (optional)"
+msgstr "Complément d'adresse (facultatif)"
+
+#: src/components/address-search.tsx
+msgid "Addresses found"
+msgstr "Adresses trouvées"
+
+#: src/pages/events/list/events-filters.tsx
+msgctxt "events filter"
+msgid "All"
+msgstr "Tous"
+
+#: src/pages/members/details/exchanges-tab.tsx
+msgctxt "exchanges filter"
+msgid "All"
+msgstr "Tous"
+
+#: src/pages/requests/list/requests-filters.tsx
+msgctxt "requests filter"
+msgid "All"
+msgstr "Toutes"
+
+#: src/pages/events/details/notify-dialog.tsx
+msgid "All the members"
+msgstr "Tous les membres"
+
+#: src/pages/settings/settings-page.tsx
+msgid "Allow notifications to receive them here too."
+msgstr "Autorisez les notifications pour les recevoir ici aussi."
+
+#: src/layout/push-notifications-prompt.tsx
+#: src/pages/settings/settings-page.tsx
+msgid "Allow on this device"
+msgstr "Autoriser sur cet appareil"
+
+#: src/components/transaction-dialog.tsx
+msgid "Amount"
+msgstr "Montant"
+
+#: src/components/comments-section.tsx
+msgid "An error happened and your comment was not posted"
+msgstr "Une erreur est survenue et votre commentaire n'a pas pu être envoyé"
+
+#: src/pages/events/event-form.tsx
+msgid "An event of the LETS, for its members."
+msgstr "Un événement du SEL, pour ses membres."
+
+#: src/pages/events/event-form.tsx
+msgid "An event organized by others, that you share with the members."
+msgstr "Un événement organisé par d'autres, que vous partagez avec les membres."
+
+#: src/pages/error-page.tsx
+msgid "An unexpected error happened"
+msgstr "Une erreur inattendue s'est produite"
+
+#: src/pages/requests/details/request-answers.tsx
+msgid "Answers"
+msgstr "Réponses"
+
+#: src/pages/settings/settings-page.tsx
+msgid "Appearance"
+msgstr "Apparence"
+
+#: src/pages/settings/settings-page.tsx
+msgid "Applies to this device only."
+msgstr "S'applique uniquement à cet appareil."
+
+#: src/components/rich-text-toolbar.tsx
+msgid "Apply"
+msgstr "Appliquer"
+
+#: src/pages/events/details/participation.tsx
+msgid "Are you coming?"
+msgstr "Venez-vous ?"
+
+#: src/pages/requests/create/create-request-page.tsx
+msgid "Ask the members for help: they will be notified and can offer theirs."
+msgstr "Demandez de l'aide aux membres : ils seront notifiés et pourront vous répondre."
+
+#: src/components/rich-text-toolbar.tsx
+msgid "Attach files"
+msgstr "Joindre des fichiers"
+
+#: src/pages/events/event-form.tsx
+#: src/pages/information/information-form.tsx
+#: src/pages/requests/request-form.tsx
+msgid "Attachments"
+msgstr "Pièces jointes"
+
+#: src/pages/members/details/activity-item.tsx
+msgid "Attended {link}"
+msgstr "A participé à {link}"
+
+#: src/pages/members/details/activity-item.tsx
+msgid "Attends {link}"
+msgstr "Participe à {link}"
+
+#: src/components/transaction-dialog.tsx
+#: src/pages/authentication/authentication.tsx
+#: src/pages/events/edit/edit-event-page.tsx
+#: src/pages/information/edit/edit-information-page.tsx
+#: src/pages/requests/details/requester-actions.tsx
+#: src/pages/requests/edit/edit-request-page.tsx
+msgid "Back"
+msgstr "Retour"
+
+#: src/pages/error-page.tsx
+msgid "Back to home"
+msgstr "Retour à l'accueil"
+
+#: src/pages/members/details/exchanges-tab.tsx
+#: src/pages/members/details/overview-tab.tsx
+#: src/pages/profile/profile-page.tsx
+msgid "Balance"
+msgstr "Solde"
+
+#: src/components/rich-text-toolbar.tsx
+msgid "Bold"
+msgstr "Gras"
+
+#: src/components/rich-text-toolbar.tsx
+msgid "Bulleted list"
+msgstr "Liste à puces"
+
+#: src/pages/settings/settings-page.tsx
+msgid "By email"
+msgstr "Par email"
+
+#: src/pages/requests/details/request-answers.tsx
+msgid "Can help"
+msgstr "Peut aider"
+
+#: src/pages/requests/details/request-answer.tsx
+msgid "Can you help?"
+msgstr "Pouvez-vous aider ?"
+
+#: src/pages/requests/details/request-answers.tsx
+msgid "Can't help"
+msgstr "Ne peut pas aider"
+
+#: src/components/address-form-dialog.tsx
+#: src/components/rich-text-toolbar.tsx
+#: src/components/transaction-dialog.tsx
+#: src/pages/events/details/notify-dialog.tsx
+#: src/pages/events/event-form.tsx
+#: src/pages/profile/profile-section.tsx
+msgid "Cancel"
+msgstr "Annuler"
+
+#: src/pages/requests/details/requester-actions.tsx
+msgid "Cancel the request"
+msgstr "Annuler la demande"
+
+#. placeholder {0}: request.title
+#: src/pages/requests/details/requester-actions.tsx
+msgid "Cancel the request “{0}”?"
+msgstr "Annuler la demande « {0} » ?"
+
+#: src/pages/requests/list/requests-list.tsx
+msgid "Canceled"
+msgstr "Annulée"
+
+#: src/pages/members/details/exchanges-tab.tsx
+msgctxt "exchanges filter"
+msgid "Canceled"
+msgstr "Annulés"
+
+#: src/components/transaction-dialog.tsx
+msgid "Change"
+msgstr "Changer"
+
+#: src/components/transaction-dialog.tsx
+msgid "Change the member"
+msgstr "Changer le membre"
+
+#: src/pages/profile/identity-section.tsx
+msgid "Change the photo"
+msgstr "Changer la photo"
+
+#: src/components/api-result.tsx
+#: src/pages/error-page.tsx
+msgid "Check your internet access, then try again."
+msgstr "Vérifiez votre accès à internet, puis réessayez."
+
+#: src/pages/events/event-form.tsx
+msgid "Choose an address in the list below"
+msgstr "Choisissez une adresse dans la liste ci-dessous"
+
+#: src/components/address-form-dialog.tsx
+#: src/pages/profile/address-section.tsx
+msgid "City"
+msgstr "Ville"
+
+#: src/pages/events/list/events-list.tsx
+#: src/pages/information/list/information-list.tsx
+#: src/pages/members/list/members-list.tsx
+#: src/pages/requests/list/requests-list.tsx
+msgid "Clear filters"
+msgstr "Effacer les filtres"
+
+#: src/components/address-form-dialog.tsx
+#: src/components/rich-text-toolbar.tsx
+#: src/components/toaster.tsx
+#: src/layout/push-notifications-prompt.tsx
+#: src/pages/events/details/notify-dialog.tsx
+#: src/pages/requests/details/requester-actions.tsx
+msgid "Close"
+msgstr "Fermer"
+
+#: src/pages/requests/details/requester-actions.tsx
+msgid "Close it once you have been helped, or cancel it if you no longer need help."
+msgstr "Clôturez-la une fois que vous avez reçu de l'aide, ou annulez-la si vous n'en avez plus besoin."
+
+#: src/pages/requests/details/requester-actions.tsx
+msgid "Close the request"
+msgstr "Clôturer la demande"
+
+#. placeholder {0}: request.title
+#: src/pages/requests/details/requester-actions.tsx
+msgid "Close the request “{0}”?"
+msgstr "Clôturer la demande « {0} » ?"
+
+#: src/pages/events/list/events-list.tsx
+msgid "Coming"
+msgstr "Présent"
+
+#: src/components/transaction-dialog.tsx
+msgid "Comment"
+msgstr "Commentaire"
+
+#: src/components/transaction-dialog.tsx
+msgid "Comment (optional)"
+msgstr "Commentaire (facultatif)"
+
+#: src/pages/members/details/activity-item.tsx
+msgid "Commented on {link}"
+msgstr "A commenté {link}"
+
+#: src/components/comments-section.tsx
+#: src/pages/members/details/activity-tab.tsx
+msgid "Comments"
+msgstr "Commentaires"
+
+#: src/pages/members/details/member-sidebar.tsx
+#: src/pages/members/list/members-list.tsx
+msgid "Committee member"
+msgstr "Membre du CA"
+
+#: src/pages/members/list/members-page.tsx
+msgid "Committee members"
+msgstr "Membres du CA"
+
+#: src/layout/layout.tsx
+#: src/pages/navigation.tsx
+msgid "Community"
+msgstr "Communauté"
+
+#: src/pages/members/details/exchanges-tab.tsx
+msgctxt "exchanges filter"
+msgid "Completed"
+msgstr "Effectués"
+
+#: src/components/transaction-dialog.tsx
+msgid "Confirmation"
+msgstr "Confirmation"
+
+#: src/pages/members/details/member-sidebar.tsx
+#: src/pages/profile/contact-section.tsx
+msgid "Contact"
+msgstr "Contact"
+
+#: src/pages/requests/details/request-answer.tsx
+msgid "Contact {firstName} to arrange the details."
+msgstr "Contactez {firstName} pour vous organiser."
+
+#: src/pages/members/details/member-sidebar.tsx
+msgid "Copy the email address"
+msgstr "Copier l'adresse email"
+
+#: src/pages/members/details/member-sidebar.tsx
+msgid "Copy the phone number"
+msgstr "Copier le numéro de téléphone"
+
+#: src/pages/events/create/create-event-page.tsx
+#: src/pages/events/list/events-list.tsx
+msgid "Create an event"
+msgstr "Créer un événement"
+
+#: src/pages/home/home-page.tsx
+#: src/pages/requests/details/request-page.tsx
+msgid "Create exchange"
+msgstr "Créer un échange"
+
+#: src/pages/events/create/create-event-page.tsx
+msgid "Create the event"
+msgstr "Créer l'événement"
+
+#: src/pages/settings/settings-page.tsx
+msgid "Dark"
+msgstr "Sombre"
+
+#: src/pages/events/event-form.tsx
+msgid "Date and time (optional)"
+msgstr "Date et heure (facultatif)"
+
+#: src/pages/events/details/event-page.tsx
+#: src/pages/events/list/events-list.tsx
+msgid "Date to be defined"
+msgstr "Date à définir"
+
+#: src/pages/members/details/exchanges-tab.tsx
+msgid "Decline"
+msgstr "Refuser"
+
+#: src/components/transaction-dialog.tsx
+msgid "Details"
+msgstr "Détails"
+
+#: src/app/routes.ts
+#: src/pages/documents/documents-page.tsx
+msgid "Documents"
+msgstr "Documents"
+
+#: src/pages/events/details/organizer-actions.tsx
+#: src/pages/events/event-form.tsx
+#: src/pages/information/details/information-details-page.tsx
+#: src/pages/profile/profile-section.tsx
+#: src/pages/requests/details/requester-actions.tsx
+msgid "Edit"
+msgstr "Modifier"
+
+#: src/pages/members/details/member-sidebar.tsx
+msgid "Edit my profile"
+msgstr "Modifier mon profil"
+
+#: src/pages/events/edit/edit-event-page.tsx
+msgid "Edit the event"
+msgstr "Modifier l'événement"
+
+#: src/pages/information/edit/edit-information-page.tsx
+msgid "Edit the information"
+msgstr "Modifier l'information"
+
+#: src/pages/requests/edit/edit-request-page.tsx
+msgid "Edit the request"
+msgstr "Modifier la demande"
+
+#: src/pages/authentication/authentication.tsx
+#: src/pages/profile/contact-section.tsx
+msgid "Email address"
+msgstr "Adresse email"
+
+#: src/pages/members/details/member-sidebar.tsx
+msgid "Email address copied"
+msgstr "Adresse email copiée"
+
+#: src/pages/profile/contact-section.tsx
+msgid "Enter a phone number such as 06 12 34 56 78"
+msgstr "Saisissez un numéro de téléphone comme 06 12 34 56 78"
+
+#: src/pages/authentication/authentication.tsx
+msgid "Enter a valid email address, for example my@email.com."
+msgstr "Saisissez une adresse email valide, par exemple mon@email.com."
+
+#: src/pages/authentication/authentication.tsx
+msgid "Enter the 6 digits of the code received by email."
+msgstr "Saisissez les 6 chiffres du code reçu par email."
+
+#: src/pages/events/event-form.tsx
+msgid "Enter the address of the event"
+msgstr "Saisir l'adresse de l'événement"
+
+#: src/pages/authentication/authentication.tsx
+msgid "Enter the email address of your LETS account to access the app."
+msgstr "Entrez l'adresse email de votre compte du SEL pour accéder à l'app."
+
+#: src/pages/authentication/authentication.tsx
+msgid "Enter the sign-in code received by email."
+msgstr "Entrez le code de connexion reçu par email."
+
+#: src/pages/events/create/create-event-page.tsx
+msgid "Event created"
+msgstr "Événement créé"
+
+#: src/pages/events/edit/edit-event-page.tsx
+msgid "Event edited"
+msgstr "Événement modifié"
+
+#: src/pages/events/event-not-found.tsx
+msgid "Event not found"
+msgstr "Événement introuvable"
+
+#: src/app/routes.ts
+#: src/pages/events/create/create-event-page.tsx
+#: src/pages/events/details/event-page.tsx
+#: src/pages/events/list/events-page.tsx
+msgid "Events"
+msgstr "Événements"
+
+#: src/pages/members/details/activity-tab.tsx
+#: src/pages/members/details/overview-tab.tsx
+msgid "Events attended"
+msgstr "Participations aux événements"
+
+#: src/pages/members/details/activity-tab.tsx
+#: src/pages/members/details/overview-tab.tsx
+msgid "Events organized"
+msgstr "Événements organisés"
+
+#: src/components/transaction-dialog.tsx
+msgid "Exchange"
+msgstr "Échange"
+
+#: src/pages/members/details/member-sidebar.tsx
+msgid "Exchange <0/>"
+msgstr "Echanger des <0/>"
+
+#: src/pages/members/details/exchanges-tab.tsx
+msgid "Exchange accepted"
+msgstr "Échange accepté"
+
+#: src/pages/members/details/exchanges-tab.tsx
+msgid "Exchange declined"
+msgstr "Échange refusé"
+
+#: src/layout/layout.tsx
+#: src/pages/members/details/exchanges-tab.tsx
+#: src/pages/members/details/member-page.tsx
+#: src/pages/members/details/overview-tab.tsx
+#: src/pages/navigation.tsx
+msgid "Exchanges"
+msgstr "Échanges"
+
+#: src/pages/profile/identity-section.tsx
+msgid "First name"
+msgstr "Prénom"
+
+#: src/pages/members/list/members-page.tsx
+msgctxt "members sort"
+msgid "First name"
+msgstr "Prénom"
+
+#: src/layout/push-notifications-prompt.tsx
+msgid "Follow the activity of the LETS, even when the app is closed."
+msgstr "Suivez l'activité du SEL, même lorsque l'application est fermée."
+
+#: src/pages/profile/address-section.tsx
+msgid "For example, 12 rue de la Paix, Lyon"
+msgstr "Par exemple, 12 rue de la Paix, Lyon"
+
+#: src/components/transaction-dialog.tsx
+msgid "For example: Help with moving"
+msgstr "Par exemple : Aide au déménagement"
+
+#: src/pages/events/details/notify-dialog.tsx
+msgid "For example: The meeting point has changed"
+msgstr "Par exemple : Le lieu de rendez-vous a changé"
+
+#: src/pages/requests/list/requests-list.tsx
+msgid "Fulfilled"
+msgstr "Clôturée"
+
+#: src/pages/members/details/exchanges-tab.tsx
+#: src/pages/members/details/overview-tab.tsx
+msgid "Given"
+msgstr "Donnés"
+
+#: src/pages/profile/profile-section.tsx
+msgid "Hidden from the other members"
+msgstr "Masqué aux autres membres"
+
+#: src/pages/members/details/exchanges-tab.tsx
+msgid "History"
+msgstr "Historique"
+
+#: src/app/routes.ts
+#: src/pages/home/home-page.tsx
+msgid "Home"
+msgstr "Accueil"
+
+#: src/pages/settings/settings-page.tsx
+msgid "How you are told about the activity of the LETS."
+msgstr "Comment être tenu au courant de l'activité du SEL."
+
+#: src/pages/requests/details/request-answer.tsx
+msgid "I can help"
+msgstr "Je peux aider"
+
+#: src/pages/requests/details/request-answer.tsx
+msgid "I can't"
+msgstr "Je ne peux pas"
+
+#: src/pages/events/details/participation.tsx
+msgid "I can't come anymore"
+msgstr "Je ne peux plus venir"
+
+#: src/pages/events/details/participation.tsx
+#: src/pages/events/list/events-filters.tsx
+msgid "I'm coming"
+msgstr "Je viens"
+
+#: src/pages/events/details/participation.tsx
+msgid "I'm coming after all"
+msgstr "Finalement, je viens"
+
+#: src/pages/events/details/participation.tsx
+msgid "I'm not coming"
+msgstr "Je ne viens pas"
+
+#: src/pages/authentication/authentication.tsx
+msgid "If nothing arrives in the next few minutes, check your spam folder or contact us."
+msgstr "Si vous n'avez rien reçu dans les prochaines minutes, vérifiez dans vos spams ou contactez-nous."
+
+#: src/pages/authentication/authentication.tsx
+msgid "If your email address is allowed, an email containing a sign-in code has been sent to <0>{email}</0>."
+msgstr "Si votre adresse email est autorisée, un email contenant un code de connexion vous a été envoyé à l'adresse <0>{email}</0>."
+
+#: src/pages/members/details/overview-tab.tsx
+msgid "In common"
+msgstr "En commun"
+
+#: src/app/routes.ts
+#: src/pages/information/create/create-information-page.tsx
+#: src/pages/information/details/information-details-page.tsx
+#: src/pages/information/list/information-page.tsx
+#: src/pages/members/details/activity-tab.tsx
+msgid "Information"
+msgstr "Informations publiées"
+
+#: src/pages/information/edit/edit-information-page.tsx
+msgid "Information edited"
+msgstr "Information modifiée"
+
+#: src/pages/information/information-not-found.tsx
+msgid "Information not found"
+msgstr "Information introuvable"
+
+#: src/pages/information/create/create-information-page.tsx
+msgid "Information published"
+msgstr "Information publiée"
+
+#: src/app/routes.ts
+#: src/pages/members/details/overview-tab.tsx
+msgid "Interests"
+msgstr "Centres d'intérêts"
+
+#: src/pages/events/create/create-event-page.tsx
+msgid "Invite the members: they will be notified and can tell whether they are coming."
+msgstr "Invitez les membres : ils seront notifiés et pourront dire s'ils viennent."
+
+#: src/pages/error-page.tsx
+msgid "It will be back on {date}."
+msgstr "Elle sera de retour le {date}."
+
+#: src/pages/error-page.tsx
+msgid "It will be back soon."
+msgstr "Elle sera bientôt de retour."
+
+#: src/components/rich-text-toolbar.tsx
+msgid "Italic"
+msgstr "Italique"
+
+#: src/pages/information/details/information-details-page.tsx
+msgid "Keep it up to date for the members who read it."
+msgstr "Tenez-la à jour pour les membres qui la lisent."
+
+#: src/pages/events/details/organizer-actions.tsx
+msgid "Keep it up to date, and notify the members of what they need to know."
+msgstr "Tenez-le à jour, et prévenez les membres de ce qu'ils doivent savoir."
+
+#: src/pages/settings/settings-page.tsx
+msgid "Language"
+msgstr "Langue"
+
+#: src/pages/profile/identity-section.tsx
+msgid "Last name"
+msgstr "Nom"
+
+#: src/pages/members/list/members-page.tsx
+msgctxt "members sort"
+msgid "Last name"
+msgstr "Nom"
+
+#: src/pages/events/event-form.tsx
+msgid "Leave it empty if the date is not set yet"
+msgstr "Laissez vide si la date n'est pas encore fixée"
+
+#: src/pages/events/event-form.tsx
+msgid "Leave it empty if the location is not decided yet"
+msgstr "Laissez vide si le lieu n'est pas encore décidé"
+
+#: src/pages/members/details/member-sidebar.tsx
+msgid "less than a month"
+msgstr "moins d'un mois"
+
+#: src/pages/settings/settings-page.tsx
+msgid "Light"
+msgstr "Clair"
+
+#: src/components/rich-text-toolbar.tsx
+msgid "Link"
+msgstr "Lien"
+
+#: src/components/rich-text-toolbar.tsx
+msgid "Link target"
+msgstr "Cible du lien"
+
+#: src/pages/events/event-form.tsx
+msgid "Location"
+msgstr "Lieu"
+
+#: src/pages/events/event-form.tsx
+msgid "Location (optional)"
+msgstr "Lieu (facultatif)"
+
+#: src/pages/events/details/event-page.tsx
+msgid "Location to be defined"
+msgstr "Lieu à définir"
+
+#: src/layout/layout.tsx
+msgid "Main navigation"
+msgstr "Navigation principale"
+
+#: src/pages/events/event-form.tsx
+#: src/pages/profile/address-section.tsx
+msgid "Manual entry"
+msgstr "Saisie manuelle"
+
+#: src/pages/members/list/members-page.tsx
+msgid "Map"
+msgstr "Carte"
+
+#: src/components/transaction-dialog.tsx
+msgid "Member"
+msgstr "Membre"
+
+#: src/pages/members/details/member-sidebar.tsx
+msgid "Member #{number}"
+msgstr "Membre n°{number}"
+
+#: src/pages/members/details/member-not-found.tsx
+msgid "Member not found"
+msgstr "Membre introuvable"
+
+#: src/pages/profile/profile-page.tsx
+msgid "Member number"
+msgstr "Numéro de membre"
+
+#: src/pages/members/details/member-page.tsx
+msgid "Member sections"
+msgstr "Sections du membre"
+
+#: src/pages/profile/profile-page.tsx
+msgid "Member since"
+msgstr "Membre depuis"
+
+#: src/pages/members/details/member-sidebar.tsx
+msgid "Member since {since} ({duration})"
+msgstr "Membre depuis {since} ({duration})"
+
+#: src/app/routes.ts
+#: src/components/transaction-dialog.tsx
+#: src/pages/members/details/member-page.tsx
+#: src/pages/members/list/members-page.tsx
+#: src/pages/members/map/members-map-page.tsx
+msgid "Members"
+msgstr "Membres"
+
+#: src/pages/members/map/members-map-page.tsx
+msgid "Members map"
+msgstr "Carte des membres"
+
+#: src/pages/requests/details/requester-actions.tsx
+msgid "Members will no longer be able to answer it. Those who offered help or commented will be notified."
+msgstr "Les membres ne pourront plus y répondre. Les personnes qui ont proposé leur aide ou commenté seront prévenues."
+
+#: src/pages/profile/profile-page.tsx
+msgid "Membership"
+msgstr "Adhésion"
+
+#: src/pages/events/details/notify-dialog.tsx
+#: src/pages/events/event-form.tsx
+#: src/pages/information/information-form.tsx
+#: src/pages/requests/request-form.tsx
+msgid "Message"
+msgstr "Message"
+
+#: src/layout/layout.tsx
+msgid "More"
+msgstr "Plus"
+
+#: src/layout/layout.tsx
+#: src/pages/navigation.tsx
+msgid "My account"
+msgstr "Mon compte"
+
+#: src/pages/events/list/events-filters.tsx
+msgid "My events"
+msgstr "Mes événements"
+
+#: src/pages/information/list/information-filters.tsx
+msgid "My information"
+msgstr "Mes informations"
+
+#: src/pages/requests/list/requests-filters.tsx
+msgid "My requests"
+msgstr "Mes demandes"
+
+#: src/pages/authentication/authentication.tsx
+msgid "my@email.com"
+msgstr "mon@email.com"
+
+#: src/pages/profile/identity-section.tsx
+msgid "Name and photo"
+msgstr "Nom et photo"
+
+#: src/pages/members/list/members-list.tsx
+msgctxt "member"
+msgid "New"
+msgstr "Arrivé(e) récemment"
+
+#: src/pages/events/list/events-page.tsx
+msgid "New event"
+msgstr "Nouvel événement"
+
+#: src/components/transaction-dialog.tsx
+msgid "New exchange"
+msgstr "Nouvel échange"
+
+#: src/pages/information/list/information-page.tsx
+msgid "New information"
+msgstr "Nouvelle information"
+
+#: src/pages/requests/list/requests-page.tsx
+msgid "New request"
+msgstr "Nouvelle demande"
+
+#: src/pages/members/list/members-page.tsx
+msgctxt "members sort"
+msgid "Newest"
+msgstr "Date d'adhésion"
+
+#: src/components/transaction-dialog.tsx
+msgid "Next"
+msgstr "Suivant"
+
+#: src/pages/members/details/activity-tab.tsx
+msgid "No activity yet"
+msgstr "Aucune activité pour l'instant"
+
+#: src/pages/members/details/overview-tab.tsx
+msgid "No activity yet."
+msgstr "Aucune activité pour l'instant."
+
+#: src/components/address-search.tsx
+msgid "No address found. Check what you typed, or enter the address manually."
+msgstr "Aucune adresse trouvée. Vérifiez votre saisie, ou saisissez l'adresse manuellement."
+
+#: src/pages/members/details/exchanges-tab.tsx
+msgid "No canceled exchanges"
+msgstr "Aucun échange annulé"
+
+#: src/pages/documents/documents-list.tsx
+msgid "No documents"
+msgstr "Aucun document"
+
+#: src/pages/events/list/events-list.tsx
+msgid "No event matches these filters"
+msgstr "Aucun événement ne correspond à ces filtres"
+
+#: src/pages/members/details/exchanges-tab.tsx
+msgid "No exchanges with {name} yet"
+msgstr "Aucun échange avec {name} pour l'instant"
+
+#: src/pages/members/details/exchanges-tab.tsx
+#: src/pages/members/details/overview-tab.tsx
+msgid "No exchanges yet"
+msgstr "Aucun échange pour l'instant"
+
+#: src/pages/information/list/information-list.tsx
+msgid "No information"
+msgstr "Aucune information"
+
+#: src/pages/information/list/information-list.tsx
+msgid "No information matches these filters"
+msgstr "Aucune information ne correspond à ces filtres"
+
+#: src/pages/members/list/members-list.tsx
+msgid "No member matches these filters"
+msgstr "Aucun membre ne correspond à ces filtres"
+
+#: src/components/transaction-dialog.tsx
+msgid "No member matches this search"
+msgstr "Aucun membre ne correspond à cette recherche"
+
+#: src/pages/members/list/members-list.tsx
+msgid "No members"
+msgstr "Aucun membre"
+
+#: src/pages/requests/details/request-answers.tsx
+msgid "No one has answered yet."
+msgstr "Personne n’a encore répondu."
+
+#: src/pages/events/details/participants.tsx
+msgid "No one has said they are coming yet."
+msgstr "Personne n'a encore dit venir."
+
+#: src/pages/profile/contact-section.tsx
+msgid "No phone number"
+msgstr "Aucun numéro de téléphone"
+
+#: src/pages/requests/list/requests-list.tsx
+msgid "No request matches these filters"
+msgstr "Aucune demande ne correspond à ces filtres"
+
+#: src/pages/requests/list/requests-list.tsx
+msgid "No requests"
+msgstr "Aucune demande"
+
+#: src/pages/events/list/events-list.tsx
+msgid "No upcoming events"
+msgstr "Aucun événement à venir"
+
+#: src/pages/events/details/notify-dialog.tsx
+msgid "Notification sent"
+msgstr "Notification envoyée"
+
+#: src/pages/settings/settings-page.tsx
+msgid "Notifications"
+msgstr "Notifications"
+
+#: src/pages/settings/settings-page.tsx
+msgid "Notifications appear on the devices where you allowed them, even when the app is closed."
+msgstr "Les notifications apparaissent sur les appareils où vous les avez autorisées, même lorsque l'application est fermée."
+
+#: src/pages/settings/settings-page.tsx
+msgid "Notifications are blocked on this device. To receive them, allow them in the browser settings."
+msgstr "Les notifications sont bloquées sur cet appareil. Pour les recevoir, autorisez-les dans les paramètres du navigateur."
+
+#: src/layout/push-notifications-prompt.tsx
+msgid "Notifications are blocked on this device. You can allow them in the browser settings."
+msgstr "Les notifications sont bloquées sur cet appareil. Vous pouvez les autoriser dans les paramètres du navigateur."
+
+#: src/pages/settings/settings-page.tsx
+msgid "Notifications are sent to your email address."
+msgstr "Les notifications sont envoyées à votre adresse email."
+
+#: src/layout/push-notifications-prompt.tsx
+#: src/pages/settings/settings-page.tsx
+msgid "Notifications could not be enabled on this device. Try again in a few moments."
+msgstr "Les notifications n'ont pas pu être activées sur cet appareil. Réessayez dans quelques instants."
+
+#: src/pages/events/details/notify-dialog.tsx
+msgid "Notify the members"
+msgstr "Notifier les membres"
+
+#: src/components/address-form-dialog.tsx
+#: src/pages/profile/address-section.tsx
+msgid "Number and street"
+msgstr "Numéro et rue"
+
+#: src/components/rich-text-toolbar.tsx
+msgid "Numbered list"
+msgstr "Liste numérotée"
+
+#: src/pages/members/details/activity-item.tsx
+msgid "Offered to help on {link}"
+msgstr "A proposé son aide pour {link}"
+
+#: src/pages/members/details/activity-tab.tsx
+#: src/pages/members/details/overview-tab.tsx
+msgid "Offers to help"
+msgstr "Propositions d'aide"
+
+#: src/pages/settings/settings-page.tsx
+msgid "On your devices"
+msgstr "Sur vos appareils"
+
+#: src/pages/requests/edit/edit-request-page.tsx
+msgid "Only its author can edit a request, as long as it is open."
+msgstr "Seul son auteur peut modifier une demande, tant qu'elle est ouverte."
+
+#: src/pages/information/edit/edit-information-page.tsx
+msgid "Only its author can edit this information."
+msgstr "Seul son auteur peut modifier cette information."
+
+#: src/pages/events/edit/edit-event-page.tsx
+msgid "Only its organizer can edit an event."
+msgstr "Seul son organisateur peut modifier un événement."
+
+#: src/pages/requests/list/requests-filters.tsx
+msgctxt "requests filter"
+msgid "Open"
+msgstr "En cours"
+
+#: src/pages/members/details/activity-item.tsx
+msgid "Organized {link}"
+msgstr "A organisé {link}"
+
+#: src/pages/events/details/organizer.tsx
+msgid "Organized by"
+msgstr "Organisé par"
+
+#: src/pages/events/event-form.tsx
+msgid "Organized by the LETS"
+msgstr "Organisé par le SEL"
+
+#: src/pages/events/event-form.tsx
+msgid "Organizer"
+msgstr "Organisateur"
+
+#: src/pages/members/details/activity-item.tsx
+msgid "Organizes {link}"
+msgstr "Organise {link}"
+
+#: src/pages/events/details/event-page.tsx
+#: src/pages/events/event-form.tsx
+#: src/pages/events/list/events-list.tsx
+msgid "Outside event"
+msgstr "Événement extérieur"
+
+#: src/pages/members/details/member-page.tsx
+msgid "Overview"
+msgstr "Aperçu"
+
+#: src/pages/error-page.tsx
+msgid "Page not found"
+msgstr "Page introuvable"
+
+#: src/pages/events/details/participants.tsx
+msgid "Participants"
+msgstr "Participants"
+
+#: src/pages/members/details/exchanges-tab.tsx
+msgid "Partners"
+msgstr "Partenaires"
+
+#: src/pages/events/list/events-filters.tsx
+msgctxt "events filter"
+msgid "Past"
+msgstr "Passés"
+
+#: src/pages/events/details/event-page.tsx
+msgid "Past event"
+msgstr "Événement passé"
+
+#: src/pages/members/details/exchanges-tab.tsx
+msgid "Pending"
+msgstr "En attente"
+
+#: src/pages/profile/contact-section.tsx
+msgid "Phone number"
+msgstr "Numéro de téléphone"
+
+#: src/pages/members/details/member-sidebar.tsx
+msgid "Phone number copied"
+msgstr "Numéro de téléphone copié"
+
+#: src/pages/events/event-form.tsx
+#: src/pages/information/information-form.tsx
+#: src/pages/requests/request-form.tsx
+msgid "Photos or documents, up to 10 MB per file"
+msgstr "Photos ou documents, 10 Mo maximum par fichier"
+
+#: src/pages/members/details/activity-tab.tsx
+#: src/pages/requests/create/create-request-page.tsx
+#: src/pages/requests/list/requests-list.tsx
+msgid "Post a request"
+msgstr "Nouvelle demande"
+
+#: src/pages/requests/create/create-request-page.tsx
+msgid "Post the request"
+msgstr "Publier la demande"
+
+#: src/components/address-form-dialog.tsx
+#: src/pages/profile/address-section.tsx
+msgid "Postal code"
+msgstr "Code postal"
+
+#: src/pages/members/details/activity-item.tsx
+msgid "Posted the information {link}"
+msgstr "A publié l'information {link}"
+
+#: src/pages/members/details/activity-item.tsx
+msgid "Posted the request {link}"
+msgstr "A publié la demande {link}"
+
+#: src/pages/profile/bio-section.tsx
+msgid "Presentation"
+msgstr "Présentation"
+
+#: src/app/routes.ts
+#: src/pages/profile/profile-page.tsx
+msgid "Profile"
+msgstr "Profil"
+
+#: src/pages/profile/profile-section.tsx
+msgid "Profile updated"
+msgstr "Profil mis à jour"
+
+#: src/pages/information/create/create-information-page.tsx
+#: src/pages/information/list/information-list.tsx
+msgid "Publish information"
+msgstr "Publier une information"
+
+#: src/pages/information/create/create-information-page.tsx
+msgid "Publish the information"
+msgstr "Publier l'information"
+
+#: src/pages/information/details/information-details-page.tsx
+msgid "Published by"
+msgstr "Publiée par"
+
+#: src/components/transaction-dialog.tsx
+msgid "Reason"
+msgstr "Motif"
+
+#: src/layout/push-notifications-prompt.tsx
+msgid "Receive notifications on this device?"
+msgstr "Recevoir les notifications sur cet appareil ?"
+
+#: src/pages/members/details/exchanges-tab.tsx
+#: src/pages/members/details/overview-tab.tsx
+msgid "Received"
+msgstr "Reçus"
+
+#: src/pages/members/details/activity-item.tsx
+msgid "Received {amount} from {payer}"
+msgstr "A reçu {amount} de la part de {payer}"
+
+#: src/pages/events/details/notify-dialog.tsx
+msgid "Recipients"
+msgstr "Destinataires"
+
+#: src/components/attachments.tsx
+msgid "Remove {name}"
+msgstr "Retirer {name}"
+
+#: src/components/rich-text-toolbar.tsx
+msgid "Remove link"
+msgstr "Retirer le lien"
+
+#: src/pages/profile/address-section.tsx
+msgid "Remove my address"
+msgstr "Retirer mon adresse"
+
+#: src/pages/events/event-form.tsx
+msgid "Remove the location"
+msgstr "Retirer le lieu"
+
+#: src/pages/profile/identity-section.tsx
+msgid "Remove the photo"
+msgstr "Retirer la photo"
+
+#: src/components/transaction-dialog.tsx
+msgid "Request {units}"
+msgstr "Demander des {units}"
+
+#: src/components/transaction-dialog.tsx
+msgid "Request {units} from {name}"
+msgstr "Demander des {units} à {name}"
+
+#: src/components/transaction-dialog.tsx
+msgid "Request <0/>"
+msgstr "Demander des <0/>"
+
+#: src/components/transaction-dialog.tsx
+msgctxt "amount"
+msgid "Request <0/>"
+msgstr "Demander <0/>"
+
+#: src/pages/requests/details/requester-actions.tsx
+msgid "Request canceled"
+msgstr "Demande annulée"
+
+#: src/pages/requests/details/requester-actions.tsx
+msgid "Request closed"
+msgstr "Demande clôturée"
+
+#: src/pages/requests/edit/edit-request-page.tsx
+msgid "Request edited"
+msgstr "Demande modifiée"
+
+#: src/pages/requests/request-not-found.tsx
+msgid "Request not found"
+msgstr "Demande introuvable"
+
+#: src/pages/requests/create/create-request-page.tsx
+msgid "Request posted"
+msgstr "Demande publiée"
+
+#: src/pages/requests/details/requester.tsx
+msgid "Requested by"
+msgstr "Demandé par"
+
+#: src/app/routes.ts
+#: src/pages/members/details/activity-tab.tsx
+#: src/pages/members/details/overview-tab.tsx
+#: src/pages/requests/create/create-request-page.tsx
+#: src/pages/requests/details/request-page.tsx
+#: src/pages/requests/list/requests-page.tsx
+msgid "Requests"
+msgstr "Demandes"
+
+#: src/components/api-result.tsx
+#: src/pages/error-page.tsx
+msgid "Retry"
+msgstr "Réessayer"
+
+#: src/pages/settings/settings-page.tsx
+msgid "Same as the device"
+msgstr "Comme l'appareil"
+
+#: src/pages/events/event-form.tsx
+#: src/pages/profile/profile-section.tsx
+msgid "Save"
+msgstr "Enregistrer"
+
+#: src/pages/events/edit/edit-event-page.tsx
+#: src/pages/information/edit/edit-information-page.tsx
+#: src/pages/requests/edit/edit-request-page.tsx
+msgid "Save the changes"
+msgstr "Enregistrer les modifications"
+
+#: src/pages/events/list/events-filters.tsx
+#: src/pages/information/list/information-filters.tsx
+#: src/pages/requests/list/requests-filters.tsx
+msgid "Search"
+msgstr "Rechercher"
+
+#: src/components/transaction-dialog.tsx
+msgid "Search a member"
+msgstr "Rechercher un membre"
+
+#: src/pages/profile/address-section.tsx
+msgid "Search for an address"
+msgstr "Rechercher une adresse"
+
+#: src/pages/members/list/members-page.tsx
+msgid "Search members"
+msgstr "Rechercher un membre"
+
+#: src/pages/events/list/events-filters.tsx
+msgid "Search the events"
+msgstr "Rechercher parmi les événements"
+
+#: src/pages/information/list/information-filters.tsx
+msgid "Search the information"
+msgstr "Rechercher parmi les informations"
+
+#: src/pages/requests/list/requests-filters.tsx
+msgid "Search the requests"
+msgstr "Rechercher parmi les demandes"
+
+#: src/pages/members/details/overview-tab.tsx
+msgid "See activity"
+msgstr "Voir l'activité"
+
+#: src/pages/members/details/overview-tab.tsx
+msgid "See exchanges"
+msgstr "Voir les échanges"
+
+#: src/pages/members/details/overview-tab.tsx
+msgid "See more"
+msgstr "Voir plus"
+
+#: src/pages/profile/profile-page.tsx
+msgid "See my public profile"
+msgstr "Voir mon profil public"
+
+#: src/pages/events/edit/edit-event-page.tsx
+msgid "See the event"
+msgstr "Voir l'événement"
+
+#: src/pages/events/event-not-found.tsx
+msgid "See the events"
+msgstr "Voir les événements"
+
+#: src/pages/information/edit/edit-information-page.tsx
+msgid "See the information"
+msgstr "Voir l'information"
+
+#: src/pages/information/information-not-found.tsx
+msgctxt "information list"
+msgid "See the information"
+msgstr "Voir les informations"
+
+#: src/pages/members/details/former-member.tsx
+#: src/pages/members/details/member-not-found.tsx
+msgid "See the members"
+msgstr "Voir les membres"
+
+#: src/layout/pending-transactions-alert.tsx
+msgid "See the pending exchanges"
+msgstr "Voir les échanges en attente"
+
+#: src/pages/requests/edit/edit-request-page.tsx
+msgid "See the request"
+msgstr "Voir la demande"
+
+#: src/pages/requests/request-not-found.tsx
+msgid "See the requests"
+msgstr "Voir les demandes"
+
+#: src/hooks/use-zod-resolver.ts
+msgid "Select an option"
+msgstr "Choisissez une option"
+
+#: src/components/comments-section.tsx
+#: src/pages/events/details/notify-dialog.tsx
+msgid "Send"
+msgstr "Envoyer"
+
+#: src/components/transaction-dialog.tsx
+msgid "Send {units}"
+msgstr "Envoyer des {units}"
+
+#: src/components/transaction-dialog.tsx
+msgid "Send {units} to {name}"
+msgstr "Envoyer des {units} à {name}"
+
+#: src/components/transaction-dialog.tsx
+msgid "Send <0/>"
+msgstr "Envoyer des <0/>"
+
+#: src/components/transaction-dialog.tsx
+msgctxt "amount"
+msgid "Send <0/>"
+msgstr "Envoyer <0/>"
+
+#: src/pages/members/details/activity-item.tsx
+msgid "Sent {amount} to {recipient}"
+msgstr "A envoyé {amount} à {recipient}"
+
+#: src/app/routes.ts
+#: src/pages/settings/settings-page.tsx
+msgid "Settings"
+msgstr "Paramètres"
+
+#: src/pages/information/create/create-information-page.tsx
+msgid "Share news with the members: they will be notified and can comment."
+msgstr "Partagez une nouvelle avec les membres : ils seront notifiés et pourront la commenter."
+
+#: src/pages/events/details/organizer.tsx
+msgid "Shared by"
+msgstr "Relayé par"
+
+#: src/pages/members/details/exchanges-tab.tsx
+msgid "Show all the exchanges"
+msgstr "Afficher tous les échanges"
+
+#: src/pages/members/details/activity-tab.tsx
+msgid "Show comments"
+msgstr "Afficher les commentaires"
+
+#: src/pages/error-page.tsx
+msgid "Show details"
+msgstr "Détails"
+
+#: src/components/pagination.tsx
+msgid "Show more"
+msgstr "Afficher plus"
+
+#: src/pages/profile/contact-section.tsx
+msgid "Show my email address to the other members"
+msgstr "Afficher mon adresse email aux autres membres"
+
+#: src/pages/profile/contact-section.tsx
+msgid "Show my phone number to the other members"
+msgstr "Afficher mon numéro de téléphone aux autres membres"
+
+#: src/pages/members/details/member-sidebar.tsx
+msgid "Show on the members map"
+msgstr "Voir sur la carte des membres"
+
+#: src/pages/members/details/exchanges-tab.tsx
+msgid "Show the completed exchanges"
+msgstr "Afficher les échanges effectués"
+
+#: src/pages/members/details/member-sidebar.tsx
+msgid "Show the map"
+msgstr "Afficher la carte"
+
+#. placeholder {0}: items.length
+#: src/pages/members/details/activity-tab.tsx
+msgid "Showing {0} of {total} activities"
+msgstr "{0} activités affichées sur {total}"
+
+#. placeholder {0}: events.length
+#: src/pages/events/list/events-list.tsx
+msgid "Showing {0} of {total} events"
+msgstr "{0} événements affichés sur {total}"
+
+#. placeholder {0}: transactions.length
+#: src/pages/members/details/exchanges-tab.tsx
+msgid "Showing {0} of {total} exchanges"
+msgstr "{0} échanges affichés sur {total}"
+
+#. placeholder {0}: transactions.length
+#: src/pages/members/details/exchanges-tab.tsx
+msgid "Showing {0} of {total} pending exchanges"
+msgstr "{0} échanges en attente affichés sur {total}"
+
+#. placeholder {0}: items.length
+#: src/pages/information/list/information-list.tsx
+msgid "Showing {0} of {total} pieces of information"
+msgstr "{0} informations affichées sur {total}"
+
+#. placeholder {0}: requests.length
+#: src/pages/requests/list/requests-list.tsx
+msgid "Showing {0} of {total} requests"
+msgstr "{0} demandes affichées sur {total}"
+
+#: src/pages/authentication/authentication.tsx
+msgid "Sign in"
+msgstr "Connexion"
+
+#: src/layout/layout.tsx
+#: src/pages/navigation.tsx
+msgid "Sign out"
+msgstr "Se déconnecter"
+
+#: src/pages/authentication/authentication.tsx
+msgid "Sign-in code"
+msgstr "Code de connexion"
+
+#: src/pages/authentication/authentication.tsx
+msgid "Sign-in failed. Try again in a few moments."
+msgstr "La connexion a échoué. Réessayez dans quelques instants."
+
+#: src/pages/members/list/members-page.tsx
+msgid "Sort"
+msgstr "Trier"
+
+#: src/components/transaction-dialog.tsx
+msgid "Step {stepNumber} of {stepCount}"
+msgstr "Étape {stepNumber} sur {stepCount}"
+
+#: src/pages/error-page.tsx
+msgid "The application is under maintenance"
+msgstr "L'application est en maintenance"
+
+#: src/pages/members/details/exchanges-tab.tsx
+msgid "The declined exchanges will appear here."
+msgstr "Les échanges refusés apparaîtront ici."
+
+#: src/pages/documents/documents-list.tsx
+msgid "The documents shared by the committee, such as the statutes and the meeting minutes, appear here."
+msgstr "Les documents partagés par le comité, comme les statuts et les comptes rendus de réunion, apparaissent ici."
+
+#: src/pages/events/create/create-event-page.tsx
+msgid "The event could not be created"
+msgstr "L'événement n'a pas pu être créé"
+
+#: src/components/transaction-dialog.tsx
+msgid "The exchange could not be created"
+msgstr "L'échange n'a pas pu être créé"
+
+#: src/pages/members/details/exchanges-tab.tsx
+msgid "The exchange could not be updated"
+msgstr "L'échange n'a pas pu être mis à jour"
+
+#: src/components/transaction-dialog.tsx
+msgid "The exchange is recorded"
+msgstr "L'échange est enregistré"
+
+#: src/pages/information/create/create-information-page.tsx
+msgid "The information could not be published"
+msgstr "L'information n'a pas pu être publiée"
+
+#: src/pages/events/event-not-found.tsx
+msgid "The link may be wrong, or the event may no longer exist."
+msgstr "Le lien est peut-être erroné, ou l'événement n'existe plus."
+
+#: src/pages/information/information-not-found.tsx
+msgid "The link may be wrong, or the information may no longer exist."
+msgstr "Le lien est peut-être erroné, ou l’information n’existe plus."
+
+#: src/pages/error-page.tsx
+msgid "The link may be wrong, or the page may no longer exist."
+msgstr "Le lien est peut-être erroné, ou la page n'existe plus."
+
+#: src/pages/requests/request-not-found.tsx
+msgid "The link may be wrong, or the request may no longer exist."
+msgstr "Le lien est peut-être erroné, ou la demande n’existe plus."
+
+#: src/pages/members/details/member-not-found.tsx
+msgid "The link may be wrong."
+msgstr "Le lien est peut-être erroné."
+
+#: src/pages/members/list/members-list.tsx
+msgid "The members of the association appear here once their account is active."
+msgstr "Les membres de l'association apparaissent ici une fois leur compte activé."
+
+#: src/pages/events/edit/edit-event-page.tsx
+msgid "The members who are coming or who commented will see the new version."
+msgstr "Les membres qui viennent ou qui ont commenté verront la nouvelle version."
+
+#: src/pages/requests/edit/edit-request-page.tsx
+msgid "The members who offered help or commented will see the new version."
+msgstr "Les membres qui ont proposé leur aide ou commenté verront la nouvelle version."
+
+#: src/pages/information/edit/edit-information-page.tsx
+msgid "The members will see the new version."
+msgstr "Les membres verront la nouvelle version."
+
+#: src/pages/events/details/notify-dialog.tsx
+msgid "The notification could not be sent"
+msgstr "La notification n'a pas pu être envoyée"
+
+#: src/pages/settings/settings-page.tsx
+msgid "The notification settings could not be saved"
+msgstr "Les paramètres de notification n'ont pas pu être enregistrés"
+
+#: src/pages/events/details/participation.tsx
+msgid "The organizer will know who to expect."
+msgstr "L'organisateur saura qui attendre."
+
+#: src/pages/events/details/notify-dialog.tsx
+msgid "The other members"
+msgstr "Les autres membres"
+
+#: src/pages/events/details/notify-dialog.tsx
+msgid "The participants ({participantsCount})"
+msgstr "Les participants ({participantsCount})"
+
+#: src/pages/profile/identity-section.tsx
+msgid "The photo could not be sent. Try again in a few moments."
+msgstr "La photo n'a pas pu être envoyée. Réessayez dans quelques instants."
+
+#: src/pages/profile/identity-section.tsx
+msgid "The photo must be an image"
+msgstr "La photo doit être une image"
+
+#: src/pages/profile/identity-section.tsx
+msgid "The photo must be at most 10 MB"
+msgstr "La photo ne doit pas dépasser 10 Mo"
+
+#: src/pages/events/event-form.tsx
+msgid "The program, what to bring, how to get there"
+msgstr "Le programme, quoi apporter, comment venir"
+
+#: src/pages/requests/details/requester-actions.tsx
+msgid "The request could not be canceled"
+msgstr "La demande n'a pas pu être annulée"
+
+#: src/pages/requests/details/requester-actions.tsx
+msgid "The request could not be closed"
+msgstr "La demande n'a pas pu être clôturée"
+
+#: src/components/transaction-dialog.tsx
+msgid "The request is sent to {name}"
+msgstr "La demande est envoyée à {name}"
+
+#: src/components/address-search.tsx
+msgid "The search is not available at the moment. Enter the address manually."
+msgstr "La recherche n'est pas disponible pour le moment. Saisissez l'adresse manuellement."
+
+#: src/pages/authentication/authentication.tsx
+msgid "The sign-in code could not be sent. Try again in a few moments."
+msgstr "Le code de connexion n'a pas pu être envoyé. Réessayez dans quelques instants."
+
+#: src/layout/pending-transactions-alert.tsx
+msgid "The units will move once you accept."
+msgstr "Les unités seront transférées une fois que vous aurez accepté."
+
+#: src/pages/members/details/former-member.tsx
+msgid "Their profile is no longer available."
+msgstr "Son profil n'est plus disponible."
+
+#: src/pages/events/details/notify-dialog.tsx
+msgid "They receive it by email or on their devices, depending on their settings."
+msgstr "Ils la reçoivent par email ou sur leurs appareils, selon leurs réglages."
+
+#: src/pages/settings/settings-page.tsx
+msgid "This browser cannot receive notifications. On an iPhone, first add the app to the home screen."
+msgstr "Ce navigateur ne peut pas recevoir les notifications. Sur iPhone, ajoutez d'abord l'application à l'écran d'accueil."
+
+#: src/pages/authentication/authentication.tsx
+msgid "This code has been replaced by a newer one: use the one from the latest email."
+msgstr "Ce code a été remplacé par un plus récent : utilisez celui du dernier email reçu."
+
+#: src/pages/authentication/authentication.tsx
+msgid "This code has expired. Go back to receive a new one."
+msgstr "Ce code a expiré. Revenez en arrière pour en recevoir un nouveau."
+
+#: src/pages/authentication/authentication.tsx
+msgid "This code is not valid. Check that it matches the one in the email."
+msgstr "Ce code n'est pas valide. Vérifiez qu'il correspond à celui de l'email."
+
+#: src/pages/settings/settings-page.tsx
+msgid "This device does not receive notifications yet"
+msgstr "Cet appareil ne reçoit pas encore les notifications"
+
+#: src/layout/push-notifications-prompt.tsx
+#: src/pages/settings/settings-page.tsx
+msgid "This device will receive notifications"
+msgstr "Cet appareil recevra les notifications"
+
+#: src/pages/events/edit/edit-event-page.tsx
+msgid "This event cannot be edited"
+msgstr "Cet événement ne peut pas être modifié"
+
+#: src/hooks/use-zod-resolver.ts
+#: src/pages/profile/address-section.tsx
+msgid "This field is required"
+msgstr "Ce champ est obligatoire"
+
+#: src/hooks/use-zod-resolver.ts
+msgid "This field should be a number"
+msgstr "Ce champ doit être un nombre"
+
+#: src/hooks/use-zod-resolver.ts
+msgid "This field should be a whole number"
+msgstr "Ce champ doit être un nombre entier"
+
+#. placeholder {0}: error.minimum
+#: src/hooks/use-zod-resolver.ts
+msgid "This field should be at least {0}"
+msgstr "Ce champ doit valoir au moins {0}"
+
+#. placeholder {0}: error.minimum
+#: src/hooks/use-zod-resolver.ts
+msgid "This field should be at least {0} characters"
+msgstr "Ce champ doit faire au moins {0} caractères"
+
+#. placeholder {0}: error.maximum
+#: src/hooks/use-zod-resolver.ts
+msgid "This field should be at most {0}"
+msgstr "Ce champ doit valoir au plus {0}"
+
+#. placeholder {0}: error.maximum
+#: src/hooks/use-zod-resolver.ts
+msgid "This field should be at most {0} characters"
+msgstr "Ce champ doit faire au plus {0} caractères"
+
+#: src/pages/information/edit/edit-information-page.tsx
+msgid "This information cannot be edited"
+msgstr "Cette information ne peut pas être modifiée"
+
+#: src/pages/members/details/former-member.tsx
+msgid "This person is no longer a member"
+msgstr "Cette personne n'est plus membre"
+
+#: src/pages/requests/edit/edit-request-page.tsx
+msgid "This request cannot be edited"
+msgstr "Cette demande ne peut pas être modifiée"
+
+#: src/pages/requests/details/request-status.tsx
+msgid "This request is fulfilled"
+msgstr "Cette demande est clôturée"
+
+#: src/pages/requests/details/request-status.tsx
+msgid "This request was canceled"
+msgstr "Cette demande a été annulée"
+
+#: src/components/rich-text-toolbar.tsx
+msgid "This URL is invalid"
+msgstr "Cette URL est invalide"
+
+#: src/pages/members/details/activity-tab.tsx
+msgid "Timeline"
+msgstr "Fil d'activité"
+
+#: src/pages/events/details/notify-dialog.tsx
+#: src/pages/events/event-form.tsx
+#: src/pages/information/information-form.tsx
+#: src/pages/requests/request-form.tsx
+msgid "Title"
+msgstr "Titre"
+
+#: src/pages/profile/contact-section.tsx
+msgid "To change it, contact an administrator."
+msgstr "Pour la modifier, contactez un administrateur."
+
+#: src/pages/events/list/events-list.tsx
+#: src/pages/information/list/information-list.tsx
+#: src/pages/requests/list/requests-list.tsx
+msgid "Try other words, or clear the filters."
+msgstr "Essayez d'autres mots, ou effacez les filtres."
+
+#: src/hooks/use-clipboard.tsx
+msgid "Unable to copy"
+msgstr "Impossible de copier"
+
+#: src/components/pagination.tsx
+msgid "Unable to load more elements"
+msgstr "Impossible d'afficher plus d'éléments"
+
+#: src/pages/members/details/activity-tab.tsx
+#: src/pages/members/details/overview-tab.tsx
+msgid "Unable to load the activity"
+msgstr "Impossible de charger l'activité"
+
+#: src/pages/members/details/activity-tab.tsx
+#: src/pages/members/details/overview-tab.tsx
+msgid "Unable to load the activity summary"
+msgstr "Impossible de charger le résumé de l'activité"
+
+#: src/components/comments-section.tsx
+msgid "Unable to load the comments"
+msgstr "Impossible de charger les commentaires"
+
+#: src/pages/documents/documents-list.tsx
+msgid "Unable to load the documents"
+msgstr "Impossible de charger les documents"
+
+#: src/pages/events/details/event-page.tsx
+#: src/pages/events/edit/edit-event-page.tsx
+msgid "Unable to load the event"
+msgstr "Impossible de charger l'événement"
+
+#: src/pages/events/list/events-list.tsx
+msgid "Unable to load the events"
+msgstr "Impossible de charger les événements"
+
+#: src/pages/members/details/exchanges-tab.tsx
+#: src/pages/members/details/overview-tab.tsx
+msgid "Unable to load the exchanges"
+msgstr "Impossible de charger les échanges"
+
+#: src/pages/members/details/exchanges-tab.tsx
+#: src/pages/members/details/overview-tab.tsx
+msgid "Unable to load the exchanges summary"
+msgstr "Impossible de charger le résumé des échanges"
+
+#: src/pages/information/details/information-details-page.tsx
+#: src/pages/information/edit/edit-information-page.tsx
+msgid "Unable to load the information"
+msgstr "Impossible de charger l'information"
+
+#: src/pages/information/list/information-list.tsx
+msgctxt "information list"
+msgid "Unable to load the information"
+msgstr "Impossible de charger les informations"
+
+#: src/pages/members/details/member-page.tsx
+msgid "Unable to load the member"
+msgstr "Impossible de charger le membre"
+
+#: src/components/transaction-dialog.tsx
+#: src/pages/members/list/members-list.tsx
+#: src/pages/members/map/members-map-page.tsx
+msgid "Unable to load the members"
+msgstr "Impossible de charger les membres"
+
+#: src/pages/members/details/exchanges-tab.tsx
+msgid "Unable to load the pending exchanges"
+msgstr "Impossible de charger les échanges en attente"
+
+#: src/pages/requests/details/request-page.tsx
+#: src/pages/requests/edit/edit-request-page.tsx
+msgid "Unable to load the request"
+msgstr "Impossible de charger la demande"
+
+#: src/pages/requests/list/requests-list.tsx
+msgid "Unable to load the requests"
+msgstr "Impossible de charger les demandes"
+
+#: src/pages/error-page.tsx
+msgid "Unable to reach the server"
+msgstr "Impossible de joindre le serveur"
+
+#: src/hooks/use-form-api-error.ts
+msgid "Unable to reach the server, check your internet access"
+msgstr "Impossible de joindre le serveur, vérifiez votre accès à internet"
+
+#: src/components/rich-text-toolbar.tsx
+msgid "Underline"
+msgstr "Souligné"
+
+#: src/pages/events/list/events-filters.tsx
+msgctxt "events filter"
+msgid "Upcoming"
+msgstr "À venir"
+
+#: src/pages/settings/settings-page.tsx
+msgid "Version {version}"
+msgstr "Version {version}"
+
+#: src/pages/profile/profile-section.tsx
+msgid "Visible to the other members"
+msgstr "Visible par les autres membres"
+
+#: src/pages/members/details/exchanges-tab.tsx
+msgid "Waiting for {payer} to confirm"
+msgstr "En attente de la confirmation de {payer}"
+
+#: src/components/transaction-dialog.tsx
+msgid "What do you want to do?"
+msgstr "Que voulez-vous faire ?"
+
+#: src/pages/requests/request-form.tsx
+msgid "What you need, when, and where"
+msgstr "Ce dont vous avez besoin, quand et où"
+
+#: src/pages/requests/list/requests-list.tsx
+msgid "When a member needs a hand, their request appears here."
+msgstr "Quand un membre a besoin d'un coup de main, sa demande apparaît ici."
+
+#: src/pages/events/list/events-list.tsx
+msgid "When a member organizes an event, it appears here."
+msgstr "Quand un membre organise un événement, il apparaît ici."
+
+#: src/pages/information/list/information-list.tsx
+msgid "When a member shares news with the others, it appears here."
+msgstr "Quand un membre partage une nouvelle avec les autres, elle apparaît ici."
+
+#: src/pages/members/details/exchanges-tab.tsx
+msgid "With me"
+msgstr "Avec moi"
+
+#: src/pages/events/details/participation.tsx
+#: src/pages/requests/details/request-answer.tsx
+msgid "Withdraw my answer"
+msgstr "Retirer ma réponse"
+
+#: src/components/comments-section.tsx
+msgid "Write a comment"
+msgstr "Écrire un commentaire"
+
+#: src/pages/events/details/participation.tsx
+msgid "You are coming"
+msgstr "Vous venez"
+
+#: src/pages/events/details/participation.tsx
+msgid "You are not coming"
+msgstr "Vous ne venez pas"
+
+#: src/pages/events/details/participation.tsx
+msgid "You can change your mind until the event."
+msgstr "Vous pouvez changer d'avis jusqu'à l'événement."
+
+#: src/pages/requests/details/request-answer.tsx
+msgid "You can help"
+msgstr "Vous pouvez aider"
+
+#: src/pages/requests/details/requester-actions.tsx
+msgid "You can still send them after closing it."
+msgstr "Vous pourrez toujours en envoyer après l'avoir clôturée."
+
+#: src/pages/requests/details/request-answer.tsx
+msgid "You can't help"
+msgstr "Vous ne pouvez pas aider"
+
+#: src/pages/profile/address-section.tsx
+msgid "You have not entered your address yet."
+msgstr "Vous n'avez pas encore renseigné votre adresse."
+
+#: src/pages/requests/details/requester-actions.tsx
+msgid "You have not sent any <0/> for this request"
+msgstr "Vous n'avez pas envoyé de <0/> pour cette demande"
+
+#: src/pages/profile/bio-section.tsx
+msgid "You have not written anything about yourself yet."
+msgstr "Vous n'avez encore rien écrit sur vous."
+
+#: src/pages/members/details/overview-tab.tsx
+msgid "You haven't shared any interest yet. <0>Browse the interests</0>"
+msgstr "Vous n'avez pas encore partagé de centre d'intérêt. <0>Parcourir les centres d'intérêts</0>"
+
+#: src/pages/members/details/overview-tab.tsx
+msgid "You haven't written a bio yet. <0>Write my bio</0>"
+msgstr "Vous n'avez pas encore écrit de présentation. <0>Écrire ma présentation</0>"
+
+#: src/pages/events/details/participation.tsx
+msgid "You will be notified of the new comments."
+msgstr "Vous serez notifié des nouveaux commentaires."
+
+#: src/pages/profile/bio-section.tsx
+msgid "Your activities, what you like to share or to learn"
+msgstr "Vos activités, ce que vous aimez partager ou apprendre"
+
+#: src/pages/events/details/participation.tsx
+#: src/pages/requests/details/request-answer.tsx
+msgid "Your answer could not be saved"
+msgstr "Votre réponse n'a pas pu être enregistrée"
+
+#: src/pages/events/edit/edit-event-page.tsx
+#: src/pages/information/edit/edit-information-page.tsx
+#: src/pages/profile/profile-section.tsx
+#: src/pages/requests/edit/edit-request-page.tsx
+msgid "Your changes could not be saved"
+msgstr "Vos modifications n'ont pas pu être enregistrées"
+
+#: src/pages/events/details/organizer-actions.tsx
+msgid "Your event"
+msgstr "Votre événement"
+
+#: src/pages/members/details/exchanges-tab.tsx
+msgid "Your exchanges will appear here."
+msgstr "Vos échanges apparaîtront ici."
+
+#: src/pages/information/details/information-details-page.tsx
+msgid "Your information"
+msgstr "Votre information"
+
+#: src/pages/profile/contact-section.tsx
+msgid "Your phone number cannot be removed, only changed"
+msgstr "Votre numéro de téléphone ne peut pas être supprimé, seulement modifié"
+
+#: src/pages/requests/details/requester-actions.tsx
+msgid "Your request"
+msgstr "Votre demande"
+
+#: src/pages/requests/create/create-request-page.tsx
+msgid "Your request could not be posted"
+msgstr "Votre demande n'a pas pu être publiée"
+
+#: src/pages/members/details/activity-tab.tsx
+msgid "Your requests, events and offers to help will appear here."
+msgstr "Vos demandes, événements et propositions d'aide apparaîtront ici."

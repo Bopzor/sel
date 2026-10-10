@@ -21,6 +21,7 @@ export type MemberInterest = {
   interestId: string;
   label: string;
   description?: string;
+  image?: string;
 };
 
 export const addInterestMemberBodySchema = z.object({

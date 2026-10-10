@@ -1,0 +1,36 @@
+import { Controls, Meta, Primary, Stories } from '@storybook/addon-docs/blocks';
+
+import * as EmptyStateStories from './empty-state.stories';
+
+<Meta of={EmptyStateStories} />
+
+# EmptyState
+
+An empty screen or block that explains what will appear here and offers the first action.
+
+## When to use it
+
+When a list is empty (no request, no exchange, a search with no result).
+
+## Parts
+
+```tsx
+<EmptyState.Root icon="search">
+  <EmptyState.Title>No results</EmptyState.Title>
+  <EmptyState.Description>Try other words, or broaden the search.</EmptyState.Description>
+  <EmptyState.Action>
+    <Button variant="secondary">Clear the search</Button>
+  </EmptyState.Action>
+</EmptyState.Root>
+```
+
+- `EmptyState.Root` (required): `icon`, the icon of the content type.
+- `EmptyState.Title` (required): what is missing, in one sentence. A heading of `level` 1, 2, or 3 (2 by default, to adjust to the page hierarchy).
+- `EmptyState.Description`: why, or what will happen.
+- `EmptyState.Action`: a `Button` that helps get out of it (post, broaden the search).
+
+<Primary />
+
+<Controls />
+
+<Stories includePrimary={false} />

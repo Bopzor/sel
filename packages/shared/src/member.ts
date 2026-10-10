@@ -1,22 +1,28 @@
-import { createDate, createFactory, createId } from '@sel/utils';
+import { createDate, createFactory, createId, type ValueOf } from '@sel/utils';
 import { z } from 'zod';
 
-import { Address } from './address';
-import { MemberInterest } from './interest';
 import { MembersSort } from './members-sort';
 
-export enum MemberStatus {
-  onboarding = 'onboarding',
-  inactive = 'inactive',
-  active = 'active',
-  system = 'system',
-}
+import type { Address } from './address';
+import type { MemberInterest } from './interest';
 
-export enum MemberRole {
-  member = 'member',
-  admin = 'admin',
-  system = 'system',
-}
+export const MemberStatus = {
+  onboarding: 'onboarding',
+  inactive: 'inactive',
+  active: 'active',
+  system: 'system',
+} as const;
+
+export type MemberStatus = ValueOf<typeof MemberStatus>;
+
+export const MemberRole = {
+  member: 'member',
+  admin: 'admin',
+  committee: 'committee',
+  system: 'system',
+} as const;
+
+export type MemberRole = ValueOf<typeof MemberRole>;
 
 export type Member = {
   id: string;
@@ -31,6 +37,7 @@ export type Member = {
   membershipStartDate: string;
   balance: number;
   interests: MemberInterest[];
+  committeeMember: boolean;
 };
 
 export type LightMember = {
@@ -41,6 +48,13 @@ export type LightMember = {
   avatar?: string;
 };
 
+export type MemberTransactionStats = {
+  given: number;
+  received: number;
+  count: number;
+  partners: number;
+};
+
 export const createMember = createFactory<Member>(() => ({
   id: createId(),
   firstName: '',
@@ -49,6 +63,7 @@ export const createMember = createFactory<Member>(() => ({
   membershipStartDate: createDate().toISOString(),
   balance: 0,
   interests: [],
+  committeeMember: false,
 }));
 
 export const listMembersQuerySchema = z.object({
@@ -62,15 +77,15 @@ export const createMemberBodySchema = z.object({
 });
 
 export const updateMemberProfileBodySchema = z.object({
-  firstName: z.string().trim().max(256).optional(),
-  lastName: z.string().trim().max(256).optional(),
+  firstName: z.string().trim().min(1).max(256).optional(),
+  lastName: z.string().trim().min(1).max(256).optional(),
   emailVisible: z.boolean().optional(),
   phoneNumber: z
     .string()
     .regex(/^0\d{9}$/)
     .optional(),
   phoneNumberVisible: z.boolean().optional(),
-  bio: z.string().trim().max(4096).optional(),
+  bio: z.string().trim().max(4096).nullable().optional(),
   address: z
     .object({
       line1: z.string().trim().max(256),
@@ -82,7 +97,7 @@ export const updateMemberProfileBodySchema = z.object({
     })
     .nullable()
     .optional(),
-  avatarFileName: z.string().optional(),
+  avatarFileName: z.string().nullable().optional(),
   onboardingCompleted: z.boolean().optional(),
 });
 

@@ -1,0 +1,26 @@
+import { Controls, Meta, Primary, Stories } from '@storybook/addon-docs/blocks';
+
+import * as BadgeStories from './badge.stories';
+
+<Meta of={BadgeStories} />
+
+# Badge
+
+A small status or category tag, always with text, often with an icon.
+
+## When to use it
+
+- Post type: `primary` + `request` (Request), `info` + `event` (Event).
+- Status: `success` (Done), `warning` (Pending), `neutral` (Canceled, Draft). `danger` only for a problem that needs attention, never for a state that is simply over: a canceled request is not an error.
+- `accent`: "New", sparingly.
+- For an unread count, use the count pill (a `bg-danger` circle with a number, 20px, bold 12px tabular figures). It is not implemented yet: it comes with the first component that shows a count.
+
+## Props
+
+`tone`, `icon`, `children`. The text stays at `caption` (14px), never smaller.
+
+<Primary />
+
+<Controls />
+
+<Stories includePrimary={false} />

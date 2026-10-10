@@ -14,8 +14,8 @@ export type UpdateEventCommand = {
   body?: string;
   fileIds: string[];
   kind?: shared.EventKind;
-  date?: string;
-  location?: shared.Address;
+  date?: string | null;
+  location?: shared.Address | null;
 };
 
 export async function updateEvent(command: UpdateEventCommand): Promise<void> {
@@ -25,7 +25,7 @@ export async function updateEvent(command: UpdateEventCommand): Promise<void> {
 
   await updateDatabaseEvent(event.id, {
     title: command.title,
-    date: command.date ? new Date(command.date) : undefined,
+    date: command.date == null ? command.date : new Date(command.date),
     location: command.location,
     kind: command.kind,
   });

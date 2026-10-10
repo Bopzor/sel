@@ -12,11 +12,15 @@ export async function sendAuthenticationCode(event: AuthenticationCodeRequestedE
   const emailSender = container.resolve(TOKENS.emailSender);
 
   const member = defined(await findMemberById(event.entityId));
-  const { code } = event.payload;
+  const { code, next } = event.payload;
 
   const url = new URL('/authentication', config.app.baseUrl);
 
   url.searchParams.set('code', code);
+
+  if (next !== undefined) {
+    url.searchParams.set('next', next);
+  }
 
   await emailSender.send({
     to: member.email,

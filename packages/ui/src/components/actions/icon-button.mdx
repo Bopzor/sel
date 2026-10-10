@@ -1,0 +1,27 @@
+import { Controls, Meta, Primary, Stories } from '@storybook/addon-docs/blocks';
+
+import * as IconButtonStories from './icon-button.stories';
+
+<Meta of={IconButtonStories} />
+
+# IconButton
+
+A round button that only contains an icon, with a required accessible name.
+
+## When to use it
+
+For universal, repeated actions: close, open the menu, notifications, "more actions". If the action is not obvious, prefer a `Button` with a label.
+
+## Props
+
+- `icon`: icon concept.
+- `label`: required, read by screen readers and shown as a tooltip on hover (the native `title` attribute).
+- `variant`: `ghost` (default), `secondary`, `primary` (floating creation button).
+- `size`: `md` (48px, default) or `sm` (40px, in an alert or a toast; the hit area stays at least 44px around it).
+- `disabled`: the native attribute, as on `Button`.
+
+<Primary />
+
+<Controls />
+
+<Stories includePrimary={false} />

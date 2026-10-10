@@ -1,0 +1,96 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Introduction" />
+
+# Design system
+
+This design system is the foundation of the application for LETS (Local Exchange Trading Systems), on phones as well as on computers. Every choice goes the same way: a screen must be understood without help, read without effort and touched without aiming. It is built for several instances: each LETS can change its primary and accent colors, its name and its logo without touching anything else.
+
+## Principles
+
+1. **One thing at a time.** A screen answers one question or leads to one main action. Long flows are split into steps (`Stepper`).
+2. **Everything is readable.** Body text is 17px (`body`), never less than 14px (`caption`). Contrast is above 4.5:1 everywhere, in both themes.
+3. **Everything is touchable.** Every interactive element offers at least 44px (`touch-target`); buttons and fields are 48px (`control-md`). The only exception is the compact `control-sm` size (40px), reserved for administration areas.
+4. **Nothing is implicit.** Icons have a label, states never rely on color alone, errors say how to fix them.
+5. **You can always go back.** Important actions ask for a confirmation with a summary, reversible actions offer "Undo".
+
+## Using the package
+
+The package is consumed from its sources, like the other workspace packages.
+
+```css
+/* The application's stylesheet: Tailwind, the Inter font, the tokens and the base styles. */
+@import '@sel/ui/styles.css';
+```
+
+```tsx
+import { Button } from '@sel/ui';
+
+<Button icon="send">Send</Button>;
+```
+
+- Tokens are exposed as Tailwind utilities (`bg-surface`, `text-muted`, `border-strong`, `rounded-md`, `shadow-sm`…). Tailwind's defaults are removed and the linter rejects arbitrary values: only the design system's tokens can be used. See [Tokens](?path=/docs/tokens--docs).
+- The dark theme applies under `data-theme="dark"` on `<html>`. The colors are defined with `light-dark()`; Tailwind compiles it into CSS variables that the theme switches, so the theme applies to the whole page and cannot be changed on a nested element.
+- Components live in `src/components/`, each with its stories and its guideline (a `.mdx` page). Run `pnpm storybook` in this package to browse them, along with these guidelines. [Contributing](?path=/docs/contributing--docs) sets the conventions for writing one.
+
+## Documentation
+
+Foundations:
+
+- [Colors](?path=/docs/foundations-colors--docs)
+- [Typography](?path=/docs/foundations-typography--docs)
+- [Spacing and shape](?path=/docs/foundations-spacing-and-shape--docs)
+- [Interaction states](?path=/docs/foundations-interaction-states--docs)
+- [Iconography](?path=/docs/foundations-iconography--docs)
+- [Motion](?path=/docs/foundations-motion--docs)
+- [Tokens → Tailwind utilities](?path=/docs/tokens--docs)
+
+Guidelines:
+
+- [Accessibility](?path=/docs/guidelines-accessibility--docs)
+- [Content](?path=/docs/guidelines-content--docs)
+- [Layout](?path=/docs/guidelines-layout--docs)
+- [Customizing an instance](?path=/docs/guidelines-theming--docs)
+- [Common flows](?path=/docs/guidelines-patterns--docs)
+
+## Components
+
+26 components, grouped by role; the ones with several content areas are made of parts (see [Contributing](?path=/docs/contributing--docs)). Each guideline sets the rendering, states, props and accessible behavior expected. The components implement all of it, on top of Ark UI: focus trap and Escape key in `Dialog`, keyboard navigation in `Tabs` and `RadioGroup`. The application binds the navigation to its router, mounts `Toaster` at its root and shows toasts with `showToast`.
+
+| Group      | Component                                                           |
+| ---------- | ------------------------------------------------------------------- |
+| Actions    | [Button](?path=/docs/components-actions-button--docs)               |
+| Actions    | [IconButton](?path=/docs/components-actions-iconbutton--docs)       |
+| Forms      | [Field](?path=/docs/components-forms-field--docs)                   |
+| Forms      | [Fieldset](?path=/docs/components-forms-fieldset--docs)             |
+| Forms      | [Input](?path=/docs/components-forms-input--docs)                   |
+| Forms      | [TextArea](?path=/docs/components-forms-textarea--docs)             |
+| Forms      | [RichTextEditor](?path=/docs/components-forms-richtexteditor--docs) |
+| Forms      | [Select](?path=/docs/components-forms-select--docs)                 |
+| Forms      | [Checkbox](?path=/docs/components-forms-checkbox--docs)             |
+| Forms      | [RadioGroup](?path=/docs/components-forms-radiogroup--docs)         |
+| Forms      | [Switch](?path=/docs/components-forms-switch--docs)                 |
+| Forms      | [Chip](?path=/docs/components-forms-chip--docs)                     |
+| Display    | [Icon](?path=/docs/components-display-icon--docs)                   |
+| Display    | [Badge](?path=/docs/components-display-badge--docs)                 |
+| Display    | [Avatar](?path=/docs/components-display-avatar--docs)               |
+| Display    | [Card](?path=/docs/components-display-card--docs)                   |
+| Display    | [ListItem](?path=/docs/components-display-listitem--docs)           |
+| Feedback   | [Alert](?path=/docs/components-feedback-alert--docs)                |
+| Feedback   | [Toast](?path=/docs/components-feedback-toast--docs)                |
+| Feedback   | [Dialog](?path=/docs/components-feedback-dialog--docs)              |
+| Feedback   | [EmptyState](?path=/docs/components-feedback-emptystate--docs)      |
+| Feedback   | [Skeleton](?path=/docs/components-feedback-skeleton--docs)          |
+| Navigation | [Stepper](?path=/docs/components-navigation-stepper--docs)          |
+| Navigation | [Tabs](?path=/docs/components-navigation-tabs--docs)                |
+| Navigation | [BottomNav](?path=/docs/components-navigation-bottomnav--docs)      |
+| Navigation | [SideNav](?path=/docs/components-navigation-sidenav--docs)          |
+
+## Logo
+
+`src/assets/` holds the application's logo: a rosette of eight dots, each extended by an arc, arranged in a circle.
+
+- `logo.svg`: color version on a white background (`#ffffff`), shown with `radius-md` corners at 44px in `SideNav` and the header, or larger on the home page.
+- `logo-monochrome.svg`: a single ink, black (`#000000`) on a transparent background; for favicons and print. Do not place it on a dark background.
+
+An instance can replace this logo with its own (square SVG, readable at 44px): see [Customizing an instance](?path=/docs/guidelines-theming--docs). The rosette's colors belong to the logo and are not tokens.

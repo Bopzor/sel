@@ -1,0 +1,25 @@
+import { Controls, Meta, Primary, Stories } from '@storybook/addon-docs/blocks';
+
+import * as RichTextStories from './rich-text.stories';
+
+<Meta of={RichTextStories} />
+
+# RichText
+
+Formatted text written with `RichTextEditor`, shown without editing: the message of a request, an event or a piece of information, a comment.
+
+## Props
+
+- `unsafeHtml`: the value of `RichTextEditor`. `RichText` inserts it as it is: the application sanitizes it before passing it, hence the prop's name.
+- The other props go to the `div` around the text.
+
+## Rules
+
+- The text looks the same as in the editor: both use the typography plugin's `prose` class with `prose-theme` (the theme's colors, tight list items), `max-w-none` and `text-body`. Paragraphs are spaced, lists have their bullets and numbers, links are `text-primary` and underlined.
+- The text takes the width of its container (no `max-width`).
+
+<Primary />
+
+<Controls />
+
+<Stories includePrimary={false} />

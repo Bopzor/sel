@@ -23,7 +23,9 @@ export async function sendEventNotification(command: SendEventNotificationComman
     }),
   );
 
-  const participants = event.participants.map(get('member'));
+  const participants = event.participants
+    .filter(({ participation }) => participation === 'yes')
+    .map(get('member'));
 
   const isParticipant = (member: Member): boolean => {
     return participants.some(hasProperty('id', member.id));

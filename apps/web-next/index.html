@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title></title>
+    <link rel="manifest" href="/api/manifest.webmanifest" />
+    <script src="/env.js" vite-ignore></script>
+    <script>
+      const stored = localStorage.getItem('color-scheme');
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const colorScheme = stored === 'dark' || (prefersDark && stored !== 'light') ? 'dark' : 'light';
+
+      document.documentElement.dataset.theme = colorScheme;
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

@@ -9,7 +9,7 @@ import { findRequestById, updateRequest } from '../request.persistence';
 
 export type ChangeRequestStatusCommand = {
   requestId: string;
-  status: RequestStatus.fulfilled | RequestStatus.canceled;
+  status: typeof RequestStatus.fulfilled | typeof RequestStatus.canceled;
 };
 
 export async function changeRequestStatus(command: ChangeRequestStatusCommand): Promise<void> {
@@ -23,7 +23,7 @@ export async function changeRequestStatus(command: ChangeRequestStatusCommand): 
     throw new NotFound('Request not found');
   }
 
-  if ([RequestStatus.fulfilled, RequestStatus.canceled].includes(request.status)) {
+  if (request.status !== RequestStatus.pending) {
     throw new BadRequest('Request is not pending');
   }
 

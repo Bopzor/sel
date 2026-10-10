@@ -61,6 +61,7 @@ function MemberDetails(props: { member: Member }) {
   const query = useQuery(() =>
     apiQuery('listMemberTransactions', {
       path: { memberId: props.member.id },
+      query: { status: 'completed' },
     }),
   );
 

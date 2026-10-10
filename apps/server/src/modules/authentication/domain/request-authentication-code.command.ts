@@ -10,6 +10,7 @@ import { AuthenticationCodeRequestedEvent, TokenType } from '../authentication.e
 
 type RequestAuthenticationCodeCommand = {
   email: string;
+  next?: string;
 };
 
 export async function requestAuthenticationCode(command: RequestAuthenticationCodeCommand): Promise<void> {
@@ -49,5 +50,5 @@ export async function requestAuthenticationCode(command: RequestAuthenticationCo
     type: TokenType.authentication,
   });
 
-  events.publish(new AuthenticationCodeRequestedEvent(member.id, { code }));
+  events.publish(new AuthenticationCodeRequestedEvent(member.id, { code, next: command.next }));
 }

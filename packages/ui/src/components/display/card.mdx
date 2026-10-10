@@ -1,0 +1,49 @@
+import { Controls, Meta, Primary, Stories } from '@storybook/addon-docs/blocks';
+
+import * as CardStories from './card.stories';
+
+<Meta of={CardStories} />
+
+# Card
+
+A rounded surface that groups content, with an optional header, body and footer.
+
+## When to use it
+
+- For a post in a feed, a profile block, a summary (balance).
+- To hold a list of `ListItem`s, from edge to edge.
+- Clickable as a whole, to open a detail (`shadow-md` on hover, focus ring).
+
+## Parts
+
+```tsx
+<Card.Root>
+  <Card.Header>
+    <Card.Title>Title</Card.Title>
+    <Card.Description>Author · Date</Card.Description>
+    <Card.Action>
+      <Badge>Category</Badge>
+    </Card.Action>
+  </Card.Header>
+  <Card.Body>…</Card.Body>
+  <Card.Footer>…</Card.Footer>
+</Card.Root>
+```
+
+- `Card.Root` (required): the surface. Its parts pad themselves; content placed directly in it, such as a `ul` of `ListItem`s, goes from edge to edge.
+- `Card.Header`: the title, the description and the action.
+- `Card.Title`: the title, a heading of `level` 2, 3 or 4 (3 by default, to adjust to the page hierarchy).
+- `Card.Description`: under the title: author, date.
+- `Card.Action`: a badge or an icon button at the top right, written after the title and the description.
+- `Card.Body`: the content.
+- `Card.Footer`: one or two buttons.
+- `compact`, on `Card.Header`, `Card.Body` and `Card.Footer`: a tighter padding, for the cards of a feed or of a grid, read one after the other. Their title is a heading styled by the application (`text-body-strong`, for example) rather than a `Card.Title`.
+- `Card.Link` or `Card.Button`, inside the `Card.Title` or the card's heading: the whole card becomes a link or a button, named by the title, which covers the card. `Card.Link` takes the router's link component as `Link` (an `<a>` by default). The `Card.Action` and the `Card.Footer` stay above it, so that their buttons keep their own action.
+
+Do not nest cards.
+
+<Primary />
+
+<Controls />
+
+<Stories includePrimary={false} />

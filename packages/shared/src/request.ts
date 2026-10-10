@@ -1,13 +1,16 @@
+import type { ValueOf } from '@sel/utils';
 import { z } from 'zod';
 
-import { LightMember } from './member';
-import { Message } from './message';
+import type { LightMember } from './member';
+import type { Message } from './message';
 
-export enum RequestStatus {
-  pending = 'pending',
-  fulfilled = 'fulfilled',
-  canceled = 'canceled',
-}
+export const RequestStatus = {
+  pending: 'pending',
+  fulfilled: 'fulfilled',
+  canceled: 'canceled',
+} as const;
+
+export type RequestStatus = ValueOf<typeof RequestStatus>;
 
 export type RequestListItem = {
   id: string;
@@ -54,6 +57,8 @@ export const listRequestsQuerySchema = z.object({
   pageSize: z.coerce.number().min(1).max(100).default(10),
 });
 
+export type ListRequestsQuery = z.input<typeof listRequestsQuerySchema>;
+
 export const createRequestBodySchema = z.object({
   title: z.string().trim().min(5).max(200),
   body: z.string().trim().min(15),
@@ -67,3 +72,5 @@ export const updateRequestBodySchema = createRequestBodySchema;
 export const setRequestAnswerBodySchema = z.object({
   answer: z.enum(['positive', 'negative']).nullable(),
 });
+
+export type SetRequestAnswerBody = z.infer<typeof setRequestAnswerBodySchema>;

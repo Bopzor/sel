@@ -1,0 +1,560 @@
+/*
+ * Design tokens, as a Tailwind theme. This file is the source of truth of the design system's values.
+ *
+ * Two layers:
+ * - Primitives (--primary-600, --neutral-200, --control-md…) are private CSS variables. They define the semantic
+ *   tokens and generate no utility. An instance customizes its colors by overriding --primary-* and --accent-*
+ *   (Guidelines/Theming in Storybook).
+ * - Semantic tokens are scoped to the utility they are meant for: --background-color-surface only generates
+ *   bg-surface, --text-color-muted only generates text-muted. A wrong pairing (bg-muted) does not exist.
+ *
+ * Theme-dependent colors are written light-dark(light, dark), dark under [data-theme='dark'] on <html>. Shadows are
+ * not colors: they are redefined under [data-theme='dark'].
+ */
+
+@layer theme {
+  :root {
+    color-scheme: light;
+
+    /* Primary color (fir green), replaced by an instance. */
+    --primary-50: #e0fff4;
+    --primary-100: #c9f9e9;
+    --primary-200: #a7eed6;
+    --primary-300: #79dabd;
+    --primary-400: #3fbd9c;
+    --primary-500: #019d7e;
+    --primary-600: #007f65;
+    --primary-700: #006852;
+    --primary-800: #005240;
+    --primary-900: #003d2f;
+    --primary-950: #00261d;
+
+    /* Accent (saffron), replaced by an instance: occasional highlights, never body text below 700. */
+    --accent-50: #fff6e5;
+    --accent-100: #ffeac5;
+    --accent-200: #fdd791;
+    --accent-300: #edbc5b;
+    --accent-400: #d29900;
+    --accent-500: #ac7d00;
+    --accent-600: #8b6400;
+    --accent-700: #725200;
+    --accent-800: #5a4000;
+    --accent-900: #432f00;
+    --accent-950: #2b1c00;
+
+    /* Warm neutral (stone): backgrounds, text, lines. */
+    --neutral-50: #f8f6f4;
+    --neutral-100: #efece9;
+    --neutral-200: #dfdcd7;
+    --neutral-300: #c8c3bd;
+    --neutral-400: #a9a49c;
+    --neutral-500: #8a857e;
+    --neutral-600: #6f6b65;
+    --neutral-700: #5b5752;
+    --neutral-800: #484540;
+    --neutral-900: #35322f;
+    --neutral-950: #211f1c;
+
+    /* Dark theme surfaces, from the lowest to the highest. */
+    --dark-0: #090a0c;
+    --dark-1: #0f1013;
+    --dark-2: #18191d;
+    --dark-3: #212327;
+    --dark-4: #313638;
+
+    /* Success. */
+    --green-50: #e5ffe8;
+    --green-300: #8dda98;
+    --green-400: #60bc71;
+    --green-600: #25803c;
+    --green-700: #19692e;
+    --green-800: #0d5321;
+    --green-950: #002809;
+
+    /* Danger and errors. */
+    --red-50: #fff4f2;
+    --red-300: #ffaba1;
+    --red-400: #ff7266;
+    --red-600: #c22826;
+    --red-700: #a21a1b;
+    --red-800: #830d10;
+    --red-950: #430002;
+
+    /* Warning. */
+    --amber-50: #fff5eb;
+    --amber-300: #fdb266;
+    --amber-400: #e48e26;
+    --amber-600: #9a5b00;
+    --amber-700: #7f4a00;
+    --amber-800: #653900;
+    --amber-950: #311800;
+
+    /* Information. */
+    --blue-50: #f1f7ff;
+    --blue-300: #9cc7ff;
+    --blue-400: #65a7fa;
+    --blue-600: #2f6cb7;
+    --blue-700: #235899;
+    --blue-800: #17457c;
+    --blue-950: #041f3f;
+
+    /* Sizes shared by several utilities, exposed below. */
+    --touch-target: 2.75rem;
+    --control-sm: 2.5rem;
+    --control-md: 3rem;
+    --control-lg: 3.5rem;
+
+    /* Elevation, referenced by the shadow-* utilities. */
+    --elevation-sm: 0 1px 2px rgb(33 31 28 / 0.06), 0 1px 3px rgb(33 31 28 / 0.08);
+    --elevation-md: 0 2px 4px rgb(33 31 28 / 0.06), 0 6px 12px rgb(33 31 28 / 0.08);
+    --elevation-lg: 0 8px 16px rgb(33 31 28 / 0.08), 0 16px 40px rgb(33 31 28 / 0.14);
+
+    /* Focus ring. */
+    --outline-width-focus: 3px;
+    --outline-offset-focus: 2px;
+
+    /* Motion. */
+    --duration-fast: 120ms;
+    --duration-base: 200ms;
+    --duration-slow: 320ms;
+  }
+
+  [data-theme='dark'] {
+    color-scheme: dark;
+
+    --elevation-sm: 0 1px 2px rgb(0 0 0 / 0.4);
+    --elevation-md: 0 2px 4px rgb(0 0 0 / 0.4), 0 6px 12px rgb(0 0 0 / 0.3);
+    --elevation-lg: 0 8px 16px rgb(0 0 0 / 0.5), 0 16px 40px rgb(0 0 0 / 0.4);
+  }
+}
+
+@theme {
+  /* Only the design system's tokens are available: Tailwind's defaults are removed. */
+  --color-*: initial;
+  --font-serif: initial;
+  --font-weight-*: initial;
+  --leading-*: initial;
+  --tracking-*: initial;
+  --text-*: initial;
+  --radius-*: initial;
+  --shadow-*: initial;
+  --inset-shadow-*: initial;
+  --drop-shadow-*: initial;
+  --text-shadow-*: initial;
+  --blur-*: initial;
+  --perspective-*: initial;
+  --aspect-*: initial;
+  --container-*: initial;
+  --ease-*: initial;
+  --animate-*: initial;
+  --breakpoint-*: initial;
+
+  /* Backgrounds */
+  --background-color-page: light-dark(var(--neutral-50), var(--dark-1));
+  --background-color-surface: light-dark(#ffffff, var(--dark-2));
+  --background-color-surface-raised: light-dark(#ffffff, var(--dark-3));
+  --background-color-surface-sunken: light-dark(var(--neutral-100), var(--dark-0));
+  --background-color-surface-hover: light-dark(var(--neutral-100), var(--dark-3));
+  --background-color-overlay: light-dark(rgb(33 31 28 / 0.48), rgb(0 0 0 / 0.64));
+  --background-color-inverse: light-dark(var(--neutral-900), var(--neutral-100));
+  --background-color-inverse-hover: light-dark(rgb(255 255 255 / 0.12), rgb(0 0 0 / 0.08));
+  --background-color-disabled: light-dark(var(--neutral-100), var(--dark-0));
+  --background-color-primary: light-dark(var(--primary-600), var(--primary-400));
+  --background-color-primary-hover: light-dark(var(--primary-700), var(--primary-300));
+  --background-color-primary-active: light-dark(var(--primary-800), var(--primary-200));
+  --background-color-primary-subtle: light-dark(var(--primary-50), var(--primary-950));
+  --background-color-primary-subtle-hover: light-dark(var(--primary-100), var(--primary-900));
+  --background-color-accent: var(--accent-300);
+  --background-color-accent-subtle: light-dark(var(--accent-50), var(--accent-950));
+  --background-color-success: light-dark(var(--green-600), var(--green-400));
+  --background-color-success-subtle: light-dark(var(--green-50), var(--green-950));
+  --background-color-warning: var(--amber-300);
+  --background-color-warning-subtle: light-dark(var(--amber-50), var(--amber-950));
+  --background-color-danger: light-dark(var(--red-600), var(--red-400));
+  --background-color-danger-hover: light-dark(var(--red-700), var(--red-300));
+  --background-color-danger-subtle: light-dark(var(--red-50), var(--red-950));
+  --background-color-info: light-dark(var(--blue-600), var(--blue-400));
+  --background-color-info-subtle: light-dark(var(--blue-50), var(--blue-950));
+  --background-color-track: light-dark(var(--neutral-100), var(--dark-4));
+  --background-color-switch-track: light-dark(var(--neutral-500), var(--neutral-600));
+  --background-color-switch-thumb: #ffffff;
+  --background-color-skeleton: light-dark(var(--neutral-100), var(--dark-3));
+  --background-color-avatar: light-dark(var(--primary-100), var(--primary-800));
+
+  /* Text */
+  --text-color-default: light-dark(var(--neutral-950), var(--neutral-50));
+  --text-color-muted: light-dark(var(--neutral-700), var(--neutral-300));
+  --text-color-subtle: light-dark(var(--neutral-600), var(--neutral-400));
+  --text-color-disabled: light-dark(var(--neutral-500), var(--neutral-600));
+  --text-color-inverse: light-dark(var(--neutral-50), var(--neutral-950));
+  --text-color-primary: light-dark(var(--primary-700), var(--primary-300));
+  --text-color-on-primary: light-dark(#ffffff, var(--neutral-950));
+  --text-color-accent: light-dark(var(--accent-700), var(--accent-300));
+  --text-color-on-accent: var(--neutral-950);
+  --text-color-success: light-dark(var(--green-700), var(--green-300));
+  --text-color-on-success: light-dark(#ffffff, var(--neutral-950));
+  --text-color-warning: light-dark(var(--amber-700), var(--amber-300));
+  --text-color-on-warning: var(--neutral-950);
+  --text-color-danger: light-dark(var(--red-700), var(--red-300));
+  --text-color-on-danger: light-dark(#ffffff, var(--neutral-950));
+  --text-color-info: light-dark(var(--blue-700), var(--blue-300));
+  --text-color-on-info: light-dark(#ffffff, var(--neutral-950));
+  --text-color-on-switch-thumb: var(--primary-700);
+  --text-color-avatar: light-dark(var(--primary-800), var(--primary-50));
+
+  /* Borders */
+  --border-color-default: light-dark(var(--neutral-200), var(--dark-4));
+  --border-color-strong: var(--neutral-500);
+  --border-color-strong-hover: light-dark(var(--neutral-700), var(--neutral-300));
+  --border-color-primary: light-dark(var(--primary-600), var(--primary-400));
+  --border-color-danger: light-dark(var(--red-600), var(--red-400));
+  --border-color-success-subtle: light-dark(var(--green-300), var(--green-800));
+  --border-color-warning-subtle: light-dark(var(--amber-300), var(--amber-800));
+  --border-color-danger-subtle: light-dark(var(--red-300), var(--red-800));
+  --border-color-info-subtle: light-dark(var(--blue-300), var(--blue-800));
+
+  /* Rings: thicken a border from the inside (ring-1 ring-inset), for a selected or invalid control. */
+  --ring-color-primary: var(--border-color-primary);
+  --ring-color-danger: var(--border-color-danger);
+
+  /* Focus */
+  --outline-color-focus: var(--border-color-primary);
+
+  /* Typography */
+  --font-sans: 'Inter Variable', Inter, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  --text-display: 1.75rem;
+  --text-display--line-height: 1.15;
+  --text-display--font-weight: 700;
+  --text-display--letter-spacing: -0.02em;
+
+  --text-title-1: 1.5rem;
+  --text-title-1--line-height: 1.25;
+  --text-title-1--font-weight: 700;
+  --text-title-1--letter-spacing: -0.01em;
+
+  --text-title-2: 1.375rem;
+  --text-title-2--line-height: 1.3;
+  --text-title-2--font-weight: 600;
+
+  --text-title-3: 1.1875rem;
+  --text-title-3--line-height: 1.35;
+  --text-title-3--font-weight: 600;
+
+  --text-body-lg: 1.1875rem;
+  --text-body-lg--line-height: 1.6;
+  --text-body-lg--font-weight: 400;
+
+  --text-body: 1.0625rem;
+  --text-body--line-height: 1.6;
+  --text-body--font-weight: 400;
+
+  --text-body-strong: 1.0625rem;
+  --text-body-strong--line-height: 1.6;
+  --text-body-strong--font-weight: 600;
+
+  --text-body-sm: 0.9375rem;
+  --text-body-sm--line-height: 1.5;
+  --text-body-sm--font-weight: 400;
+
+  --text-caption: 0.875rem;
+  --text-caption--line-height: 1.45;
+  --text-caption--font-weight: 500;
+
+  --text-label: 1.0625rem;
+  --text-label--line-height: 1.4;
+  --text-label--font-weight: 500;
+
+  --text-button: 1.0625rem;
+  --text-button--line-height: 1.25;
+  --text-button--font-weight: 600;
+
+  --text-button-sm: 0.9375rem;
+  --text-button-sm--line-height: 1.25;
+  --text-button-sm--font-weight: 600;
+
+  --text-toast: 0.9375rem;
+  --text-toast--line-height: 1.5;
+  --text-toast--font-weight: 500;
+
+  --text-amount: 2rem;
+  --text-amount--line-height: 1.1;
+  --text-amount--font-weight: 700;
+
+  /* Radii */
+  --radius-xs: 6px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-full: 9999px;
+
+  /* Filters */
+  --blur-xs: 2px;
+
+  /* Elevation */
+  --shadow-sm: var(--elevation-sm);
+  --shadow-md: var(--elevation-md);
+  --shadow-lg: var(--elevation-lg);
+
+  /* Sizes. The 4px spacing scale is Tailwind's default --spacing. */
+  --size-touch-target: var(--touch-target);
+  --min-width-touch-target: var(--touch-target);
+  --min-height-touch-target: var(--touch-target);
+
+  --size-control-sm: var(--control-sm);
+  --size-control-md: var(--control-md);
+  --size-control-lg: var(--control-lg);
+  --height-control-sm: var(--control-sm);
+  --height-control-md: var(--control-md);
+  --height-control-lg: var(--control-lg);
+
+  --size-icon-sm: 1rem;
+  --size-icon-md: 1.25rem;
+  --size-icon-lg: 1.5rem;
+
+  --size-avatar-sm: 1.75rem;
+  --size-avatar-md: 2.25rem;
+  --size-avatar-lg: 4rem;
+
+  --size-logo: 3rem;
+
+  --width-sidebar: 17.5rem;
+  --width-aside: 22rem;
+
+  /* Spacing feeds both min-h-bottom-nav (the bar) and pb-bottom-nav (the content). */
+  --spacing-bottom-nav: 4.5rem;
+
+  --max-width-content: 45rem;
+  --max-width-page: 75rem;
+  --max-width-dialog: 36rem;
+  --max-width-toast: 30rem;
+
+  /* Breakpoints */
+  --breakpoint-xs: 30rem;
+  --breakpoint-sm: 40rem;
+  --breakpoint-md: 48rem;
+  --breakpoint-lg: 64rem;
+  --breakpoint-xl: 80rem;
+
+  /* Stacking order */
+  --z-index-sticky: 100;
+  --z-index-nav: 200;
+  --z-index-overlay: 300;
+  --z-index-dialog: 400;
+  --z-index-popover: 500;
+  --z-index-toast: 600;
+
+  /* Motion */
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --ease-enter: cubic-bezier(0, 0, 0, 1);
+  --ease-exit: cubic-bezier(0.3, 0, 1, 1);
+
+  --default-transition-duration: var(--duration-fast);
+  --default-transition-timing-function: var(--ease-standard);
+
+  --animate-spin: spin 0.8s linear infinite;
+  --animate-pulse: pulse 1.6s ease-in-out infinite;
+
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  @keyframes pulse {
+    50% {
+      opacity: 0.5;
+    }
+  }
+
+  /* Opening and closing of a dialog: the scrim fades, the sheet slides from the bottom on mobile, the window fades
+     and grows from md. Leaving is shorter than entering; forwards keeps the end state until Ark UI unmounts it. Each
+     way has its own keyframes: Ark only waits for a leaving animation whose name differs from the entering one. */
+  --animate-overlay-in: fade-in var(--duration-slow) var(--ease-enter);
+  --animate-overlay-out: fade-out var(--duration-base) var(--ease-exit) forwards;
+  --animate-sheet-in: sheet-in var(--duration-slow) var(--ease-enter);
+  --animate-sheet-out: sheet-out var(--duration-base) var(--ease-exit) forwards;
+  --animate-dialog-in: dialog-in var(--duration-slow) var(--ease-enter);
+  --animate-dialog-out: dialog-out var(--duration-base) var(--ease-exit) forwards;
+
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+  }
+
+  @keyframes sheet-in {
+    from {
+      translate: 0 100%;
+    }
+  }
+
+  @keyframes fade-out {
+    to {
+      opacity: 0;
+    }
+  }
+
+  @keyframes sheet-out {
+    to {
+      translate: 0 100%;
+    }
+  }
+
+  @keyframes dialog-in {
+    from {
+      opacity: 0;
+      scale: 0.96;
+    }
+  }
+
+  @keyframes dialog-out {
+    to {
+      opacity: 0;
+      scale: 0.96;
+    }
+  }
+}
+
+@layer theme {
+  :root {
+    @variant sm {
+      --text-display: 2.25rem;
+      --text-title-1: 1.75rem;
+      --size-avatar-sm: 2rem;
+      --size-avatar-md: 2.75rem;
+      --size-avatar-lg: 5rem;
+    }
+  }
+}
+
+@utility duration-fast {
+  transition-duration: var(--duration-fast);
+}
+
+@utility duration-base {
+  transition-duration: var(--duration-base);
+}
+
+@utility duration-slow {
+  transition-duration: var(--duration-slow);
+}
+
+@utility row {
+  display: flex;
+  flex-direction: row;
+}
+
+@utility stack {
+  display: flex;
+  flex-direction: column;
+}
+
+/* The box of the text is trimmed to its capitals, to center it whatever the font metrics used by the browser. */
+@utility text-box-cap {
+  text-box: trim-both cap alphabetic;
+}
+
+/* Keeps a bar fixed at the bottom of the screen clear of the phone's home indicator. */
+@utility pb-safe-area {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+/* The focus ring, for an element that shows the focus of another one (a custom checkbox box, for example). */
+@utility focus-ring {
+  outline: var(--outline-width-focus) solid var(--outline-color-focus);
+  outline-offset: var(--outline-offset-focus);
+}
+
+/* The focus ring of an input field, on the field's box: focus-within:focus-ring-field. Drawn 1px inward, over the
+   box's 1px border, so that the border's color (red in error) does not show between the ring and the content. */
+@utility focus-ring-field {
+  outline: var(--outline-width-focus) solid var(--outline-color-focus);
+  outline-offset: -1px;
+}
+
+/* The focus ring of an invalid input field: focus-ring-field, in red. */
+@utility focus-ring-field-invalid {
+  outline: var(--outline-width-focus) solid var(--ring-color-danger);
+  outline-offset: -1px;
+}
+
+/* The focus ring drawn inside the element, for a row whose container clips its overflow (a list in a card). */
+@utility focus-ring-inset {
+  outline: var(--outline-width-focus) solid var(--outline-color-focus);
+  outline-offset: calc(-1 * var(--outline-width-focus));
+}
+
+/* The state of the control inside a field's box (Input, TextArea, Select, RichTextEditor's textbox), read from its
+   attributes. Only the control counts: not a disabled <option>, nor a disabled button placed in the box. */
+@custom-variant field-disabled (&:has(:is(input, textarea, select):disabled, [role='textbox'][aria-disabled='true']));
+@custom-variant field-read-only (&:has(:is(input, textarea):read-only, [role='textbox'][aria-readonly='true']));
+@custom-variant field-invalid (&:has(:is(input, textarea, select, [role='textbox'])[aria-invalid='true']));
+
+@utility prose-theme {
+  --tw-prose-body: var(--text-color-default);
+  --tw-prose-bold: var(--text-color-default);
+  --tw-prose-links: var(--text-color-primary);
+  --tw-prose-counters: var(--text-color-subtle);
+  --tw-prose-bullets: var(--text-color-subtle);
+
+  & p {
+    margin-top: calc(2 * var(--spacing));
+    margin-bottom: calc(2 * var(--spacing));
+
+    &:first-child {
+      margin-top: 0;
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  & li > p {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+}
+
+/* Formatted text written with RichTextEditor. */
+@utility rich-text-editor {
+  /* The editor's placeholder, set by tiptap on its first empty paragraph. */
+  & .is-editor-empty:first-child::before {
+    content: attr(data-placeholder);
+    float: left;
+    height: 0;
+    color: var(--text-color-subtle);
+    pointer-events: none;
+  }
+}
+
+@utility toast {
+  translate: var(--x) var(--y);
+  scale: var(--scale);
+  z-index: var(--z-index);
+  opacity: var(--opacity);
+  height: var(--height);
+  width: 100%;
+  max-width: var(--max-width-toast);
+  will-change: translate, scale, opacity;
+  transition-property: translate, scale, opacity, height;
+  transition-duration: var(--duration-base);
+  transition-timing-function: var(--ease-standard);
+
+  /* Behind the front toast, a toast takes its height and hides its content, until the toasts spread out. */
+  &[data-overlap][data-sibling] > * {
+    height: 100%;
+    overflow: hidden;
+  }
+
+  &[data-overlap][data-sibling] > * > * {
+    opacity: 0;
+  }
+}

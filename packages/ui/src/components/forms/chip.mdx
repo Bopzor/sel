@@ -1,0 +1,27 @@
+import { Controls, Meta, Primary, Stories } from '@storybook/addon-docs/blocks';
+
+import * as ChipStories from './chip.stories';
+
+<Meta of={ChipStories} />
+
+# Chip
+
+A pill-shaped toggle filter button, that shows a check mark when it is active.
+
+## When to use it
+
+To filter a list (categories, post types) or choose interests. Chips go in a wrapping container (`row flex-wrap gap-2`).
+
+## What the consumer provides
+
+- `children`: one or two words.
+- `selected` + `onChange(selected)`.
+- `icon`: icon when the chip is not active (for example `filter` for "More filters").
+
+Rendered as a `<button aria-pressed>`; the visual height is 40px, the hit area 44px.
+
+<Primary />
+
+<Controls />
+
+<Stories includePrimary={false} />
