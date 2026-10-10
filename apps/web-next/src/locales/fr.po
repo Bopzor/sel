@@ -55,6 +55,10 @@ msgstr "Une confirmation de la part de {name} est nécessaire pour conclure l'é
 msgid "{name}'s exchanges will appear here."
 msgstr "Les échanges de {name} apparaîtront ici."
 
+#: src/pages/members/details/activity-tab.tsx
+msgid "{name}'s requests, events and offers to help will appear here."
+msgstr "Les demandes, événements et propositions d'aide de {name} apparaîtront ici."
+
 #: src/pages/events/list/events-list.tsx
 msgid "{participantsCount, plural, one {# participant} other {# participants}}"
 msgstr "{participantsCount, plural, one {# participant} other {# participants}}"
@@ -62,6 +66,10 @@ msgstr "{participantsCount, plural, one {# participant} other {# participants}}"
 #: src/pages/requests/details/request-page.tsx
 msgid "{positiveAnswersCount} people can help"
 msgstr "{positiveAnswersCount, plural, one {# personne peut} other {# personnes peuvent}} aider"
+
+#: src/pages/members/details/activity-tab.tsx
+msgid "{total, plural, one {# activity} other {# activities}}"
+msgstr "{total, plural, one {# activité} other {# activités}}"
 
 #: src/pages/events/list/events-list.tsx
 msgid "{total, plural, one {# event} other {# events}}"
@@ -215,6 +223,14 @@ msgstr "Joindre des fichiers"
 msgid "Attachments"
 msgstr "Pièces jointes"
 
+#: src/pages/members/details/activity-item.tsx
+msgid "Attended {link}"
+msgstr "A participé à {link}"
+
+#: src/pages/members/details/activity-item.tsx
+msgid "Attends {link}"
+msgstr "Participe à {link}"
+
 #: src/components/transaction-dialog.tsx
 #: src/pages/authentication/authentication.tsx
 #: src/pages/events/edit/edit-event-page.tsx
@@ -351,7 +367,12 @@ msgstr "Commentaire"
 msgid "Comment (optional)"
 msgstr "Commentaire (facultatif)"
 
+#: src/pages/members/details/activity-item.tsx
+msgid "Commented on {link}"
+msgstr "A commenté {link}"
+
 #: src/components/comments-section.tsx
+#: src/pages/members/details/activity-tab.tsx
 msgid "Comments"
 msgstr "Commentaires"
 
@@ -511,6 +532,14 @@ msgstr "Événement introuvable"
 msgid "Events"
 msgstr "Événements"
 
+#: src/pages/members/details/activity-tab.tsx
+msgid "Events attended"
+msgstr "Participations aux événements"
+
+#: src/pages/members/details/activity-tab.tsx
+msgid "Events organized"
+msgstr "Événements organisés"
+
 #: src/components/transaction-dialog.tsx
 msgid "Exchange"
 msgstr "Échange"
@@ -621,8 +650,9 @@ msgstr "Si votre adresse email est autorisée, un email contenant un code de con
 #: src/pages/information/create/create-information-page.tsx
 #: src/pages/information/details/information-details-page.tsx
 #: src/pages/information/list/information-page.tsx
+#: src/pages/members/details/activity-tab.tsx
 msgid "Information"
-msgstr "Informations"
+msgstr "Informations publiées"
 
 #: src/pages/information/edit/edit-information-page.tsx
 msgid "Information edited"
@@ -840,6 +870,10 @@ msgstr "Date d'adhésion"
 msgid "Next"
 msgstr "Suivant"
 
+#: src/pages/members/details/activity-tab.tsx
+msgid "No activity yet"
+msgstr "Aucune activité pour l'instant"
+
 #: src/components/address-search.tsx
 msgid "No address found. Check what you typed, or enter the address manually."
 msgstr "Aucune adresse trouvée. Vérifiez votre saisie, ou saisissez l'adresse manuellement."
@@ -950,6 +984,14 @@ msgstr "Numéro et rue"
 msgid "Numbered list"
 msgstr "Liste numérotée"
 
+#: src/pages/members/details/activity-item.tsx
+msgid "Offered to help on {link}"
+msgstr "A proposé son aide pour {link}"
+
+#: src/pages/members/details/activity-tab.tsx
+msgid "Offers to help"
+msgstr "Propositions d'aide"
+
 #: src/pages/settings/settings-page.tsx
 msgid "On your devices"
 msgstr "Sur vos appareils"
@@ -971,6 +1013,10 @@ msgctxt "requests filter"
 msgid "Open"
 msgstr "En cours"
 
+#: src/pages/members/details/activity-item.tsx
+msgid "Organized {link}"
+msgstr "A organisé {link}"
+
 #: src/pages/events/details/organizer.tsx
 msgid "Organized by"
 msgstr "Organisé par"
@@ -982,6 +1028,10 @@ msgstr "Organisé par le SEL"
 #: src/pages/events/event-form.tsx
 msgid "Organizer"
 msgstr "Organisateur"
+
+#: src/pages/members/details/activity-item.tsx
+msgid "Organizes {link}"
+msgstr "Organise {link}"
 
 #: src/pages/events/details/event-page.tsx
 #: src/pages/events/event-form.tsx
@@ -1032,6 +1082,7 @@ msgstr "Numéro de téléphone copié"
 msgid "Photos or documents, up to 10 MB per file"
 msgstr "Photos ou documents, 10 Mo maximum par fichier"
 
+#: src/pages/members/details/activity-tab.tsx
 #: src/pages/requests/create/create-request-page.tsx
 #: src/pages/requests/list/requests-list.tsx
 msgid "Post a request"
@@ -1045,6 +1096,14 @@ msgstr "Publier la demande"
 #: src/pages/profile/address-section.tsx
 msgid "Postal code"
 msgstr "Code postal"
+
+#: src/pages/members/details/activity-item.tsx
+msgid "Posted the information {link}"
+msgstr "A publié l'information {link}"
+
+#: src/pages/members/details/activity-item.tsx
+msgid "Posted the request {link}"
+msgstr "A publié la demande {link}"
 
 #: src/pages/profile/bio-section.tsx
 msgid "Presentation"
@@ -1083,6 +1142,10 @@ msgstr "Recevoir les notifications sur cet appareil ?"
 #: src/pages/members/details/exchanges-tab.tsx
 msgid "Received"
 msgstr "Reçus"
+
+#: src/pages/members/details/activity-item.tsx
+msgid "Received {amount} from {payer}"
+msgstr "A reçu {amount} de la part de {payer}"
 
 #: src/pages/events/details/notify-dialog.tsx
 msgid "Recipients"
@@ -1150,6 +1213,7 @@ msgid "Requested by"
 msgstr "Demandé par"
 
 #: src/app/routes.ts
+#: src/pages/members/details/activity-tab.tsx
 #: src/pages/requests/create/create-request-page.tsx
 #: src/pages/requests/details/request-page.tsx
 #: src/pages/requests/list/requests-page.tsx
@@ -1270,6 +1334,10 @@ msgctxt "amount"
 msgid "Send <0/>"
 msgstr "Envoyer <0/>"
 
+#: src/pages/members/details/activity-item.tsx
+msgid "Sent {amount} to {recipient}"
+msgstr "A envoyé {amount} à {recipient}"
+
 #: src/app/routes.ts
 #: src/pages/settings/settings-page.tsx
 msgid "Settings"
@@ -1286,6 +1354,10 @@ msgstr "Relayé par"
 #: src/pages/members/details/exchanges-tab.tsx
 msgid "Show all the exchanges"
 msgstr "Afficher tous les échanges"
+
+#: src/pages/members/details/activity-tab.tsx
+msgid "Show comments"
+msgstr "Afficher les commentaires"
 
 #: src/pages/error-page.tsx
 msgid "Show details"
@@ -1314,6 +1386,11 @@ msgstr "Afficher les échanges effectués"
 #: src/pages/members/details/member-sidebar.tsx
 msgid "Show the map"
 msgstr "Afficher la carte"
+
+#. placeholder {0}: items.length
+#: src/pages/members/details/activity-tab.tsx
+msgid "Showing {0} of {total} activities"
+msgstr "{0} activités affichées sur {total}"
 
 #. placeholder {0}: events.length
 #: src/pages/events/list/events-list.tsx
@@ -1587,6 +1664,10 @@ msgstr "Cette demande a été annulée"
 msgid "This URL is invalid"
 msgstr "Cette URL est invalide"
 
+#: src/pages/members/details/activity-tab.tsx
+msgid "Timeline"
+msgstr "Fil d'activité"
+
 #: src/pages/events/details/notify-dialog.tsx
 #: src/pages/events/event-form.tsx
 #: src/pages/information/information-form.tsx
@@ -1611,6 +1692,14 @@ msgstr "Impossible de copier"
 #: src/components/pagination.tsx
 msgid "Unable to load more elements"
 msgstr "Impossible d'afficher plus d'éléments"
+
+#: src/pages/members/details/activity-tab.tsx
+msgid "Unable to load the activity"
+msgstr "Impossible de charger l'activité"
+
+#: src/pages/members/details/activity-tab.tsx
+msgid "Unable to load the activity summary"
+msgstr "Impossible de charger le résumé de l'activité"
 
 #: src/components/comments-section.tsx
 msgid "Unable to load the comments"
@@ -1811,3 +1900,7 @@ msgstr "Votre demande"
 #: src/pages/requests/create/create-request-page.tsx
 msgid "Your request could not be posted"
 msgstr "Votre demande n'a pas pu être publiée"
+
+#: src/pages/members/details/activity-tab.tsx
+msgid "Your requests, events and offers to help will appear here."
+msgstr "Vos demandes, événements et propositions d'aide apparaîtront ici."

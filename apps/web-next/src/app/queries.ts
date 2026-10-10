@@ -9,9 +9,12 @@ import {
   type Information,
   type ListEventsQuery,
   type ListInformationQuery,
+  type ListMemberActivityQuery,
   type ListMemberTransactionsQuery,
   type ListRequestsQuery,
   type Member,
+  type MemberActivityCounts,
+  type MemberActivityItem,
   type MembersSort,
   type MemberTransactionStats,
   type Request,
@@ -163,6 +166,31 @@ export const queries = {
       queryKey: ['members', memberId, 'transactions', query],
       queryFn: ({ pageParam }) => {
         return api<Paginated<Transaction>>('GET', `/members/${memberId}/transactions`, {
+          query: { ...query, page: pageParam, pageSize },
+          paginated: true,
+        });
+      },
+      initialPageParam: 1,
+      getNextPageParam,
+      placeholderData: keepPreviousData,
+      select: flattenPages,
+    });
+  },
+
+  memberActivityCounts: (memberId: string) => {
+    return queryOptions({
+      queryKey: ['members', memberId, 'activity-counts'],
+      queryFn: () => {
+        return api<MemberActivityCounts>('GET', `/members/${memberId}/activity/counts`);
+      },
+    });
+  },
+
+  listMemberActivity: (memberId: string, query: Omit<ListMemberActivityQuery, 'page' | 'pageSize'>) => {
+    return infiniteQueryOptions({
+      queryKey: ['members', memberId, 'activity', query],
+      queryFn: ({ pageParam }) => {
+        return api<Paginated<MemberActivityItem>>('GET', `/members/${memberId}/activity`, {
           query: { ...query, page: pageParam, pageSize },
           paginated: true,
         });

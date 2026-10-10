@@ -4,17 +4,20 @@ import { sql } from 'drizzle-orm';
 import { PgTable } from 'drizzle-orm/pg-core';
 
 import { TokenInsert, TokenType } from './modules/authentication/authentication.entities';
-import { EventInsert } from './modules/event/event.entities';
+import { CommentInsert } from './modules/comment/comment.entities';
+import { EventInsert, EventParticipationInsert } from './modules/event/event.entities';
 import { FileInsert } from './modules/file/file.entity';
 import { InformationInsert } from './modules/information/information.entities';
 import { InterestInsert } from './modules/interest/interest.entities';
 import { MemberInsert } from './modules/member/member.entities';
 import { MessageInsert } from './modules/messages/message.entities';
 import { MemberDeviceInsert } from './modules/notification/notification.entities';
-import { RequestInsert } from './modules/request/request.entities';
+import { RequestAnswerInsert, RequestInsert } from './modules/request/request.entities';
 import { TransactionInsert } from './modules/transaction/transaction.entities';
 import { db } from './persistence';
 import {
+  comments,
+  eventParticipations,
   events,
   files,
   information,
@@ -22,6 +25,7 @@ import {
   memberDevices,
   members,
   messages,
+  requestAnswers,
   requests,
   tokens,
   transactions,
@@ -68,12 +72,34 @@ const insert = {
     messageId: '',
   })),
 
+  requestAnswer: createFactory<RequestAnswerInsert>(() => ({
+    id: createId(),
+    requestId: '',
+    memberId: '',
+    date: createDate(),
+    answer: 'positive',
+  })),
+
   event: createFactory<EventInsert>(() => ({
     id: createId(),
     organizerId: '',
     title: '',
     messageId: '',
     kind: 'internal',
+  })),
+
+  eventParticipation: createFactory<EventParticipationInsert>(() => ({
+    id: createId(),
+    eventId: '',
+    participantId: '',
+    participation: 'yes',
+  })),
+
+  comment: createFactory<CommentInsert>(() => ({
+    id: createId(),
+    authorId: '',
+    messageId: '',
+    date: createDate(),
   })),
 
   information: createFactory<InformationInsert>(() => ({
@@ -117,7 +143,10 @@ export const persist = {
   member: persister(members, insert.member),
   memberDevice: persister(memberDevices, insert.memberDevice),
   request: persister(requests, insert.request),
+  requestAnswer: persister(requestAnswers, insert.requestAnswer),
   event: persister(events, insert.event),
+  eventParticipation: persister(eventParticipations, insert.eventParticipation),
+  comment: persister(comments, insert.comment),
   information: persister(information, insert.information),
   message: persister(messages, insert.message),
   transaction: persister(transactions, insert.transaction),

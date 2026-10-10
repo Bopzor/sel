@@ -1,4 +1,10 @@
-import { createAddress, createAuthenticatedMember, createMember, type Member } from '@sel/shared';
+import {
+  createAddress,
+  createAuthenticatedMember,
+  createMember,
+  type Member,
+  type MemberActivityCounts,
+} from '@sel/shared';
 import { screen, within } from '@testing-library/react';
 import { userEvent, type UserEvent } from '@testing-library/user-event';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
@@ -205,6 +211,21 @@ class Server extends FakeServer {
     });
 
     this.register('GET /api/members/claire/transactions', () => {
+      return this.json([], { headers: { 'X-Pagination-Total': '0' } });
+    });
+
+    this.register('GET /api/members/claire/activity/counts', () => {
+      return this.json({
+        requests: 0,
+        requestAnswers: 0,
+        events: 0,
+        eventParticipations: 0,
+        information: 0,
+        comments: 0,
+      } satisfies MemberActivityCounts);
+    });
+
+    this.register('GET /api/members/claire/activity', () => {
       return this.json([], { headers: { 'X-Pagination-Total': '0' } });
     });
   }

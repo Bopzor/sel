@@ -15,6 +15,8 @@ import { Request } from '../request/request.entities';
 
 import { changeNotificationDeliveryType } from './domain/change-notification-delivery-type.command';
 import { createMember } from './domain/create-member.command';
+import { getMemberActivityCounts } from './domain/get-member-activity-counts.query';
+import { getMemberActivity } from './domain/get-member-activity.query';
 import { getMemberTransactionStats } from './domain/get-member-transaction-stats.query';
 import { listMemberTransactions } from './domain/list-member-transactions.query';
 import { updateMemberProfile } from './domain/update-member-profile.command';
@@ -130,6 +132,24 @@ router.get('/:memberId/transactions/stats', async (req, res) => {
   const { id: memberId } = getMember();
 
   res.json(await getMemberTransactionStats(memberId));
+});
+
+router.get('/:memberId/activity', async (req, res) => {
+  const { id: memberId } = getMember();
+  const query = shared.listMemberActivityQuerySchema.parse(req.query);
+
+  const { total, items } = await getMemberActivity({ memberId, ...query });
+
+  res.setHeader('x-pagination-total', total);
+  res.setHeader('x-pagination-page-size', query.pageSize);
+
+  res.json(items);
+});
+
+router.get('/:memberId/activity/counts', async (req, res) => {
+  const { id: memberId } = getMember();
+
+  res.json(await getMemberActivityCounts(memberId));
 });
 
 router.put('/:memberId/profile', isAuthenticatedMember, async (req, res) => {

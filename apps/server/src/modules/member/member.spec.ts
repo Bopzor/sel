@@ -342,4 +342,47 @@ describe('member', () => {
       });
     });
   });
+
+  describe('activity', () => {
+    const app = express();
+    app.use(router);
+
+    it("lists a member's activity, with comments", async () => {
+      const memberId = await persist.member();
+      const messageId = await persist.message({ html: '<p>Nice</p>' });
+      const requestId = await persist.request({
+        requesterId: memberId,
+        messageId,
+        createdAt: new Date(2025, 0, 1),
+      });
+
+      await persist.comment({ authorId: memberId, requestId, messageId, date: new Date(2025, 0, 2) });
+
+      const response = await supertest(app)
+        .get(`/${memberId}/activity?includeComments=true&pageSize=1`)
+        .expect(200);
+
+      expect(response.body).toMatchObject([{ type: 'comment', body: '<p>Nice</p>' }]);
+      expect(response.headers).toHaveProperty('x-pagination-total', '2');
+      expect(response.headers).toHaveProperty('x-pagination-page-size', '1');
+    });
+
+    it("counts a member's activity", async () => {
+      const memberId = await persist.member();
+      const messageId = await persist.message();
+
+      await persist.request({ requesterId: memberId, messageId });
+
+      const response = await supertest(app).get(`/${memberId}/activity/counts`).expect(200);
+
+      expect(response.body).toEqual<shared.MemberActivityCounts>({
+        requests: 1,
+        requestAnswers: 0,
+        events: 0,
+        eventParticipations: 0,
+        information: 0,
+        comments: 0,
+      });
+    });
+  });
 });

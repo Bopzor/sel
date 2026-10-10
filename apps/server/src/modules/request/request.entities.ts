@@ -5,6 +5,7 @@ export type Request = typeof schema.requests.$inferSelect;
 export type RequestInsert = typeof schema.requests.$inferInsert;
 
 export type RequestAnswer = typeof schema.requestAnswers.$inferSelect;
+export type RequestAnswerInsert = typeof schema.requestAnswers.$inferInsert;
 
 export class RequestCreatedEvent extends DomainEvent<{ requesterId: string }> {}
 

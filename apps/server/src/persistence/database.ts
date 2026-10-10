@@ -58,6 +58,8 @@ export async function clearDatabase() {
   await db.delete(schema.requests);
   await db.delete(schema.eventParticipations);
   await db.delete(schema.events);
+  await db.delete(schema.attachments);
+  await db.delete(schema.messages);
   await db.update(schema.members).set({ avatarId: null });
   await db.delete(schema.files);
   await db.delete(schema.memberDevices);

@@ -7,6 +7,7 @@ export type Event = typeof schema.events.$inferSelect;
 export type EventInsert = typeof schema.events.$inferInsert;
 
 export type EventParticipation = typeof schema.eventParticipations.$inferSelect;
+export type EventParticipationInsert = typeof schema.eventParticipations.$inferInsert;
 
 export class EventCreatedEvent extends DomainEvent<{
   organizerId: string;

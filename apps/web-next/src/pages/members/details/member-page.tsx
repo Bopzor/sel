@@ -11,6 +11,7 @@ import { routes } from 'src/app/routes';
 import { ApiFailed, QueryResult } from 'src/components/api-result';
 import { BackButton } from 'src/components/link';
 
+import { ActivityTab } from './activity-tab';
 import { ExchangesTab } from './exchanges-tab';
 import { FormerMember } from './former-member';
 import { MemberNotFound } from './member-not-found';
@@ -91,7 +92,9 @@ function MemberTabs({ member, tab }: { member: Member; tab: MemberTab }) {
         {/* force re-render if the member changes */}
         <ExchangesTab key={member.id} member={member} />
       </Tabs.Panel>
-      <Tabs.Panel value="activity" />
+      <Tabs.Panel value="activity">
+        <ActivityTab key={member.id} member={member} />
+      </Tabs.Panel>
     </Tabs.Root>
   );
 }
