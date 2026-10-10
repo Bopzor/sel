@@ -21,11 +21,11 @@ describe('pending transactions alert', () => {
     vi.stubGlobal('fetch', server.fetch);
   });
 
-  function render(path: string = routes.home()) {
+  function render() {
     queryClient.setQueryData(queries.session().queryKey, me);
 
     renderTest(
-      <MemoryRouter initialEntries={[path]}>
+      <MemoryRouter>
         <PendingTransactionsAlert />
       </MemoryRouter>,
     );
@@ -57,15 +57,6 @@ describe('pending transactions alert', () => {
     expect(screen.queryByText(/waiting for your approval/)).not.toBeInTheDocument();
   });
 
-  it('is not shown on my exchanges tab', async () => {
-    server.pending = [createTransaction()];
-
-    render(routes.member('me', 'exchanges'));
-
-    await vi.waitFor(() => expect(server.find('/api/members/me/transactions')).toHaveLength(1));
-
-    expect(screen.queryByText(/waiting for your approval/)).not.toBeInTheDocument();
-  });
 });
 
 class Server extends FakeServer {

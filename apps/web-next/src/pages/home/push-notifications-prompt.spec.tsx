@@ -1,12 +1,10 @@
 import { createAuthenticatedMember, type AuthenticatedMember } from '@sel/shared';
 import { cleanup, screen } from '@testing-library/react';
 import { userEvent, type UserEvent } from '@testing-library/user-event';
-import { MemoryRouter } from 'react-router';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { queries } from 'src/app/queries';
 import { queryClient } from 'src/app/query-client';
-import { routes } from 'src/app/routes';
 import { FakeServer } from 'src/tests/fake-server';
 import { renderTest } from 'src/tests/test-page';
 
@@ -54,14 +52,10 @@ describe('push notifications prompt', () => {
     localStorage.clear();
   });
 
-  function render(path: string = routes.home()) {
+  function render() {
     queryClient.setQueryData(queries.session().queryKey, member);
 
-    renderTest(
-      <MemoryRouter initialEntries={[path]}>
-        <PushNotificationsPrompt />
-      </MemoryRouter>,
-    );
+    renderTest(<PushNotificationsPrompt />);
   }
 
   it('registers this device when the member allows the notifications', async () => {
@@ -124,12 +118,6 @@ describe('push notifications prompt', () => {
   it('is not shown when the notifications were already allowed or blocked on this device', async () => {
     notification.permission = 'denied';
     render();
-
-    expect(screen.queryByText('Receive notifications on this device?')).not.toBeInTheDocument();
-  });
-
-  it('is not shown on the settings page', async () => {
-    render(routes.settings());
 
     expect(screen.queryByText('Receive notifications on this device?')).not.toBeInTheDocument();
   });

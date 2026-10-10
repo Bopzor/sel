@@ -4,16 +4,22 @@ import { useState } from 'react';
 
 import { TransactionDialog } from 'src/components/transaction-dialog';
 
+import { PendingTransactionsAlert } from './pending-transactions-alert';
+import { PushNotificationsPrompt } from './push-notifications-prompt';
+
 export function HomePage() {
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="stack items-start gap-6">
+    <div className="stack gap-6">
+      <PushNotificationsPrompt />
+      <PendingTransactionsAlert />
+
       <h1 className="text-title-1">
         <Trans>Home</Trans>
       </h1>
 
-      <Button icon="exchange" onClick={() => setOpen(true)}>
+      <Button icon="exchange" className="self-start" onClick={() => setOpen(true)}>
         <Trans>Create exchange</Trans>
       </Button>
 

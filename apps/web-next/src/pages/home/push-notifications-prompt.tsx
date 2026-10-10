@@ -2,11 +2,9 @@ import { Trans, useLingui } from '@lingui/react/macro';
 import { Alert, Button, showToast } from '@sel/ui';
 import { useMutation, useSuspenseQuery } from '@tanstack/react-query';
 import { useState } from 'react';
-import { useMatch } from 'react-router';
 
 import { getPushPermission, requestPushPermission } from 'src/app/push-notifications';
 import { queries } from 'src/app/queries';
-import { routes } from 'src/app/routes';
 
 const storageKey = 'push-notifications-prompt-dismissed';
 
@@ -14,9 +12,6 @@ export function PushNotificationsPrompt() {
   const { t } = useLingui();
   const { data: me } = useSuspenseQuery(queries.session());
   const [dismissed, setDismissed] = useState(() => localStorage.getItem(storageKey) === 'true');
-
-  // The settings page shows the state of the device.
-  const settingsPage = useMatch(routes.settings()) !== null;
 
   const mutation = useMutation({
     mutationFn: requestPushPermission,
@@ -36,7 +31,7 @@ export function PushNotificationsPrompt() {
       showToast(t`Notifications could not be enabled on this device. Try again in a few moments.`, 'error'),
   });
 
-  if (dismissed || settingsPage || !me.notificationDelivery.push || getPushPermission() !== 'default') {
+  if (dismissed || !me.notificationDelivery.push || getPushPermission() !== 'default') {
     return null;
   }
 
@@ -46,7 +41,7 @@ export function PushNotificationsPrompt() {
   };
 
   return (
-    <Alert.Root tone="info" onClose={dismiss} closeLabel={t`Close`} className="mb-6">
+    <Alert.Root tone="info" onClose={dismiss} closeLabel={t`Close`}>
       <Alert.Title>
         <Trans>Receive notifications on this device?</Trans>
       </Alert.Title>
