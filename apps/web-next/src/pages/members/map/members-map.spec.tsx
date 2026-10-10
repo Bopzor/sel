@@ -27,12 +27,12 @@ describe('members map', () => {
         address: createAddress({ city: 'Annecy', position: [6.12, 45.9] }),
       }),
       createMember({
-        id: 'paul',
-        firstName: 'Paul',
-        lastName: 'Martin',
+        id: 'julien',
+        firstName: 'Julien',
+        lastName: 'Petit',
         address: createAddress({ city: 'Seynod', position: [6.09, 45.88] }),
       }),
-      createMember({ id: 'anne', firstName: 'Anne', lastName: 'Morel' }),
+      createMember({ id: 'sofia', firstName: 'Sofia', lastName: 'Morel' }),
     ];
   });
 
@@ -40,8 +40,8 @@ describe('members map', () => {
     renderPage(routes.membersMap());
 
     expect(await screen.findByRole('button', { name: 'Claire Dubois' })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'Paul Martin' })).toBeInTheDocument();
-    expect(screen.queryByRole('button', { name: 'Anne Morel' })).not.toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Julien Petit' })).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'Sofia Morel' })).not.toBeInTheDocument();
   });
 
   it("opens a member's popup with a link to their page", async () => {
@@ -49,9 +49,12 @@ describe('members map', () => {
 
     renderPage(routes.membersMap());
 
-    await user.click(await screen.findByRole('button', { name: 'Paul Martin' }));
+    await user.click(await screen.findByRole('button', { name: 'Julien Petit' }));
 
-    expect(await screen.findByRole('link', { name: 'Paul Martin' })).toHaveAttribute('href', '/members/paul');
+    expect(await screen.findByRole('link', { name: 'Julien Petit' })).toHaveAttribute(
+      'href',
+      '/members/julien',
+    );
   });
 
   it("opens the selected member's popup", async () => {
@@ -61,7 +64,7 @@ describe('members map', () => {
       'href',
       '/members/claire',
     );
-    expect(screen.queryByRole('link', { name: 'Paul Martin' })).not.toBeInTheDocument();
+    expect(screen.queryByRole('link', { name: 'Julien Petit' })).not.toBeInTheDocument();
   });
 });
 

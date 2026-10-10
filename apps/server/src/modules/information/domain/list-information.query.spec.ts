@@ -27,6 +27,7 @@ describe('listInformation', () => {
   }
 
   it('lists the information, the latest first', async () => {
+    // cspell:words january
     await createInformation({ id: 'januaryId', publishedAt: createDate('2026-01-01') });
     await createInformation({ id: 'marchId', publishedAt: createDate('2026-03-01') });
     await createInformation({ id: 'newsId', authorId: null, publishedAt: createDate('2026-02-01') });

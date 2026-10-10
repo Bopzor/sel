@@ -91,7 +91,7 @@ describe('TransactionDialog', () => {
     expect(dialog).toHaveTextContent('Step 1 of 3');
 
     await user.click(within(dialog).getByRole('radio', { name: /^Send units/ }));
-    await user.type(within(dialog).getByRole('searchbox', { name: 'Member' }), 'clai');
+    await user.type(within(dialog).getByRole('searchbox', { name: 'Member' }), 'clai'); // cspell:disable-line
 
     const results = within(dialog).getByRole('list', { name: 'Members' });
 

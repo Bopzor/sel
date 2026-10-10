@@ -84,6 +84,7 @@ describe('member', () => {
     const code = await getAuthenticationCode();
     const email = defined(emailSender.emails[0]);
 
+    // cspell:disable-next-line
     expect(email.html).toContain(`/authentication?code=${code}&next=%2Fevents%3Fpage%3D2`);
   });
 

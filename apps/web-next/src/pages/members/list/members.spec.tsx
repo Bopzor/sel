@@ -84,11 +84,12 @@ describe('members', () => {
   });
 
   it('searches the members by name', async () => {
+    // cspell:words helene
     const user = userEvent.setup();
 
     server.members = [
       createMember({ firstName: 'Hélène', lastName: 'Dubois' }),
-      createMember({ firstName: 'Paul', lastName: 'Martin' }),
+      createMember({ firstName: 'Julien', lastName: 'Petit' }),
     ];
 
     const router = renderPage(routes.members());
@@ -106,7 +107,7 @@ describe('members', () => {
 
     server.members = [
       createMember({ firstName: 'Claire', lastName: 'Dubois', email: 'claire@example.com' }),
-      createMember({ firstName: 'Paul', lastName: 'Martin', email: 'paul@example.com' }),
+      createMember({ firstName: 'Julien', lastName: 'Petit', email: 'julien@example.com' }),
     ];
 
     renderPage(routes.members());
@@ -123,7 +124,7 @@ describe('members', () => {
 
     server.members = [
       createMember({ firstName: 'Claire', lastName: 'Dubois', phoneNumber: '0612345678' }),
-      createMember({ firstName: 'Paul', lastName: 'Martin', phoneNumber: '0698765432' }),
+      createMember({ firstName: 'Julien', lastName: 'Petit', phoneNumber: '0698765432' }),
     ];
 
     renderPage(routes.members());
@@ -161,7 +162,7 @@ describe('members', () => {
 
     server.members = [
       createMember({ firstName: 'Claire', lastName: 'Dubois', committeeMember: true }),
-      createMember({ firstName: 'Paul', lastName: 'Martin' }),
+      createMember({ firstName: 'Julien', lastName: 'Petit' }),
     ];
 
     const router = renderPage(routes.members());
@@ -179,7 +180,7 @@ describe('members', () => {
 
     server.members = [createMember({ firstName: 'Claire', committeeMember: true })];
 
-    const router = renderPage(`${routes.members()}?search=paul&committee=true`);
+    const router = renderPage(`${routes.members()}?search=julien&committee=true`);
 
     await user.click(await screen.findByRole('button', { name: 'Clear filters' }));
 

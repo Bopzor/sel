@@ -7,6 +7,7 @@
     "autoresize",
     "clonedeep",
     "clsx",
+    "culori",
     "datefns",
     "datetime",
     "dequal",
@@ -16,8 +17,10 @@
     "fontsource",
     "formatjs",
     "geoapify",
+    "geocodage",
     "geocode",
     "github",
+    "housenumber",
     "ilike",
     "immer",
     "innerhtml",
@@ -36,11 +39,13 @@
     "reduxjs",
     "SEL'ons",
     "solidjs",
+    "stringbool",
     "tailwindcss",
     "tanstack",
     "tiptap",
     "trimmable",
     "unstub",
-    "upop"
+    "upop",
+    "vcard"
   ]
 }
