@@ -16,6 +16,7 @@ import { ExchangesTab } from './exchanges-tab';
 import { FormerMember } from './former-member';
 import { MemberNotFound } from './member-not-found';
 import { MemberSidebar } from './member-sidebar';
+import { OverviewTab } from './overview-tab';
 
 type MemberTab = 'overview' | 'exchanges' | 'activity';
 
@@ -87,9 +88,11 @@ function MemberTabs({ member, tab }: { member: Member; tab: MemberTab }) {
         </Tabs.Tab>
       </Tabs.List>
 
-      <Tabs.Panel value="overview" />
+      {/* force re-render if the member changes */}
+      <Tabs.Panel value="overview">
+        <OverviewTab key={member.id} member={member} />
+      </Tabs.Panel>
       <Tabs.Panel value="exchanges">
-        {/* force re-render if the member changes */}
         <ExchangesTab key={member.id} member={member} />
       </Tabs.Panel>
       <Tabs.Panel value="activity">

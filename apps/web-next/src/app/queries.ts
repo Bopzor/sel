@@ -177,6 +177,18 @@ export const queries = {
     });
   },
 
+  latestMemberTransactions: (memberId: string) => {
+    return queryOptions({
+      queryKey: ['members', memberId, 'latest-transactions'],
+      queryFn: () => {
+        return api<Paginated<Transaction>>('GET', `/members/${memberId}/transactions`, {
+          query: { status: 'completed', page: 1, pageSize: 3 },
+          paginated: true,
+        });
+      },
+    });
+  },
+
   memberActivityCounts: (memberId: string) => {
     return queryOptions({
       queryKey: ['members', memberId, 'activity-counts'],
@@ -199,6 +211,18 @@ export const queries = {
       getNextPageParam,
       placeholderData: keepPreviousData,
       select: flattenPages,
+    });
+  },
+
+  latestMemberActivity: (memberId: string) => {
+    return queryOptions({
+      queryKey: ['members', memberId, 'latest-activity'],
+      queryFn: () => {
+        return api<Paginated<MemberActivityItem>>('GET', `/members/${memberId}/activity`, {
+          query: { page: 1, pageSize: 3 },
+          paginated: true,
+        });
+      },
     });
   },
 

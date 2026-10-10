@@ -313,7 +313,7 @@ type TransactionItemProps = {
   actions?: React.ReactNode;
 };
 
-function TransactionItem({ member, transaction, actions }: TransactionItemProps) {
+export function TransactionItem({ member, transaction, actions }: TransactionItemProps) {
   const { payer, recipient, request } = transaction;
   const paid = payer.id === member.id;
   const counterpart = paid ? recipient : payer;

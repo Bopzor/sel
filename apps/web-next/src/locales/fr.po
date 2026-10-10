@@ -43,6 +43,14 @@ msgstr "{name} n’a pas pu être joint. Réessayez dans quelques instants."
 msgid "{name} does not need to confirm: the exchange is completed right away."
 msgstr "Aucune confirmation n'est attendue de la part de {name} : l'échange est conclu immédiatement."
 
+#: src/pages/members/details/overview-tab.tsx
+msgid "{name} hasn't shared any interest yet."
+msgstr "{name} n'a pas encore partagé de centre d'intérêt."
+
+#: src/pages/members/details/overview-tab.tsx
+msgid "{name} hasn't written a bio yet."
+msgstr "{name} n'a pas encore écrit de présentation."
+
 #: src/components/attachments.tsx
 msgid "{name} is larger than 10 MB and was not attached"
 msgstr "{name} dépasse 10 Mo et n’a pas été joint"
@@ -107,6 +115,10 @@ msgstr "Quelques mots, par exemple : Prochaine assemblée générale"
 msgid "A few words, for example: Picnic at the lake"
 msgstr "Quelques mots, par exemple : Pique-nique au lac"
 
+#: src/pages/members/details/overview-tab.tsx
+msgid "About"
+msgstr "Présentation"
+
 #: src/pages/profile/bio-section.tsx
 msgid "About me"
 msgstr "À propos de moi"
@@ -116,6 +128,7 @@ msgid "Accept"
 msgstr "Accepter"
 
 #: src/pages/members/details/member-page.tsx
+#: src/pages/members/details/overview-tab.tsx
 msgid "Activity"
 msgstr "Activité"
 
@@ -245,6 +258,7 @@ msgid "Back to home"
 msgstr "Retour à l'accueil"
 
 #: src/pages/members/details/exchanges-tab.tsx
+#: src/pages/members/details/overview-tab.tsx
 #: src/pages/profile/profile-page.tsx
 msgid "Balance"
 msgstr "Solde"
@@ -533,10 +547,12 @@ msgid "Events"
 msgstr "Événements"
 
 #: src/pages/members/details/activity-tab.tsx
+#: src/pages/members/details/overview-tab.tsx
 msgid "Events attended"
 msgstr "Participations aux événements"
 
 #: src/pages/members/details/activity-tab.tsx
+#: src/pages/members/details/overview-tab.tsx
 msgid "Events organized"
 msgstr "Événements organisés"
 
@@ -559,6 +575,7 @@ msgstr "Échange refusé"
 #: src/layout/layout.tsx
 #: src/pages/members/details/exchanges-tab.tsx
 #: src/pages/members/details/member-page.tsx
+#: src/pages/members/details/overview-tab.tsx
 #: src/pages/navigation.tsx
 msgid "Exchanges"
 msgstr "Échanges"
@@ -593,6 +610,7 @@ msgid "Fulfilled"
 msgstr "Clôturée"
 
 #: src/pages/members/details/exchanges-tab.tsx
+#: src/pages/members/details/overview-tab.tsx
 msgid "Given"
 msgstr "Donnés"
 
@@ -646,6 +664,10 @@ msgstr "Si vous n'avez rien reçu dans les prochaines minutes, vérifiez dans vo
 msgid "If your email address is allowed, an email containing a sign-in code has been sent to <0>{email}</0>."
 msgstr "Si votre adresse email est autorisée, un email contenant un code de connexion vous a été envoyé à l'adresse <0>{email}</0>."
 
+#: src/pages/members/details/overview-tab.tsx
+msgid "In common"
+msgstr "En commun"
+
 #: src/app/routes.ts
 #: src/pages/information/create/create-information-page.tsx
 #: src/pages/information/details/information-details-page.tsx
@@ -667,6 +689,7 @@ msgid "Information published"
 msgstr "Information publiée"
 
 #: src/app/routes.ts
+#: src/pages/members/details/overview-tab.tsx
 msgid "Interests"
 msgstr "Centres d'intérêts"
 
@@ -874,6 +897,10 @@ msgstr "Suivant"
 msgid "No activity yet"
 msgstr "Aucune activité pour l'instant"
 
+#: src/pages/members/details/overview-tab.tsx
+msgid "No activity yet."
+msgstr "Aucune activité pour l'instant."
+
 #: src/components/address-search.tsx
 msgid "No address found. Check what you typed, or enter the address manually."
 msgstr "Aucune adresse trouvée. Vérifiez votre saisie, ou saisissez l'adresse manuellement."
@@ -895,6 +922,7 @@ msgid "No exchanges with {name} yet"
 msgstr "Aucun échange avec {name} pour l'instant"
 
 #: src/pages/members/details/exchanges-tab.tsx
+#: src/pages/members/details/overview-tab.tsx
 msgid "No exchanges yet"
 msgstr "Aucun échange pour l'instant"
 
@@ -989,6 +1017,7 @@ msgid "Offered to help on {link}"
 msgstr "A proposé son aide pour {link}"
 
 #: src/pages/members/details/activity-tab.tsx
+#: src/pages/members/details/overview-tab.tsx
 msgid "Offers to help"
 msgstr "Propositions d'aide"
 
@@ -1140,6 +1169,7 @@ msgid "Receive notifications on this device?"
 msgstr "Recevoir les notifications sur cet appareil ?"
 
 #: src/pages/members/details/exchanges-tab.tsx
+#: src/pages/members/details/overview-tab.tsx
 msgid "Received"
 msgstr "Reçus"
 
@@ -1214,6 +1244,7 @@ msgstr "Demandé par"
 
 #: src/app/routes.ts
 #: src/pages/members/details/activity-tab.tsx
+#: src/pages/members/details/overview-tab.tsx
 #: src/pages/requests/create/create-request-page.tsx
 #: src/pages/requests/details/request-page.tsx
 #: src/pages/requests/list/requests-page.tsx
@@ -1269,6 +1300,18 @@ msgstr "Rechercher parmi les informations"
 #: src/pages/requests/list/requests-filters.tsx
 msgid "Search the requests"
 msgstr "Rechercher parmi les demandes"
+
+#: src/pages/members/details/overview-tab.tsx
+msgid "See activity"
+msgstr "Voir l'activité"
+
+#: src/pages/members/details/overview-tab.tsx
+msgid "See exchanges"
+msgstr "Voir les échanges"
+
+#: src/pages/members/details/overview-tab.tsx
+msgid "See more"
+msgstr "Voir plus"
 
 #: src/pages/profile/profile-page.tsx
 msgid "See my public profile"
@@ -1694,10 +1737,12 @@ msgid "Unable to load more elements"
 msgstr "Impossible d'afficher plus d'éléments"
 
 #: src/pages/members/details/activity-tab.tsx
+#: src/pages/members/details/overview-tab.tsx
 msgid "Unable to load the activity"
 msgstr "Impossible de charger l'activité"
 
 #: src/pages/members/details/activity-tab.tsx
+#: src/pages/members/details/overview-tab.tsx
 msgid "Unable to load the activity summary"
 msgstr "Impossible de charger le résumé de l'activité"
 
@@ -1719,10 +1764,12 @@ msgid "Unable to load the events"
 msgstr "Impossible de charger les événements"
 
 #: src/pages/members/details/exchanges-tab.tsx
+#: src/pages/members/details/overview-tab.tsx
 msgid "Unable to load the exchanges"
 msgstr "Impossible de charger les échanges"
 
 #: src/pages/members/details/exchanges-tab.tsx
+#: src/pages/members/details/overview-tab.tsx
 msgid "Unable to load the exchanges summary"
 msgstr "Impossible de charger le résumé des échanges"
 
@@ -1856,6 +1903,14 @@ msgstr "Vous n'avez pas envoyé de <0/> pour cette demande"
 #: src/pages/profile/bio-section.tsx
 msgid "You have not written anything about yourself yet."
 msgstr "Vous n'avez encore rien écrit sur vous."
+
+#: src/pages/members/details/overview-tab.tsx
+msgid "You haven't shared any interest yet. <0>Browse the interests</0>"
+msgstr "Vous n'avez pas encore partagé de centre d'intérêt. <0>Parcourir les centres d'intérêts</0>"
+
+#: src/pages/members/details/overview-tab.tsx
+msgid "You haven't written a bio yet. <0>Write my bio</0>"
+msgstr "Vous n'avez pas encore écrit de présentation. <0>Écrire ma présentation</0>"
 
 #: src/pages/events/details/participation.tsx
 msgid "You will be notified of the new comments."

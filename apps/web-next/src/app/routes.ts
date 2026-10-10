@@ -22,7 +22,8 @@ export const routes = {
     '/members/map' + (memberId ? '?' + new URLSearchParams({ memberId }).toString() : ''),
   member: (memberId: string, tab?: 'exchanges' | 'activity') =>
     `/members/${memberId}` + (tab ? `/${tab}` : ''),
-  interests: () => '/interests',
+  interests: (query?: { memberId: string }) =>
+    '/interests' + (query ? '?' + new URLSearchParams(query).toString() : ''),
   profile: () => '/profile',
   settings: () => '/settings',
   navigation: () => '/navigation',
