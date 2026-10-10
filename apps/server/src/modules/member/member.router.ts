@@ -67,7 +67,7 @@ router.get('/', async (req, res) => {
     with: {
       avatar: true,
       memberInterests: {
-        with: { interest: true },
+        with: { interest: { with: { image: true } } },
       },
     },
   });
@@ -99,7 +99,7 @@ router.get('/:memberId', async (req, res) => {
     with: {
       avatar: true,
       memberInterests: {
-        with: { interest: true },
+        with: { interest: { with: { image: true } } },
       },
     },
   });
@@ -174,7 +174,10 @@ router.put('/:memberId/notification-delivery', isAuthenticatedMember, async (req
 });
 
 function serializeMemberFull(
-  member: Member & { avatar: File | null; memberInterests: Array<MemberInterest & { interest: Interest }> },
+  member: Member & {
+    avatar: File | null;
+    memberInterests: Array<MemberInterest & { interest: Interest & { image: File | null } }>;
+  },
 ): shared.Member {
   const compareMemberInterests = (a: shared.MemberInterest, b: shared.MemberInterest) => {
     return a.label.localeCompare(b.label);
@@ -193,13 +196,14 @@ function serializeMemberFull(
 }
 
 function serializeMemberInterest(
-  memberInterest: MemberInterest & { interest: Interest },
+  memberInterest: MemberInterest & { interest: Interest & { image: File | null } },
 ): shared.MemberInterest {
   return {
     id: memberInterest.id,
     interestId: memberInterest.interestId,
     label: memberInterest.interest.label,
     description: memberInterest.description ?? undefined,
+    image: memberInterest.interest.image?.name,
   };
 }
 

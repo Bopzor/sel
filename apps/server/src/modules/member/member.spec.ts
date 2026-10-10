@@ -8,7 +8,7 @@ import { persist } from 'src/factories';
 import { container } from 'src/infrastructure/container';
 import { StubEvents } from 'src/infrastructure/events';
 import { NotFound } from 'src/infrastructure/http';
-import { resetDatabase } from 'src/persistence';
+import { db, resetDatabase, schema } from 'src/persistence';
 import { clearDatabase } from 'src/persistence/database';
 import { TOKENS } from 'src/tokens';
 
@@ -273,6 +273,23 @@ describe('member', () => {
     expect(response.body).toMatchObject([
       { firstName: 'Claire', committeeMember: false },
       { firstName: 'Paul', committeeMember: true },
+    ]);
+  });
+
+  it("serializes a member's interests", async () => {
+    const memberId = await persist.member();
+    const imageId = await persist.file({ name: 'garden.png', uploadedBy: memberId });
+    const interestId = await persist.interest({ label: 'Gardening', imageId });
+
+    await db.insert(schema.membersInterests).values({ id: 'memberInterestId', memberId, interestId });
+
+    const app = express();
+    app.use(router);
+
+    const response = await supertest(app).get(`/${memberId}`).expect(200);
+
+    expect(response.body).toHaveProperty('interests', [
+      { id: 'memberInterestId', interestId, label: 'Gardening', image: 'garden.png' },
     ]);
   });
 
