@@ -22,7 +22,7 @@ jobs:
 
     strategy:
       matrix:
-        image: [server, web]
+        image: [server, web, web-next]
 
     steps:
       - uses: actions/checkout@v7
