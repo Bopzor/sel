@@ -35,7 +35,7 @@ export function server() {
   const app = express();
 
   app.use(morgan(import.meta.env.PROD ? 'short' : 'dev', {}));
-  app.use(cors({ origin: config.server.allowedOrigins }));
+  app.use(cors({ origin: config.server.allowedOrigins, credentials: true }));
   app.use(cookieParser(config.session.secret));
   app.use(express.json());
   app.use(cacheControl);
