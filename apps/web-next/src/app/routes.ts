@@ -28,6 +28,7 @@ export const routes = {
   profile: () => '/profile',
   settings: () => '/settings',
   navigation: () => '/navigation',
+  feedback: () => '/feedback',
   authentication: (next?: string) =>
     '/authentication' + (next === undefined ? '' : '?' + new URLSearchParams({ next }).toString()),
 };

@@ -129,6 +129,18 @@ msgstr "A few words, for example: Next general assembly"
 msgid "A few words, for example: Picnic at the lake"
 msgstr "A few words, for example: Picnic at the lake"
 
+#: src/pages/home/feedback-card.tsx
+msgid "A new feature, a clearer wording…"
+msgstr "A new feature, a clearer wording…"
+
+#: src/pages/home/feedback-card.tsx
+msgid "A problem, an idea?"
+msgstr "A problem, an idea?"
+
+#: src/pages/home/feedback-card.tsx
+msgid "A question about the application"
+msgstr "A question about the application"
+
 #: src/pages/members/details/overview-tab.tsx
 msgid "About"
 msgstr "About"
@@ -650,6 +662,10 @@ msgstr "For example: The meeting point has changed"
 msgid "Fulfilled"
 msgstr "Fulfilled"
 
+#: src/pages/home/feedback-card.tsx
+msgid "Get help"
+msgstr "Get help"
+
 #: src/pages/members/details/exchanges-tab.tsx
 #: src/pages/members/details/overview-tab.tsx
 msgid "Given"
@@ -658,10 +674,6 @@ msgstr "Given"
 #: src/pages/home/home-page.tsx
 msgid "Hello {firstName}"
 msgstr "Hello {firstName}"
-
-#: src/pages/home/help-links-card.tsx
-msgid "Help"
-msgstr "Help"
 
 #: src/pages/profile/profile-section.tsx
 msgid "Hidden from the other members"
@@ -1280,6 +1292,10 @@ msgstr "Remove the location"
 msgid "Remove the photo"
 msgstr "Remove the photo"
 
+#: src/pages/home/feedback-card.tsx
+msgid "Report a bug"
+msgstr "Report a bug"
+
 #: src/pages/home/feed.tsx
 msgctxt "feed item"
 msgid "Request"
@@ -1573,6 +1589,10 @@ msgstr "Sign-in code"
 msgid "Sign-in failed. Try again in a few moments."
 msgstr "Sign-in failed. Try again in a few moments."
 
+#: src/pages/home/feedback-card.tsx
+msgid "Something does not work as expected"
+msgstr "Something does not work as expected"
+
 #: src/pages/members/list/members-page.tsx
 msgid "Sort"
 msgstr "Sort"
@@ -1580,6 +1600,10 @@ msgstr "Sort"
 #: src/components/transaction-dialog.tsx
 msgid "Step {stepNumber} of {stepCount}"
 msgstr "Step {stepNumber} of {stepCount}"
+
+#: src/pages/home/feedback-card.tsx
+msgid "Suggest a change"
+msgstr "Suggest a change"
 
 #: src/pages/error-page.tsx
 msgid "The application is under maintenance"

@@ -11,7 +11,7 @@ import { TransactionDialog } from 'src/components/transaction-dialog';
 
 import { CommitteeMeetingCard } from './committee-meeting-card';
 import { Feed } from './feed';
-import { HelpLinksCard } from './help-links-card';
+import { FeedbackCard } from './feedback-card';
 import { OpenRequestsCard } from './open-requests-card';
 import { PendingTransactionsCard } from './pending-transactions-card';
 import { ProfileCompletionCard } from './profile-completion-card';
@@ -82,11 +82,12 @@ function SideInfo() {
   return (
     <div className="stack max-w-content gap-4 xl:w-aside xl:shrink-0">
       <PendingTransactionsCard />
-      <ProfileCompletionCard />
+      {/* todo */}
+      <ProfileCompletionCard className="hidden" />
       <OpenRequestsCard className="max-xl:hidden" />
       <CommitteeMeetingCard className="max-xl:hidden" />
       <UpcomingEventsCard className="max-xl:hidden" />
-      <HelpLinksCard className="max-xl:hidden" />
+      <FeedbackCard className="max-xl:hidden" />
     </div>
   );
 }

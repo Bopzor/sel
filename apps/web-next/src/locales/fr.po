@@ -129,6 +129,18 @@ msgstr "Quelques mots, par exemple : Prochaine assemblée générale"
 msgid "A few words, for example: Picnic at the lake"
 msgstr "Quelques mots, par exemple : Pique-nique au lac"
 
+#: src/pages/home/feedback-card.tsx
+msgid "A new feature, a clearer wording…"
+msgstr "Une nouvelle fonctionnalité, une formulation plus claire…"
+
+#: src/pages/home/feedback-card.tsx
+msgid "A problem, an idea?"
+msgstr "Un souci, une idée ?"
+
+#: src/pages/home/feedback-card.tsx
+msgid "A question about the application"
+msgstr "Une question sur l'application"
+
 #: src/pages/members/details/overview-tab.tsx
 msgid "About"
 msgstr "Présentation"
@@ -650,6 +662,10 @@ msgstr "Par exemple : Le lieu de rendez-vous a changé"
 msgid "Fulfilled"
 msgstr "Clôturée"
 
+#: src/pages/home/feedback-card.tsx
+msgid "Get help"
+msgstr "Obtenir de l'aide"
+
 #: src/pages/members/details/exchanges-tab.tsx
 #: src/pages/members/details/overview-tab.tsx
 msgid "Given"
@@ -658,10 +674,6 @@ msgstr "Donnés"
 #: src/pages/home/home-page.tsx
 msgid "Hello {firstName}"
 msgstr "Bonjour {firstName}"
-
-#: src/pages/home/help-links-card.tsx
-msgid "Help"
-msgstr "Aide"
 
 #: src/pages/profile/profile-section.tsx
 msgid "Hidden from the other members"
@@ -1280,6 +1292,10 @@ msgstr "Retirer le lieu"
 msgid "Remove the photo"
 msgstr "Retirer la photo"
 
+#: src/pages/home/feedback-card.tsx
+msgid "Report a bug"
+msgstr "Signaler un bug"
+
 #: src/pages/home/feed.tsx
 msgctxt "feed item"
 msgid "Request"
@@ -1573,6 +1589,10 @@ msgstr "Code de connexion"
 msgid "Sign-in failed. Try again in a few moments."
 msgstr "La connexion a échoué. Réessayez dans quelques instants."
 
+#: src/pages/home/feedback-card.tsx
+msgid "Something does not work as expected"
+msgstr "Quelque chose ne fonctionne pas comme prévu"
+
 #: src/pages/members/list/members-page.tsx
 msgid "Sort"
 msgstr "Trier"
@@ -1580,6 +1600,10 @@ msgstr "Trier"
 #: src/components/transaction-dialog.tsx
 msgid "Step {stepNumber} of {stepCount}"
 msgstr "Étape {stepNumber} sur {stepCount}"
+
+#: src/pages/home/feedback-card.tsx
+msgid "Suggest a change"
+msgstr "Proposer une amélioration"
 
 #: src/pages/error-page.tsx
 msgid "The application is under maintenance"

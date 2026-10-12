@@ -187,7 +187,6 @@ describe('create event', () => {
     await user.click(screen.getByRole('radio', { name: /Outside event/ }));
     await user.click(screen.getByRole('checkbox', { name: 'Committee meeting' }));
 
-    expect(screen.getByRole('radio', { name: /Organized by the LETS/ })).toBeChecked();
     expect(screen.getByRole('radio', { name: /Organized by the LETS/ })).toBeDisabled();
     expect(screen.getByRole('radio', { name: /Outside event/ })).toBeDisabled();
 

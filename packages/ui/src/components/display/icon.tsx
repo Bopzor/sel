@@ -6,6 +6,7 @@ import {
   Ban,
   Bell,
   Bold,
+  Bug,
   Calendar,
   CalendarCheck,
   Check,
@@ -27,6 +28,8 @@ import {
   House,
   Info,
   Italic,
+  LifeBuoy,
+  Lightbulb,
   Link,
   List,
   ListOrdered,
@@ -103,6 +106,9 @@ const icons = {
   answer: HandHeart,
   participation: CalendarCheck,
   comment: MessageCircle,
+  bug: Bug,
+  idea: Lightbulb,
+  help: LifeBuoy,
 
   // Statuses
   info: Info,

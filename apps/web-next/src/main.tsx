@@ -105,6 +105,7 @@ const authenticatedRoutes: Record<string, React.ComponentType> = {
   [routes.profile()]: ProfilePage,
   [routes.settings()]: SettingsPage,
   [routes.navigation()]: NavigationPage,
+  [routes.feedback()]: PlaceholderPage,
   '*': NotFoundPage,
 };
 
