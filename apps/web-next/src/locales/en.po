@@ -12,6 +12,16 @@ msgstr ""
 msgid "{0, plural, one {# participant} other {# participants}}"
 msgstr "{0, plural, one {# participant} other {# participants}}"
 
+#. placeholder {0}: requests.total
+#: src/pages/home/attention-section.tsx
+msgid "{0, plural, other {See the # open requests}}"
+msgstr "{0, plural, other {See the # open requests}}"
+
+#. placeholder {0}: transactions.total
+#: src/pages/home/attention-section.tsx
+msgid "{0, plural, other {See the # pending exchanges}}"
+msgstr "{0, plural, other {See the # pending exchanges}}"
+
 #: src/components/comments-section.tsx
 #: src/pages/requests/list/requests-list.tsx
 msgid "{commentsCount, plural, one {# comment} other {# comments}}"
@@ -71,6 +81,10 @@ msgstr "{name}'s requests, events and offers to help will appear here."
 msgid "{participantsCount, plural, one {# participant} other {# participants}}"
 msgstr "{participantsCount, plural, one {# participant} other {# participants}}"
 
+#: src/pages/home/attention-section.tsx
+msgid "{positiveAnswersCount, plural, one {# member can help} other {# members can help}}"
+msgstr "{positiveAnswersCount, plural, one {# member can help} other {# members can help}}"
+
 #: src/pages/requests/details/request-page.tsx
 msgid "{positiveAnswersCount} people can help"
 msgstr "{positiveAnswersCount} people can help"
@@ -94,10 +108,6 @@ msgstr "{total, plural, one {# piece of information} other {# pieces of informat
 #: src/pages/requests/list/requests-list.tsx
 msgid "{total, plural, one {# request} other {# requests}}"
 msgstr "{total, plural, one {# request} other {# requests}}"
-
-#: src/layout/pending-transactions-alert.tsx
-msgid "{total, plural, one {An exchange is waiting for your approval} other {# exchanges are waiting for your approval}}"
-msgstr "{total, plural, one {An exchange is waiting for your approval} other {# exchanges are waiting for your approval}}"
 
 #: src/pages/members/details/member-sidebar.tsx
 msgid "{years, plural, one {# year} other {# years}}"
@@ -123,7 +133,7 @@ msgstr "About"
 msgid "About me"
 msgstr "About me"
 
-#: src/pages/members/details/exchanges-tab.tsx
+#: src/components/transaction-item.tsx
 msgid "Accept"
 msgstr "Accept"
 
@@ -177,7 +187,7 @@ msgstr "All the members"
 msgid "Allow notifications to receive them here too."
 msgstr "Allow notifications to receive them here too."
 
-#: src/layout/push-notifications-prompt.tsx
+#: src/pages/home/push-notifications-prompt.tsx
 #: src/pages/settings/settings-page.tsx
 msgid "Allow on this device"
 msgstr "Allow on this device"
@@ -350,8 +360,8 @@ msgstr "Clear filters"
 #: src/components/address-form-dialog.tsx
 #: src/components/rich-text-toolbar.tsx
 #: src/components/toaster.tsx
-#: src/layout/push-notifications-prompt.tsx
 #: src/pages/events/details/notify-dialog.tsx
+#: src/pages/home/push-notifications-prompt.tsx
 #: src/pages/requests/details/requester-actions.tsx
 msgid "Close"
 msgstr "Close"
@@ -457,7 +467,7 @@ msgstr "Date and time (optional)"
 msgid "Date to be defined"
 msgstr "Date to be defined"
 
-#: src/pages/members/details/exchanges-tab.tsx
+#: src/components/transaction-item.tsx
 msgid "Decline"
 msgstr "Decline"
 
@@ -564,11 +574,11 @@ msgstr "Exchange"
 msgid "Exchange <0/>"
 msgstr "Exchange <0/>"
 
-#: src/pages/members/details/exchanges-tab.tsx
+#: src/components/transaction-item.tsx
 msgid "Exchange accepted"
 msgstr "Exchange accepted"
 
-#: src/pages/members/details/exchanges-tab.tsx
+#: src/components/transaction-item.tsx
 msgid "Exchange declined"
 msgstr "Exchange declined"
 
@@ -589,7 +599,7 @@ msgctxt "members sort"
 msgid "First name"
 msgstr "First name"
 
-#: src/layout/push-notifications-prompt.tsx
+#: src/pages/home/push-notifications-prompt.tsx
 msgid "Follow the activity of the LETS, even when the app is closed."
 msgstr "Follow the activity of the LETS, even when the app is closed."
 
@@ -863,6 +873,10 @@ msgstr "my@email.com"
 msgid "Name and photo"
 msgstr "Name and photo"
 
+#: src/pages/home/attention-section.tsx
+msgid "Needs your attention"
+msgstr "Needs your attention"
+
 #: src/pages/members/list/members-list.tsx
 msgctxt "member"
 msgid "New"
@@ -904,6 +918,10 @@ msgstr "No activity yet."
 #: src/components/address-search.tsx
 msgid "No address found. Check what you typed, or enter the address manually."
 msgstr "No address found. Check what you typed, or enter the address manually."
+
+#: src/pages/home/attention-section.tsx
+msgid "No answers yet"
+msgstr "No answers yet"
 
 #: src/pages/members/details/exchanges-tab.tsx
 msgid "No canceled exchanges"
@@ -986,7 +1004,7 @@ msgstr "Notifications appear on the devices where you allowed them, even when th
 msgid "Notifications are blocked on this device. To receive them, allow them in the browser settings."
 msgstr "Notifications are blocked on this device. To receive them, allow them in the browser settings."
 
-#: src/layout/push-notifications-prompt.tsx
+#: src/pages/home/push-notifications-prompt.tsx
 msgid "Notifications are blocked on this device. You can allow them in the browser settings."
 msgstr "Notifications are blocked on this device. You can allow them in the browser settings."
 
@@ -994,7 +1012,7 @@ msgstr "Notifications are blocked on this device. You can allow them in the brow
 msgid "Notifications are sent to your email address."
 msgstr "Notifications are sent to your email address."
 
-#: src/layout/push-notifications-prompt.tsx
+#: src/pages/home/push-notifications-prompt.tsx
 #: src/pages/settings/settings-page.tsx
 msgid "Notifications could not be enabled on this device. Try again in a few moments."
 msgstr "Notifications could not be enabled on this device. Try again in a few moments."
@@ -1097,6 +1115,10 @@ msgstr "Past event"
 msgid "Pending"
 msgstr "Pending"
 
+#: src/pages/home/attention-section.tsx
+msgid "Pending exchanges"
+msgstr "Pending exchanges"
+
 #: src/pages/profile/contact-section.tsx
 msgid "Phone number"
 msgstr "Phone number"
@@ -1164,7 +1186,7 @@ msgstr "Published by"
 msgid "Reason"
 msgstr "Reason"
 
-#: src/layout/push-notifications-prompt.tsx
+#: src/pages/home/push-notifications-prompt.tsx
 msgid "Receive notifications on this device?"
 msgstr "Receive notifications on this device?"
 
@@ -1339,10 +1361,6 @@ msgstr "See the information"
 msgid "See the members"
 msgstr "See the members"
 
-#: src/layout/pending-transactions-alert.tsx
-msgid "See the pending exchanges"
-msgstr "See the pending exchanges"
-
 #: src/pages/requests/edit/edit-request-page.tsx
 msgid "See the request"
 msgstr "See the request"
@@ -1505,7 +1523,7 @@ msgstr "The event could not be created"
 msgid "The exchange could not be created"
 msgstr "The exchange could not be created"
 
-#: src/pages/members/details/exchanges-tab.tsx
+#: src/components/transaction-item.tsx
 msgid "The exchange could not be updated"
 msgstr "The exchange could not be updated"
 
@@ -1609,10 +1627,6 @@ msgstr "The search is not available at the moment. Enter the address manually."
 msgid "The sign-in code could not be sent. Try again in a few moments."
 msgstr "The sign-in code could not be sent. Try again in a few moments."
 
-#: src/layout/pending-transactions-alert.tsx
-msgid "The units will move once you accept."
-msgstr "The units will move once you accept."
-
 #: src/pages/members/details/former-member.tsx
 msgid "Their profile is no longer available."
 msgstr "Their profile is no longer available."
@@ -1641,7 +1655,7 @@ msgstr "This code is not valid. Check that it matches the one in the email."
 msgid "This device does not receive notifications yet"
 msgstr "This device does not receive notifications yet"
 
-#: src/layout/push-notifications-prompt.tsx
+#: src/pages/home/push-notifications-prompt.tsx
 #: src/pages/settings/settings-page.tsx
 msgid "This device will receive notifications"
 msgstr "This device will receive notifications"
@@ -1831,7 +1845,7 @@ msgstr "Version {version}"
 msgid "Visible to the other members"
 msgstr "Visible to the other members"
 
-#: src/pages/members/details/exchanges-tab.tsx
+#: src/components/transaction-item.tsx
 msgid "Waiting for {payer} to confirm"
 msgstr "Waiting for {payer} to confirm"
 
@@ -1943,6 +1957,10 @@ msgstr "Your exchanges will appear here."
 #: src/pages/information/details/information-details-page.tsx
 msgid "Your information"
 msgstr "Your information"
+
+#: src/pages/home/attention-section.tsx
+msgid "Your open requests"
+msgstr "Your open requests"
 
 #: src/pages/profile/contact-section.tsx
 msgid "Your phone number cannot be removed, only changed"

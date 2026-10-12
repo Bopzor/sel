@@ -244,6 +244,7 @@ function createRequest(overrides: Partial<RequestListItem> = {}): RequestListIte
     requester: claire,
     title: '',
     message: { body: '', attachments: [] },
+    positiveAnswersCount: 0,
     ...overrides,
   };
 }

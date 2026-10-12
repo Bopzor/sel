@@ -4,7 +4,8 @@ import type { IconName } from '@sel/ui';
 
 export const routes = {
   home: () => '/',
-  requests: () => '/requests',
+  requests: (query?: { mine: boolean }) =>
+    '/requests' + (query ? '?' + new URLSearchParams({ mine: String(query.mine) }).toString() : ''),
   createRequest: () => '/requests/new',
   request: (requestId: string) => `/requests/${requestId}`,
   editRequest: (requestId: string) => `/requests/${requestId}/edit`,

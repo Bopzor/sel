@@ -4,7 +4,7 @@ import { useState } from 'react';
 
 import { TransactionDialog } from 'src/components/transaction-dialog';
 
-import { PendingTransactionsAlert } from './pending-transactions-alert';
+import { AttentionSection } from './attention-section';
 import { PushNotificationsPrompt } from './push-notifications-prompt';
 
 export function HomePage() {
@@ -13,7 +13,6 @@ export function HomePage() {
   return (
     <div className="stack gap-6">
       <PushNotificationsPrompt />
-      <PendingTransactionsAlert />
 
       <h1 className="text-title-1">
         <Trans>Home</Trans>
@@ -22,6 +21,8 @@ export function HomePage() {
       <Button icon="exchange" className="self-start" onClick={() => setOpen(true)}>
         <Trans>Create exchange</Trans>
       </Button>
+
+      <AttentionSection />
 
       <TransactionDialog open={open} onClose={() => setOpen(false)} />
     </div>

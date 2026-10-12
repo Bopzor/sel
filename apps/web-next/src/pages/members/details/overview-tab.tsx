@@ -11,9 +11,9 @@ import { Amount } from 'src/components/amount';
 import { ApiFailed, QueryResult } from 'src/components/api-result';
 import { DefinitionItem } from 'src/components/definition-item';
 import { Link } from 'src/components/link';
+import { TransactionItem } from 'src/components/transaction-item';
 
 import { ActivityItem } from './activity-item';
-import { TransactionItem } from './exchanges-tab';
 
 export function OverviewTab({ member }: { member: Member }) {
   const { data: me } = useSuspenseQuery(queries.session());
