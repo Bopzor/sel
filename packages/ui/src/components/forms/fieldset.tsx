@@ -20,10 +20,11 @@ function FieldsetHeader({ className, ...props }: ComponentProps<'div'>) {
 
 /** The question. It names the fieldset through Ark's aria-labelledby, so it may be inside a Fieldset.Header. */
 function FieldsetLegend({ className, ...props }: ComponentProps<'legend'>) {
+  // Floated, a legend is no longer drawn in the fieldset's border: it becomes a flex item, spaced by the gap.
   return (
     <ArkFieldset.Legend
       {...props}
-      className={clsx('text-label text-default data-disabled:text-disabled', className)}
+      className={clsx('float-left text-label text-default data-disabled:text-disabled', className)}
     />
   );
 }
