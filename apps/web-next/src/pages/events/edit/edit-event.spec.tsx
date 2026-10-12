@@ -63,6 +63,7 @@ describe('edit event', () => {
         body: '<p>Bring something to share.</p>',
         fileIds: ['f1'],
         kind: 'external',
+        committeeMeeting: false,
         date: date.toISOString(),
         location: { line1: '1 chemin du Lac', postalCode: '74000', city: 'Annecy', country: 'France' },
       },

@@ -411,6 +411,10 @@ msgstr "A commenté {link}"
 msgid "Comments"
 msgstr "Commentaires"
 
+#: src/pages/events/event-form.tsx
+msgid "Committee meeting"
+msgstr "Réunion du conseil d'animation"
+
 #: src/pages/members/details/member-sidebar.tsx
 #: src/pages/members/list/members-list.tsx
 msgid "Committee member"
@@ -950,7 +954,7 @@ msgstr "Suivant"
 
 #: src/pages/home/committee-meeting-card.tsx
 msgid "Next committee meeting"
-msgstr "Prochain Conseil d'Animation"
+msgstr "Prochain conseil d'animation"
 
 #: src/pages/members/details/activity-tab.tsx
 msgid "No activity yet"

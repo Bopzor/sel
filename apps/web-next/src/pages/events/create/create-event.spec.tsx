@@ -39,6 +39,7 @@ describe('create event', () => {
         body: '<p>Bring something to share.</p>',
         fileIds: [],
         kind: 'internal',
+        committeeMeeting: false,
         date: new Date('2026-10-12T18:30').toISOString(),
         location: null,
       },
@@ -178,6 +179,34 @@ describe('create event', () => {
     });
   });
 
+  it('creates a committee meeting event', async () => {
+    server.member = { ...me, committeeMember: true };
+    renderPage();
+
+    await user.type(await screen.findByRole('textbox', { name: /^Title/ }), 'Committee meeting');
+    await user.click(screen.getByRole('radio', { name: /Outside event/ }));
+    await user.click(screen.getByRole('checkbox', { name: 'Committee meeting' }));
+
+    expect(screen.getByRole('radio', { name: /Organized by the LETS/ })).toBeChecked();
+    expect(screen.getByRole('radio', { name: /Organized by the LETS/ })).toBeDisabled();
+    expect(screen.getByRole('radio', { name: /Outside event/ })).toBeDisabled();
+
+    await writeMessage(user, 'Agenda of the meeting.');
+    await user.click(screen.getByRole('button', { name: 'Create the event' }));
+
+    await vi.waitFor(() => {
+      expect(server.posted[0]).toMatchObject({ kind: 'internal', committeeMeeting: true });
+    });
+  });
+
+  it('does not offer a committee meeting to a member outside the committee', async () => {
+    renderPage();
+
+    await screen.findByRole('textbox', { name: /^Title/ });
+
+    expect(screen.queryByRole('checkbox', { name: 'Committee meeting' })).not.toBeInTheDocument();
+  });
+
   it('shows the errors under the fields', async () => {
     renderPage();
 
@@ -230,11 +259,12 @@ const geocodingFeature = {
 };
 
 class Server extends FakeServer {
+  member = me;
   posted: CreateEventBody[] = [];
   failing = false;
 
   init() {
-    this.register('GET /api/session/member', () => this.json(me));
+    this.register('GET /api/session/member', () => this.json(this.member));
 
     this.register('GET /geocodage/search', ({ url }) => {
       const features = url.searchParams.get('q') === '8 bd du port' ? [geocodingFeature] : [];

@@ -411,6 +411,10 @@ msgstr "Commented on {link}"
 msgid "Comments"
 msgstr "Comments"
 
+#: src/pages/events/event-form.tsx
+msgid "Committee meeting"
+msgstr "Committee meeting"
+
 #: src/pages/members/details/member-sidebar.tsx
 #: src/pages/members/list/members-list.tsx
 msgid "Committee member"

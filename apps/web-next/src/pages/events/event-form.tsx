@@ -1,16 +1,23 @@
 import { Trans } from '@lingui/react/macro';
 import { addressSchema, createEventBodySchema, EventKind, type Address, type Event } from '@sel/shared';
 import { Button, Card, Fieldset, FormField, Input, RadioGroup } from '@sel/ui';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useSuspenseQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 import { Controller, useForm, useWatch, type UseFormReturn } from 'react-hook-form';
 import z from 'zod';
 
 import { formatAddressLines } from 'src/app/format';
+import { queries } from 'src/app/queries';
 import { AddressFormDialog } from 'src/components/address-form-dialog';
 import { AddressSearchResults, useAddressSearch } from 'src/components/address-search';
 import { AttachmentsField, useAttachments } from 'src/components/attachments';
-import { FormServerErrorAlert, InputField, RichTextField, submitWithMutation } from 'src/components/fields';
+import {
+  CheckboxField,
+  FormServerErrorAlert,
+  InputField,
+  RichTextField,
+  submitWithMutation,
+} from 'src/components/fields';
 import { useFormApiError } from 'src/hooks/use-form-api-error';
 import { useZodResolver } from 'src/hooks/use-zod-resolver';
 
@@ -31,6 +38,8 @@ export function EventForm<Result>({
   submitLabel,
   errorTitle,
 }: EventFormProps<Result>) {
+  const { data: me } = useSuspenseQuery(queries.session());
+
   const form = useForm({
     resolver: useZodResolver(useSchema()),
     defaultValues: {
@@ -38,10 +47,13 @@ export function EventForm<Result>({
       body: event?.message.body ?? '',
       fileIds: event?.message.attachments.map(({ fileId }) => fileId) ?? [],
       kind: event?.kind ?? EventKind.internal,
+      committeeMeeting: event?.committeeMeeting ?? false,
       date: event?.date === undefined ? '' : toDateTimeLocal(new Date(event.date)),
       location: event?.location ?? null,
     },
   });
+
+  const committeeMeeting = useWatch({ control: form.control, name: 'committeeMeeting' });
 
   const mutation = useMutation({
     mutationFn,
@@ -75,6 +87,16 @@ export function EventForm<Result>({
           label={<Trans>Title</Trans>}
           hint={<Trans>A few words, for example: Picnic at the lake</Trans>}
         />
+
+        {me.committeeMember && (
+          <CheckboxField
+            control={form.control}
+            name="committeeMeeting"
+            label={<Trans>Committee meeting</Trans>}
+            onChange={(event) => event.target.checked && form.setValue('kind', EventKind.internal)}
+          />
+        )}
+
         <Controller
           control={form.control}
           name="kind"
@@ -88,6 +110,7 @@ export function EventForm<Result>({
                 {...field}
                 ref={ref}
                 value={value}
+                disabled={committeeMeeting}
                 onChange={onChange}
                 className="grid gap-2 md:grid md:grid-cols-2"
               >
