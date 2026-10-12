@@ -76,6 +76,21 @@ describe('event router', () => {
     expect(event).not.toHaveProperty('participation');
   });
 
+  it('lists the events between two dates', async () => {
+    await createEvent({ id: 'beforeId', date: createDate('2026-06-01T00:00:00.000Z') });
+    await createEvent({ id: 'afterBoundId', date: createDate('2026-06-02T00:00:00.000Z') });
+    await createEvent({ id: 'betweenId', date: createDate('2026-06-05T00:00:00.000Z') });
+    await createEvent({ id: 'beforeBoundId', date: createDate('2026-06-09T00:00:00.000Z') });
+    await createEvent({ id: 'undatedId' });
+
+    const events = await listEvents({
+      after: '2026-06-02T00:00:00.000Z',
+      before: '2026-06-09T00:00:00.000Z',
+    });
+
+    expect(events.map(({ id }) => id).sort()).toEqual(['afterBoundId', 'betweenId']);
+  });
+
   it('returns a 404 for an event that does not exist', async () => {
     await agent.get('/events/missingId').expect(404);
     await agent.put('/events/missingId/participation').send({ participation: 'yes' }).expect(404);

@@ -1412,6 +1412,7 @@ msgid "See the event"
 msgstr "Voir l'événement"
 
 #: src/pages/events/event-not-found.tsx
+#: src/pages/home/upcoming-events-card.tsx
 msgid "See the events"
 msgstr "Voir les événements"
 

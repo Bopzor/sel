@@ -11,6 +11,8 @@ type ListEventsQuery = {
   organizerId?: string;
   participantId?: string;
   includeUndated?: boolean;
+  after?: Date;
+  before?: Date;
   year?: number;
   page: number;
   pageSize: number;
@@ -32,6 +34,14 @@ export async function listEvents(query: ListEventsQuery) {
 
   if (query.timing === 'past') {
     conditions.push(lt(schema.events.date, new Date()));
+  }
+
+  if (query.after) {
+    conditions.push(gte(schema.events.date, query.after));
+  }
+
+  if (query.before) {
+    conditions.push(lt(schema.events.date, query.before));
   }
 
   if (query.organizerId) {

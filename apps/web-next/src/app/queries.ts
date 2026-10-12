@@ -23,6 +23,7 @@ import {
   type RequestListItem,
   type Transaction,
 } from '@sel/shared';
+import { addDuration } from '@sel/utils';
 import {
   infiniteQueryOptions,
   keepPreviousData,
@@ -116,6 +117,23 @@ export const queries = {
       getNextPageParam,
       placeholderData: keepPreviousData,
       select: flattenPages,
+    });
+  },
+
+  upcomingEvents: () => {
+    return queryOptions({
+      queryKey: ['events', 'upcoming'],
+      queryFn: () => {
+        return api<Paginated<EventsListItem>>('GET', '/events', {
+          query: {
+            timing: 'upcoming',
+            before: addDuration(new Date(), { days: 7 }).toISOString(),
+            page: 1,
+            pageSize: 2,
+          },
+          paginated: true,
+        });
+      },
     });
   },
 

@@ -51,6 +51,14 @@ export const listEventsQuerySchema = z.object({
   organizerId: z.string().optional(),
   participantId: z.string().optional(),
   includeUndated: z.stringbool().optional(),
+  after: z.iso
+    .datetime()
+    .transform((value) => new Date(value))
+    .optional(),
+  before: z.iso
+    .datetime()
+    .transform((value) => new Date(value))
+    .optional(),
   year: z.coerce.number().optional(),
   page: z.coerce.number().min(1).default(1),
   pageSize: z.coerce.number().min(1).max(100).default(10),
