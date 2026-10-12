@@ -12,13 +12,13 @@ msgstr ""
 msgid "{0, plural, one {# participant} other {# participants}}"
 msgstr "{0, plural, one {# participant} other {# participants}}"
 
-#. placeholder {0}: requests.total
-#: src/pages/home/attention-section.tsx
+#. placeholder {0}: data.total
+#: src/pages/home/open-requests-card.tsx
 msgid "{0, plural, other {See the # open requests}}"
 msgstr "{0, plural, other {Voir les # demandes ouvertes}}"
 
-#. placeholder {0}: transactions.total
-#: src/pages/home/attention-section.tsx
+#. placeholder {0}: data.total
+#: src/pages/home/pending-transactions-card.tsx
 msgid "{0, plural, other {See the # pending exchanges}}"
 msgstr "{0, plural, other {Voir les # échanges en attente}}"
 
@@ -81,7 +81,7 @@ msgstr "Les demandes, événements et propositions d'aide de {name} apparaîtron
 msgid "{participantsCount, plural, one {# participant} other {# participants}}"
 msgstr "{participantsCount, plural, one {# participant} other {# participants}}"
 
-#: src/pages/home/attention-section.tsx
+#: src/pages/home/open-requests-card.tsx
 msgid "{positiveAnswersCount, plural, one {# member can help} other {# members can help}}"
 msgstr "{positiveAnswersCount, plural, one {# membre peut aider} other {# membres peuvent aider}}"
 
@@ -104,6 +104,10 @@ msgstr "{total, plural, one {# échange} other {# échanges}}"
 #: src/pages/information/list/information-list.tsx
 msgid "{total, plural, one {# piece of information} other {# pieces of information}}"
 msgstr "{total, plural, one {# information} other {# informations}}"
+
+#: src/pages/home/feed.tsx
+msgid "{total, plural, one {# publication} other {# publications}}"
+msgstr "{total, plural, one {# publication} other {# publications}}"
 
 #: src/pages/requests/list/requests-list.tsx
 msgid "{total, plural, one {# request} other {# requests}}"
@@ -173,6 +177,11 @@ msgstr "Tous"
 msgctxt "exchanges filter"
 msgid "All"
 msgstr "Tous"
+
+#: src/pages/home/feed.tsx
+msgctxt "feed filter"
+msgid "All"
+msgstr "Tout"
 
 #: src/pages/requests/list/requests-filters.tsx
 msgctxt "requests filter"
@@ -315,6 +324,7 @@ msgstr "Annuler la demande"
 msgid "Cancel the request “{0}”?"
 msgstr "Annuler la demande « {0} » ?"
 
+#: src/pages/home/feed.tsx
 #: src/pages/requests/list/requests-list.tsx
 msgid "Canceled"
 msgstr "Annulée"
@@ -351,6 +361,7 @@ msgid "City"
 msgstr "Ville"
 
 #: src/pages/events/list/events-list.tsx
+#: src/pages/home/feed.tsx
 #: src/pages/information/list/information-list.tsx
 #: src/pages/members/list/members-list.tsx
 #: src/pages/requests/list/requests-list.tsx
@@ -414,6 +425,10 @@ msgstr "Membres du CA"
 msgid "Community"
 msgstr "Communauté"
 
+#: src/pages/home/profile-completion-card.tsx
+msgid "Complete your profile"
+msgstr "Complétez votre profil"
+
 #: src/pages/members/details/exchanges-tab.tsx
 msgctxt "exchanges filter"
 msgid "Completed"
@@ -464,6 +479,7 @@ msgstr "Date et heure (facultatif)"
 
 #: src/pages/events/details/event-page.tsx
 #: src/pages/events/list/events-list.tsx
+#: src/pages/home/feed.tsx
 msgid "Date to be defined"
 msgstr "Date à définir"
 
@@ -537,6 +553,11 @@ msgstr "Entrez l'adresse email de votre compte du SEL pour accéder à l'app."
 msgid "Enter the sign-in code received by email."
 msgstr "Entrez le code de connexion reçu par email."
 
+#: src/pages/home/feed.tsx
+msgctxt "feed item"
+msgid "Event"
+msgstr "Événement"
+
 #: src/pages/events/create/create-event-page.tsx
 msgid "Event created"
 msgstr "Événement créé"
@@ -553,6 +574,11 @@ msgstr "Événement introuvable"
 #: src/pages/events/create/create-event-page.tsx
 #: src/pages/events/details/event-page.tsx
 #: src/pages/events/list/events-page.tsx
+msgid "Events"
+msgstr "Événements"
+
+#: src/pages/home/feed.tsx
+msgctxt "feed filter"
 msgid "Events"
 msgstr "Événements"
 
@@ -615,6 +641,7 @@ msgstr "Par exemple : Aide au déménagement"
 msgid "For example: The meeting point has changed"
 msgstr "Par exemple : Le lieu de rendez-vous a changé"
 
+#: src/pages/home/feed.tsx
 #: src/pages/requests/list/requests-list.tsx
 msgid "Fulfilled"
 msgstr "Clôturée"
@@ -623,6 +650,14 @@ msgstr "Clôturée"
 #: src/pages/members/details/overview-tab.tsx
 msgid "Given"
 msgstr "Donnés"
+
+#: src/pages/home/home-page.tsx
+msgid "Hello {firstName}"
+msgstr "Bonjour {firstName}"
+
+#: src/pages/home/help-links-card.tsx
+msgid "Help"
+msgstr "Aide"
 
 #: src/pages/profile/profile-section.tsx
 msgid "Hidden from the other members"
@@ -633,7 +668,6 @@ msgid "History"
 msgstr "Historique"
 
 #: src/app/routes.ts
-#: src/pages/home/home-page.tsx
 msgid "Home"
 msgstr "Accueil"
 
@@ -685,6 +719,16 @@ msgstr "En commun"
 #: src/pages/members/details/activity-tab.tsx
 msgid "Information"
 msgstr "Informations publiées"
+
+#: src/pages/home/feed.tsx
+msgctxt "feed filter"
+msgid "Information"
+msgstr "Informations"
+
+#: src/pages/home/feed.tsx
+msgctxt "feed item"
+msgid "Information"
+msgstr "Information"
 
 #: src/pages/information/edit/edit-information-page.tsx
 msgid "Information edited"
@@ -873,10 +917,6 @@ msgstr "mon@email.com"
 msgid "Name and photo"
 msgstr "Nom et photo"
 
-#: src/pages/home/attention-section.tsx
-msgid "Needs your attention"
-msgstr "À traiter"
-
 #: src/pages/members/list/members-list.tsx
 msgctxt "member"
 msgid "New"
@@ -894,6 +934,7 @@ msgstr "Nouvel échange"
 msgid "New information"
 msgstr "Nouvelle information"
 
+#: src/pages/home/home-page.tsx
 #: src/pages/requests/list/requests-page.tsx
 msgid "New request"
 msgstr "Nouvelle demande"
@@ -907,6 +948,10 @@ msgstr "Date d'adhésion"
 msgid "Next"
 msgstr "Suivant"
 
+#: src/pages/home/committee-meeting-card.tsx
+msgid "Next committee meeting"
+msgstr "Prochain Conseil d'Animation"
+
 #: src/pages/members/details/activity-tab.tsx
 msgid "No activity yet"
 msgstr "Aucune activité pour l'instant"
@@ -919,7 +964,7 @@ msgstr "Aucune activité pour l'instant."
 msgid "No address found. Check what you typed, or enter the address manually."
 msgstr "Aucune adresse trouvée. Vérifiez votre saisie, ou saisissez l'adresse manuellement."
 
-#: src/pages/home/attention-section.tsx
+#: src/pages/home/open-requests-card.tsx
 msgid "No answers yet"
 msgstr "Pas encore de réponse"
 
@@ -976,6 +1021,10 @@ msgstr "Personne n'a encore dit venir."
 msgid "No phone number"
 msgstr "Aucun numéro de téléphone"
 
+#: src/pages/home/feed.tsx
+msgid "No publication matches these filters"
+msgstr "Aucune publication ne correspond à ces filtres"
+
 #: src/pages/requests/list/requests-list.tsx
 msgid "No request matches these filters"
 msgstr "Aucune demande ne correspond à ces filtres"
@@ -987,6 +1036,10 @@ msgstr "Aucune demande"
 #: src/pages/events/list/events-list.tsx
 msgid "No upcoming events"
 msgstr "Aucun événement à venir"
+
+#: src/pages/home/feed.tsx
+msgid "Nothing published yet"
+msgstr "Rien de publié pour le moment"
 
 #: src/pages/events/details/notify-dialog.tsx
 msgid "Notification sent"
@@ -1115,7 +1168,7 @@ msgstr "Événement passé"
 msgid "Pending"
 msgstr "En attente"
 
-#: src/pages/home/attention-section.tsx
+#: src/pages/home/pending-transactions-card.tsx
 msgid "Pending exchanges"
 msgstr "Échanges en attente"
 
@@ -1223,6 +1276,11 @@ msgstr "Retirer le lieu"
 msgid "Remove the photo"
 msgstr "Retirer la photo"
 
+#: src/pages/home/feed.tsx
+msgctxt "feed item"
+msgid "Request"
+msgstr "Demande"
+
 #: src/components/transaction-dialog.tsx
 msgid "Request {units}"
 msgstr "Demander des {units}"
@@ -1273,6 +1331,11 @@ msgstr "Demandé par"
 msgid "Requests"
 msgstr "Demandes"
 
+#: src/pages/home/feed.tsx
+msgctxt "feed filter"
+msgid "Requests"
+msgstr "Demandes"
+
 #: src/components/api-result.tsx
 #: src/pages/error-page.tsx
 msgid "Retry"
@@ -1294,6 +1357,7 @@ msgid "Save the changes"
 msgstr "Enregistrer les modifications"
 
 #: src/pages/events/list/events-filters.tsx
+#: src/pages/home/feed.tsx
 #: src/pages/information/list/information-filters.tsx
 #: src/pages/requests/list/requests-filters.tsx
 msgid "Search"
@@ -1318,6 +1382,10 @@ msgstr "Rechercher parmi les événements"
 #: src/pages/information/list/information-filters.tsx
 msgid "Search the information"
 msgstr "Rechercher parmi les informations"
+
+#: src/pages/home/feed.tsx
+msgid "Search the publications"
+msgstr "Rechercher dans les publications"
 
 #: src/pages/requests/list/requests-filters.tsx
 msgid "Search the requests"
@@ -1473,6 +1541,11 @@ msgstr "{0} échanges en attente affichés sur {total}"
 msgid "Showing {0} of {total} pieces of information"
 msgstr "{0} informations affichées sur {total}"
 
+#. placeholder {0}: items.length
+#: src/pages/home/feed.tsx
+msgid "Showing {0} of {total} publications"
+msgstr "{0} publications affichées sur {total}"
+
 #. placeholder {0}: requests.length
 #: src/pages/requests/list/requests-list.tsx
 msgid "Showing {0} of {total} requests"
@@ -1619,6 +1692,10 @@ msgstr "La demande n'a pas pu être clôturée"
 msgid "The request is sent to {name}"
 msgstr "La demande est envoyée à {name}"
 
+#: src/pages/home/feed.tsx
+msgid "The requests, events and information of the members appear here."
+msgstr "Les demandes, événements et informations des membres apparaissent ici."
+
 #: src/components/address-search.tsx
 msgid "The search is not available at the moment. Enter the address manually."
 msgstr "La recherche n'est pas disponible pour le moment. Saisissez l'adresse manuellement."
@@ -1737,6 +1814,7 @@ msgid "To change it, contact an administrator."
 msgstr "Pour la modifier, contactez un administrateur."
 
 #: src/pages/events/list/events-list.tsx
+#: src/pages/home/feed.tsx
 #: src/pages/information/list/information-list.tsx
 #: src/pages/requests/list/requests-list.tsx
 msgid "Try other words, or clear the filters."
@@ -1797,6 +1875,10 @@ msgctxt "information list"
 msgid "Unable to load the information"
 msgstr "Impossible de charger les informations"
 
+#: src/pages/home/feed.tsx
+msgid "Unable to load the latest news"
+msgstr "Impossible de charger les actualités"
+
 #: src/pages/members/details/member-page.tsx
 msgid "Unable to load the member"
 msgstr "Impossible de charger le membre"
@@ -1837,6 +1919,10 @@ msgctxt "events filter"
 msgid "Upcoming"
 msgstr "À venir"
 
+#: src/pages/home/upcoming-events-card.tsx
+msgid "Upcoming events"
+msgstr "Événements à venir"
+
 #: src/pages/settings/settings-page.tsx
 msgid "Version {version}"
 msgstr "Version {version}"
@@ -1856,6 +1942,10 @@ msgstr "Que voulez-vous faire ?"
 #: src/pages/requests/request-form.tsx
 msgid "What you need, when, and where"
 msgstr "Ce dont vous avez besoin, quand et où"
+
+#: src/pages/home/feed.tsx
+msgid "What's new"
+msgstr "Actualités"
 
 #: src/pages/requests/list/requests-list.tsx
 msgid "When a member needs a hand, their request appears here."
@@ -1939,6 +2029,10 @@ msgstr "Vos activités, ce que vous aimez partager ou apprendre"
 msgid "Your answer could not be saved"
 msgstr "Votre réponse n'a pas pu être enregistrée"
 
+#: src/pages/home/home-page.tsx
+msgid "Your balance: {balance}"
+msgstr "Votre solde : {balance}"
+
 #: src/pages/events/edit/edit-event-page.tsx
 #: src/pages/information/edit/edit-information-page.tsx
 #: src/pages/profile/profile-section.tsx
@@ -1958,7 +2052,7 @@ msgstr "Vos échanges apparaîtront ici."
 msgid "Your information"
 msgstr "Votre information"
 
-#: src/pages/home/attention-section.tsx
+#: src/pages/home/open-requests-card.tsx
 msgid "Your open requests"
 msgstr "Vos demandes en cours"
 

@@ -330,7 +330,7 @@
   /* Spacing feeds both min-h-bottom-nav (the bar) and pb-bottom-nav (the content). */
   --spacing-bottom-nav: 4.5rem;
 
-  --max-width-content: 45rem;
+  --max-width-content: 48rem;
   --max-width-page: 75rem;
   --max-width-dialog: 36rem;
   --max-width-toast: 30rem;

@@ -4,6 +4,7 @@ import {
   type CommentEntityType,
   type Config,
   type DocumentsGroup,
+  type FeedItem,
   type Event,
   type EventsListItem,
   type Information,
@@ -18,6 +19,7 @@ import {
   type MembersSort,
   type MemberTransactionStats,
   type Request,
+  type ResourceType,
   type RequestListItem,
   type Transaction,
 } from '@sel/shared';
@@ -51,6 +53,27 @@ export const queries = {
       queryKey: ['session'],
       queryFn: () => {
         return api<AuthenticatedMember>('GET', '/session/member');
+      },
+    });
+  },
+
+  feed: (query: { resourceType?: ResourceType; search?: string }) => {
+    return infiniteQueryOptions({
+      queryKey: ['feed', query],
+      queryFn: ({ pageParam }) => {
+        return api<Paginated<FeedItem>>('GET', '/feed', {
+          query: { ...query, page: pageParam },
+          paginated: true,
+        });
+      },
+      initialPageParam: 1,
+      getNextPageParam,
+      placeholderData: keepPreviousData,
+      select: (data): Paginated<FeedItem> => {
+        const items = data.pages.flatMap((page) => page.items);
+        const unique = new Map(items.map((item) => [item[1].id, item]));
+
+        return { total: data.pages.at(-1)?.total ?? 0, items: Array.from(unique.values()) };
       },
     });
   },

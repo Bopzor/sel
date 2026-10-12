@@ -1,12 +1,4 @@
-import {
-  createAuthenticatedMember,
-  createTransaction,
-  RequestStatus,
-  TransactionStatus,
-  type LightMember,
-  type RequestListItem,
-  type Transaction,
-} from '@sel/shared';
+import { createAuthenticatedMember, RequestStatus, type RequestListItem } from '@sel/shared';
 import { createFactory } from '@sel/utils';
 import { screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
@@ -18,12 +10,11 @@ import { routes } from 'src/app/routes';
 import { FakeServer } from 'src/tests/fake-server';
 import { renderTest } from 'src/tests/test-page';
 
-import { AttentionSection } from './attention-section';
+import { OpenRequestsCard } from './open-requests-card';
 
 const me = createAuthenticatedMember({ id: 'me', firstName: 'Jason', lastName: 'Talon' });
-const claire: LightMember = { id: 'claire', number: 12, firstName: 'Claire', lastName: 'Dubois' };
 
-describe('attention section', () => {
+describe('open requests card', () => {
   let server: Server;
 
   beforeEach(() => {
@@ -36,50 +27,17 @@ describe('attention section', () => {
 
     renderTest(
       <MemoryRouter>
-        <AttentionSection />
+        <OpenRequestsCard />
       </MemoryRouter>,
     );
   }
 
-  it('is not shown when nothing needs my attention', async () => {
+  it('is not shown without an open request', async () => {
     render();
 
-    await vi.waitFor(() => {
-      expect(server.find('/api/members/me/transactions')).toHaveLength(1);
-      expect(server.find('/api/requests')).toHaveLength(1);
-    });
+    await vi.waitFor(() => expect(server.find('/api/requests')).toHaveLength(1));
 
-    expect(screen.queryByText('Needs your attention')).not.toBeInTheDocument();
-  });
-
-  it('lists the exchanges waiting for my approval', async () => {
-    server.transactions = [
-      createTransaction({ status: TransactionStatus.pending, payer: me, recipient: claire }),
-    ];
-
-    render();
-
-    expect(await screen.findByRole('button', { name: 'Accept' })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'Decline' })).toBeInTheDocument();
-
-    const [url] = server.find('/api/members/me/transactions');
-
-    expect(url?.searchParams.get('status')).toEqual('pending');
-    expect(url?.searchParams.get('payerId')).toEqual('me');
-  });
-
-  it('shows three pending exchanges at most', async () => {
-    server.transactions = Array.from({ length: 4 }, () =>
-      createTransaction({ status: TransactionStatus.pending, payer: me, recipient: claire }),
-    );
-
-    render();
-
-    expect(await screen.findAllByRole('button', { name: 'Accept' })).toHaveLength(3);
-    expect(screen.getByRole('link', { name: 'See the 4 pending exchanges' })).toHaveAttribute(
-      'href',
-      routes.member('me', 'exchanges'),
-    );
+    expect(screen.queryByText('Your open requests')).not.toBeInTheDocument();
   });
 
   it('lists my open requests with their number of positive answers', async () => {
@@ -131,16 +89,9 @@ const createRequest = createFactory<RequestListItem>(() => ({
 }));
 
 class Server extends FakeServer {
-  transactions: Transaction[] = [];
   openRequests: RequestListItem[] = [];
 
   init() {
-    this.register('GET /api/members/me/transactions', ({ url }) => {
-      return this.json(this.paginate(this.transactions, url.searchParams), {
-        headers: { 'X-Pagination-Total': String(this.transactions.length) },
-      });
-    });
-
     this.register('GET /api/requests', ({ url }) => {
       return this.json(this.paginate(this.openRequests, url.searchParams), {
         headers: { 'X-Pagination-Total': String(this.openRequests.length) },

@@ -1,6 +1,6 @@
 import { Plural, Trans, useLingui } from '@lingui/react/macro';
 import { EventKind, type EventsListItem } from '@sel/shared';
-import { Badge, Button, Card, EmptyState, Icon, LinkButton, Skeleton } from '@sel/ui';
+import { Badge, Button, Card, EmptyState, LinkButton, Skeleton } from '@sel/ui';
 import { useInfiniteQuery, useSuspenseQuery } from '@tanstack/react-query';
 import clsx from 'clsx';
 
@@ -9,6 +9,7 @@ import { queries } from 'src/app/queries';
 import { routes } from 'src/app/routes';
 import { ApiFailed } from 'src/components/api-result';
 import { Bullet } from 'src/components/bullet';
+import { DateIcon } from 'src/components/date-icon';
 import { Link } from 'src/components/link';
 import { FetchNextPageError, Pagination } from 'src/components/pagination';
 
@@ -145,33 +146,6 @@ function EventCard({ event }: { event: EventsListItem }) {
         </div>
       </Card.Body>
     </Card.Root>
-  );
-}
-
-function DateIcon({ date }: { date?: Date }) {
-  const { i18n } = useLingui();
-
-  const day = date?.getDate();
-  const month = date?.toLocaleDateString(i18n.locale, { month: 'short' }).replace('.', '');
-  const year = date?.getFullYear();
-
-  const sameYear = year === new Date().getFullYear();
-
-  return (
-    <div
-      aria-hidden
-      className="stack size-14 shrink-0 items-center justify-center rounded-md bg-primary-subtle text-primary"
-    >
-      {date === undefined ? (
-        <Icon name="event" />
-      ) : (
-        <>
-          <span className="text-title-3 leading-none">{day}</span>
-          <span className="text-caption uppercase">{month}</span>
-          {!sameYear && <span className="text-caption leading-none">{year}</span>}
-        </>
-      )}
-    </div>
   );
 }
 
