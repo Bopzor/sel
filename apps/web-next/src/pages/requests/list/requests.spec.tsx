@@ -1,5 +1,5 @@
-import { RequestStatus, type LightMember, type RequestListItem } from '@sel/shared';
-import { createAuthenticatedMember, createMessage, createRequestListItem } from '@sel/shared/factories';
+import { RequestStatus, type RequestListItem } from '@sel/shared';
+import { createMessage, createRequestListItem } from '@sel/shared/factories';
 import { act, screen, within } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
@@ -8,12 +8,10 @@ import { queryClient } from 'src/app/query-client';
 import { routes } from 'src/app/routes';
 import { requireSession } from 'src/app/session';
 import { FakeServer } from 'src/tests/fake-server';
+import { claire, me } from 'src/tests/fixtures';
 import { renderTestPage } from 'src/tests/test-page';
 
 import { RequestsPage } from './requests-page';
-
-const me = createAuthenticatedMember({ id: 'me', firstName: 'Jason', lastName: 'Talon' });
-const claire: LightMember = { id: 'claire', number: 12, firstName: 'Claire', lastName: 'Dubois' };
 
 describe('requests', () => {
   let server: Server;

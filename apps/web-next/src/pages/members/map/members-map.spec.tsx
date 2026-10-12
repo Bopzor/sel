@@ -1,5 +1,5 @@
 import { type Member } from '@sel/shared';
-import { createAddress, createAuthenticatedMember, createMember } from '@sel/shared/factories';
+import { createAddress, createMember } from '@sel/shared/factories';
 import { screen } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
@@ -7,11 +7,10 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { routes } from 'src/app/routes';
 import { requireSession } from 'src/app/session';
 import { FakeServer } from 'src/tests/fake-server';
+import { me } from 'src/tests/fixtures';
 import { renderTestPage } from 'src/tests/test-page';
 
 import { MembersMapPage } from './members-map-page';
-
-const me = createAuthenticatedMember({ id: 'me', firstName: 'Jason', lastName: 'Talon' });
 
 describe('members map', () => {
   let server: Server;

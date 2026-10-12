@@ -1,5 +1,5 @@
-import { type Information, type LightMember } from '@sel/shared';
-import { createAuthenticatedMember, createInformation, createMessage } from '@sel/shared/factories';
+import { type Information } from '@sel/shared';
+import { createInformation, createMessage } from '@sel/shared/factories';
 import { assert } from '@sel/utils';
 import { act, screen, within } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
@@ -9,12 +9,10 @@ import { queryClient } from 'src/app/query-client';
 import { routes } from 'src/app/routes';
 import { requireSession } from 'src/app/session';
 import { FakeServer } from 'src/tests/fake-server';
+import { claire, me } from 'src/tests/fixtures';
 import { renderTestPage } from 'src/tests/test-page';
 
 import { InformationPage } from './information-page';
-
-const me = createAuthenticatedMember({ id: 'me', firstName: 'Jason', lastName: 'Talon' });
-const claire: LightMember = { id: 'claire', number: 12, firstName: 'Claire', lastName: 'Dubois' };
 
 describe('information', () => {
   let server: Server;

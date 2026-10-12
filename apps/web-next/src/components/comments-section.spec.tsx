@@ -1,18 +1,15 @@
 import { type Comment, type CreateCommentBody, type File as UploadedFile } from '@sel/shared';
-import { createAuthenticatedMember, createComment, createMessage } from '@sel/shared/factories';
+import { createComment, createMessage } from '@sel/shared/factories';
 import { assert } from '@sel/utils';
 import { screen, within } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { FakeServer } from 'src/tests/fake-server';
+import { claire, julien, me } from 'src/tests/fixtures';
 import { renderTest } from 'src/tests/test-page';
 
 import { CommentsSection } from './comments-section';
-
-const me = createAuthenticatedMember({ id: 'me', firstName: 'Jason', lastName: 'Talon' });
-const claire = { id: 'claire', firstName: 'Claire', lastName: 'Dubois' };
-const julien = { id: 'julien', firstName: 'Julien', lastName: 'Petit' };
 
 describe('CommentsSection', () => {
   let server: Server;

@@ -7,13 +7,13 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { routes } from 'src/app/routes';
 import { requireSession } from 'src/app/session';
 import { FakeServer } from 'src/tests/fake-server';
+import { julien } from 'src/tests/fixtures';
 import { renderTestPage } from 'src/tests/test-page';
 
 import { MemberPage } from './member-page';
 
 const me = createAuthenticatedMember({ id: 'me', firstName: 'Jason', lastName: 'Talon', balance: 10 });
 const claire = createMember({ id: 'claire', firstName: 'Claire', lastName: 'Dubois', balance: 4 });
-const julien = createMember({ id: 'julien', firstName: 'Julien', lastName: 'Petit' });
 
 describe('member exchanges', () => {
   let user: UserEvent;

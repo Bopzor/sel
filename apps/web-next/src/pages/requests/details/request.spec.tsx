@@ -2,16 +2,10 @@ import {
   RequestStatus,
   type Comment,
   type CreateTransactionBody,
-  type LightMember,
   type Request,
   type SetRequestAnswerBody,
 } from '@sel/shared';
-import {
-  createAuthenticatedMember,
-  createComment,
-  createMessage,
-  createRequest,
-} from '@sel/shared/factories';
+import { createComment, createMessage, createRequest } from '@sel/shared/factories';
 import { assert, defined } from '@sel/utils';
 import { screen, within } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
@@ -20,13 +14,10 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { routes } from 'src/app/routes';
 import { requireSession } from 'src/app/session';
 import { FakeServer } from 'src/tests/fake-server';
+import { claire, julien, me } from 'src/tests/fixtures';
 import { renderTestPage } from 'src/tests/test-page';
 
 import { RequestPage } from './request-page';
-
-const me = createAuthenticatedMember({ id: 'me', firstName: 'Jason', lastName: 'Talon' });
-const claire: LightMember = { id: 'claire', number: 12, firstName: 'Claire', lastName: 'Dubois' };
-const julien: LightMember = { id: 'julien', number: 13, firstName: 'Julien', lastName: 'Petit' };
 
 describe('request', () => {
   let server: Server;

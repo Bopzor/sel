@@ -1,16 +1,5 @@
-import {
-  RequestStatus,
-  type CreateRequestBody,
-  type LightMember,
-  type Request,
-  type File as UploadedFile,
-} from '@sel/shared';
-import {
-  createAttachment,
-  createAuthenticatedMember,
-  createMessage,
-  createRequest,
-} from '@sel/shared/factories';
+import { RequestStatus, type CreateRequestBody, type Request, type File as UploadedFile } from '@sel/shared';
+import { createAttachment, createMessage, createRequest } from '@sel/shared/factories';
 import { assert } from '@sel/utils';
 import { screen, within } from '@testing-library/react';
 import { userEvent, type UserEvent } from '@testing-library/user-event';
@@ -19,12 +8,10 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { routes } from 'src/app/routes';
 import { requireSession } from 'src/app/session';
 import { FakeServer } from 'src/tests/fake-server';
+import { claire, me } from 'src/tests/fixtures';
 import { renderTestPage } from 'src/tests/test-page';
 
 import { EditRequestPage } from './edit-request-page';
-
-const me = createAuthenticatedMember({ id: 'me', firstName: 'Jason', lastName: 'Talon' });
-const claire: LightMember = { id: 'claire', number: 12, firstName: 'Claire', lastName: 'Dubois' };
 
 const request = createRequest({
   id: 'r1',

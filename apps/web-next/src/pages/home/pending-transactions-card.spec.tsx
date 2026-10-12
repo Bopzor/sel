@@ -1,5 +1,5 @@
-import { TransactionStatus, type LightMember, type Transaction } from '@sel/shared';
-import { createAuthenticatedMember, createTransaction } from '@sel/shared/factories';
+import { TransactionStatus, type Transaction } from '@sel/shared';
+import { createTransaction } from '@sel/shared/factories';
 import { screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
@@ -8,12 +8,10 @@ import { queries } from 'src/app/queries';
 import { queryClient } from 'src/app/query-client';
 import { routes } from 'src/app/routes';
 import { FakeServer } from 'src/tests/fake-server';
+import { claire, me } from 'src/tests/fixtures';
 import { renderTest } from 'src/tests/test-page';
 
 import { PendingTransactionsCard } from './pending-transactions-card';
-
-const me = createAuthenticatedMember({ id: 'me', firstName: 'Jason', lastName: 'Talon' });
-const claire: LightMember = { id: 'claire', number: 12, firstName: 'Claire', lastName: 'Dubois' };
 
 describe('pending transactions card', () => {
   let server: Server;

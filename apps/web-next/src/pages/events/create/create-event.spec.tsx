@@ -1,5 +1,4 @@
 import { type CreateEventBody } from '@sel/shared';
-import { createAuthenticatedMember } from '@sel/shared/factories';
 import { screen, within } from '@testing-library/react';
 import { userEvent, type UserEvent } from '@testing-library/user-event';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
@@ -7,11 +6,10 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { routes } from 'src/app/routes';
 import { requireSession } from 'src/app/session';
 import { FakeServer } from 'src/tests/fake-server';
+import { me } from 'src/tests/fixtures';
 import { renderTestPage } from 'src/tests/test-page';
 
 import { CreateEventPage } from './create-event-page';
-
-const me = createAuthenticatedMember({ id: 'me', firstName: 'Jason', lastName: 'Talon' });
 
 describe('create event', () => {
   let user: UserEvent;

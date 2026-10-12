@@ -1,5 +1,5 @@
 import { type DocumentsGroup } from '@sel/shared';
-import { createAuthenticatedMember, createDocument } from '@sel/shared/factories';
+import { createDocument } from '@sel/shared/factories';
 import { screen, within } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
@@ -7,11 +7,10 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { routes } from 'src/app/routes';
 import { requireSession } from 'src/app/session';
 import { FakeServer } from 'src/tests/fake-server';
+import { me } from 'src/tests/fixtures';
 import { renderTestPage } from 'src/tests/test-page';
 
 import { DocumentsPage } from './documents-page';
-
-const me = createAuthenticatedMember({ id: 'me' });
 
 describe('documents', () => {
   let server: Server;

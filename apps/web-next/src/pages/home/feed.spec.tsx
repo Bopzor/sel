@@ -1,4 +1,4 @@
-import { RequestStatus, type FeedItem, type LightMember } from '@sel/shared';
+import { RequestStatus, type FeedItem } from '@sel/shared';
 import {
   createAddress,
   createFeedEvent,
@@ -12,11 +12,10 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { routes } from 'src/app/routes';
 import { FakeServer } from 'src/tests/fake-server';
+import { claire } from 'src/tests/fixtures';
 import { renderTest } from 'src/tests/test-page';
 
 import { Feed } from './feed';
-
-const claire: LightMember = { id: 'claire', number: 12, firstName: 'Claire', lastName: 'Dubois' };
 
 describe('feed', () => {
   let server: Server;

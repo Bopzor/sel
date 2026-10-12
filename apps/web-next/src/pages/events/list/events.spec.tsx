@@ -1,5 +1,5 @@
 import { EventKind, type EventsListItem } from '@sel/shared';
-import { createAuthenticatedMember, createEventsListItem, createMessage } from '@sel/shared/factories';
+import { createEventsListItem, createMessage } from '@sel/shared/factories';
 import { assert } from '@sel/utils';
 import { screen, within } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
@@ -8,11 +8,10 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { routes } from 'src/app/routes';
 import { requireSession } from 'src/app/session';
 import { FakeServer } from 'src/tests/fake-server';
+import { me } from 'src/tests/fixtures';
 import { renderTestPage } from 'src/tests/test-page';
 
 import { EventsPage } from './events-page';
-
-const me = createAuthenticatedMember({ id: 'me', firstName: 'Jason', lastName: 'Talon' });
 
 describe('events', () => {
   let server: Server;

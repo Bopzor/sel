@@ -1,5 +1,5 @@
 import { RequestStatus, type RequestListItem } from '@sel/shared';
-import { createAuthenticatedMember, createRequestListItem } from '@sel/shared/factories';
+import { createRequestListItem } from '@sel/shared/factories';
 import { screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
@@ -8,11 +8,10 @@ import { queries } from 'src/app/queries';
 import { queryClient } from 'src/app/query-client';
 import { routes } from 'src/app/routes';
 import { FakeServer } from 'src/tests/fake-server';
+import { me } from 'src/tests/fixtures';
 import { renderTest } from 'src/tests/test-page';
 
 import { OpenRequestsCard } from './open-requests-card';
-
-const me = createAuthenticatedMember({ id: 'me', firstName: 'Jason', lastName: 'Talon' });
 
 describe('open requests card', () => {
   let server: Server;

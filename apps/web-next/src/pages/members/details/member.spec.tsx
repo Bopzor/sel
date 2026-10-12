@@ -1,5 +1,5 @@
 import { type Member, type MemberActivityCounts } from '@sel/shared';
-import { createAddress, createAuthenticatedMember, createMember } from '@sel/shared/factories';
+import { createAddress, createMember } from '@sel/shared/factories';
 import { screen, within } from '@testing-library/react';
 import { userEvent, type UserEvent } from '@testing-library/user-event';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
@@ -7,12 +7,10 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { routes } from 'src/app/routes';
 import { requireSession } from 'src/app/session';
 import { FakeServer } from 'src/tests/fake-server';
+import { claire, me } from 'src/tests/fixtures';
 import { renderTestPage } from 'src/tests/test-page';
 
 import { MemberPage } from './member-page';
-
-const me = createAuthenticatedMember({ id: 'me', firstName: 'Jason', lastName: 'Talon' });
-const claire = createMember({ id: 'claire', firstName: 'Claire', lastName: 'Dubois' });
 
 describe('member', () => {
   let user: UserEvent;

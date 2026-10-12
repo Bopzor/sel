@@ -1,5 +1,5 @@
 import { type CreateTransactionBody, type LightMember } from '@sel/shared';
-import { createAuthenticatedMember, createMember } from '@sel/shared/factories';
+import { createMember } from '@sel/shared/factories';
 import { screen, within } from '@testing-library/react';
 import { userEvent, type UserEvent } from '@testing-library/user-event';
 import { useState } from 'react';
@@ -8,13 +8,10 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { queries } from 'src/app/queries';
 import { queryClient } from 'src/app/query-client';
 import { FakeServer } from 'src/tests/fake-server';
+import { claire, julien, me } from 'src/tests/fixtures';
 import { renderTest } from 'src/tests/test-page';
 
 import { TransactionDialog, type TransactionDirection } from './transaction-dialog';
-
-const me = createAuthenticatedMember({ id: 'me', firstName: 'Jason', lastName: 'Talon' });
-const claire = createMember({ id: 'claire', firstName: 'Claire', lastName: 'Dubois' });
-const julien = createMember({ id: 'julien', firstName: 'Julien', lastName: 'Petit' });
 
 describe('TransactionDialog', () => {
   let user: UserEvent;

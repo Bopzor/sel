@@ -1,11 +1,5 @@
-import { type Comment, type Information, type LightMember } from '@sel/shared';
-import {
-  createAttachment,
-  createAuthenticatedMember,
-  createComment,
-  createInformation,
-  createMessage,
-} from '@sel/shared/factories';
+import { type Comment, type Information } from '@sel/shared';
+import { createAttachment, createComment, createInformation, createMessage } from '@sel/shared/factories';
 import { assert } from '@sel/utils';
 import { screen } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
@@ -14,13 +8,10 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { routes } from 'src/app/routes';
 import { requireSession } from 'src/app/session';
 import { FakeServer } from 'src/tests/fake-server';
+import { claire, julien, me } from 'src/tests/fixtures';
 import { renderTestPage } from 'src/tests/test-page';
 
 import { InformationDetailsPage } from './information-details-page';
-
-const me = createAuthenticatedMember({ id: 'me', firstName: 'Jason', lastName: 'Talon' });
-const claire: LightMember = { id: 'claire', number: 12, firstName: 'Claire', lastName: 'Dubois' };
-const julien: LightMember = { id: 'julien', number: 13, firstName: 'Julien', lastName: 'Petit' };
 
 describe('information details', () => {
   let server: Server;

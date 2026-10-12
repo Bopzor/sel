@@ -1,5 +1,4 @@
 import { type CreateRequestBody, type File as UploadedFile } from '@sel/shared';
-import { createAuthenticatedMember } from '@sel/shared/factories';
 import { assert } from '@sel/utils';
 import { screen } from '@testing-library/react';
 import { userEvent, type UserEvent } from '@testing-library/user-event';
@@ -9,11 +8,10 @@ import type z from 'zod';
 import { routes } from 'src/app/routes';
 import { requireSession } from 'src/app/session';
 import { FakeServer } from 'src/tests/fake-server';
+import { me } from 'src/tests/fixtures';
 import { renderTestPage } from 'src/tests/test-page';
 
 import { CreateRequestPage } from './create-request-page';
-
-const me = createAuthenticatedMember({ id: 'me', firstName: 'Jason', lastName: 'Talon' });
 
 describe('create request', () => {
   let user: UserEvent;
