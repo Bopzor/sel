@@ -1,7 +1,7 @@
 import { Trans, useLingui } from '@lingui/react/macro';
 import { TransactionStatus, type Member, type Transaction } from '@sel/shared';
 import { Button, ListItem, showToast } from '@sel/ui';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQueryClient, useSuspenseQuery } from '@tanstack/react-query';
 import clsx from 'clsx';
 
 import { api } from 'src/app/api';
@@ -70,7 +70,7 @@ export function TransactionItem({ member, transaction }: TransactionItemProps) {
 
         {transaction.status === TransactionStatus.pending && (
           <div className="mt-2">
-            <PendingTransactionActions member={member} transaction={transaction} />
+            <PendingTransactionActions transaction={transaction} />
           </div>
         )}
       </ListItem.Content>
@@ -89,9 +89,10 @@ function TransactionComment({ author, comment }: { author: Transaction['payer'];
   );
 }
 
-function PendingTransactionActions({ member, transaction }: { member: Member; transaction: Transaction }) {
+function PendingTransactionActions({ transaction }: { transaction: Transaction }) {
   const { t } = useLingui();
   const queryClient = useQueryClient();
+  const { data: me } = useSuspenseQuery(queries.session());
 
   const mutation = useMutation({
     mutationFn: (action: 'accept' | 'cancel') => api('PUT', `/transactions/${transaction.id}/${action}`),
@@ -109,7 +110,7 @@ function PendingTransactionActions({ member, transaction }: { member: Member; tr
   });
 
   // Only the payer confirms an exchange.
-  if (transaction.payer.id !== member.id) {
+  if (transaction.payer.id !== me.id) {
     const payer = formatMemberName(transaction.payer);
 
     return (
