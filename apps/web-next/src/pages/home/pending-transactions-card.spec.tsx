@@ -1,10 +1,5 @@
-import {
-  createAuthenticatedMember,
-  createTransaction,
-  TransactionStatus,
-  type LightMember,
-  type Transaction,
-} from '@sel/shared';
+import { TransactionStatus, type LightMember, type Transaction } from '@sel/shared';
+import { createAuthenticatedMember, createTransaction } from '@sel/shared/factories';
 import { screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
 import { beforeEach, describe, expect, it, vi } from 'vitest';

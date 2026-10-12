@@ -1,4 +1,4 @@
-import { createDate, createFactory, createId, type ValueOf } from '@sel/utils';
+import type { ValueOf } from '@sel/utils';
 import { z } from 'zod';
 
 import { MembersSort } from './members-sort';
@@ -54,17 +54,6 @@ export type MemberTransactionStats = {
   count: number;
   partners: number;
 };
-
-export const createMember = createFactory<Member>(() => ({
-  id: createId(),
-  firstName: '',
-  lastName: '',
-  number: 0,
-  membershipStartDate: createDate().toISOString(),
-  balance: 0,
-  interests: [],
-  committeeMember: false,
-}));
 
 export const listMembersQuerySchema = z.object({
   sort: z.nativeEnum(MembersSort).optional(),

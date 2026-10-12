@@ -1,5 +1,5 @@
-import { createAuthenticatedMember, RequestStatus, type RequestListItem } from '@sel/shared';
-import { createFactory } from '@sel/utils';
+import { RequestStatus, type RequestListItem } from '@sel/shared';
+import { createAuthenticatedMember, createRequestListItem } from '@sel/shared/factories';
 import { screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
@@ -42,8 +42,20 @@ describe('open requests card', () => {
 
   it('lists my open requests with their number of positive answers', async () => {
     server.openRequests = [
-      createRequest({ id: 'answered', title: 'Borrow a ladder', positiveAnswersCount: 2 }),
-      createRequest({ id: 'unanswered', title: 'Help moving' }),
+      createRequestListItem({
+        id: 'answered',
+        status: RequestStatus.pending,
+        requester: me,
+        title: 'Borrow a ladder',
+        positiveAnswersCount: 2,
+      }),
+      createRequestListItem({
+        id: 'unanswered',
+        status: RequestStatus.pending,
+        requester: me,
+        title: 'Help moving',
+        positiveAnswersCount: 0,
+      }),
     ];
 
     render();
@@ -63,7 +75,7 @@ describe('open requests card', () => {
 
   it('shows three open requests at most', async () => {
     server.openRequests = Array.from({ length: 5 }, (_, index) =>
-      createRequest({ title: `Request ${index}` }),
+      createRequestListItem({ status: RequestStatus.pending, requester: me, title: `Request ${index}` }),
     );
 
     render();
@@ -75,18 +87,6 @@ describe('open requests card', () => {
     expect(screen.queryByRole('link', { name: 'Request 3' })).not.toBeInTheDocument();
   });
 });
-
-let nextId = 1;
-
-const createRequest = createFactory<RequestListItem>(() => ({
-  id: `r${nextId++}`,
-  status: RequestStatus.pending,
-  date: new Date().toISOString(),
-  requester: me,
-  title: '',
-  message: { body: '', attachments: [] },
-  positiveAnswersCount: 0,
-}));
 
 class Server extends FakeServer {
   openRequests: RequestListItem[] = [];

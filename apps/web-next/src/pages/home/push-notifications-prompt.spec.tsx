@@ -1,4 +1,5 @@
-import { createAuthenticatedMember, type AuthenticatedMember } from '@sel/shared';
+import { type AuthenticatedMember } from '@sel/shared';
+import { createAuthenticatedMember } from '@sel/shared/factories';
 import { cleanup, screen } from '@testing-library/react';
 import { userEvent, type UserEvent } from '@testing-library/user-event';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';

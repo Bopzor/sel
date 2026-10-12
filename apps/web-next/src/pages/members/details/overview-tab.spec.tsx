@@ -1,14 +1,17 @@
 import {
-  createAuthenticatedMember,
-  createMember,
-  createMemberActivityItem,
-  createTransaction,
+  TransactionStatus,
   type Member,
   type MemberActivityCounts,
   type MemberActivityItem,
   type MemberTransactionStats,
   type Transaction,
 } from '@sel/shared';
+import {
+  createAuthenticatedMember,
+  createMember,
+  createMemberActivityItem,
+  createTransaction,
+} from '@sel/shared/factories';
 import { screen, within } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
@@ -125,7 +128,9 @@ describe('member overview', () => {
   it('summarizes the exchanges', async () => {
     server.member = createMember({ id: 'claire', balance: 12 });
     server.stats = { given: 30, received: 42, count: 9, partners: 4 };
-    server.transactions = [createTransaction({ description: 'Bread', payer: server.member })];
+    server.transactions = [
+      createTransaction({ status: TransactionStatus.completed, description: 'Bread', payer: server.member }),
+    ];
 
     renderPage(routes.member('claire'));
 

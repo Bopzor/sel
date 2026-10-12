@@ -1,10 +1,6 @@
-import {
-  createAuthenticatedMember,
-  type Comment,
-  type CreateCommentBody,
-  type File as UploadedFile,
-} from '@sel/shared';
-import { assert, createFactory } from '@sel/utils';
+import { type Comment, type CreateCommentBody, type File as UploadedFile } from '@sel/shared';
+import { createAuthenticatedMember, createComment, createMessage } from '@sel/shared/factories';
+import { assert } from '@sel/utils';
 import { screen, within } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
@@ -37,8 +33,8 @@ describe('CommentsSection', () => {
 
   it('lists the comments with their count', async () => {
     server.comments = [
-      createComment({ author: julien, message: { body: '<p>I can help.</p>', attachments: [] } }),
-      createComment({ author: claire, message: { body: '<p>Thank you!</p>', attachments: [] } }),
+      createComment({ author: julien, message: createMessage({ body: '<p>I can help.</p>' }) }),
+      createComment({ author: claire, message: createMessage({ body: '<p>Thank you!</p>' }) }),
     ];
 
     renderSection();
@@ -63,7 +59,7 @@ describe('CommentsSection', () => {
   it('retries loading the comments after a failure', async () => {
     const user = userEvent.setup();
 
-    server.comments = [createComment({ message: { body: '<p>Hello there</p>', attachments: [] } })];
+    server.comments = [createComment({ message: createMessage({ body: '<p>Hello there</p>' }) })];
     server.failing = true;
 
     renderSection();
@@ -213,18 +209,9 @@ class Server extends FakeServer {
       const { entityType, entityId, ...rest } = body as CreateCommentBody;
       this.posted.push({ entityType, entityId, ...rest });
 
-      this.comments.push(createComment({ author: me, message: { body: rest.body, attachments: [] } }));
+      this.comments.push(createComment({ author: me, message: createMessage({ body: rest.body }) }));
 
       return this.noContent();
     });
   }
 }
-
-let nextId = 1;
-
-const createComment = createFactory<Comment>(() => ({
-  id: `c${nextId++}`,
-  author: claire,
-  date: new Date().toISOString(),
-  message: { body: '', attachments: [] },
-}));

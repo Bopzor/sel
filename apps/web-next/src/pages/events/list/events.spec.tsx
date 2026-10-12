@@ -1,5 +1,6 @@
-import { createAuthenticatedMember, EventKind, type EventsListItem, type LightMember } from '@sel/shared';
-import { addDuration, assert, createFactory } from '@sel/utils';
+import { EventKind, type EventsListItem } from '@sel/shared';
+import { createAuthenticatedMember, createEventsListItem, createMessage } from '@sel/shared/factories';
+import { assert } from '@sel/utils';
 import { screen, within } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
@@ -12,7 +13,6 @@ import { renderTestPage } from 'src/tests/test-page';
 import { EventsPage } from './events-page';
 
 const me = createAuthenticatedMember({ id: 'me', firstName: 'Jason', lastName: 'Talon' });
-const claire: LightMember = { id: 'claire', number: 12, firstName: 'Claire', lastName: 'Dubois' };
 
 describe('events', () => {
   let server: Server;
@@ -24,15 +24,15 @@ describe('events', () => {
 
   it('lists the upcoming events, with the undated ones', async () => {
     server.items = [
-      createEvent({
+      createEventsListItem({
         id: 'e1',
         title: 'Picnic at the lake',
         date: new Date('2026-05-14T18:30').toISOString(),
         location: { line1: '1 chemin du Lac', postalCode: '74000', city: 'Annecy', country: 'France' },
-        message: { body: '<p>Bring something to share.</p>', attachments: [] },
+        message: createMessage({ body: '<p>Bring something to share.</p>' }),
         participantsCount: 3,
       }),
-      createEvent({ id: 'e2', title: 'Village fair', date: undefined }),
+      createEventsListItem({ id: 'e2', title: 'Village fair', date: undefined }),
     ];
 
     renderPage(routes.events());
@@ -59,7 +59,7 @@ describe('events', () => {
   });
 
   it('tells when the date of an event is not defined', async () => {
-    server.items = [createEvent({ date: undefined })];
+    server.items = [createEventsListItem({ date: undefined })];
 
     renderPage(routes.events());
 
@@ -70,8 +70,8 @@ describe('events', () => {
 
   it('shows the events the member is coming to, and the outside events', async () => {
     server.items = [
-      createEvent({ title: 'Picnic', participation: 'yes' }),
-      createEvent({ title: 'Village fair', kind: EventKind.external, participation: 'no' }),
+      createEventsListItem({ title: 'Picnic', participation: 'yes' }),
+      createEventsListItem({ title: 'Village fair', kind: EventKind.external, participation: 'no' }),
     ];
 
     renderPage(routes.events());
@@ -135,7 +135,9 @@ describe('events', () => {
   it('shows more events', async () => {
     const user = userEvent.setup();
 
-    server.items = Array.from({ length: 12 }, (_, index) => createEvent({ title: `Event ${index + 1}` }));
+    server.items = Array.from({ length: 12 }, (_, index) =>
+      createEventsListItem({ title: `Event ${index + 1}` }),
+    );
 
     renderPage(routes.events());
 
@@ -153,7 +155,7 @@ describe('events', () => {
     const user = userEvent.setup();
 
     server.failing = true;
-    server.items = [createEvent({ title: 'Picnic' })];
+    server.items = [createEventsListItem({ title: 'Picnic' })];
 
     renderPage(routes.events());
 
@@ -165,19 +167,6 @@ describe('events', () => {
     expect(await screen.findByRole('link', { name: 'Picnic' })).toBeInTheDocument();
   });
 });
-
-let nextId = 1;
-
-const createEvent = createFactory<EventsListItem>(() => ({
-  id: `e${nextId++}`,
-  title: '',
-  kind: EventKind.internal,
-  committeeMeeting: false,
-  organizer: claire,
-  date: addDuration(new Date(), { days: 7 }).toISOString(),
-  message: { body: '', attachments: [] },
-  participantsCount: 0,
-}));
 
 // The skeleton's items have no link.
 function findItems() {

@@ -1,5 +1,6 @@
-import { createAuthenticatedMember, type Information, type LightMember } from '@sel/shared';
-import { assert, createFactory } from '@sel/utils';
+import { type Information, type LightMember } from '@sel/shared';
+import { createAuthenticatedMember, createInformation, createMessage } from '@sel/shared/factories';
+import { assert } from '@sel/utils';
 import { act, screen, within } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
@@ -28,7 +29,8 @@ describe('information', () => {
       createInformation({
         id: 'i1',
         title: 'General assembly',
-        message: { body: '<p>It takes place on Saturday.</p><ul><li>Vote</li></ul>', attachments: [] },
+        message: createMessage({ body: '<p>It takes place on Saturday.</p><ul><li>Vote</li></ul>' }),
+        author: claire,
       }),
     ];
 
@@ -51,7 +53,7 @@ describe('information', () => {
       createInformation({
         id: 'i1',
         title: 'General assembly',
-        message: { body: '<p>It takes place on Saturday.</p>', attachments: [] },
+        message: createMessage({ body: '<p>It takes place on Saturday.</p>' }),
         author: undefined,
       }),
     ];
@@ -90,7 +92,7 @@ describe('information', () => {
     const user = userEvent.setup();
 
     server.items = [
-      createInformation({ title: 'General assembly' }),
+      createInformation({ title: 'General assembly', author: claire }),
       createInformation({ title: 'Lost keys', author: me }),
     ];
 
@@ -184,16 +186,6 @@ describe('information', () => {
     expect(screen.getByRole('link', { name: 'General assembly' })).toBeInTheDocument();
   });
 });
-
-let nextId = 1;
-
-const createInformation = createFactory<Information>(() => ({
-  id: `i${nextId++}`,
-  title: '',
-  message: { body: '', attachments: [] },
-  author: claire,
-  publishedAt: new Date().toISOString(),
-}));
 
 // The skeleton's items have no link.
 function findItems() {

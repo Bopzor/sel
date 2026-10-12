@@ -1,5 +1,5 @@
-import { EventKind, type EventsListItem, type LightMember } from '@sel/shared';
-import { createFactory } from '@sel/utils';
+import { type EventsListItem } from '@sel/shared';
+import { createAddress, createEventsListItem } from '@sel/shared/factories';
 import { screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
@@ -9,8 +9,6 @@ import { FakeServer } from 'src/tests/fake-server';
 import { renderTest } from 'src/tests/test-page';
 
 import { CommitteeMeetingCard } from './committee-meeting-card';
-
-const claire: LightMember = { id: 'claire', number: 12, firstName: 'Claire', lastName: 'Dubois' };
 
 describe('committee meeting card', () => {
   let server: Server;
@@ -38,10 +36,11 @@ describe('committee meeting card', () => {
 
   it('shows the date and the location of the next committee meeting', async () => {
     server.events = [
-      createEvent({
+      createEventsListItem({
         id: 'meetingId',
+        committeeMeeting: true,
         date: '2026-10-13T16:15:00.000Z',
-        location: { line1: '12 rue des Lilas', postalCode: '84300', city: 'Cavaillon', country: 'France' },
+        location: createAddress({ line1: '12 rue des Lilas', postalCode: '84300', city: 'Cavaillon' }),
       }),
     ];
 
@@ -61,18 +60,6 @@ describe('committee meeting card', () => {
     expect(url?.searchParams.get('pageSize')).toEqual('1');
   });
 });
-
-let nextId = 1;
-
-const createEvent = createFactory<EventsListItem>(() => ({
-  id: `e${nextId++}`,
-  title: '',
-  kind: EventKind.internal,
-  committeeMeeting: true,
-  organizer: claire,
-  message: { body: '', attachments: [] },
-  participantsCount: 0,
-}));
 
 class Server extends FakeServer {
   events: EventsListItem[] = [];

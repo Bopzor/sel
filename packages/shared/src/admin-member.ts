@@ -1,4 +1,3 @@
-import { createFactory, createId } from '@sel/utils';
 import z from 'zod';
 
 import { MemberStatus } from './member';
@@ -14,16 +13,6 @@ export type AdminMember = {
   avatar?: string;
   balance: number;
 };
-
-export const createAdminMember = createFactory<AdminMember>(() => ({
-  id: createId(),
-  status: MemberStatus.active,
-  firstName: '',
-  lastName: '',
-  number: 0,
-  email: '',
-  balance: 0,
-}));
 
 export const listAdminMembersQuerySchema = z.object({
   sort: z.literal(['number', 'name', 'balance']).optional(),

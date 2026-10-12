@@ -1,5 +1,12 @@
-import { createAuthenticatedMember, type Comment, type Information, type LightMember } from '@sel/shared';
-import { assert, createFactory } from '@sel/utils';
+import { type Comment, type Information, type LightMember } from '@sel/shared';
+import {
+  createAttachment,
+  createAuthenticatedMember,
+  createComment,
+  createInformation,
+  createMessage,
+} from '@sel/shared/factories';
+import { assert } from '@sel/utils';
 import { screen } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
@@ -25,13 +32,19 @@ describe('information details', () => {
 
   it('shows the information', async () => {
     server.information = createInformation({
+      id: 'i1',
       title: 'General assembly',
-      message: {
+      message: createMessage({
         body: '<p>It takes place on Saturday.</p>',
         attachments: [
-          { fileId: 'f1', name: 'agenda.pdf', originalName: 'Agenda.pdf', mimetype: 'application/pdf' },
+          createAttachment({
+            fileId: 'f1',
+            name: 'agenda.pdf',
+            originalName: 'Agenda.pdf',
+            mimetype: 'application/pdf',
+          }),
         ],
-      },
+      }),
     });
 
     renderPage();
@@ -42,7 +55,7 @@ describe('information details', () => {
   });
 
   it('links to the author', async () => {
-    server.information = createInformation({ author: claire });
+    server.information = createInformation({ id: 'i1', author: claire });
 
     renderPage();
 
@@ -52,7 +65,7 @@ describe('information details', () => {
   });
 
   it('shows the information published by the association', async () => {
-    server.information = createInformation({ author: undefined });
+    server.information = createInformation({ id: 'i1', author: undefined });
 
     renderPage();
 
@@ -64,7 +77,7 @@ describe('information details', () => {
   it('lists the comments', async () => {
     server.information = createInformation({ id: 'i1' });
     server.comments = [
-      createComment({ author: julien, message: { body: '<p>I will be there.</p>', attachments: [] } }),
+      createComment({ author: julien, message: createMessage({ body: '<p>I will be there.</p>' }) }),
     ];
 
     renderPage();
@@ -80,7 +93,7 @@ describe('information details', () => {
   });
 
   it('offers the author to edit the information', async () => {
-    server.information = createInformation({ author: me });
+    server.information = createInformation({ id: 'i1', author: me });
 
     renderPage();
 
@@ -89,7 +102,7 @@ describe('information details', () => {
   });
 
   it('does not offer to edit the information to another member', async () => {
-    server.information = createInformation({ author: claire });
+    server.information = createInformation({ id: 'i1', author: claire });
 
     renderPage();
 
@@ -110,7 +123,7 @@ describe('information details', () => {
   it('retries loading the information after a failure', async () => {
     const user = userEvent.setup();
 
-    server.information = createInformation({ title: 'General assembly' });
+    server.information = createInformation({ id: 'i1', title: 'General assembly' });
     server.failing = true;
 
     renderPage();
@@ -142,21 +155,6 @@ async function findSection(heading: string) {
 
   return section;
 }
-
-const createInformation = createFactory<Information>(() => ({
-  id: 'i1',
-  title: 'Information',
-  message: { body: '', attachments: [] },
-  author: claire,
-  publishedAt: new Date().toISOString(),
-}));
-
-const createComment = createFactory<Comment>(() => ({
-  id: 'c1',
-  date: new Date().toISOString(),
-  author: claire,
-  message: { body: '', attachments: [] },
-}));
 
 class Server extends FakeServer {
   information: Information | undefined;

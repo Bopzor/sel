@@ -1,4 +1,5 @@
-import { createAuthenticatedMember, type CreateRequestBody, type File as UploadedFile } from '@sel/shared';
+import { type CreateRequestBody, type File as UploadedFile } from '@sel/shared';
+import { createAuthenticatedMember } from '@sel/shared/factories';
 import { assert } from '@sel/utils';
 import { screen } from '@testing-library/react';
 import { userEvent, type UserEvent } from '@testing-library/user-event';

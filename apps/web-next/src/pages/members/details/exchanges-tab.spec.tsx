@@ -1,12 +1,5 @@
-import {
-  createAuthenticatedMember,
-  createMember,
-  createTransaction,
-  TransactionStatus,
-  type Member,
-  type MemberTransactionStats,
-  type Transaction,
-} from '@sel/shared';
+import { TransactionStatus, type Member, type MemberTransactionStats, type Transaction } from '@sel/shared';
+import { createAuthenticatedMember, createMember, createTransaction } from '@sel/shared/factories';
 import { screen, within } from '@testing-library/react';
 import { userEvent, type UserEvent } from '@testing-library/user-event';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
@@ -48,6 +41,7 @@ describe('member exchanges', () => {
   it("lists the member's exchanges", async () => {
     server.transactions = [
       createTransaction({
+        status: TransactionStatus.completed,
         payer: claire,
         recipient: julien,
         amount: 3,
@@ -56,7 +50,13 @@ describe('member exchanges', () => {
         payerComment: 'Thank you!',
         recipientComment: 'With pleasure',
       }),
-      createTransaction({ payer: julien, recipient: claire, amount: 2, description: 'Bread' }),
+      createTransaction({
+        status: TransactionStatus.completed,
+        payer: julien,
+        recipient: claire,
+        amount: 2,
+        description: 'Bread',
+      }),
     ];
 
     renderPage(routes.member('claire', 'exchanges'));
@@ -87,7 +87,9 @@ describe('member exchanges', () => {
   });
 
   it('lists the exchanges with me', async () => {
-    server.transactions = [createTransaction({ payer: claire, recipient: julien })];
+    server.transactions = [
+      createTransaction({ status: TransactionStatus.completed, payer: claire, recipient: julien }),
+    ];
 
     renderPage(routes.member('claire', 'exchanges'));
 
@@ -155,7 +157,12 @@ describe('member exchanges', () => {
 
   it('lists my canceled exchanges', async () => {
     server.transactions = [
-      createTransaction({ payer: me, recipient: julien, description: 'Completed' }),
+      createTransaction({
+        status: TransactionStatus.completed,
+        payer: me,
+        recipient: julien,
+        description: 'Completed',
+      }),
       createTransaction({
         status: TransactionStatus.canceled,
         payer: me,

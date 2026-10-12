@@ -1,12 +1,17 @@
 import {
-  createAuthenticatedMember,
   RequestStatus,
   type CreateRequestBody,
   type LightMember,
   type Request,
   type File as UploadedFile,
 } from '@sel/shared';
-import { assert, createFactory } from '@sel/utils';
+import {
+  createAttachment,
+  createAuthenticatedMember,
+  createMessage,
+  createRequest,
+} from '@sel/shared/factories';
+import { assert } from '@sel/utils';
 import { screen, within } from '@testing-library/react';
 import { userEvent, type UserEvent } from '@testing-library/user-event';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
@@ -20,6 +25,24 @@ import { EditRequestPage } from './edit-request-page';
 
 const me = createAuthenticatedMember({ id: 'me', firstName: 'Jason', lastName: 'Talon' });
 const claire: LightMember = { id: 'claire', number: 12, firstName: 'Claire', lastName: 'Dubois' };
+
+const request = createRequest({
+  id: 'r1',
+  status: RequestStatus.pending,
+  requester: me,
+  title: 'Shelf',
+  message: createMessage({
+    body: '<p>I need a drill on Saturday.</p>',
+    attachments: [
+      createAttachment({
+        fileId: 'f1',
+        name: 'shelf.jpg',
+        originalName: 'Shelf.jpg',
+        mimetype: 'image/jpeg',
+      }),
+    ],
+  }),
+});
 
 describe('edit request', () => {
   let user: UserEvent;
@@ -107,7 +130,7 @@ describe('edit request', () => {
   });
 
   it("does not show the form for another member's request", async () => {
-    server.request = createRequest({ requester: claire });
+    server.request = { ...request, requester: claire };
 
     renderPage();
 
@@ -116,7 +139,7 @@ describe('edit request', () => {
   });
 
   it('does not show the form for a closed request', async () => {
-    server.request = createRequest({ status: RequestStatus.fulfilled });
+    server.request = { ...request, status: RequestStatus.fulfilled };
 
     renderPage();
 
@@ -147,22 +170,8 @@ function renderPage() {
   ]);
 }
 
-const createRequest = createFactory<Request>(() => ({
-  id: 'r1',
-  status: RequestStatus.pending,
-  date: new Date().toISOString(),
-  requester: me,
-  title: 'Shelf',
-  message: {
-    body: '<p>I need a drill on Saturday.</p>',
-    attachments: [{ fileId: 'f1', name: 'shelf.jpg', originalName: 'Shelf.jpg', mimetype: 'image/jpeg' }],
-  },
-  hasTransactions: false,
-  answers: [],
-}));
-
 class Server extends FakeServer {
-  request?: Request = createRequest();
+  request?: Request = request;
   updated: CreateRequestBody[] = [];
   failing = false;
 

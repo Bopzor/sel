@@ -1,10 +1,5 @@
-import {
-  createAddress,
-  createAuthenticatedMember,
-  createMember,
-  type Member,
-  type MemberActivityCounts,
-} from '@sel/shared';
+import { type Member, type MemberActivityCounts } from '@sel/shared';
+import { createAddress, createAuthenticatedMember, createMember } from '@sel/shared/factories';
 import { screen, within } from '@testing-library/react';
 import { userEvent, type UserEvent } from '@testing-library/user-event';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
@@ -17,6 +12,7 @@ import { renderTestPage } from 'src/tests/test-page';
 import { MemberPage } from './member-page';
 
 const me = createAuthenticatedMember({ id: 'me', firstName: 'Jason', lastName: 'Talon' });
+const claire = createMember({ id: 'claire', firstName: 'Claire', lastName: 'Dubois' });
 
 describe('member', () => {
   let user: UserEvent;
@@ -29,11 +25,12 @@ describe('member', () => {
   });
 
   it("shows the member's identity", async () => {
-    server.member = createClaire({
+    server.member = {
+      ...claire,
       number: 42,
       committeeMember: true,
       membershipStartDate: '2022-03-15T00:00:00.000Z',
-    });
+    };
 
     renderPage(routes.member('claire'));
 
@@ -44,7 +41,7 @@ describe('member', () => {
   });
 
   it('shows the contact information made visible by the member', async () => {
-    server.member = createClaire({ email: 'claire@domain.tld', phoneNumber: '0612345678' });
+    server.member = { ...claire, email: 'claire@domain.tld', phoneNumber: '0612345678' };
 
     renderPage(routes.member('claire'));
 
@@ -66,7 +63,7 @@ describe('member', () => {
   });
 
   it('hides the contact section when there is nothing to show', async () => {
-    server.member = createClaire();
+    server.member = claire;
 
     renderPage(routes.member('claire'));
 
@@ -77,7 +74,8 @@ describe('member', () => {
   });
 
   it("shows the member's address with a link to the members map", async () => {
-    server.member = createClaire({
+    server.member = {
+      ...claire,
       address: createAddress({
         line1: '1 rue des Lilas',
         postalCode: '74000',
@@ -85,7 +83,7 @@ describe('member', () => {
         country: 'France',
         position: [4, 2],
       }),
-    });
+    };
 
     renderPage(routes.member('claire'));
 
@@ -99,9 +97,10 @@ describe('member', () => {
   });
 
   it("shows the member's address on a map", async () => {
-    server.member = createClaire({
+    server.member = {
+      ...claire,
       address: createAddress({ line1: '1 rue des Lilas', city: 'Annecy', position: [6.12, 45.9] }),
-    });
+    };
 
     renderPage(routes.member('claire'));
 
@@ -113,7 +112,7 @@ describe('member', () => {
   });
 
   it('opens the exchange dialog with the member as counterpart', async () => {
-    server.member = createClaire();
+    server.member = claire;
 
     renderPage(routes.member('claire'));
 
@@ -151,7 +150,7 @@ describe('member', () => {
   });
 
   it('selects the tab from the URL', async () => {
-    server.member = createClaire();
+    server.member = claire;
 
     renderPage(routes.member('claire', 'exchanges'));
 
@@ -166,7 +165,7 @@ describe('member', () => {
   });
 
   it('navigates between the tabs', async () => {
-    server.member = createClaire();
+    server.member = claire;
 
     const router = renderPage(routes.member('claire'));
 
@@ -177,7 +176,7 @@ describe('member', () => {
   });
 
   it('redirects an unknown tab to the overview', async () => {
-    server.member = createClaire();
+    server.member = claire;
 
     const router = renderPage('/members/claire/unknown');
 
@@ -185,10 +184,6 @@ describe('member', () => {
     expect(router.state.location.pathname).toEqual('/members/claire');
   });
 });
-
-function createClaire(overrides: Partial<Member> = {}) {
-  return createMember({ id: 'claire', firstName: 'Claire', lastName: 'Dubois', ...overrides });
-}
 
 function renderPage(path: string) {
   return renderTestPage(path, [

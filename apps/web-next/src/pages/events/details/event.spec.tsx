@@ -1,12 +1,12 @@
 import {
-  createAuthenticatedMember,
   EventKind,
   type Event,
   type LightMember,
   type SendEventNotificationBody,
   type SetEventParticipationBody,
 } from '@sel/shared';
-import { addDuration, assert, createFactory, defined } from '@sel/utils';
+import { createAuthenticatedMember, createEvent, createMessage } from '@sel/shared/factories';
+import { addDuration, assert, defined } from '@sel/utils';
 import { screen, within } from '@testing-library/react';
 import { userEvent, type UserEvent } from '@testing-library/user-event';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
@@ -22,8 +22,6 @@ const me = createAuthenticatedMember({ id: 'me', firstName: 'Jason', lastName: '
 const claire: LightMember = { id: 'claire', number: 12, firstName: 'Claire', lastName: 'Dubois' };
 const julien: LightMember = { id: 'julien', number: 13, firstName: 'Julien', lastName: 'Petit' };
 
-const nextWeek = addDuration(new Date(), { days: 7 });
-
 describe('event', () => {
   let user: UserEvent;
   let server: Server;
@@ -36,10 +34,12 @@ describe('event', () => {
 
   it('shows the event', async () => {
     server.event = createEvent({
+      id: 'e1',
       title: 'Picnic at the lake',
       date: '2026-10-12T16:30:00.000Z',
       location: { line1: '1 chemin du Lac', postalCode: '74000', city: 'Annecy', country: 'France' },
-      message: { body: '<p>Bring something to share.</p>', attachments: [] },
+      organizer: claire,
+      message: createMessage({ body: '<p>Bring something to share.</p>' }),
     });
 
     renderPage();
@@ -57,7 +57,7 @@ describe('event', () => {
   });
 
   it('tells when the date and the location are not defined', async () => {
-    server.event = createEvent({ date: undefined, location: undefined });
+    server.event = createEvent({ id: 'e1', date: undefined, location: undefined });
 
     renderPage();
 
@@ -66,7 +66,7 @@ describe('event', () => {
   });
 
   it('shows the outside events', async () => {
-    server.event = createEvent({ kind: EventKind.external });
+    server.event = createEvent({ id: 'e1', kind: EventKind.external });
 
     renderPage();
 
@@ -75,6 +75,7 @@ describe('event', () => {
 
   it('lists the participants who are coming', async () => {
     server.event = createEvent({
+      id: 'e1',
       participants: [
         { ...claire, participation: 'yes' },
         { ...julien, participation: 'no' },
@@ -97,7 +98,7 @@ describe('event', () => {
 
   describe('participation', () => {
     it('tells the organizer that the member is coming', async () => {
-      server.event = createEvent();
+      server.event = createEvent({ id: 'e1' });
 
       renderPage();
 
@@ -109,7 +110,7 @@ describe('event', () => {
     });
 
     it('changes the answer', async () => {
-      server.event = createEvent({ participants: [{ ...me, participation: 'yes' }] });
+      server.event = createEvent({ id: 'e1', participants: [{ ...me, participation: 'yes' }] });
 
       renderPage();
 
@@ -120,7 +121,7 @@ describe('event', () => {
     });
 
     it('withdraws the answer', async () => {
-      server.event = createEvent({ participants: [{ ...me, participation: 'no' }] });
+      server.event = createEvent({ id: 'e1', participants: [{ ...me, participation: 'no' }] });
 
       renderPage();
 
@@ -131,7 +132,7 @@ describe('event', () => {
     });
 
     it('does not ask about a past event', async () => {
-      server.event = createEvent({ date: addDuration(new Date(), { days: -1 }).toISOString() });
+      server.event = createEvent({ id: 'e1', date: addDuration(new Date(), { days: -1 }).toISOString() });
 
       renderPage();
 
@@ -140,7 +141,7 @@ describe('event', () => {
     });
 
     it('lets the organizer answer', async () => {
-      server.event = createEvent({ organizer: me });
+      server.event = createEvent({ id: 'e1', organizer: me });
 
       renderPage();
 
@@ -150,7 +151,7 @@ describe('event', () => {
 
   describe('organizer', () => {
     it('offers the organizer to edit the event', async () => {
-      server.event = createEvent({ organizer: me });
+      server.event = createEvent({ id: 'e1', organizer: me });
 
       renderPage();
 
@@ -161,7 +162,7 @@ describe('event', () => {
     });
 
     it('does not offer the actions to the other members', async () => {
-      server.event = createEvent();
+      server.event = createEvent({ id: 'e1', organizer: claire });
 
       renderPage();
 
@@ -171,7 +172,11 @@ describe('event', () => {
     });
 
     it('notifies the participants', async () => {
-      server.event = createEvent({ organizer: me, participants: [{ ...claire, participation: 'yes' }] });
+      server.event = createEvent({
+        id: 'e1',
+        organizer: me,
+        participants: [{ ...claire, participation: 'yes' }],
+      });
 
       renderPage();
 
@@ -195,7 +200,7 @@ describe('event', () => {
     });
 
     it('shows the errors of the notification', async () => {
-      server.event = createEvent({ organizer: me });
+      server.event = createEvent({ id: 'e1', organizer: me });
 
       renderPage();
 
@@ -263,14 +268,3 @@ class Server extends FakeServer {
     });
   }
 }
-
-const createEvent = createFactory<Event>(() => ({
-  id: 'e1',
-  title: 'Event',
-  kind: EventKind.internal,
-  committeeMeeting: false,
-  date: nextWeek.toISOString(),
-  organizer: claire,
-  message: { body: '', attachments: [] },
-  participants: [],
-}));

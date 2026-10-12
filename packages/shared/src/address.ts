@@ -1,4 +1,3 @@
-import { createFactory } from '@sel/utils';
 import { z } from 'zod';
 
 export const addressSchema = z.object({
@@ -11,10 +10,3 @@ export const addressSchema = z.object({
 });
 
 export type Address = z.infer<typeof addressSchema>;
-
-export const createAddress = createFactory<Address>(() => ({
-  line1: '',
-  postalCode: '',
-  city: '',
-  country: '',
-}));

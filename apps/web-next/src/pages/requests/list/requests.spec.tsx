@@ -1,9 +1,5 @@
-import {
-  createAuthenticatedMember,
-  RequestStatus,
-  type LightMember,
-  type RequestListItem,
-} from '@sel/shared';
+import { RequestStatus, type LightMember, type RequestListItem } from '@sel/shared';
+import { createAuthenticatedMember, createMessage, createRequestListItem } from '@sel/shared/factories';
 import { act, screen, within } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
@@ -29,10 +25,12 @@ describe('requests', () => {
 
   it('lists the open requests', async () => {
     server.items = [
-      createRequest({
+      createRequestListItem({
         id: 'r1',
+        status: RequestStatus.pending,
+        requester: claire,
         title: 'Cat sitting',
-        message: { body: '<p>I am away for a week.</p><ul><li>Feed Whiskers</li></ul>', attachments: [] },
+        message: createMessage({ body: '<p>I am away for a week.</p><ul><li>Feed Whiskers</li></ul>' }),
       }),
     ];
 
@@ -51,8 +49,8 @@ describe('requests', () => {
     const user = userEvent.setup();
 
     server.items = [
-      createRequest({ title: 'Lawn mowing', status: RequestStatus.fulfilled }),
-      createRequest({ title: 'Bike repair', status: RequestStatus.canceled }),
+      createRequestListItem({ title: 'Lawn mowing', status: RequestStatus.fulfilled }),
+      createRequestListItem({ title: 'Bike repair', status: RequestStatus.canceled }),
     ];
 
     const router = renderPage(routes.requests());
@@ -70,7 +68,10 @@ describe('requests', () => {
   it('searches the requests', async () => {
     const user = userEvent.setup();
 
-    server.items = [createRequest({ title: 'Cat sitting' }), createRequest({ title: 'Trailer loan' })];
+    server.items = [
+      createRequestListItem({ title: 'Cat sitting' }),
+      createRequestListItem({ title: 'Trailer loan' }),
+    ];
 
     const router = renderPage(routes.requests());
 
@@ -87,8 +88,8 @@ describe('requests', () => {
     const user = userEvent.setup();
 
     server.items = [
-      createRequest({ title: 'Cat sitting' }),
-      createRequest({ title: 'Ride to the station', requester: me }),
+      createRequestListItem({ title: 'Cat sitting', requester: claire }),
+      createRequestListItem({ title: 'Ride to the station', requester: me }),
     ];
 
     renderPage(routes.requests());
@@ -144,7 +145,7 @@ describe('requests', () => {
   it('clears the filters when no request matches them', async () => {
     const user = userEvent.setup();
 
-    server.items = [createRequest({ title: 'Cat sitting' })];
+    server.items = [createRequestListItem({ title: 'Cat sitting' })];
 
     const router = renderPage(`${routes.requests()}?search=bike&mine=true`);
 
@@ -159,7 +160,9 @@ describe('requests', () => {
   it('shows more requests', async () => {
     const user = userEvent.setup();
 
-    server.items = Array.from({ length: 12 }, (_, index) => createRequest({ title: `Request ${index + 1}` }));
+    server.items = Array.from({ length: 12 }, (_, index) =>
+      createRequestListItem({ title: `Request ${index + 1}` }),
+    );
 
     renderPage(routes.requests());
 
@@ -178,7 +181,7 @@ describe('requests', () => {
   it('retries when the requests fail to load', async () => {
     const user = userEvent.setup();
 
-    server.items = [createRequest({ title: 'Cat sitting' })];
+    server.items = [createRequestListItem({ title: 'Cat sitting' })];
     server.failing = true;
 
     renderPage(routes.requests());
@@ -192,7 +195,7 @@ describe('requests', () => {
   });
 
   it('keeps the requests when a refetch fails', async () => {
-    server.items = [createRequest({ title: 'Cat sitting' })];
+    server.items = [createRequestListItem({ title: 'Cat sitting' })];
 
     renderPage(routes.requests());
 
@@ -211,7 +214,9 @@ describe('requests', () => {
   it('retries when more requests fail to load', async () => {
     const user = userEvent.setup();
 
-    server.items = Array.from({ length: 12 }, (_, index) => createRequest({ title: `Request ${index + 1}` }));
+    server.items = Array.from({ length: 12 }, (_, index) =>
+      createRequestListItem({ title: `Request ${index + 1}` }),
+    );
 
     renderPage(routes.requests());
 
@@ -233,21 +238,6 @@ describe('requests', () => {
     expect(screen.queryByText('Unable to load more elements')).not.toBeInTheDocument();
   });
 });
-
-let nextId = 1;
-
-function createRequest(overrides: Partial<RequestListItem> = {}): RequestListItem {
-  return {
-    id: `r${nextId++}`,
-    status: RequestStatus.pending,
-    date: new Date().toISOString(),
-    requester: claire,
-    title: '',
-    message: { body: '', attachments: [] },
-    positiveAnswersCount: 0,
-    ...overrides,
-  };
-}
 
 // The skeleton's items have no link.
 function findItems() {

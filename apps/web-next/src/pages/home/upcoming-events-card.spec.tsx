@@ -1,5 +1,5 @@
-import { EventKind, type EventsListItem, type LightMember } from '@sel/shared';
-import { createFactory } from '@sel/utils';
+import { type EventsListItem } from '@sel/shared';
+import { createAddress, createEventsListItem } from '@sel/shared/factories';
 import { screen, within } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
@@ -9,8 +9,6 @@ import { FakeServer } from 'src/tests/fake-server';
 import { renderTest } from 'src/tests/test-page';
 
 import { UpcomingEventsCard } from './upcoming-events-card';
-
-const claire: LightMember = { id: 'claire', number: 12, firstName: 'Claire', lastName: 'Dubois' };
 
 describe('upcoming events card', () => {
   let server: Server;
@@ -37,11 +35,14 @@ describe('upcoming events card', () => {
   });
 
   it('lists the next two events of the coming week', async () => {
-    const location = { line1: '', postalCode: '', city: 'Cavaillon', country: '' };
-
     server.events = [
-      createEvent({ id: 'picnicId', title: 'Picnic', date: '2026-06-01T10:00:00.000Z', location }),
-      createEvent({ title: 'Repair café', date: '2026-06-08T10:00:00.000Z' }),
+      createEventsListItem({
+        id: 'picnicId',
+        title: 'Picnic',
+        date: '2026-06-01T10:00:00.000Z',
+        location: createAddress({ city: 'Cavaillon' }),
+      }),
+      createEventsListItem({ title: 'Repair café', date: '2026-06-08T10:00:00.000Z' }),
     ];
 
     render();
@@ -66,18 +67,6 @@ describe('upcoming events card', () => {
     expect(Math.abs(before - inSevenDays)).toBeLessThan(60 * 1000);
   });
 });
-
-let nextId = 1;
-
-const createEvent = createFactory<EventsListItem>(() => ({
-  id: `e${nextId++}`,
-  title: '',
-  kind: EventKind.internal,
-  committeeMeeting: false,
-  organizer: claire,
-  message: { body: '', attachments: [] },
-  participantsCount: 0,
-}));
 
 class Server extends FakeServer {
   events: EventsListItem[] = [];

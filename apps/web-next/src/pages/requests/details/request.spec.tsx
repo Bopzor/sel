@@ -1,5 +1,4 @@
 import {
-  createAuthenticatedMember,
   RequestStatus,
   type Comment,
   type CreateTransactionBody,
@@ -7,7 +6,13 @@ import {
   type Request,
   type SetRequestAnswerBody,
 } from '@sel/shared';
-import { assert, createFactory, defined } from '@sel/utils';
+import {
+  createAuthenticatedMember,
+  createComment,
+  createMessage,
+  createRequest,
+} from '@sel/shared/factories';
+import { assert, defined } from '@sel/utils';
 import { screen, within } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
@@ -33,6 +38,7 @@ describe('request', () => {
 
   it('shows the request', async () => {
     server.request = createRequest({
+      id: 'r1',
       title: 'Cat sitting',
       message: {
         body: '<p>I am away for a week.</p>',
@@ -57,6 +63,7 @@ describe('request', () => {
 
   it("shows the requester's contact details", async () => {
     server.request = createRequest({
+      id: 'r1',
       requester: { ...claire, email: 'claire@example.com', phoneNumber: '0612345678' },
     });
 
@@ -72,6 +79,7 @@ describe('request', () => {
 
   it('lists the answers, positive first', async () => {
     server.request = createRequest({
+      id: 'r1',
       answers: [
         { id: 'a1', member: claire, answer: 'negative' },
         { id: 'a2', member: julien, answer: 'positive' },
@@ -87,7 +95,7 @@ describe('request', () => {
   });
 
   it('shows that no one has answered', async () => {
-    server.request = createRequest({ answers: [] });
+    server.request = createRequest({ id: 'r1', answers: [] });
 
     renderPage();
 
@@ -97,7 +105,7 @@ describe('request', () => {
   it('lists the comments', async () => {
     server.request = createRequest({ id: 'r1' });
     server.comments = [
-      createComment({ author: julien, message: { body: '<p>I can help.</p>', attachments: [] } }),
+      createComment({ author: julien, message: createMessage({ body: '<p>I can help.</p>' }) }),
     ];
 
     renderPage();
@@ -116,7 +124,7 @@ describe('request', () => {
     [RequestStatus.fulfilled, 'This request is fulfilled'],
     [RequestStatus.canceled, 'This request was canceled'],
   ])('shows that the request is %s', async (status, message) => {
-    server.request = createRequest({ status });
+    server.request = createRequest({ id: 'r1', status });
 
     renderPage();
 
@@ -135,7 +143,7 @@ describe('request', () => {
   it('retries loading the request after a failure', async () => {
     const user = userEvent.setup();
 
-    server.request = createRequest({ title: 'Cat sitting' });
+    server.request = createRequest({ id: 'r1', title: 'Cat sitting' });
     server.failing = true;
 
     renderPage();
@@ -152,7 +160,7 @@ describe('request', () => {
     it('answers that the member can help', async () => {
       const user = userEvent.setup();
 
-      server.request = createRequest();
+      server.request = createRequest({ id: 'r1', requester: claire });
 
       renderPage();
 
@@ -169,7 +177,7 @@ describe('request', () => {
     it('answers that the member cannot help', async () => {
       const user = userEvent.setup();
 
-      server.request = createRequest();
+      server.request = createRequest({ id: 'r1', requester: claire });
 
       renderPage();
 
@@ -182,7 +190,11 @@ describe('request', () => {
     it('withdraws the answer', async () => {
       const user = userEvent.setup();
 
-      server.request = createRequest({ answers: [{ id: 'a1', member: me, answer: 'positive' }] });
+      server.request = createRequest({
+        id: 'r1',
+        requester: claire,
+        answers: [{ id: 'a1', member: me, answer: 'positive' }],
+      });
 
       renderPage();
 
@@ -196,7 +208,7 @@ describe('request', () => {
     it('shows that the answer could not be saved', async () => {
       const user = userEvent.setup();
 
-      server.request = createRequest();
+      server.request = createRequest({ id: 'r1', requester: claire });
       server.answerFailing = true;
 
       renderPage();
@@ -208,7 +220,7 @@ describe('request', () => {
     });
 
     it("does not offer to answer the member's own request", async () => {
-      server.request = createRequest({ requester: me });
+      server.request = createRequest({ id: 'r1', requester: me });
 
       renderPage();
 
@@ -218,7 +230,7 @@ describe('request', () => {
     });
 
     it('does not offer to answer a closed request', async () => {
-      server.request = createRequest({ status: RequestStatus.fulfilled });
+      server.request = createRequest({ id: 'r1', requester: claire, status: RequestStatus.fulfilled });
 
       renderPage();
 
@@ -230,7 +242,7 @@ describe('request', () => {
 
   describe('requester actions', () => {
     it('offers the requester to edit the request', async () => {
-      server.request = createRequest({ requester: me });
+      server.request = createRequest({ id: 'r1', requester: me });
 
       renderPage();
 
@@ -241,7 +253,7 @@ describe('request', () => {
     it('closes the request', async () => {
       const user = userEvent.setup();
 
-      server.request = createRequest({ requester: me, title: 'Cat sitting' });
+      server.request = createRequest({ id: 'r1', requester: me, title: 'Cat sitting' });
 
       renderPage();
 
@@ -261,7 +273,7 @@ describe('request', () => {
     it('does not mention the units when some were sent', async () => {
       const user = userEvent.setup();
 
-      server.request = createRequest({ requester: me, hasTransactions: true });
+      server.request = createRequest({ id: 'r1', requester: me, hasTransactions: true });
 
       renderPage();
 
@@ -274,7 +286,7 @@ describe('request', () => {
     it('cancels the request', async () => {
       const user = userEvent.setup();
 
-      server.request = createRequest({ requester: me, title: 'Cat sitting' });
+      server.request = createRequest({ id: 'r1', requester: me, title: 'Cat sitting' });
 
       renderPage();
 
@@ -290,7 +302,7 @@ describe('request', () => {
     it('keeps the request open when going back', async () => {
       const user = userEvent.setup();
 
-      server.request = createRequest({ requester: me });
+      server.request = createRequest({ id: 'r1', requester: me });
 
       renderPage();
 
@@ -304,7 +316,7 @@ describe('request', () => {
     it('shows that the request could not be closed', async () => {
       const user = userEvent.setup();
 
-      server.request = createRequest({ requester: me });
+      server.request = createRequest({ id: 'r1', requester: me });
       server.statusFailing = true;
 
       renderPage();
@@ -320,7 +332,7 @@ describe('request', () => {
     });
 
     it('does not offer the actions to another member', async () => {
-      server.request = createRequest();
+      server.request = createRequest({ id: 'r1', requester: claire });
 
       renderPage();
 
@@ -330,7 +342,7 @@ describe('request', () => {
     });
 
     it('does not offer the actions on a closed request', async () => {
-      server.request = createRequest({ requester: me, status: RequestStatus.canceled });
+      server.request = createRequest({ id: 'r1', requester: me, status: RequestStatus.canceled });
 
       renderPage();
 
@@ -351,7 +363,7 @@ describe('request', () => {
     it('sends units from the requester to a member, linked to the request', async () => {
       const user = userEvent.setup();
 
-      server.request = createRequest({ requester: me, title: 'Cat sitting' });
+      server.request = createRequest({ id: 'r1', requester: me, title: 'Cat sitting' });
 
       renderPage();
 
@@ -373,7 +385,7 @@ describe('request', () => {
     });
 
     it('offers the requester to send units on a closed request', async () => {
-      server.request = createRequest({ requester: me, status: RequestStatus.fulfilled });
+      server.request = createRequest({ id: 'r1', requester: me, status: RequestStatus.fulfilled });
 
       renderPage();
 
@@ -384,6 +396,8 @@ describe('request', () => {
       const user = userEvent.setup();
 
       server.request = createRequest({
+        id: 'r1',
+        requester: claire,
         title: 'Cat sitting',
         answers: [{ id: 'a1', member: me, answer: 'positive' }],
       });
@@ -409,7 +423,7 @@ describe('request', () => {
       ['has not answered', []],
       ["can't help", [{ id: 'a1', member: me, answer: 'negative' as const }]],
     ])('does not offer an exchange to a member who %s', async (_, answers) => {
-      server.request = createRequest({ answers });
+      server.request = createRequest({ id: 'r1', requester: claire, answers });
 
       renderPage();
 
@@ -501,23 +515,3 @@ class Server extends FakeServer {
     return this.noContent();
   }
 }
-
-const createRequest = createFactory<Request>(() => ({
-  id: 'r1',
-  status: RequestStatus.pending,
-  date: new Date().toISOString(),
-  requester: claire,
-  title: 'Request',
-  message: { body: '', attachments: [] },
-  hasTransactions: false,
-  answers: [],
-}));
-
-let nextId = 1;
-
-const createComment = createFactory<Comment>(() => ({
-  id: `c${nextId++}`,
-  author: claire,
-  date: new Date().toISOString(),
-  message: { body: '', attachments: [] },
-}));

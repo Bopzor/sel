@@ -1,11 +1,5 @@
-import {
-  createAuthenticatedMember,
-  createMember,
-  createMemberActivityItem,
-  type Member,
-  type MemberActivityCounts,
-  type MemberActivityItem,
-} from '@sel/shared';
+import { type Member, type MemberActivityCounts, type MemberActivityItem } from '@sel/shared';
+import { createAuthenticatedMember, createMember, createMemberActivityItem } from '@sel/shared/factories';
 import { screen, within } from '@testing-library/react';
 import { userEvent, type UserEvent } from '@testing-library/user-event';
 import { beforeEach, describe, expect, it, vi } from 'vitest';

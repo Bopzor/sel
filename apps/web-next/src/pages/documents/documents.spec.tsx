@@ -1,5 +1,5 @@
-import { createAuthenticatedMember, type Document, type DocumentsGroup } from '@sel/shared';
-import { createFactory } from '@sel/utils';
+import { type DocumentsGroup } from '@sel/shared';
+import { createAuthenticatedMember, createDocument } from '@sel/shared/factories';
 import { screen, within } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
@@ -64,13 +64,6 @@ describe('documents', () => {
     expect(await screen.findByRole('link', { name: 'statuts.pdf' })).toBeInTheDocument();
   });
 });
-
-const createDocument = createFactory<Document>(() => ({
-  url: '',
-  name: '',
-  size: 1000,
-  updated: new Date('2020-01-01').toISOString(),
-}));
 
 function renderPage(path: string) {
   return renderTestPage(path, [

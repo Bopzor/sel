@@ -1,11 +1,10 @@
+import { EventKind, type Event, type LightMember, type UpdateEventBody } from '@sel/shared';
 import {
+  createAttachment,
   createAuthenticatedMember,
-  EventKind,
-  type Event,
-  type LightMember,
-  type UpdateEventBody,
-} from '@sel/shared';
-import { createFactory } from '@sel/utils';
+  createEvent,
+  createMessage,
+} from '@sel/shared/factories';
 import { screen, within } from '@testing-library/react';
 import { userEvent, type UserEvent } from '@testing-library/user-event';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
@@ -22,6 +21,22 @@ const claire: LightMember = { id: 'claire', number: 12, firstName: 'Claire', las
 
 const date = new Date(2026, 9, 12, 18, 30);
 
+const event = createEvent({
+  id: 'e1',
+  title: 'Picnic at the lake',
+  kind: EventKind.external,
+  committeeMeeting: false,
+  date: date.toISOString(),
+  location: { line1: '1 chemin du Lac', postalCode: '74000', city: 'Annecy', country: 'France' },
+  organizer: me,
+  message: createMessage({
+    body: '<p>Bring something to share.</p>',
+    attachments: [
+      createAttachment({ fileId: 'f1', name: 'map.png', originalName: 'map.png', mimetype: 'image/png' }),
+    ],
+  }),
+});
+
 describe('edit event', () => {
   let user: UserEvent;
   let server: Server;
@@ -33,7 +48,7 @@ describe('edit event', () => {
   });
 
   it('fills the form with the event', async () => {
-    server.event = createEvent();
+    server.event = event;
 
     renderPage();
 
@@ -45,7 +60,7 @@ describe('edit event', () => {
   });
 
   it('saves the changes and opens the event', async () => {
-    server.event = createEvent();
+    server.event = event;
 
     const router = renderPage();
 
@@ -71,7 +86,7 @@ describe('edit event', () => {
   });
 
   it('removes the date and the location', async () => {
-    server.event = createEvent();
+    server.event = event;
 
     renderPage();
 
@@ -84,7 +99,7 @@ describe('edit event', () => {
   });
 
   it('edits the location manually, from the current one', async () => {
-    server.event = createEvent();
+    server.event = event;
 
     renderPage();
 
@@ -114,7 +129,7 @@ describe('edit event', () => {
   });
 
   it('keeps the location when its edition is canceled', async () => {
-    server.event = createEvent();
+    server.event = event;
 
     renderPage();
 
@@ -125,7 +140,7 @@ describe('edit event', () => {
   });
 
   it('does not let another member edit the event', async () => {
-    server.event = createEvent({ organizer: claire });
+    server.event = { ...event, organizer: claire };
 
     renderPage();
 
@@ -171,18 +186,3 @@ class Server extends FakeServer {
     });
   }
 }
-
-const createEvent = createFactory<Event>(() => ({
-  id: 'e1',
-  title: 'Picnic at the lake',
-  kind: EventKind.external,
-  committeeMeeting: false,
-  date: date.toISOString(),
-  location: { line1: '1 chemin du Lac', postalCode: '74000', city: 'Annecy', country: 'France' },
-  organizer: me,
-  message: {
-    body: '<p>Bring something to share.</p>',
-    attachments: [{ fileId: 'f1', name: 'map.png', originalName: 'map.png', mimetype: 'image/png' }],
-  },
-  participants: [],
-}));

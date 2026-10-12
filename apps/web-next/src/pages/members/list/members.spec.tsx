@@ -1,5 +1,5 @@
-import { createAuthenticatedMember, type Member } from '@sel/shared';
-import { createFactory } from '@sel/utils';
+import { type Member } from '@sel/shared';
+import { createAuthenticatedMember, createMember } from '@sel/shared/factories';
 import { screen, within } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
@@ -210,19 +210,6 @@ describe('members', () => {
     await findItems();
   });
 });
-
-let nextId = 1;
-
-const createMember = createFactory<Member>(() => ({
-  id: `m${nextId}`,
-  firstName: '',
-  lastName: '',
-  number: nextId++,
-  membershipStartDate: longAgo,
-  balance: 0,
-  interests: [],
-  committeeMember: false,
-}));
 
 // The skeleton's items have no link.
 function findItems() {

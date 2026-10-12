@@ -1,12 +1,10 @@
+import { RequestStatus, type FeedItem, type LightMember } from '@sel/shared';
 import {
-  RequestStatus,
-  type FeedEvent,
-  type FeedInformation,
-  type FeedItem,
-  type FeedRequest,
-  type LightMember,
-} from '@sel/shared';
-import { createFactory } from '@sel/utils';
+  createAddress,
+  createFeedEvent,
+  createFeedInformation,
+  createFeedRequest,
+} from '@sel/shared/factories';
 import { screen, within } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router';
@@ -42,9 +40,9 @@ describe('feed', () => {
 
   it('lists the latest requests, events and information', async () => {
     server.items = [
-      ['request', createRequest({ id: 'requestId', title: 'Borrow a ladder' })],
-      ['event', createEvent({ id: 'eventId', title: 'Picnic' })],
-      ['information', createInformation({ id: 'informationId', title: 'New members', author: claire })],
+      ['request', createFeedRequest({ id: 'requestId', title: 'Borrow a ladder' })],
+      ['event', createFeedEvent({ id: 'eventId', title: 'Picnic' })],
+      ['information', createFeedInformation({ id: 'informationId', title: 'New members', author: claire })],
     ];
 
     render();
@@ -61,7 +59,7 @@ describe('feed', () => {
 
   it('shows the status of a closed request', async () => {
     server.items = [
-      ['request', createRequest({ title: 'Borrow a ladder', status: RequestStatus.fulfilled })],
+      ['request', createFeedRequest({ title: 'Borrow a ladder', status: RequestStatus.fulfilled })],
     ];
 
     render();
@@ -71,8 +69,8 @@ describe('feed', () => {
 
   it('shows the date of an event', async () => {
     server.items = [
-      ['event', createEvent({ title: 'Picnic', date: '2026-06-01T10:00:00.000Z' })],
-      ['event', createEvent({ title: 'Repair café' })],
+      ['event', createFeedEvent({ title: 'Picnic', date: '2026-06-01T10:00:00.000Z' })],
+      ['event', createFeedEvent({ title: 'Repair café', date: undefined })],
     ];
 
     render();
@@ -82,11 +80,12 @@ describe('feed', () => {
   });
 
   it('separates the details of an event, with or without location', async () => {
-    const location = { line1: '', postalCode: '', city: 'Paris', country: '' };
-
     server.items = [
-      ['event', createEvent({ title: 'Picnic', location })],
-      ['event', createEvent({ title: 'Repair café' })],
+      [
+        'event',
+        createFeedEvent({ title: 'Picnic', date: undefined, location: createAddress({ city: 'Paris' }) }),
+      ],
+      ['event', createFeedEvent({ title: 'Repair café', date: undefined, location: undefined })],
     ];
 
     render();
@@ -96,7 +95,7 @@ describe('feed', () => {
   });
 
   it('shows the LETS as the author of an information without author', async () => {
-    server.items = [['information', createInformation({ title: 'General assembly' })]];
+    server.items = [['information', createFeedInformation({ title: 'General assembly', author: undefined })]];
 
     render();
 
@@ -104,7 +103,7 @@ describe('feed', () => {
   });
 
   it('filters the publications by type', async () => {
-    server.items = [['event', createEvent({ title: 'Picnic' })]];
+    server.items = [['event', createFeedEvent({ title: 'Picnic' })]];
 
     render();
 
@@ -117,7 +116,7 @@ describe('feed', () => {
   });
 
   it('searches the publications', async () => {
-    server.items = [['event', createEvent({ title: 'Picnic' })]];
+    server.items = [['event', createFeedEvent({ title: 'Picnic' })]];
 
     render();
 
@@ -130,7 +129,7 @@ describe('feed', () => {
   });
 
   it('offers to clear the filters when no publication matches them', async () => {
-    server.items = [['event', createEvent({ title: 'Picnic' })]];
+    server.items = [['event', createFeedEvent({ title: 'Picnic' })]];
 
     render();
 
@@ -147,32 +146,6 @@ describe('feed', () => {
     expect(await screen.findByText('Nothing published yet')).toBeInTheDocument();
   });
 });
-
-let nextId = 1;
-
-const createRequest = createFactory<FeedRequest>(() => ({
-  id: `r${nextId++}`,
-  status: RequestStatus.pending,
-  requester: claire,
-  title: '',
-  message: { body: '', attachments: [] },
-  publishedAt: new Date().toISOString(),
-}));
-
-const createEvent = createFactory<FeedEvent>(() => ({
-  id: `e${nextId++}`,
-  title: '',
-  message: { body: '', attachments: [] },
-  organizer: claire,
-  publishedAt: new Date().toISOString(),
-}));
-
-const createInformation = createFactory<FeedInformation>(() => ({
-  id: `i${nextId++}`,
-  title: '',
-  message: { body: '', attachments: [] },
-  publishedAt: new Date().toISOString(),
-}));
 
 class Server extends FakeServer {
   items: FeedItem[] = [];

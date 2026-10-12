@@ -1,10 +1,10 @@
+import { type CreateInformationBody, type Information, type LightMember } from '@sel/shared';
 import {
+  createAttachment,
   createAuthenticatedMember,
-  type CreateInformationBody,
-  type Information,
-  type LightMember,
-} from '@sel/shared';
-import { createFactory } from '@sel/utils';
+  createInformation,
+  createMessage,
+} from '@sel/shared/factories';
 import { screen, within } from '@testing-library/react';
 import { userEvent, type UserEvent } from '@testing-library/user-event';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
@@ -18,6 +18,23 @@ import { EditInformationPage } from './edit-information-page';
 
 const me = createAuthenticatedMember({ id: 'me', firstName: 'Jason', lastName: 'Talon' });
 const claire: LightMember = { id: 'claire', number: 12, firstName: 'Claire', lastName: 'Dubois' };
+
+const information = createInformation({
+  id: 'i1',
+  title: 'Assembly',
+  message: createMessage({
+    body: '<p>It takes place on Saturday.</p>',
+    attachments: [
+      createAttachment({
+        fileId: 'f1',
+        name: 'agenda.pdf',
+        originalName: 'Agenda.pdf',
+        mimetype: 'application/pdf',
+      }),
+    ],
+  }),
+  author: me,
+});
 
 describe('edit information', () => {
   let user: UserEvent;
@@ -75,7 +92,7 @@ describe('edit information', () => {
   });
 
   it("does not show the form for another member's information", async () => {
-    server.information = createInformation({ author: claire });
+    server.information = { ...information, author: claire };
 
     renderPage();
 
@@ -105,21 +122,8 @@ function renderPage() {
   ]);
 }
 
-const createInformation = createFactory<Information>(() => ({
-  id: 'i1',
-  title: 'Assembly',
-  message: {
-    body: '<p>It takes place on Saturday.</p>',
-    attachments: [
-      { fileId: 'f1', name: 'agenda.pdf', originalName: 'Agenda.pdf', mimetype: 'application/pdf' },
-    ],
-  },
-  author: me,
-  publishedAt: new Date().toISOString(),
-}));
-
 class Server extends FakeServer {
-  information?: Information = createInformation();
+  information?: Information = information;
   updated: CreateInformationBody[] = [];
   failing = false;
 

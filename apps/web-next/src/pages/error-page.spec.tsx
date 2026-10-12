@@ -1,4 +1,4 @@
-import { createAuthenticatedMember } from '@sel/shared';
+import { createAuthenticatedMember } from '@sel/shared/factories';
 import { screen } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
 import { Outlet } from 'react-router';

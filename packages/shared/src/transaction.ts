@@ -1,7 +1,7 @@
-import { createDate, createFactory, createId, type ValueOf } from '@sel/utils';
+import type { ValueOf } from '@sel/utils';
 import { z } from 'zod';
 
-import { createMember, type LightMember } from './member';
+import type { LightMember } from './member';
 
 export const TransactionStatus = {
   pending: 'pending',
@@ -23,16 +23,6 @@ export type Transaction = {
   request?: { id: string; title: string };
   date: string;
 };
-
-export const createTransaction = createFactory<Transaction>(() => ({
-  id: createId(),
-  status: TransactionStatus.completed,
-  amount: 1,
-  description: '',
-  payer: createMember(),
-  recipient: createMember(),
-  date: createDate().toISOString(),
-}));
 
 export const listTransactionsQuerySchema = z.object({
   memberId: z.string().optional(),

@@ -1,5 +1,3 @@
-import { createFactory } from '@sel/utils';
-
 export type Config = {
   maintenance: boolean;
   letsName: string;
@@ -17,20 +15,3 @@ export type Config = {
     zoom: number;
   };
 };
-
-export const createConfig = createFactory<Config>(() => ({
-  maintenance: false,
-  letsName: '',
-  place: '',
-  currency: '',
-  currencyPlural: '',
-  logoUrl: '/logo',
-  theme: {
-    primaryColor: '',
-    accentColor: '',
-  },
-  map: {
-    center: [0, 0],
-    zoom: 1,
-  },
-}));

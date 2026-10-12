@@ -1,9 +1,5 @@
-import {
-  createAuthenticatedMember,
-  createMember,
-  type CreateTransactionBody,
-  type LightMember,
-} from '@sel/shared';
+import { type CreateTransactionBody, type LightMember } from '@sel/shared';
+import { createAuthenticatedMember, createMember } from '@sel/shared/factories';
 import { screen, within } from '@testing-library/react';
 import { userEvent, type UserEvent } from '@testing-library/user-event';
 import { useState } from 'react';

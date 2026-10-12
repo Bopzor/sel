@@ -1,4 +1,3 @@
-import { createDate, createFactory, createId } from '@sel/utils';
 import { z } from 'zod';
 
 import type { LightMember } from './member';
@@ -41,10 +40,3 @@ export const listMemberActivityQuerySchema = z.object({
 });
 
 export type ListMemberActivityQuery = z.input<typeof listMemberActivityQuerySchema>;
-
-export const createMemberActivityItem = createFactory<MemberActivityItem>(() => ({
-  id: createId(),
-  date: createDate().toISOString(),
-  type: 'request',
-  entity: { type: 'request', id: createId(), title: '' },
-}));

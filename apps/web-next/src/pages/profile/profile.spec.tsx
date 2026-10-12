@@ -1,10 +1,9 @@
 import {
-  createAddress,
-  createAuthenticatedMember,
   type AuthenticatedMember,
   type UpdateMemberProfileData,
   type File as UploadedFile,
 } from '@sel/shared';
+import { createAddress, createAuthenticatedMember } from '@sel/shared/factories';
 import { assert } from '@sel/utils';
 import { screen, within } from '@testing-library/react';
 import { userEvent, type UserEvent } from '@testing-library/user-event';

@@ -1,4 +1,4 @@
-import { createAddress, createMember } from '@sel/shared';
+import { createAddress, createMember } from '@sel/shared/factories';
 import { describe, expect, it } from 'vitest';
 
 import { formatVCard } from './vcard';
