@@ -43,18 +43,14 @@ export const queries = {
     return queryOptions({
       staleTime: 'static',
       queryKey: ['config'],
-      queryFn: () => {
-        return api<Config>('GET', '/config');
-      },
+      queryFn: () => api<Config>('GET', '/config'),
     });
   },
 
   session: () => {
     return queryOptions({
       queryKey: ['session'],
-      queryFn: () => {
-        return api<AuthenticatedMember>('GET', '/session/member');
-      },
+      queryFn: () => api<AuthenticatedMember>('GET', '/session/member'),
     });
   },
 
@@ -98,9 +94,7 @@ export const queries = {
   request: (requestId: string) => {
     return queryOptions({
       queryKey: ['request', { id: requestId }],
-      queryFn: () => {
-        return api<Request>('GET', `/requests/${requestId}`);
-      },
+      queryFn: () => api<Request>('GET', `/requests/${requestId}`),
     });
   },
 
@@ -123,8 +117,8 @@ export const queries = {
   upcomingEvents: () => {
     return queryOptions({
       queryKey: ['events', 'upcoming'],
-      queryFn: () => {
-        return api<Paginated<EventsListItem>>('GET', '/events', {
+      queryFn: () =>
+        api<Paginated<EventsListItem>>('GET', '/events', {
           query: {
             timing: 'upcoming',
             committeeMeeting: 'false',
@@ -133,20 +127,18 @@ export const queries = {
             pageSize: 2,
           },
           paginated: true,
-        });
-      },
+        }),
     });
   },
 
   nextCommitteeMeeting: () => {
     return queryOptions({
       queryKey: ['events', 'next-committee-meeting'],
-      queryFn: async () => {
-        return api<Paginated<EventsListItem>>('GET', '/events', {
+      queryFn: () =>
+        api<Paginated<EventsListItem>>('GET', '/events', {
           query: { timing: 'upcoming', committeeMeeting: 'true', page: 1, pageSize: 1 },
           paginated: true,
-        });
-      },
+        }),
       select: ({ items }) => items[0] ?? null,
     });
   },
@@ -154,9 +146,7 @@ export const queries = {
   event: (eventId: string) => {
     return queryOptions({
       queryKey: ['event', { id: eventId }],
-      queryFn: () => {
-        return api<Event>('GET', `/events/${eventId}`);
-      },
+      queryFn: () => api<Event>('GET', `/events/${eventId}`),
     });
   },
 
@@ -179,18 +169,14 @@ export const queries = {
   information: (informationId: string) => {
     return queryOptions({
       queryKey: ['information', { id: informationId }],
-      queryFn: () => {
-        return api<Information>('GET', `/information/${informationId}`);
-      },
+      queryFn: () => api<Information>('GET', `/information/${informationId}`),
     });
   },
 
   listMembers: (query: { sort?: MembersSort } = {}) => {
     return queryOptions({
       queryKey: ['members', query],
-      queryFn: () => {
-        return api<Member[]>('GET', '/members', { query });
-      },
+      queryFn: () => api<Member[]>('GET', '/members', { query }),
       placeholderData: keepPreviousData,
     });
   },
@@ -198,18 +184,14 @@ export const queries = {
   member: (memberId: string) => {
     return queryOptions({
       queryKey: ['members', memberId],
-      queryFn: () => {
-        return api<Member>('GET', `/members/${memberId}`);
-      },
+      queryFn: () => api<Member>('GET', `/members/${memberId}`),
     });
   },
 
   memberTransactionStats: (memberId: string) => {
     return queryOptions({
       queryKey: ['members', memberId, 'transaction-stats'],
-      queryFn: () => {
-        return api<MemberTransactionStats>('GET', `/members/${memberId}/transactions/stats`);
-      },
+      queryFn: () => api<MemberTransactionStats>('GET', `/members/${memberId}/transactions/stats`),
     });
   },
 
@@ -235,21 +217,18 @@ export const queries = {
   latestMemberTransactions: (memberId: string) => {
     return queryOptions({
       queryKey: ['members', memberId, 'latest-transactions'],
-      queryFn: () => {
-        return api<Paginated<Transaction>>('GET', `/members/${memberId}/transactions`, {
+      queryFn: () =>
+        api<Paginated<Transaction>>('GET', `/members/${memberId}/transactions`, {
           query: { status: 'completed', page: 1, pageSize: 3 },
           paginated: true,
-        });
-      },
+        }),
     });
   },
 
   memberActivityCounts: (memberId: string) => {
     return queryOptions({
       queryKey: ['members', memberId, 'activity-counts'],
-      queryFn: () => {
-        return api<MemberActivityCounts>('GET', `/members/${memberId}/activity/counts`);
-      },
+      queryFn: () => api<MemberActivityCounts>('GET', `/members/${memberId}/activity/counts`),
     });
   },
 
@@ -272,21 +251,18 @@ export const queries = {
   latestMemberActivity: (memberId: string) => {
     return queryOptions({
       queryKey: ['members', memberId, 'latest-activity'],
-      queryFn: () => {
-        return api<Paginated<MemberActivityItem>>('GET', `/members/${memberId}/activity`, {
+      queryFn: () =>
+        api<Paginated<MemberActivityItem>>('GET', `/members/${memberId}/activity`, {
           query: { page: 1, pageSize: 3 },
           paginated: true,
-        });
-      },
+        }),
     });
   },
 
   listDocuments: () => {
     return queryOptions({
       queryKey: ['documents'],
-      queryFn: () => {
-        return api<DocumentsGroup[]>('GET', '/documents');
-      },
+      queryFn: () => api<DocumentsGroup[]>('GET', '/documents'),
     });
   },
 
@@ -294,18 +270,14 @@ export const queries = {
     return queryOptions({
       staleTime: 'static',
       queryKey: ['address-search', text],
-      queryFn: ({ signal }) => {
-        return searchAddresses(text, signal);
-      },
+      queryFn: ({ signal }) => searchAddresses(text, signal),
     });
   },
 
   comments: (entityType: CommentEntityType, entityId: string) => {
     return queryOptions({
       queryKey: ['comments', { entityType, entityId }],
-      queryFn: () => {
-        return api<Comment[]>('GET', '/comment', { query: { entityType, entityId } });
-      },
+      queryFn: () => api<Comment[]>('GET', '/comment', { query: { entityType, entityId } }),
     });
   },
 };
