@@ -1,7 +1,6 @@
 import { Config, MemberRole } from '@sel/shared';
 import { isAfter, pick } from '@sel/utils';
 import cookieParser from 'cookie-parser';
-import cors from 'cors';
 import express, { ErrorRequestHandler, RequestHandler } from 'express';
 import morgan from 'morgan';
 import { z } from 'zod';
@@ -35,7 +34,6 @@ export function server() {
   const app = express();
 
   app.use(morgan(import.meta.env.PROD ? 'short' : 'dev', {}));
-  app.use(cors({ origin: config.server.allowedOrigins, credentials: true }));
   app.use(cookieParser(config.session.secret));
   app.use(express.json());
   app.use(cacheControl);

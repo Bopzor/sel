@@ -4,7 +4,6 @@ export interface Config {
   server: {
     host: string;
     port: number;
-    allowedOrigins: string[];
   };
 
   files: {
@@ -61,7 +60,6 @@ export function createEnvConfig(): Config {
     server: {
       host: getEnv('HOST'),
       port: getEnv('PORT', Number.parseInt),
-      allowedOrigins: getEnv('ALLOWED_ORIGINS', (value) => value.split(',')),
     },
 
     files: {
