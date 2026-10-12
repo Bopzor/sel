@@ -11,6 +11,7 @@ import { colorSchemes, getColorScheme, setColorScheme, type ColorScheme } from '
 import { localeNames, setLocale, type Locale } from 'src/app/locale';
 import { getPushPermission, registerDevice, requestPushPermission } from 'src/app/push-notifications';
 import { queries } from 'src/app/queries';
+import { demoStorage } from 'src/demo/storage';
 
 export function SettingsPage() {
   return (
@@ -23,6 +24,7 @@ export function SettingsPage() {
         <NotificationsSection />
         <AppearanceSection />
         <LanguageSection />
+        {import.meta.env.MODE === 'demo' && <DemoSection />}
         <AppVersion />
       </div>
     </div>
@@ -230,6 +232,34 @@ function LanguageSection() {
           <RadioGroup.Item key={locale} value={locale} label={name} lang={locale} />
         ))}
       </RadioGroup.Root>
+    </SettingsSection>
+  );
+}
+
+function DemoSection() {
+  const { t } = useLingui();
+
+  const mutation = useMutation({
+    mutationFn: () => demoStorage.clear(),
+    // A full page load creates the demo data again from the seed.
+    onSuccess: () => window.location.assign(import.meta.env.BASE_URL),
+    onError: () => showToast(t`The demo data couldn't be reset`, 'error'),
+  });
+
+  return (
+    <SettingsSection
+      title={<Trans>Demo</Trans>}
+      description={<Trans>Your changes are only kept in this browser.</Trans>}
+    >
+      <div className="stack items-start gap-4">
+        <p>
+          <Trans>Resetting brings back the demo data as it was on your first visit.</Trans>
+        </p>
+
+        <Button variant="secondary" loading={mutation.isPending} onClick={() => mutation.mutate()}>
+          <Trans>Reset the demo data</Trans>
+        </Button>
+      </div>
     </SettingsSection>
   );
 }

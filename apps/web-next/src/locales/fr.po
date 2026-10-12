@@ -495,6 +495,10 @@ msgctxt "exchanges filter"
 msgid "Declined"
 msgstr "Refusés"
 
+#: src/pages/settings/settings-page.tsx
+msgid "Demo"
+msgstr "Démo"
+
 #: src/components/transaction-dialog.tsx
 msgid "Details"
 msgstr "Détails"
@@ -1354,6 +1358,14 @@ msgctxt "feed filter"
 msgid "Requests"
 msgstr "Demandes"
 
+#: src/pages/settings/settings-page.tsx
+msgid "Reset the demo data"
+msgstr "Réinitialiser les données"
+
+#: src/pages/settings/settings-page.tsx
+msgid "Resetting brings back the demo data as it was on your first visit."
+msgstr "La réinitialisation remet les données de démonstration telles qu’elles étaient lors de votre première visite."
+
 #: src/components/api-result.tsx
 #: src/pages/error-page.tsx
 msgid "Retry"
@@ -1614,6 +1626,10 @@ msgstr "L’application est en maintenance"
 #: src/pages/members/details/exchanges-tab.tsx
 msgid "The declined exchanges will appear here."
 msgstr "Les échanges refusés apparaîtront ici."
+
+#: src/pages/settings/settings-page.tsx
+msgid "The demo data couldn't be reset"
+msgstr "Les données de démonstration n’ont pas pu être réinitialisées"
 
 #: src/pages/documents/documents-list.tsx
 msgid "The documents shared by the committee, such as the statutes and the meeting minutes, appear here."
@@ -2051,6 +2067,10 @@ msgstr "Votre réponse n’a pas pu être enregistrée"
 #: src/pages/home/home-page.tsx
 msgid "Your balance: {balance}"
 msgstr "Votre solde : {balance}"
+
+#: src/pages/settings/settings-page.tsx
+msgid "Your changes are only kept in this browser."
+msgstr "Vos modifications sont conservées uniquement dans ce navigateur."
 
 #: src/pages/events/edit/edit-event-page.tsx
 #: src/pages/information/edit/edit-information-page.tsx

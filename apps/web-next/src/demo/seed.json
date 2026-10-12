@@ -1,0 +1,977 @@
+{
+  "referenceDate": "2026-10-12T12:00:00.000Z",
+  "config": {
+    "maintenance": false,
+    "letsName": "SEL de démonstration",
+    "place": "Lyon",
+    "currency": "grain",
+    "currencyPlural": "grains",
+    "logoUrl": "logo.svg",
+    "theme": {
+      "primaryColor": "",
+      "accentColor": ""
+    },
+    "map": {
+      "center": [4.8357, 45.764],
+      "zoom": 13
+    }
+  },
+  "sessionMemberId": "su1ful",
+  "members": [
+    {
+      "id": "su1ful",
+      "firstName": "Camille",
+      "lastName": "Moreau",
+      "number": 1,
+      "email": "camille.moreau@example.com",
+      "emailVisible": true,
+      "phoneNumberVisible": true,
+      "membershipStartDate": "2024-04-25T12:00:00.000Z",
+      "balance": 25,
+      "interests": [],
+      "committeeMember": true,
+      "onboardingCompleted": true,
+      "notificationDelivery": {
+        "email": true,
+        "push": false
+      },
+      "phoneNumber": "0612345678",
+      "bio": "Membre du conseil d'animation depuis deux ans. J'aime jardiner, cuisiner et réparer ce qui peut l'être.\n\nJe peux vous aider pour de petits travaux de couture, l'arrosage de vos plantes pendant vos absences ou la relecture de vos courriers administratifs. En échange, je cherche souvent des coups de main pour bricoler, je ne suis pas très douée avec une perceuse !",
+      "address": {
+        "line1": "12 rue des Capucins",
+        "postalCode": "69001",
+        "city": "Lyon",
+        "country": "France",
+        "position": [4.8333, 45.7695]
+      },
+      "avatar": "avatar-camille.avif"
+    },
+    {
+      "id": "l5lvgz",
+      "firstName": "Lucas",
+      "lastName": "Bernard",
+      "number": 2,
+      "email": "lucas.bernard@example.com",
+      "emailVisible": true,
+      "phoneNumberVisible": true,
+      "membershipStartDate": "2024-11-11T12:00:00.000Z",
+      "balance": -10,
+      "interests": [],
+      "committeeMember": false,
+      "onboardingCompleted": true,
+      "notificationDelivery": {
+        "email": true,
+        "push": false
+      },
+      "phoneNumber": "0623456789",
+      "bio": "Professeur de guitare à la retraite, toujours partant pour transmettre.\n\nJ'ai enseigné pendant trente ans au conservatoire, et je donne volontiers des cours de guitare ou de solfège, pour débutants comme pour confirmés. J'aime aussi cuisiner pour beaucoup de monde : si vous organisez une fête, je peux m'occuper du plat principal.",
+      "address": {
+        "line1": "5 place Sathonay",
+        "postalCode": "69001",
+        "city": "Lyon",
+        "country": "France",
+        "position": [4.8301, 45.7697]
+      },
+      "avatar": "avatar-lucas.avif"
+    },
+    {
+      "id": "ys2oce",
+      "firstName": "Chloé",
+      "lastName": "Lefèvre",
+      "number": 3,
+      "email": "chloe.lefevre@example.com",
+      "emailVisible": true,
+      "phoneNumberVisible": false,
+      "membershipStartDate": "2025-08-18T12:00:00.000Z",
+      "balance": 25,
+      "interests": [],
+      "committeeMember": false,
+      "onboardingCompleted": true,
+      "notificationDelivery": {
+        "email": true,
+        "push": false
+      },
+      "bio": "Deux chats, beaucoup de plantes et une tente qui ne sert pas assez.",
+      "address": {
+        "line1": "28 montée de la Grande Côte",
+        "postalCode": "69001",
+        "city": "Lyon",
+        "country": "France",
+        "position": [4.8318, 45.7712]
+      },
+      "avatar": "avatar-chloe.avif"
+    },
+    {
+      "id": "0nkkus",
+      "firstName": "Hugo",
+      "lastName": "Girard",
+      "number": 4,
+      "email": "hugo.girard@example.com",
+      "emailVisible": true,
+      "phoneNumberVisible": true,
+      "membershipStartDate": "2025-09-27T12:00:00.000Z",
+      "balance": -40,
+      "interests": [],
+      "committeeMember": false,
+      "onboardingCompleted": true,
+      "notificationDelivery": {
+        "email": true,
+        "push": false
+      },
+      "phoneNumber": "0634567890",
+      "bio": "Bricoleur du dimanche, j'ai une caisse à outils bien remplie.\n\nPerceuse, scie sauteuse, ponceuse, échelle : je prête mon matériel avec plaisir, et je peux venir vous aider pour monter un meuble ou poser des étagères. En revanche, je suis une catastrophe en cuisine, alors les bons petits plats sont toujours les bienvenus.",
+      "address": {
+        "line1": "3 rue Burdeau",
+        "postalCode": "69001",
+        "city": "Lyon",
+        "country": "France",
+        "position": [4.8304, 45.7703]
+      },
+      "avatar": "avatar-hugo.avif"
+    },
+    {
+      "id": "q8nvt9",
+      "firstName": "Léa",
+      "lastName": "Fontaine",
+      "number": 5,
+      "email": "lea.fontaine@example.com",
+      "emailVisible": true,
+      "phoneNumberVisible": false,
+      "membershipStartDate": "2025-12-16T12:00:00.000Z",
+      "balance": -20,
+      "interests": [],
+      "committeeMember": false,
+      "onboardingCompleted": true,
+      "notificationDelivery": {
+        "email": true,
+        "push": false
+      },
+      "address": {
+        "line1": "41 quai Saint-Vincent",
+        "postalCode": "69001",
+        "city": "Lyon",
+        "country": "France",
+        "position": [4.8235, 45.768]
+      },
+      "avatar": "avatar-lea.avif"
+    },
+    {
+      "id": "odyzna",
+      "firstName": "Mathieu",
+      "lastName": "Roux",
+      "number": 6,
+      "email": "mathieu.roux@example.com",
+      "emailVisible": true,
+      "phoneNumberVisible": false,
+      "membershipStartDate": "2026-05-15T12:00:00.000Z",
+      "balance": -30,
+      "interests": [],
+      "committeeMember": false,
+      "onboardingCompleted": true,
+      "notificationDelivery": {
+        "email": true,
+        "push": false
+      },
+      "bio": "Nouveau dans le quartier, je découvre le SEL."
+    },
+    {
+      "id": "28xvgl",
+      "firstName": "Inès",
+      "lastName": "Garnier",
+      "number": 7,
+      "email": "ines.garnier@example.com",
+      "emailVisible": true,
+      "phoneNumberVisible": true,
+      "membershipStartDate": "2025-05-10T12:00:00.000Z",
+      "balance": 25,
+      "interests": [],
+      "committeeMember": false,
+      "onboardingCompleted": true,
+      "notificationDelivery": {
+        "email": true,
+        "push": false
+      },
+      "phoneNumber": "0645678901",
+      "address": {
+        "line1": "9 rue Royale",
+        "postalCode": "69001",
+        "city": "Lyon",
+        "country": "France",
+        "position": [4.839, 45.7698]
+      },
+      "avatar": "avatar-ines.avif"
+    },
+    {
+      "id": "02txbk",
+      "firstName": "Antoine",
+      "lastName": "Perrin",
+      "number": 8,
+      "email": "antoine.perrin@example.com",
+      "emailVisible": true,
+      "phoneNumberVisible": false,
+      "membershipStartDate": "2025-02-09T12:00:00.000Z",
+      "balance": 25,
+      "interests": [],
+      "committeeMember": false,
+      "onboardingCompleted": true,
+      "notificationDelivery": {
+        "email": true,
+        "push": false
+      },
+      "bio": "Cycliste du quotidien, je répare les vélos de mes voisins.\n\nCrevaisons, freins, réglages de dérailleur, changement de chaîne : passez me voir, on répare ensemble pour que vous puissiez le refaire vous-même. J'anime aussi l'atelier vélo du repair café.",
+      "address": {
+        "line1": "17 rue de la Martinière",
+        "postalCode": "69001",
+        "city": "Lyon",
+        "country": "France",
+        "position": [4.8295, 45.768]
+      },
+      "avatar": "avatar-antoine.avif"
+    }
+  ],
+  "requests": [
+    {
+      "id": "74lux9",
+      "status": "pending",
+      "date": "2026-10-10T12:00:00.000Z",
+      "requesterId": "su1ful",
+      "title": "Besoin d'une perceuse pour le week-end",
+      "message": {
+        "body": "<p>Bonjour à toutes et à tous,</p><p>Je viens enfin de recevoir les étagères que j'attendais depuis des semaines et je voudrais les fixer dans mon salon samedi. Le problème, c'est que les murs sont en béton et que ma vieille perceuse n'a pas survécu à la dernière tentative…</p><p>Quelqu'un aurait-il à me prêter :</p><ul><li>une <strong>perceuse à percussion</strong>, ou mieux un perforateur ;</li><li>des forets béton de 6 et 8 mm ;</li><li>éventuellement un niveau à bulle, si vous en avez un qui traîne.</li></ul><p>Je peux passer la chercher vendredi soir et la rapporter dimanche en fin de journée, nettoyée. Et si quelqu'un a envie de venir me donner un coup de main, le café est offert !</p>",
+        "attachments": []
+      }
+    },
+    {
+      "id": "pf3w4n",
+      "status": "pending",
+      "date": "2026-10-07T12:00:00.000Z",
+      "requesterId": "l5lvgz",
+      "title": "Un ou une élève pour des cours de guitare",
+      "message": {
+        "body": "<p>J'ai enseigné la guitare pendant plus de trente ans au conservatoire de Villeurbanne, et depuis ma retraite, les cours me manquent un peu. Je cherche donc une personne débutante (ou qui a commencé et abandonné, ça arrive à tout le monde) qui aurait envie d'apprendre les bases.</p><p>Ce que je propose : une heure par semaine, chez moi, place Sathonay. On commencera par les accords de base et quelques chansons simples, puis on avancera à votre rythme. Pas besoin de savoir lire la musique.</p><p>Pas besoin non plus d'avoir son instrument : j'ai deux guitares classiques, dont une que je peux prêter entre les cours pour s'entraîner à la maison.</p>",
+        "attachments": []
+      }
+    },
+    {
+      "id": "v1qwus",
+      "status": "pending",
+      "date": "2026-10-11T12:00:00.000Z",
+      "requesterId": "ys2oce",
+      "title": "Garde de chats du 20 au 27 octobre",
+      "message": {
+        "body": "<p>Je pars une semaine voir ma famille en Bretagne et je cherche quelqu'un pour passer nourrir mes deux chats, Pistache et Moka, une fois par jour.</p><p>Concrètement, il faudrait :</p><ul><li>remplir les gamelles de croquettes et changer l'eau ;</li><li>donner une demi-boîte de pâtée le soir (ils vous le rappelleront) ;</li><li>vider la litière tous les deux jours ;</li><li>arroser les plantes du balcon une fois dans la semaine, si ce n'est pas trop demander.</li></ul><p>Ils sont très gentils, un peu timides au début, mais Moka finit toujours par venir réclamer des caresses. J'habite montée de la Grande Côte, au troisième étage. Je propose 20 grains par passage, à discuter.</p>",
+        "attachments": []
+      }
+    },
+    {
+      "id": "il2s47",
+      "status": "fulfilled",
+      "date": "2026-09-22T12:00:00.000Z",
+      "requesterId": "0nkkus",
+      "title": "Aide pour porter des cartons",
+      "message": {
+        "body": "<p>Je déménage samedi matin de la rue Burdeau à la rue d'Austerlitz, à dix minutes à pied. J'ai loué une camionnette, mais le nouvel appartement est au 3<sup>e</sup> étage <em>sans ascenseur</em>, et l'escalier est étroit.</p><p>Deux paires de bras en plus seraient vraiment les bienvenues, de 9 h à midi environ. Il y a surtout des cartons, une machine à laver et un canapé qui va nous donner du fil à retordre.</p><p>Le café et les croissants sont offerts, et le déjeuner aussi pour celles et ceux qui restent jusqu'au bout !</p>",
+        "attachments": []
+      }
+    },
+    {
+      "id": "tfd4ud",
+      "status": "canceled",
+      "date": "2026-09-12T12:00:00.000Z",
+      "requesterId": "q8nvt9",
+      "title": "Prêt d'un appareil à raclette",
+      "message": {
+        "body": "<p>J'organise une soirée raclette pour huit personnes et il me manque l'appareil. Quelqu'un en aurait-il un à prêter ?</p>",
+        "attachments": []
+      }
+    },
+    {
+      "id": "0w3ryn",
+      "status": "pending",
+      "date": "2026-10-12T09:00:00.000Z",
+      "requesterId": "odyzna",
+      "title": "Relecture d'un CV et d'une lettre de motivation",
+      "message": {
+        "body": "<p>Je postule dans une association et j'aimerais un regard extérieur sur mon CV et ma lettre avant de les envoyer. Une demi-heure suffirait.</p>",
+        "attachments": []
+      }
+    },
+    {
+      "id": "a0dwyd",
+      "status": "pending",
+      "date": "2026-10-04T12:00:00.000Z",
+      "requesterId": "28xvgl",
+      "title": "Covoiturage pour aller au marché de producteurs",
+      "message": {
+        "body": "<p>Je n'ai pas de voiture et le marché de producteurs de Vaise est mal desservi le dimanche matin : il faut changer deux fois de bus, et avec les cabas pleins au retour, c'est une vraie expédition.</p><p>Quelqu'un y va-t-il régulièrement et aurait une place ? Je participe bien sûr aux frais en grains, et je peux aussi faire des courses pour vous si vous ne pouvez pas y aller un dimanche.</p><p>Je suis disponible à partir de 8 h 30, et je n'ai pas besoin de rester plus d'une heure sur place.</p>",
+        "attachments": []
+      }
+    },
+    {
+      "id": "8gbzlx",
+      "status": "fulfilled",
+      "date": "2026-08-28T12:00:00.000Z",
+      "requesterId": "02txbk",
+      "title": "Pièces pour réparer un vélo ancien",
+      "message": {
+        "body": "<p>Je restaure un vieux vélo de course et je cherche une chaîne et des patins de frein compatibles. Si vous avez des pièces qui traînent dans une cave, je suis preneur.</p>",
+        "attachments": []
+      }
+    },
+    {
+      "id": "oy16lc",
+      "status": "fulfilled",
+      "date": "2026-08-03T12:00:00.000Z",
+      "requesterId": "su1ful",
+      "title": "Arrosage de mes plantes pendant les vacances",
+      "message": {
+        "body": "<p>Je m'absente deux semaines en août. Il faudrait passer arroser mes plantes deux fois par semaine, c'est à deux pas de la place des Terreaux.</p>",
+        "attachments": []
+      }
+    },
+    {
+      "id": "6pr5yt",
+      "status": "pending",
+      "date": "2026-09-30T12:00:00.000Z",
+      "requesterId": "l5lvgz",
+      "title": "Initiation au tricot",
+      "message": {
+        "body": "<p>J'aimerais apprendre à tricoter une écharpe pour cet hiver. Une ou deux séances pour démarrer me suffiraient.</p>",
+        "attachments": []
+      }
+    },
+    {
+      "id": "qse0er",
+      "status": "fulfilled",
+      "date": "2026-07-14T12:00:00.000Z",
+      "requesterId": "ys2oce",
+      "title": "Emprunt d'une tente pour quatre personnes",
+      "message": {
+        "body": "<p>Nous partons camper dans le Vercors avec des amis et il nous manque une tente. Je la rendrai sèche et propre, promis !</p>",
+        "attachments": []
+      }
+    }
+  ],
+  "requestAnswers": [
+    {
+      "id": "v3vzjg",
+      "requestId": "74lux9",
+      "memberId": "0nkkus",
+      "answer": "positive",
+      "date": "2026-10-10T15:00:00.000Z"
+    },
+    {
+      "id": "hjwr78",
+      "requestId": "74lux9",
+      "memberId": "q8nvt9",
+      "answer": "negative",
+      "date": "2026-10-10T16:00:00.000Z"
+    },
+    {
+      "id": "4srxcb",
+      "requestId": "pf3w4n",
+      "memberId": "su1ful",
+      "answer": "positive",
+      "date": "2026-10-07T17:00:00.000Z"
+    },
+    {
+      "id": "suy5bv",
+      "requestId": "il2s47",
+      "memberId": "su1ful",
+      "answer": "positive",
+      "date": "2026-09-22T18:00:00.000Z"
+    },
+    {
+      "id": "jsx1fb",
+      "requestId": "il2s47",
+      "memberId": "02txbk",
+      "answer": "positive",
+      "date": "2026-09-22T19:00:00.000Z"
+    },
+    {
+      "id": "dhpvkb",
+      "requestId": "8gbzlx",
+      "memberId": "0nkkus",
+      "answer": "positive",
+      "date": "2026-08-28T20:00:00.000Z"
+    },
+    {
+      "id": "d3v67x",
+      "requestId": "oy16lc",
+      "memberId": "28xvgl",
+      "answer": "positive",
+      "date": "2026-08-03T21:00:00.000Z"
+    },
+    {
+      "id": "mcon6j",
+      "requestId": "6pr5yt",
+      "memberId": "ys2oce",
+      "answer": "negative",
+      "date": "2026-09-30T22:00:00.000Z"
+    },
+    {
+      "id": "eap0mm",
+      "requestId": "qse0er",
+      "memberId": "02txbk",
+      "answer": "positive",
+      "date": "2026-07-14T23:00:00.000Z"
+    },
+    {
+      "id": "ecvszg",
+      "requestId": "a0dwyd",
+      "memberId": "odyzna",
+      "answer": "negative",
+      "date": "2026-10-05T00:00:00.000Z"
+    }
+  ],
+  "comments": [
+    {
+      "id": "jtdr6d",
+      "entityType": "request",
+      "entityId": "74lux9",
+      "authorId": "0nkkus",
+      "date": "2026-10-10T16:00:00.000Z",
+      "message": {
+        "body": "<p>J'en ai une avec un jeu de forets béton, et un niveau à bulle aussi. Passe vendredi après 18 h, je serai rentré du travail.</p><p>Par contre attention, le mandrin se bloque un peu : il faut bien serrer avant de percer, sinon le foret tourne dans le vide.</p>",
+        "attachments": []
+      }
+    },
+    {
+      "id": "f76sk1",
+      "entityType": "request",
+      "entityId": "74lux9",
+      "authorId": "su1ful",
+      "date": "2026-10-10T18:00:00.000Z",
+      "message": {
+        "body": "<p>Super, merci Hugo ! À vendredi.</p>",
+        "attachments": []
+      }
+    },
+    {
+      "id": "4f14d5",
+      "entityType": "request",
+      "entityId": "v1qwus",
+      "authorId": "q8nvt9",
+      "date": "2026-10-11T16:00:00.000Z",
+      "message": {
+        "body": "<p>Je ne suis pas dispo cette semaine-là, je pars aussi pendant les vacances, mais je peux te dépanner une autre fois sans problème.</p><p>Tu as demandé à Inès ? Elle habite juste à côté et elle adore les chats.</p>",
+        "attachments": []
+      }
+    },
+    {
+      "id": "r9fl63",
+      "entityType": "request",
+      "entityId": "il2s47",
+      "authorId": "0nkkus",
+      "date": "2026-09-24T12:00:00.000Z",
+      "message": {
+        "body": "<p>Merci à Camille et Antoine, c'était rapide grâce à vous ! Le canapé est passé de justesse dans l'escalier, mais il est passé.</p><p>Je vous dois un dîner pour la crémaillère, je vous tiens au courant de la date.</p>",
+        "attachments": []
+      }
+    },
+    {
+      "id": "ce7hcc",
+      "entityType": "event",
+      "entityId": "2oacbr",
+      "authorId": "ys2oce",
+      "date": "2026-10-11T20:00:00.000Z",
+      "message": {
+        "body": "<p>Super idée ! Je suis disponible les samedis après-midi, et le dimanche matin à partir de novembre.</p><p>J'ai déjà essayé de faire un levain l'an dernier, mais il a moisi au bout d'une semaine : j'ai hâte de comprendre ce que j'ai raté.</p>",
+        "attachments": []
+      }
+    },
+    {
+      "id": "ca4kym",
+      "entityType": "event",
+      "entityId": "fab5cn",
+      "authorId": "0nkkus",
+      "date": "2026-10-08T09:00:00.000Z",
+      "message": {
+        "body": "<p>J'apporte ma caisse à outils et un fer à souder.</p>",
+        "attachments": []
+      }
+    },
+    {
+      "id": "7ul7yr",
+      "entityType": "information",
+      "entityId": "j5gk6c",
+      "authorId": "l5lvgz",
+      "date": "2026-10-04T18:00:00.000Z",
+      "message": {
+        "body": "<p>Bravo pour ce nouvel outil, c'est beaucoup plus clair !</p>",
+        "attachments": []
+      }
+    }
+  ],
+  "files": [
+    {
+      "id": "hu21pz",
+      "name": "avatar-camille.avif",
+      "originalName": "Camille.avif",
+      "mimetype": "image/avif"
+    },
+    {
+      "id": "3t0w1r",
+      "name": "avatar-lucas.avif",
+      "originalName": "Lucas.avif",
+      "mimetype": "image/avif"
+    },
+    {
+      "id": "jg41ee",
+      "name": "avatar-chloe.avif",
+      "originalName": "Chloé.avif",
+      "mimetype": "image/avif"
+    },
+    {
+      "id": "c0od67",
+      "name": "avatar-hugo.avif",
+      "originalName": "Hugo.avif",
+      "mimetype": "image/avif"
+    },
+    {
+      "id": "qlt786",
+      "name": "avatar-lea.avif",
+      "originalName": "Léa.avif",
+      "mimetype": "image/avif"
+    },
+    {
+      "id": "tkny97",
+      "name": "avatar-ines.avif",
+      "originalName": "Inès.avif",
+      "mimetype": "image/avif"
+    },
+    {
+      "id": "8lx76s",
+      "name": "avatar-antoine.avif",
+      "originalName": "Antoine.avif",
+      "mimetype": "image/avif"
+    }
+  ],
+  "transactions": [
+    {
+      "id": "o1b8id",
+      "status": "completed",
+      "amount": 30,
+      "description": "Aide au déménagement",
+      "payerId": "0nkkus",
+      "recipientId": "su1ful",
+      "createdAt": "2026-09-23T12:00:00.000Z",
+      "completedAt": "2026-09-23T12:00:00.000Z",
+      "requestId": "il2s47",
+      "payerComment": "Merci pour ton aide !"
+    },
+    {
+      "id": "yu5wxm",
+      "status": "completed",
+      "amount": 30,
+      "description": "Aide au déménagement",
+      "payerId": "0nkkus",
+      "recipientId": "02txbk",
+      "createdAt": "2026-09-23T12:00:00.000Z",
+      "completedAt": "2026-09-23T12:00:00.000Z",
+      "requestId": "il2s47"
+    },
+    {
+      "id": "xxuxx9",
+      "status": "completed",
+      "amount": 20,
+      "description": "Chaîne et patins de frein",
+      "payerId": "02txbk",
+      "recipientId": "0nkkus",
+      "createdAt": "2026-08-29T12:00:00.000Z",
+      "completedAt": "2026-08-29T12:00:00.000Z",
+      "requestId": "8gbzlx"
+    },
+    {
+      "id": "bz7diq",
+      "status": "completed",
+      "amount": 25,
+      "description": "Arrosage des plantes",
+      "payerId": "su1ful",
+      "recipientId": "28xvgl",
+      "createdAt": "2026-08-13T12:00:00.000Z",
+      "completedAt": "2026-08-13T12:00:00.000Z",
+      "requestId": "oy16lc"
+    },
+    {
+      "id": "gv9x69",
+      "status": "completed",
+      "amount": 15,
+      "description": "Prêt d'une tente",
+      "payerId": "ys2oce",
+      "recipientId": "02txbk",
+      "createdAt": "2026-07-19T12:00:00.000Z",
+      "completedAt": "2026-07-19T12:00:00.000Z",
+      "requestId": "qse0er"
+    },
+    {
+      "id": "xwr0va",
+      "status": "completed",
+      "amount": 40,
+      "description": "Cours de cuisine",
+      "payerId": "l5lvgz",
+      "recipientId": "ys2oce",
+      "createdAt": "2026-07-04T12:00:00.000Z",
+      "completedAt": "2026-07-04T12:00:00.000Z"
+    },
+    {
+      "id": "272xmd",
+      "status": "completed",
+      "amount": 20,
+      "description": "Couture d'un ourlet",
+      "payerId": "q8nvt9",
+      "recipientId": "su1ful",
+      "createdAt": "2026-09-07T12:00:00.000Z",
+      "completedAt": "2026-09-07T12:00:00.000Z"
+    },
+    {
+      "id": "zuiht4",
+      "status": "completed",
+      "amount": 30,
+      "description": "Cours de guitare",
+      "payerId": "odyzna",
+      "recipientId": "l5lvgz",
+      "createdAt": "2026-10-02T12:00:00.000Z",
+      "completedAt": "2026-10-02T12:00:00.000Z"
+    },
+    {
+      "id": "tifgix",
+      "status": "canceled",
+      "amount": 10,
+      "description": "Prêt d'une ponceuse",
+      "payerId": "q8nvt9",
+      "recipientId": "0nkkus",
+      "createdAt": "2026-08-23T12:00:00.000Z"
+    },
+    {
+      "id": "tqir6a",
+      "status": "pending",
+      "amount": 10,
+      "description": "Prêt d'une perceuse",
+      "payerId": "su1ful",
+      "recipientId": "0nkkus",
+      "createdAt": "2026-10-11T16:00:00.000Z",
+      "requestId": "74lux9",
+      "recipientComment": "Merci d'avoir rendu la perceuse en bon état !"
+    },
+    {
+      "id": "sthymo",
+      "status": "pending",
+      "amount": 5,
+      "description": "Prêt d'une pompe à vélo",
+      "payerId": "02txbk",
+      "recipientId": "su1ful",
+      "createdAt": "2026-10-08T12:00:00.000Z"
+    }
+  ],
+  "events": [
+    {
+      "id": "fab5cn",
+      "title": "Repair café de novembre",
+      "message": {
+        "body": "<p>Le repair café revient pour sa troisième édition ! Apportez vos objets en panne et réparons-les ensemble plutôt que de les jeter.</p><p>Des bénévoles seront présents pour vous aider sur :</p><ul><li>le <strong>petit électroménager</strong> : grille-pain, bouilloires, sèche-cheveux, lampes…</li><li>les <strong>vélos</strong> : crevaisons, freins, dérailleurs, éclairage ;</li><li>la <strong>couture</strong> : ourlets, boutons, fermetures éclair, petits accrocs ;</li><li>l'<strong>informatique</strong> : ordinateurs lents, téléphones, imprimantes capricieuses.</li></ul><p>Le principe : vous restez avec la personne qui répare, pour apprendre et pouvoir le refaire vous-même la prochaine fois. On ne garantit pas de tout réparer, mais on essaie toujours !</p><p>Café et gâteaux offerts. Pensez à apporter une tasse, et si vous avez des outils ou des chutes de tissu dont vous ne vous servez plus, ils trouveront preneur.</p>",
+        "attachments": []
+      },
+      "kind": "internal",
+      "committeeMeeting": false,
+      "organizerId": "02txbk",
+      "createdAt": "2026-10-06T10:00:00.000Z",
+      "date": "2026-10-16T14:00:00.000Z",
+      "location": {
+        "line1": "12 rue Sainte-Catherine",
+        "postalCode": "69001",
+        "city": "Lyon",
+        "country": "France",
+        "position": [4.834, 45.7673]
+      }
+    },
+    {
+      "id": "d3jxhd",
+      "title": "Réunion du conseil d'animation",
+      "message": {
+        "body": "<p>Prochaine réunion du conseil d'animation, ouverte à tous les membres qui souhaitent y assister en auditeurs.</p><p>Ordre du jour :</p><ul><li>bilan des échanges du trimestre et point sur les soldes très négatifs ;</li><li>préparation de la fête de fin d'année : date, lieu, répartition des tâches ;</li><li>retour sur la nouvelle application et sur les remarques des membres ;</li><li>renouvellement de la convention avec la mairie pour le local ;</li><li>questions diverses.</li></ul><p>Si vous souhaitez ajouter un point à l'ordre du jour, écrivez-le en commentaire avant la réunion.</p>",
+        "attachments": []
+      },
+      "kind": "internal",
+      "committeeMeeting": true,
+      "organizerId": "su1ful",
+      "createdAt": "2026-10-02T09:00:00.000Z",
+      "date": "2026-10-21T17:30:00.000Z",
+      "location": {
+        "line1": "12 rue Sainte-Catherine",
+        "postalCode": "69001",
+        "city": "Lyon",
+        "country": "France",
+        "position": [4.834, 45.7673]
+      }
+    },
+    {
+      "id": "jqw41v",
+      "title": "Pique-nique de rentrée au parc de la Tête d'Or",
+      "message": {
+        "body": "<p>Pour bien commencer l'année, retrouvons-nous pour un grand pique-nique au parc de la Tête d'Or.</p><p>Chacun apporte un plat ou une boisson à partager. Rendez-vous près de la grande roseraie : on étendra des nappes sur la pelouse et on prévoira quelques jeux pour les enfants.</p><p>En cas de pluie, repli au local de la rue Sainte-Catherine.</p>",
+        "attachments": []
+      },
+      "kind": "internal",
+      "committeeMeeting": false,
+      "organizerId": "ys2oce",
+      "createdAt": "2026-09-02T18:00:00.000Z",
+      "date": "2026-09-22T10:00:00.000Z",
+      "location": {
+        "line1": "Parc de la Tête d'Or",
+        "postalCode": "69006",
+        "city": "Lyon",
+        "country": "France",
+        "position": [4.8526, 45.7772]
+      }
+    },
+    {
+      "id": "8tbyh9",
+      "title": "Troc de graines et de boutures",
+      "message": {
+        "body": "<p>C'est la saison idéale pour préparer les semis du printemps : venez échanger vos graines, boutures et plants !</p><p>Vous pouvez apporter des graines de légumes, de fleurs ou d'aromatiques, de préférence de variétés reproductibles, dans des petites enveloppes avec le nom et l'année de récolte. Les boutures de plantes d'intérieur sont aussi les bienvenues.</p><p>Même sans rien à échanger, vous repartirez avec quelque chose : l'idée est de faire circuler les graines, pas de compter. Quelques jardiniers expérimentés seront là pour donner des conseils.</p>",
+        "attachments": []
+      },
+      "kind": "internal",
+      "committeeMeeting": false,
+      "organizerId": "28xvgl",
+      "createdAt": "2026-10-09T15:00:00.000Z",
+      "date": "2026-10-30T09:00:00.000Z",
+      "location": {
+        "line1": "12 rue Sainte-Catherine",
+        "postalCode": "69001",
+        "city": "Lyon",
+        "country": "France",
+        "position": [4.834, 45.7673]
+      }
+    },
+    {
+      "id": "2oacbr",
+      "title": "Atelier pain au levain",
+      "message": {
+        "body": "<p>J'aimerais organiser un atelier pour apprendre à faire son levain et son pain, du début à la fin.</p><p>Au programme :</p><ul><li>préparer et entretenir un levain (chacun repart avec un pot du mien pour gagner du temps) ;</li><li>pétrir, façonner et laisser pousser une pâte ;</li><li>cuire dans un four de particulier, sans matériel spécial.</li></ul><p>L'atelier dure une matinée, avec une pause pendant la pousse. La date reste à fixer selon les disponibilités de chacun : dites-moi en commentaire quels jours vous arrangent. Six personnes maximum, pour que tout le monde puisse mettre la main à la pâte.</p>",
+        "attachments": []
+      },
+      "kind": "internal",
+      "committeeMeeting": false,
+      "organizerId": "l5lvgz",
+      "createdAt": "2026-10-10T11:00:00.000Z"
+    },
+    {
+      "id": "jtaoid",
+      "title": "Fête de quartier des Pentes",
+      "message": {
+        "body": "<p>Le SEL tiendra un stand à la fête de quartier organisée par la mairie. Venez faire découvrir le SEL à vos voisins !</p>",
+        "attachments": []
+      },
+      "kind": "external",
+      "committeeMeeting": false,
+      "organizerId": "0nkkus",
+      "createdAt": "2026-09-27T08:00:00.000Z",
+      "date": "2026-11-06T10:00:00.000Z",
+      "location": {
+        "line1": "Place Colbert",
+        "postalCode": "69001",
+        "city": "Lyon",
+        "country": "France",
+        "position": [4.8355, 45.7712]
+      }
+    },
+    {
+      "id": "3ycc84",
+      "title": "Réunion du conseil d'animation",
+      "message": {
+        "body": "<p>Ordre du jour : rentrée, accueil des nouveaux membres, organisation du repair café.</p>",
+        "attachments": []
+      },
+      "kind": "internal",
+      "committeeMeeting": true,
+      "organizerId": "su1ful",
+      "createdAt": "2026-08-28T09:00:00.000Z",
+      "date": "2026-09-16T17:30:00.000Z",
+      "location": {
+        "line1": "12 rue Sainte-Catherine",
+        "postalCode": "69001",
+        "city": "Lyon",
+        "country": "France",
+        "position": [4.834, 45.7673]
+      }
+    },
+    {
+      "id": "f0azoe",
+      "title": "Balade urbaine sur les traboules",
+      "message": {
+        "body": "<p>Une balade d'environ deux heures pour découvrir les traboules du Vieux Lyon et de la Croix-Rousse.</p>",
+        "attachments": []
+      },
+      "kind": "internal",
+      "committeeMeeting": false,
+      "organizerId": "q8nvt9",
+      "createdAt": "2026-08-13T12:00:00.000Z",
+      "date": "2026-08-25T14:00:00.000Z",
+      "location": {
+        "line1": "Place Saint-Jean",
+        "postalCode": "69005",
+        "city": "Lyon",
+        "country": "France",
+        "position": [4.827, 45.7608]
+      }
+    }
+  ],
+  "eventParticipations": [
+    {
+      "id": "7p26tj",
+      "eventId": "fab5cn",
+      "memberId": "su1ful",
+      "participation": "yes",
+      "date": "2026-10-07T12:00:00.000Z"
+    },
+    {
+      "id": "y77h3h",
+      "eventId": "fab5cn",
+      "memberId": "0nkkus",
+      "participation": "yes",
+      "date": "2026-10-07T12:00:00.000Z"
+    },
+    {
+      "id": "qsbw6t",
+      "eventId": "fab5cn",
+      "memberId": "q8nvt9",
+      "participation": "no",
+      "date": "2026-10-08T12:00:00.000Z"
+    },
+    {
+      "id": "s9k7u5",
+      "eventId": "d3jxhd",
+      "memberId": "28xvgl",
+      "participation": "yes",
+      "date": "2026-10-04T12:00:00.000Z"
+    },
+    {
+      "id": "acp9a3",
+      "eventId": "jqw41v",
+      "memberId": "su1ful",
+      "participation": "yes",
+      "date": "2026-09-07T12:00:00.000Z"
+    },
+    {
+      "id": "vyw3sg",
+      "eventId": "jqw41v",
+      "memberId": "l5lvgz",
+      "participation": "yes",
+      "date": "2026-09-09T12:00:00.000Z"
+    },
+    {
+      "id": "4g0nkg",
+      "eventId": "jqw41v",
+      "memberId": "odyzna",
+      "participation": "yes",
+      "date": "2026-09-12T12:00:00.000Z"
+    },
+    {
+      "id": "vs9wyk",
+      "eventId": "8tbyh9",
+      "memberId": "ys2oce",
+      "participation": "yes",
+      "date": "2026-10-10T12:00:00.000Z"
+    },
+    {
+      "id": "yadxin",
+      "eventId": "jtaoid",
+      "memberId": "su1ful",
+      "participation": "yes",
+      "date": "2026-09-30T12:00:00.000Z"
+    },
+    {
+      "id": "yivagv",
+      "eventId": "jtaoid",
+      "memberId": "02txbk",
+      "participation": "no",
+      "date": "2026-10-01T12:00:00.000Z"
+    },
+    {
+      "id": "ebv3ri",
+      "eventId": "f0azoe",
+      "memberId": "0nkkus",
+      "participation": "yes",
+      "date": "2026-08-18T12:00:00.000Z"
+    },
+    {
+      "id": "oakj0y",
+      "eventId": "f0azoe",
+      "memberId": "28xvgl",
+      "participation": "yes",
+      "date": "2026-08-19T12:00:00.000Z"
+    }
+  ],
+  "information": [
+    {
+      "id": "j5gk6c",
+      "title": "Bienvenue sur la nouvelle application du SEL",
+      "message": {
+        "body": "<p>Après plusieurs mois de travail, la nouvelle application du SEL est en ligne ! Elle remplace l'ancien site, que beaucoup d'entre vous trouvaient difficile à utiliser, surtout sur téléphone.</p><p>Vous y retrouverez tout ce qui fait vivre notre SEL :</p><ul><li>les <strong>demandes</strong>, pour solliciter l'aide des autres membres ;</li><li>les <strong>événements</strong>, pour savoir ce qui se passe et indiquer si vous venez ;</li><li>les <strong>échanges</strong> de grains, que vous pouvez désormais enregistrer en quelques secondes ;</li><li>l'<strong>annuaire des membres</strong>, avec une carte pour trouver vos voisins.</li></ul><p>N'hésitez pas à compléter votre profil, avec une photo et quelques mots sur vous : c'est ce qui donne envie aux autres membres de vous contacter.</p><p>Si quelque chose ne fonctionne pas comme prévu, ou si vous avez une idée d'amélioration, utilisez le formulaire depuis la page d'accueil. Toutes les remarques sont lues !</p>",
+        "attachments": []
+      },
+      "publishedAt": "2026-10-03T10:00:00.000Z"
+    },
+    {
+      "id": "uzoxki",
+      "title": "Cotisations 2027",
+      "message": {
+        "body": "<p>Les cotisations pour l'année 2027 restent fixées à 10 €. Elles pourront être réglées lors du repair café ou de l'assemblée générale.</p>",
+        "attachments": []
+      },
+      "publishedAt": "2026-09-21T10:00:00.000Z"
+    },
+    {
+      "id": "ukng3k",
+      "title": "Un local pour nos permanences",
+      "message": {
+        "body": "<p>Bonne nouvelle : après plusieurs mois de discussions, la mairie du 1<sup>er</sup> arrondissement nous prête une salle au 12 rue Sainte-Catherine.</p><p>Nous y tiendrons une permanence <strong>le premier samedi de chaque mois, de 10 h à 12 h</strong>. C'est l'occasion de se rencontrer, de poser vos questions sur le fonctionnement du SEL, de régler votre cotisation ou simplement de prendre un café.</p><p>La salle peut aussi accueillir nos ateliers et nos réunions. Si vous avez un projet d'atelier, parlez-en au conseil d'animation !</p>",
+        "attachments": []
+      },
+      "publishedAt": "2026-09-12T10:00:00.000Z",
+      "authorId": "su1ful"
+    },
+    {
+      "id": "3pz6yr",
+      "title": "Une grainothèque à la bibliothèque",
+      "message": {
+        "body": "<p>La bibliothèque de la Croix-Rousse accueille désormais une grainothèque : on y dépose et on y prend librement des graines. Une belle initiative à faire connaître !</p>",
+        "attachments": []
+      },
+      "publishedAt": "2026-08-23T10:00:00.000Z",
+      "authorId": "28xvgl"
+    }
+  ],
+  "documents": [
+    {
+      "name": "Fonctionnement",
+      "documents": [
+        {
+          "url": "reglement-interieur.pdf",
+          "name": "Règlement intérieur.pdf",
+          "size": 18657,
+          "updated": "2026-06-14T10:00:00.000Z"
+        },
+        {
+          "url": "statuts.pdf",
+          "name": "Statuts.pdf",
+          "size": 21037,
+          "updated": "2025-09-07T10:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "name": "Assemblées générales",
+      "documents": [
+        {
+          "url": "compte-rendu-ag-2026.pdf",
+          "name": "Compte rendu AG 2026.pdf",
+          "size": 18938,
+          "updated": "2026-04-15T10:00:00.000Z"
+        }
+      ]
+    }
+  ]
+}

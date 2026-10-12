@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <title></title>
     <link rel="manifest" href="/api/manifest.webmanifest" />
-    <script src="/env.js" vite-ignore></script>
+    <script src="%BASE_URL%env.js" vite-ignore></script>
     <script>
       const stored = localStorage.getItem('color-scheme');
       const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;

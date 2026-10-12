@@ -41,7 +41,7 @@ export default defineConfig(({ mode }) => ({
       },
     },
   },
-  envDir: mode === 'test' ? false : undefined,
+  envDir: mode === 'test' || mode === 'demo' ? false : undefined,
   resolve: {
     tsconfigPaths: true,
   },

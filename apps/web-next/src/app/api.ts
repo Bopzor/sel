@@ -63,12 +63,15 @@ export async function api<Result>(
   return body as Result;
 }
 
+// Filled by the demo, which keeps the files in the browser: an <img> or a link doesn't go through fetch.
+export const localFileUrls = new Map<string, string>();
+
 export function fileUrl(name: string) {
-  return `${baseUrl}/files/${name}`;
+  return localFileUrls.get(name) ?? `${baseUrl}/files/${name}`;
 }
 
 export function documentUrl(document: Document) {
-  return baseUrl + document.url;
+  return localFileUrls.get(document.url) ?? baseUrl + document.url;
 }
 
 export const maxFileSize = 10 * 1024 * 1024;

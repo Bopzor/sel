@@ -1,0 +1,57 @@
+name: Deploy demo
+
+on:
+  workflow_run:
+    branches: [master]
+    workflows: [Code quality]
+    types: [completed]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-demo
+  cancel-in-progress: false
+
+jobs:
+  build:
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
+    name: Build
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
+
+      - uses: ./.github/actions/setup
+
+      - name: Build the demo
+        working-directory: apps/web-next
+        run: pnpm exec vite build --mode demo --base /${{ github.event.repository.name }}/
+
+      # GitHub Pages serves 404.html for the paths it doesn't know: the app's routes.
+      - name: Add the routes fallback
+        run: cp apps/web-next/dist/index.html apps/web-next/dist/404.html
+
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: apps/web-next/dist
+
+  deploy:
+    name: Deploy
+    needs: [build]
+    runs-on: ubuntu-latest
+
+    permissions:
+      pages: write
+      id-token: write
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v5

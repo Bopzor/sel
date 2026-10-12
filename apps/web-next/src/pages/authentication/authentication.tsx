@@ -14,6 +14,7 @@ import { api, ApiError } from 'src/app/api';
 import { useConfig } from 'src/app/config';
 import { nextUrl } from 'src/app/session';
 import { InputField } from 'src/components/fields';
+import { getDemoSignInEmail } from 'src/demo/state';
 
 export function AuthenticationPage() {
   const config = useConfig();
@@ -21,7 +22,9 @@ export function AuthenticationPage() {
   const initialCode = searchParams.get('code') ?? undefined;
 
   const [step, setStep] = useState<{ name: 'email' | 'code'; email?: string }>(
-    initialCode === undefined ? { name: 'email' } : { name: 'code' },
+    initialCode === undefined
+      ? { name: 'email', email: import.meta.env.MODE === 'demo' ? getDemoSignInEmail() : undefined }
+      : { name: 'code' },
   );
 
   return (

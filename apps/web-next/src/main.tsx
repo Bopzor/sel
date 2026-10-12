@@ -43,6 +43,13 @@ import { EditRequestPage } from './pages/requests/edit/edit-request-page';
 import { RequestsPage } from './pages/requests/list/requests-page';
 import { SettingsPage } from './pages/settings/settings-page';
 
+// The condition is replaced at build time: the demo isn't part of the other builds.
+if (import.meta.env.MODE === 'demo') {
+  const { installDemo } = await import('./demo/install');
+
+  await installDemo();
+}
+
 initSentry();
 activateLocale(getLocale());
 watchColorScheme();
@@ -113,30 +120,33 @@ function HydrateFallback() {
   return null;
 }
 
-const router = wrapCreateBrowserRouter(createBrowserRouter)([
-  {
-    middleware: [initialize],
-    HydrateFallback,
-    ErrorBoundary: RootErrorBoundary,
-    children: [
-      {
-        path: routes.authentication(),
-        middleware: [requireNoSession],
-        Component: AuthenticationPage,
-      },
-      {
-        middleware: [requireSession, initializeSession],
-        Component: Layout,
-        children: [
-          {
-            ErrorBoundary: PageErrorBoundary,
-            children: Object.entries(authenticatedRoutes).map(([path, Component]) => ({ path, Component })),
-          },
-        ],
-      },
-    ],
-  },
-]);
+const router = wrapCreateBrowserRouter(createBrowserRouter)(
+  [
+    {
+      middleware: [initialize],
+      HydrateFallback,
+      ErrorBoundary: RootErrorBoundary,
+      children: [
+        {
+          path: routes.authentication(),
+          middleware: [requireNoSession],
+          Component: AuthenticationPage,
+        },
+        {
+          middleware: [requireSession, initializeSession],
+          Component: Layout,
+          children: [
+            {
+              ErrorBoundary: PageErrorBoundary,
+              children: Object.entries(authenticatedRoutes).map(([path, Component]) => ({ path, Component })),
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  { basename: import.meta.env.BASE_URL },
+);
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

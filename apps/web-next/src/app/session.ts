@@ -11,7 +11,8 @@ import { routes } from './routes';
 export const requireSession: MiddlewareFunction = async ({ request }) => {
   if (!(await hasSession())) {
     const { pathname, search } = new URL(request.url);
-    const next = pathname + search;
+    // The base url ends with a slash, which the path keeps.
+    const next = pathname.slice(import.meta.env.BASE_URL.length - 1) + search;
 
     throw redirect(routes.authentication(next === routes.home() ? undefined : next));
   }

@@ -495,6 +495,10 @@ msgctxt "exchanges filter"
 msgid "Declined"
 msgstr "Declined"
 
+#: src/pages/settings/settings-page.tsx
+msgid "Demo"
+msgstr "Demo"
+
 #: src/components/transaction-dialog.tsx
 msgid "Details"
 msgstr "Details"
@@ -1354,6 +1358,14 @@ msgctxt "feed filter"
 msgid "Requests"
 msgstr "Requests"
 
+#: src/pages/settings/settings-page.tsx
+msgid "Reset the demo data"
+msgstr "Reset the demo data"
+
+#: src/pages/settings/settings-page.tsx
+msgid "Resetting brings back the demo data as it was on your first visit."
+msgstr "Resetting brings back the demo data as it was on your first visit."
+
 #: src/components/api-result.tsx
 #: src/pages/error-page.tsx
 msgid "Retry"
@@ -1614,6 +1626,10 @@ msgstr "The application is under maintenance"
 #: src/pages/members/details/exchanges-tab.tsx
 msgid "The declined exchanges will appear here."
 msgstr "The declined exchanges will appear here."
+
+#: src/pages/settings/settings-page.tsx
+msgid "The demo data couldn't be reset"
+msgstr "The demo data couldn't be reset"
 
 #: src/pages/documents/documents-list.tsx
 msgid "The documents shared by the committee, such as the statutes and the meeting minutes, appear here."
@@ -2051,6 +2067,10 @@ msgstr "Your answer couldn't be saved"
 #: src/pages/home/home-page.tsx
 msgid "Your balance: {balance}"
 msgstr "Your balance: {balance}"
+
+#: src/pages/settings/settings-page.tsx
+msgid "Your changes are only kept in this browser."
+msgstr "Your changes are only kept in this browser."
 
 #: src/pages/events/edit/edit-event-page.tsx
 #: src/pages/information/edit/edit-information-page.tsx
