@@ -30,7 +30,6 @@ describe('event router', () => {
     await db.insert(schema.config).values({ id: createId(), currency: '', currencyPlural: '' });
 
     await persist.member({ id: 'meId', roles: [shared.MemberRole.member] });
-    await persist.member({ id: 'organizerId' });
 
     await persist.token({
       memberId: 'meId',
@@ -42,10 +41,6 @@ describe('event router', () => {
     agent = supertest.agent(server()).set('Cookie', 'token=token');
   });
 
-  async function createEvent(values: Partial<Parameters<typeof persist.event>[0]> = {}) {
-    return persist.event({ organizerId: 'organizerId', messageId: await persist.message(), ...values });
-  }
-
   async function listEvents(query: shared.ListEventsQuery = {}): Promise<shared.EventsListItem[]> {
     const response = await agent.get('/events').query(query).expect(200);
 
@@ -55,7 +50,7 @@ describe('event router', () => {
   it('lists the events with their location and participants', async () => {
     const location = { line1: '1 rue de la Paix', postalCode: '75002', city: 'Paris', country: 'France' };
 
-    await createEvent({ id: 'eventId', date: tomorrow, location });
+    await persist.event({ id: 'eventId', date: tomorrow, location });
     await persist.member({ id: 'otherId' });
 
     await setEventParticipation({ eventId: 'eventId', memberId: 'meId', participation: 'yes' });
@@ -69,7 +64,7 @@ describe('event router', () => {
   });
 
   it('does not set the participation of a member who did not answer', async () => {
-    await createEvent();
+    await persist.event();
 
     const [event] = await listEvents();
 
@@ -78,11 +73,11 @@ describe('event router', () => {
   });
 
   it('lists the events between two dates', async () => {
-    await createEvent({ id: 'beforeId', date: createDate('2026-06-01T00:00:00.000Z') });
-    await createEvent({ id: 'afterBoundId', date: createDate('2026-06-02T00:00:00.000Z') });
-    await createEvent({ id: 'betweenId', date: createDate('2026-06-05T00:00:00.000Z') });
-    await createEvent({ id: 'beforeBoundId', date: createDate('2026-06-09T00:00:00.000Z') });
-    await createEvent({ id: 'undatedId' });
+    await persist.event({ id: 'beforeId', date: createDate('2026-06-01T00:00:00.000Z') });
+    await persist.event({ id: 'afterBoundId', date: createDate('2026-06-02T00:00:00.000Z') });
+    await persist.event({ id: 'betweenId', date: createDate('2026-06-05T00:00:00.000Z') });
+    await persist.event({ id: 'beforeBoundId', date: createDate('2026-06-09T00:00:00.000Z') });
+    await persist.event({ id: 'undatedId' });
 
     const events = await listEvents({
       after: '2026-06-02T00:00:00.000Z',
@@ -142,7 +137,7 @@ describe('event router', () => {
     it('lets a committee member mark their event as a committee meeting and unmark it', async () => {
       await joinCommittee();
 
-      await createEvent({ id: 'eventId', organizerId: 'meId' });
+      await persist.event({ id: 'eventId', organizerId: 'meId' });
 
       await agent
         .put('/events/eventId')
@@ -158,7 +153,7 @@ describe('event router', () => {
     });
 
     it('forbids another member to mark their event as a committee meeting', async () => {
-      await createEvent({ id: 'eventId', organizerId: 'meId' });
+      await persist.event({ id: 'eventId', organizerId: 'meId' });
 
       await agent
         .put('/events/eventId')
@@ -169,7 +164,7 @@ describe('event router', () => {
     it('forbids changing a committee meeting to external', async () => {
       await joinCommittee();
 
-      await createEvent({ id: 'eventId', organizerId: 'meId', committeeMeeting: true });
+      await persist.event({ id: 'eventId', organizerId: 'meId', committeeMeeting: true });
 
       await agent
         .put('/events/eventId')
@@ -178,8 +173,8 @@ describe('event router', () => {
     });
 
     it('filters the committee meetings', async () => {
-      await createEvent({ id: 'meetingId', committeeMeeting: true });
-      await createEvent({ id: 'otherId' });
+      await persist.event({ id: 'meetingId', committeeMeeting: true });
+      await persist.event({ id: 'otherId' });
 
       expect((await listEvents({ committeeMeeting: 'true' })).map(({ id }) => id)).toEqual(['meetingId']);
       expect((await listEvents({ committeeMeeting: 'false' })).map(({ id }) => id)).toEqual(['otherId']);

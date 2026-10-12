@@ -1,7 +1,7 @@
 import * as shared from '@sel/shared';
-import { createDate, createFactory, createId } from '@sel/utils';
+import { createDate, createId } from '@sel/utils';
 import { sql } from 'drizzle-orm';
-import { PgTable } from 'drizzle-orm/pg-core';
+import { PgInsertValue, PgTable } from 'drizzle-orm/pg-core';
 
 import { TokenInsert, TokenType } from './modules/authentication/authentication.entities';
 import { CommentInsert } from './modules/comment/comment.entities';
@@ -23,6 +23,7 @@ import {
   information,
   interests,
   memberDevices,
+  memberNumberSequence,
   members,
   messages,
   requestAnswers,
@@ -31,138 +32,142 @@ import {
   transactions,
 } from './persistence/schema';
 
-const insert = {
-  token: createFactory<TokenInsert>(() => ({
-    id: createId(),
-    value: '',
-    expirationDate: createDate(),
-    type: TokenType.authentication,
-    memberId: '',
-  })),
-
-  member: createFactory<MemberInsert>(() => ({
-    id: createId(),
-    number: Math.floor((2 << 16) * Math.random()),
-    status: shared.MemberStatus.active,
-    firstName: '',
-    lastName: '',
-    email: createId(),
-    emailVisible: false,
-  })),
-
-  memberDevice: createFactory<MemberDeviceInsert>(() => ({
-    id: createId(),
-    memberId: '',
-    deviceSubscription: '',
-    deviceType: '',
-  })),
-
-  interest: createFactory<InterestInsert>(() => ({
-    id: createId(),
-    label: '',
-    description: '',
-    imageId: '',
-  })),
-
-  request: createFactory<RequestInsert>(() => ({
-    id: createId(),
-    status: shared.RequestStatus.pending,
-    requesterId: '',
-    title: '',
-    messageId: '',
-  })),
-
-  requestAnswer: createFactory<RequestAnswerInsert>(() => ({
-    id: createId(),
-    requestId: '',
-    memberId: '',
-    date: createDate(),
-    answer: 'positive',
-  })),
-
-  event: createFactory<EventInsert>(() => ({
-    id: createId(),
-    organizerId: '',
-    title: '',
-    messageId: '',
-    kind: 'internal',
-  })),
-
-  eventParticipation: createFactory<EventParticipationInsert>(() => ({
-    id: createId(),
-    eventId: '',
-    participantId: '',
-    participation: 'yes',
-  })),
-
-  comment: createFactory<CommentInsert>(() => ({
-    id: createId(),
-    authorId: '',
-    messageId: '',
-    date: createDate(),
-  })),
-
-  information: createFactory<InformationInsert>(() => ({
-    id: createId(),
-    title: '',
-    messageId: '',
-    authorId: '',
-    publishedAt: createDate(),
-  })),
-
-  file: createFactory<FileInsert>(() => ({
-    id: createId(),
-    name: '',
-    originalName: '',
-    mimetype: '',
-    size: 0,
-    uploadedBy: '',
-  })),
-
-  message: createFactory<MessageInsert>(() => ({
-    id: createId(),
-    text: '',
-    html: '',
-  })),
-
-  transaction: createFactory<TransactionInsert>(() => ({
-    id: createId(),
-    status: shared.TransactionStatus.completed,
-    description: '',
-    amount: 1,
-    payerId: '',
-    recipientId: '',
-    creatorId: '',
-  })),
-};
-
+// The required references that are not given are persisted with their defaults.
 export const persist = {
-  token: persister(tokens, insert.token),
-  file: persister(files, insert.file),
-  interest: persister(interests, insert.interest),
-  member: persister(members, insert.member),
-  memberDevice: persister(memberDevices, insert.memberDevice),
-  request: persister(requests, insert.request),
-  requestAnswer: persister(requestAnswers, insert.requestAnswer),
-  event: persister(events, insert.event),
-  eventParticipation: persister(eventParticipations, insert.eventParticipation),
-  comment: persister(comments, insert.comment),
-  information: persister(information, insert.information),
-  message: persister(messages, insert.message),
-  transaction: persister(transactions, insert.transaction),
+  member: (values: Partial<MemberInsert> = {}) =>
+    insert(members, {
+      id: createId(),
+      number: sql`nextval(${memberNumberSequence.seqName})`,
+      status: shared.MemberStatus.active,
+      firstName: '',
+      lastName: '',
+      email: createId(),
+      emailVisible: false,
+      ...values,
+    }),
+
+  token: async (values: Partial<TokenInsert> = {}) =>
+    insert(tokens, {
+      id: createId(),
+      value: createId(),
+      expirationDate: createDate(),
+      type: TokenType.authentication,
+      ...values,
+      memberId: values.memberId ?? (await persist.member()),
+    }),
+
+  memberDevice: async (values: Partial<MemberDeviceInsert> = {}) =>
+    insert(memberDevices, {
+      id: createId(),
+      deviceSubscription: '',
+      deviceType: '',
+      ...values,
+      memberId: values.memberId ?? (await persist.member()),
+    }),
+
+  file: async (values: Partial<FileInsert> = {}) =>
+    insert(files, {
+      id: createId(),
+      name: '',
+      originalName: '',
+      mimetype: '',
+      size: 0,
+      ...values,
+      uploadedBy: values.uploadedBy ?? (await persist.member()),
+    }),
+
+  interest: (values: Partial<InterestInsert> = {}) =>
+    insert(interests, {
+      id: createId(),
+      label: '',
+      description: '',
+      ...values,
+    }),
+
+  message: (values: Partial<MessageInsert> = {}) =>
+    insert(messages, {
+      id: createId(),
+      text: '',
+      html: '',
+      ...values,
+    }),
+
+  request: async (values: Partial<RequestInsert> = {}) =>
+    insert(requests, {
+      id: createId(),
+      status: shared.RequestStatus.pending,
+      title: '',
+      ...values,
+      requesterId: values.requesterId ?? (await persist.member()),
+      messageId: values.messageId ?? (await persist.message()),
+    }),
+
+  requestAnswer: async (values: Partial<RequestAnswerInsert> = {}) =>
+    insert(requestAnswers, {
+      id: createId(),
+      date: createDate(),
+      answer: 'positive',
+      ...values,
+      requestId: values.requestId ?? (await persist.request()),
+      memberId: values.memberId ?? (await persist.member()),
+    }),
+
+  event: async (values: Partial<EventInsert> = {}) =>
+    insert(events, {
+      id: createId(),
+      title: '',
+      kind: 'internal',
+      ...values,
+      organizerId: values.organizerId ?? (await persist.member()),
+      messageId: values.messageId ?? (await persist.message()),
+    }),
+
+  eventParticipation: async (values: Partial<EventParticipationInsert> = {}) =>
+    insert(eventParticipations, {
+      id: createId(),
+      participation: 'yes',
+      ...values,
+      eventId: values.eventId ?? (await persist.event()),
+      participantId: values.participantId ?? (await persist.member()),
+    }),
+
+  comment: async (values: Partial<CommentInsert> = {}) =>
+    insert(comments, {
+      id: createId(),
+      date: createDate(),
+      ...values,
+      authorId: values.authorId ?? (await persist.member()),
+      messageId: values.messageId ?? (await persist.message()),
+    }),
+
+  information: async (values: Partial<InformationInsert> = {}) =>
+    insert(information, {
+      id: createId(),
+      title: '',
+      publishedAt: createDate(),
+      ...values,
+      messageId: values.messageId ?? (await persist.message()),
+    }),
+
+  transaction: async (values: Partial<TransactionInsert> = {}) =>
+    insert(transactions, {
+      id: createId(),
+      status: shared.TransactionStatus.pending,
+      description: '',
+      amount: 0,
+      ...values,
+      payerId: values.payerId ?? (await persist.member()),
+      recipientId: values.recipientId ?? (await persist.member()),
+      creatorId: values.creatorId ?? (await persist.member()),
+    }),
 };
 
-function persister<Insert extends Record<string, unknown>>(
-  table: PgTable,
-  inserter: (values?: Partial<Insert>) => Insert,
-) {
-  return async (values?: Partial<Insert>) => {
-    const [{ id }] = await db
-      .insert(table)
-      .values(inserter(values))
-      .returning({ id: sql<string>`id` })
-      .execute();
+async function insert<Table extends PgTable>(table: Table, values: PgInsertValue<Table>): Promise<string> {
+  const [{ id }] = await db
+    .insert(table)
+    .values(values)
+    .returning({ id: sql<string>`id` })
+    .execute();
 
-    return id;
-  };
+  return id;
 }

@@ -16,10 +16,6 @@ describe('listInformation', () => {
     await persist.member({ id: 'authorId' });
   });
 
-  async function createInformation(values: Partial<Parameters<typeof persist.information>[0]> = {}) {
-    return persist.information({ authorId: 'authorId', messageId: await persist.message(), ...values });
-  }
-
   async function listInformationIds(query: Partial<Parameters<typeof listInformation>[0]> = {}) {
     const { information } = await listInformation({ page: 1, pageSize: 10, ...query });
 
@@ -28,36 +24,36 @@ describe('listInformation', () => {
 
   it('lists the information, the latest first', async () => {
     // cspell:words january
-    await createInformation({ id: 'januaryId', publishedAt: createDate('2026-01-01') });
-    await createInformation({ id: 'marchId', publishedAt: createDate('2026-03-01') });
-    await createInformation({ id: 'newsId', authorId: null, publishedAt: createDate('2026-02-01') });
+    await persist.information({ id: 'januaryId', publishedAt: createDate('2026-01-01') });
+    await persist.information({ id: 'marchId', publishedAt: createDate('2026-03-01') });
+    await persist.information({ id: 'newsId', authorId: null, publishedAt: createDate('2026-02-01') });
 
     expect(await listInformationIds()).toEqual(['marchId', 'newsId', 'januaryId']);
   });
 
   it('searches the information by title and message', async () => {
-    await createInformation({ id: 'titleId', title: 'General assembly' });
-    await createInformation({
+    await persist.information({ id: 'titleId', title: 'General assembly' });
+    await persist.information({
       id: 'messageId',
       messageId: await persist.message({ text: 'Vote at the next ASSEMBLY' }),
     });
-    await createInformation({ id: 'otherId', title: 'New website' });
+    await persist.information({ id: 'otherId', title: 'New website' });
 
     expect((await listInformationIds({ search: 'assembly' })).toSorted()).toEqual(['messageId', 'titleId']);
   });
 
   it('lists the information of an author', async () => {
-    await createInformation({ id: 'mineId', authorId: 'meId' });
-    await createInformation({ id: 'otherId' });
-    await createInformation({ id: 'newsId', authorId: null });
+    await persist.information({ id: 'mineId', authorId: 'meId' });
+    await persist.information({ id: 'otherId', authorId: 'authorId' });
+    await persist.information({ id: 'newsId', authorId: null });
 
     expect(await listInformationIds({ authorId: 'meId' })).toEqual(['mineId']);
   });
 
   it('paginates the information', async () => {
-    await createInformation({ id: 'firstId', publishedAt: createDate('2026-03-01') });
-    await createInformation({ id: 'secondId', publishedAt: createDate('2026-02-01') });
-    await createInformation({ id: 'thirdId', publishedAt: createDate('2026-01-01') });
+    await persist.information({ id: 'firstId', publishedAt: createDate('2026-03-01') });
+    await persist.information({ id: 'secondId', publishedAt: createDate('2026-02-01') });
+    await persist.information({ id: 'thirdId', publishedAt: createDate('2026-01-01') });
 
     const { total, information } = await listInformation({ page: 2, pageSize: 2 });
 

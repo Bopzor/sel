@@ -37,21 +37,36 @@ describe('listMemberTransactions', () => {
   it('lists the pending transactions by creation date', async () => {
     await transaction({ id: 'olderId', status: shared.TransactionStatus.pending, createdAt: date(1) });
     await transaction({ id: 'newerId', status: shared.TransactionStatus.pending, createdAt: date(2) });
-    await transaction({ completedAt: date(3) });
+    await transaction({ status: shared.TransactionStatus.completed, completedAt: date(3) });
 
     expect(await listTransactionIds({ status: 'pending' })).toEqual(['newerId', 'olderId']);
   });
 
   it('lists the completed transactions by completion date', async () => {
-    await transaction({ id: 'createdFirstId', createdAt: date(1), completedAt: date(4) });
-    await transaction({ id: 'createdLastId', createdAt: date(2), completedAt: date(3) });
+    await transaction({
+      id: 'createdFirstId',
+      status: shared.TransactionStatus.completed,
+      createdAt: date(1),
+      completedAt: date(4),
+    });
+    await transaction({
+      id: 'createdLastId',
+      status: shared.TransactionStatus.completed,
+      createdAt: date(2),
+      completedAt: date(3),
+    });
     await transaction({ status: shared.TransactionStatus.pending, createdAt: date(5) });
 
     expect(await listTransactionIds({ status: 'completed' })).toEqual(['createdFirstId', 'createdLastId']);
   });
 
   it('lists the pending transactions first, then the others by date', async () => {
-    await transaction({ id: 'completedId', createdAt: date(1), completedAt: date(3) });
+    await transaction({
+      id: 'completedId',
+      status: shared.TransactionStatus.completed,
+      createdAt: date(1),
+      completedAt: date(3),
+    });
     await transaction({ id: 'pendingId', status: shared.TransactionStatus.pending, createdAt: date(2) });
     await transaction({ id: 'canceledId', status: shared.TransactionStatus.canceled, createdAt: date(4) });
 
@@ -59,25 +74,52 @@ describe('listMemberTransactions', () => {
   });
 
   it('lists the transactions with a counterpart', async () => {
-    await transaction({ id: 'paidId', payerId: 'memberId', recipientId: 'matId' });
-    await transaction({ id: 'receivedId', payerId: 'matId', recipientId: 'memberId' });
-    await transaction({ payerId: 'memberId', recipientId: 'joshId' });
-    await transaction({ payerId: 'matId', recipientId: 'joshId' });
+    await transaction({
+      id: 'paidId',
+      status: shared.TransactionStatus.completed,
+      payerId: 'memberId',
+      recipientId: 'matId',
+    });
+    await transaction({
+      id: 'receivedId',
+      status: shared.TransactionStatus.completed,
+      payerId: 'matId',
+      recipientId: 'memberId',
+    });
+    await transaction({
+      status: shared.TransactionStatus.completed,
+      payerId: 'memberId',
+      recipientId: 'joshId',
+    });
+    await transaction({
+      status: shared.TransactionStatus.completed,
+      payerId: 'matId',
+      recipientId: 'joshId',
+    });
 
     expect((await listTransactionIds({ counterpartId: 'matId' })).sort()).toEqual(['paidId', 'receivedId']);
   });
 
   it('lists the transactions with a payer', async () => {
-    await transaction({ id: 'paidId', payerId: 'memberId', recipientId: 'matId' });
-    await transaction({ payerId: 'matId', recipientId: 'memberId' });
+    await transaction({
+      id: 'paidId',
+      status: shared.TransactionStatus.completed,
+      payerId: 'memberId',
+      recipientId: 'matId',
+    });
+    await transaction({
+      status: shared.TransactionStatus.completed,
+      payerId: 'matId',
+      recipientId: 'memberId',
+    });
 
     expect(await listTransactionIds({ payerId: 'memberId' })).toEqual(['paidId']);
   });
 
   it('paginates the transactions', async () => {
-    await transaction({ id: 'firstId', completedAt: date(1) });
-    await transaction({ id: 'secondId', completedAt: date(2) });
-    await transaction({ id: 'thirdId', completedAt: date(3) });
+    await transaction({ id: 'firstId', status: shared.TransactionStatus.completed, completedAt: date(1) });
+    await transaction({ id: 'secondId', status: shared.TransactionStatus.completed, completedAt: date(2) });
+    await transaction({ id: 'thirdId', status: shared.TransactionStatus.completed, completedAt: date(3) });
 
     const { total, transactions } = await listMemberTransactions({
       memberId: 'memberId',
@@ -91,7 +133,7 @@ describe('listMemberTransactions', () => {
 
   it('lists all the transactions without a page', async () => {
     for (let day = 1; day <= 3; day++) {
-      await transaction({ completedAt: date(day) });
+      await transaction({ status: shared.TransactionStatus.completed, completedAt: date(day) });
     }
 
     const { total, transactions } = await listMemberTransactions({ memberId: 'memberId', pageSize: 2 });

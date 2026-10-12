@@ -26,7 +26,7 @@ describe('sendEventNotification', () => {
       await persist.member({ id, notificationDelivery: [NotificationDeliveryType.push] });
     }
 
-    await persist.event({ id: 'eventId', organizerId: 'organizerId', messageId: await persist.message() });
+    await persist.event({ id: 'eventId', organizerId: 'organizerId' });
 
     await setEventParticipation({ eventId: 'eventId', memberId: 'goingId', participation: 'yes' });
     await setEventParticipation({ eventId: 'eventId', memberId: 'notGoingId', participation: 'no' });

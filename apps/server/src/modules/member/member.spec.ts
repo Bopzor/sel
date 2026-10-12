@@ -309,11 +309,11 @@ describe('member', () => {
     };
 
     it("lists a member's transactions with their comments, request and date", async () => {
-      const messageId = await persist.message();
-      const requestId = await persist.request({ requesterId: memberId, title: 'Request', messageId });
+      const requestId = await persist.request({ requesterId: memberId, title: 'Request' });
       const completedAt = new Date(2025, 0, 2);
 
       await transaction({
+        status: shared.TransactionStatus.completed,
         payerComment: 'Thanks',
         recipientComment: 'You are welcome',
         requestId,
@@ -336,8 +336,8 @@ describe('member', () => {
     });
 
     it("paginates a member's transactions", async () => {
-      await transaction({});
-      await transaction({});
+      await transaction({ status: shared.TransactionStatus.completed });
+      await transaction({ status: shared.TransactionStatus.completed });
 
       const response = await supertest(app).get(`/${memberId}/transactions?page=1&pageSize=1`).expect(200);
 
@@ -347,7 +347,7 @@ describe('member', () => {
     });
 
     it("computes a member's transaction stats", async () => {
-      await transaction({ amount: 2 });
+      await transaction({ status: shared.TransactionStatus.completed, amount: 2 });
 
       const response = await supertest(app).get(`/${memberId}/transactions/stats`).expect(200);
 
@@ -386,9 +386,8 @@ describe('member', () => {
 
     it("counts a member's activity", async () => {
       const memberId = await persist.member();
-      const messageId = await persist.message();
 
-      await persist.request({ requesterId: memberId, messageId });
+      await persist.request({ requesterId: memberId });
 
       const response = await supertest(app).get(`/${memberId}/activity/counts`).expect(200);
 

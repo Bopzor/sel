@@ -174,6 +174,7 @@ describe('getMemberActivity', () => {
 
     await transaction({
       id: 'sentId',
+      status: shared.TransactionStatus.completed,
       payerId: 'memberId',
       recipientId: 'otherMemberId',
       amount: 3,
@@ -183,6 +184,7 @@ describe('getMemberActivity', () => {
 
     await transaction({
       id: 'receivedId',
+      status: shared.TransactionStatus.completed,
       payerId: 'otherMemberId',
       recipientId: 'memberId',
       completedAt: date(1),

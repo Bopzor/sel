@@ -27,7 +27,6 @@ describe('setRequestAnswer', () => {
 
     await persist.request({
       id: 'requestId',
-      messageId: await persist.message(),
       requesterId: 'requesterId',
     });
   });

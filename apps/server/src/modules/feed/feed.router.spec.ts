@@ -34,8 +34,8 @@ describe('feed router', () => {
   it('lists the events with their date', async () => {
     const date = createDate('2025-06-01T18:00:00.000Z');
 
-    await persist.event({ id: 'eventId', organizerId: 'meId', messageId: await persist.message(), date });
-    await persist.event({ id: 'undatedEventId', organizerId: 'meId', messageId: await persist.message() });
+    await persist.event({ id: 'eventId', organizerId: 'meId', date });
+    await persist.event({ id: 'undatedEventId', organizerId: 'meId' });
 
     const response = await agent.get('/feed').expect(200);
     const feed = response.body as shared.Feed;

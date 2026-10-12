@@ -21,7 +21,6 @@ describe('updateEvent', () => {
     await persist.event({
       id: 'eventId',
       organizerId: await persist.member({ id: 'organizerId' }),
-      messageId: await persist.message(),
       date: new Date('2026-10-05T18:00:00.000Z'),
       location,
     });

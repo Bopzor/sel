@@ -27,12 +27,32 @@ describe('getMemberTransactionStats', () => {
   };
 
   it("computes the stats of a member's completed transactions", async () => {
-    await transaction({ amount: 2, payerId: 'memberId', recipientId: 'matId' });
-    await transaction({ amount: 3, payerId: 'matId', recipientId: 'memberId' });
-    await transaction({ amount: 5, payerId: 'joshId', recipientId: 'memberId' });
+    await transaction({
+      status: shared.TransactionStatus.completed,
+      amount: 2,
+      payerId: 'memberId',
+      recipientId: 'matId',
+    });
+    await transaction({
+      status: shared.TransactionStatus.completed,
+      amount: 3,
+      payerId: 'matId',
+      recipientId: 'memberId',
+    });
+    await transaction({
+      status: shared.TransactionStatus.completed,
+      amount: 5,
+      payerId: 'joshId',
+      recipientId: 'memberId',
+    });
     await transaction({ amount: 7, status: shared.TransactionStatus.pending });
     await transaction({ amount: 11, status: shared.TransactionStatus.canceled });
-    await transaction({ amount: 13, payerId: 'matId', recipientId: 'joshId' });
+    await transaction({
+      status: shared.TransactionStatus.completed,
+      amount: 13,
+      payerId: 'matId',
+      recipientId: 'joshId',
+    });
 
     expect(await getMemberTransactionStats('memberId')).toEqual<shared.MemberTransactionStats>({
       given: 2,

@@ -26,10 +26,6 @@ describe('listEvents', () => {
     await persist.member({ id: 'organizerId' });
   });
 
-  async function createEvent(values: Partial<Parameters<typeof persist.event>[0]> = {}) {
-    return persist.event({ organizerId: 'organizerId', messageId: await persist.message(), ...values });
-  }
-
   async function listEventIds(query: Partial<Parameters<typeof listEvents>[0]> = {}) {
     const { events } = await listEvents({ page: 1, pageSize: 10, ...query });
 
@@ -37,51 +33,51 @@ describe('listEvents', () => {
   }
 
   it('lists all the events, the undated ones first and then the latest', async () => {
-    await createEvent({ id: 'yesterdayId', date: yesterday });
-    await createEvent({ id: 'tomorrowId', date: tomorrow });
-    await createEvent({ id: 'undatedId', date: null });
+    await persist.event({ id: 'yesterdayId', date: yesterday });
+    await persist.event({ id: 'tomorrowId', date: tomorrow });
+    await persist.event({ id: 'undatedId', date: null });
 
     expect(await listEventIds()).toEqual(['undatedId', 'tomorrowId', 'yesterdayId']);
   });
 
   it('lists the past events, the latest first', async () => {
-    await createEvent({ id: 'lastWeekId', date: addDuration(createDate(), { days: -7 }) });
-    await createEvent({ id: 'yesterdayId', date: yesterday });
-    await createEvent({ id: 'undatedId', date: null });
-    await createEvent({ id: 'tomorrowId', date: tomorrow });
+    await persist.event({ id: 'lastWeekId', date: addDuration(createDate(), { days: -7 }) });
+    await persist.event({ id: 'yesterdayId', date: yesterday });
+    await persist.event({ id: 'undatedId', date: null });
+    await persist.event({ id: 'tomorrowId', date: tomorrow });
 
     expect(await listEventIds({ timing: 'past' })).toEqual(['yesterdayId', 'lastWeekId']);
   });
 
   it('searches the events by title and message', async () => {
-    await createEvent({ id: 'titleId', title: 'Picnic at the lake' });
-    await createEvent({
+    await persist.event({ id: 'titleId', title: 'Picnic at the lake' });
+    await persist.event({
       id: 'messageId',
       messageId: await persist.message({ text: 'Bring a PICNIC basket' }),
     });
-    await createEvent({ id: 'otherId', title: 'Village fair' });
+    await persist.event({ id: 'otherId', title: 'Village fair' });
 
     expect((await listEventIds({ search: 'picnic' })).toSorted()).toEqual(['messageId', 'titleId']);
   });
 
   it('lists the events of an organizer', async () => {
-    await createEvent({ id: 'mineId', organizerId: 'meId' });
-    await createEvent({ id: 'otherId' });
+    await persist.event({ id: 'mineId', organizerId: 'meId' });
+    await persist.event({ id: 'otherId', organizerId: 'organizerId' });
 
     expect(await listEventIds({ organizerId: 'meId' })).toEqual(['mineId']);
   });
 
   it('lists the events of a year', async () => {
-    await createEvent({ id: '2025Id', date: createDate('2025-06-01') });
-    await createEvent({ id: '2026Id', date: createDate('2026-06-01') });
+    await persist.event({ id: '2025Id', date: createDate('2025-06-01') });
+    await persist.event({ id: '2026Id', date: createDate('2026-06-01') });
 
     expect(await listEventIds({ year: 2025 })).toEqual(['2025Id']);
   });
 
   it('paginates the events', async () => {
-    await createEvent({ id: 'firstId', date: createDate('2026-03-01') });
-    await createEvent({ id: 'secondId', date: createDate('2026-02-01') });
-    await createEvent({ id: 'thirdId', date: createDate('2026-01-01') });
+    await persist.event({ id: 'firstId', date: createDate('2026-03-01') });
+    await persist.event({ id: 'secondId', date: createDate('2026-02-01') });
+    await persist.event({ id: 'thirdId', date: createDate('2026-01-01') });
 
     const { total, events } = await listEvents({ page: 2, pageSize: 2 });
 
@@ -90,9 +86,9 @@ describe('listEvents', () => {
   });
 
   it('lists the events where a member goes', async () => {
-    await createEvent({ id: 'goingId' });
-    await createEvent({ id: 'notGoingId' });
-    await createEvent({ id: 'otherId' });
+    await persist.event({ id: 'goingId' });
+    await persist.event({ id: 'notGoingId' });
+    await persist.event({ id: 'otherId' });
 
     await setEventParticipation({ eventId: 'goingId', memberId: 'meId', participation: 'yes' });
     await setEventParticipation({ eventId: 'notGoingId', memberId: 'meId', participation: 'no' });
@@ -101,10 +97,10 @@ describe('listEvents', () => {
   });
 
   it('lists the upcoming events, and the undated ones after them', async () => {
-    await createEvent({ id: 'undatedId', date: null });
-    await createEvent({ id: 'pastId', date: yesterday });
-    await createEvent({ id: 'nextWeekId', date: nextWeek });
-    await createEvent({ id: 'tomorrowId', date: tomorrow });
+    await persist.event({ id: 'undatedId', date: null });
+    await persist.event({ id: 'pastId', date: yesterday });
+    await persist.event({ id: 'nextWeekId', date: nextWeek });
+    await persist.event({ id: 'tomorrowId', date: tomorrow });
 
     expect(await listEventIds({ timing: 'upcoming' })).toEqual(['tomorrowId', 'nextWeekId']);
 

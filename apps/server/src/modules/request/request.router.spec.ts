@@ -34,7 +34,7 @@ describe('request router', () => {
   it('lists the requests with their number of positive answers', async () => {
     await persist.member({ id: 'member1Id' });
     await persist.member({ id: 'member2Id' });
-    await persist.request({ id: 'requestId', requesterId: 'meId', messageId: await persist.message() });
+    await persist.request({ id: 'requestId', requesterId: 'meId' });
     await persist.requestAnswer({ requestId: 'requestId', memberId: 'member1Id', answer: 'positive' });
     await persist.requestAnswer({ requestId: 'requestId', memberId: 'member2Id', answer: 'negative' });
 
