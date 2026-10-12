@@ -112,7 +112,7 @@ function ExchangesCard({ member }: { member: Member }) {
         failed={
           <Card.Body compact>
             <ApiFailed
-              title={<Trans>Unable to load the exchanges</Trans>}
+              title={<Trans>Unable to load exchanges</Trans>}
               retrying={latestQuery.isFetching}
               retry={() => void latestQuery.refetch()}
             />
@@ -184,7 +184,7 @@ function ActivityCard({ member }: { member: Member }) {
         failed={
           <Card.Body compact>
             <ApiFailed
-              title={<Trans>Unable to load the activity</Trans>}
+              title={<Trans>Unable to load activity</Trans>}
               retrying={latestQuery.isFetching}
               retry={() => void latestQuery.refetch()}
             />
@@ -256,7 +256,7 @@ function NoInterests({ member, isMe }: { member: Member; isMe: boolean }) {
       {isMe ? (
         <Trans>
           You haven't shared any interest yet.{' '}
-          <PromptLink href={routes.interests()}>Browse the interests</PromptLink>
+          <PromptLink href={routes.interests()}>Browse interests</PromptLink>
         </Trans>
       ) : (
         <Trans>{name} hasn't shared any interest yet.</Trans>

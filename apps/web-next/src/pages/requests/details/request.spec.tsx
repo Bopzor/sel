@@ -128,7 +128,7 @@ describe('request', () => {
     renderPage();
 
     expect(await screen.findByRole('heading', { name: 'Request not found' })).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: 'See the requests' })).toHaveAttribute('href', '/requests');
+    expect(screen.getByRole('link', { name: 'See all requests' })).toHaveAttribute('href', '/requests');
   });
 
   it('retries loading the request after a failure', async () => {
@@ -206,7 +206,7 @@ describe('request', () => {
 
       await user.click(await screen.findByRole('button', { name: 'I can help' }));
 
-      expect(await screen.findByText('Your answer could not be saved')).toBeInTheDocument();
+      expect(await screen.findByText("Your answer couldn't be saved")).toBeInTheDocument();
       expect(screen.getByRole('heading', { name: 'Can you help?' })).toBeInTheDocument();
     });
 
@@ -251,7 +251,7 @@ describe('request', () => {
       await user.click(await screen.findByRole('button', { name: 'Close the request' }));
 
       const dialog = await screen.findByRole('alertdialog', { name: 'Close the request “Cat sitting”?' });
-      expect(dialog).toContainOneByText('You have not sent any units for this request');
+      expect(dialog).toContainOneByText("You haven't sent any units for this request");
 
       await user.click(within(dialog).getByRole('button', { name: 'Close the request' }));
 
@@ -271,7 +271,7 @@ describe('request', () => {
       await user.click(await screen.findByRole('button', { name: 'Close the request' }));
 
       await screen.findByRole('alertdialog');
-      expect(screen.queryByText('You have not sent any units for this request')).not.toBeInTheDocument();
+      expect(screen.queryByText("You haven't sent any units for this request")).not.toBeInTheDocument();
     });
 
     it('cancels the request', async () => {
@@ -317,7 +317,7 @@ describe('request', () => {
       const dialog = await screen.findByRole('alertdialog');
       await user.click(within(dialog).getByRole('button', { name: 'Close the request' }));
 
-      expect(await screen.findByText('The request could not be closed')).toBeInTheDocument();
+      expect(await screen.findByText("The request couldn't be closed")).toBeInTheDocument();
       expect(screen.getByRole('alertdialog')).toBe(dialog);
       expect(screen.queryByText('This request is fulfilled')).not.toBeInTheDocument();
     });
@@ -358,7 +358,7 @@ describe('request', () => {
 
       renderPage();
 
-      await user.click(await screen.findByRole('button', { name: 'Create exchange' }));
+      await user.click(await screen.findByRole('button', { name: 'Exchange units' }));
 
       const dialog = await screen.findByRole('dialog', { name: 'Send units' });
       expect(within(dialog).queryByRole('radiogroup')).not.toBeInTheDocument();
@@ -369,7 +369,7 @@ describe('request', () => {
       await fillAmount(dialog);
       await user.click(within(dialog).getByRole('button', { name: 'Send 20 units' }));
 
-      expect(await screen.findByText('The exchange is recorded')).toBeInTheDocument();
+      expect(await screen.findByText('Exchange recorded')).toBeInTheDocument();
       expect(server.transactions).toEqual<CreateTransactionBody[]>([
         { payerId: 'me', recipientId: 'claire', amount: 20, description: 'Cat sitting', requestId: 'r1' },
       ]);
@@ -380,7 +380,7 @@ describe('request', () => {
 
       renderPage();
 
-      expect(await screen.findByRole('button', { name: 'Create exchange' })).toBeInTheDocument();
+      expect(await screen.findByRole('button', { name: 'Exchange units' })).toBeInTheDocument();
     });
 
     it('requests units from the requester to a member who can help', async () => {
@@ -395,16 +395,16 @@ describe('request', () => {
 
       renderPage();
 
-      await user.click(await screen.findByRole('button', { name: 'Create exchange' }));
+      await user.click(await screen.findByRole('button', { name: 'Exchange units' }));
 
       const dialog = await screen.findByRole('dialog', { name: 'Request units from Claire Dubois' });
       expect(dialog).toHaveTextContent('Step 1 of 2');
-      expect(within(dialog).getByRole('textbox', { name: /^Reason/ })).toHaveValue('Cat sitting');
+      expect(within(dialog).getByRole('textbox', { name: /^Subject/ })).toHaveValue('Cat sitting');
 
       await fillAmount(dialog);
       await user.click(within(dialog).getByRole('button', { name: 'Request 20 units' }));
 
-      expect(await screen.findByText('The request is sent to Claire Dubois')).toBeInTheDocument();
+      expect(await screen.findByText('Request sent to Claire Dubois')).toBeInTheDocument();
       expect(server.transactions).toEqual<CreateTransactionBody[]>([
         { payerId: 'claire', recipientId: 'me', amount: 20, description: 'Cat sitting', requestId: 'r1' },
       ]);
@@ -420,7 +420,7 @@ describe('request', () => {
 
       await screen.findByRole('heading', { level: 1 });
 
-      expect(screen.queryByRole('button', { name: 'Create exchange' })).not.toBeInTheDocument();
+      expect(screen.queryByRole('button', { name: 'Exchange units' })).not.toBeInTheDocument();
     });
   });
 });

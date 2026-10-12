@@ -44,7 +44,7 @@ export function CommentsSection({ entityType, entityId }: CommentSectionProps) {
         query={query}
         failed={
           <ApiFailed
-            title={<Trans>Unable to load the comments</Trans>}
+            title={<Trans>Unable to load comments</Trans>}
             retrying={query.isFetching}
             retry={() => void query.refetch()}
           />
@@ -118,7 +118,7 @@ function CommentForm({ entityType, entityId }: CommentSectionProps) {
     },
     onError: () => {
       // exception: show a toast instead of an alert
-      showToast(t`An error happened and your comment was not posted`, 'error');
+      showToast(t`Your comment couldn't be posted`, 'error');
     },
   });
 

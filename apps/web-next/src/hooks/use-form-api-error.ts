@@ -31,7 +31,7 @@ export function useFormApiError<Values extends FieldValues, Transformed>(
     if (NetworkError.is(error)) {
       return form.setError('root', {
         type: 'server',
-        message: t`Unable to reach the server, check your internet access`,
+        message: t`Unable to reach the server. Check your internet connection.`,
       });
     }
 

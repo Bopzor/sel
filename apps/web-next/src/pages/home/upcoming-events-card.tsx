@@ -36,7 +36,7 @@ export function UpcomingEventsCard({ className }: { className?: string }) {
           href={routes.events()}
           className="row items-center gap-2 text-body-sm font-medium text-muted underline"
         >
-          <Trans>See the events</Trans>
+          <Trans>See all events</Trans>
           <Icon name="next" size="sm" />
         </Link>
       </Card.Footer>

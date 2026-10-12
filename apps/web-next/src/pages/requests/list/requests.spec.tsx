@@ -74,7 +74,7 @@ describe('requests', () => {
     const router = renderPage(routes.requests());
 
     await findItems();
-    await user.type(screen.getByRole('searchbox', { name: 'Search the requests' }), 'cat');
+    await user.type(screen.getByRole('searchbox', { name: 'Search requests' }), 'cat');
 
     await vi.waitFor(() => expect(screen.getAllByRole('listitem')).toHaveLength(1));
 
@@ -114,13 +114,13 @@ describe('requests', () => {
 
     expect(screen.getByRole('button', { name: 'All' })).toBePressed();
     expect(screen.getByRole('button', { name: 'My requests' })).toBePressed();
-    expect(screen.getByRole('searchbox', { name: 'Search the requests' })).toHaveValue('cat');
+    expect(screen.getByRole('searchbox', { name: 'Search requests' })).toHaveValue('cat');
   });
 
   it('resets the search when the URL changes', async () => {
     const router = renderPage(`${routes.requests()}?search=cat`);
 
-    const searchbox = await screen.findByRole('searchbox', { name: 'Search the requests' });
+    const searchbox = await screen.findByRole('searchbox', { name: 'Search requests' });
 
     expect(searchbox).toHaveValue('cat');
 
@@ -152,7 +152,7 @@ describe('requests', () => {
     await findItems();
 
     expect(router.state.location.search).toBe('');
-    expect(screen.getByRole('searchbox', { name: 'Search the requests' })).toHaveValue('');
+    expect(screen.getByRole('searchbox', { name: 'Search requests' })).toHaveValue('');
   });
 
   it('shows more requests', async () => {
@@ -184,7 +184,7 @@ describe('requests', () => {
 
     renderPage(routes.requests());
 
-    await screen.findByText('Unable to load the requests');
+    await screen.findByText('Unable to load requests');
 
     server.failing = false;
     await user.click(screen.getByRole('button', { name: 'Retry' }));
@@ -205,7 +205,7 @@ describe('requests', () => {
     // The query notifies its observers in a timeout.
     await act(() => new Promise((resolve) => setTimeout(resolve)));
 
-    expect(screen.queryByText('Unable to load the requests')).not.toBeInTheDocument();
+    expect(screen.queryByText('Unable to load requests')).not.toBeInTheDocument();
     expect(screen.getByRole('link', { name: 'Cat sitting' })).toBeInTheDocument();
   });
 
@@ -223,7 +223,7 @@ describe('requests', () => {
     server.failing = true;
     await user.click(screen.getByRole('button', { name: 'Show more' }));
 
-    await screen.findByText('Unable to load more elements');
+    await screen.findByText('Unable to load more');
 
     expect(screen.getAllByRole('listitem')).toHaveLength(10);
     expect(screen.queryByRole('button', { name: 'Show more' })).not.toBeInTheDocument();
@@ -233,7 +233,7 @@ describe('requests', () => {
 
     await vi.waitFor(() => expect(screen.getAllByRole('listitem')).toHaveLength(12));
 
-    expect(screen.queryByText('Unable to load more elements')).not.toBeInTheDocument();
+    expect(screen.queryByText('Unable to load more')).not.toBeInTheDocument();
   });
 });
 

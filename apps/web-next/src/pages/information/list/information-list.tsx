@@ -36,7 +36,7 @@ export function InformationList({ filters, hasFilters, onClearFilters }: Informa
   if (query.error && !query.data) {
     return (
       <ApiFailed
-        title={<Trans context="information list">Unable to load the information</Trans>}
+        title={<Trans context="information list">Unable to load information</Trans>}
         retrying={query.isFetching}
         retry={() => void query.refetch()}
       />
@@ -164,7 +164,7 @@ function NoMatchingInformation({ onClearFilters }: { onClearFilters: () => void 
         <Trans>No information matches these filters</Trans>
       </EmptyState.Title>
       <EmptyState.Description>
-        <Trans>Try other words, or clear the filters.</Trans>
+        <Trans>Try other words, or clear filters.</Trans>
       </EmptyState.Description>
       <EmptyState.Action>
         <Button variant="secondary" onClick={onClearFilters}>

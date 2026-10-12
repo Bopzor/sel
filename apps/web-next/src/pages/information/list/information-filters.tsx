@@ -21,7 +21,7 @@ export function InformationFiltersBar({ filters, search, onSearch, onChange }: F
       <Input
         type="search"
         icon="search"
-        aria-label={t`Search the information`}
+        aria-label={t`Search information`}
         placeholder={t`Search`}
         value={search}
         onChange={(event) => onSearch(event.target.value)}

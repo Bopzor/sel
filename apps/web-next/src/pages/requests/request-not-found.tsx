@@ -15,7 +15,7 @@ export function RequestNotFound() {
       </EmptyState.Description>
       <EmptyState.Action>
         <LinkButton Link={Link} href={routes.requests()} variant="secondary">
-          <Trans>See the requests</Trans>
+          <Trans>See all requests</Trans>
         </LinkButton>
       </EmptyState.Action>
     </EmptyState.Root>

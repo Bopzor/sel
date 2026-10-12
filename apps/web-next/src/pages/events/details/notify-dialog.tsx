@@ -17,14 +17,14 @@ export function NotifyDialog({ event }: { event: Event }) {
   return (
     <>
       <Button icon="notifications" onClick={() => setOpen(true)} className="grow">
-        <Trans>Notify the members</Trans>
+        <Trans>Notify members</Trans>
       </Button>
 
       <Dialog.Root open={open} onClose={() => setOpen(false)}>
         <Dialog.Content closeLabel={t`Close`}>
           <Dialog.Header>
             <Dialog.Title>
-              <Trans>Notify the members</Trans>
+              <Trans>Notify members</Trans>
             </Dialog.Title>
             <Dialog.Description>
               <Trans>They receive it by email or on their devices, depending on their settings.</Trans>
@@ -87,7 +87,7 @@ function NotifyForm({ event, onSent }: { event: Event; onSent: () => void }) {
                   label={<Trans>The participants ({participantsCount})</Trans>}
                 />
                 <RadioGroup.Item value="non-participants" label={<Trans>The other members</Trans>} />
-                <RadioGroup.Item value="all" label={<Trans>All the members</Trans>} />
+                <RadioGroup.Item value="all" label={<Trans>All members</Trans>} />
               </RadioGroup.Root>
             </Fieldset.Root>
           )}
@@ -95,7 +95,7 @@ function NotifyForm({ event, onSent }: { event: Event; onSent: () => void }) {
 
         <FormServerErrorAlert
           error={form.formState.errors.root}
-          title={<Trans>The notification could not be sent</Trans>}
+          title={<Trans>The notification couldn't be sent</Trans>}
         />
       </Dialog.Body>
 

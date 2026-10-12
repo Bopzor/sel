@@ -28,7 +28,7 @@ export function RequestFiltersBar({ filters, search, onSearch, onChange }: Filte
       <Input
         type="search"
         icon="search"
-        aria-label={t`Search the requests`}
+        aria-label={t`Search requests`}
         placeholder={t`Search`}
         value={search}
         onChange={(event) => onSearch(event.target.value)}

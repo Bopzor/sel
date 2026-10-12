@@ -64,7 +64,7 @@ export function ProfileSection({ title, onEdit, focusEdit, children }: ProfileSe
 export function ProfileInfoVisibility({ visible }: { visible: boolean }) {
   return (
     <span className="text-body-sm text-muted">
-      {visible ? <Trans>Visible to the other members</Trans> : <Trans>Hidden from the other members</Trans>}
+      {visible ? <Trans>Visible to other members</Trans> : <Trans>Hidden from other members</Trans>}
     </span>
   );
 }
@@ -97,7 +97,7 @@ export function ProfileSectionForm({
           {children}
           <FormServerErrorAlert
             error={formState.errors.root}
-            title={<Trans>Your changes could not be saved</Trans>}
+            title={<Trans>Your changes couldn't be saved</Trans>}
           />
         </Card.Body>
 

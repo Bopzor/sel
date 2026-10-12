@@ -104,7 +104,7 @@ function ContactForm({ title, member, onClose }: ContactFormProps) {
         <CheckboxField
           control={form.control}
           name="emailVisible"
-          label={<Trans>Show my email address to the other members</Trans>}
+          label={<Trans>Show my email address to other members</Trans>}
         />
       </div>
 
@@ -120,7 +120,7 @@ function ContactForm({ title, member, onClose }: ContactFormProps) {
         <CheckboxField
           control={form.control}
           name="phoneNumberVisible"
-          label={<Trans>Show my phone number to the other members</Trans>}
+          label={<Trans>Show my phone number to other members</Trans>}
         />
       </div>
     </ProfileSectionForm>
@@ -142,7 +142,7 @@ function useSchema() {
         .optional()
         .superRefine((value = '', ctx) => {
           if (value === '') {
-            ctx.addIssue({ code: 'custom', message: t`Your phone number cannot be removed, only changed` });
+            ctx.addIssue({ code: 'custom', message: t`Your phone number can't be removed, only changed` });
           } else if (!/^0\d{9}$/.test(value)) {
             ctx.addIssue({ code: 'custom', message: t`Enter a phone number such as 06 12 34 56 78` });
           }

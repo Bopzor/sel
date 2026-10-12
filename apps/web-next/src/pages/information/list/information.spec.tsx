@@ -78,7 +78,7 @@ describe('information', () => {
     const router = renderPage(routes.information());
 
     await findItems();
-    await user.type(screen.getByRole('searchbox', { name: 'Search the information' }), 'assembly');
+    await user.type(screen.getByRole('searchbox', { name: 'Search information' }), 'assembly');
 
     await vi.waitFor(() => expect(screen.getAllByRole('listitem')).toHaveLength(1));
 
@@ -128,7 +128,7 @@ describe('information', () => {
     await findItems();
 
     expect(router.state.location.search).toBe('');
-    expect(screen.getByRole('searchbox', { name: 'Search the information' })).toHaveValue('');
+    expect(screen.getByRole('searchbox', { name: 'Search information' })).toHaveValue('');
   });
 
   it('shows more information', async () => {
@@ -159,7 +159,7 @@ describe('information', () => {
 
     renderPage(routes.information());
 
-    await screen.findByText('Unable to load the information');
+    await screen.findByText('Unable to load information');
 
     server.failing = false;
     await user.click(screen.getByRole('button', { name: 'Retry' }));
@@ -180,7 +180,7 @@ describe('information', () => {
     // The query notifies its observers in a timeout.
     await act(() => new Promise((resolve) => setTimeout(resolve)));
 
-    expect(screen.queryByText('Unable to load the information')).not.toBeInTheDocument();
+    expect(screen.queryByText('Unable to load information')).not.toBeInTheDocument();
     expect(screen.getByRole('link', { name: 'General assembly' })).toBeInTheDocument();
   });
 });

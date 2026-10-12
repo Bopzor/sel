@@ -55,7 +55,7 @@ describe('documents', () => {
 
     renderPage(routes.documents());
 
-    await screen.findByText('Unable to load the documents');
+    await screen.findByText('Unable to load documents');
 
     server.failing = false;
     await user.click(screen.getByRole('button', { name: 'Retry' }));

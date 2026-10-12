@@ -172,7 +172,7 @@ function DialogTitle({ exchange }: { exchange: Pick<TransactionDetails, 'directi
     <Dialog.Title className="sr-only">
       {direction === 'send' && (name ? t`Send ${units} to ${name}` : t`Send ${units}`)}
       {direction === 'request' && (name ? t`Request ${units} from ${name}` : t`Request ${units}`)}
-      {!direction && <Trans>New exchange</Trans>}
+      {!direction && t`Exchange ${units}`}
     </Dialog.Title>
   );
 }
@@ -332,7 +332,7 @@ function CounterpartField({ form, query, meId, findMember }: CounterpartFieldPro
   if (query.error && !query.data)
     return (
       <ApiFailed
-        title={<Trans>Unable to load the members</Trans>}
+        title={<Trans>Unable to load members</Trans>}
         retry={() => void query.refetch()}
         retrying={query.isFetching}
       />
@@ -345,7 +345,7 @@ function CounterpartField({ form, query, meId, findMember }: CounterpartFieldPro
           ref={ref}
           type="search"
           icon="search"
-          placeholder={t`Search a member`}
+          placeholder={t`Search for a member`}
           value={search}
           onChange={(event) => setSearch(event.target.value)}
           onKeyDown={(event) => {
@@ -488,7 +488,7 @@ function DetailsStep({ defaultValues, onBack, onNext }: DetailsStepProps) {
         <InputField
           control={form.control}
           name="description"
-          label={<Trans>Reason</Trans>}
+          label={<Trans>Subject</Trans>}
           hint={<Trans>For example: Help with moving</Trans>}
         />
 
@@ -556,7 +556,7 @@ function RecapStep({ values, requestId, onBack, onCreated }: RecapStepProps) {
         requestId !== undefined && queryClient.invalidateQueries(queries.request(requestId)),
       ]);
 
-      showToast(direction === 'send' ? t`The exchange is recorded` : t`The request is sent to ${name}`);
+      showToast(direction === 'send' ? t`Exchange recorded` : t`Request sent to ${name}`);
       onCreated();
     },
   });
@@ -593,7 +593,7 @@ function RecapStep({ values, requestId, onBack, onCreated }: RecapStepProps) {
             <Amount value={amount} />
           </RecapItem>
 
-          <RecapItem label={<Trans>Reason</Trans>}>{description}</RecapItem>
+          <RecapItem label={<Trans>Subject</Trans>}>{description}</RecapItem>
 
           {comment !== '' && (
             <RecapItem label={<Trans>Comment</Trans>}>
@@ -605,14 +605,14 @@ function RecapStep({ values, requestId, onBack, onCreated }: RecapStepProps) {
         <Alert.Root tone="info">
           <Alert.Description>
             {direction === 'send' ? (
-              <Trans>{name} does not need to confirm: the exchange is completed right away.</Trans>
+              <Trans>{name} doesn't need to confirm: the exchange is completed right away.</Trans>
             ) : (
               <Trans>{name} needs to confirm to complete the exchange.</Trans>
             )}
           </Alert.Description>
         </Alert.Root>
 
-        {mutation.isError && <ApiFailed title={<Trans>The exchange could not be created</Trans>} />}
+        {mutation.isError && <ApiFailed title={<Trans>The exchange couldn't be created</Trans>} />}
       </Dialog.Body>
 
       <Dialog.Footer>

@@ -119,7 +119,7 @@ describe('member overview', () => {
       'href',
       routes.profile(),
     );
-    expect(within(interests).getByRole('link', { name: 'Browse the interests' })).toHaveAttribute(
+    expect(within(interests).getByRole('link', { name: 'Browse interests' })).toHaveAttribute(
       'href',
       routes.interests(),
     );

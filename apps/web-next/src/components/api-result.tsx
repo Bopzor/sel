@@ -59,7 +59,7 @@ export function ApiFailed({
       <Alert.Title>{title}</Alert.Title>
 
       <Alert.Description>
-        <Trans>Check your internet access, then try again.</Trans>
+        <Trans>Check your internet connection, then try again.</Trans>
       </Alert.Description>
 
       {retry && (

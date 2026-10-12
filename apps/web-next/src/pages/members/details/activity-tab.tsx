@@ -115,7 +115,7 @@ function Activity({ member }: { member: Member }) {
         query={query}
         failed={
           <ApiFailed
-            title={<Trans>Unable to load the activity</Trans>}
+            title={<Trans>Unable to load activity</Trans>}
             retrying={query.isFetching}
             retry={() => void query.refetch()}
           />

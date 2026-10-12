@@ -81,7 +81,7 @@ function EditRequest({ request }: { request: Request }) {
           mutationFn={(body) => api('PUT', `/requests/${request.id}`, { body })}
           onSuccess={onSuccess}
           submitLabel={<Trans>Save the changes</Trans>}
-          errorTitle={<Trans>Your changes could not be saved</Trans>}
+          errorTitle={<Trans>Your changes couldn't be saved</Trans>}
         />
       </Card.Root>
     </>
@@ -92,10 +92,10 @@ function RequestNotEditable({ request }: { request: Request }) {
   return (
     <EmptyState.Root icon="request">
       <EmptyState.Title level={1}>
-        <Trans>This request cannot be edited</Trans>
+        <Trans>This request can't be edited</Trans>
       </EmptyState.Title>
       <EmptyState.Description>
-        <Trans>Only its author can edit a request, as long as it is open.</Trans>
+        <Trans>Only the author can edit this request, while it's open.</Trans>
       </EmptyState.Description>
       <EmptyState.Action>
         <LinkButton Link={Link} href={routes.request(request.id)} variant="secondary">

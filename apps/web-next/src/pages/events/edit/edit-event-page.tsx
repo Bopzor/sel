@@ -79,7 +79,7 @@ function EditEvent({ event }: { event: Event }) {
           mutationFn={(body) => api('PUT', `/events/${event.id}`, { body })}
           onSuccess={onSuccess}
           submitLabel={<Trans>Save the changes</Trans>}
-          errorTitle={<Trans>Your changes could not be saved</Trans>}
+          errorTitle={<Trans>Your changes couldn't be saved</Trans>}
         />
       </Card.Root>
     </>
@@ -90,10 +90,10 @@ function EventNotEditable({ event }: { event: Event }) {
   return (
     <EmptyState.Root icon="event">
       <EmptyState.Title level={1}>
-        <Trans>This event cannot be edited</Trans>
+        <Trans>This event can't be edited</Trans>
       </EmptyState.Title>
       <EmptyState.Description>
-        <Trans>Only its organizer can edit an event.</Trans>
+        <Trans>Only the organizer can edit this event.</Trans>
       </EmptyState.Description>
       <EmptyState.Action>
         <LinkButton Link={Link} href={routes.event(event.id)} variant="secondary">

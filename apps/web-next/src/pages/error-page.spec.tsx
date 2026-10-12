@@ -34,7 +34,7 @@ describe('error page', () => {
     expect(
       await screen.findByRole('heading', { level: 1, name: 'The application is under maintenance' }),
     ).toBeInTheDocument();
-    expect(screen.getByText('It will be back on Thursday, October 8, 2026 at 2:00 PM.')).toBeInTheDocument();
+    expect(screen.getByText("It'll be back on Thursday, October 8, 2026 at 2:00 PM.")).toBeInTheDocument();
   });
 
   it('shows the maintenance without an end', async () => {
@@ -42,7 +42,7 @@ describe('error page', () => {
 
     renderApp(routes.home());
 
-    expect(await screen.findByText('It will be back soon.')).toBeInTheDocument();
+    expect(await screen.findByText("It'll be back soon.")).toBeInTheDocument();
   });
 
   it('shows that the server cannot be reached', async () => {

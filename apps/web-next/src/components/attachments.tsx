@@ -41,7 +41,7 @@ export function useAttachments<Values extends FieldValues, Transformed>({
       field.onChange([...getFileIds(), id]);
     },
     onError: (_error, { name }) => {
-      showToast(t`${name} could not be attached. Try again in a few moments.`, 'error');
+      showToast(t`${name} couldn't be attached. Try again in a few moments.`, 'error');
     },
   });
 
@@ -58,7 +58,7 @@ export function useAttachments<Values extends FieldValues, Transformed>({
       const { name } = file;
 
       if (file.size > maxFileSize) {
-        showToast(t`${name} is larger than 10 MB and was not attached`, 'error');
+        showToast(t`${name} is larger than 10 MB and wasn't attached`, 'error');
       } else {
         upload.mutate(file);
       }

@@ -1,4 +1,4 @@
-import { Trans } from '@lingui/react/macro';
+import { Plural, Trans } from '@lingui/react/macro';
 import { RequestStatus, type LightMember, type Request } from '@sel/shared';
 import { Button, Card, Skeleton } from '@sel/ui';
 import { defined } from '@sel/utils';
@@ -15,6 +15,7 @@ import { BackButton } from 'src/components/link';
 import { MessageContent } from 'src/components/message-content';
 import { RelativeDate } from 'src/components/relative-date';
 import { TransactionDialog, type TransactionDirection } from 'src/components/transaction-dialog';
+import { Unit } from 'src/components/unit';
 
 import { RequestNotFound } from '../request-not-found';
 
@@ -105,7 +106,9 @@ function CreateTransaction({ request, direction, counterpart }: CreateTransactio
   return (
     <>
       <Button icon="exchange" onClick={() => setOpen(true)}>
-        <Trans>Create exchange</Trans>
+        <Trans>
+          Exchange <Unit plural />
+        </Trans>
       </Button>
 
       <TransactionDialog
@@ -132,7 +135,7 @@ function Header({ request }: { request: Request }) {
           <>
             <Bullet />
             <p>
-              <Trans>{positiveAnswersCount} people can help</Trans>
+              <Plural value={positiveAnswersCount} one="# member can help" other="# members can help" />
             </p>
           </>
         )}

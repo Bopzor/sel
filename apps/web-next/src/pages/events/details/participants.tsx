@@ -22,7 +22,7 @@ export function Participants({ participants }: { participants: EventParticipant[
 
       {coming.length === 0 && (
         <p className="text-body-sm text-muted">
-          <Trans>No one has said they are coming yet.</Trans>
+          <Trans>No one has said they're coming yet.</Trans>
         </p>
       )}
 

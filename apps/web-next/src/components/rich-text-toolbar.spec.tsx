@@ -114,7 +114,7 @@ describe('RichTextToolbar.Link', () => {
   }
 
   function getUrlInput() {
-    return within(screen.getByRole('dialog')).getByRole('textbox', { name: /^Link target/ });
+    return within(screen.getByRole('dialog')).getByRole('textbox', { name: /^Link address/ });
   }
 
   function getDialogButton(name: string) {

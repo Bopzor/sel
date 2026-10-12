@@ -39,7 +39,7 @@ export function EventList({ filters, hasFilters, onClearFilters }: EventListProp
   if (query.error && !query.data) {
     return (
       <ApiFailed
-        title={<Trans>Unable to load the events</Trans>}
+        title={<Trans>Unable to load events</Trans>}
         retrying={query.isFetching}
         retry={() => void query.refetch()}
       />
@@ -111,7 +111,7 @@ function EventCard({ event }: { event: EventsListItem }) {
 
               {event.kind === EventKind.external && (
                 <Badge tone="accent">
-                  <Trans>Outside event</Trans>
+                  <Trans>External event</Trans>
                 </Badge>
               )}
             </div>
@@ -121,7 +121,7 @@ function EventCard({ event }: { event: EventsListItem }) {
 
           <p className="mt-1 text-caption text-subtle">
             {date === undefined ? (
-              <Trans>Date to be defined</Trans>
+              <Trans>Date to be decided</Trans>
             ) : (
               <time dateTime={event.date}>
                 <span className="sr-only">{`${date.toLocaleDateString(i18n.locale, { dateStyle: 'long' })} `}</span>
@@ -195,7 +195,7 @@ function NoMatchingEvent({ onClearFilters }: { onClearFilters: () => void }) {
         <Trans>No event matches these filters</Trans>
       </EmptyState.Title>
       <EmptyState.Description>
-        <Trans>Try other words, or clear the filters.</Trans>
+        <Trans>Try other words, or clear filters.</Trans>
       </EmptyState.Description>
       <EmptyState.Action>
         <Button variant="secondary" onClick={onClearFilters}>

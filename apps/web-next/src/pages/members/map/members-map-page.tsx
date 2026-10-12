@@ -29,7 +29,7 @@ export function MembersMapPage() {
         query={query}
         failed={
           <ApiFailed
-            title={<Trans>Unable to load the members</Trans>}
+            title={<Trans>Unable to load members</Trans>}
             retrying={query.isFetching}
             retry={() => void query.refetch()}
           />

@@ -28,7 +28,7 @@ export function useAddressSearch() {
 
   if (enabled && !loading && suggestions.length === 0) {
     if (query.isError) {
-      status = t`The search is not available at the moment. Enter the address manually.`;
+      status = t`The search isn't available at the moment. Enter the address manually.`;
     } else {
       status = t`No address found. Check what you typed, or enter the address manually.`;
     }

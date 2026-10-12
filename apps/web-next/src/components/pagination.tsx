@@ -38,7 +38,7 @@ export function FetchNextPageError({ query }: { query: UseInfiniteQueryResult })
 
   return (
     <ApiFailed
-      title={<Trans>Unable to load more elements</Trans>}
+      title={<Trans>Unable to load more</Trans>}
       retrying={query.isFetchingNextPage}
       retry={() => void query.fetchNextPage()}
     />

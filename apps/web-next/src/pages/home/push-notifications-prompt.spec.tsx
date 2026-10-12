@@ -90,7 +90,7 @@ describe('push notifications prompt', () => {
 
     expect(
       await screen.findByText(
-        'Notifications could not be enabled on this device. Try again in a few moments.',
+        "Notifications couldn't be enabled on this device. Try again in a few moments.",
       ),
     ).toBeInTheDocument();
     expect(server.registered).toEqual([]);

@@ -79,7 +79,7 @@ describe('open requests card', () => {
 
     render();
 
-    expect(await screen.findByRole('link', { name: 'See the 5 open requests' })).toHaveAttribute(
+    expect(await screen.findByRole('link', { name: 'See all 5 open requests' })).toHaveAttribute(
       'href',
       routes.requests({ mine: true }),
     );

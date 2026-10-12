@@ -107,7 +107,7 @@ function PendingTransactions({ member }: { member: Member }) {
         query={query}
         failed={
           <ApiFailed
-            title={<Trans>Unable to load the pending exchanges</Trans>}
+            title={<Trans>Unable to load pending exchanges</Trans>}
             retrying={query.isFetching}
             retry={() => void query.refetch()}
           />
@@ -168,7 +168,7 @@ function CompletedTransactions({ member }: { member: Member }) {
               <Trans context="exchanges filter">Completed</Trans>
             </Chip>
             <Chip selected={canceled} onChange={() => setFilters({ canceled: true })}>
-              <Trans context="exchanges filter">Canceled</Trans>
+              <Trans context="exchanges filter">Declined</Trans>
             </Chip>
           </div>
         )}
@@ -189,7 +189,7 @@ function CompletedTransactions({ member }: { member: Member }) {
         query={query}
         failed={
           <ApiFailed
-            title={<Trans>Unable to load the exchanges</Trans>}
+            title={<Trans>Unable to load exchanges</Trans>}
             retrying={query.isFetching}
             retry={() => void query.refetch()}
           />
@@ -265,7 +265,7 @@ function NoExchangeWithMe({ member, onClearFilters }: { member: Member; onClearF
       </EmptyState.Title>
       <EmptyState.Action>
         <Button variant="secondary" onClick={onClearFilters}>
-          <Trans>Show all the exchanges</Trans>
+          <Trans>Show all exchanges</Trans>
         </Button>
       </EmptyState.Action>
     </EmptyState.Root>
@@ -276,14 +276,14 @@ function NoCanceledExchange({ onClearFilters }: { onClearFilters: () => void }) 
   return (
     <EmptyState.Root icon="canceled">
       <EmptyState.Title level={3}>
-        <Trans>No canceled exchanges</Trans>
+        <Trans>No declined exchanges</Trans>
       </EmptyState.Title>
       <EmptyState.Description>
         <Trans>The declined exchanges will appear here.</Trans>
       </EmptyState.Description>
       <EmptyState.Action>
         <Button variant="secondary" onClick={onClearFilters}>
-          <Trans>Show the completed exchanges</Trans>
+          <Trans>Show completed exchanges</Trans>
         </Button>
       </EmptyState.Action>
     </EmptyState.Root>

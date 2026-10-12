@@ -17,7 +17,7 @@ export function FeedbackCard({ className }: { className?: string }) {
         <FeedbackItem
           icon="bug"
           title={<Trans>Report a bug</Trans>}
-          description={<Trans>Something does not work as expected</Trans>}
+          description={<Trans>Something doesn't work as expected</Trans>}
         />
         <FeedbackItem
           icon="idea"

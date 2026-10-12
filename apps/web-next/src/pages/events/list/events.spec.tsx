@@ -49,7 +49,7 @@ describe('events', () => {
 
     assert(undated);
     expect(within(undated).getByRole('link', { name: 'Village fair' })).toHaveAttribute('href', '/events/e2');
-    expect(undated).toHaveTextContent('Date to be defined');
+    expect(undated).toHaveTextContent('Date to be decided');
 
     const [request] = server.find('/api/events');
 
@@ -64,7 +64,7 @@ describe('events', () => {
 
     const [item] = await findItems();
 
-    expect(item).toHaveTextContent('Date to be defined');
+    expect(item).toHaveTextContent('Date to be decided');
   });
 
   it('shows the events the member is coming to, and the outside events', async () => {
@@ -78,8 +78,8 @@ describe('events', () => {
     const [picnic, fair] = await findItems();
 
     expect(picnic).toHaveTextContent('Coming');
-    expect(picnic).not.toHaveTextContent('Outside event');
-    expect(fair).toHaveTextContent('Outside event');
+    expect(picnic).not.toHaveTextContent('External event');
+    expect(fair).toHaveTextContent('External event');
     expect(fair).not.toHaveTextContent('Coming');
   });
 
@@ -117,7 +117,7 @@ describe('events', () => {
     expect(screen.getByRole('button', { name: 'Past' })).toBePressed();
     expect(screen.getByRole('button', { name: 'My events' })).toBePressed();
     expect(screen.getByRole('button', { name: "I'm coming" })).toBePressed();
-    expect(screen.getByRole('searchbox', { name: 'Search the events' })).toHaveValue('picnic');
+    expect(screen.getByRole('searchbox', { name: 'Search events' })).toHaveValue('picnic');
   });
 
   it('invites to create an event when there is none', async () => {
@@ -158,7 +158,7 @@ describe('events', () => {
 
     renderPage(routes.events());
 
-    await screen.findByText('Unable to load the events');
+    await screen.findByText('Unable to load events');
 
     server.failing = false;
     await user.click(screen.getByRole('button', { name: 'Retry' }));

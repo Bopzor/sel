@@ -38,13 +38,13 @@ export function RequestAnswerCard({ request, memberId }: { request: Request; mem
         <Card.Description>
           {answer === undefined && <Trans>{firstName} will be notified of your answer.</Trans>}
           {answer === 'positive' && <Trans>Contact {firstName} to arrange the details.</Trans>}
-          {answer === 'negative' && <Trans>{firstName} knows you are not available.</Trans>}
+          {answer === 'negative' && <Trans>{firstName} knows you aren't available.</Trans>}
         </Card.Description>
       </Card.Header>
 
       {mutation.isError && (
         <Card.Body>
-          <ApiFailed title={<Trans>Your answer could not be saved</Trans>} />
+          <ApiFailed title={<Trans>Your answer couldn't be saved</Trans>} />
         </Card.Body>
       )}
 

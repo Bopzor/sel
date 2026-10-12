@@ -48,14 +48,14 @@ function NotificationsSection() {
       if (body.push && getPushPermission() === 'granted') {
         registerDevice().catch(() => {
           showToast(
-            t`Notifications could not be enabled on this device. Try again in a few moments.`,
+            t`Notifications couldn't be enabled on this device. Try again in a few moments.`,
             'error',
           );
         });
       }
     },
     onError: () => {
-      showToast(t`The notification settings could not be saved`, 'error');
+      showToast(t`The notification settings couldn't be saved`, 'error');
       form.reset(me.notificationDelivery);
     },
     onSettled: async () => {
@@ -73,7 +73,7 @@ function NotificationsSection() {
   return (
     <SettingsSection
       title={<Trans>Notifications</Trans>}
-      description={<Trans>How you are told about the activity of the LETS.</Trans>}
+      description={<Trans>How you keep up with the activity of the LETS.</Trans>}
     >
       <div className="stack gap-6">
         <Controller
@@ -128,14 +128,14 @@ function DeviceRegistration() {
       }
     },
     onError: () =>
-      showToast(t`Notifications could not be enabled on this device. Try again in a few moments.`, 'error'),
+      showToast(t`Notifications couldn't be enabled on this device. Try again in a few moments.`, 'error'),
   });
 
   if (permission === 'default') {
     return (
       <Alert.Root tone="info">
         <Alert.Title>
-          <Trans>This device does not receive notifications yet</Trans>
+          <Trans>This device doesn't receive notifications yet</Trans>
         </Alert.Title>
         <Alert.Description>
           <Trans>Allow notifications to receive them here too.</Trans>
@@ -171,7 +171,7 @@ function DeviceRegistration() {
       <Alert.Root tone="info">
         <Alert.Description>
           <Trans>
-            This browser cannot receive notifications. On an iPhone, first add the app to the home screen.
+            This browser can't receive notifications. On an iPhone, first add the app to the home screen.
           </Trans>
         </Alert.Description>
       </Alert.Root>

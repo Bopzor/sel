@@ -15,7 +15,7 @@ export function MemberNotFound() {
       </EmptyState.Description>
       <EmptyState.Action>
         <LinkButton Link={Link} href={routes.members()} variant="secondary">
-          <Trans>See the members</Trans>
+          <Trans>See all members</Trans>
         </LinkButton>
       </EmptyState.Action>
     </EmptyState.Root>

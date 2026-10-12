@@ -47,7 +47,7 @@ function FulfilRequestDialog({ request }: { request: Request }) {
   const mutation = useMutation(
     changeRequestMutation(request.id, 'fulfil', {
       success: t`Request closed`,
-      error: t`The request could not be closed`,
+      error: t`The request couldn't be closed`,
     }),
   );
 
@@ -76,7 +76,7 @@ function FulfilRequestDialog({ request }: { request: Request }) {
           <Dialog.Body>
             <Alert.Root tone="info">
               <Alert.Title>
-                <Trans>You have not sent any {<Unit plural />} for this request</Trans>
+                <Trans>You haven't sent any {<Unit plural />} for this request</Trans>
               </Alert.Title>
               <Alert.Description>
                 <Trans>You can still send them after closing it.</Trans>
@@ -106,7 +106,7 @@ function CancelRequestDialog({ request }: { request: Request }) {
   const mutation = useMutation(
     changeRequestMutation(request.id, 'cancel', {
       success: t`Request canceled`,
-      error: t`The request could not be canceled`,
+      error: t`The request couldn't be canceled`,
     }),
   );
 

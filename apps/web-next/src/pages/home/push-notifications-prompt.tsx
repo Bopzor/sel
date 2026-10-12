@@ -28,7 +28,7 @@ export function PushNotificationsPrompt() {
       }
     },
     onError: () =>
-      showToast(t`Notifications could not be enabled on this device. Try again in a few moments.`, 'error'),
+      showToast(t`Notifications couldn't be enabled on this device. Try again in a few moments.`, 'error'),
   });
 
   if (dismissed || !me.notificationDelivery.push || getPushPermission() !== 'default') {

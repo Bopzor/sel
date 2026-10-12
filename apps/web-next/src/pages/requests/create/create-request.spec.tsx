@@ -88,7 +88,7 @@ describe('create request', () => {
 
     const alert = await screen.findByRole('alert');
 
-    expect(alert).toHaveTextContent('Your request could not be posted');
+    expect(alert).toHaveTextContent("Your request couldn't be posted");
     expect(screen.getByRole('textbox', { name: /^Title/ })).toHaveValue('Help to put up a shelf');
 
     server.failing = false;
@@ -180,7 +180,7 @@ describe('create request', () => {
       await attach(user, file);
 
       expect(
-        await screen.findByText('video.mp4 is larger than 10 MB and was not attached'),
+        await screen.findByText("video.mp4 is larger than 10 MB and wasn't attached"),
       ).toBeInTheDocument();
       expect(server.uploaded).toEqual([]);
     });
@@ -194,7 +194,7 @@ describe('create request', () => {
       await attach(user, new File(['...'], 'shelf.jpg', { type: 'image/jpeg' }));
 
       expect(
-        await screen.findByText('shelf.jpg could not be attached. Try again in a few moments.'),
+        await screen.findByText("shelf.jpg couldn't be attached. Try again in a few moments."),
       ).toBeInTheDocument();
       expect(screen.queryByRole('button', { name: 'Remove shelf.jpg' })).not.toBeInTheDocument();
     });
@@ -211,7 +211,7 @@ describe('create request', () => {
 
     const alert = await screen.findByRole('alert');
 
-    expect(alert).toHaveTextContent('Unable to reach the server, check your internet access');
+    expect(alert).toHaveTextContent('Unable to reach the server. Check your internet connection.');
     expect(alert).not.toHaveTextContent('Failed to fetch');
   });
 });

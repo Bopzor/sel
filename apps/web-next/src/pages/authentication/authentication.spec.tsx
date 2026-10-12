@@ -64,7 +64,7 @@ describe('authentication', () => {
 
     const router = renderApp(`/authentication?code=000000`);
 
-    await screen.findByText('This code is not valid. Check that it matches the one in the email.');
+    await screen.findByText("This code isn't valid. Check that it matches the one in the email.");
 
     const input = screen.getByRole('textbox', { name: 'Sign-in code' });
 

@@ -54,7 +54,7 @@ describe('TransactionDialog', () => {
 
   async function fillDetails(dialog: HTMLElement, { amount, reason }: { amount: string; reason: string }) {
     await user.type(within(dialog).getByRole('textbox', { name: 'Amount' }), amount);
-    await user.type(within(dialog).getByRole('textbox', { name: /^Reason/ }), reason);
+    await user.type(within(dialog).getByRole('textbox', { name: /^Subject/ }), reason);
   }
 
   async function next(dialog: HTMLElement) {
@@ -80,7 +80,7 @@ describe('TransactionDialog', () => {
   it('sends units to a member found by the search', async () => {
     const dialog = await open();
 
-    expect(dialog).toHaveAccessibleName('New exchange');
+    expect(dialog).toHaveAccessibleName('Exchange units');
     expect(dialog).toHaveTextContent('Step 1 of 3');
 
     await user.click(within(dialog).getByRole('radio', { name: /^Send units/ }));
@@ -110,17 +110,17 @@ describe('TransactionDialog', () => {
       ['Exchange', 'Send units'],
       ['Member', 'Claire Dubois'],
       ['Amount', '20 units'],
-      ['Reason', 'Help with moving'],
+      ['Subject', 'Help with moving'],
       ['Comment', 'Thanks!'],
     ]);
 
     expect(within(dialog).getByRole('status')).toHaveTextContent(
-      'Claire Dubois does not need to confirm: the exchange is completed right away.',
+      "Claire Dubois doesn't need to confirm: the exchange is completed right away.",
     );
 
     await user.click(within(dialog).getByRole('button', { name: 'Send 20 units' }));
 
-    expect(await screen.findByText('The exchange is recorded')).toBeInTheDocument();
+    expect(await screen.findByText('Exchange recorded')).toBeInTheDocument();
     expect(dialog).not.toBeInTheDocument();
 
     expect(server.transactions).toEqual<CreateTransactionBody[]>([
@@ -150,7 +150,7 @@ describe('TransactionDialog', () => {
 
     await user.click(within(dialog).getByRole('button', { name: 'Request 1 unit' }));
 
-    expect(await screen.findByText('The request is sent to Julien Petit')).toBeInTheDocument();
+    expect(await screen.findByText('Request sent to Julien Petit')).toBeInTheDocument();
 
     expect(server.transactions).toEqual<CreateTransactionBody[]>([
       { payerId: 'julien', recipientId: 'me', amount: 1, description: 'Gardening' },
@@ -229,7 +229,7 @@ describe('TransactionDialog', () => {
 
     await next(dialog);
 
-    expect(within(dialog).getByRole('textbox', { name: /^Reason/ })).toHaveValue('Help with moving');
+    expect(within(dialog).getByRole('textbox', { name: /^Subject/ })).toHaveValue('Help with moving');
   });
 
   it('shows the errors of the exchange step', async () => {
@@ -267,7 +267,7 @@ describe('TransactionDialog', () => {
     await next(dialog);
     await user.click(within(dialog).getByRole('button', { name: 'Send 1 unit' }));
 
-    expect(await within(dialog).findByText('The exchange could not be created')).toBeInTheDocument();
+    expect(await within(dialog).findByText("The exchange couldn't be created")).toBeInTheDocument();
   });
 });
 

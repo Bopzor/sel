@@ -57,8 +57,8 @@ describe('event', () => {
 
     renderPage();
 
-    expect(await screen.findByText('Date to be defined')).toBeInTheDocument();
-    expect(screen.getByText('Location to be defined')).toBeInTheDocument();
+    expect(await screen.findByText('Date to be decided')).toBeInTheDocument();
+    expect(screen.getByText('Location to be decided')).toBeInTheDocument();
   });
 
   it('shows the outside events', async () => {
@@ -66,7 +66,7 @@ describe('event', () => {
 
     renderPage();
 
-    expect(await screen.findByText('Outside event')).toBeInTheDocument();
+    expect(await screen.findByText('External event')).toBeInTheDocument();
   });
 
   it('lists the participants who are coming', async () => {
@@ -100,7 +100,7 @@ describe('event', () => {
 
       await user.click(await screen.findByRole('button', { name: "I'm coming" }));
 
-      expect(await screen.findByRole('heading', { name: 'You are coming' })).toBeInTheDocument();
+      expect(await screen.findByRole('heading', { name: "You're coming" })).toBeInTheDocument();
       expect(server.participations).toEqual(['yes']);
       expect(await findSection('1 participant')).toContainOneByText('Jason Talon');
     });
@@ -112,7 +112,7 @@ describe('event', () => {
 
       await user.click(await screen.findByRole('button', { name: "I can't come anymore" }));
 
-      expect(await screen.findByRole('heading', { name: 'You are not coming' })).toBeInTheDocument();
+      expect(await screen.findByRole('heading', { name: "You're not coming" })).toBeInTheDocument();
       expect(server.participations).toEqual(['no']);
     });
 
@@ -176,7 +176,7 @@ describe('event', () => {
 
       renderPage();
 
-      await user.click(await screen.findByRole('button', { name: 'Notify the members' }));
+      await user.click(await screen.findByRole('button', { name: 'Notify members' }));
 
       const dialog = await screen.findByRole('dialog');
 
@@ -184,7 +184,7 @@ describe('event', () => {
 
       await user.type(within(dialog).getByRole('textbox', { name: /^Title/ }), 'New meeting point');
       await user.type(within(dialog).getByRole('textbox', { name: /^Message/ }), 'We meet at the station.');
-      await user.click(within(dialog).getByRole('radio', { name: 'All the members' }));
+      await user.click(within(dialog).getByRole('radio', { name: 'All members' }));
       await user.click(within(dialog).getByRole('button', { name: 'Send' }));
 
       expect(await screen.findByText('Notification sent')).toBeInTheDocument();
@@ -200,7 +200,7 @@ describe('event', () => {
 
       renderPage();
 
-      await user.click(await screen.findByRole('button', { name: 'Notify the members' }));
+      await user.click(await screen.findByRole('button', { name: 'Notify members' }));
       await user.click(within(await screen.findByRole('dialog')).getByRole('button', { name: 'Send' }));
 
       expect(await screen.findAllByText('This field should be at least 5 characters')).toHaveLength(2);

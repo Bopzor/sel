@@ -31,7 +31,7 @@ export function CreateInformationPage() {
           <Trans>Publish information</Trans>
         </h1>
         <p className="text-muted">
-          <Trans>Share news with the members: they will be notified and can comment.</Trans>
+          <Trans>Share news with members: they'll be notified and can comment.</Trans>
         </p>
       </header>
 
@@ -40,7 +40,7 @@ export function CreateInformationPage() {
           mutationFn={(body) => api<string>('POST', '/information', { body })}
           onSuccess={onSuccess}
           submitLabel={<Trans>Publish the information</Trans>}
-          errorTitle={<Trans>The information could not be published</Trans>}
+          errorTitle={<Trans>The information couldn't be published</Trans>}
         />
       </Card.Root>
     </div>

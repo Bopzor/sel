@@ -75,7 +75,7 @@ describe('create information', () => {
     await writeMessage(user, 'It takes place on Saturday at the town hall.');
     await user.click(screen.getByRole('button', { name: 'Publish the information' }));
 
-    expect(await screen.findByRole('alert')).toHaveTextContent('The information could not be published');
+    expect(await screen.findByRole('alert')).toHaveTextContent("The information couldn't be published");
     expect(screen.getByRole('textbox', { name: /^Title/ })).toHaveValue('General assembly');
   });
 });

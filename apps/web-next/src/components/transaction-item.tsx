@@ -105,7 +105,7 @@ function PendingTransactionActions({ transaction }: { transaction: Transaction }
       ]);
     },
     onError: () => {
-      showToast(t`The exchange could not be updated`, 'error');
+      showToast(t`The exchange couldn't be updated`, 'error');
     },
   });
 

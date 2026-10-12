@@ -17,7 +17,7 @@ export function DocumentsList() {
   if (query.error && !query.data) {
     return (
       <ApiFailed
-        title={<Trans>Unable to load the documents</Trans>}
+        title={<Trans>Unable to load documents</Trans>}
         retrying={query.isFetching}
         retry={() => void query.refetch()}
       />

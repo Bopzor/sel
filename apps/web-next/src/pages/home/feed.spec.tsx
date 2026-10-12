@@ -75,7 +75,7 @@ describe('feed', () => {
     render();
 
     expect(within(await findCard('Picnic')).getByText(/June 1, 2026/)).toBeInTheDocument();
-    expect(within(await findCard('Repair café')).getByText(/Date to be defined/)).toBeInTheDocument();
+    expect(within(await findCard('Repair café')).getByText(/Date to be decided/)).toBeInTheDocument();
   });
 
   it('separates the details of an event, with or without location', async () => {
@@ -89,8 +89,8 @@ describe('feed', () => {
 
     render();
 
-    expect(await findCard('Picnic')).toHaveTextContent(/Event • Date to be defined • Paris$/);
-    expect(await findCard('Repair café')).toHaveTextContent(/Event • Date to be defined$/);
+    expect(await findCard('Picnic')).toHaveTextContent(/Event • Date to be decided • Paris$/);
+    expect(await findCard('Repair café')).toHaveTextContent(/Event • Date to be decided$/);
   });
 
   it('shows the LETS as the author of an information without author', async () => {
@@ -120,7 +120,7 @@ describe('feed', () => {
     render();
 
     await findCard('Picnic');
-    await userEvent.type(screen.getByRole('searchbox', { name: 'Search the publications' }), 'picnic');
+    await userEvent.type(screen.getByRole('searchbox', { name: 'Search publications' }), 'picnic');
 
     await vi.waitFor(() => {
       expect(server.find('/api/feed').at(-1)?.searchParams.get('search')).toEqual('picnic');

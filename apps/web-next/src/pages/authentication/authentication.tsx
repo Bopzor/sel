@@ -77,7 +77,7 @@ function EmailStep({ initialEmail, onSent }: { initialEmail?: string; onSent: (e
       onSent(email);
     },
     onError: () => {
-      setError('email', { message: t`The sign-in code could not be sent. Try again in a few moments.` });
+      setError('email', { message: t`The sign-in code couldn't be sent. Try again in a few moments.` });
     },
   });
 
@@ -171,8 +171,8 @@ function CodeStep({ email, initialCode, onBack }: CodeStepProps) {
           ) : (
             <p>
               <Trans>
-                If your email address is allowed, an email containing a sign-in code has been sent to{' '}
-                <strong>{email}</strong>.
+                If this address belongs to a member account, an email containing a sign-in code has been sent
+                to <strong>{email}</strong>.
               </Trans>
             </p>
           )}
@@ -208,7 +208,7 @@ function CodeStep({ email, initialCode, onBack }: CodeStepProps) {
 
 function verificationError(error: Error) {
   const messages: Record<string, MessageDescriptor> = {
-    AuthenticationCodeNotFound: msg`This code is not valid. Check that it matches the one in the email.`,
+    AuthenticationCodeNotFound: msg`This code isn't valid. Check that it matches the one in the email.`,
     CodeRevoked: msg`This code has been replaced by a newer one: use the one from the latest email.`,
     CodeExpired: msg`This code has expired. Go back to receive a new one.`,
   };

@@ -15,7 +15,7 @@ export function EventNotFound() {
       </EmptyState.Description>
       <EmptyState.Action>
         <LinkButton Link={Link} href={routes.events()} variant="secondary">
-          <Trans>See the events</Trans>
+          <Trans>See all events</Trans>
         </LinkButton>
       </EmptyState.Action>
     </EmptyState.Root>

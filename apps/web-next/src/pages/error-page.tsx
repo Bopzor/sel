@@ -48,7 +48,7 @@ function ErrorState({ error }: { error: unknown }) {
           <Trans>Unable to reach the server</Trans>
         </EmptyState.Title>
         <EmptyState.Description>
-          <Trans>Check your internet access, then try again.</Trans>
+          <Trans>Check your internet connection, then try again.</Trans>
         </EmptyState.Description>
         <EmptyState.Action>
           <RetryButton />
@@ -106,11 +106,7 @@ function Maintenance({ error }: { error: ApiError }) {
         <Trans>The application is under maintenance</Trans>
       </EmptyState.Title>
       <EmptyState.Description>
-        {date === undefined ? (
-          <Trans>It will be back soon.</Trans>
-        ) : (
-          <Trans>It will be back on {date}.</Trans>
-        )}
+        {date === undefined ? <Trans>It'll be back soon.</Trans> : <Trans>It'll be back on {date}.</Trans>}
       </EmptyState.Description>
       <EmptyState.Action>
         <RetryButton />

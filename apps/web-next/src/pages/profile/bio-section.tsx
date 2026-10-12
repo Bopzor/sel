@@ -27,7 +27,7 @@ export function BioSection({ member }: { member: AuthenticatedMember }) {
         <p className="wrap-break-word whitespace-pre-line">{member.bio}</p>
       ) : (
         <p className="text-muted">
-          <Trans>You have not written anything about yourself yet.</Trans>
+          <Trans>You haven't written anything about yourself yet.</Trans>
         </p>
       )}
     </ProfileSection>
@@ -65,7 +65,7 @@ function BioForm({ title, member, onClose }: BioFormProps) {
       <TextAreaField
         control={form.control}
         name="bio"
-        label={<Trans>Presentation</Trans>}
+        label={<Trans>Bio</Trans>}
         hint={<Trans>Your activities, what you like to share or to learn</Trans>}
         rows={6}
         autoFocus

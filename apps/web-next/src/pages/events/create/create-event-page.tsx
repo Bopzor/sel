@@ -31,7 +31,7 @@ export function CreateEventPage() {
           <Trans>Create an event</Trans>
         </h1>
         <p className="text-muted">
-          <Trans>Invite the members: they will be notified and can tell whether they are coming.</Trans>
+          <Trans>Invite members: they'll be notified and can tell whether they're coming.</Trans>
         </p>
       </header>
 
@@ -40,7 +40,7 @@ export function CreateEventPage() {
           mutationFn={(body) => api<string>('POST', '/events', { body })}
           onSuccess={onSuccess}
           submitLabel={<Trans>Create the event</Trans>}
-          errorTitle={<Trans>The event could not be created</Trans>}
+          errorTitle={<Trans>The event couldn't be created</Trans>}
         />
       </Card.Root>
     </div>

@@ -80,7 +80,7 @@ describe('edit information', () => {
     await user.type(title, ' on Saturday');
     await user.click(screen.getByRole('button', { name: 'Save the changes' }));
 
-    expect(await screen.findByRole('alert')).toHaveTextContent('Your changes could not be saved');
+    expect(await screen.findByRole('alert')).toHaveTextContent("Your changes couldn't be saved");
     expect(title).toHaveValue('Assembly on Saturday');
   });
 
@@ -90,7 +90,7 @@ describe('edit information', () => {
     renderPage();
 
     expect(
-      await screen.findByRole('heading', { name: 'This information cannot be edited' }),
+      await screen.findByRole('heading', { name: "This information can't be edited" }),
     ).toBeInTheDocument();
     expect(screen.queryByRole('textbox', { name: /^Title/ })).not.toBeInTheDocument();
   });

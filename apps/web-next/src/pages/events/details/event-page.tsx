@@ -90,7 +90,7 @@ function Header({ event, past }: { event: Event; past: boolean }) {
         <div className="row flex-wrap gap-2">
           {external && (
             <Badge tone="accent">
-              <Trans>Outside event</Trans>
+              <Trans>External event</Trans>
             </Badge>
           )}
 
@@ -115,7 +115,7 @@ function DateAndLocation({ event }: { event: Event }) {
           <Icon name="time" className="text-subtle" />
           {event.date === undefined ? (
             <p className="text-muted">
-              <Trans>Date to be defined</Trans>
+              <Trans>Date to be decided</Trans>
             </p>
           ) : (
             <time dateTime={event.date} className="font-medium first-letter:uppercase">
@@ -128,7 +128,7 @@ function DateAndLocation({ event }: { event: Event }) {
           <Icon name="location" className="text-subtle" />
           {event.location === undefined ? (
             <p className="text-muted">
-              <Trans>Location to be defined</Trans>
+              <Trans>Location to be decided</Trans>
             </p>
           ) : (
             <address className="wrap-break-word whitespace-pre-line not-italic">

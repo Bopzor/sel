@@ -38,15 +38,15 @@ describe('profile', () => {
 
     const contact = getSection('Contact');
     expect(contact).toContainOneByText('jason@domain.tld');
-    expect(contact).toContainOneByText('Hidden from the other members');
+    expect(contact).toContainOneByText('Hidden from other members');
     expect(contact).toContainOneByText('06 12 34 56 78');
-    expect(contact).toContainOneByText('Visible to the other members');
+    expect(contact).toContainOneByText('Visible to other members');
 
     expect(getSection('About me')).toContainOneByText('I like gardening.');
 
     const address = getSection('Address');
     expect(address).toContainOneByText('8 Boulevard du Port Building B 80000 Amiens');
-    expect(address).toContainOneByText('Visible to the other members');
+    expect(address).toContainOneByText('Visible to other members');
 
     expect(screen.getByRole('link', { name: 'See my public profile' })).toHaveAttribute(
       'href',
@@ -60,8 +60,8 @@ describe('profile', () => {
     renderPage();
 
     expect(await findSection('Contact')).toContainOneByText('No phone number');
-    expect(getSection('Address')).toContainOneByText('You have not entered your address yet.');
-    expect(getSection('About me')).toContainOneByText(/You have not written anything/);
+    expect(getSection('Address')).toContainOneByText("You haven't entered your address yet.");
+    expect(getSection('About me')).toContainOneByText(/You haven't written anything/);
   });
 
   it("edits the member's name", async () => {
@@ -160,7 +160,7 @@ describe('profile', () => {
     await uploadPhoto(user, new File(['...'], 'me.png', { type: 'image/png' }));
 
     expect(
-      await screen.findByText('The photo could not be sent. Try again in a few moments.'),
+      await screen.findByText("The photo couldn't be sent. Try again in a few moments."),
     ).toBeInTheDocument();
 
     await user.click(screen.getByRole('button', { name: 'Save' }));
@@ -214,7 +214,7 @@ describe('profile', () => {
 
     await user.clear(phoneNumber);
     await user.type(phoneNumber, '+33 7.98.76.54.32');
-    await user.click(screen.getByRole('checkbox', { name: 'Show my email address to the other members' }));
+    await user.click(screen.getByRole('checkbox', { name: 'Show my email address to other members' }));
     await user.click(screen.getByRole('button', { name: 'Save' }));
     await screen.findByText('Profile updated');
 
@@ -244,7 +244,7 @@ describe('profile', () => {
     await user.clear(screen.getByRole('textbox', { name: /^Phone number/ }));
     await user.click(screen.getByRole('button', { name: 'Save' }));
 
-    expect(await screen.findByText('Your phone number cannot be removed, only changed')).toBeInTheDocument();
+    expect(await screen.findByText("Your phone number can't be removed, only changed")).toBeInTheDocument();
     expect(server.updated).toEqual([]);
   });
 
@@ -325,7 +325,7 @@ describe('profile', () => {
       await user.click(screen.getByRole('button', { name: 'Search for an address' }));
       await search('8 bd du port');
 
-      expect(await screen.findByText(/^The search is not available at the moment/)).toBeInTheDocument();
+      expect(await screen.findByText(/^The search isn't available at the moment/)).toBeInTheDocument();
     });
   });
 
@@ -415,7 +415,7 @@ describe('profile', () => {
     await screen.findByText('Profile updated');
 
     expect(server.updated).toEqual([{ address: null }]);
-    expect(getSection('Address')).toContainOneByText('You have not entered your address yet.');
+    expect(getSection('Address')).toContainOneByText("You haven't entered your address yet.");
   });
 
   it("edits the member's presentation", async () => {
@@ -423,7 +423,7 @@ describe('profile', () => {
 
     await edit('About me');
 
-    const bio = screen.getByRole('textbox', { name: /^Presentation/ });
+    const bio = screen.getByRole('textbox', { name: /^Bio/ });
     await user.clear(bio);
     await user.type(bio, '  I like cooking.  ');
     await user.click(screen.getByRole('button', { name: 'Save' }));
@@ -437,12 +437,12 @@ describe('profile', () => {
     renderPage();
 
     await edit('About me');
-    await user.clear(screen.getByRole('textbox', { name: /^Presentation/ }));
+    await user.clear(screen.getByRole('textbox', { name: /^Bio/ }));
     await user.click(screen.getByRole('button', { name: 'Save' }));
     await screen.findByText('Profile updated');
 
     expect(server.updated).toEqual([{ bio: '' }]);
-    expect(getSection('About me')).toContainOneByText(/You have not written anything/);
+    expect(getSection('About me')).toContainOneByText(/You haven't written anything/);
   });
 
   it('shows an alert when the changes could not be saved, and keeps the form', async () => {
@@ -451,13 +451,11 @@ describe('profile', () => {
     renderPage();
 
     await edit('About me');
-    await user.type(screen.getByRole('textbox', { name: /^Presentation/ }), ' And cooking.');
+    await user.type(screen.getByRole('textbox', { name: /^Bio/ }), ' And cooking.');
     await user.click(screen.getByRole('button', { name: 'Save' }));
 
-    expect(await screen.findByRole('alert')).toHaveTextContent('Your changes could not be saved');
-    expect(screen.getByRole('textbox', { name: /^Presentation/ })).toHaveValue(
-      'I like gardening. And cooking.',
-    );
+    expect(await screen.findByRole('alert')).toHaveTextContent("Your changes couldn't be saved");
+    expect(screen.getByRole('textbox', { name: /^Bio/ })).toHaveValue('I like gardening. And cooking.');
   });
 
   async function edit(section: string) {

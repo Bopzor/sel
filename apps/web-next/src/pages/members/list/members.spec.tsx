@@ -201,7 +201,7 @@ describe('members', () => {
 
     renderPage(routes.members());
 
-    await screen.findByText('Unable to load the members');
+    await screen.findByText('Unable to load members');
 
     server.failing = false;
     await user.click(screen.getByRole('button', { name: 'Retry' }));

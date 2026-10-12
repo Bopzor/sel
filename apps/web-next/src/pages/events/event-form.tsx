@@ -121,7 +121,7 @@ export function EventForm<Result>({
                 />
                 <RadioGroup.Card
                   value={EventKind.external}
-                  label={<Trans>Outside event</Trans>}
+                  label={<Trans>External event</Trans>}
                   description={<Trans>An event organized by others, that you share with the members.</Trans>}
                 />
               </RadioGroup.Root>
@@ -135,7 +135,7 @@ export function EventForm<Result>({
           type="datetime-local"
           min={minDate}
           label={<Trans>Date and time (optional)</Trans>}
-          hint={<Trans>Leave it empty if the date is not set yet</Trans>}
+          hint={<Trans>Leave it empty if the date isn't set yet</Trans>}
           className="max-w-80"
         />
 
@@ -239,7 +239,7 @@ function LocationField({ event, form }: LocationField) {
         <div className="stack gap-4">
           <FormField
             label={<Trans>Location (optional)</Trans>}
-            hint={<Trans>Leave it empty if the location is not decided yet</Trans>}
+            hint={<Trans>Leave it empty if the location isn't decided yet</Trans>}
           >
             <Input
               type="search"
@@ -257,7 +257,7 @@ function LocationField({ event, form }: LocationField) {
 
           {addressSearch.suggestions.length > 0 && (
             <div className="text-body-sm text-subtle">
-              <Trans>Choose an address in the list below</Trans>
+              <Trans>Choose an address from the list below</Trans>
             </div>
           )}
 

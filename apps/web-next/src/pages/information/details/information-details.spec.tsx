@@ -108,7 +108,7 @@ describe('information details', () => {
     renderPage();
 
     expect(await screen.findByRole('heading', { name: 'Information not found' })).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: 'See the information' })).toHaveAttribute('href', '/information');
+    expect(screen.getByRole('link', { name: 'See all information' })).toHaveAttribute('href', '/information');
   });
 
   it('retries loading the information after a failure', async () => {

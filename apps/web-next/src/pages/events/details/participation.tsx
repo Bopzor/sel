@@ -33,20 +33,20 @@ export function ParticipationCard({ event, memberId }: { event: Event; memberId:
       <Card.Header>
         <Card.Title level={2}>
           {participation === undefined && <Trans>Are you coming?</Trans>}
-          {participation === 'yes' && <Trans>You are coming</Trans>}
-          {participation === 'no' && <Trans>You are not coming</Trans>}
+          {participation === 'yes' && <Trans>You're coming</Trans>}
+          {participation === 'no' && <Trans>You're not coming</Trans>}
         </Card.Title>
 
         <Card.Description>
           {participation === undefined && <Trans>The organizer will know who to expect.</Trans>}
-          {participation === 'yes' && <Trans>You will be notified of the new comments.</Trans>}
+          {participation === 'yes' && <Trans>You'll be notified of new comments.</Trans>}
           {participation === 'no' && <Trans>You can change your mind until the event.</Trans>}
         </Card.Description>
       </Card.Header>
 
       {mutation.isError && (
         <Card.Body>
-          <ApiFailed title={<Trans>Your answer could not be saved</Trans>} />
+          <ApiFailed title={<Trans>Your answer couldn't be saved</Trans>} />
         </Card.Body>
       )}
 

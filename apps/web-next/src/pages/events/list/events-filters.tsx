@@ -29,7 +29,7 @@ export function EventFiltersBar({ filters, search, onSearch, onChange }: Filters
       <Input
         type="search"
         icon="search"
-        aria-label={t`Search the events`}
+        aria-label={t`Search events`}
         placeholder={t`Search`}
         value={search}
         onChange={(event) => onSearch(event.target.value)}

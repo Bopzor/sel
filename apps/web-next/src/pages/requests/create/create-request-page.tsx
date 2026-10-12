@@ -32,7 +32,7 @@ export function CreateRequestPage() {
           <Trans>Post a request</Trans>
         </h1>
         <p className="text-muted">
-          <Trans>Ask the members for help: they will be notified and can offer theirs.</Trans>
+          <Trans>Ask members for help: they'll be notified and can offer theirs.</Trans>
         </p>
       </header>
 
@@ -42,7 +42,7 @@ export function CreateRequestPage() {
           mutationFn={(body) => api<string>('POST', '/requests', { body })}
           onSuccess={onSuccess}
           submitLabel={<Trans>Post the request</Trans>}
-          errorTitle={<Trans>Your request could not be posted</Trans>}
+          errorTitle={<Trans>Your request couldn't be posted</Trans>}
         />
       </Card.Root>
     </div>

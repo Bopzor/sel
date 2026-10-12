@@ -49,7 +49,7 @@ describe('create event', () => {
     renderPage();
 
     await user.type(await screen.findByRole('textbox', { name: /^Title/ }), 'Village fair');
-    await user.click(screen.getByRole('radio', { name: 'Outside event' }));
+    await user.click(screen.getByRole('radio', { name: 'External event' }));
     await writeMessage(user, 'The fair of the village.');
     await user.click(screen.getByRole('button', { name: 'Create the event' }));
     await screen.findByText('Event created');
@@ -183,11 +183,11 @@ describe('create event', () => {
     renderPage();
 
     await user.type(await screen.findByRole('textbox', { name: /^Title/ }), 'Committee meeting');
-    await user.click(screen.getByRole('radio', { name: /Outside event/ }));
+    await user.click(screen.getByRole('radio', { name: /External event/ }));
     await user.click(screen.getByRole('checkbox', { name: 'Committee meeting' }));
 
     expect(screen.getByRole('radio', { name: /Organized by the LETS/ })).toBeDisabled();
-    expect(screen.getByRole('radio', { name: /Outside event/ })).toBeDisabled();
+    expect(screen.getByRole('radio', { name: /External event/ })).toBeDisabled();
 
     await writeMessage(user, 'Agenda of the meeting.');
     await user.click(screen.getByRole('button', { name: 'Create the event' }));
@@ -225,7 +225,7 @@ describe('create event', () => {
     await writeMessage(user, 'Bring something to share.');
     await user.click(screen.getByRole('button', { name: 'Create the event' }));
 
-    expect(await screen.findByRole('alert')).toHaveTextContent('The event could not be created');
+    expect(await screen.findByRole('alert')).toHaveTextContent("The event couldn't be created");
     expect(screen.getByRole('textbox', { name: /^Title/ })).toHaveValue('Picnic at the lake');
   });
 });

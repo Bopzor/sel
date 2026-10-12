@@ -58,7 +58,7 @@ describe('settings', () => {
 
     await user.click(await screen.findByRole('switch', { name: 'By email' }));
 
-    expect(await screen.findByText('The notification settings could not be saved')).toBeInTheDocument();
+    expect(await screen.findByText("The notification settings couldn't be saved")).toBeInTheDocument();
     expect(await screen.findByRole('switch', { name: 'By email', checked: true })).toBeInTheDocument();
 
     server.failing = false;
@@ -93,7 +93,7 @@ describe('settings', () => {
       await user.click(await screen.findByRole('button', { name: 'Allow on this device' }));
 
       expect(await screen.findByText('This device will receive notifications')).toBeInTheDocument();
-      expect(screen.queryByText('This device does not receive notifications yet')).not.toBeInTheDocument();
+      expect(screen.queryByText("This device doesn't receive notifications yet")).not.toBeInTheDocument();
       expect(pushManager.options).toEqual({ userVisibleOnly: true, applicationServerKey: 'public-key' });
       expect(server.registered).toEqual([{ deviceType: 'desktop', subscription: subscriptionJson }]);
     });
@@ -133,7 +133,7 @@ describe('settings', () => {
 
       expect(
         await screen.findByText(
-          'Notifications could not be enabled on this device. Try again in a few moments.',
+          "Notifications couldn't be enabled on this device. Try again in a few moments.",
         ),
       ).toBeInTheDocument();
       expect(server.member.notificationDelivery.push).toBe(true);
@@ -143,7 +143,7 @@ describe('settings', () => {
       vi.stubGlobal('__ENV__', {});
       renderPage();
 
-      expect(await screen.findByText(/This browser cannot receive notifications/)).toBeInTheDocument();
+      expect(await screen.findByText(/This browser can't receive notifications/)).toBeInTheDocument();
     });
 
     it('does not show the device state when the push notifications are disabled', async () => {
@@ -151,7 +151,7 @@ describe('settings', () => {
       renderPage();
 
       expect(await screen.findByRole('switch', { name: 'On your devices' })).not.toBeChecked();
-      expect(screen.queryByText('This device does not receive notifications yet')).not.toBeInTheDocument();
+      expect(screen.queryByText("This device doesn't receive notifications yet")).not.toBeInTheDocument();
     });
   });
 

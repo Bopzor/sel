@@ -62,7 +62,7 @@ export function Feed({ className }: { className?: string }) {
       <Input
         type="search"
         icon="search"
-        aria-label={t`Search the publications`}
+        aria-label={t`Search publications`}
         placeholder={t`Search`}
         value={search}
         onChange={(event) => setSearch(event.target.value)}
@@ -207,7 +207,7 @@ function EventCard({ event }: { event: FeedEvent }) {
         type: <Trans context="feed item">Event</Trans>,
         date:
           date === undefined ? (
-            <Trans>Date to be defined</Trans>
+            <Trans>Date to be decided</Trans>
           ) : (
             <time dateTime={event.date}>
               <span className="sr-only">{`${date.toLocaleDateString(i18n.locale, { dateStyle: 'long' })} `}</span>
@@ -314,7 +314,7 @@ function EmptyFeed() {
         <Trans>Nothing published yet</Trans>
       </EmptyState.Title>
       <EmptyState.Description>
-        <Trans>The requests, events and information of the members appear here.</Trans>
+        <Trans>Members' requests, events and information appear here.</Trans>
       </EmptyState.Description>
     </EmptyState.Root>
   );
@@ -327,7 +327,7 @@ function NoMatchingPublication({ onClearFilters }: { onClearFilters: () => void 
         <Trans>No publication matches these filters</Trans>
       </EmptyState.Title>
       <EmptyState.Description>
-        <Trans>Try other words, or clear the filters.</Trans>
+        <Trans>Try other words, or clear filters.</Trans>
       </EmptyState.Description>
       <EmptyState.Action>
         <Button variant="secondary" onClick={onClearFilters}>

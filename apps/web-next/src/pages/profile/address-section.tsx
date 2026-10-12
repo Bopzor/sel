@@ -31,7 +31,7 @@ export function AddressSection({ member }: { member: AuthenticatedMember }) {
     <ProfileSection title={title} onEdit={section.edit} focusEdit={section.focusEdit}>
       {!member.address && (
         <p className="text-muted">
-          <Trans>You have not entered your address yet.</Trans>
+          <Trans>You haven't entered your address yet.</Trans>
         </p>
       )}
 

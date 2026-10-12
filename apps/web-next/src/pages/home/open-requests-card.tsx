@@ -41,7 +41,7 @@ export function OpenRequestsCard({ className }: { className?: string }) {
             href={routes.requests({ mine: true })}
             className="row items-center gap-2 text-body-sm font-medium text-muted underline"
           >
-            <Plural value={data.total} other="See the # open requests" />
+            <Plural value={data.total} other="See all # open requests" />
             <Icon name="next" size="sm" />
           </Link>
         </Card.Footer>

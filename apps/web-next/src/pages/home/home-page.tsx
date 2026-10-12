@@ -8,6 +8,7 @@ import { routes } from 'src/app/routes';
 import { Amount } from 'src/components/amount';
 import { Link } from 'src/components/link';
 import { TransactionDialog } from 'src/components/transaction-dialog';
+import { Unit } from 'src/components/unit';
 
 import { CommitteeMeetingCard } from './committee-meeting-card';
 import { Feed } from './feed';
@@ -59,7 +60,9 @@ function Header() {
 
       <div className="row flex-wrap gap-2 max-xs:w-full">
         <Button icon="exchange" onClick={() => setOpen(true)} className="max-xs:w-full">
-          <Trans>Create exchange</Trans>
+          <Trans>
+            Exchange <Unit plural />
+          </Trans>
         </Button>
 
         <LinkButton

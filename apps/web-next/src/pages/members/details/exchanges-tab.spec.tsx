@@ -100,7 +100,7 @@ describe('member exchanges', () => {
       'me',
     );
 
-    await user.click(screen.getByRole('button', { name: 'Show all the exchanges' }));
+    await user.click(screen.getByRole('button', { name: 'Show all exchanges' }));
 
     expect(await screen.findByRole('link', { name: 'Julien Petit' })).toBeInTheDocument();
   });
@@ -175,7 +175,7 @@ describe('member exchanges', () => {
     renderPage(routes.member('me', 'exchanges'));
 
     await screen.findByText('Completed');
-    await user.click(screen.getByRole('button', { name: 'Canceled' }));
+    await user.click(screen.getByRole('button', { name: 'Declined' }));
 
     const item = (await screen.findByText('Canceled', { selector: 'p' })).closest('li');
 
@@ -189,7 +189,7 @@ describe('member exchanges', () => {
 
     await screen.findByRole('heading', { name: 'No exchanges yet' });
 
-    expect(screen.queryByRole('button', { name: 'Canceled' })).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'Declined' })).not.toBeInTheDocument();
     expect(
       server.find('/api/members/claire/transactions').map((url) => url.searchParams.get('status')),
     ).toEqual(['completed']);

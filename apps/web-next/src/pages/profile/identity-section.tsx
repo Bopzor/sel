@@ -65,7 +65,7 @@ function IdentityForm({ title, member, onClose }: IdentityFormProps) {
   const upload = useMutation({
     mutationFn: uploadFile,
     onSuccess: ({ name }) => form.setValue('avatarFileName', name),
-    onError: () => showToast(t`The photo could not be sent. Try again in a few moments.`, 'error'),
+    onError: () => showToast(t`The photo couldn't be sent. Try again in a few moments.`, 'error'),
   });
 
   const avatarFileName = useWatch({ control: form.control, name: 'avatarFileName' });

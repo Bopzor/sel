@@ -47,7 +47,7 @@ describe('edit event', () => {
 
     expect(await screen.findByRole('textbox', { name: /^Title/ })).toHaveValue('Picnic at the lake');
     expect(screen.getByLabelText(/^Date and time/)).toHaveValue('2026-10-12T18:30');
-    expect(screen.getByRole('radio', { name: 'Outside event' })).toBeChecked();
+    expect(screen.getByRole('radio', { name: 'External event' })).toBeChecked();
     expect(screen.getByText(/1 chemin du Lac/)).toHaveTextContent('1 chemin du Lac 74000 Annecy');
     expect(screen.getByRole('textbox', { name: /^Message/ })).toHaveTextContent('Bring something to share.');
   });
@@ -138,7 +138,7 @@ describe('edit event', () => {
     renderPage();
 
     expect(
-      await screen.findByRole('heading', { level: 1, name: 'This event cannot be edited' }),
+      await screen.findByRole('heading', { level: 1, name: "This event can't be edited" }),
     ).toBeInTheDocument();
     expect(screen.queryByRole('textbox', { name: /^Title/ })).not.toBeInTheDocument();
   });

@@ -15,7 +15,7 @@ export function InformationNotFound() {
       </EmptyState.Description>
       <EmptyState.Action>
         <LinkButton Link={Link} href={routes.information()} variant="secondary">
-          <Trans context="information list">See the information</Trans>
+          <Trans context="information list">See all information</Trans>
         </LinkButton>
       </EmptyState.Action>
     </EmptyState.Root>

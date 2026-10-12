@@ -40,7 +40,7 @@ export function PendingTransactionsCard({ className }: { className?: string }) {
             href={routes.member(me.id, 'exchanges')}
             className="row items-center gap-2 text-body-sm font-medium text-muted underline"
           >
-            <Plural value={data.total} other="See the # pending exchanges" />
+            <Plural value={data.total} other="See all # pending exchanges" />
             <Icon name="next" size="sm" />
           </Link>
         </Card.Footer>

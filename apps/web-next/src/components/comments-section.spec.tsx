@@ -61,7 +61,7 @@ describe('CommentsSection', () => {
 
     renderSection();
 
-    await screen.findByText('Unable to load the comments');
+    await screen.findByText('Unable to load comments');
 
     server.failing = false;
     await user.click(screen.getByRole('button', { name: 'Retry' }));
@@ -138,9 +138,7 @@ describe('CommentsSection', () => {
       await write(user, 'A brand new comment');
       await user.click(screen.getByRole('button', { name: 'Send' }));
 
-      expect(
-        await screen.findByText('An error happened and your comment was not posted'),
-      ).toBeInTheDocument();
+      expect(await screen.findByText("Your comment couldn't be posted")).toBeInTheDocument();
       expect(screen.getByRole('textbox')).toHaveTextContent('A brand new comment');
     });
   });

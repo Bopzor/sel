@@ -79,7 +79,7 @@ function EditInformation({ information }: { information: Information }) {
           mutationFn={(body) => api('PUT', `/information/${information.id}`, { body })}
           onSuccess={onSuccess}
           submitLabel={<Trans>Save the changes</Trans>}
-          errorTitle={<Trans>Your changes could not be saved</Trans>}
+          errorTitle={<Trans>Your changes couldn't be saved</Trans>}
         />
       </Card.Root>
     </>
@@ -90,10 +90,10 @@ function InformationNotEditable({ information }: { information: Information }) {
   return (
     <EmptyState.Root icon="information">
       <EmptyState.Title level={1}>
-        <Trans>This information cannot be edited</Trans>
+        <Trans>This information can't be edited</Trans>
       </EmptyState.Title>
       <EmptyState.Description>
-        <Trans>Only its author can edit this information.</Trans>
+        <Trans>Only the author can edit this information.</Trans>
       </EmptyState.Description>
       <EmptyState.Action>
         <LinkButton Link={Link} href={routes.informationDetails(information.id)} variant="secondary">

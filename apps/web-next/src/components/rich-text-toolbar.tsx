@@ -137,7 +137,7 @@ function LinkDialogForm({ onClose, target }: LinkDialogProps) {
         <InputField
           control={form.control}
           name="url"
-          label={<Trans>Link target</Trans>}
+          label={<Trans>Link address</Trans>}
           type="url"
           inputMode="url"
           autoComplete="url"

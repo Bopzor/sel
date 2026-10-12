@@ -37,7 +37,7 @@ export function RequestList({ filters, hasFilters, onClearFilters }: RequestList
   if (query.error && !query.data) {
     return (
       <ApiFailed
-        title={<Trans>Unable to load the requests</Trans>}
+        title={<Trans>Unable to load requests</Trans>}
         retrying={query.isFetching}
         retry={() => void query.refetch()}
       />
@@ -188,7 +188,7 @@ function NoMatchingRequest({ onClearFilters }: { onClearFilters: () => void }) {
         <Trans>No request matches these filters</Trans>
       </EmptyState.Title>
       <EmptyState.Description>
-        <Trans>Try other words, or clear the filters.</Trans>
+        <Trans>Try other words, or clear filters.</Trans>
       </EmptyState.Description>
       <EmptyState.Action>
         <Button variant="secondary" onClick={onClearFilters}>

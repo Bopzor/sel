@@ -53,7 +53,7 @@ describe('upcoming events card', () => {
     expect(within(link.closest('li')!).getByText(/June 1, 2026/)).toBeInTheDocument();
     expect(link.closest('li')).toHaveTextContent('Cavaillon');
     expect(screen.getByRole('link', { name: 'Repair café' })).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: 'See the events' })).toHaveAttribute('href', routes.events());
+    expect(screen.getByRole('link', { name: 'See all events' })).toHaveAttribute('href', routes.events());
 
     const [url] = server.find('/api/events');
 

@@ -63,7 +63,7 @@ describe('pending transactions card', () => {
     render();
 
     expect(await screen.findAllByRole('button', { name: 'Accept' })).toHaveLength(3);
-    expect(screen.getByRole('link', { name: 'See the 4 pending exchanges' })).toHaveAttribute(
+    expect(screen.getByRole('link', { name: 'See all 4 pending exchanges' })).toHaveAttribute(
       'href',
       routes.member('me', 'exchanges'),
     );

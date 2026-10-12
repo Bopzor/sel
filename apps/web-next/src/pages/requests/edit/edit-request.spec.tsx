@@ -112,7 +112,7 @@ describe('edit request', () => {
 
     const alert = await screen.findByRole('alert');
 
-    expect(alert).toHaveTextContent('Your changes could not be saved');
+    expect(alert).toHaveTextContent("Your changes couldn't be saved");
     expect(title).toHaveValue('Shelf on Saturday');
   });
 
@@ -121,7 +121,7 @@ describe('edit request', () => {
 
     renderPage();
 
-    expect(await screen.findByRole('heading', { name: 'This request cannot be edited' })).toBeInTheDocument();
+    expect(await screen.findByRole('heading', { name: "This request can't be edited" })).toBeInTheDocument();
     expect(screen.queryByRole('textbox', { name: /^Title/ })).not.toBeInTheDocument();
   });
 
@@ -130,7 +130,7 @@ describe('edit request', () => {
 
     renderPage();
 
-    expect(await screen.findByRole('heading', { name: 'This request cannot be edited' })).toBeInTheDocument();
+    expect(await screen.findByRole('heading', { name: "This request can't be edited" })).toBeInTheDocument();
   });
 
   it('shows when the request does not exist', async () => {
