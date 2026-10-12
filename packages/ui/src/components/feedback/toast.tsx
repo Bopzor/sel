@@ -4,6 +4,7 @@ import type { Override } from '@sel/utils';
 import { cva } from 'cva';
 import { useEffect, type ComponentProps, type ReactNode } from 'react';
 
+import { IconButton } from '../actions/icon-button';
 import { Icon } from '../display/icon';
 
 type Tone = 'success' | 'info' | 'warning' | 'error';
@@ -28,33 +29,31 @@ type ToastProps = Override<
 export function Toast({ tone = 'success', onClose, closeLabel, className, children, ...props }: ToastProps) {
   return (
     <div {...props} className={toastStyles({ tone, className })}>
-      <Icon name={tone} size="md" />
+      <Icon name={tone} size="md" className={iconStyles({ tone })} />
       <p className="flex-1 py-3 text-toast">{children}</p>
-
-      {/* The focus ring takes the text color: the primary color would not show on the tone's solid color. */}
-      {onClose && (
-        <button
-          type="button"
-          onClick={onClose}
-          aria-label={closeLabel}
-          title={closeLabel}
-          className="row size-touch-target shrink-0 cursor-pointer items-center justify-center rounded-full -outline-offset-2 outline-current transition hover:bg-inverse-hover"
-        >
-          <Icon name="close" size="md" />
-        </button>
-      )}
+      {onClose && <IconButton icon="close" label={closeLabel} size="sm" onClick={onClose} />}
     </div>
   );
 }
 
-// The whole toast takes the tone's solid color, so that it can be told apart at a glance.
-const toastStyles = cva('row items-center gap-3 rounded-lg py-1 pr-1 pl-4 shadow-lg', {
+const toastStyles = cva('row items-center gap-3 rounded-lg border border-l-4 py-1 pr-1 pl-3 shadow-lg', {
   variants: {
     tone: {
-      success: 'bg-success text-on-success',
-      info: 'bg-info text-on-info',
-      warning: 'bg-warning text-on-warning',
-      error: 'bg-danger text-on-danger',
+      success: 'border-success-subtle bg-success-subtle',
+      info: 'border-info-subtle bg-info-subtle',
+      warning: 'border-warning-subtle bg-warning-subtle',
+      error: 'border-danger-subtle bg-danger-subtle',
+    },
+  },
+});
+
+const iconStyles = cva('', {
+  variants: {
+    tone: {
+      success: 'text-success',
+      info: 'text-info',
+      warning: 'text-warning',
+      error: 'text-danger',
     },
   },
 });
