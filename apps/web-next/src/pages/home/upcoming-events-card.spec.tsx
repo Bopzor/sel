@@ -58,6 +58,7 @@ describe('upcoming events card', () => {
 
     expect(url?.searchParams.get('timing')).toEqual('upcoming');
     expect(url?.searchParams.get('pageSize')).toEqual('2');
+    expect(url?.searchParams.get('committeeMeeting')).toEqual('false');
 
     const inSevenDays = Date.now() + 7 * 24 * 60 * 60 * 1000;
     const before = new Date(url?.searchParams.get('before') ?? '').getTime();

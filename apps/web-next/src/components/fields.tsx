@@ -84,27 +84,29 @@ export function TextAreaField<Values extends FieldValues, Transformed>({
 }
 
 type CheckboxFieldProps<Values extends FieldValues, Transformed> = Override<
-  Omit<React.ComponentProps<typeof Checkbox>, ControlledProps | 'checked' | 'defaultChecked'>,
+  Omit<
+    React.ComponentProps<typeof Checkbox>,
+    Exclude<ControlledProps, 'onChange'> | 'checked' | 'defaultChecked'
+  >,
   Omit<FieldProps<Values, Transformed>, 'hint'>
 >;
 
 export function CheckboxField<Values extends FieldValues, Transformed>({
   control,
   name,
+  onChange,
   ...props
 }: CheckboxFieldProps<Values, Transformed>) {
   const {
-    field: { value, onChange, ...field },
+    field: { value, ...field },
   } = useController({ control, name });
 
-  return (
-    <Checkbox
-      {...props}
-      {...field}
-      checked={Boolean(value)}
-      onChange={(event) => onChange(event.target.checked)}
-    />
-  );
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    field.onChange(event.target.checked);
+    onChange?.(event);
+  };
+
+  return <Checkbox {...props} {...field} checked={Boolean(value)} onChange={handleChange} />;
 }
 
 type RichTextFieldProps<Values extends FieldValues, Transformed> = Override<

@@ -4,9 +4,9 @@ import {
   type CommentEntityType,
   type Config,
   type DocumentsGroup,
-  type FeedItem,
   type Event,
   type EventsListItem,
+  type FeedItem,
   type Information,
   type ListEventsQuery,
   type ListInformationQuery,
@@ -19,8 +19,8 @@ import {
   type MembersSort,
   type MemberTransactionStats,
   type Request,
-  type ResourceType,
   type RequestListItem,
+  type ResourceType,
   type Transaction,
 } from '@sel/shared';
 import { addDuration } from '@sel/utils';
@@ -127,6 +127,7 @@ export const queries = {
         return api<Paginated<EventsListItem>>('GET', '/events', {
           query: {
             timing: 'upcoming',
+            committeeMeeting: 'false',
             before: addDuration(new Date(), { days: 7 }).toISOString(),
             page: 1,
             pageSize: 2,
@@ -134,6 +135,19 @@ export const queries = {
           paginated: true,
         });
       },
+    });
+  },
+
+  nextCommitteeMeeting: () => {
+    return queryOptions({
+      queryKey: ['events', 'next-committee-meeting'],
+      queryFn: async () => {
+        return api<Paginated<EventsListItem>>('GET', '/events', {
+          query: { timing: 'upcoming', committeeMeeting: 'true', page: 1, pageSize: 1 },
+          paginated: true,
+        });
+      },
+      select: ({ items }) => items[0] ?? null,
     });
   },
 
