@@ -10,6 +10,7 @@ export type FeedEvent = {
   id: string;
   title: string;
   message: Message;
+  date?: string;
   location?: Address;
   organizer: LightMember;
   publishedAt: string;

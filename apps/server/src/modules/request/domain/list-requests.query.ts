@@ -57,6 +57,7 @@ export async function listRequests(query: ListRequestsQuery) {
       with: {
         requester: withAvatar,
         message: withAttachments,
+        answers: true,
       },
       orderBy: ({ createdAt }, { desc }) => desc(createdAt),
     }),

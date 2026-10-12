@@ -49,6 +49,7 @@ function serializeFeedEvent(
     title: event.title,
     message: serializeMessage(event.message),
     publishedAt: event.createdAt.toISOString(),
+    date: event.date?.toISOString(),
     location: event.location ?? undefined,
     organizer: serializeMember(event.organizer),
   };

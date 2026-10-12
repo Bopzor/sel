@@ -1,7 +1,7 @@
 import { AsyncLocalStorage } from 'node:async_hooks';
 
 import * as shared from '@sel/shared';
-import { assert, defined } from '@sel/utils';
+import { assert, defined, hasProperty } from '@sel/utils';
 import express, { RequestHandler } from 'express';
 
 import { container } from 'src/infrastructure/container';
@@ -170,6 +170,7 @@ function serializeRequestListItem(
   request: Request & {
     requester: MemberWithAvatar;
     message: MessageWithAttachments;
+    answers: RequestAnswer[];
   },
 ): shared.RequestListItem {
   const { requester } = request;
@@ -184,6 +185,7 @@ function serializeRequestListItem(
     },
     title: request.title,
     message: serializeMessage(request.message),
+    positiveAnswersCount: request.answers.filter(hasProperty('answer', 'positive')).length,
   };
 }
 

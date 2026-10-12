@@ -19,6 +19,7 @@ export type RequestListItem = {
   requester: Requester;
   title: string;
   message: Message;
+  positiveAnswersCount: number;
 };
 
 export type Request = {
