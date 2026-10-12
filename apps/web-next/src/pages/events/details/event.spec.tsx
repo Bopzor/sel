@@ -268,6 +268,7 @@ const createEvent = createFactory<Event>(() => ({
   id: 'e1',
   title: 'Event',
   kind: EventKind.internal,
+  committeeMeeting: false,
   date: nextWeek.toISOString(),
   organizer: claire,
   message: { body: '', attachments: [] },

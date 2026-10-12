@@ -20,7 +20,7 @@ describe('updateEvent', () => {
 
     await persist.event({
       id: 'eventId',
-      organizerId: await persist.member(),
+      organizerId: await persist.member({ id: 'organizerId' }),
       messageId: await persist.message(),
       date: new Date('2026-10-05T18:00:00.000Z'),
       location,
@@ -28,7 +28,7 @@ describe('updateEvent', () => {
   });
 
   it('keeps the date and the location when they are not given', async () => {
-    await updateEvent({ eventId: 'eventId', title: 'Title', fileIds: [] });
+    await updateEvent({ eventId: 'eventId', memberId: 'organizerId', title: 'Title', fileIds: [] });
 
     const event = await findEventById('eventId');
 
@@ -37,7 +37,13 @@ describe('updateEvent', () => {
   });
 
   it('removes the date and the location', async () => {
-    await updateEvent({ eventId: 'eventId', fileIds: [], date: null, location: null });
+    await updateEvent({
+      eventId: 'eventId',
+      memberId: 'organizerId',
+      fileIds: [],
+      date: null,
+      location: null,
+    });
 
     const event = await findEventById('eventId');
 
@@ -46,7 +52,12 @@ describe('updateEvent', () => {
   });
 
   it('changes the date', async () => {
-    await updateEvent({ eventId: 'eventId', fileIds: [], date: '2026-11-01T10:00:00.000Z' });
+    await updateEvent({
+      eventId: 'eventId',
+      memberId: 'organizerId',
+      fileIds: [],
+      date: '2026-11-01T10:00:00.000Z',
+    });
 
     expect(await findEventById('eventId')).toHaveProperty('date', new Date('2026-11-01T10:00:00.000Z'));
   });

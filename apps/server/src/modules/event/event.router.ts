@@ -94,10 +94,12 @@ router.post('/', async (req, res) => {
 
 router.put('/:eventId', isOrganizer, async (req, res) => {
   const eventId = req.params.eventId;
+  const member = getAuthenticatedMember();
   const body = shared.updateEventBodySchema.parse(req.body);
 
   await updateEvent({
     eventId,
+    memberId: member.id,
     ...body,
   });
 
@@ -146,6 +148,7 @@ function serializeEventListItem(
     date: event.date?.toISOString() ?? undefined,
     location: event.location ?? undefined,
     kind: event.kind,
+    committeeMeeting: event.committeeMeeting,
     organizer: serializeOrganizer(event.organizer),
     message: serializeMessage(event.message),
     participantsCount: event.participants.filter(({ participation }) => participation === 'yes').length,
@@ -165,6 +168,7 @@ function serializeEvent(
     title: event.title,
     message: serializeMessage(event.message),
     kind: event.kind,
+    committeeMeeting: event.committeeMeeting,
     date: event.date?.toISOString() ?? undefined,
     location: event.location ?? undefined,
     organizer: serializeOrganizer(event.organizer),

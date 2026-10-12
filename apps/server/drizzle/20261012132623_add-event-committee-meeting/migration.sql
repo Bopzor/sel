@@ -1,0 +1,1 @@
+ALTER TABLE "events" ADD COLUMN "committee_meeting" boolean DEFAULT false NOT NULL;

@@ -175,6 +175,7 @@ const createEvent = createFactory<Event>(() => ({
   id: 'e1',
   title: 'Picnic at the lake',
   kind: EventKind.external,
+  committeeMeeting: false,
   date: date.toISOString(),
   location: { line1: '1 chemin du Lac', postalCode: '74000', city: 'Annecy', country: 'France' },
   organizer: me,

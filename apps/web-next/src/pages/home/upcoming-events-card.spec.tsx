@@ -72,6 +72,7 @@ const createEvent = createFactory<EventsListItem>(() => ({
   id: `e${nextId++}`,
   title: '',
   kind: EventKind.internal,
+  committeeMeeting: false,
   organizer: claire,
   message: { body: '', attachments: [] },
   participantsCount: 0,

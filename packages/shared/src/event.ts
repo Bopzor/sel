@@ -17,6 +17,7 @@ export type EventsListItem = {
   id: string;
   title: string;
   kind: EventKind;
+  committeeMeeting: boolean;
   organizer: EventOrganizer;
   date?: string;
   location?: Address;
@@ -30,6 +31,7 @@ export type Event = {
   title: string;
   message: Message;
   kind: EventKind;
+  committeeMeeting: boolean;
   date?: string;
   location?: Address;
   organizer: EventOrganizer;
@@ -51,6 +53,7 @@ export const listEventsQuerySchema = z.object({
   organizerId: z.string().optional(),
   participantId: z.string().optional(),
   includeUndated: z.stringbool().optional(),
+  committeeMeeting: z.stringbool().optional(),
   after: z.iso
     .datetime()
     .transform((value) => new Date(value))
@@ -73,6 +76,7 @@ export const createEventBodySchema = z.object({
   date: z.string().datetime().nullable().optional(),
   location: addressSchema.nullable().optional(),
   kind: z.nativeEnum(EventKind),
+  committeeMeeting: z.boolean().optional(),
 });
 
 export type CreateEventBody = z.infer<typeof createEventBodySchema>;
@@ -84,6 +88,7 @@ export const updateEventBodySchema = z.object({
   date: z.string().datetime().nullable().optional(),
   location: addressSchema.nullable().optional(),
   kind: z.nativeEnum(EventKind).optional(),
+  committeeMeeting: z.boolean().optional(),
 });
 
 export type UpdateEventBody = z.infer<typeof updateEventBodySchema>;

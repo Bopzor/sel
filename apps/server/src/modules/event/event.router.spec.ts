@@ -1,5 +1,6 @@
 import * as shared from '@sel/shared';
 import { addDuration, createDate, createId } from '@sel/utils';
+import { eq } from 'drizzle-orm';
 import supertest from 'supertest';
 import { afterEach, beforeAll, beforeEach, describe, expect, it } from 'vitest';
 
@@ -89,6 +90,100 @@ describe('event router', () => {
     });
 
     expect(events.map(({ id }) => id).sort()).toEqual(['afterBoundId', 'betweenId']);
+  });
+
+  describe('committee meeting', () => {
+    const body = { title: 'Committee meeting', body: 'Agenda of the meeting', kind: 'internal' };
+
+    async function joinCommittee() {
+      await db
+        .update(schema.members)
+        .set({ roles: [shared.MemberRole.member, shared.MemberRole.committee] })
+        .where(eq(schema.members.id, 'meId'));
+    }
+
+    it('lets a committee member create a committee meeting', async () => {
+      await joinCommittee();
+
+      const response = await agent
+        .post('/events')
+        .send({ ...body, committeeMeeting: true })
+        .expect(201);
+
+      const event = await agent.get(`/events/${response.text}`).expect(200);
+
+      expect(event.body).toHaveProperty('committeeMeeting', true);
+    });
+
+    it('lets another member create an event that is not a committee meeting', async () => {
+      const response = await agent.post('/events').send(body).expect(201);
+
+      const event = await agent.get(`/events/${response.text}`).expect(200);
+
+      expect(event.body).toHaveProperty('committeeMeeting', false);
+    });
+
+    it('forbids another member to create a committee meeting', async () => {
+      await agent
+        .post('/events')
+        .send({ ...body, committeeMeeting: true })
+        .expect(403);
+    });
+
+    it('forbids an external committee meeting', async () => {
+      await joinCommittee();
+
+      await agent
+        .post('/events')
+        .send({ ...body, kind: 'external', committeeMeeting: true })
+        .expect(400);
+    });
+
+    it('lets a committee member mark their event as a committee meeting and unmark it', async () => {
+      await joinCommittee();
+
+      await createEvent({ id: 'eventId', organizerId: 'meId' });
+
+      await agent
+        .put('/events/eventId')
+        .send({ ...body, committeeMeeting: true })
+        .expect(204);
+      expect((await agent.get('/events/eventId').expect(200)).body).toHaveProperty('committeeMeeting', true);
+
+      await agent
+        .put('/events/eventId')
+        .send({ ...body, committeeMeeting: false })
+        .expect(204);
+      expect((await agent.get('/events/eventId').expect(200)).body).toHaveProperty('committeeMeeting', false);
+    });
+
+    it('forbids another member to mark their event as a committee meeting', async () => {
+      await createEvent({ id: 'eventId', organizerId: 'meId' });
+
+      await agent
+        .put('/events/eventId')
+        .send({ title: 'New title', body: 'New agenda', committeeMeeting: true })
+        .expect(403);
+    });
+
+    it('forbids changing a committee meeting to external', async () => {
+      await joinCommittee();
+
+      await createEvent({ id: 'eventId', organizerId: 'meId', committeeMeeting: true });
+
+      await agent
+        .put('/events/eventId')
+        .send({ title: 'New title', body: 'New agenda', kind: 'external' })
+        .expect(400);
+    });
+
+    it('filters the committee meetings', async () => {
+      await createEvent({ id: 'meetingId', committeeMeeting: true });
+      await createEvent({ id: 'otherId' });
+
+      expect((await listEvents({ committeeMeeting: 'true' })).map(({ id }) => id)).toEqual(['meetingId']);
+      expect((await listEvents({ committeeMeeting: 'false' })).map(({ id }) => id)).toEqual(['otherId']);
+    });
   });
 
   it('returns a 404 for an event that does not exist', async () => {

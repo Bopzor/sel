@@ -1,5 +1,5 @@
 import * as shared from '@sel/shared';
-import { json, pgEnum, pgTable, unique, varchar } from 'drizzle-orm/pg-core';
+import { boolean, json, pgEnum, pgTable, unique, varchar } from 'drizzle-orm/pg-core';
 
 import { createdAt, date, id, primaryKey, updatedAt } from '../schema-utils';
 
@@ -20,6 +20,7 @@ export const events = pgTable('events', {
   date: date('date'),
   location: json('location').$type<shared.Address>(),
   kind: eventKindEnum('kind').notNull(),
+  committeeMeeting: boolean('committee_meeting').notNull().default(false),
   createdAt,
   updatedAt,
 });

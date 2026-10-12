@@ -11,6 +11,7 @@ type ListEventsQuery = {
   organizerId?: string;
   participantId?: string;
   includeUndated?: boolean;
+  committeeMeeting?: boolean;
   after?: Date;
   before?: Date;
   year?: number;
@@ -34,6 +35,10 @@ export async function listEvents(query: ListEventsQuery) {
 
   if (query.timing === 'past') {
     conditions.push(lt(schema.events.date, new Date()));
+  }
+
+  if (query.committeeMeeting !== undefined) {
+    conditions.push(eq(schema.events.committeeMeeting, query.committeeMeeting));
   }
 
   if (query.after) {
