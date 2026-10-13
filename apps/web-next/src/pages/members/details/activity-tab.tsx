@@ -1,12 +1,13 @@
 import { Plural, Trans, useLingui } from '@lingui/react/macro';
 import type { Member } from '@sel/shared';
 import { Card, Chip, EmptyState, LinkButton, ListItem, Skeleton } from '@sel/ui';
-import { useInfiniteQuery, useQuery, useSuspenseQuery } from '@tanstack/react-query';
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import clsx from 'clsx';
 import z from 'zod';
 
 import { queries } from 'src/app/queries';
 import { routes } from 'src/app/routes';
+import { useSession } from 'src/app/session';
 import { ApiFailed, QueryResult } from 'src/components/api-result';
 import { DefinitionItem } from 'src/components/definition-item';
 import { Link } from 'src/components/link';
@@ -90,7 +91,7 @@ function CountsSkeleton() {
 }
 
 function Activity({ member }: { member: Member }) {
-  const { data: me } = useSuspenseQuery(queries.session());
+  const me = useSession();
   const { filters, setFilters } = useFilters(filtersSchema);
 
   const query = useInfiniteQuery(

@@ -1,5 +1,5 @@
 import * as Sentry from '@sentry/react';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQueryClient, useSuspenseQuery } from '@tanstack/react-query';
 import { redirect, useNavigate, type MiddlewareFunction } from 'react-router';
 
 import { api, ApiError } from './api';
@@ -55,6 +55,10 @@ async function hasSession() {
 
     throw error;
   }
+}
+
+export function useSession() {
+  return useSuspenseQuery(queries.session()).data;
 }
 
 export function useSignOut() {

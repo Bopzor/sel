@@ -1,16 +1,16 @@
 import { Trans, useLingui } from '@lingui/react/macro';
 import { Alert, Button, showToast } from '@sel/ui';
-import { useMutation, useSuspenseQuery } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import { useState } from 'react';
 
 import { getPushPermission, requestPushPermission } from 'src/app/push-notifications';
-import { queries } from 'src/app/queries';
+import { useSession } from 'src/app/session';
 
 const storageKey = 'push-notifications-prompt-dismissed';
 
 export function PushNotificationsPrompt() {
   const { t } = useLingui();
-  const { data: me } = useSuspenseQuery(queries.session());
+  const me = useSession();
   const [dismissed, setDismissed] = useState(() => localStorage.getItem(storageKey) === 'true');
 
   const mutation = useMutation({

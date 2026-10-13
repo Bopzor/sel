@@ -2,12 +2,13 @@ import { Trans, useLingui } from '@lingui/react/macro';
 import type { Event } from '@sel/shared';
 import { Card, EmptyState, LinkButton, showToast, Skeleton } from '@sel/ui';
 import { defined } from '@sel/utils';
-import { useQuery, useQueryClient, useSuspenseQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useNavigate, useParams } from 'react-router';
 
 import { api } from 'src/app/api';
 import { queries } from 'src/app/queries';
 import { routes } from 'src/app/routes';
+import { useSession } from 'src/app/session';
 import { ApiFailed, QueryResult } from 'src/components/api-result';
 import { BackButton, Link } from 'src/components/link';
 
@@ -46,7 +47,7 @@ function EditEvent({ event }: { event: Event }) {
   const { t } = useLingui();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const { data: me } = useSuspenseQuery(queries.session());
+  const me = useSession();
 
   if (event.organizer.id !== me.id) {
     return <EventNotEditable event={event} />;

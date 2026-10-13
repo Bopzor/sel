@@ -2,12 +2,11 @@ import { Plural, Trans, useLingui } from '@lingui/react/macro';
 import type { Member } from '@sel/shared';
 import { Badge, Button, Card, Icon, IconButton, LinkButton, showToast, Skeleton } from '@sel/ui';
 import { differenceInMonths } from '@sel/utils';
-import { useSuspenseQuery } from '@tanstack/react-query';
 import { lazy, Suspense, useId, useState } from 'react';
 
 import { formatAddressLines, formatMemberName, formatPhoneNumber } from 'src/app/format';
-import { queries } from 'src/app/queries';
 import { routes } from 'src/app/routes';
+import { useSession } from 'src/app/session';
 import { Link } from 'src/components/link';
 import { MemberAvatar } from 'src/components/member-avatar';
 import { TransactionDialog } from 'src/components/transaction-dialog';
@@ -28,7 +27,7 @@ export function MemberSidebar({ member }: { member: Member }) {
 }
 
 function IdentityCard({ member }: { member: Member }) {
-  const { data: me } = useSuspenseQuery(queries.session());
+  const me = useSession();
   const { number } = member;
 
   return (

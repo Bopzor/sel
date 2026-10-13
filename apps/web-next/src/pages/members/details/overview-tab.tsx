@@ -1,12 +1,13 @@
 import { Trans, useLingui } from '@lingui/react/macro';
 import type { Member, MemberInterest } from '@sel/shared';
 import { Badge, Button, Card, LinkButton, Skeleton } from '@sel/ui';
-import { useQuery, useSuspenseQuery } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { useId, useState } from 'react';
 
 import { fileUrl } from 'src/app/api';
 import { queries } from 'src/app/queries';
 import { routes } from 'src/app/routes';
+import { useSession } from 'src/app/session';
 import { Amount } from 'src/components/amount';
 import { ApiFailed, QueryResult } from 'src/components/api-result';
 import { DefinitionItem } from 'src/components/definition-item';
@@ -16,7 +17,7 @@ import { TransactionItem } from 'src/components/transaction-item';
 import { ActivityItem } from './activity-item';
 
 export function OverviewTab({ member }: { member: Member }) {
-  const { data: me } = useSuspenseQuery(queries.session());
+  const me = useSession();
   const isMe = member.id === me.id;
 
   return (
@@ -216,7 +217,7 @@ function ActivityCard({ member }: { member: Member }) {
 }
 
 function Interests({ member, isMe }: { member: Member; isMe: boolean }) {
-  const { data: me } = useSuspenseQuery(queries.session());
+  const me = useSession();
   const [expanded, setExpanded] = useState(false);
 
   const common = new Set(isMe ? [] : me.interests.map(({ interestId }) => interestId));

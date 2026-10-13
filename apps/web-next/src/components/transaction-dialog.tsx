@@ -14,13 +14,7 @@ import {
   Stepper,
 } from '@sel/ui';
 import { removeDiacriticCharacters } from '@sel/utils';
-import {
-  useMutation,
-  useQuery,
-  useQueryClient,
-  useSuspenseQuery,
-  type UseQueryResult,
-} from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient, type UseQueryResult } from '@tanstack/react-query';
 import { useState } from 'react';
 import { Controller, useController, useForm, type Control, type UseFormReturn } from 'react-hook-form';
 import { z } from 'zod';
@@ -29,6 +23,7 @@ import { api } from 'src/app/api';
 import { useConfig } from 'src/app/config';
 import { formatMemberName } from 'src/app/format';
 import { queries } from 'src/app/queries';
+import { useSession } from 'src/app/session';
 import { useZodResolver } from 'src/hooks/use-zod-resolver';
 
 import { Amount } from './amount';
@@ -198,7 +193,7 @@ type ExchangeStepProps = Pick<TransactionDialogProps, 'direction' | 'counterpart
 };
 
 function ExchangeStep({ direction, counterpart, defaultValues, onNext }: ExchangeStepProps) {
-  const { data: me } = useSuspenseQuery(queries.session());
+  const me = useSession();
 
   const form = useForm<ExchangeValues>({
     resolver: useZodResolver(exchangeSchema),
@@ -531,7 +526,7 @@ type RecapStepProps = {
 function RecapStep({ values, requestId, onBack, onCreated }: RecapStepProps) {
   const { t } = useLingui();
   const queryClient = useQueryClient();
-  const { data: me } = useSuspenseQuery(queries.session());
+  const me = useSession();
 
   const { direction, counterpart, amount, description, comment } = values;
   const name = formatMemberName(counterpart);

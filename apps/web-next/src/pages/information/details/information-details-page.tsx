@@ -8,6 +8,7 @@ import { useParams } from 'react-router';
 import { formatMemberName } from 'src/app/format';
 import { queries } from 'src/app/queries';
 import { routes } from 'src/app/routes';
+import { useSession } from 'src/app/session';
 import { ApiFailed, QueryResult } from 'src/components/api-result';
 import { CommentsSection } from 'src/components/comments-section';
 import { BackButton, Link } from 'src/components/link';
@@ -47,7 +48,7 @@ export function InformationDetailsPage() {
 
 // From xl, the aside spans both rows, so that the comments follow the message whatever the aside's height.
 function InformationDetails({ information }: { information: Information }) {
-  const { data: me } = useSuspenseQuery(queries.session());
+  const me = useSession();
   const isAuthor = information.author?.id === me.id;
 
   return (

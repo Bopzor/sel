@@ -7,6 +7,7 @@ import clsx from 'clsx';
 import { formatExcerpt, formatMemberName } from 'src/app/format';
 import { queries } from 'src/app/queries';
 import { routes } from 'src/app/routes';
+import { useSession } from 'src/app/session';
 import { ApiFailed } from 'src/components/api-result';
 import { Bullet } from 'src/components/bullet';
 import { Link } from 'src/components/link';
@@ -23,7 +24,7 @@ type InformationListProps = {
 };
 
 export function InformationList({ filters, hasFilters, onClearFilters }: InformationListProps) {
-  const { data: me } = useSuspenseQuery(queries.session());
+  const me = useSession();
 
   const query = useInfiniteQuery(
     queries.listInformation({

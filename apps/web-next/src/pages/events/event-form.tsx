@@ -1,13 +1,13 @@
 import { Trans } from '@lingui/react/macro';
 import { addressSchema, createEventBodySchema, EventKind, type Address, type Event } from '@sel/shared';
 import { Button, Card, Fieldset, FormField, Input, RadioGroup } from '@sel/ui';
-import { useMutation, useSuspenseQuery } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import { useState } from 'react';
 import { Controller, useForm, useWatch, type UseFormReturn } from 'react-hook-form';
 import z from 'zod';
 
 import { formatAddressLines } from 'src/app/format';
-import { queries } from 'src/app/queries';
+import { useSession } from 'src/app/session';
 import { AddressFormDialog } from 'src/components/address-form-dialog';
 import { AddressSearchResults, useAddressSearch } from 'src/components/address-search';
 import { AttachmentsField, useAttachments } from 'src/components/attachments';
@@ -38,7 +38,7 @@ export function EventForm<Result>({
   submitLabel,
   errorTitle,
 }: EventFormProps<Result>) {
-  const { data: me } = useSuspenseQuery(queries.session());
+  const me = useSession();
 
   const form = useForm({
     resolver: useZodResolver(useSchema()),

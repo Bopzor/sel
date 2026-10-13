@@ -1,10 +1,9 @@
 import { Trans } from '@lingui/react/macro';
 import { Button, LinkButton } from '@sel/ui';
-import { useSuspenseQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 
-import { queries } from 'src/app/queries';
 import { routes } from 'src/app/routes';
+import { useSession } from 'src/app/session';
 import { Amount } from 'src/components/amount';
 import { Link } from 'src/components/link';
 import { TransactionDialog } from 'src/components/transaction-dialog';
@@ -35,7 +34,7 @@ export function HomePage() {
 }
 
 function Header() {
-  const { data: me } = useSuspenseQuery(queries.session());
+  const me = useSession();
   const firstName = me.firstName;
 
   const [open, setOpen] = useState(false);

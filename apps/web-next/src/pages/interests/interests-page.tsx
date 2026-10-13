@@ -1,12 +1,13 @@
 import { Plural, Trans } from '@lingui/react/macro';
 import type { Interest, InterestMember } from '@sel/shared';
 import { Badge, Button, Card, Chip, EmptyState, Skeleton } from '@sel/ui';
-import { useQuery, useSuspenseQuery } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import z from 'zod';
 
 import { fileUrl } from 'src/app/api';
 import { queries } from 'src/app/queries';
 import { routes } from 'src/app/routes';
+import { useSession } from 'src/app/session';
 import { ApiFailed, QueryResult } from 'src/components/api-result';
 import { Link } from 'src/components/link';
 import { MemberAvatar } from 'src/components/member-avatar';
@@ -65,7 +66,7 @@ type InterestListProps = {
 };
 
 function InterestList({ interests, mine, onShowAll }: InterestListProps) {
-  const { data: me } = useSuspenseQuery(queries.session());
+  const me = useSession();
 
   const joined = (interest: Interest) => interest.members.some(({ id }) => id === me.id);
   const shown = mine ? interests.filter(joined) : interests;

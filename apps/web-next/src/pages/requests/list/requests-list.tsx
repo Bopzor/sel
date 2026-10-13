@@ -1,12 +1,13 @@
 import { Plural, Trans } from '@lingui/react/macro';
 import { RequestStatus, type RequestListItem } from '@sel/shared';
 import { Badge, Button, Card, EmptyState, LinkButton, Skeleton } from '@sel/ui';
-import { useInfiniteQuery, useSuspenseQuery } from '@tanstack/react-query';
+import { useInfiniteQuery } from '@tanstack/react-query';
 import clsx from 'clsx';
 
 import { formatExcerpt, formatMemberName } from 'src/app/format';
 import { queries } from 'src/app/queries';
 import { routes } from 'src/app/routes';
+import { useSession } from 'src/app/session';
 import { ApiFailed } from 'src/components/api-result';
 import { Bullet } from 'src/components/bullet';
 import { Link } from 'src/components/link';
@@ -23,7 +24,7 @@ type RequestListProps = {
 };
 
 export function RequestList({ filters, hasFilters, onClearFilters }: RequestListProps) {
-  const { data: me } = useSuspenseQuery(queries.session());
+  const me = useSession();
 
   const query = useInfiniteQuery(
     queries.listRequests({

@@ -1,12 +1,13 @@
 import { Trans, useLingui } from '@lingui/react/macro';
 import type { UpdateMemberProfileData } from '@sel/shared';
 import { Button, Card, showToast } from '@sel/ui';
-import { useMutation, useQueryClient, useSuspenseQuery } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useId, useState } from 'react';
 import { type FieldValues, type FormState } from 'react-hook-form';
 
 import { api } from 'src/app/api';
 import { queries } from 'src/app/queries';
+import { useSession } from 'src/app/session';
 import { FormServerErrorAlert } from 'src/components/fields';
 
 export function useSectionEditing() {
@@ -120,7 +121,7 @@ type UseUpdateProfileMutationOptions = {
 };
 
 export function useUpdateProfileMutation({ onSuccess, onError }: UseUpdateProfileMutationOptions) {
-  const { data: me } = useSuspenseQuery(queries.session());
+  const me = useSession();
   const queryClient = useQueryClient();
   const { t } = useLingui();
 

@@ -1,13 +1,14 @@
 import { Trans, useLingui } from '@lingui/react/macro';
 import { TransactionStatus, type Member, type Transaction } from '@sel/shared';
 import { Button, ListItem, showToast } from '@sel/ui';
-import { useMutation, useQueryClient, useSuspenseQuery } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import clsx from 'clsx';
 
 import { api } from 'src/app/api';
 import { formatMemberName } from 'src/app/format';
 import { queries } from 'src/app/queries';
 import { routes } from 'src/app/routes';
+import { useSession } from 'src/app/session';
 import { Amount } from 'src/components/amount';
 import { Bullet } from 'src/components/bullet';
 import { Link } from 'src/components/link';
@@ -92,7 +93,7 @@ function TransactionComment({ author, comment }: { author: Transaction['payer'];
 function PendingTransactionActions({ transaction }: { transaction: Transaction }) {
   const { t } = useLingui();
   const queryClient = useQueryClient();
-  const { data: me } = useSuspenseQuery(queries.session());
+  const me = useSession();
 
   const mutation = useMutation({
     mutationFn: (action: 'accept' | 'cancel') => api('PUT', `/transactions/${transaction.id}/${action}`),

@@ -1,17 +1,18 @@
 import { Plural, Trans } from '@lingui/react/macro';
 import { TransactionStatus } from '@sel/shared';
 import { Card, Icon } from '@sel/ui';
-import { useInfiniteQuery, useSuspenseQuery } from '@tanstack/react-query';
+import { useInfiniteQuery } from '@tanstack/react-query';
 
 import { queries } from 'src/app/queries';
 import { routes } from 'src/app/routes';
+import { useSession } from 'src/app/session';
 import { Link } from 'src/components/link';
 import { TransactionItem } from 'src/components/transaction-item';
 
 const maxItems = 3;
 
 export function PendingTransactionsCard({ className }: { className?: string }) {
-  const { data: me } = useSuspenseQuery(queries.session());
+  const me = useSession();
   const { data } = useInfiniteQuery(
     queries.listMemberTransactions(me.id, { status: TransactionStatus.pending, payerId: me.id }),
   );

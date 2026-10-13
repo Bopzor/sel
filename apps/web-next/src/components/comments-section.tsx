@@ -6,12 +6,13 @@ import {
   type CreateCommentBody,
 } from '@sel/shared';
 import { Button, Card, Field, ListItem, RichTextEditor, showToast, Skeleton } from '@sel/ui';
-import { useMutation, useQuery, useQueryClient, useSuspenseQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useController, useForm } from 'react-hook-form';
 
 import { api } from 'src/app/api';
 import { formatMemberName } from 'src/app/format';
 import { queries } from 'src/app/queries';
+import { useSession } from 'src/app/session';
 import { useZodResolver } from 'src/hooks/use-zod-resolver';
 
 import { ApiFailed, QueryResult } from './api-result';
@@ -98,7 +99,7 @@ function CommentItem({ comment }: { comment: Comment }) {
 
 function CommentForm({ entityType, entityId }: CommentSectionProps) {
   const { t } = useLingui();
-  const { data: me } = useSuspenseQuery(queries.session());
+  const me = useSession();
 
   const queryClient = useQueryClient();
 

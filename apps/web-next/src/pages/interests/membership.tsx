@@ -1,13 +1,14 @@
 import { Trans, useLingui } from '@lingui/react/macro';
 import type { AddInterestMemberBody, Interest } from '@sel/shared';
 import { Button, Card, Dialog, showToast } from '@sel/ui';
-import { QueryClient, useMutation, useQueryClient, useSuspenseQuery } from '@tanstack/react-query';
+import { QueryClient, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 import { api } from 'src/app/api';
 import { queries } from 'src/app/queries';
+import { useSession } from 'src/app/session';
 import { FormServerErrorAlert, submitWithMutation, TextAreaField } from 'src/components/fields';
 import { useFormApiError } from 'src/hooks/use-form-api-error';
 import { useZodResolver } from 'src/hooks/use-zod-resolver';
@@ -89,7 +90,7 @@ function JoinForm({ interest, onClose }: { interest: Interest; onClose: () => vo
 }
 
 export function ParticipationCard({ interest }: { interest: Interest }) {
-  const { data: me } = useSuspenseQuery(queries.session());
+  const me = useSession();
   const [editing, setEditing] = useState(false);
 
   const member = interest.members.find(({ id }) => id === me.id);

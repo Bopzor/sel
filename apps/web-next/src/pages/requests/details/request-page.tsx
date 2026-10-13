@@ -2,12 +2,13 @@ import { Plural, Trans } from '@lingui/react/macro';
 import { RequestStatus, type LightMember, type Request } from '@sel/shared';
 import { Button, Card, Skeleton } from '@sel/ui';
 import { defined } from '@sel/utils';
-import { useQuery, useSuspenseQuery } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 import { useParams } from 'react-router';
 
 import { queries } from 'src/app/queries';
 import { routes } from 'src/app/routes';
+import { useSession } from 'src/app/session';
 import { ApiFailed, QueryResult } from 'src/components/api-result';
 import { Bullet } from 'src/components/bullet';
 import { CommentsSection } from 'src/components/comments-section';
@@ -55,7 +56,7 @@ export function RequestPage() {
 
 // From xl, the aside spans both rows, so that the comments follow the message whatever the aside's height.
 function RequestDetails({ request }: { request: Request }) {
-  const { data: me } = useSuspenseQuery(queries.session());
+  const me = useSession();
   const pending = request.status === RequestStatus.pending;
   const isRequester = request.requester.id === me.id;
   const canHelp = request.answers.some(({ member, answer }) => member.id === me.id && answer === 'positive');

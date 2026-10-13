@@ -2,12 +2,13 @@ import { Trans, useLingui } from '@lingui/react/macro';
 import { EventKind, type Event } from '@sel/shared';
 import { Badge, Card, Icon, Skeleton } from '@sel/ui';
 import { defined, isPast } from '@sel/utils';
-import { useQuery, useSuspenseQuery } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router';
 
 import { formatAddressLines } from 'src/app/format';
 import { queries } from 'src/app/queries';
 import { routes } from 'src/app/routes';
+import { useSession } from 'src/app/session';
 import { ApiFailed, QueryResult } from 'src/components/api-result';
 import { CommentsSection } from 'src/components/comments-section';
 import { BackButton } from 'src/components/link';
@@ -50,7 +51,7 @@ export function EventPage() {
 
 // From xl, the aside spans both rows, so that the comments follow the message whatever the aside's height.
 function EventDetails({ event }: { event: Event }) {
-  const { data: me } = useSuspenseQuery(queries.session());
+  const me = useSession();
   const past = event.date !== undefined && isPast(event.date);
   const isOrganizer = event.organizer.id === me.id;
 

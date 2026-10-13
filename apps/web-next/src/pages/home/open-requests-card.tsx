@@ -1,10 +1,11 @@
 import { Plural, Trans } from '@lingui/react/macro';
 import { RequestStatus, type RequestListItem } from '@sel/shared';
 import { Card, Icon, ListItem } from '@sel/ui';
-import { useInfiniteQuery, useSuspenseQuery } from '@tanstack/react-query';
+import { useInfiniteQuery } from '@tanstack/react-query';
 
 import { queries } from 'src/app/queries';
 import { routes } from 'src/app/routes';
+import { useSession } from 'src/app/session';
 import { Bullet } from 'src/components/bullet';
 import { Link } from 'src/components/link';
 import { RelativeDate } from 'src/components/relative-date';
@@ -12,7 +13,7 @@ import { RelativeDate } from 'src/components/relative-date';
 const maxItems = 2;
 
 export function OpenRequestsCard({ className }: { className?: string }) {
-  const { data: me } = useSuspenseQuery(queries.session());
+  const me = useSession();
   const { data } = useInfiniteQuery(
     queries.listRequests({ requesterId: me.id, status: RequestStatus.pending }),
   );

@@ -2,7 +2,7 @@ import { Trans, useLingui } from '@lingui/react/macro';
 import type { UpdateNotificationDeliveryData } from '@sel/shared';
 import { Alert, Button, Card, RadioGroup, showToast, Switch } from '@sel/ui';
 import { entries } from '@sel/utils';
-import { useMutation, useQueryClient, useSuspenseQuery } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useId, useState } from 'react';
 import { Controller, useForm, useWatch } from 'react-hook-form';
 
@@ -11,6 +11,7 @@ import { colorSchemes, getColorScheme, setColorScheme, type ColorScheme } from '
 import { localeNames, setLocale, type Locale } from 'src/app/locale';
 import { getPushPermission, registerDevice, requestPushPermission } from 'src/app/push-notifications';
 import { queries } from 'src/app/queries';
+import { useSession } from 'src/app/session';
 import { demoStorage } from 'src/demo/storage';
 
 export function SettingsPage() {
@@ -33,7 +34,7 @@ export function SettingsPage() {
 
 function NotificationsSection() {
   const { t } = useLingui();
-  const { data: me } = useSuspenseQuery(queries.session());
+  const me = useSession();
   const queryClient = useQueryClient();
 
   const form = useForm({

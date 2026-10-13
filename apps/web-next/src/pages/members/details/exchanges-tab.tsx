@@ -1,12 +1,13 @@
 import { Plural, Trans, useLingui } from '@lingui/react/macro';
 import { TransactionStatus, type Member } from '@sel/shared';
 import { Button, Card, Chip, EmptyState, ListItem, Skeleton } from '@sel/ui';
-import { useInfiniteQuery, useQuery, useSuspenseQuery } from '@tanstack/react-query';
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import clsx from 'clsx';
 import { useId } from 'react';
 import z from 'zod';
 
 import { queries } from 'src/app/queries';
+import { useSession } from 'src/app/session';
 import { Amount } from 'src/components/amount';
 import { ApiFailed, QueryResult } from 'src/components/api-result';
 import { DefinitionItem } from 'src/components/definition-item';
@@ -20,7 +21,7 @@ const filtersSchema = z.object({
 });
 
 export function ExchangesTab({ member }: { member: Member }) {
-  const { data: me } = useSuspenseQuery(queries.session());
+  const me = useSession();
 
   return (
     <div className="stack gap-6 pt-6">
@@ -141,7 +142,7 @@ function PendingTransactions({ member }: { member: Member }) {
 }
 
 function CompletedTransactions({ member }: { member: Member }) {
-  const { data: me } = useSuspenseQuery(queries.session());
+  const me = useSession();
   const isMe = me.id === member.id;
 
   const { filters, setFilters, resetFilters } = useFilters(filtersSchema);

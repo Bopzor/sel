@@ -1,10 +1,9 @@
 import { Trans, useLingui } from '@lingui/react/macro';
 import type { AuthenticatedMember } from '@sel/shared';
 import { LinkButton } from '@sel/ui';
-import { useSuspenseQuery } from '@tanstack/react-query';
 
-import { queries } from 'src/app/queries';
 import { routes } from 'src/app/routes';
+import { useSession } from 'src/app/session';
 import { Amount } from 'src/components/amount';
 import { DefinitionItem } from 'src/components/definition-item';
 import { Link } from 'src/components/link';
@@ -16,7 +15,7 @@ import { IdentitySection } from './identity-section';
 import { ProfileSection } from './profile-section';
 
 export function ProfilePage() {
-  const { data: member } = useSuspenseQuery(queries.session());
+  const member = useSession();
 
   return (
     <div className="stack gap-6">
