@@ -20,6 +20,7 @@ export const createConfig = createFactory<Config>(() => ({
   maintenance: false,
   letsName: '',
   place: '',
+  contactEmail: '',
   currency: '',
   currencyPlural: '',
   logoUrl: '',

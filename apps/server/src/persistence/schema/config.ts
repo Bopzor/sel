@@ -6,6 +6,7 @@ export const config = pgTable('config', {
   id: primaryKey(),
   letsName: varchar('lets_name', { length: 256 }).notNull().default(''),
   place: varchar('place', { length: 256 }).notNull().default(''),
+  contactEmail: varchar('contact_email', { length: 256 }).notNull().default(''),
   logoUrl: varchar('logo_url', { length: 256 }).notNull().default(''),
   primaryColor: varchar('primary_color', { length: 7 }).notNull().default(''),
   accentColor: varchar('accent_color', { length: 7 }).notNull().default(''),

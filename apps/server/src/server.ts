@@ -122,7 +122,15 @@ const configHandler: RequestHandler = async (req, res) => {
   const config = await getLetsConfig();
 
   const result: Config = {
-    ...pick(config, ['maintenance', 'letsName', 'place', 'logoUrl', 'currency', 'currencyPlural']),
+    ...pick(config, [
+      'maintenance',
+      'letsName',
+      'place',
+      'contactEmail',
+      'logoUrl',
+      'currency',
+      'currencyPlural',
+    ]),
     theme: {
       ...pick(config, ['primaryColor', 'accentColor']),
       customCss: config.customCss || undefined,

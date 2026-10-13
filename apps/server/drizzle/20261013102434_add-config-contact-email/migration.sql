@@ -1,0 +1,1 @@
+ALTER TABLE "config" ADD COLUMN "contact_email" varchar(256) DEFAULT '' NOT NULL;

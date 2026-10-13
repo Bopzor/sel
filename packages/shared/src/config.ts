@@ -2,6 +2,7 @@ export type Config = {
   maintenance: boolean;
   letsName: string;
   place: string;
+  contactEmail: string;
   currency: string;
   currencyPlural: string;
   logoUrl: string;
