@@ -32,6 +32,8 @@ import { CreateInformationPage } from './pages/information/create/create-informa
 import { InformationDetailsPage } from './pages/information/details/information-details-page';
 import { EditInformationPage } from './pages/information/edit/edit-information-page';
 import { InformationPage } from './pages/information/list/information-page';
+import { InterestPage } from './pages/interests/interest-page';
+import { InterestsPage } from './pages/interests/interests-page';
 import { MemberPage } from './pages/members/details/member-page';
 import { MembersPage } from './pages/members/list/members-page';
 import { MembersMapPage } from './pages/members/map/members-map-page';
@@ -104,7 +106,8 @@ const authenticatedRoutes: Record<string, React.ComponentType> = {
   [routes.createInformation()]: CreateInformationPage,
   [routes.informationDetails(':informationId')]: InformationDetailsPage,
   [routes.editInformation(':informationId')]: EditInformationPage,
-  [routes.interests()]: PlaceholderPage,
+  [routes.interests()]: InterestsPage,
+  [routes.interest(':interestId')]: InterestPage,
   [routes.documents()]: DocumentsPage,
   [routes.members()]: MembersPage,
   [routes.membersMap()]: MembersMapPage,

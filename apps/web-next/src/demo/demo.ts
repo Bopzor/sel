@@ -8,6 +8,7 @@ import type {
   File,
   LightMember,
   Member,
+  MemberInterest,
   Message,
   RequestStatus,
   Transaction,
@@ -31,13 +32,16 @@ export declare namespace demo {
     events: Event[];
     eventParticipations: EventParticipation[];
     information: Information[];
+    interests: Interest[];
+    memberInterests: MemberInterest[];
     comments: Comment[];
     transactions: Transaction[];
     files: File[];
     documents: DocumentsGroup[];
   };
 
-  type Member = AuthenticatedMember;
+  // The interests are found in State.memberInterests.
+  type Member = Omit<AuthenticatedMember, 'interests'>;
 
   type Request = {
     id: string;
@@ -83,6 +87,21 @@ export declare namespace demo {
     /** Published by the LETS when unset. */
     authorId?: string;
     publishedAt: string;
+  };
+
+  type Interest = {
+    id: string;
+    label: string;
+    description: string;
+    /** The name of the file. */
+    image?: string;
+  };
+
+  type MemberInterest = {
+    id: string;
+    interestId: string;
+    memberId: string;
+    description?: string;
   };
 
   type Comment = {
@@ -180,6 +199,24 @@ export const demo = {
   findMember,
 
   serializeLightMember,
+
+  serializeMemberInterests: (state: demo.State, memberId: string): MemberInterest[] => {
+    return state.memberInterests
+      .filter((memberInterest) => memberInterest.memberId === memberId)
+      .map((memberInterest) => {
+        const interest =
+          state.interests.find(({ id }) => id === memberInterest.interestId) ?? notFound('Interest');
+
+        return {
+          id: memberInterest.id,
+          interestId: interest.id,
+          label: interest.label,
+          description: memberInterest.description,
+          image: interest.image,
+        };
+      })
+      .toSorted((a, b) => a.label.localeCompare(b.label));
+  },
 
   serializeMemberContact: (member: demo.Member): Pick<Member, 'email' | 'phoneNumber'> => {
     return {

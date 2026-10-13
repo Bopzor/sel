@@ -65,7 +65,10 @@ describe('member overview', () => {
 
     expect(cooking).toHaveTextContent('Cooking');
     expect(cooking).toHaveTextContent('In common');
-    expect(gardening).toHaveTextContent('Gardening');
+    expect(within(gardening!).getByRole('link', { name: 'Gardening' })).toHaveAttribute(
+      'href',
+      routes.interest('gardening'),
+    );
     expect(gardening).toHaveTextContent('Vegetables');
     expect(gardening).not.toHaveTextContent('In common');
     expect(within(interests).queryByRole('button', { name: 'See more' })).not.toBeInTheDocument();
@@ -101,7 +104,7 @@ describe('member overview', () => {
     renderPage(routes.member('claire'));
 
     expect(await screen.findByText("Claire hasn't written a bio yet.")).toBeInTheDocument();
-    expect(screen.getByText("Claire hasn't shared any interest yet.")).toBeInTheDocument();
+    expect(screen.getByText("Claire hasn't chosen any interest yet.")).toBeInTheDocument();
     expect(screen.queryByRole('link', { name: 'Write my bio' })).not.toBeInTheDocument();
   });
 
@@ -114,7 +117,7 @@ describe('member overview', () => {
     const interests = screen.getByRole('region', { name: 'Interests' });
 
     expect(about).toHaveTextContent("You haven't written a bio yet.");
-    expect(interests).toHaveTextContent("You haven't shared any interest yet.");
+    expect(interests).toHaveTextContent("You haven't chosen any interest yet.");
     expect(within(about).getByRole('link', { name: 'Write my bio' })).toHaveAttribute(
       'href',
       routes.profile(),

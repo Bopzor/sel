@@ -28,7 +28,6 @@
       "phoneNumberVisible": true,
       "membershipStartDate": "2024-04-25T12:00:00.000Z",
       "balance": 25,
-      "interests": [],
       "committeeMember": true,
       "onboardingCompleted": true,
       "notificationDelivery": {
@@ -56,7 +55,6 @@
       "phoneNumberVisible": true,
       "membershipStartDate": "2024-11-11T12:00:00.000Z",
       "balance": -10,
-      "interests": [],
       "committeeMember": false,
       "onboardingCompleted": true,
       "notificationDelivery": {
@@ -84,7 +82,6 @@
       "phoneNumberVisible": false,
       "membershipStartDate": "2025-08-18T12:00:00.000Z",
       "balance": 25,
-      "interests": [],
       "committeeMember": false,
       "onboardingCompleted": true,
       "notificationDelivery": {
@@ -111,7 +108,6 @@
       "phoneNumberVisible": true,
       "membershipStartDate": "2025-09-27T12:00:00.000Z",
       "balance": -40,
-      "interests": [],
       "committeeMember": false,
       "onboardingCompleted": true,
       "notificationDelivery": {
@@ -139,7 +135,6 @@
       "phoneNumberVisible": false,
       "membershipStartDate": "2025-12-16T12:00:00.000Z",
       "balance": -20,
-      "interests": [],
       "committeeMember": false,
       "onboardingCompleted": true,
       "notificationDelivery": {
@@ -165,7 +160,6 @@
       "phoneNumberVisible": false,
       "membershipStartDate": "2026-05-15T12:00:00.000Z",
       "balance": -30,
-      "interests": [],
       "committeeMember": false,
       "onboardingCompleted": true,
       "notificationDelivery": {
@@ -184,7 +178,6 @@
       "phoneNumberVisible": true,
       "membershipStartDate": "2025-05-10T12:00:00.000Z",
       "balance": 25,
-      "interests": [],
       "committeeMember": false,
       "onboardingCompleted": true,
       "notificationDelivery": {
@@ -211,7 +204,6 @@
       "phoneNumberVisible": false,
       "membershipStartDate": "2025-02-09T12:00:00.000Z",
       "balance": 25,
-      "interests": [],
       "committeeMember": false,
       "onboardingCompleted": true,
       "notificationDelivery": {
@@ -545,6 +537,78 @@
       "name": "avatar-antoine.avif",
       "originalName": "Antoine.avif",
       "mimetype": "image/avif"
+    },
+    {
+      "id": "hbrpoi",
+      "name": "interest-cuisine.svg",
+      "originalName": "Cuisine.svg",
+      "mimetype": "image/svg+xml"
+    },
+    {
+      "id": "fno6b9",
+      "name": "interest-couture.svg",
+      "originalName": "Couture et tricot.svg",
+      "mimetype": "image/svg+xml"
+    },
+    {
+      "id": "ak1vrj",
+      "name": "interest-bricolage.svg",
+      "originalName": "Bricolage.svg",
+      "mimetype": "image/svg+xml"
+    },
+    {
+      "id": "wwqc38",
+      "name": "interest-jardinage.svg",
+      "originalName": "Jardinage.svg",
+      "mimetype": "image/svg+xml"
+    },
+    {
+      "id": "mecosf",
+      "name": "interest-randonnee.svg",
+      "originalName": "Randonnée.svg",
+      "mimetype": "image/svg+xml"
+    },
+    {
+      "id": "kxwnre",
+      "name": "interest-langues.svg",
+      "originalName": "Langues.svg",
+      "mimetype": "image/svg+xml"
+    },
+    {
+      "id": "r9oudo",
+      "name": "interest-musique.svg",
+      "originalName": "Musique.svg",
+      "mimetype": "image/svg+xml"
+    },
+    {
+      "id": "un5z3j",
+      "name": "interest-photo.svg",
+      "originalName": "Photographie.svg",
+      "mimetype": "image/svg+xml"
+    },
+    {
+      "id": "1zxoi6",
+      "name": "interest-lecture.svg",
+      "originalName": "Lecture.svg",
+      "mimetype": "image/svg+xml"
+    },
+    {
+      "id": "1eyy37",
+      "name": "interest-velo.svg",
+      "originalName": "Vélo.svg",
+      "mimetype": "image/svg+xml"
+    },
+    {
+      "id": "vhs1k3",
+      "name": "interest-jeux.svg",
+      "originalName": "Jeux de société.svg",
+      "mimetype": "image/svg+xml"
+    },
+    {
+      "id": "t6mjxk",
+      "name": "interest-informatique.svg",
+      "originalName": "Informatique.svg",
+      "mimetype": "image/svg+xml"
     }
   ],
   "transactions": [
@@ -942,6 +1006,231 @@
       },
       "publishedAt": "2026-08-23T10:00:00.000Z",
       "authorId": "28xvgl"
+    }
+  ],
+  "interests": [
+    {
+      "id": "g8f1cb",
+      "label": "Cuisine",
+      "description": "Recettes, conserves, repas partagés et astuces contre le gaspillage.",
+      "image": "interest-cuisine.svg"
+    },
+    {
+      "id": "m80o2r",
+      "label": "Couture et tricot",
+      "description": "Retouches, tricot, patrons à échanger et machines à coudre à prêter.",
+      "image": "interest-couture.svg"
+    },
+    {
+      "id": "nvgfyg",
+      "label": "Bricolage",
+      "description": "Petits travaux, réparations et prêt d'outils entre voisins.",
+      "image": "interest-bricolage.svg"
+    },
+    {
+      "id": "hyf9sx",
+      "label": "Jardinage",
+      "description": "Potagers, balcons fleuris, semis, boutures et compost.",
+      "image": "interest-jardinage.svg"
+    },
+    {
+      "id": "ogyr3x",
+      "label": "Randonnée",
+      "description": "Balades autour de Lyon, de la petite boucle à la journée entière.",
+      "image": "interest-randonnee.svg"
+    },
+    {
+      "id": "k8pk3y",
+      "label": "Langues",
+      "description": "Pratiquer une langue étrangère, ou faire découvrir la sienne.",
+      "image": "interest-langues.svg"
+    },
+    {
+      "id": "cuzren",
+      "label": "Musique",
+      "description": "Jouer ensemble, prêter des instruments, partager des cours.",
+      "image": "interest-musique.svg"
+    },
+    {
+      "id": "qip98q",
+      "label": "Photographie",
+      "description": "Sorties photo, conseils de retouche et de matériel.",
+      "image": "interest-photo.svg"
+    },
+    {
+      "id": "5fdhjk",
+      "label": "Lecture",
+      "description": "Échanges de livres et cercle de lecture une fois par mois.",
+      "image": "interest-lecture.svg"
+    },
+    {
+      "id": "q9ah8r",
+      "label": "Vélo",
+      "description": "Balades à vélo, entretien et petites réparations.",
+      "image": "interest-velo.svg"
+    },
+    {
+      "id": "aq6l6g",
+      "label": "Jeux de société",
+      "description": "Soirées jeux et ludothèque partagée.",
+      "image": "interest-jeux.svg"
+    },
+    {
+      "id": "87au5b",
+      "label": "Informatique",
+      "description": "Aide avec les téléphones, les ordinateurs et les démarches en ligne.",
+      "image": "interest-informatique.svg"
+    }
+  ],
+  "memberInterests": [
+    {
+      "id": "hxtpdp",
+      "interestId": "hyf9sx",
+      "memberId": "su1ful",
+      "description": "Petit balcon, mais je fais pousser tomates et aromatiques. Je partage volontiers mes semis."
+    },
+    {
+      "id": "ff5e8i",
+      "interestId": "5fdhjk",
+      "memberId": "su1ful"
+    },
+    {
+      "id": "i49kq7",
+      "interestId": "g8f1cb",
+      "memberId": "su1ful",
+      "description": "J'adore cuisiner pour beaucoup de monde."
+    },
+    {
+      "id": "1n8mtz",
+      "interestId": "nvgfyg",
+      "memberId": "l5lvgz",
+      "description": "J'ai une perceuse, une ponceuse et une échelle à prêter."
+    },
+    {
+      "id": "x272hp",
+      "interestId": "q9ah8r",
+      "memberId": "l5lvgz",
+      "description": "Je peux régler freins et dérailleurs."
+    },
+    {
+      "id": "oevb9o",
+      "interestId": "87au5b",
+      "memberId": "l5lvgz"
+    },
+    {
+      "id": "oaedoe",
+      "interestId": "hyf9sx",
+      "memberId": "ys2oce",
+      "description": "Jardin partagé à la Croix-Rousse, toujours preneuse de coups de main."
+    },
+    {
+      "id": "cve6pr",
+      "interestId": "m80o2r",
+      "memberId": "ys2oce",
+      "description": "Je fais des ourlets et des petites retouches."
+    },
+    {
+      "id": "5n8i4p",
+      "interestId": "g8f1cb",
+      "memberId": "ys2oce"
+    },
+    {
+      "id": "40mgg1",
+      "interestId": "cuzren",
+      "memberId": "0nkkus",
+      "description": "Guitariste depuis vingt ans, je donne des cours aux débutants."
+    },
+    {
+      "id": "w103dg",
+      "interestId": "k8pk3y",
+      "memberId": "0nkkus",
+      "description": "Anglais et espagnol, contre un peu d'italien ?"
+    },
+    {
+      "id": "dzvgpm",
+      "interestId": "aq6l6g",
+      "memberId": "0nkkus",
+      "description": "Une centaine de jeux à la maison, je prête volontiers."
+    },
+    {
+      "id": "m82i1l",
+      "interestId": "ogyr3x",
+      "memberId": "q8nvt9",
+      "description": "Sorties le dimanche dans les monts du Lyonnais."
+    },
+    {
+      "id": "r3pe29",
+      "interestId": "qip98q",
+      "memberId": "q8nvt9",
+      "description": "Débutante, j'aimerais apprendre à me servir de mon reflex."
+    },
+    {
+      "id": "gd8afp",
+      "interestId": "5fdhjk",
+      "memberId": "q8nvt9",
+      "description": "Surtout des romans policiers."
+    },
+    {
+      "id": "k054nz",
+      "interestId": "hyf9sx",
+      "memberId": "q8nvt9"
+    },
+    {
+      "id": "dkyayq",
+      "interestId": "nvgfyg",
+      "memberId": "odyzna",
+      "description": "Plomberie et électricité de base."
+    },
+    {
+      "id": "3s195j",
+      "interestId": "87au5b",
+      "memberId": "odyzna",
+      "description": "Je peux aider à installer un ordinateur ou une imprimante."
+    },
+    {
+      "id": "msnd8d",
+      "interestId": "aq6l6g",
+      "memberId": "odyzna"
+    },
+    {
+      "id": "udd467",
+      "interestId": "m80o2r",
+      "memberId": "28xvgl",
+      "description": "Je tricote, et je peux montrer les bases."
+    },
+    {
+      "id": "kd6fle",
+      "interestId": "g8f1cb",
+      "memberId": "28xvgl",
+      "description": "Spécialités libanaises, je partage mes recettes."
+    },
+    {
+      "id": "epzhpc",
+      "interestId": "k8pk3y",
+      "memberId": "28xvgl",
+      "description": "Arabe et français."
+    },
+    {
+      "id": "f07uqn",
+      "interestId": "ogyr3x",
+      "memberId": "02txbk"
+    },
+    {
+      "id": "upqzit",
+      "interestId": "q9ah8r",
+      "memberId": "02txbk",
+      "description": "Je vais au travail à vélo tous les jours, toujours partant pour une balade le week-end."
+    },
+    {
+      "id": "3uea3g",
+      "interestId": "qip98q",
+      "memberId": "02txbk",
+      "description": "Photographe amateur, je prête un objectif grand angle."
+    },
+    {
+      "id": "e8n6qi",
+      "interestId": "cuzren",
+      "memberId": "02txbk"
     }
   ],
   "documents": [

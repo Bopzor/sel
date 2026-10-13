@@ -27,7 +27,9 @@ export const demoSessionRoutes = [
     return demo.noContent();
   }),
 
-  demo.route('GET', '/session/member', ({ member }) => demo.json(member())),
+  demo.route('GET', '/session/member', ({ state, member }) => {
+    return demo.json({ ...member(), interests: demo.serializeMemberInterests(state, member().id) });
+  }),
 
   demo.route('DELETE', '/session', ({ state }) => {
     state.sessionMemberId = undefined;

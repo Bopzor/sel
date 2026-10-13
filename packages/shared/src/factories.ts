@@ -9,6 +9,7 @@ import { type Document } from './documents';
 import { EventKind, type Event, type EventsListItem } from './event';
 import { type FeedEvent, type FeedInformation, type FeedRequest } from './feed';
 import { type Information } from './information';
+import { type Interest } from './interest';
 import { type LightMember, type Member, MemberStatus } from './member';
 import { type MemberActivityItem } from './member-activity';
 import { type Attachment, type Message } from './message';
@@ -154,6 +155,14 @@ export const createInformation = createFactory<Information>(() => ({
   title: '',
   message: createMessage(),
   publishedAt: createDate().toISOString(),
+}));
+
+export const createInterest = createFactory<Interest>(() => ({
+  id: createId(),
+  label: '',
+  description: '',
+  image: '',
+  members: [],
 }));
 
 export const createCommentAuthor = createFactory<CommentAuthor>(() => ({

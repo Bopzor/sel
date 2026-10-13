@@ -8,6 +8,7 @@ import {
   type EventsListItem,
   type FeedItem,
   type Information,
+  type Interest,
   type ListEventsQuery,
   type ListInformationQuery,
   type ListMemberActivityQuery,
@@ -170,6 +171,13 @@ export const queries = {
     return queryOptions({
       queryKey: ['information', { id: informationId }],
       queryFn: () => api<Information>('GET', `/information/${informationId}`),
+    });
+  },
+
+  listInterests: () => {
+    return queryOptions({
+      queryKey: ['interests'],
+      queryFn: () => api<Interest[]>('GET', '/interests'),
     });
   },
 

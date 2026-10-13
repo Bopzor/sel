@@ -9,6 +9,7 @@ import { demoEventRoutes } from './handlers/events';
 import { demoFeedRoutes } from './handlers/feed';
 import { demoFileRoutes } from './handlers/files';
 import { demoInformationRoutes } from './handlers/information';
+import { demoInterestRoutes } from './handlers/interests';
 import { demoMemberRoutes } from './handlers/members';
 import { demoRequestRoutes } from './handlers/requests';
 import { demoSessionRoutes } from './handlers/session';
@@ -27,6 +28,7 @@ const routes = [
   ...demoRequestRoutes,
   ...demoEventRoutes,
   ...demoInformationRoutes,
+  ...demoInterestRoutes,
   ...demoDocumentRoutes,
   ...demoMemberRoutes,
   ...demoTransactionRoutes,

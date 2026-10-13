@@ -27,11 +27,11 @@ export const demoMemberRoutes = [
 
     const members = sort ? state.members.toSorted(compare[sort]) : state.members;
 
-    return demo.json(members.map(serializeMember));
+    return demo.json(members.map((member) => serializeMember(state, member)));
   }),
 
   demo.route('GET', '/members/:memberId', ({ state, params }) => {
-    return demo.json(serializeMember(demo.findMember(state, params.memberId ?? '')));
+    return demo.json(serializeMember(state, demo.findMember(state, params.memberId ?? '')));
   }),
 
   demo.route('GET', '/members/:memberId/transactions', ({ state, params, query }) => {
@@ -139,7 +139,7 @@ export const demoMemberRoutes = [
   }),
 ];
 
-function serializeMember(member: demo.Member): Member {
+function serializeMember(state: demo.State, member: demo.Member): Member {
   return {
     ...demo.serializeLightMember(member),
     ...demo.serializeMemberContact(member),
@@ -147,7 +147,7 @@ function serializeMember(member: demo.Member): Member {
     address: member.address,
     membershipStartDate: member.membershipStartDate,
     balance: member.balance,
-    interests: member.interests,
+    interests: demo.serializeMemberInterests(state, member.id),
     committeeMember: member.committeeMember,
   };
 }

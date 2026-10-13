@@ -7,6 +7,17 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: fr\n"
 
+#. placeholder {0}: interest.label
+#: src/pages/interests/membership.tsx
+msgid "“{0}” added to your interests"
+msgstr "« {0} » ajouté à vos centres d’intérêt"
+
+#. placeholder {0}: members.length
+#: src/pages/interests/interest-page.tsx
+#: src/pages/interests/interests-page.tsx
+msgid "{0, plural, one {# member} other {# members}}"
+msgstr "{0, plural, one {# membre} other {# membres}}"
+
 #. placeholder {0}: coming.length
 #: src/pages/events/details/participants.tsx
 msgid "{0, plural, one {# participant} other {# participants}}"
@@ -54,8 +65,8 @@ msgid "{name} doesn't need to confirm: the exchange is completed right away."
 msgstr "{name} n’a pas besoin de confirmer : l’échange est conclu immédiatement."
 
 #: src/pages/members/details/overview-tab.tsx
-msgid "{name} hasn't shared any interest yet."
-msgstr "{name} n’a pas encore partagé de centre d’intérêt."
+msgid "{name} hasn't chosen any interest yet."
+msgstr "{name} n’a pas encore choisi de centre d’intérêt."
 
 #: src/pages/members/details/overview-tab.tsx
 msgid "{name} hasn't written a bio yet."
@@ -155,6 +166,19 @@ msgstr "Accepter"
 msgid "Activity"
 msgstr "Activité"
 
+#: src/pages/interests/membership.tsx
+msgid "Add"
+msgstr "Ajouter"
+
+#. placeholder {0}: interest.label
+#: src/pages/interests/membership.tsx
+msgid "Add “{0}” to your interests"
+msgstr "Ajouter « {0} » à vos centres d’intérêt"
+
+#: src/pages/interests/membership.tsx
+msgid "Add a note"
+msgstr "Ajouter une note"
+
 #: src/components/attachments.tsx
 msgid "Add files"
 msgstr "Ajouter des fichiers"
@@ -162,6 +186,10 @@ msgstr "Ajouter des fichiers"
 #: src/pages/members/details/member-sidebar.tsx
 msgid "Add to my contacts"
 msgstr "Ajouter à mes contacts"
+
+#: src/pages/interests/membership.tsx
+msgid "Add to my interests"
+msgstr "Ajouter à mes centres d’intérêt"
 
 #: src/pages/members/details/member-sidebar.tsx
 #: src/pages/profile/address-section.tsx
@@ -320,6 +348,7 @@ msgstr "Ne peut pas aider"
 #: src/components/transaction-dialog.tsx
 #: src/pages/events/details/notify-dialog.tsx
 #: src/pages/events/event-form.tsx
+#: src/pages/interests/membership.tsx
 #: src/pages/profile/profile-section.tsx
 msgid "Cancel"
 msgstr "Annuler"
@@ -359,6 +388,10 @@ msgstr "Vérifiez votre connexion internet, puis réessayez."
 msgid "Choose an address from the list below"
 msgstr "Choisissez une adresse dans la liste ci-dessous"
 
+#: src/pages/interests/interests-page.tsx
+msgid "Choose your interests to meet the members who share them."
+msgstr "Choisissez vos centres d’intérêt pour rencontrer les membres qui les partagent."
+
 #: src/components/address-form-dialog.tsx
 #: src/pages/profile/address-section.tsx
 msgid "City"
@@ -377,6 +410,7 @@ msgstr "Effacer les filtres"
 #: src/components/toaster.tsx
 #: src/pages/events/details/notify-dialog.tsx
 #: src/pages/home/push-notifications-prompt.tsx
+#: src/pages/interests/membership.tsx
 #: src/pages/requests/details/requester-actions.tsx
 msgid "Close"
 msgstr "Fermer"
@@ -515,6 +549,10 @@ msgstr "Documents"
 #: src/pages/requests/details/requester-actions.tsx
 msgid "Edit"
 msgstr "Modifier"
+
+#: src/pages/interests/membership.tsx
+msgid "Edit my note"
+msgstr "Modifier ma note"
 
 #: src/pages/members/details/member-sidebar.tsx
 msgid "Edit my profile"
@@ -740,6 +778,10 @@ msgstr "Si cette adresse correspond à un compte du SEL, un email contenant un c
 msgid "In common"
 msgstr "En commun"
 
+#: src/pages/interests/membership.tsx
+msgid "In your interests"
+msgstr "Dans vos centres d’intérêt"
+
 #: src/app/routes.ts
 #: src/pages/information/create/create-information-page.tsx
 #: src/pages/information/details/information-details-page.tsx
@@ -770,7 +812,13 @@ msgstr "Information introuvable"
 msgid "Information published"
 msgstr "Information publiée"
 
+#: src/pages/interests/interest-page.tsx
+msgid "Interest not found"
+msgstr "Centre d’intérêt introuvable"
+
 #: src/app/routes.ts
+#: src/pages/interests/interest-page.tsx
+#: src/pages/interests/interests-page.tsx
 #: src/pages/members/details/overview-tab.tsx
 msgid "Interests"
 msgstr "Centres d’intérêt"
@@ -891,6 +939,7 @@ msgstr "Membre depuis {since} ({duration})"
 
 #: src/app/routes.ts
 #: src/components/transaction-dialog.tsx
+#: src/pages/interests/interest-page.tsx
 #: src/pages/members/details/member-page.tsx
 #: src/pages/members/list/members-page.tsx
 #: src/pages/members/map/members-map-page.tsx
@@ -936,6 +985,10 @@ msgstr "Mes événements"
 #: src/pages/information/list/information-filters.tsx
 msgid "My information"
 msgstr "Mes informations"
+
+#: src/pages/interests/interests-page.tsx
+msgid "My interests"
+msgstr "Mes centres d’intérêt"
 
 #: src/pages/requests/list/requests-filters.tsx
 msgid "My requests"
@@ -1025,6 +1078,14 @@ msgstr "Aucune information"
 msgid "No information matches these filters"
 msgstr "Aucune information ne correspond à ces filtres"
 
+#: src/pages/interests/interests-page.tsx
+msgid "No interests yet"
+msgstr "Aucun centre d’intérêt pour l’instant"
+
+#: src/pages/interests/membership.tsx
+msgid "No longer interested"
+msgstr "Ça ne m’intéresse plus"
+
 #: src/pages/members/list/members-list.tsx
 msgid "No member matches these filters"
 msgstr "Aucun membre ne correspond à ces filtres"
@@ -1037,9 +1098,17 @@ msgstr "Aucun membre ne correspond à cette recherche"
 msgid "No members"
 msgstr "Aucun membre"
 
+#: src/pages/interests/interests-page.tsx
+msgid "No members yet"
+msgstr "Aucun membre pour l’instant"
+
 #: src/pages/requests/details/request-answers.tsx
 msgid "No one has answered yet."
 msgstr "Personne n’a encore répondu."
+
+#: src/pages/interests/interest-page.tsx
+msgid "No one has chosen this interest yet."
+msgstr "Personne n’a encore choisi ce centre d’intérêt."
 
 #: src/pages/events/details/participants.tsx
 msgid "No one has said they're coming yet."
@@ -1064,6 +1133,10 @@ msgstr "Aucune demande"
 #: src/pages/events/list/events-list.tsx
 msgid "No upcoming events"
 msgstr "Aucun événement à venir"
+
+#: src/pages/interests/membership.tsx
+msgid "Note (optional)"
+msgstr "Note (facultatif)"
 
 #: src/pages/home/feed.tsx
 msgid "Nothing published yet"
@@ -1376,6 +1449,7 @@ msgid "Same as the device"
 msgstr "Comme l’appareil"
 
 #: src/pages/events/event-form.tsx
+#: src/pages/interests/membership.tsx
 #: src/pages/profile/profile-section.tsx
 msgid "Save"
 msgstr "Enregistrer"
@@ -1434,6 +1508,11 @@ msgstr "Voir les événements"
 msgctxt "information list"
 msgid "See all information"
 msgstr "Voir les informations"
+
+#: src/pages/interests/interest-page.tsx
+#: src/pages/interests/interests-page.tsx
+msgid "See all interests"
+msgstr "Voir tous les centres d’intérêt"
 
 #: src/pages/members/details/former-member.tsx
 #: src/pages/members/details/member-not-found.tsx
@@ -1651,6 +1730,10 @@ msgstr "L’échange n’a pas pu être mis à jour"
 msgid "The information couldn't be published"
 msgstr "L’information n’a pas pu être publiée"
 
+#: src/pages/interests/interests-page.tsx
+msgid "The interests set up by the LETS will appear here."
+msgstr "Les centres d’intérêt proposés par le SEL apparaîtront ici."
+
 #: src/pages/events/event-not-found.tsx
 msgid "The link may be wrong, or the event may no longer exist."
 msgstr "Le lien est peut-être erroné, ou l’événement n’existe plus."
@@ -1658,6 +1741,10 @@ msgstr "Le lien est peut-être erroné, ou l’événement n’existe plus."
 #: src/pages/information/information-not-found.tsx
 msgid "The link may be wrong, or the information may no longer exist."
 msgstr "Le lien est peut-être erroné, ou l’information n’existe plus."
+
+#: src/pages/interests/interest-page.tsx
+msgid "The link may be wrong, or the interest may no longer exist."
+msgstr "Le lien est peut-être erroné, ou le centre d’intérêt n’existe plus."
 
 #: src/pages/error-page.tsx
 msgid "The link may be wrong, or the page may no longer exist."
@@ -1702,6 +1789,10 @@ msgstr "La personne qui organise saura qui attendre."
 #: src/pages/events/details/notify-dialog.tsx
 msgid "The other members"
 msgstr "Les autres membres"
+
+#: src/pages/interests/membership.tsx
+msgid "The other members will see you in this interest, with your note."
+msgstr "Les autres membres vous verront dans ce centre d’intérêt, avec votre note."
 
 #: src/pages/events/details/notify-dialog.tsx
 msgid "The participants ({participantsCount})"
@@ -1813,6 +1904,14 @@ msgstr "Ce champ doit faire au plus {0} caractères"
 msgid "This information can't be edited"
 msgstr "Cette information ne peut pas être modifiée"
 
+#: src/pages/interests/membership.tsx
+msgid "This interest couldn't be added"
+msgstr "Ce centre d’intérêt n’a pas pu être ajouté"
+
+#: src/pages/interests/membership.tsx
+msgid "This interest couldn't be removed"
+msgstr "Ce centre d’intérêt n’a pas pu être retiré"
+
 #: src/pages/members/details/former-member.tsx
 msgid "This person is no longer a member"
 msgstr "Cette personne n’est plus membre"
@@ -1886,6 +1985,10 @@ msgctxt "information list"
 msgid "Unable to load information"
 msgstr "Impossible de charger les informations"
 
+#: src/pages/interests/interests-page.tsx
+msgid "Unable to load interests"
+msgstr "Impossible de charger les centres d’intérêt"
+
 #: src/components/transaction-dialog.tsx
 #: src/pages/members/list/members-list.tsx
 #: src/pages/members/map/members-map-page.tsx
@@ -1923,6 +2026,10 @@ msgstr "Impossible de charger le résumé des échanges"
 #: src/pages/information/edit/edit-information-page.tsx
 msgid "Unable to load the information"
 msgstr "Impossible de charger l’information"
+
+#: src/pages/interests/interest-page.tsx
+msgid "Unable to load the interest"
+msgstr "Impossible de charger le centre d’intérêt"
 
 #: src/pages/home/feed.tsx
 msgid "Unable to load the latest news"
@@ -1974,6 +2081,10 @@ msgstr "En attente de la confirmation de {payer}"
 msgid "What do you want to do?"
 msgstr "Que voulez-vous faire ?"
 
+#: src/pages/interests/membership.tsx
+msgid "What you can share, what you're looking for, your level…"
+msgstr "Ce que vous pouvez partager, ce que vous recherchez, votre niveau…"
+
 #: src/pages/requests/request-form.tsx
 msgid "What you need, when, and where"
 msgstr "Ce dont vous avez besoin, quand et où"
@@ -2023,6 +2134,14 @@ msgstr "Vous pourrez toujours en envoyer après l’avoir clôturée."
 msgid "You can't help"
 msgstr "Vous ne pouvez pas aider"
 
+#: src/pages/interests/interests-page.tsx
+msgid "You haven't chosen any interest yet"
+msgstr "Vous n’avez encore choisi aucun centre d’intérêt"
+
+#: src/pages/members/details/overview-tab.tsx
+msgid "You haven't chosen any interest yet. <0>Browse interests</0>"
+msgstr "Vous n’avez encore choisi aucun centre d’intérêt. <0>Parcourir les centres d’intérêt</0>"
+
 #: src/pages/profile/address-section.tsx
 msgid "You haven't entered your address yet."
 msgstr "Vous n’avez pas encore renseigné votre adresse."
@@ -2032,12 +2151,12 @@ msgid "You haven't sent any <0/> for this request"
 msgstr "Vous n’avez pas envoyé de <0/> pour cette demande"
 
 #: src/pages/members/details/overview-tab.tsx
-msgid "You haven't shared any interest yet. <0>Browse interests</0>"
-msgstr "Vous n’avez pas encore partagé de centre d’intérêt. <0>Parcourir les centres d’intérêt</0>"
-
-#: src/pages/members/details/overview-tab.tsx
 msgid "You haven't written a bio yet. <0>Write my bio</0>"
 msgstr "Vous n’avez pas encore écrit de présentation. <0>Écrire ma présentation</0>"
+
+#: src/pages/interests/membership.tsx
+msgid "You haven't written a note."
+msgstr "Vous n’avez pas écrit de note."
 
 #: src/pages/profile/bio-section.tsx
 msgid "You haven't written anything about yourself yet."
@@ -2094,6 +2213,18 @@ msgstr "Vos échanges apparaîtront ici."
 #: src/pages/information/details/information-details-page.tsx
 msgid "Your information"
 msgstr "Votre information"
+
+#: src/pages/interests/membership.tsx
+msgid "Your note"
+msgstr "Votre note"
+
+#: src/pages/interests/membership.tsx
+msgid "Your note couldn't be saved"
+msgstr "Votre note n’a pas pu être enregistrée"
+
+#: src/pages/interests/membership.tsx
+msgid "Your note was saved"
+msgstr "Votre note a été enregistrée"
 
 #: src/pages/home/open-requests-card.tsx
 msgid "Your open requests"

@@ -255,11 +255,11 @@ function NoInterests({ member, isMe }: { member: Member; isMe: boolean }) {
     <p className="text-body-sm text-muted">
       {isMe ? (
         <Trans>
-          You haven't shared any interest yet.{' '}
+          You haven't chosen any interest yet.{' '}
           <PromptLink href={routes.interests()}>Browse interests</PromptLink>
         </Trans>
       ) : (
-        <Trans>{name} hasn't shared any interest yet.</Trans>
+        <Trans>{name} hasn't chosen any interest yet.</Trans>
       )}
     </p>
   );
@@ -273,7 +273,11 @@ function InterestCard({ interest, common }: { interest: MemberInterest; common: 
       )}
 
       <Card.Header compact className="mt-5 mb-3">
-        <Card.Title className="text-body-strong">{interest.label}</Card.Title>
+        <Card.Title className="text-body-strong">
+          <Card.Link Link={Link} href={routes.interest(interest.interestId)}>
+            {interest.label}
+          </Card.Link>
+        </Card.Title>
         {common && (
           <Card.Action>
             <Badge tone="primary">
