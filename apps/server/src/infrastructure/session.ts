@@ -2,7 +2,7 @@ import { AsyncLocalStorage } from 'node:async_hooks';
 
 import { MemberRole } from '@sel/shared';
 import { defined } from '@sel/utils';
-import { RequestHandler } from 'express';
+import { NextFunction } from 'express';
 
 import { Member } from 'src/modules/member/member.entities';
 
@@ -22,8 +22,8 @@ export function getAuthenticatedMember() {
   return defined(getAuthenticatedMemberUnsafe(), 'No authenticated member in execution context');
 }
 
-export function hasRoles(roles: MemberRole[]): RequestHandler {
-  return (req, res, next) => {
+export function hasRoles(roles: MemberRole[]) {
+  return (req: unknown, res: unknown, next: NextFunction) => {
     const member = getAuthenticatedMemberUnsafe();
 
     if (!member) {

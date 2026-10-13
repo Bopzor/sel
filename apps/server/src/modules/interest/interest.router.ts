@@ -3,7 +3,7 @@ import express from 'express';
 
 import { container } from 'src/infrastructure/container';
 import { HttpStatus } from 'src/infrastructure/http';
-import { getAuthenticatedMember } from 'src/infrastructure/session';
+import { getAuthenticatedMember, hasRoles } from 'src/infrastructure/session';
 import { db } from 'src/persistence';
 import { TOKENS } from 'src/tokens';
 
@@ -19,6 +19,8 @@ import { updateInterest } from './domain/update-interest.command';
 import { Interest, MemberInterest } from './interest.entities';
 
 export const router = express.Router();
+
+const isAdmin = hasRoles([shared.MemberRole.admin]);
 
 router.get('/', async (req, res) => {
   const interests = await db.query.interests.findMany({
@@ -36,7 +38,7 @@ router.get('/', async (req, res) => {
   res.json(interests.map(serializeInterest));
 });
 
-router.post('/', async (req, res) => {
+router.post('/', isAdmin, async (req, res) => {
   const interestId = container.resolve(TOKENS.generator).id();
   const { label, description, imageId } = shared.createInterestBodySchema.parse(req.body);
 
@@ -50,7 +52,7 @@ router.post('/', async (req, res) => {
   res.status(HttpStatus.created).send(interestId);
 });
 
-router.put('/:interestId', async (req, res) => {
+router.put('/:interestId', isAdmin, async (req, res) => {
   const interestId = req.params.interestId;
   const { label, description, imageId } = shared.updateInterestBodySchema.parse(req.body);
 

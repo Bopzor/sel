@@ -83,6 +83,16 @@ describe('interest', () => {
     );
   });
 
+  it('does not remove a member who did not join the interest', async () => {
+    await persist.interest({ id: 'interestId', imageId: 'imageId' });
+
+    await expect(removeInterestMember({ memberId: 'memberId', interestId: 'interestId' })).rejects.toThrow(
+      'Interest was not added',
+    );
+
+    expect(events.events.size).toBe(0);
+  });
+
   it("edits a member interest's description", async () => {
     await persist.interest({ id: 'interestId', imageId: 'imageId' });
 
