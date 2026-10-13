@@ -4,6 +4,7 @@
     "maintenance": false,
     "letsName": "SEL de démonstration",
     "place": "Lyon",
+    "contactEmail": "contact@example.com",
     "currency": "grain",
     "currencyPlural": "grains",
     "logoUrl": "logo.svg",

@@ -28,7 +28,7 @@ export const routes = {
   profile: () => '/profile',
   settings: () => '/settings',
   navigation: () => '/navigation',
-  feedback: () => '/feedback',
+  help: (section?: 'contact' | 'feedback') => '/help' + (section ? `#${section}` : ''),
   authentication: (next?: string) =>
     '/authentication' + (next === undefined ? '' : '?' + new URLSearchParams({ next }).toString()),
 };
@@ -90,6 +90,11 @@ export const navigation = {
       path: routes.settings(),
       label: msg`Settings`,
       icon: 'settings',
+    },
+    help: {
+      path: routes.help(),
+      label: msg`Help`,
+      icon: 'help',
     },
   },
 } satisfies Record<string, Record<string, NavigationItem>>;

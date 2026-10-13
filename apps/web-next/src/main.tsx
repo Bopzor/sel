@@ -27,6 +27,7 @@ import { CreateEventPage } from './pages/events/create/create-event-page';
 import { EventPage } from './pages/events/details/event-page';
 import { EditEventPage } from './pages/events/edit/edit-event-page';
 import { EventsPage } from './pages/events/list/events-page';
+import { HelpPage } from './pages/help/help-page';
 import { HomePage } from './pages/home/home-page';
 import { CreateInformationPage } from './pages/information/create/create-information-page';
 import { InformationDetailsPage } from './pages/information/details/information-details-page';
@@ -88,10 +89,6 @@ function initializeSession() {
   sessionInitialized = true;
 }
 
-function PlaceholderPage() {
-  return null;
-}
-
 const authenticatedRoutes: Record<string, React.ComponentType> = {
   [routes.home()]: HomePage,
   [routes.requests()]: RequestsPage,
@@ -115,7 +112,7 @@ const authenticatedRoutes: Record<string, React.ComponentType> = {
   [routes.profile()]: ProfilePage,
   [routes.settings()]: SettingsPage,
   [routes.navigation()]: NavigationPage,
-  [routes.feedback()]: PlaceholderPage,
+  [routes.help()]: HelpPage,
   '*': NotFoundPage,
 };
 

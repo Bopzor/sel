@@ -15,8 +15,14 @@ describe('feedback card', () => {
       </MemoryRouter>,
     );
 
-    for (const name of ['Report a bug', 'Suggest a change', 'Get help']) {
-      expect(screen.getByRole('link', { name })).toHaveAttribute('href', routes.feedback());
-    }
+    expect(screen.getByRole('link', { name: 'Report a bug' })).toHaveAttribute(
+      'href',
+      routes.help('feedback'),
+    );
+    expect(screen.getByRole('link', { name: 'Suggest an idea' })).toHaveAttribute(
+      'href',
+      routes.help('feedback'),
+    );
+    expect(screen.getByRole('link', { name: 'Get help' })).toHaveAttribute('href', routes.help('contact'));
   });
 });

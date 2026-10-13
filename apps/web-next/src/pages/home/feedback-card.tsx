@@ -18,16 +18,19 @@ export function FeedbackCard({ className }: { className?: string }) {
           icon="bug"
           title={<Trans>Report a bug</Trans>}
           description={<Trans>Something doesn't work as expected</Trans>}
+          href={routes.help('feedback')}
         />
         <FeedbackItem
           icon="idea"
-          title={<Trans>Suggest a change</Trans>}
-          description={<Trans>A new feature, a clearer wording…</Trans>}
+          title={<Trans>Suggest an idea</Trans>}
+          description={<Trans>An improvement, a clearer wording…</Trans>}
+          href={routes.help('feedback')}
         />
         <FeedbackItem
           icon="help"
           title={<Trans>Get help</Trans>}
           description={<Trans>A question about the application</Trans>}
+          href={routes.help('contact')}
         />
       </ul>
     </Card.Root>
@@ -38,16 +41,17 @@ type FeedbackItemProps = {
   icon: IconName;
   title: React.ReactNode;
   description: React.ReactNode;
+  href: string;
 };
 
-function FeedbackItem({ icon, title, description }: FeedbackItemProps) {
+function FeedbackItem({ icon, title, description, href }: FeedbackItemProps) {
   return (
     <ListItem.Root>
       <Icon name={icon} className="text-muted" />
 
       <ListItem.Content>
         <ListItem.Title className="text-body-strong">
-          <ListItem.Link Link={Link} href={routes.feedback()}>
+          <ListItem.Link Link={Link} href={href}>
             {title}
           </ListItem.Link>
         </ListItem.Title>

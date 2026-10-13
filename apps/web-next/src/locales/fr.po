@@ -12,6 +12,18 @@ msgstr ""
 msgid "“{0}” added to your interests"
 msgstr "« {0} » ajouté à vos centres d’intérêt"
 
+#: src/pages/help/help-page.tsx
+msgid "[{letsName}] Bug report"
+msgstr "[{letsName}] Signalement de bug"
+
+#: src/pages/help/help-page.tsx
+msgid "[{letsName}] Help request"
+msgstr "[{letsName}] Demande d’aide"
+
+#: src/pages/help/help-page.tsx
+msgid "[{letsName}] Suggestion"
+msgstr "[{letsName}] Suggestion"
+
 #. placeholder {0}: members.length
 #: src/pages/interests/interest-page.tsx
 #: src/pages/interests/interests-page.tsx
@@ -137,10 +149,7 @@ msgstr "Quelques mots, par exemple : Prochaine assemblée générale"
 msgid "A few words, for example: Picnic at the lake"
 msgstr "Quelques mots, par exemple : Pique-nique au lac"
 
-#: src/pages/home/feedback-card.tsx
-msgid "A new feature, a clearer wording…"
-msgstr "Une nouvelle fonctionnalité, une formulation plus claire…"
-
+#: src/pages/help/help-page.tsx
 #: src/pages/home/feedback-card.tsx
 msgid "A problem, an idea?"
 msgstr "Un souci, une idée ?"
@@ -148,6 +157,10 @@ msgstr "Un souci, une idée ?"
 #: src/pages/home/feedback-card.tsx
 msgid "A question about the application"
 msgstr "Une question sur l’application"
+
+#: src/pages/help/help-page.tsx
+msgid "A question, something you can't manage to do? Write to us, we'll answer you."
+msgstr "Une question, quelque chose que vous n’arrivez pas à faire ? Écrivez-nous, nous vous répondrons."
 
 #: src/pages/members/details/overview-tab.tsx
 msgid "About"
@@ -229,6 +242,10 @@ msgstr "Toutes"
 msgid "All members"
 msgstr "Tous les membres"
 
+#: src/pages/help/help-page.tsx
+msgid "All the members of the LETS."
+msgstr "Tous les membres du SEL."
+
 #: src/pages/settings/settings-page.tsx
 msgid "Allow notifications to receive them here too."
 msgstr "Autorisez les notifications pour les recevoir ici aussi."
@@ -249,6 +266,11 @@ msgstr "Un événement du SEL, pour ses membres."
 #: src/pages/events/event-form.tsx
 msgid "An event organized by others, that you share with the members."
 msgstr "Un événement organisé par d’autres, que vous partagez avec les membres."
+
+#: src/pages/help/help-page.tsx
+#: src/pages/home/feedback-card.tsx
+msgid "An improvement, a clearer wording…"
+msgstr "Une amélioration, une formulation plus claire…"
 
 #: src/pages/error-page.tsx
 msgid "An unexpected error happened"
@@ -277,6 +299,10 @@ msgstr "Venez-vous ?"
 #: src/pages/requests/create/create-request-page.tsx
 msgid "Ask members for help: they'll be notified and can offer theirs."
 msgstr "Demandez de l’aide aux membres, qui recevront une notification et pourront vous répondre."
+
+#: src/pages/help/help-page.tsx
+msgid "Asking for a service"
+msgstr "Demander un service"
 
 #: src/components/rich-text-toolbar.tsx
 msgid "Attach files"
@@ -334,6 +360,10 @@ msgstr "Par email"
 #: src/pages/requests/details/request-answers.tsx
 msgid "Can help"
 msgstr "Peut aider"
+
+#: src/pages/help/help-page.tsx
+msgid "Can I reply to a notification email?"
+msgstr "Puis-je répondre à un email de notification ?"
 
 #: src/pages/requests/details/request-answer.tsx
 msgid "Can you help?"
@@ -489,6 +519,7 @@ msgstr "Contact"
 msgid "Contact {firstName} to arrange the details."
 msgstr "Contactez {firstName} pour vous organiser."
 
+#: src/pages/help/help-page.tsx
 #: src/pages/members/details/member-sidebar.tsx
 msgid "Copy the email address"
 msgstr "Copier l’adresse email"
@@ -575,6 +606,7 @@ msgstr "Modifier la demande"
 msgid "Email address"
 msgstr "Adresse email"
 
+#: src/pages/help/help-page.tsx
 #: src/pages/members/details/member-sidebar.tsx
 msgid "Email address copied"
 msgstr "Adresse email copiée"
@@ -676,11 +708,19 @@ msgstr "Échange enregistré"
 msgid "Exchanges"
 msgstr "Échanges"
 
+#: src/pages/help/help-page.tsx
+msgid "Exchanging {units}"
+msgstr "Échanger des {units}"
+
 #: src/pages/events/details/event-page.tsx
 #: src/pages/events/event-form.tsx
 #: src/pages/events/list/events-list.tsx
 msgid "External event"
 msgstr "Événement extérieur"
+
+#: src/pages/help/help-page.tsx
+msgid "Finding members"
+msgstr "Trouver des membres"
 
 #: src/pages/profile/identity-section.tsx
 msgid "First name"
@@ -721,9 +761,22 @@ msgstr "Obtenir de l’aide"
 msgid "Given"
 msgstr "Donné"
 
+#: src/pages/help/help-page.tsx
+msgid "Good to know"
+msgstr "Bon à savoir"
+
 #: src/pages/home/home-page.tsx
 msgid "Hello {firstName}"
 msgstr "Bonjour {firstName}"
+
+#: src/app/routes.ts
+#: src/pages/help/help-page.tsx
+msgid "Help"
+msgstr "Aide"
+
+#: src/pages/help/help-page.tsx
+msgid "Helping a member"
+msgstr "Aider un membre"
 
 #: src/pages/profile/profile-section.tsx
 msgid "Hidden from other members"
@@ -736,6 +789,18 @@ msgstr "Historique"
 #: src/app/routes.ts
 msgid "Home"
 msgstr "Accueil"
+
+#: src/pages/help/help-page.tsx
+msgid "How do I contact a member privately?"
+msgstr "Comment contacter un membre en privé ?"
+
+#: src/pages/help/help-page.tsx
+msgid "How do I get notifications on my phone?"
+msgstr "Comment recevoir les notifications sur mon téléphone ?"
+
+#: src/pages/help/help-page.tsx
+msgid "How it works"
+msgstr "Comment ça marche"
 
 #: src/pages/settings/settings-page.tsx
 msgid "How you keep up with the activity of the LETS."
@@ -778,6 +843,11 @@ msgstr "Si cette adresse correspond à un compte du SEL, un email contenant un c
 msgid "In common"
 msgstr "En commun"
 
+#: src/pages/help/help-page.tsx
+msgid "In the <0>settings</0>, choose “On your devices”, then tap “Allow on this device”. Do it on each phone or computer you use."
+msgstr "Dans les <0>paramètres</0>, choisissez « Sur vos appareils », puis appuyez sur « Autoriser sur cet appareil ». Faites-le sur chaque téléphone ou ordinateur que vous utilisez."
+
+#: src/pages/interests/interests-page.tsx
 #: src/pages/interests/membership.tsx
 msgid "In your interests"
 msgstr "Dans vos centres d’intérêt"
@@ -846,6 +916,10 @@ msgstr "Tenez-la à jour pour les membres qui la lisent."
 #: src/pages/events/details/organizer-actions.tsx
 msgid "Keep it up to date, and notify the members of what they need to know."
 msgstr "Tenez-le à jour, et prévenez les membres de ce qu’ils doivent savoir."
+
+#: src/pages/help/help-page.tsx
+msgid "Keeping informed"
+msgstr "Rester informé"
 
 #: src/pages/settings/settings-page.tsx
 msgid "Language"
@@ -1002,6 +1076,10 @@ msgstr "mon@email.com"
 msgid "Name and photo"
 msgstr "Nom et photo"
 
+#: src/pages/help/help-page.tsx
+msgid "Need help?"
+msgstr "Besoin d’aide ?"
+
 #: src/pages/members/list/members-list.tsx
 msgctxt "member"
 msgid "New"
@@ -1138,6 +1216,10 @@ msgstr "Aucun événement à venir"
 msgid "Note (optional)"
 msgstr "Note (facultatif)"
 
+#: src/pages/help/help-page.tsx
+msgid "Nothing happens? <0>Write to us</0> from your usual email."
+msgstr "Rien ne se passe ? <0>Écrivez-nous</0> depuis votre messagerie habituelle."
+
 #: src/pages/home/feed.tsx
 msgid "Nothing published yet"
 msgstr "Rien de publié pour le moment"
@@ -1193,9 +1275,21 @@ msgstr "A proposé son aide pour {link}"
 msgid "Offers to help"
 msgstr "Propositions d’aide"
 
+#: src/pages/help/help-page.tsx
+msgid "On an <0>event</0>, say whether you're coming, so that the organizer knows who to expect. You can change your mind until the event."
+msgstr "Sur un <0>événement</0>, indiquez si vous venez, pour que l’organisateur sache qui attendre. Vous pouvez changer d’avis jusqu’à l’événement."
+
+#: src/pages/help/help-page.tsx
+msgid "On an iPhone, first install the app: in Safari, tap the share button, then “Add to Home Screen”, and open the app from there."
+msgstr "Sur iPhone, installez d’abord l’application : dans Safari, appuyez sur le bouton de partage, puis sur « Sur l’écran d’accueil », et ouvrez l’application depuis l’écran d’accueil."
+
 #: src/pages/settings/settings-page.tsx
 msgid "On your devices"
 msgstr "Sur vos appareils"
+
+#: src/pages/help/help-page.tsx
+msgid "Once a service is done, the member who received it pays the other one. Tap “Exchange {units}” on the home page or on the member's profile."
+msgstr "Une fois le service rendu, le membre qui l’a reçu paie l’autre. Appuyez sur « Échanger des {units} » sur la page d’accueil ou sur le profil du membre."
 
 #: src/pages/information/edit/edit-information-page.tsx
 msgid "Only the author can edit this information."
@@ -1205,6 +1299,10 @@ msgstr "Seule la personne qui l’a publiée peut modifier cette information."
 msgid "Only the author can edit this request, while it's open."
 msgstr "Seule la personne qui l’a publiée peut modifier cette demande, tant qu’elle est en cours."
 
+#: src/pages/help/help-page.tsx
+msgid "Only the members of the LETS, and only if you allow it on your <0>profile</0>."
+msgstr "Seulement les membres du SEL, et seulement si vous l’autorisez sur votre <0>profil</0>."
+
 #: src/pages/events/edit/edit-event-page.tsx
 msgid "Only the organizer can edit this event."
 msgstr "Seule la personne qui organise cet événement peut le modifier."
@@ -1213,6 +1311,10 @@ msgstr "Seule la personne qui organise cet événement peut le modifier."
 msgctxt "requests filter"
 msgid "Open"
 msgstr "En cours"
+
+#: src/pages/help/help-page.tsx
+msgid "Open a request and answer “I can help”. The member who asked is notified, and you get in touch to arrange the details."
+msgstr "Ouvrez une demande et répondez « Je peux aider ». Le membre qui l’a publiée est prévenu, et vous vous contactez pour vous organiser."
 
 #: src/pages/members/details/activity-item.tsx
 msgid "Organized {link}"
@@ -1280,6 +1382,10 @@ msgstr "Numéro de téléphone copié"
 #: src/pages/requests/request-form.tsx
 msgid "Photos or documents, up to 10 MB per file"
 msgstr "Photos ou documents, 10 Mo maximum par fichier"
+
+#: src/pages/help/help-page.tsx
+msgid "Post a <0>request</0> describing what you need. The members who can help tell you so, and you contact them to arrange the details. Close the request once you've been helped."
+msgstr "Publiez une <0>demande</0> qui décrit votre besoin. Les membres qui peuvent aider vous le font savoir, et vous les contactez pour vous organiser. Fermez la demande une fois que vous avez été aidé."
 
 #: src/pages/members/details/activity-tab.tsx
 #: src/pages/requests/create/create-request-page.tsx
@@ -1363,6 +1469,7 @@ msgstr "Retirer le lieu"
 msgid "Remove the photo"
 msgstr "Retirer la photo"
 
+#: src/pages/help/help-page.tsx
 #: src/pages/home/feedback-card.tsx
 msgid "Report a bug"
 msgstr "Signaler un bug"
@@ -1678,6 +1785,7 @@ msgstr "Code de connexion"
 msgid "Sign-in failed. Try again in a few moments."
 msgstr "La connexion a échoué. Réessayez dans quelques instants."
 
+#: src/pages/help/help-page.tsx
 #: src/pages/home/feedback-card.tsx
 msgid "Something doesn't work as expected"
 msgstr "Quelque chose ne fonctionne pas comme prévu"
@@ -1694,9 +1802,22 @@ msgstr "Étape {stepNumber} sur {stepCount}"
 msgid "Subject"
 msgstr "Objet"
 
+#: src/pages/help/help-page.tsx
 #: src/pages/home/feedback-card.tsx
-msgid "Suggest a change"
-msgstr "Proposer une amélioration"
+msgid "Suggest an idea"
+msgstr "Proposer une idée"
+
+#: src/pages/help/help-page.tsx
+msgid "Taking part in events"
+msgstr "Participer aux événements"
+
+#: src/pages/help/help-page.tsx
+msgid "The <0>information</0> page gathers the news of the LETS and the members' posts. The useful files, such as the statutes, are in the <1>documents</1>."
+msgstr "La page <0>informations</0> rassemble les actualités du SEL et les publications des membres. Les fichiers utiles, comme les statuts, sont dans les <1>documents</1>."
+
+#: src/pages/help/help-page.tsx
+msgid "The <0>members</0> page lists everyone in the LETS, with a map of who lives nearby. The <1>interests</1> show who shares what you like."
+msgstr "La page <0>membres</0> liste tous les membres du SEL, avec une carte de ceux qui habitent près de chez vous. Les <1>centres d’intérêt</1> montrent qui partage vos goûts."
 
 #: src/pages/error-page.tsx
 msgid "The application is under maintenance"
@@ -1770,6 +1891,10 @@ msgstr "Les membres qui viennent ou qui ont commenté verront la nouvelle versio
 msgid "The members who offered help or commented will see the new version."
 msgstr "Les membres qui ont proposé leur aide ou commenté verront la nouvelle version."
 
+#: src/pages/help/help-page.tsx
+msgid "The members who took part: the author, those who offered their help or are coming, and those who already commented."
+msgstr "Les membres qui y ont pris part : l’auteur, ceux qui ont proposé leur aide ou qui viennent, et ceux qui ont déjà commenté."
+
 #: src/pages/information/edit/edit-information-page.tsx
 msgid "The members will see the new version."
 msgstr "Les membres verront la nouvelle version."
@@ -1829,6 +1954,10 @@ msgstr "La recherche n’est pas disponible pour le moment. Saisissez l’adress
 #: src/pages/authentication/authentication.tsx
 msgid "The sign-in code couldn't be sent. Try again in a few moments."
 msgstr "Le code de connexion n’a pas pu être envoyé. Réessayez dans quelques instants."
+
+#: src/pages/help/help-page.tsx
+msgid "Their phone number and email address are on their profile, if they chose to show them."
+msgstr "Son numéro de téléphone et son adresse email sont sur son profil, s’il a choisi de les afficher."
 
 #: src/pages/members/details/former-member.tsx
 msgid "Their profile is no longer available."
@@ -2077,9 +2206,35 @@ msgstr "Visible par les autres membres"
 msgid "Waiting for {payer} to confirm"
 msgstr "En attente de la confirmation de {payer}"
 
+#: src/pages/help/help-page.tsx
+msgid "We prefer comments so that everyone stays in the loop."
+msgstr "Nous privilégions les commentaires pour que tout le monde reste informé."
+
 #: src/components/transaction-dialog.tsx
 msgid "What do you want to do?"
 msgstr "Que voulez-vous faire ?"
+
+#: src/pages/help/help-page.tsx
+msgid "What happened?\n"
+"\n"
+"\n"
+"What did you expect instead?\n"
+"\n"
+"\n"
+"---\n"
+"Member #{memberNumber}\n"
+"Version {version}\n"
+"{userAgent}"
+msgstr "Que s’est-il passé ?\n"
+"\n"
+"\n"
+"Qu’attendiez-vous à la place ?\n"
+"\n"
+"\n"
+"---\n"
+"Membre n°{memberNumber}\n"
+"Version {version}\n"
+"{userAgent}"
 
 #: src/pages/interests/membership.tsx
 msgid "What you can share, what you're looking for, your level…"
@@ -2105,6 +2260,18 @@ msgstr "Quand un membre organise un événement, il apparaît ici."
 msgid "When a member shares news with the others, it appears here."
 msgstr "Quand un membre partage une nouvelle avec les autres, elle apparaît ici."
 
+#: src/pages/help/help-page.tsx
+msgid "Who can see my phone number and email address?"
+msgstr "Qui peut voir mon numéro de téléphone et mon adresse email ?"
+
+#: src/pages/help/help-page.tsx
+msgid "Who is notified when I post a request or an event?"
+msgstr "Qui est prévenu quand je publie une demande ou un événement ?"
+
+#: src/pages/help/help-page.tsx
+msgid "Who is notified when I write a comment?"
+msgstr "Qui est prévenu quand j’écris un commentaire ?"
+
 #: src/pages/members/details/exchanges-tab.tsx
 msgid "With me"
 msgstr "Avec moi"
@@ -2117,6 +2284,18 @@ msgstr "Retirer ma réponse"
 #: src/components/comments-section.tsx
 msgid "Write a comment"
 msgstr "Écrire un commentaire"
+
+#: src/pages/help/help-page.tsx
+msgid "Write to us"
+msgstr "Nous écrire"
+
+#: src/pages/help/help-page.tsx
+msgid "Yes, but your reply only reaches one person, not the other participants. To keep everyone informed, write a comment in the app instead."
+msgstr "Oui, mais votre réponse n’arrive qu’à une seule personne, pas aux autres participants. Pour que tout le monde soit informé, écrivez plutôt un commentaire dans l’application."
+
+#: src/pages/help/help-page.tsx
+msgid "You can also ask a member to pay you: the exchange then waits until they accept it."
+msgstr "Vous pouvez aussi demander à un membre de vous payer : l’échange attend alors qu’il l’accepte."
 
 #: src/pages/events/details/participation.tsx
 msgid "You can change your mind until the event."
@@ -2210,13 +2389,13 @@ msgstr "Votre événement"
 msgid "Your exchanges will appear here."
 msgstr "Vos échanges apparaîtront ici."
 
+#: src/pages/help/help-page.tsx
+msgid "Your feedback helps us improve the application."
+msgstr "Vos retours nous aident à améliorer l’application."
+
 #: src/pages/information/details/information-details-page.tsx
 msgid "Your information"
 msgstr "Votre information"
-
-#: src/pages/interests/membership.tsx
-msgid "Your note"
-msgstr "Votre note"
 
 #: src/pages/interests/membership.tsx
 msgid "Your note couldn't be saved"
