@@ -67,7 +67,7 @@ export function LinkButton({
   className,
   children,
   ...props
-}: ComponentProps<'a'> & ButtonAppearance & { Link?: LinkComponent }) {
+}: ComponentProps<'a'> & ButtonAppearance & { Link?: LinkComponent; state?: unknown }) {
   return (
     <Link {...props} className={buttonStyles({ variant, size, className })}>
       <ButtonContent size={size} icon={icon} iconEnd={iconEnd}>
