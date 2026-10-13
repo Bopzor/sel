@@ -8,7 +8,7 @@ import { fileUrl } from 'src/app/api';
 import { queries } from 'src/app/queries';
 import { routes } from 'src/app/routes';
 import { useSession } from 'src/app/session';
-import { ApiFailed, QueryResult } from 'src/components/api-result';
+import { QueryFailed, QueryResult } from 'src/components/api-result';
 import { Link } from 'src/components/link';
 import { MemberAvatar } from 'src/components/member-avatar';
 import { useFilters } from 'src/hooks/use-filters';
@@ -37,13 +37,7 @@ export function InterestsPage() {
 
       <QueryResult
         query={query}
-        failed={
-          <ApiFailed
-            title={<Trans>Unable to load interests</Trans>}
-            retrying={query.isFetching}
-            retry={() => void query.refetch()}
-          />
-        }
+        failed={<QueryFailed query={query} title={<Trans>Unable to load interests</Trans>} />}
         loading={<InterestListSkeleton />}
         empty={<NoInterest />}
       >

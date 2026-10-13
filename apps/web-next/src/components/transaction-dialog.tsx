@@ -27,7 +27,7 @@ import { useSession } from 'src/app/session';
 import { useZodResolver } from 'src/hooks/use-zod-resolver';
 
 import { Amount } from './amount';
-import { ApiFailed } from './api-result';
+import { ApiFailed, QueryFailed } from './api-result';
 import { InputField, TextAreaField } from './fields';
 import { MemberAvatar } from './member-avatar';
 import { Unit } from './unit';
@@ -325,13 +325,7 @@ function CounterpartField({ form, query, meId, findMember }: CounterpartFieldPro
     .filter((member) => normalize(formatMemberName(member)).includes(normalizedSearch));
 
   if (query.error && !query.data)
-    return (
-      <ApiFailed
-        title={<Trans>Unable to load members</Trans>}
-        retry={() => void query.refetch()}
-        retrying={query.isFetching}
-      />
-    );
+    return <QueryFailed query={query} title={<Trans>Unable to load members</Trans>} />;
 
   return (
     <FormField label={<Trans>Member</Trans>} error={fieldState.error?.message}>

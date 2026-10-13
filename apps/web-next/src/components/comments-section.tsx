@@ -15,7 +15,7 @@ import { queries } from 'src/app/queries';
 import { useSession } from 'src/app/session';
 import { useZodResolver } from 'src/hooks/use-zod-resolver';
 
-import { ApiFailed, QueryResult } from './api-result';
+import { QueryFailed, QueryResult } from './api-result';
 import { AttachmentsList, useAttachments } from './attachments';
 import { MemberAvatar } from './member-avatar';
 import { MessageContent } from './message-content';
@@ -43,13 +43,7 @@ export function CommentsSection({ entityType, entityId }: CommentSectionProps) {
 
       <QueryResult
         query={query}
-        failed={
-          <ApiFailed
-            title={<Trans>Unable to load comments</Trans>}
-            retrying={query.isFetching}
-            retry={() => void query.refetch()}
-          />
-        }
+        failed={<QueryFailed query={query} title={<Trans>Unable to load comments</Trans>} />}
         loading={<CommentsSkeleton />}
       >
         {(comments) => (

@@ -4,21 +4,16 @@ import type { UseQueryResult } from '@tanstack/react-query';
 
 import { ApiError } from 'src/app/api';
 
-export function QueryResult<T>({
-  query,
-  notFound,
-  failed,
-  loading,
-  empty,
-  children,
-}: {
+type QueryResultProps<T> = {
   query: UseQueryResult<T>;
   notFound?: React.ReactNode;
   failed: React.ReactNode;
   loading: React.ReactNode;
   empty?: React.ReactNode;
   children: (data: T) => React.ReactNode;
-}) {
+};
+
+export function QueryResult<T>({ query, notFound, failed, loading, empty, children }: QueryResultProps<T>) {
   if (query.error && !query.data) {
     if (ApiError.is(query.error, 404) && notFound) {
       return notFound;
@@ -45,15 +40,17 @@ function isEmpty(data: unknown) {
   );
 }
 
-export function ApiFailed({
-  title,
-  retrying,
-  retry,
-}: {
+export function QueryFailed({ query, title }: { query: UseQueryResult; title: React.ReactNode }) {
+  return <ApiFailed title={title} retrying={query.isFetching} retry={() => void query.refetch()} />;
+}
+
+type ApiFailedProps = {
   title: React.ReactNode;
   retrying?: boolean;
   retry?: () => void;
-}) {
+};
+
+export function ApiFailed({ title, retrying, retry }: ApiFailedProps) {
   return (
     <Alert.Root tone="danger">
       <Alert.Title>{title}</Alert.Title>

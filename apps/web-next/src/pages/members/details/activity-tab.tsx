@@ -8,7 +8,7 @@ import z from 'zod';
 import { queries } from 'src/app/queries';
 import { routes } from 'src/app/routes';
 import { useSession } from 'src/app/session';
-import { ApiFailed, QueryResult } from 'src/components/api-result';
+import { QueryFailed, QueryResult } from 'src/components/api-result';
 import { DefinitionItem } from 'src/components/definition-item';
 import { Link } from 'src/components/link';
 import { FetchNextPageError, Pagination } from 'src/components/pagination';
@@ -36,13 +36,7 @@ function ActivityCounts({ member }: { member: Member }) {
   return (
     <QueryResult
       query={query}
-      failed={
-        <ApiFailed
-          title={<Trans>Unable to load the activity summary</Trans>}
-          retrying={query.isFetching}
-          retry={() => void query.refetch()}
-        />
-      }
+      failed={<QueryFailed query={query} title={<Trans>Unable to load the activity summary</Trans>} />}
       loading={<CountsSkeleton />}
     >
       {(counts) => (
@@ -114,13 +108,7 @@ function Activity({ member }: { member: Member }) {
 
       <QueryResult
         query={query}
-        failed={
-          <ApiFailed
-            title={<Trans>Unable to load activity</Trans>}
-            retrying={query.isFetching}
-            retry={() => void query.refetch()}
-          />
-        }
+        failed={<QueryFailed query={query} title={<Trans>Unable to load activity</Trans>} />}
         loading={<ActivityListSkeleton count={3} />}
         empty={<NoActivity member={member} isMe={member.id === me.id} />}
       >

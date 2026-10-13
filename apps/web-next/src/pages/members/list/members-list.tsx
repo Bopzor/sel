@@ -8,7 +8,7 @@ import clsx from 'clsx';
 import { formatMemberName } from 'src/app/format';
 import { queries } from 'src/app/queries';
 import { routes } from 'src/app/routes';
-import { ApiFailed } from 'src/components/api-result';
+import { QueryFailed } from 'src/components/api-result';
 import { Link } from 'src/components/link';
 import { MemberAvatar } from 'src/components/member-avatar';
 
@@ -24,13 +24,7 @@ export function MembersList({ sort, search, committee, onClearFilters }: Members
 
   // With data, a failed refetch keeps the list on screen.
   if (query.error && !query.data) {
-    return (
-      <ApiFailed
-        title={<Trans>Unable to load members</Trans>}
-        retrying={query.isFetching}
-        retry={() => void query.refetch()}
-      />
-    );
+    return <QueryFailed query={query} title={<Trans>Unable to load members</Trans>} />;
   }
 
   if (!query.data) {

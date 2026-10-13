@@ -9,7 +9,7 @@ import z from 'zod';
 import { queries } from 'src/app/queries';
 import { useSession } from 'src/app/session';
 import { Amount } from 'src/components/amount';
-import { ApiFailed, QueryResult } from 'src/components/api-result';
+import { QueryFailed, QueryResult } from 'src/components/api-result';
 import { DefinitionItem } from 'src/components/definition-item';
 import { FetchNextPageError, Pagination } from 'src/components/pagination';
 import { TransactionItem } from 'src/components/transaction-item';
@@ -39,13 +39,7 @@ function TransactionStats({ member }: { member: Member }) {
   return (
     <QueryResult
       query={query}
-      failed={
-        <ApiFailed
-          title={<Trans>Unable to load the exchanges summary</Trans>}
-          retrying={query.isFetching}
-          retry={() => void query.refetch()}
-        />
-      }
+      failed={<QueryFailed query={query} title={<Trans>Unable to load the exchanges summary</Trans>} />}
       loading={<StatsSkeleton />}
     >
       {(stats) => (
@@ -106,13 +100,7 @@ function PendingTransactions({ member }: { member: Member }) {
 
       <QueryResult
         query={query}
-        failed={
-          <ApiFailed
-            title={<Trans>Unable to load pending exchanges</Trans>}
-            retrying={query.isFetching}
-            retry={() => void query.refetch()}
-          />
-        }
+        failed={<QueryFailed query={query} title={<Trans>Unable to load pending exchanges</Trans>} />}
         loading={null}
       >
         {({ items: transactions, total }) => (
@@ -188,13 +176,7 @@ function CompletedTransactions({ member }: { member: Member }) {
 
       <QueryResult
         query={query}
-        failed={
-          <ApiFailed
-            title={<Trans>Unable to load exchanges</Trans>}
-            retrying={query.isFetching}
-            retry={() => void query.refetch()}
-          />
-        }
+        failed={<QueryFailed query={query} title={<Trans>Unable to load exchanges</Trans>} />}
         loading={<TransactionListSkeleton count={3} />}
         empty={
           withMe ? (

@@ -8,7 +8,7 @@ import { Navigate, Link as RouterLink, useParams } from 'react-router';
 import { ApiError } from 'src/app/api';
 import { queries } from 'src/app/queries';
 import { routes } from 'src/app/routes';
-import { ApiFailed, QueryResult } from 'src/components/api-result';
+import { QueryFailed, QueryResult } from 'src/components/api-result';
 import { BackButton } from 'src/components/link';
 
 import { ActivityTab } from './activity-tab';
@@ -44,13 +44,7 @@ export function MemberPage() {
       <QueryResult
         query={query}
         notFound={isFormerMember(query.error) ? <FormerMember /> : <MemberNotFound />}
-        failed={
-          <ApiFailed
-            title={<Trans>Unable to load the member</Trans>}
-            retrying={query.isFetching}
-            retry={() => void query.refetch()}
-          />
-        }
+        failed={<QueryFailed query={query} title={<Trans>Unable to load the member</Trans>} />}
         loading={<MemberSkeleton />}
       >
         {(member) => <MemberDetails member={member} tab={tab} />}

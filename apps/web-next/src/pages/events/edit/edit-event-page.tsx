@@ -9,7 +9,7 @@ import { api } from 'src/app/api';
 import { queries } from 'src/app/queries';
 import { routes } from 'src/app/routes';
 import { useSession } from 'src/app/session';
-import { ApiFailed, QueryResult } from 'src/components/api-result';
+import { QueryFailed, QueryResult } from 'src/components/api-result';
 import { BackButton, Link } from 'src/components/link';
 
 import { EventForm } from '../event-form';
@@ -28,13 +28,7 @@ export function EditEventPage() {
       <QueryResult
         query={query}
         notFound={<EventNotFound />}
-        failed={
-          <ApiFailed
-            title={<Trans>Unable to load the event</Trans>}
-            retrying={query.isFetching}
-            retry={() => void query.refetch()}
-          />
-        }
+        failed={<QueryFailed query={query} title={<Trans>Unable to load the event</Trans>} />}
         loading={<EditEventSkeleton />}
       >
         {(event) => <EditEvent event={event} />}

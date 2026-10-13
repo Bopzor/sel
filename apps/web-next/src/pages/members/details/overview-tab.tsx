@@ -9,7 +9,7 @@ import { queries } from 'src/app/queries';
 import { routes } from 'src/app/routes';
 import { useSession } from 'src/app/session';
 import { Amount } from 'src/components/amount';
-import { ApiFailed, QueryResult } from 'src/components/api-result';
+import { QueryFailed, QueryResult } from 'src/components/api-result';
 import { DefinitionItem } from 'src/components/definition-item';
 import { Link } from 'src/components/link';
 import { TransactionItem } from 'src/components/transaction-item';
@@ -80,13 +80,7 @@ function ExchangesCard({ member }: { member: Member }) {
       <Card.Body compact>
         <QueryResult
           query={query}
-          failed={
-            <ApiFailed
-              title={<Trans>Unable to load the exchanges summary</Trans>}
-              retrying={query.isFetching}
-              retry={() => void query.refetch()}
-            />
-          }
+          failed={<QueryFailed query={query} title={<Trans>Unable to load the exchanges summary</Trans>} />}
           loading={<DefinitionsSkeleton count={4} />}
         >
           {(stats) => (
@@ -112,11 +106,7 @@ function ExchangesCard({ member }: { member: Member }) {
         query={latestQuery}
         failed={
           <Card.Body compact>
-            <ApiFailed
-              title={<Trans>Unable to load exchanges</Trans>}
-              retrying={latestQuery.isFetching}
-              retry={() => void latestQuery.refetch()}
-            />
+            <QueryFailed query={latestQuery} title={<Trans>Unable to load exchanges</Trans>} />
           </Card.Body>
         }
         loading={null}
@@ -161,11 +151,7 @@ function ActivityCard({ member }: { member: Member }) {
         <QueryResult
           query={countsQuery}
           failed={
-            <ApiFailed
-              title={<Trans>Unable to load the activity summary</Trans>}
-              retrying={countsQuery.isFetching}
-              retry={() => void countsQuery.refetch()}
-            />
+            <QueryFailed query={countsQuery} title={<Trans>Unable to load the activity summary</Trans>} />
           }
           loading={<DefinitionsSkeleton count={4} />}
         >
@@ -184,11 +170,7 @@ function ActivityCard({ member }: { member: Member }) {
         query={latestQuery}
         failed={
           <Card.Body compact>
-            <ApiFailed
-              title={<Trans>Unable to load activity</Trans>}
-              retrying={latestQuery.isFetching}
-              retry={() => void latestQuery.refetch()}
-            />
+            <QueryFailed query={latestQuery} title={<Trans>Unable to load activity</Trans>} />
           </Card.Body>
         }
         loading={null}

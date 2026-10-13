@@ -8,7 +8,7 @@ import { formatExcerpt, formatMemberName } from 'src/app/format';
 import { queries } from 'src/app/queries';
 import { routes } from 'src/app/routes';
 import { useSession } from 'src/app/session';
-import { ApiFailed } from 'src/components/api-result';
+import { QueryFailed } from 'src/components/api-result';
 import { Bullet } from 'src/components/bullet';
 import { Link } from 'src/components/link';
 import { MemberAvatar } from 'src/components/member-avatar';
@@ -36,13 +36,7 @@ export function RequestList({ filters, hasFilters, onClearFilters }: RequestList
 
   // With data, a failed refetch keeps the list on screen.
   if (query.error && !query.data) {
-    return (
-      <ApiFailed
-        title={<Trans>Unable to load requests</Trans>}
-        retrying={query.isFetching}
-        retry={() => void query.refetch()}
-      />
-    );
+    return <QueryFailed query={query} title={<Trans>Unable to load requests</Trans>} />;
   }
 
   if (!query.data) {

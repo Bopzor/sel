@@ -6,7 +6,7 @@ import { useSearchParams } from 'react-router';
 
 import { queries } from 'src/app/queries';
 import { routes } from 'src/app/routes';
-import { ApiFailed, QueryResult } from 'src/components/api-result';
+import { QueryFailed, QueryResult } from 'src/components/api-result';
 import { BackButton } from 'src/components/link';
 
 const MembersMap = lazy(() => import('./members-map').then((module) => ({ default: module.MembersMap })));
@@ -27,13 +27,7 @@ export function MembersMapPage() {
 
       <QueryResult
         query={query}
-        failed={
-          <ApiFailed
-            title={<Trans>Unable to load members</Trans>}
-            retrying={query.isFetching}
-            retry={() => void query.refetch()}
-          />
-        }
+        failed={<QueryFailed query={query} title={<Trans>Unable to load members</Trans>} />}
         loading={<MapSkeleton />}
       >
         {(members) => (

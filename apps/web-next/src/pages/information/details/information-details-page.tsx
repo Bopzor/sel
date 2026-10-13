@@ -9,7 +9,7 @@ import { formatMemberName } from 'src/app/format';
 import { queries } from 'src/app/queries';
 import { routes } from 'src/app/routes';
 import { useSession } from 'src/app/session';
-import { ApiFailed, QueryResult } from 'src/components/api-result';
+import { QueryFailed, QueryResult } from 'src/components/api-result';
 import { CommentsSection } from 'src/components/comments-section';
 import { BackButton, Link } from 'src/components/link';
 import { MemberAvatar } from 'src/components/member-avatar';
@@ -31,13 +31,7 @@ export function InformationDetailsPage() {
       <QueryResult
         query={query}
         notFound={<InformationNotFound />}
-        failed={
-          <ApiFailed
-            title={<Trans>Unable to load the information</Trans>}
-            retrying={query.isFetching}
-            retry={() => void query.refetch()}
-          />
-        }
+        failed={<QueryFailed query={query} title={<Trans>Unable to load the information</Trans>} />}
         loading={<InformationSkeleton />}
       >
         {(information) => <InformationDetails information={information} />}

@@ -15,7 +15,7 @@ import z from 'zod';
 import { formatExcerpt, formatMemberName } from 'src/app/format';
 import { queries } from 'src/app/queries';
 import { routes } from 'src/app/routes';
-import { ApiFailed } from 'src/components/api-result';
+import { QueryFailed } from 'src/components/api-result';
 import { Bullet } from 'src/components/bullet';
 import { DateIcon } from 'src/components/date-icon';
 import { Link } from 'src/components/link';
@@ -96,13 +96,7 @@ function FeedList({ filters, hasFilters, onClearFilters }: FeedListProps) {
   );
 
   if (query.error && !query.data) {
-    return (
-      <ApiFailed
-        title={<Trans>Unable to load the latest news</Trans>}
-        retrying={query.isFetching}
-        retry={() => void query.refetch()}
-      />
-    );
+    return <QueryFailed query={query} title={<Trans>Unable to load the latest news</Trans>} />;
   }
 
   if (!query.data) {

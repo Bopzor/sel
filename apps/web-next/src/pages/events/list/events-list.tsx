@@ -8,7 +8,7 @@ import { formatExcerpt } from 'src/app/format';
 import { queries } from 'src/app/queries';
 import { routes } from 'src/app/routes';
 import { useSession } from 'src/app/session';
-import { ApiFailed } from 'src/components/api-result';
+import { QueryFailed } from 'src/components/api-result';
 import { Bullet } from 'src/components/bullet';
 import { DateIcon } from 'src/components/date-icon';
 import { Link } from 'src/components/link';
@@ -38,13 +38,7 @@ export function EventList({ filters, hasFilters, onClearFilters }: EventListProp
 
   // With data, a failed refetch keeps the list on screen.
   if (query.error && !query.data) {
-    return (
-      <ApiFailed
-        title={<Trans>Unable to load events</Trans>}
-        retrying={query.isFetching}
-        retry={() => void query.refetch()}
-      />
-    );
+    return <QueryFailed query={query} title={<Trans>Unable to load events</Trans>} />;
   }
 
   if (!query.data) {

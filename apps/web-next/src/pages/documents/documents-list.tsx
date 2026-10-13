@@ -6,7 +6,7 @@ import { useQuery } from '@tanstack/react-query';
 import { documentUrl } from 'src/app/api';
 import { formatFileSize } from 'src/app/format';
 import { queries } from 'src/app/queries';
-import { ApiFailed } from 'src/components/api-result';
+import { QueryFailed } from 'src/components/api-result';
 import { Bullet } from 'src/components/bullet';
 import { RelativeDate } from 'src/components/relative-date';
 
@@ -15,13 +15,7 @@ export function DocumentsList() {
 
   // With data, a failed refetch keeps the list on screen.
   if (query.error && !query.data) {
-    return (
-      <ApiFailed
-        title={<Trans>Unable to load documents</Trans>}
-        retrying={query.isFetching}
-        retry={() => void query.refetch()}
-      />
-    );
+    return <QueryFailed query={query} title={<Trans>Unable to load documents</Trans>} />;
   }
 
   if (!query.data) {
