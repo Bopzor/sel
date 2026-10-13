@@ -31,6 +31,10 @@ export const LongLabel: Story = {
   decorators: [(Story) => <div className="max-w-80">{Story()}</div>],
 };
 
+export const Small: Story = {
+  args: { size: 'sm', defaultChecked: true },
+};
+
 export const Disabled: Story = {
   args: { disabled: true },
 };

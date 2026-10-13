@@ -1,8 +1,8 @@
 import { LinkButton } from '@sel/ui';
-import { defined } from '@sel/utils';
+import { defined, type Override } from '@sel/utils';
 import { Link as RouterLink } from 'react-router';
 
-export function Link({ href, ...props }: React.ComponentProps<'a'>) {
+export function Link({ href, ...props }: Override<React.ComponentProps<'a'>, { state?: unknown }>) {
   return <RouterLink to={defined(href)} {...props} />;
 }
 

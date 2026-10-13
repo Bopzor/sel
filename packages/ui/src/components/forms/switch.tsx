@@ -2,6 +2,7 @@ import { Switch as ArkSwitch, useSwitchContext } from '@ark-ui/react/switch';
 import { mergeProps } from '@ark-ui/react/utils';
 import { type Override } from '@sel/utils';
 import clsx from 'clsx';
+import { cva } from 'cva';
 import { useId, type ComponentProps, type ReactNode } from 'react';
 
 import { definedAttributes } from '../../utils';
@@ -17,6 +18,8 @@ type SwitchProps = Override<
     label: ReactNode;
     /** What the setting concretely changes. */
     description?: ReactNode;
+    /** sm: a compact switch, for a setting shown next to the information it changes. */
+    size?: 'sm' | 'md';
     value?: string;
     children?: never;
   }
@@ -25,6 +28,7 @@ type SwitchProps = Override<
 export function Switch({
   label,
   description,
+  size = 'md',
   checked,
   defaultChecked,
   disabled,
@@ -44,27 +48,17 @@ export function Switch({
 
   // The root is the <label>: a click on the text toggles the switch.
   return (
-    <ArkSwitch.Root
-      {...rootProps}
-      className={clsx(
-        // The hit area extends 6px above and below the 32px track, to 44px.
-        'group relative row items-start gap-3 after:absolute after:inset-x-0 after:-inset-y-1.5',
-        'not-data-disabled:cursor-pointer data-disabled:cursor-not-allowed',
-        className,
-      )}
-    >
-      <ArkSwitch.Control className={switchTrackStyles}>
-        <ArkSwitch.Thumb className={switchThumbStyles}>
+    <ArkSwitch.Root {...rootProps} className={switchRootStyles({ size, className })}>
+      <ArkSwitch.Control className={switchTrackStyles({ size })}>
+        <ArkSwitch.Thumb className={switchThumbStyles({ size })}>
           <Icon name="check" size="sm" />
         </ArkSwitch.Thumb>
       </ArkSwitch.Control>
 
       {/* The label's first line is centered on the track. The description is outside Ark's label, which names the
           switch: it describes it instead. */}
-      <span className="stack min-w-0 py-1">
-        <ArkSwitch.Label className="text-label text-default data-disabled:text-disabled">
-          {label}
-        </ArkSwitch.Label>
+      <span className={switchTextStyles({ size })}>
+        <ArkSwitch.Label className={switchLabelStyles({ size })}>{label}</ArkSwitch.Label>
         {description && (
           <span id={descriptionId} className="text-body-sm text-muted">
             {description}
@@ -98,18 +92,72 @@ function SwitchHiddenInput({ checked, ...props }: ComponentProps<'input'>) {
   );
 }
 
+// The hit area extends above and below the track, to 44px.
+const switchRootStyles = cva(
+  [
+    'group relative row items-start after:absolute after:inset-x-0',
+    'not-data-disabled:cursor-pointer data-disabled:cursor-not-allowed',
+  ],
+  {
+    variants: {
+      size: {
+        sm: 'gap-2 after:-inset-y-2.5',
+        md: 'gap-3 after:-inset-y-1.5',
+      },
+    },
+  },
+);
+
 // Styled from the attributes of Ark's parts, with states that exclude one another: disabled replaces the other
 // colors, and only an enabled switch that is on reacts to the hover.
-const switchTrackStyles = clsx(
-  'row h-8 w-13 shrink-0 items-center rounded-full bg-switch-track p-1 transition data-focus-visible:focus-ring',
-  'not-data-disabled:data-[state=checked]:bg-primary',
-  'group-hover:not-data-disabled:data-[state=checked]:bg-primary-hover',
-  'data-disabled:bg-disabled',
+const switchTrackStyles = cva(
+  [
+    'row shrink-0 items-center rounded-full bg-switch-track transition data-focus-visible:focus-ring',
+    'not-data-disabled:data-[state=checked]:bg-primary',
+    'group-hover:not-data-disabled:data-[state=checked]:bg-primary-hover',
+    'data-disabled:bg-disabled',
+  ],
+  {
+    variants: {
+      size: {
+        sm: 'h-6 w-10 p-0.75',
+        md: 'h-8 w-13 p-1',
+      },
+    },
+  },
 );
 
 // The check mark is only visible when the switch is on.
-const switchThumbStyles = clsx(
-  'row size-6 items-center justify-center rounded-full bg-switch-thumb text-on-switch-thumb shadow-sm transition',
-  'data-disabled:text-disabled data-[state=checked]:translate-x-5',
-  '*:opacity-0 *:transition data-[state=checked]:*:opacity-100',
+const switchThumbStyles = cva(
+  [
+    'row items-center justify-center rounded-full bg-switch-thumb text-on-switch-thumb shadow-sm transition',
+    'data-disabled:text-disabled',
+    '*:opacity-0 *:transition data-[state=checked]:*:opacity-100',
+  ],
+  {
+    variants: {
+      size: {
+        sm: 'size-4.5 *:size-3 data-[state=checked]:translate-x-4',
+        md: 'size-6 data-[state=checked]:translate-x-5',
+      },
+    },
+  },
 );
+
+const switchTextStyles = cva('stack min-w-0', {
+  variants: {
+    size: {
+      sm: 'py-px',
+      md: 'py-1',
+    },
+  },
+});
+
+const switchLabelStyles = cva('text-default data-disabled:text-disabled', {
+  variants: {
+    size: {
+      sm: 'text-body-sm',
+      md: 'text-label',
+    },
+  },
+});
