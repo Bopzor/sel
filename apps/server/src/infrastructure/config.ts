@@ -53,6 +53,20 @@ export interface Config {
       userUploads: string;
     };
   };
+
+  s3: {
+    endPoint: string;
+    port: number;
+    useSSL: boolean;
+    accessKey: string;
+    secretKey: string;
+    buckets: {
+      documents: string;
+      userUploads: string;
+    };
+  };
+
+  storageProvider: 'minio' | 's3';
 }
 
 export function createEnvConfig(): Config {
@@ -109,6 +123,20 @@ export function createEnvConfig(): Config {
         userUploads: getEnv('MINIO_BUCKET_USER_UPLOADS'),
       },
     },
+
+    s3: {
+      endPoint: getEnv('S3_ENDPOINT'),
+      port: getEnv('S3_PORT', Number.parseInt),
+      useSSL: getEnv('S3_USE_SSL', parseBoolean),
+      accessKey: getEnv('S3_ACCESS_KEY'),
+      secretKey: getEnv('S3_SECRET_KEY'),
+      buckets: {
+        documents: getEnv('S3_BUCKET_DOCUMENTS'),
+        userUploads: getEnv('S3_BUCKET_USER_UPLOADS'),
+      },
+    },
+
+    storageProvider: getEnv('STORAGE_PROVIDER', (value) => (value === 's3' ? 's3' : 'minio')),
   };
 }
 

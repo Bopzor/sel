@@ -27,6 +27,15 @@ const config: Config = {
     secretKey: '',
     buckets: { documents: '', userUploads: '' },
   },
+  s3: {
+    endPoint: '',
+    port: 0,
+    useSSL: false,
+    accessKey: '',
+    secretKey: '',
+    buckets: { documents: '', userUploads: '' },
+  },
+  storageProvider: 's3',
 };
 
 container.bindValue(TOKENS.config, config);
