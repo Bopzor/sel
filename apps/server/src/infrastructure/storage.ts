@@ -1,11 +1,9 @@
 import { basename } from 'node:path';
-import * as stream from 'node:stream';
 import { Readable } from 'stream';
 
 import {
   GetObjectCommand,
   ListObjectsV2Command,
-  NoSuchBucket,
   NoSuchKey,
   PutObjectCommand,
   S3Client,
@@ -53,7 +51,7 @@ type ObjectInfoTree = {
 export interface Storage {
   listFiles(bucket: Bucket): Promise<Directory>;
   storeFile(bucket: Bucket, name: string, buffer: Buffer, contentType: string): Promise<void>;
-  getFile(bucket: Bucket, name: string): Promise<stream.Readable>;
+  getFile(bucket: Bucket, name: string): Promise<Readable>;
 }
 
 export class MinioStorage implements Storage {
@@ -117,7 +115,7 @@ export class MinioStorage implements Storage {
     });
   }
 
-  async getFile(bucket: Bucket, name: string): Promise<stream.Readable> {
+  async getFile(bucket: Bucket, name: string): Promise<Readable> {
     try {
       return await this.minio.getObject(this.config.minio.buckets[bucket], name);
     } catch (error) {
@@ -206,7 +204,7 @@ export class S3Storage implements Storage {
   }
 
   private isS3Object(value: object): value is S3Object {
-    return 'Size' in value && Boolean(value.Size);
+    return 'Size' in value && typeof value.Size === 'number';
   }
 
   async storeFile(bucket: Bucket, name: string, buffer: Buffer, contentType: string): Promise<void> {
@@ -232,7 +230,7 @@ export class S3Storage implements Storage {
 
       return response.Body as Readable;
     } catch (error) {
-      if (error instanceof NoSuchKey || error instanceof NoSuchBucket) {
+      if (error instanceof NoSuchKey) {
         throw new FileNotFound();
       }
 
@@ -252,11 +250,11 @@ export class StubStorage implements Storage {
     this.files.set(name, { contentType, content: buffer });
   }
 
-  async getFile(name: string): Promise<stream.Readable> {
+  async getFile(name: string): Promise<Readable> {
     const buffer = this.files.get(name);
 
     assert(buffer);
 
-    return stream.Readable.from(buffer.content);
+    return Readable.from(buffer.content);
   }
 }

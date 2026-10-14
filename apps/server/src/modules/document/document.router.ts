@@ -33,7 +33,7 @@ router.get('/*path', async (req, res: Response<shared.Document>) => {
   const storage = container.resolve(TOKENS.storage);
   const params = req.params;
 
-  const stream = await storage.getFile('documents', ['', ...params.path].join('/'));
+  const stream = await storage.getFile('documents', params.path.join('/'));
 
   res.type(params.path.at(-1)?.split('.').at(-1) ?? '');
   res.set('Cache-Control', ['private', 'max-age=0', 'must-revalidate'].join(', '));
