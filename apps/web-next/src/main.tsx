@@ -9,6 +9,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router';
 
 import { watchColorScheme } from './app/color-scheme';
 import { loadConfig } from './app/config';
+import { watchInstallPrompt } from './app/install-app';
 import { activateLocale, getLocale } from './app/locale';
 import { getPushPermission, registerDevice } from './app/push-notifications';
 import { queries } from './app/queries';
@@ -56,6 +57,7 @@ if (import.meta.env.MODE === 'demo') {
 initSentry();
 activateLocale(getLocale());
 watchColorScheme();
+watchInstallPrompt();
 
 // Middlewares run on each navigation: these flags make them run once per page load.
 let initialized = false;

@@ -1,16 +1,17 @@
 import { Trans, useLingui } from '@lingui/react/macro';
-import type { UpdateNotificationDeliveryData } from '@sel/shared';
 import { Alert, Button, Card, RadioGroup, showToast, Switch } from '@sel/ui';
 import { entries } from '@sel/utils';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import { useId, useState } from 'react';
 import { Controller, useForm, useWatch } from 'react-hook-form';
 
-import { api } from 'src/app/api';
 import { colorSchemes, getColorScheme, setColorScheme, type ColorScheme } from 'src/app/color-scheme';
 import { localeNames, setLocale, type Locale } from 'src/app/locale';
-import { getPushPermission, registerDevice, requestPushPermission } from 'src/app/push-notifications';
-import { queries } from 'src/app/queries';
+import {
+  getPushPermission,
+  requestPushPermission,
+  useUpdateNotificationDelivery,
+} from 'src/app/push-notifications';
 import { useSession } from 'src/app/session';
 import { demoStorage } from 'src/demo/storage';
 
@@ -33,9 +34,7 @@ export function SettingsPage() {
 }
 
 function NotificationsSection() {
-  const { t } = useLingui();
   const me = useSession();
-  const queryClient = useQueryClient();
 
   const form = useForm({
     defaultValues: me.notificationDelivery,
@@ -43,27 +42,8 @@ function NotificationsSection() {
 
   const push = useWatch({ control: form.control, name: 'push' });
 
-  const mutation = useMutation({
-    mutationFn: (body: UpdateNotificationDeliveryData) => {
-      return api('PUT', `/members/${me.id}/notification-delivery`, { body });
-    },
-    onSuccess: (_, body) => {
-      if (body.push && getPushPermission() === 'granted') {
-        registerDevice().catch(() => {
-          showToast(
-            t`Notifications couldn't be enabled on this device. Try again in a few moments.`,
-            'error',
-          );
-        });
-      }
-    },
-    onError: () => {
-      showToast(t`The notification settings couldn't be saved`, 'error');
-      form.reset(me.notificationDelivery);
-    },
-    onSettled: async () => {
-      await queryClient.invalidateQueries(queries.session());
-    },
+  const mutation = useUpdateNotificationDelivery({
+    onError: () => form.reset(me.notificationDelivery),
   });
 
   const changeHandler = (field: 'email' | 'push', onChange: (event: React.ChangeEvent) => void) => {

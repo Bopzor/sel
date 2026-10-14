@@ -31,6 +31,7 @@
       "balance": 25,
       "committeeMember": true,
       "onboardingCompleted": true,
+      "completedProfileSteps": [],
       "notificationDelivery": {
         "email": true,
         "push": false
@@ -58,6 +59,7 @@
       "balance": -10,
       "committeeMember": false,
       "onboardingCompleted": true,
+      "completedProfileSteps": [],
       "notificationDelivery": {
         "email": true,
         "push": false
@@ -85,6 +87,7 @@
       "balance": 25,
       "committeeMember": false,
       "onboardingCompleted": true,
+      "completedProfileSteps": [],
       "notificationDelivery": {
         "email": true,
         "push": false
@@ -111,6 +114,7 @@
       "balance": -40,
       "committeeMember": false,
       "onboardingCompleted": true,
+      "completedProfileSteps": [],
       "notificationDelivery": {
         "email": true,
         "push": false
@@ -138,6 +142,7 @@
       "balance": -20,
       "committeeMember": false,
       "onboardingCompleted": true,
+      "completedProfileSteps": [],
       "notificationDelivery": {
         "email": true,
         "push": false
@@ -163,6 +168,7 @@
       "balance": -30,
       "committeeMember": false,
       "onboardingCompleted": true,
+      "completedProfileSteps": [],
       "notificationDelivery": {
         "email": true,
         "push": false
@@ -181,6 +187,7 @@
       "balance": 25,
       "committeeMember": false,
       "onboardingCompleted": true,
+      "completedProfileSteps": [],
       "notificationDelivery": {
         "email": true,
         "push": false
@@ -207,6 +214,7 @@
       "balance": 25,
       "committeeMember": false,
       "onboardingCompleted": true,
+      "completedProfileSteps": [],
       "notificationDelivery": {
         "email": true,
         "push": false

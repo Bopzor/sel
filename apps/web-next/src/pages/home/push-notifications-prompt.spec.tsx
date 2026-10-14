@@ -1,4 +1,4 @@
-import { type AuthenticatedMember } from '@sel/shared';
+import { ProfileStep, type AuthenticatedMember } from '@sel/shared';
 import { createAuthenticatedMember } from '@sel/shared/factories';
 import { cleanup, screen } from '@testing-library/react';
 import { userEvent, type UserEvent } from '@testing-library/user-event';
@@ -20,7 +20,10 @@ describe('push notifications prompt', () => {
   beforeEach(() => {
     user = userEvent.setup();
     server = new Server();
-    member = createAuthenticatedMember({ notificationDelivery: { email: false, push: true } });
+    member = createAuthenticatedMember({
+      notificationDelivery: { email: false, push: true },
+      completedProfileSteps: [ProfileStep.notifications],
+    });
     notification = { permission: 'default', answer: 'granted' };
 
     vi.stubGlobal('fetch', server.fetch);
@@ -111,6 +114,13 @@ describe('push notifications prompt', () => {
 
   it('is not shown when the push notifications are disabled', async () => {
     member.notificationDelivery.push = false;
+    render();
+
+    expect(screen.queryByText('Receive notifications on this device?')).not.toBeInTheDocument();
+  });
+
+  it('is not shown before the notifications profile step is completed', async () => {
+    member.completedProfileSteps = [];
     render();
 
     expect(screen.queryByText('Receive notifications on this device?')).not.toBeInTheDocument();

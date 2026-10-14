@@ -14,7 +14,7 @@ import { Feed } from './feed';
 import { FeedbackCard } from './feedback-card';
 import { OpenRequestsCard } from './open-requests-card';
 import { PendingTransactionsCard } from './pending-transactions-card';
-import { ProfileCompletionCard } from './profile-completion-card';
+import { ProfileCompletionCard } from './profile-completion/profile-completion-card';
 import { PushNotificationsPrompt } from './push-notifications-prompt';
 import { UpcomingEventsCard } from './upcoming-events-card';
 
@@ -84,8 +84,7 @@ function SideInfo() {
   return (
     <div className="stack max-w-content gap-4 xl:w-aside xl:shrink-0">
       <PendingTransactionsCard />
-      {/* todo */}
-      <ProfileCompletionCard className="hidden" />
+      <ProfileCompletionCard />
       <OpenRequestsCard className="max-xl:hidden" />
       <CommitteeMeetingCard className="max-xl:hidden" />
       <UpcomingEventsCard className="max-xl:hidden" />

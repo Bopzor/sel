@@ -4,6 +4,7 @@ import {
   listMemberTransactionsQuerySchema,
   MembersSort,
   notificationDeliveryBodySchema,
+  ProfileStep,
   TransactionStatus,
   updateMemberProfileBodySchema,
   type Member,
@@ -11,6 +12,7 @@ import {
   type MemberActivityItem,
   type MemberTransactionStats,
 } from '@sel/shared';
+import { unique } from '@sel/utils';
 
 import { demo } from '../demo';
 
@@ -106,10 +108,20 @@ export const demoMemberRoutes = [
 
   demo.route('PUT', '/members/:memberId/profile', (context) => {
     const member = findAuthenticatedMember(context);
-    const { avatarFileName, onboardingCompleted, bio, address, ...data } =
+    const { avatarFileName, onboardingCompleted, bio, address, completedProfileSteps, ...data } =
       updateMemberProfileBodySchema.parse(context.body);
 
     Object.assign(member, data);
+
+    // Like the server: the steps are only added, and the information filled in completes its step.
+    addCompletedProfileSteps(member, [
+      ...(completedProfileSteps ?? []),
+      ...(data.firstName || data.lastName ? [ProfileStep.name] : []),
+      ...(data.phoneNumber ? [ProfileStep.contactInfo] : []),
+      ...(address ? [ProfileStep.address] : []),
+      ...(avatarFileName ? [ProfileStep.avatar] : []),
+      ...(bio ? [ProfileStep.bio] : []),
+    ]);
 
     if (bio !== undefined) {
       member.bio = bio === null || bio === '' ? undefined : bio;
@@ -131,13 +143,17 @@ export const demoMemberRoutes = [
   }),
 
   demo.route('PUT', '/members/:memberId/notification-delivery', (context) => {
-    findAuthenticatedMember(context).notificationDelivery = notificationDeliveryBodySchema.parse(
-      context.body,
-    );
+    const member = findAuthenticatedMember(context);
+
+    member.notificationDelivery = notificationDeliveryBodySchema.parse(context.body);
 
     return demo.noContent();
   }),
 ];
+
+function addCompletedProfileSteps(member: demo.Member, steps: ProfileStep[]) {
+  member.completedProfileSteps = unique([...member.completedProfileSteps, ...steps]);
+}
 
 function serializeMember(state: demo.State, member: demo.Member): Member {
   return {

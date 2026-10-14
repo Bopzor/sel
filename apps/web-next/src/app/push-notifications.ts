@@ -1,5 +1,13 @@
+import { useLingui } from '@lingui/react/macro';
+import type { UpdateNotificationDeliveryData } from '@sel/shared';
+import { showToast } from '@sel/ui';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+
 import { api } from './api';
 import { getEnv } from './env';
+import { isMobile } from './install-app';
+import { queries } from './queries';
+import { useSession } from './session';
 
 export type PushPermission = NotificationPermission | 'unsupported';
 
@@ -43,13 +51,31 @@ export async function registerDevice() {
   });
 }
 
-declare global {
-  interface Navigator {
-    // Not available in Firefox and Safari.
-    userAgentData?: { mobile: boolean };
-  }
-}
+export function useUpdateNotificationDelivery({ onError }: { onError?: () => void } = {}) {
+  const me = useSession();
+  const queryClient = useQueryClient();
+  const { t } = useLingui();
 
-function isMobile() {
-  return navigator.userAgentData?.mobile ?? /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+  return useMutation({
+    mutationFn: (body: UpdateNotificationDeliveryData) => {
+      return api('PUT', `/members/${me.id}/notification-delivery`, { body });
+    },
+    onSuccess: (_, body) => {
+      if (body.push && getPushPermission() === 'granted') {
+        registerDevice().catch(() => {
+          showToast(
+            t`Notifications couldn't be enabled on this device. Try again in a few moments.`,
+            'error',
+          );
+        });
+      }
+    },
+    onError: () => {
+      showToast(t`The notification settings couldn't be saved`, 'error');
+      onError?.();
+    },
+    onSettled: async () => {
+      await queryClient.invalidateQueries(queries.session());
+    },
+  });
 }

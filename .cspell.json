@@ -5,6 +5,7 @@
   "language": "en,fr",
   "words": [
     "autoresize",
+    "beforeinstallprompt",
     "clonedeep",
     "clsx",
     "culori",
@@ -31,8 +32,10 @@
     "matomo",
     "mjml",
     "motionone",
+    "nextval",
     "nilscox",
     "oklch",
+    "ordinality",
     "oxlint",
     "persistor",
     "postgres",

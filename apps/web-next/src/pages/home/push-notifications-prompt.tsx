@@ -1,4 +1,5 @@
 import { Trans, useLingui } from '@lingui/react/macro';
+import { ProfileStep } from '@sel/shared';
 import { Alert, Button, showToast } from '@sel/ui';
 import { useMutation } from '@tanstack/react-query';
 import { useState } from 'react';
@@ -11,7 +12,13 @@ const storageKey = 'push-notifications-prompt-dismissed';
 export function PushNotificationsPrompt() {
   const { t } = useLingui();
   const me = useSession();
-  const [dismissed, setDismissed] = useState(() => localStorage.getItem(storageKey) === 'true');
+
+  // display the banner on next page load after the profile step is completed
+  const [dismissed, setDismissed] = useState(
+    () =>
+      !me.completedProfileSteps.includes(ProfileStep.notifications) ||
+      localStorage.getItem(storageKey) === 'true',
+  );
 
   const mutation = useMutation({
     mutationFn: requestPushPermission,

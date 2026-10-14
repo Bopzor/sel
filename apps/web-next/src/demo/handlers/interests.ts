@@ -1,5 +1,10 @@
-import { addInterestMemberBodySchema, editInterestMemberBodySchema, type Interest } from '@sel/shared';
-import { createId } from '@sel/utils';
+import {
+  addInterestMemberBodySchema,
+  editInterestMemberBodySchema,
+  ProfileStep,
+  type Interest,
+} from '@sel/shared';
+import { createId, unique } from '@sel/utils';
 
 import { demo } from '../demo';
 
@@ -24,6 +29,8 @@ export const demoInterestRoutes = [
       memberId: member().id,
       description,
     });
+
+    member().completedProfileSteps = unique([...member().completedProfileSteps, ProfileStep.interests]);
 
     return demo.noContent();
   }),

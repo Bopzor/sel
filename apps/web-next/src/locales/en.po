@@ -137,6 +137,10 @@ msgstr "{total, plural, one {# request} other {# requests}}"
 msgid "{years, plural, one {# year} other {# years}}"
 msgstr "{years, plural, one {# year} other {# years}}"
 
+#: src/pages/home/profile-completion/07-bio-step.tsx
+msgid "A few words about you help the other members get to know you."
+msgstr "A few words about you help the other members get to know you."
+
 #: src/pages/requests/request-form.tsx
 msgid "A few words, for example: Help to put up a shelf"
 msgstr "A few words, for example: Help to put up a shelf"
@@ -179,6 +183,7 @@ msgstr "Accept"
 msgid "Activity"
 msgstr "Activity"
 
+#: src/pages/home/profile-completion/05-address-step.tsx
 #: src/pages/interests/membership.tsx
 msgid "Add"
 msgstr "Add"
@@ -192,9 +197,17 @@ msgstr "Add “{0}” to your interests"
 msgid "Add a note"
 msgstr "Add a note"
 
+#: src/pages/home/profile-completion/06-avatar-step.tsx
+msgid "Add a photo"
+msgstr "Add a photo"
+
 #: src/components/attachments.tsx
 msgid "Add files"
 msgstr "Add files"
+
+#: src/pages/home/profile-completion/02-contact-info-step.tsx
+msgid "Add my phone number"
+msgstr "Add my phone number"
 
 #: src/pages/members/details/member-sidebar.tsx
 msgid "Add to my contacts"
@@ -203,6 +216,10 @@ msgstr "Add to my contacts"
 #: src/pages/interests/membership.tsx
 msgid "Add to my interests"
 msgstr "Add to my interests"
+
+#: src/pages/home/profile-completion/02-contact-info-step.tsx
+msgid "Add your phone number"
+msgstr "Add your phone number"
 
 #: src/pages/members/details/member-sidebar.tsx
 #: src/pages/profile/address-section.tsx
@@ -245,6 +262,10 @@ msgstr "All members"
 #: src/pages/help/help-page.tsx
 msgid "All the members of the LETS."
 msgstr "All the members of the LETS."
+
+#: src/pages/home/profile-completion/04-notifications-step.tsx
+msgid "Allow"
+msgstr "Allow"
 
 #: src/pages/settings/settings-page.tsx
 msgid "Allow notifications to receive them here too."
@@ -353,6 +374,7 @@ msgstr "Bold"
 msgid "Bulleted list"
 msgstr "Bulleted list"
 
+#: src/pages/home/profile-completion/04-notifications-step.tsx
 #: src/pages/settings/settings-page.tsx
 msgid "By email"
 msgstr "By email"
@@ -413,6 +435,10 @@ msgstr "Change the photo"
 #: src/pages/error-page.tsx
 msgid "Check your internet connection, then try again."
 msgstr "Check your internet connection, then try again."
+
+#: src/pages/home/profile-completion/06-avatar-step.tsx
+msgid "Choose a photo"
+msgstr "Choose a photo"
 
 #: src/pages/events/event-form.tsx
 msgid "Choose an address from the list below"
@@ -497,10 +523,6 @@ msgstr "Committee members"
 msgid "Community"
 msgstr "Community"
 
-#: src/pages/home/profile-completion-card.tsx
-msgid "Complete your profile"
-msgstr "Complete your profile"
-
 #: src/pages/members/details/exchanges-tab.tsx
 msgctxt "exchanges filter"
 msgid "Completed"
@@ -575,6 +597,7 @@ msgstr "Documents"
 
 #: src/pages/events/details/organizer-actions.tsx
 #: src/pages/events/event-form.tsx
+#: src/pages/home/profile-completion/01-name-step.tsx
 #: src/pages/information/details/information-details-page.tsx
 #: src/pages/profile/profile-section.tsx
 #: src/pages/requests/details/requester-actions.tsx
@@ -718,6 +741,10 @@ msgstr "Exchanging {units}"
 msgid "External event"
 msgstr "External event"
 
+#: src/pages/home/profile-completion/08-interests-step.tsx
+msgid "Find the members who share your passions, and what they can offer."
+msgstr "Find the members who share your passions, and what they can offer."
+
 #: src/pages/help/help-page.tsx
 msgid "Finding members"
 msgstr "Finding members"
@@ -798,6 +825,10 @@ msgstr "How do I contact a member privately?"
 msgid "How do I get notifications on my phone?"
 msgstr "How do I get notifications on my phone?"
 
+#: src/pages/home/profile-completion/04-notifications-step.tsx
+msgid "How do you want to be notified?"
+msgstr "How do you want to be notified?"
+
 #: src/pages/help/help-page.tsx
 msgid "How it works"
 msgstr "How it works"
@@ -843,9 +874,17 @@ msgstr "If this address belongs to a member account, an email containing a sign-
 msgid "In common"
 msgstr "In common"
 
+#: src/pages/home/profile-completion/09-install-app-step.tsx
+msgid "In Safari, tap the share button, then “Add to Home Screen”."
+msgstr "In Safari, tap the share button, then “Add to Home Screen”."
+
 #: src/pages/help/help-page.tsx
 msgid "In the <0>settings</0>, choose “On your devices”, then tap “Allow on this device”. Do it on each phone or computer you use."
 msgstr "In the <0>settings</0>, choose “On your devices”, then tap “Allow on this device”. Do it on each phone or computer you use."
+
+#: src/pages/home/profile-completion/09-install-app-step.tsx
+msgid "In the menu of your browser, choose “Install the app” or “Add to Home Screen”."
+msgstr "In the menu of your browser, choose “Install the app” or “Add to Home Screen”."
 
 #: src/pages/interests/interests-page.tsx
 #: src/pages/interests/membership.tsx
@@ -882,6 +921,14 @@ msgstr "Information not found"
 msgid "Information published"
 msgstr "Information published"
 
+#: src/pages/home/profile-completion/09-install-app-step.tsx
+msgid "Install"
+msgstr "Install"
+
+#: src/pages/home/profile-completion/09-install-app-step.tsx
+msgid "Install the app on your phone"
+msgstr "Install the app on your phone"
+
 #: src/pages/interests/interest-page.tsx
 msgid "Interest not found"
 msgstr "Interest not found"
@@ -893,9 +940,21 @@ msgstr "Interest not found"
 msgid "Interests"
 msgstr "Interests"
 
+#: src/pages/home/profile-completion/07-bio-step.tsx
+msgid "Introduce yourself"
+msgstr "Introduce yourself"
+
 #: src/pages/events/create/create-event-page.tsx
 msgid "Invite members: they'll be notified and can tell whether they're coming."
 msgstr "Invite members: they'll be notified and can tell whether they're coming."
+
+#: src/pages/home/profile-completion/01-name-step.tsx
+msgid "Is your name correct?"
+msgstr "Is your name correct?"
+
+#: src/pages/home/profile-completion/06-avatar-step.tsx
+msgid "It helps the other members recognize you."
+msgstr "It helps the other members recognize you."
 
 #: src/pages/error-page.tsx
 msgid "It'll be back on {date}."
@@ -933,6 +992,10 @@ msgstr "Last name"
 msgctxt "members sort"
 msgid "Last name"
 msgstr "Last name"
+
+#: src/pages/home/profile-completion/10-help-step.tsx
+msgid "Learn how the app works"
+msgstr "Learn how the app works"
 
 #: src/pages/events/event-form.tsx
 msgid "Leave it empty if the date isn't set yet"
@@ -1104,6 +1167,8 @@ msgid "Newest"
 msgstr "Newest"
 
 #: src/components/transaction-dialog.tsx
+#: src/pages/home/profile-completion/03-contact-visibility-step.tsx
+#: src/pages/home/profile-completion/04-notifications-step.tsx
 msgid "Next"
 msgstr "Next"
 
@@ -1192,6 +1257,7 @@ msgstr "No one has chosen this interest yet."
 msgid "No one has said they're coming yet."
 msgstr "No one has said they're coming yet."
 
+#: src/pages/home/profile-completion/02-contact-info-step.tsx
 #: src/pages/profile/contact-section.tsx
 msgid "No phone number"
 msgstr "No phone number"
@@ -1236,6 +1302,7 @@ msgstr "Notifications"
 msgid "Notifications appear on the devices where you allowed them, even when the app is closed."
 msgstr "Notifications appear on the devices where you allowed them, even when the app is closed."
 
+#: src/pages/home/profile-completion/04-notifications-step.tsx
 #: src/pages/settings/settings-page.tsx
 msgid "Notifications are blocked on this device. To receive them, allow them in the browser settings."
 msgstr "Notifications are blocked on this device. To receive them, allow them in the browser settings."
@@ -1248,6 +1315,8 @@ msgstr "Notifications are blocked on this device. You can allow them in the brow
 msgid "Notifications are sent to your email address."
 msgstr "Notifications are sent to your email address."
 
+#: src/app/push-notifications.ts
+#: src/pages/home/profile-completion/04-notifications-step.tsx
 #: src/pages/home/push-notifications-prompt.tsx
 #: src/pages/settings/settings-page.tsx
 msgid "Notifications couldn't be enabled on this device. Try again in a few moments."
@@ -1283,6 +1352,11 @@ msgstr "On an <0>event</0>, say whether you're coming, so that the organizer kno
 msgid "On an iPhone, first install the app: in Safari, tap the share button, then “Add to Home Screen”, and open the app from there."
 msgstr "On an iPhone, first install the app: in Safari, tap the share button, then “Add to Home Screen”, and open the app from there."
 
+#: src/pages/home/profile-completion/04-notifications-step.tsx
+msgid "On an iPhone, the app must be installed to receive notifications."
+msgstr "On an iPhone, the app must be installed to receive notifications."
+
+#: src/pages/home/profile-completion/04-notifications-step.tsx
 #: src/pages/settings/settings-page.tsx
 msgid "On your devices"
 msgstr "On your devices"
@@ -1315,6 +1389,10 @@ msgstr "Open"
 #: src/pages/help/help-page.tsx
 msgid "Open a request and answer “I can help”. The member who asked is notified, and you get in touch to arrange the details."
 msgstr "Open a request and answer “I can help”. The member who asked is notified, and you get in touch to arrange the details."
+
+#: src/pages/home/profile-completion/09-install-app-step.tsx
+msgid "Open it from your home screen, like any other app."
+msgstr "Open it from your home screen, like any other app."
 
 #: src/pages/members/details/activity-item.tsx
 msgid "Organized {link}"
@@ -1431,6 +1509,10 @@ msgstr "Publish the information"
 #: src/pages/information/details/information-details-page.tsx
 msgid "Published by"
 msgstr "Published by"
+
+#: src/pages/home/profile-completion/10-help-step.tsx
+msgid "Read the help"
+msgstr "Read the help"
 
 #: src/pages/home/push-notifications-prompt.tsx
 msgid "Receive notifications on this device?"
@@ -1650,6 +1732,10 @@ msgstr "See the event"
 msgid "See the information"
 msgstr "See the information"
 
+#: src/pages/home/profile-completion/08-interests-step.tsx
+msgid "See the interests"
+msgstr "See the interests"
+
 #: src/pages/requests/edit/edit-request-page.tsx
 msgid "See the request"
 msgstr "See the request"
@@ -1693,6 +1779,10 @@ msgstr "Settings"
 msgid "Share news with members: they'll be notified and can comment."
 msgstr "Share news with members: they'll be notified and can comment."
 
+#: src/pages/home/profile-completion/08-interests-step.tsx
+msgid "Share your interests"
+msgstr "Share your interests"
+
 #: src/pages/events/details/organizer.tsx
 msgid "Shared by"
 msgstr "Shared by"
@@ -1717,9 +1807,17 @@ msgstr "Show details"
 msgid "Show more"
 msgstr "Show more"
 
+#: src/pages/home/profile-completion/03-contact-visibility-step.tsx
+msgid "Show my email address on my member page"
+msgstr "Show my email address on my member page"
+
 #: src/pages/profile/contact-section.tsx
 msgid "Show my email address to other members"
 msgstr "Show my email address to other members"
+
+#: src/pages/home/profile-completion/03-contact-visibility-step.tsx
+msgid "Show my phone number on my member page"
+msgstr "Show my phone number on my member page"
 
 #: src/pages/profile/contact-section.tsx
 msgid "Show my phone number to other members"
@@ -1785,6 +1883,15 @@ msgstr "Sign-in code"
 msgid "Sign-in failed. Try again in a few moments."
 msgstr "Sign-in failed. Try again in a few moments."
 
+#: src/pages/home/profile-completion/05-address-step.tsx
+#: src/pages/home/profile-completion/06-avatar-step.tsx
+#: src/pages/home/profile-completion/07-bio-step.tsx
+#: src/pages/home/profile-completion/08-interests-step.tsx
+#: src/pages/home/profile-completion/09-install-app-step.tsx
+#: src/pages/home/profile-completion/10-help-step.tsx
+msgid "Skip"
+msgstr "Skip"
+
 #: src/pages/help/help-page.tsx
 #: src/pages/home/feedback-card.tsx
 msgid "Something doesn't work as expected"
@@ -1811,6 +1918,10 @@ msgstr "Suggest an idea"
 msgid "Taking part in events"
 msgstr "Taking part in events"
 
+#: src/pages/home/profile-completion/01-name-step.tsx
+msgid "That's it"
+msgstr "That's it"
+
 #: src/pages/help/help-page.tsx
 msgid "The <0>information</0> page gathers the news of the LETS and the members' posts. The useful files, such as the statutes, are in the <1>documents</1>."
 msgstr "The <0>information</0> page gathers the news of the LETS and the members' posts. The useful files, such as the statutes, are in the <1>documents</1>."
@@ -1818,6 +1929,10 @@ msgstr "The <0>information</0> page gathers the news of the LETS and the members
 #: src/pages/help/help-page.tsx
 msgid "The <0>members</0> page lists everyone in the LETS, with a map of who lives nearby. The <1>interests</1> show who shares what you like."
 msgstr "The <0>members</0> page lists everyone in the LETS, with a map of who lives nearby. The <1>interests</1> show who shares what you like."
+
+#: src/pages/home/profile-completion/04-notifications-step.tsx
+msgid "The app needs your permission to receive notifications."
+msgstr "The app needs your permission to receive notifications."
 
 #: src/pages/error-page.tsx
 msgid "The application is under maintenance"
@@ -1846,6 +1961,10 @@ msgstr "The exchange couldn't be created"
 #: src/components/transaction-item.tsx
 msgid "The exchange couldn't be updated"
 msgstr "The exchange couldn't be updated"
+
+#: src/pages/home/profile-completion/10-help-step.tsx
+msgid "The help answers the most frequent questions about the LETS and the app."
+msgstr "The help answers the most frequent questions about the LETS and the app."
 
 #: src/pages/information/create/create-information-page.tsx
 msgid "The information couldn't be published"
@@ -1903,7 +2022,7 @@ msgstr "The members will see the new version."
 msgid "The notification couldn't be sent"
 msgstr "The notification couldn't be sent"
 
-#: src/pages/settings/settings-page.tsx
+#: src/app/push-notifications.ts
 msgid "The notification settings couldn't be saved"
 msgstr "The notification settings couldn't be saved"
 
@@ -1923,14 +2042,17 @@ msgstr "The other members will see you in this interest, with your note."
 msgid "The participants ({participantsCount})"
 msgstr "The participants ({participantsCount})"
 
+#: src/pages/home/profile-completion/06-avatar-step.tsx
 #: src/pages/profile/identity-section.tsx
 msgid "The photo couldn't be sent. Try again in a few moments."
 msgstr "The photo couldn't be sent. Try again in a few moments."
 
+#: src/pages/home/profile-completion/06-avatar-step.tsx
 #: src/pages/profile/identity-section.tsx
 msgid "The photo must be an image"
 msgstr "The photo must be an image"
 
+#: src/pages/home/profile-completion/06-avatar-step.tsx
 #: src/pages/profile/identity-section.tsx
 msgid "The photo must be at most 10 MB"
 msgstr "The photo must be at most 10 MB"
@@ -2040,6 +2162,10 @@ msgstr "This interest couldn't be added"
 #: src/pages/interests/membership.tsx
 msgid "This interest couldn't be removed"
 msgstr "This interest couldn't be removed"
+
+#: src/pages/home/profile-completion/01-name-step.tsx
+msgid "This is how the other members see you."
+msgstr "This is how the other members see you."
 
 #: src/pages/members/details/former-member.tsx
 msgid "This person is no longer a member"
@@ -2272,6 +2398,10 @@ msgstr "Who is notified when I post a request or an event?"
 msgid "Who is notified when I write a comment?"
 msgstr "Who is notified when I write a comment?"
 
+#: src/pages/home/profile-completion/03-contact-visibility-step.tsx
+msgid "Who sees your contact details?"
+msgstr "Who sees your contact details?"
+
 #: src/pages/members/details/exchanges-tab.tsx
 msgid "With me"
 msgstr "With me"
@@ -2284,6 +2414,10 @@ msgstr "Withdraw my answer"
 #: src/components/comments-section.tsx
 msgid "Write a comment"
 msgstr "Write a comment"
+
+#: src/pages/home/profile-completion/07-bio-step.tsx
+msgid "Write a few words"
+msgstr "Write a few words"
 
 #: src/pages/help/help-page.tsx
 msgid "Write to us"
@@ -2321,6 +2455,7 @@ msgstr "You haven't chosen any interest yet"
 msgid "You haven't chosen any interest yet. <0>Browse interests</0>"
 msgstr "You haven't chosen any interest yet. <0>Browse interests</0>"
 
+#: src/pages/home/profile-completion/05-address-step.tsx
 #: src/pages/profile/address-section.tsx
 msgid "You haven't entered your address yet."
 msgstr "You haven't entered your address yet."
@@ -2357,6 +2492,10 @@ msgstr "You're not coming"
 msgid "Your activities, what you like to share or to learn"
 msgstr "Your activities, what you like to share or to learn"
 
+#: src/pages/home/profile-completion/05-address-step.tsx
+msgid "Your address"
+msgstr "Your address"
+
 #: src/pages/events/details/participation.tsx
 #: src/pages/requests/details/request-answer.tsx
 msgid "Your answer couldn't be saved"
@@ -2376,6 +2515,10 @@ msgstr "Your changes are only kept in this browser."
 #: src/pages/requests/edit/edit-request-page.tsx
 msgid "Your changes couldn't be saved"
 msgstr "Your changes couldn't be saved"
+
+#: src/pages/home/profile-completion/step-layout.tsx
+msgid "Your changes couldn't be saved. Try again in a few moments."
+msgstr "Your changes couldn't be saved. Try again in a few moments."
 
 #: src/components/comments-section.tsx
 msgid "Your comment couldn't be posted"
