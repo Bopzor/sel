@@ -61,6 +61,7 @@ function serializeAuthenticatedMember(
     address: member.address ?? undefined,
     avatar: member.avatar?.name,
     onboardingCompleted: member.status !== shared.MemberStatus.onboarding,
+    completedProfileSteps: member.completedProfileSteps,
     notificationDelivery: {
       email: member.notificationDelivery.includes(NotificationDeliveryType.email),
       push: member.notificationDelivery.includes(NotificationDeliveryType.push),

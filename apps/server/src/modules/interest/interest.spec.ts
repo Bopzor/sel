@@ -1,8 +1,10 @@
+import * as shared from '@sel/shared';
 import { afterEach, beforeAll, beforeEach, describe, expect, it } from 'vitest';
 
 import { persist } from 'src/factories';
 import { container } from 'src/infrastructure/container';
 import { StubEvents } from 'src/infrastructure/events';
+import { findMemberById, updateMember } from 'src/modules/member';
 import { resetDatabase } from 'src/persistence';
 import { clearDatabase, db } from 'src/persistence/database';
 import { TOKENS } from 'src/tokens';
@@ -68,6 +70,18 @@ describe('interest', () => {
     expect(events.events).toContainEqual(
       new InterestMemberAddedEvent('interestId', { memberId: 'memberId' }),
     );
+  });
+
+  it('completes the interests profile step when a member joins an interest', async () => {
+    await updateMember('memberId', { completedProfileSteps: [shared.ProfileStep.bio] });
+    await persist.interest({ id: 'interestId', imageId: 'imageId' });
+
+    await addInterestMember({ memberId: 'memberId', interestId: 'interestId' });
+
+    expect(await findMemberById('memberId')).toHaveProperty('completedProfileSteps', [
+      shared.ProfileStep.bio,
+      shared.ProfileStep.interests,
+    ]);
   });
 
   it('removes a member from an interest', async () => {

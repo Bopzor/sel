@@ -6,7 +6,7 @@ import { db } from 'src/persistence';
 import { TOKENS } from 'src/tokens';
 
 import { MemberInsert, OnboardingCompletedEvent } from '../member.entities';
-import { updateMember } from '../member.persistence';
+import { appendMemberProfileSteps, updateMember } from '../member.persistence';
 
 type UpdateMemberProfileCommand = {
   memberId: string;
@@ -18,7 +18,7 @@ export async function updateMemberProfile(command: UpdateMemberProfileCommand): 
 
   const { memberId, data } = command;
   const { firstName, lastName, emailVisible, phoneNumber, phoneNumberVisible, bio, address } = data;
-  const { avatarFileName, onboardingCompleted } = data;
+  const { avatarFileName, onboardingCompleted, completedProfileSteps } = data;
 
   const values: Partial<MemberInsert> = {
     firstName,
@@ -53,9 +53,26 @@ export async function updateMemberProfile(command: UpdateMemberProfileCommand): 
 
   await updateMember(memberId, values);
 
+  await appendMemberProfileSteps(memberId, [
+    ...(completedProfileSteps ?? []),
+    ...getFilledProfileSteps(values),
+  ]);
+
   if (data.onboardingCompleted) {
     events.publish(new OnboardingCompletedEvent(memberId));
   }
+}
+
+function getFilledProfileSteps(values: Partial<MemberInsert>) {
+  const steps: shared.ProfileStep[] = [];
+
+  if (values.firstName || values.lastName) steps.push(shared.ProfileStep.name);
+  if (values.phoneNumber) steps.push(shared.ProfileStep.contactInfo);
+  if (values.address) steps.push(shared.ProfileStep.address);
+  if (values.avatarId) steps.push(shared.ProfileStep.avatar);
+  if (values.bio) steps.push(shared.ProfileStep.bio);
+
+  return steps;
 }
 
 async function getAvatarFile(memberId: string, fileName: string) {

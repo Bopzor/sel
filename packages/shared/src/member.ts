@@ -24,6 +24,21 @@ export const MemberRole = {
 
 export type MemberRole = ValueOf<typeof MemberRole>;
 
+export const ProfileStep = {
+  name: 'name',
+  contactInfo: 'contactInfo',
+  contactVisibility: 'contactVisibility',
+  notifications: 'notifications',
+  address: 'address',
+  avatar: 'avatar',
+  bio: 'bio',
+  interests: 'interests',
+  installApp: 'installApp',
+  help: 'help',
+} as const;
+
+export type ProfileStep = ValueOf<typeof ProfileStep>;
+
 export type Member = {
   id: string;
   firstName: string;
@@ -88,6 +103,7 @@ export const updateMemberProfileBodySchema = z.object({
     .optional(),
   avatarFileName: z.string().nullable().optional(),
   onboardingCompleted: z.boolean().optional(),
+  completedProfileSteps: z.array(z.enum(ProfileStep)).optional(),
 });
 
 export type UpdateMemberProfileData = z.infer<typeof updateMemberProfileBodySchema>;

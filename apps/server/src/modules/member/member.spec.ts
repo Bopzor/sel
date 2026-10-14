@@ -1,4 +1,5 @@
 import * as shared from '@sel/shared';
+import { createAddress } from '@sel/shared/factories';
 import { createFactory } from '@sel/utils';
 import express from 'express';
 import supertest from 'supertest';
@@ -62,6 +63,7 @@ describe('member', () => {
       notificationDelivery: [],
       balance: 0,
       roles: [shared.MemberRole.member],
+      completedProfileSteps: [],
       createdAt: expect.any(Date),
       updatedAt: expect.any(Date),
     });
@@ -181,6 +183,49 @@ describe('member', () => {
     await expect(
       updateMemberProfile({ memberId: 'memberId', data: { avatarFileName: 'avatar.png' } }),
     ).rejects.toThrow('The avatar must be uploaded by the member');
+  });
+
+  it('adds the profile steps completed by the member to the ones already completed', async () => {
+    await persist.member({ id: 'memberId', completedProfileSteps: [shared.ProfileStep.bio] });
+
+    await updateMemberProfile({
+      memberId: 'memberId',
+      data: { completedProfileSteps: [shared.ProfileStep.address, shared.ProfileStep.bio] },
+    });
+
+    expect(await findMemberById('memberId')).toHaveProperty('completedProfileSteps', [
+      shared.ProfileStep.bio,
+      shared.ProfileStep.address,
+    ]);
+  });
+
+  it('completes the steps of the information the member fills in', async () => {
+    const address = createAddress({ line1: '8 Boulevard du Port', postalCode: '80000', city: 'Amiens' });
+
+    await persist.member({ id: 'memberId', completedProfileSteps: [shared.ProfileStep.help] });
+    await persist.file({ name: 'avatar.png', mimetype: 'image/png', uploadedBy: 'memberId' });
+
+    await updateMemberProfile({
+      memberId: 'memberId',
+      data: {
+        firstName: 'First',
+        phoneNumber: '0612345678',
+        address,
+        avatarFileName: 'avatar.png',
+        bio: 'bio',
+      },
+    });
+
+    const completedProfileSteps = (await findMemberById('memberId'))?.completedProfileSteps;
+
+    expect(completedProfileSteps).toEqual([
+      shared.ProfileStep.help,
+      shared.ProfileStep.name,
+      shared.ProfileStep.contactInfo,
+      shared.ProfileStep.address,
+      shared.ProfileStep.avatar,
+      shared.ProfileStep.bio,
+    ]);
   });
 
   it("set the member's status to active when onboarding is completed", async () => {

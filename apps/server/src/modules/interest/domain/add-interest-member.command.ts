@@ -1,5 +1,8 @@
+import * as shared from '@sel/shared';
+
 import { container } from 'src/infrastructure/container';
 import { BadRequest } from 'src/infrastructure/http';
+import { appendMemberProfileSteps } from 'src/modules/member';
 import { db, schema } from 'src/persistence';
 import { TOKENS } from 'src/tokens';
 
@@ -31,6 +34,8 @@ export async function addInterestMember(command: AddInterestMemberCommand): Prom
     memberId,
     description,
   });
+
+  await appendMemberProfileSteps(memberId, [shared.ProfileStep.interests]);
 
   events.publish(new InterestMemberAddedEvent(interestId, { memberId }));
 }

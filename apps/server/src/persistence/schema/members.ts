@@ -38,6 +38,11 @@ export const members = pgTable('members', {
   notificationDelivery: notificationDeliveryTypeEnum('notification_delivery').array().notNull().default([]),
   balance: integer('balance').notNull().default(0),
   roles: memberRoleEnum('roles').array().notNull().default([]),
+  completedProfileSteps: text('completed_profile_steps')
+    .$type<shared.ProfileStep>()
+    .array()
+    .notNull()
+    .default([]),
   createdAt,
   updatedAt,
 });

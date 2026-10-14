@@ -6,7 +6,7 @@ import { type AuthenticatedMember } from './authenticated-member';
 import { type Comment, type CommentAuthor } from './comment';
 import { type Config } from './config';
 import { type Document } from './documents';
-import { EventKind, type Event, type EventsListItem } from './event';
+import { type Event, EventKind, type EventsListItem } from './event';
 import { type FeedEvent, type FeedInformation, type FeedRequest } from './feed';
 import { type Information } from './information';
 import { type Interest } from './interest';
@@ -77,6 +77,7 @@ export const createAuthenticatedMember = createFactory<AuthenticatedMember>(() =
   emailVisible: false,
   phoneNumberVisible: false,
   onboardingCompleted: false,
+  completedProfileSteps: [],
   notificationDelivery: {
     email: false,
     push: false,

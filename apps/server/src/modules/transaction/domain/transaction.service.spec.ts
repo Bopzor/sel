@@ -59,6 +59,7 @@ describe('transactions service', () => {
     balance: 0,
     membershipStartDate: createDate(),
     roles: [],
+    completedProfileSteps: [],
     createdAt: createDate(),
     updatedAt: createDate(),
   }));

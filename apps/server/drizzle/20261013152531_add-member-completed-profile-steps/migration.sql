@@ -1,0 +1,1 @@
+ALTER TABLE "members" ADD COLUMN "completed_profile_steps" text[] DEFAULT '{}'::text[] NOT NULL;

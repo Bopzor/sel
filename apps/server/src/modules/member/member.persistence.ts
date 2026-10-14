@@ -1,4 +1,5 @@
-import { eq } from 'drizzle-orm';
+import * as shared from '@sel/shared';
+import { eq, sql } from 'drizzle-orm';
 
 import { container } from 'src/infrastructure/container';
 import { db, schema } from 'src/persistence';
@@ -23,5 +24,29 @@ export async function updateMember(memberId: string, values: Partial<MemberInser
   await db
     .update(schema.members)
     .set({ updatedAt: now, ...values })
+    .where(eq(schema.members.id, memberId));
+}
+
+export async function appendMemberProfileSteps(memberId: string, steps: shared.ProfileStep[]) {
+  if (steps.length === 0) {
+    return;
+  }
+
+  const date = container.resolve(TOKENS.date);
+  const newSteps = sql`array[${sql.join(
+    steps.map((step) => sql`${step}`),
+    sql`, `,
+  )}]::text[]`;
+
+  // A single statement, so that concurrent requests do not overwrite each other's steps.
+  await db
+    .update(schema.members)
+    .set({
+      updatedAt: date.now(),
+      completedProfileSteps: sql`array(
+        select step from unnest(${schema.members.completedProfileSteps} || ${newSteps}) with ordinality as t(step, position)
+        group by step order by min(position)
+      )`,
+    })
     .where(eq(schema.members.id, memberId));
 }
