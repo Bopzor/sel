@@ -20,7 +20,7 @@ import {
 } from './profile-section';
 
 export function AddressSection({ member }: { member: AuthenticatedMember }) {
-  const section = useSectionEditing();
+  const section = useSectionEditing('address');
   const title = <Trans>Address</Trans>;
 
   if (section.editing) {

@@ -14,7 +14,7 @@ import {
 } from './profile-section';
 
 export function BioSection({ member }: { member: AuthenticatedMember }) {
-  const section = useSectionEditing();
+  const section = useSectionEditing('bio');
   const title = <Trans>About me</Trans>;
 
   if (section.editing) {

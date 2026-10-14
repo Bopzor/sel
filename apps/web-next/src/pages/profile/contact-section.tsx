@@ -18,7 +18,7 @@ import {
 } from './profile-section';
 
 export function ContactSection({ member }: { member: AuthenticatedMember }) {
-  const section = useSectionEditing();
+  const section = useSectionEditing('contact');
   const title = <Trans>Contact</Trans>;
 
   if (section.editing) {

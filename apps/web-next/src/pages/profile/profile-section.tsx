@@ -4,15 +4,17 @@ import { Button, Card, showToast } from '@sel/ui';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useId, useState } from 'react';
 import { type FieldValues, type FormState } from 'react-hook-form';
+import { useLocation } from 'react-router';
 
 import { api } from 'src/app/api';
 import { queries } from 'src/app/queries';
 import { useSession } from 'src/app/session';
 import { FormServerErrorAlert } from 'src/components/fields';
 
-export function useSectionEditing() {
-  // Undefined until the section is edited once: the Edit button only takes the focus back when the form closes.
-  const [editing, setEditing] = useState<boolean>();
+export function useSectionEditing(section: string) {
+  const { state } = useLocation();
+  // null until the section is edited once: the Edit button only takes the focus back when the form closes.
+  const [editing, setEditing] = useState<boolean | null>(state?.edit === section ? true : null);
 
   return {
     editing: editing === true,

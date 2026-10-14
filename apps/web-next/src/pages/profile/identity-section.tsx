@@ -20,7 +20,7 @@ import {
 } from './profile-section';
 
 export function IdentitySection({ member }: { member: AuthenticatedMember }) {
-  const section = useSectionEditing();
+  const section = useSectionEditing('identity');
   const title = <Trans>Name and photo</Trans>;
 
   if (section.editing) {
