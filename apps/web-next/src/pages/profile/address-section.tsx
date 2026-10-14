@@ -60,7 +60,6 @@ type AddressFormProps = {
 function AddressForm({ title, member, onClose }: AddressFormProps) {
   const addressSearch = useAddressSearch();
   const [mode, setMode] = useState<'search' | 'manual'>(member.address ? 'manual' : 'search');
-  const [focus, setFocus] = useState(false);
 
   const form = useForm({
     resolver: useZodResolver(useSchema()),
@@ -79,13 +78,11 @@ function AddressForm({ title, member, onClose }: AddressFormProps) {
 
   const onSelect = (address: Address) => {
     setAddress(address);
-    setFocus(true);
     setMode('manual');
   };
 
   const showSearch = () => {
     form.clearErrors('address');
-    setFocus(true);
     setMode('search');
   };
 
@@ -112,7 +109,7 @@ function AddressForm({ title, member, onClose }: AddressFormProps) {
               icon="search"
               // Enter would submit the form, and save the address that was there before the search.
               onKeyDown={(event) => event.key === 'Enter' && event.preventDefault()}
-              autoFocus={focus}
+              autoFocus
               {...addressSearch.inputProps}
             />
           </FormField>
