@@ -13,11 +13,7 @@ export function Participants({ participants }: { participants: EventParticipant[
   return (
     <section className="stack gap-3">
       <h2 className="text-title-3">
-        {coming.length === 0 ? (
-          <Trans>Participants</Trans>
-        ) : (
-          <Plural value={coming.length} one="# participant" other="# participants" />
-        )}
+        <Plural value={coming.length} one="# participant" other="# participants" />
       </h2>
 
       {coming.length === 0 && (

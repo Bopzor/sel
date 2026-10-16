@@ -78,7 +78,7 @@ function RequestDetails({ request }: { request: Request }) {
           {canHelp && (
             <CreateTransaction request={request} direction="request" counterpart={request.requester} />
           )}
-          <RequestAnswers answers={request.answers} />
+          <RequestAnswers answers={request.answers} pending={pending} />
         </aside>
 
         <div className="max-w-content">

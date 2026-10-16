@@ -505,6 +505,10 @@ msgstr "A commenté {link}"
 msgid "Comments"
 msgstr "Commentaires"
 
+#: src/pages/members/list/members-list.tsx
+msgid "Committee"
+msgstr "CA"
+
 #: src/pages/events/event-form.tsx
 msgid "Committee meeting"
 msgstr "Réunion du conseil d’animation"
@@ -565,7 +569,7 @@ msgstr "Sombre"
 
 #: src/pages/events/event-form.tsx
 msgid "Date and time (optional)"
-msgstr "Date et heure (facultatif)"
+msgstr "Date et heure (facultatives)"
 
 #: src/pages/events/details/event-page.tsx
 #: src/pages/events/list/events-list.tsx
@@ -827,7 +831,7 @@ msgstr "Comment recevoir les notifications sur mon téléphone ?"
 
 #: src/pages/home/profile-completion/04-notifications-step.tsx
 msgid "How do you want to be notified?"
-msgstr "Comment voulez-vous être notifié ?"
+msgstr "Comment souhaitez-vous recevoir les notifications ?"
 
 #: src/pages/help/help-page.tsx
 msgid "How it works"
@@ -978,7 +982,7 @@ msgstr "Tenez-le à jour, et prévenez les membres de ce qu’ils doivent savoir
 
 #: src/pages/help/help-page.tsx
 msgid "Keeping informed"
-msgstr "Rester informé"
+msgstr "Suivre l’actualité"
 
 #: src/pages/settings/settings-page.tsx
 msgid "Language"
@@ -1146,7 +1150,7 @@ msgstr "Besoin d’aide ?"
 #: src/pages/members/list/members-list.tsx
 msgctxt "member"
 msgid "New"
-msgstr "Arrivé(e) récemment"
+msgstr "Adhésions récentes"
 
 #: src/pages/events/list/events-page.tsx
 msgid "New event"
@@ -1246,6 +1250,10 @@ msgid "No members yet"
 msgstr "Aucun membre pour l’instant"
 
 #: src/pages/requests/details/request-answers.tsx
+msgid "No one answered."
+msgstr "Personne n’a répondu."
+
+#: src/pages/requests/details/request-answers.tsx
 msgid "No one has answered yet."
 msgstr "Personne n’a encore répondu."
 
@@ -1280,7 +1288,7 @@ msgstr "Aucun événement à venir"
 
 #: src/pages/interests/membership.tsx
 msgid "Note (optional)"
-msgstr "Note (facultatif)"
+msgstr "Note (facultative)"
 
 #: src/pages/help/help-page.tsx
 msgid "Nothing happens? <0>Write to us</0> from your usual email."
@@ -1346,7 +1354,7 @@ msgstr "Propositions d’aide"
 
 #: src/pages/help/help-page.tsx
 msgid "On an <0>event</0>, say whether you're coming, so that the organizer knows who to expect. You can change your mind until the event."
-msgstr "Sur un <0>événement</0>, indiquez si vous venez, pour que l’organisateur sache qui attendre. Vous pouvez changer d’avis jusqu’à l’événement."
+msgstr "Sur un <0>événement</0>, indiquez si vous venez, pour que la personne qui organise sache qui attendre. Vous pouvez changer d’avis jusqu’à l’événement."
 
 #: src/pages/help/help-page.tsx
 msgid "On an iPhone, first install the app: in Safari, tap the share button, then “Add to Home Screen”, and open the app from there."
@@ -1422,10 +1430,6 @@ msgstr "Aperçu"
 msgid "Page not found"
 msgstr "Page introuvable"
 
-#: src/pages/events/details/participants.tsx
-msgid "Participants"
-msgstr "Participants"
-
 #: src/pages/members/details/exchanges-tab.tsx
 msgid "Partners"
 msgstr "Partenaires"
@@ -1463,7 +1467,7 @@ msgstr "Photos ou documents, 10 Mo maximum par fichier"
 
 #: src/pages/help/help-page.tsx
 msgid "Post a <0>request</0> describing what you need. The members who can help tell you so, and you contact them to arrange the details. Close the request once you've been helped."
-msgstr "Publiez une <0>demande</0> qui décrit votre besoin. Les membres qui peuvent aider vous le font savoir, et vous les contactez pour vous organiser. Fermez la demande une fois que vous avez été aidé."
+msgstr "Publiez une <0>demande</0> qui décrit votre besoin. Les membres qui peuvent aider vous le font savoir, et vous les contactez pour vous organiser. Clôturez la demande une fois que vous avez reçu de l’aide."
 
 #: src/pages/members/details/activity-tab.tsx
 #: src/pages/requests/create/create-request-page.tsx
@@ -1890,7 +1894,7 @@ msgstr "La connexion a échoué. Réessayez dans quelques instants."
 #: src/pages/home/profile-completion/09-install-app-step.tsx
 #: src/pages/home/profile-completion/10-help-step.tsx
 msgid "Skip"
-msgstr "Plus tard"
+msgstr "Ignorer"
 
 #: src/pages/help/help-page.tsx
 #: src/pages/home/feedback-card.tsx
@@ -2087,7 +2091,7 @@ msgstr "Son profil n’est plus disponible."
 
 #: src/pages/events/details/notify-dialog.tsx
 msgid "They receive it by email or on their devices, depending on their settings."
-msgstr "Elle leur est envoyée par email ou sur leurs appareils, selon leurs réglages."
+msgstr "La notification est envoyée par email ou sur leurs appareils, selon leurs réglages."
 
 #: src/pages/settings/settings-page.tsx
 msgid "This browser can't receive notifications. On an iPhone, first add the app to the home screen."
@@ -2125,7 +2129,7 @@ msgstr "Ce champ est obligatoire"
 
 #: src/hooks/use-zod-resolver.ts
 msgid "This field should be a number"
-msgstr "Ce champ doit être un nombre"
+msgstr "Saisissez un nombre entier"
 
 #: src/hooks/use-zod-resolver.ts
 msgid "This field should be a whole number"
@@ -2199,8 +2203,8 @@ msgid "Title"
 msgstr "Titre"
 
 #: src/pages/profile/contact-section.tsx
-msgid "To change it, contact an administrator."
-msgstr "Pour la modifier, contactez un·e administrateur·rice."
+msgid "To change it, <0>contact an administrator</0>."
+msgstr "Pour la modifier, <0>contactez le SEL</0>."
 
 #: src/pages/events/list/events-list.tsx
 #: src/pages/home/feed.tsx
@@ -2478,7 +2482,7 @@ msgstr "Vous n’avez encore rien écrit sur vous."
 
 #: src/pages/events/details/participation.tsx
 msgid "You'll be notified of new comments."
-msgstr "Vous serez notifié(e) des nouveaux commentaires."
+msgstr "Vous recevrez une notification pour les nouveaux commentaires."
 
 #: src/pages/events/details/participation.tsx
 msgid "You're coming"

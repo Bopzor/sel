@@ -7,7 +7,7 @@ import { routes } from 'src/app/routes';
 import { Link } from 'src/components/link';
 import { MemberAvatar } from 'src/components/member-avatar';
 
-export function RequestAnswers({ answers }: { answers: RequestAnswer[] }) {
+export function RequestAnswers({ answers, pending }: { answers: RequestAnswer[]; pending: boolean }) {
   const sorted = answers.toSorted(
     (a, b) => Number(b.answer === 'positive') - Number(a.answer === 'positive'),
   );
@@ -20,7 +20,7 @@ export function RequestAnswers({ answers }: { answers: RequestAnswer[] }) {
 
       {answers.length === 0 && (
         <p className="text-body-sm text-muted">
-          <Trans>No one has answered yet.</Trans>
+          {pending ? <Trans>No one has answered yet.</Trans> : <Trans>No one answered.</Trans>}
         </p>
       )}
 

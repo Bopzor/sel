@@ -5,7 +5,9 @@ import { useForm } from 'react-hook-form';
 import z from 'zod';
 
 import { formatPhoneNumber } from 'src/app/format';
+import { routes } from 'src/app/routes';
 import { CheckboxField, InputField, submitWithMutation } from 'src/components/fields';
+import { Link } from 'src/components/link';
 import { useFormApiError } from 'src/hooks/use-form-api-error';
 import { useZodResolver } from 'src/hooks/use-zod-resolver';
 
@@ -96,9 +98,17 @@ function ContactForm({ title, member, onClose }: ContactFormProps) {
       <div className="stack gap-3">
         <FormField
           label={<Trans>Email address</Trans>}
-          hint={<Trans>To change it, contact an administrator.</Trans>}
+          hint={
+            <Trans>
+              To change it,{' '}
+              <Link href={routes.help('contact')} className="text-primary underline">
+                contact an administrator
+              </Link>
+              .
+            </Trans>
+          }
         >
-          <Input type="email" value={member.email} readOnly autoFocus />
+          <Input type="email" value={member.email} readOnly />
         </FormField>
 
         <CheckboxField
@@ -115,6 +125,7 @@ function ContactForm({ title, member, onClose }: ContactFormProps) {
           label={<Trans>Phone number</Trans>}
           type="tel"
           autoComplete="tel"
+          autoFocus
         />
 
         <CheckboxField

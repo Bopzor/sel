@@ -31,7 +31,17 @@
       "balance": 25,
       "committeeMember": true,
       "onboardingCompleted": true,
-      "completedProfileSteps": [],
+      "completedProfileSteps": [
+        "name",
+        "contactInfo",
+        "contactVisibility",
+        "notifications",
+        "address",
+        "avatar",
+        "bio",
+        "interests",
+        "help"
+      ],
       "notificationDelivery": {
         "email": true,
         "push": false
@@ -740,7 +750,7 @@
   "events": [
     {
       "id": "fab5cn",
-      "title": "Repair café de novembre",
+      "title": "Repair café d'octobre",
       "message": {
         "body": "<p>Le repair café revient pour sa troisième édition ! Apportez vos objets en panne et réparons-les ensemble plutôt que de les jeter.</p><p>Des bénévoles seront présents pour vous aider sur :</p><ul><li>le <strong>petit électroménager</strong> : grille-pain, bouilloires, sèche-cheveux, lampes…</li><li>les <strong>vélos</strong> : crevaisons, freins, dérailleurs, éclairage ;</li><li>la <strong>couture</strong> : ourlets, boutons, fermetures éclair, petits accrocs ;</li><li>l'<strong>informatique</strong> : ordinateurs lents, téléphones, imprimantes capricieuses.</li></ul><p>Le principe : vous restez avec la personne qui répare, pour apprendre et pouvoir le refaire vous-même la prochaine fois. On ne garantit pas de tout réparer, mais on essaie toujours !</p><p>Café et gâteaux offerts. Pensez à apporter une tasse, et si vous avez des outils ou des chutes de tissu dont vous ne vous servez plus, ils trouveront preneur.</p>",
         "attachments": []

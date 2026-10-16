@@ -505,6 +505,10 @@ msgstr "Commented on {link}"
 msgid "Comments"
 msgstr "Comments"
 
+#: src/pages/members/list/members-list.tsx
+msgid "Committee"
+msgstr "Committee"
+
 #: src/pages/events/event-form.tsx
 msgid "Committee meeting"
 msgstr "Committee meeting"
@@ -1246,6 +1250,10 @@ msgid "No members yet"
 msgstr "No members yet"
 
 #: src/pages/requests/details/request-answers.tsx
+msgid "No one answered."
+msgstr "No one answered."
+
+#: src/pages/requests/details/request-answers.tsx
 msgid "No one has answered yet."
 msgstr "No one has answered yet."
 
@@ -1421,10 +1429,6 @@ msgstr "Overview"
 #: src/pages/error-page.tsx
 msgid "Page not found"
 msgstr "Page not found"
-
-#: src/pages/events/details/participants.tsx
-msgid "Participants"
-msgstr "Participants"
 
 #: src/pages/members/details/exchanges-tab.tsx
 msgid "Partners"
@@ -2199,8 +2203,8 @@ msgid "Title"
 msgstr "Title"
 
 #: src/pages/profile/contact-section.tsx
-msgid "To change it, contact an administrator."
-msgstr "To change it, contact an administrator."
+msgid "To change it, <0>contact an administrator</0>."
+msgstr "To change it, <0>contact an administrator</0>."
 
 #: src/pages/events/list/events-list.tsx
 #: src/pages/home/feed.tsx

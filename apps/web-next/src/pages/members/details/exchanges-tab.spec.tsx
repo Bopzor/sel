@@ -68,7 +68,7 @@ describe('member exchanges', () => {
       'href',
       '/members/julien',
     );
-    expect(paid).toHaveTextContent('− 3 units');
+    expect(paid).toHaveTextContent('−3 units');
     expect(paid).toHaveTextContent('Gardening');
     expect(within(paid!).getByRole('link', { name: 'Help in the garden' })).toHaveAttribute(
       'href',
@@ -80,7 +80,7 @@ describe('member exchanges', () => {
         .map((comment) => comment.textContent),
     ).toEqual(['Thank you!Claire Dubois', 'With pleasureJulien Petit']);
 
-    expect(received).toHaveTextContent('+ 2 units');
+    expect(received).toHaveTextContent('+2 units');
     expect(server.find('/api/members/claire/transactions')[0]?.searchParams.get('status')).toEqual(
       'completed',
     );
@@ -180,7 +180,7 @@ describe('member exchanges', () => {
     const item = (await screen.findByText('Canceled', { selector: 'p' })).closest('li');
 
     expect(item).toHaveTextContent('3 units');
-    expect(item).not.toHaveTextContent('− 3 units');
+    expect(item).not.toHaveTextContent('−3 units');
     expect(screen.queryByText('Completed', { selector: 'p' })).not.toBeInTheDocument();
   });
 

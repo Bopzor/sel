@@ -50,6 +50,12 @@ export function TransactionItem({ member, transaction }: TransactionItemProps) {
 
         <ListItem.Description className="text-default">{transaction.description}</ListItem.Description>
 
+        {transaction.payerComment && <TransactionComment author={payer} comment={transaction.payerComment} />}
+
+        {transaction.recipientComment && (
+          <TransactionComment author={recipient} comment={transaction.recipientComment} />
+        )}
+
         <p className="text-caption text-subtle">
           <RelativeDate date={transaction.date} className="whitespace-nowrap" />
 
@@ -63,12 +69,6 @@ export function TransactionItem({ member, transaction }: TransactionItemProps) {
           )}
         </p>
 
-        {transaction.payerComment && <TransactionComment author={payer} comment={transaction.payerComment} />}
-
-        {transaction.recipientComment && (
-          <TransactionComment author={recipient} comment={transaction.recipientComment} />
-        )}
-
         {transaction.status === TransactionStatus.pending && (
           <div className="mt-2">
             <PendingTransactionActions transaction={transaction} />
@@ -80,12 +80,10 @@ export function TransactionItem({ member, transaction }: TransactionItemProps) {
 }
 
 function TransactionComment({ author, comment }: { author: Transaction['payer']; comment: string }) {
-  const name = formatMemberName(author);
-
   return (
-    <figure className="mt-1 border-l-2 pl-3 text-body-sm">
+    <figure className="my-1 border-l-2 pl-3 text-body-sm">
       <blockquote className="line-clamp-3 whitespace-pre-line">{comment}</blockquote>
-      <figcaption className="text-caption font-medium text-muted">{name}</figcaption>
+      <figcaption className="sr-only">{formatMemberName(author)}</figcaption>
     </figure>
   );
 }

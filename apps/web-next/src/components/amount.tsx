@@ -11,7 +11,7 @@ type AmountProps = {
 export function Amount({ value, signed = false }: AmountProps) {
   const { i18n } = useLingui();
   const count = Math.abs(value);
-  const sign = value < 0 ? '− ' : signed && value > 0 ? '+ ' : '';
+  const sign = value < 0 ? '−' : signed && value > 0 ? '+' : '';
   const formatted = sign + new Intl.NumberFormat(i18n.locale).format(count);
 
   return (

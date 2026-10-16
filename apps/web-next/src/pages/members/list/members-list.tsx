@@ -96,8 +96,13 @@ function MemberImage({ member }: { member: Member }) {
   const badge = () => {
     if (member.committeeMember) {
       return (
-        <Badge tone="accent" className="absolute -top-3 -right-3 max-sm:hidden">
-          <Trans>Committee member</Trans>
+        <Badge tone="accent" className="absolute -top-3 -right-3">
+          <span className="sm:hidden">
+            <Trans>Committee</Trans>
+          </span>
+          <span className="max-sm:hidden">
+            <Trans>Committee member</Trans>
+          </span>
         </Badge>
       );
     }

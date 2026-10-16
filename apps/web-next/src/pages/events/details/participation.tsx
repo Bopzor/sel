@@ -37,11 +37,13 @@ export function ParticipationCard({ event, memberId }: { event: Event; memberId:
           {participation === 'no' && <Trans>You're not coming</Trans>}
         </Card.Title>
 
-        <Card.Description>
-          {participation === undefined && <Trans>The organizer will know who to expect.</Trans>}
-          {participation === 'yes' && <Trans>You'll be notified of new comments.</Trans>}
-          {participation === 'no' && <Trans>You can change your mind until the event.</Trans>}
-        </Card.Description>
+        {memberId !== event.organizer.id && (
+          <Card.Description>
+            {participation === undefined && <Trans>The organizer will know who to expect.</Trans>}
+            {participation === 'yes' && <Trans>You'll be notified of new comments.</Trans>}
+            {participation === 'no' && <Trans>You can change your mind until the event.</Trans>}
+          </Card.Description>
+        )}
       </Card.Header>
 
       {mutation.isError && (

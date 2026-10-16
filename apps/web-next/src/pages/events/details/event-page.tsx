@@ -1,5 +1,5 @@
 import { Trans, useLingui } from '@lingui/react/macro';
-import { EventKind, type Event } from '@sel/shared';
+import { EventKind, type Address, type Event } from '@sel/shared';
 import { Badge, Card, Icon, Skeleton } from '@sel/ui';
 import { defined, isPast } from '@sel/utils';
 import { useQuery } from '@tanstack/react-query';
@@ -127,13 +127,24 @@ function DateAndLocation({ event }: { event: Event }) {
             </p>
           ) : (
             <address className="wrap-break-word whitespace-pre-line not-italic">
-              {formatAddressLines(event.location).join('\n')}
+              <a
+                href={openStreetMapUrl(event.location)}
+                target="_blank"
+                rel="noreferrer"
+                className="text-primary underline"
+              >
+                {formatAddressLines(event.location).join('\n')}
+              </a>
             </address>
           )}
         </div>
       </Card.Body>
     </Card.Root>
   );
+}
+
+function openStreetMapUrl(address: Address) {
+  return `https://www.openstreetmap.org/search?query=${encodeURIComponent(formatAddressLines(address).join(', '))}`;
 }
 
 function Message({ event }: { event: Event }) {
