@@ -74,7 +74,7 @@ msgstr "{name} n’a pas pu être joint. Réessayez dans quelques instants."
 
 #: src/components/transaction-dialog.tsx
 msgid "{name} doesn't need to confirm: the exchange is completed right away."
-msgstr "{name} n’a pas besoin de confirmer : l’échange est conclu immédiatement."
+msgstr "{name} n’a pas besoin de confirmer : l’échange est conclu immédiatement."
 
 #: src/pages/members/details/overview-tab.tsx
 msgid "{name} hasn't chosen any interest yet."
@@ -143,20 +143,20 @@ msgstr "Quelques mots sur vous aident les autres membres à vous connaître."
 
 #: src/pages/requests/request-form.tsx
 msgid "A few words, for example: Help to put up a shelf"
-msgstr "Quelques mots, par exemple : Aide pour poser une étagère"
+msgstr "Quelques mots, par exemple : Aide pour poser une étagère"
 
 #: src/pages/information/information-form.tsx
 msgid "A few words, for example: Next general assembly"
-msgstr "Quelques mots, par exemple : Prochaine assemblée générale"
+msgstr "Quelques mots, par exemple : Prochaine assemblée générale"
 
 #: src/pages/events/event-form.tsx
 msgid "A few words, for example: Picnic at the lake"
-msgstr "Quelques mots, par exemple : Pique-nique au lac"
+msgstr "Quelques mots, par exemple : Pique-nique au lac"
 
 #: src/pages/help/help-page.tsx
 #: src/pages/home/feedback-card.tsx
 msgid "A problem, an idea?"
-msgstr "Un souci, une idée ?"
+msgstr "Un souci, une idée ?"
 
 #: src/pages/home/feedback-card.tsx
 msgid "A question about the application"
@@ -164,7 +164,7 @@ msgstr "Une question sur l’application"
 
 #: src/pages/help/help-page.tsx
 msgid "A question, something you can't manage to do? Write to us, we'll answer you."
-msgstr "Une question, quelque chose que vous n’arrivez pas à faire ? Écrivez-nous, nous vous répondrons."
+msgstr "Une question, quelque chose que vous n’arrivez pas à faire ? Écrivez-nous, nous vous répondrons."
 
 #: src/pages/members/details/overview-tab.tsx
 msgid "About"
@@ -315,7 +315,7 @@ msgstr "Appliquer"
 
 #: src/pages/events/details/participation.tsx
 msgid "Are you coming?"
-msgstr "Venez-vous ?"
+msgstr "Venez-vous ?"
 
 #: src/pages/requests/create/create-request-page.tsx
 msgid "Ask members for help: they'll be notified and can offer theirs."
@@ -385,11 +385,11 @@ msgstr "Peut aider"
 
 #: src/pages/help/help-page.tsx
 msgid "Can I reply to a notification email?"
-msgstr "Puis-je répondre à un email de notification ?"
+msgstr "Puis-je répondre à un email de notification ?"
 
 #: src/pages/requests/details/request-answer.tsx
 msgid "Can you help?"
-msgstr "Vous pouvez aider ?"
+msgstr "Vous pouvez aider ?"
 
 #: src/pages/requests/details/request-answers.tsx
 msgid "Can't help"
@@ -776,11 +776,11 @@ msgstr "Par exemple, 12 rue de la Paix, Lyon"
 
 #: src/components/transaction-dialog.tsx
 msgid "For example: Help with moving"
-msgstr "Par exemple : Aide au déménagement"
+msgstr "Par exemple : Aide au déménagement"
 
 #: src/pages/events/details/notify-dialog.tsx
 msgid "For example: The meeting point has changed"
-msgstr "Par exemple : Le lieu de rendez-vous a changé"
+msgstr "Par exemple : Le lieu de rendez-vous a changé"
 
 #: src/pages/home/feed.tsx
 #: src/pages/requests/list/requests-list.tsx
@@ -828,15 +828,15 @@ msgstr "Accueil"
 
 #: src/pages/help/help-page.tsx
 msgid "How do I contact a member privately?"
-msgstr "Comment contacter un membre en privé ?"
+msgstr "Comment contacter un membre en privé ?"
 
 #: src/pages/help/help-page.tsx
 msgid "How do I get notifications on my phone?"
-msgstr "Comment recevoir les notifications sur mon téléphone ?"
+msgstr "Comment recevoir les notifications sur mon téléphone ?"
 
 #: src/pages/home/profile-completion/04-notifications-step.tsx
 msgid "How do you want to be notified?"
-msgstr "Comment souhaitez-vous recevoir les notifications ?"
+msgstr "Comment souhaitez-vous recevoir les notifications ?"
 
 #: src/pages/help/help-page.tsx
 msgid "How it works"
@@ -885,7 +885,7 @@ msgstr "En commun"
 
 #: src/pages/home/profile-completion/09-install-app-step.tsx
 msgid "In Safari, tap the share button, then “Add to Home Screen”."
-msgstr "Dans Safari, touchez le bouton de partage, puis « Sur l’écran d’accueil »."
+msgstr "Dans Safari, touchez le bouton de partage, puis « Sur l’écran d’accueil »."
 
 #: src/pages/help/help-page.tsx
 msgid "In the <0>settings</0>, choose “On your devices”, then tap “Allow on this device”. Do it on each phone or computer you use."
@@ -893,7 +893,7 @@ msgstr "Dans les <0>paramètres</0>, choisissez « Sur vos appareils », puis 
 
 #: src/pages/home/profile-completion/09-install-app-step.tsx
 msgid "In the menu of your browser, choose “Install the app” or “Add to Home Screen”."
-msgstr "Dans le menu de votre navigateur, choisissez « Installer l’application » ou « Ajouter à l’écran d’accueil »."
+msgstr "Dans le menu de votre navigateur, choisissez « Installer l’application » ou « Ajouter à l’écran d’accueil »."
 
 #: src/pages/interests/interests-page.tsx
 #: src/pages/interests/membership.tsx
@@ -963,7 +963,7 @@ msgstr "Invitez les membres, qui recevront une notification et pourront indiquer
 
 #: src/pages/home/profile-completion/01-name-step.tsx
 msgid "Is your name correct?"
-msgstr "Votre nom est-il correct ?"
+msgstr "Votre nom est-il correct ?"
 
 #: src/pages/home/profile-completion/06-avatar-step.tsx
 msgid "It helps the other members recognize you."
@@ -1156,7 +1156,7 @@ msgstr "Nom et photo"
 
 #: src/pages/help/help-page.tsx
 msgid "Need help?"
-msgstr "Besoin d’aide ?"
+msgstr "Besoin d’aide ?"
 
 #: src/pages/members/list/members-list.tsx
 msgctxt "member"
@@ -1303,7 +1303,7 @@ msgstr "Note (facultative)"
 
 #: src/pages/help/help-page.tsx
 msgid "Nothing happens? <0>Write to us</0> from your usual email."
-msgstr "Rien ne se passe ? <0>Écrivez-nous</0> depuis votre messagerie habituelle."
+msgstr "Rien ne se passe ? <0>Écrivez-nous</0> depuis votre messagerie habituelle."
 
 #: src/pages/home/feed.tsx
 msgid "Nothing published yet"
@@ -1369,7 +1369,7 @@ msgstr "Sur un <0>événement</0>, indiquez si vous venez, pour que la personne 
 
 #: src/pages/help/help-page.tsx
 msgid "On an iPhone, first install the app: in Safari, tap the share button, then “Add to Home Screen”, and open the app from there."
-msgstr "Sur iPhone, installez d’abord l’application : dans Safari, appuyez sur le bouton de partage, puis sur « Sur l’écran d’accueil », et ouvrez l’application depuis l’écran d’accueil."
+msgstr "Sur iPhone, installez d’abord l’application : dans Safari, appuyez sur le bouton de partage, puis sur « Sur l’écran d’accueil », et ouvrez l’application depuis l’écran d’accueil."
 
 #: src/pages/home/profile-completion/04-notifications-step.tsx
 msgid "On an iPhone, the app must be installed to receive notifications."
@@ -1531,7 +1531,7 @@ msgstr "Lire l’aide"
 
 #: src/pages/home/push-notifications-prompt.tsx
 msgid "Receive notifications on this device?"
-msgstr "Recevoir les notifications sur cet appareil ?"
+msgstr "Recevoir les notifications sur cet appareil ?"
 
 #: src/pages/members/details/exchanges-tab.tsx
 #: src/pages/members/details/overview-tab.tsx
@@ -2031,7 +2031,7 @@ msgstr "Les membres qui ont proposé leur aide ou commenté verront la nouvelle 
 
 #: src/pages/help/help-page.tsx
 msgid "The members who took part: the author, those who offered their help or are coming, and those who already commented."
-msgstr "Les membres qui y ont pris part : l’auteur, ceux qui ont proposé leur aide ou qui viennent, et ceux qui ont déjà commenté."
+msgstr "Les membres qui y ont pris part : l’auteur, ceux qui ont proposé leur aide ou qui viennent, et ceux qui ont déjà commenté."
 
 #: src/pages/information/edit/edit-information-page.tsx
 msgid "The members will see the new version."
@@ -2114,7 +2114,7 @@ msgstr "Ce navigateur ne peut pas recevoir les notifications. Sur iPhone, ajoute
 
 #: src/pages/authentication/authentication.tsx
 msgid "This code has been replaced by a newer one: use the one from the latest email."
-msgstr "Ce code a été remplacé par un plus récent : utilisez celui du dernier email reçu."
+msgstr "Ce code a été remplacé par un plus récent : utilisez celui du dernier email reçu."
 
 #: src/pages/authentication/authentication.tsx
 msgid "This code has expired. Go back to receive a new one."
@@ -2357,7 +2357,7 @@ msgstr "Nous privilégions les commentaires pour que tout le monde reste inform�
 
 #: src/components/transaction-dialog.tsx
 msgid "What do you want to do?"
-msgstr "Que voulez-vous faire ?"
+msgstr "Que voulez-vous faire ?"
 
 #: src/pages/help/help-page.tsx
 msgid "What happened?\n"
@@ -2370,10 +2370,10 @@ msgid "What happened?\n"
 "Member #{memberNumber}\n"
 "Version {version}\n"
 "{userAgent}"
-msgstr "Que s’est-il passé ?\n"
+msgstr "Que s’est-il passé ?\n"
 "\n"
 "\n"
-"Qu’attendiez-vous à la place ?\n"
+"Qu’attendiez-vous à la place ?\n"
 "\n"
 "\n"
 "---\n"
@@ -2407,19 +2407,19 @@ msgstr "Quand un membre partage une nouvelle avec les autres, elle apparaît ici
 
 #: src/pages/help/help-page.tsx
 msgid "Who can see my phone number and email address?"
-msgstr "Qui peut voir mon numéro de téléphone et mon adresse email ?"
+msgstr "Qui peut voir mon numéro de téléphone et mon adresse email ?"
 
 #: src/pages/help/help-page.tsx
 msgid "Who is notified when I post a request or an event?"
-msgstr "Qui est prévenu quand je publie une demande ou un événement ?"
+msgstr "Qui est prévenu quand je publie une demande ou un événement ?"
 
 #: src/pages/help/help-page.tsx
 msgid "Who is notified when I write a comment?"
-msgstr "Qui est prévenu quand j’écris un commentaire ?"
+msgstr "Qui est prévenu quand j’écris un commentaire ?"
 
 #: src/pages/home/profile-completion/03-contact-visibility-step.tsx
 msgid "Who sees your contact details?"
-msgstr "Qui voit vos coordonnées ?"
+msgstr "Qui voit vos coordonnées ?"
 
 #: src/pages/members/details/exchanges-tab.tsx
 msgid "With me"
@@ -2448,7 +2448,7 @@ msgstr "Oui, mais votre réponse n’arrive qu’à une seule personne, pas aux 
 
 #: src/pages/help/help-page.tsx
 msgid "You can also ask a member to pay you: the exchange then waits until they accept it."
-msgstr "Vous pouvez aussi demander à un membre de vous payer : l’échange attend alors qu’il l’accepte."
+msgstr "Vous pouvez aussi demander à un membre de vous payer : l’échange attend alors qu’il l’accepte."
 
 #: src/pages/events/details/participation.tsx
 msgid "You can change your mind until the event."
@@ -2522,7 +2522,7 @@ msgstr "Votre réponse n’a pas pu être enregistrée"
 
 #: src/pages/home/home-page.tsx
 msgid "Your balance: {balance}"
-msgstr "Votre solde : {balance}"
+msgstr "Votre solde : {balance}"
 
 #: src/pages/settings/settings-page.tsx
 msgid "Your changes are only kept in this browser."
