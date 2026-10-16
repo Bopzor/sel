@@ -3,7 +3,7 @@ import { msg } from '@lingui/core/macro';
 import { Trans, useLingui } from '@lingui/react/macro';
 import { BottomNav, SideNav } from '@sel/ui';
 import { entries } from '@sel/utils';
-import { Outlet, ScrollRestoration, useMatch } from 'react-router';
+import { matchPath, Outlet, ScrollRestoration, useLocation, useMatch } from 'react-router';
 
 import { useConfig } from 'src/app/config';
 import { navigation, routes, type NavigationItem } from 'src/app/routes';
@@ -20,12 +20,16 @@ export function Layout() {
     account: msg`My account`,
   };
 
+  const { pathname } = useLocation();
+
   const bottomNav: NavigationItem[] = [
     navigation.main.home,
     navigation.exchanges.requests,
     navigation.exchanges.events,
-    { path: routes.navigation(), label: msg`More`, icon: 'menu' },
   ];
+
+  const matches = (path: string) => matchPath(path === '/' ? path : path + '/*', pathname) !== null;
+  const moreActive = !bottomNav.some(({ path }) => matches(path));
 
   return (
     <div className="row min-h-dvh">
@@ -66,8 +70,9 @@ export function Layout() {
 
       <BottomNav.Root aria-label={t`Main navigation`} fixed className="lg:hidden">
         {bottomNav.map((item) => (
-          <BottomNavLink key={item.path} {...item} />
+          <BottomNavLink key={item.path} {...item} active={matches(item.path)} />
         ))}
+        <BottomNavLink path={routes.navigation()} label={msg`More`} icon="menu" active={moreActive} />
       </BottomNav.Root>
     </div>
   );
@@ -94,12 +99,11 @@ function SideNavLink({ path, label, icon }: NavigationItem) {
   );
 }
 
-function BottomNavLink({ path, label, icon }: NavigationItem) {
+function BottomNavLink({ path, label, icon, active }: NavigationItem & { active: boolean }) {
   const { t } = useLingui();
-  const match = useMatch(path === '/' ? path : path + '/*');
 
   return (
-    <BottomNav.Item Link={Link} href={path} icon={icon} active={match !== null}>
+    <BottomNav.Item Link={Link} href={path} icon={icon} active={active}>
       {t(label)}
     </BottomNav.Item>
   );

@@ -1,3 +1,4 @@
+import { msg } from '@lingui/core/macro';
 import { Trans, useLingui } from '@lingui/react/macro';
 import { Card, showToast } from '@sel/ui';
 import { useQueryClient } from '@tanstack/react-query';
@@ -6,6 +7,7 @@ import { useNavigate } from 'react-router';
 import { api } from 'src/app/api';
 import { routes } from 'src/app/routes';
 import { BackButton } from 'src/components/link';
+import { PageTitle } from 'src/components/page-title';
 
 import { InformationForm } from '../information-form';
 
@@ -22,6 +24,8 @@ export function CreateInformationPage() {
 
   return (
     <div className="stack gap-4">
+      <PageTitle title={msg`Publish information`} />
+
       <BackButton href={routes.information()}>
         <Trans>Information</Trans>
       </BackButton>

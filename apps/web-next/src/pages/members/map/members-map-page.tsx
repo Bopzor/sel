@@ -1,3 +1,4 @@
+import { msg } from '@lingui/core/macro';
 import { Trans } from '@lingui/react/macro';
 import { Skeleton } from '@sel/ui';
 import { useQuery } from '@tanstack/react-query';
@@ -8,6 +9,7 @@ import { queries } from 'src/app/queries';
 import { routes } from 'src/app/routes';
 import { QueryFailed, QueryResult } from 'src/components/api-result';
 import { BackButton } from 'src/components/link';
+import { PageTitle } from 'src/components/page-title';
 
 const MembersMap = lazy(() => import('./members-map').then((module) => ({ default: module.MembersMap })));
 
@@ -17,6 +19,8 @@ export function MembersMapPage() {
 
   return (
     <div className="stack gap-4">
+      <PageTitle title={msg`Members map`} />
+
       <BackButton href={routes.members()}>
         <Trans>Members</Trans>
       </BackButton>

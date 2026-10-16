@@ -1,3 +1,4 @@
+import { msg } from '@lingui/core/macro';
 import { Trans, useLingui } from '@lingui/react/macro';
 import { Button, EmptyState, LinkButton } from '@sel/ui';
 import { useRouteError } from 'react-router';
@@ -5,6 +6,7 @@ import { useRouteError } from 'react-router';
 import { ApiError, NetworkError } from 'src/app/api';
 import { routes } from 'src/app/routes';
 import { Link } from 'src/components/link';
+import { PageTitle } from 'src/components/page-title';
 
 export function RootErrorBoundary() {
   return (
@@ -21,6 +23,8 @@ export function PageErrorBoundary() {
 export function NotFoundPage() {
   return (
     <EmptyState.Root icon="search">
+      <PageTitle title={msg`Page not found`} />
+
       <EmptyState.Title level={1}>
         <Trans>Page not found</Trans>
       </EmptyState.Title>

@@ -1,3 +1,4 @@
+import { msg } from '@lingui/core/macro';
 import { Trans, useLingui } from '@lingui/react/macro';
 import { Card, Icon, IconButton, LinkButton, ListItem, showToast, type IconName } from '@sel/ui';
 import clsx from 'clsx';
@@ -6,12 +7,15 @@ import { useConfig } from 'src/app/config';
 import { routes } from 'src/app/routes';
 import { useSession } from 'src/app/session';
 import { Link } from 'src/components/link';
+import { PageTitle } from 'src/components/page-title';
 import { Unit } from 'src/components/unit';
 import { useClipboard } from 'src/hooks/use-clipboard';
 
 export function HelpPage() {
   return (
     <div className="stack gap-6">
+      <PageTitle title={msg`Help`} />
+
       <h1 className="text-title-1">
         <Trans>Help</Trans>
       </h1>

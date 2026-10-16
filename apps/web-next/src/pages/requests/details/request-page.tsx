@@ -1,3 +1,4 @@
+import { msg } from '@lingui/core/macro';
 import { Plural, Trans } from '@lingui/react/macro';
 import { RequestStatus, type LightMember, type Request } from '@sel/shared';
 import { Button, Card, Skeleton } from '@sel/ui';
@@ -14,6 +15,7 @@ import { Bullet } from 'src/components/bullet';
 import { CommentsSection } from 'src/components/comments-section';
 import { BackButton } from 'src/components/link';
 import { MessageContent } from 'src/components/message-content';
+import { PageTitle } from 'src/components/page-title';
 import { RelativeDate } from 'src/components/relative-date';
 import { TransactionDialog, type TransactionDirection } from 'src/components/transaction-dialog';
 import { Unit } from 'src/components/unit';
@@ -32,6 +34,8 @@ export function RequestPage() {
 
   return (
     <div className="stack gap-4">
+      <PageTitle title={query.data?.title ?? msg`Request`} />
+
       <BackButton href={routes.requests()}>
         <Trans>Requests</Trans>
       </BackButton>

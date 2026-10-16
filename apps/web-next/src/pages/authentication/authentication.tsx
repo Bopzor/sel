@@ -14,6 +14,7 @@ import { api, ApiError } from 'src/app/api';
 import { useConfig } from 'src/app/config';
 import { nextUrl } from 'src/app/session';
 import { InputField } from 'src/components/fields';
+import { PageTitle } from 'src/components/page-title';
 import { getDemoSignInEmail } from 'src/demo/state';
 
 export function AuthenticationPage() {
@@ -29,6 +30,8 @@ export function AuthenticationPage() {
 
   return (
     <main className="row min-h-dvh items-center justify-center bg-page p-4">
+      <PageTitle title={msg`Sign in`} />
+
       <Card.Root className="w-full max-w-content">
         <Card.Header className="bg-primary pb-5 text-on-primary">
           <div className="row items-center gap-4">

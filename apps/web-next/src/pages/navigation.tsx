@@ -7,6 +7,7 @@ import { entries } from '@sel/utils';
 import { navigation, type NavigationItem } from 'src/app/routes';
 import { useSignOut } from 'src/app/session';
 import { Link } from 'src/components/link';
+import { PageTitle } from 'src/components/page-title';
 
 export function NavigationPage() {
   const { i18n } = useLingui();
@@ -19,6 +20,8 @@ export function NavigationPage() {
 
   return (
     <div className="mx-auto stack max-w-content gap-6">
+      <PageTitle title={msg`More`} />
+
       {entries(navigation).map(([group, items]) => (
         <section key={group} className="stack gap-2">
           {labels[group] && <h2 className="text-caption text-subtle">{i18n._(labels[group])}</h2>}

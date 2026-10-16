@@ -1,3 +1,4 @@
+import { msg } from '@lingui/core/macro';
 import { Trans, useLingui } from '@lingui/react/macro';
 import type { Member } from '@sel/shared';
 import { Card, Skeleton, Tabs } from '@sel/ui';
@@ -6,10 +7,12 @@ import { useQuery } from '@tanstack/react-query';
 import { Navigate, Link as RouterLink, useParams } from 'react-router';
 
 import { ApiError } from 'src/app/api';
+import { formatMemberName } from 'src/app/format';
 import { queries } from 'src/app/queries';
 import { routes } from 'src/app/routes';
 import { QueryFailed, QueryResult } from 'src/components/api-result';
 import { BackButton } from 'src/components/link';
+import { PageTitle } from 'src/components/page-title';
 
 import { ActivityTab } from './activity-tab';
 import { ExchangesTab } from './exchanges-tab';
@@ -37,6 +40,8 @@ export function MemberPage() {
 
   return (
     <div className="stack gap-4">
+      <PageTitle title={query.data ? formatMemberName(query.data) : msg`Member`} />
+
       <BackButton href={routes.members()}>
         <Trans>Members</Trans>
       </BackButton>
