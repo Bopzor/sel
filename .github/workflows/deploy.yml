@@ -65,6 +65,8 @@ jobs:
             webhook: COOLIFY_SERVER_WEBHOOK
           - name: web
             webhook: COOLIFY_WEB_WEBHOOK
+          - name: web-next
+            webhook: COOLIFY_WEB_NEXT_WEBHOOK
     steps:
       - name: Deploy ${{ matrix.name }}
         run: |
