@@ -19,14 +19,6 @@ const config: Config = {
   email: { host: '', port: 0, secure: false, sender: '', password: '' },
   push: { subject: 'mailto:', ...vapidKeys },
   slack: { webhookUrl: '' },
-  minio: {
-    endPoint: '',
-    port: 0,
-    useSSL: false,
-    accessKey: '',
-    secretKey: '',
-    buckets: { documents: '', userUploads: '' },
-  },
   s3: {
     endPoint: '',
     port: 0,
@@ -35,7 +27,6 @@ const config: Config = {
     secretKey: '',
     buckets: { documents: '', userUploads: '' },
   },
-  storageProvider: 's3',
 };
 
 container.bindValue(TOKENS.config, config);
