@@ -1,3 +1,4 @@
+import { msg } from '@lingui/core/macro';
 import { Plural, Trans } from '@lingui/react/macro';
 import type { Interest, InterestMember } from '@sel/shared';
 import { Badge, Button, Card, Chip, EmptyState, Skeleton } from '@sel/ui';
@@ -11,6 +12,7 @@ import { useSession } from 'src/app/session';
 import { QueryFailed, QueryResult } from 'src/components/api-result';
 import { Link } from 'src/components/link';
 import { MemberAvatar } from 'src/components/member-avatar';
+import { PageTitle } from 'src/components/page-title';
 import { useFilters } from 'src/hooks/use-filters';
 
 import { InterestedButton } from './membership';
@@ -25,6 +27,8 @@ export function InterestsPage() {
 
   return (
     <div className="stack gap-6">
+      <PageTitle title={msg`Interests`} />
+
       <h1 className="text-title-1">
         <Trans>Interests</Trans>
       </h1>

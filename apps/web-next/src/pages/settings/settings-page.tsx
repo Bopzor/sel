@@ -1,3 +1,4 @@
+import { msg } from '@lingui/core/macro';
 import { Trans, useLingui } from '@lingui/react/macro';
 import { Alert, Button, Card, RadioGroup, showToast, Switch } from '@sel/ui';
 import { entries } from '@sel/utils';
@@ -13,11 +14,14 @@ import {
   useUpdateNotificationDelivery,
 } from 'src/app/push-notifications';
 import { useSession } from 'src/app/session';
+import { PageTitle } from 'src/components/page-title';
 import { demoStorage } from 'src/demo/storage';
 
 export function SettingsPage() {
   return (
     <div className="stack gap-6">
+      <PageTitle title={msg`Settings`} />
+
       <h1 className="text-title-1">
         <Trans>Settings</Trans>
       </h1>

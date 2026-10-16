@@ -1,3 +1,4 @@
+import { msg } from '@lingui/core/macro';
 import { Plural, Trans } from '@lingui/react/macro';
 import type { Interest } from '@sel/shared';
 import { Card, EmptyState, LinkButton, ListItem, Skeleton } from '@sel/ui';
@@ -12,6 +13,7 @@ import { routes } from 'src/app/routes';
 import { QueryFailed, QueryResult } from 'src/components/api-result';
 import { BackButton, Link } from 'src/components/link';
 import { MemberAvatar } from 'src/components/member-avatar';
+import { PageTitle } from 'src/components/page-title';
 
 import { ParticipationCard } from './membership';
 
@@ -21,6 +23,8 @@ export function InterestPage() {
 
   return (
     <div className="stack gap-4">
+      <PageTitle title={query.data?.find(({ id }) => id === interestId)?.label ?? msg`Interest`} />
+
       <BackButton href={routes.interests()}>
         <Trans>Interests</Trans>
       </BackButton>

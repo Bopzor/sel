@@ -1,3 +1,4 @@
+import { msg } from '@lingui/core/macro';
 import { Trans, useLingui } from '@lingui/react/macro';
 import type { Event } from '@sel/shared';
 import { Card, EmptyState, LinkButton, showToast, Skeleton } from '@sel/ui';
@@ -11,6 +12,7 @@ import { routes } from 'src/app/routes';
 import { useSession } from 'src/app/session';
 import { QueryFailed, QueryResult } from 'src/components/api-result';
 import { BackButton, Link } from 'src/components/link';
+import { PageTitle } from 'src/components/page-title';
 
 import { EventForm } from '../event-form';
 import { EventNotFound } from '../event-not-found';
@@ -21,6 +23,8 @@ export function EditEventPage() {
 
   return (
     <div className="stack gap-4">
+      <PageTitle title={msg`Edit the event`} />
+
       <BackButton href={routes.event(eventId)}>
         <Trans>Back</Trans>
       </BackButton>

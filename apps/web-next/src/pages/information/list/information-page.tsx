@@ -1,9 +1,11 @@
+import { msg } from '@lingui/core/macro';
 import { Trans } from '@lingui/react/macro';
 import { LinkButton } from '@sel/ui';
 import z from 'zod';
 
 import { routes } from 'src/app/routes';
 import { Link } from 'src/components/link';
+import { PageTitle } from 'src/components/page-title';
 import { useDebouncedValue } from 'src/hooks/use-debounced-value';
 import { useFilters } from 'src/hooks/use-filters';
 
@@ -29,6 +31,8 @@ export function InformationPage() {
 
   return (
     <div className="stack gap-6">
+      <PageTitle title={msg`Information`} />
+
       <header className="row flex-wrap items-center justify-between gap-4">
         <h1 className="text-title-1">
           <Trans>Information</Trans>

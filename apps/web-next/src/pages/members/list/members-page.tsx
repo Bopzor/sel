@@ -1,3 +1,4 @@
+import { msg } from '@lingui/core/macro';
 import { Trans, useLingui } from '@lingui/react/macro';
 import { MembersSort } from '@sel/shared';
 import { Chip, Input, LinkButton } from '@sel/ui';
@@ -5,6 +6,7 @@ import z from 'zod';
 
 import { routes } from 'src/app/routes';
 import { Link } from 'src/components/link';
+import { PageTitle } from 'src/components/page-title';
 import { useFilters } from 'src/hooks/use-filters';
 
 import { MembersList } from './members-list';
@@ -20,6 +22,8 @@ export function MembersPage() {
 
   return (
     <div className="stack gap-6">
+      <PageTitle title={msg`Members`} />
+
       <div className="row items-center justify-between gap-4">
         <h1 className="text-title-1">
           <Trans>Members</Trans>

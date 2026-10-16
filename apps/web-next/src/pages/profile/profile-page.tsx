@@ -1,3 +1,4 @@
+import { msg } from '@lingui/core/macro';
 import { Trans, useLingui } from '@lingui/react/macro';
 import type { AuthenticatedMember } from '@sel/shared';
 import { LinkButton } from '@sel/ui';
@@ -7,6 +8,7 @@ import { useSession } from 'src/app/session';
 import { Amount } from 'src/components/amount';
 import { DefinitionItem } from 'src/components/definition-item';
 import { Link } from 'src/components/link';
+import { PageTitle } from 'src/components/page-title';
 
 import { AddressSection } from './address-section';
 import { BioSection } from './bio-section';
@@ -19,6 +21,8 @@ export function ProfilePage() {
 
   return (
     <div className="stack gap-6">
+      <PageTitle title={msg`Profile`} />
+
       <header className="row flex-wrap items-center justify-between gap-3">
         <h1 className="text-title-1">
           <Trans>Profile</Trans>

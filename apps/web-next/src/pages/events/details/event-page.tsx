@@ -1,3 +1,4 @@
+import { msg } from '@lingui/core/macro';
 import { Trans, useLingui } from '@lingui/react/macro';
 import { EventKind, type Address, type Event } from '@sel/shared';
 import { Badge, Card, Icon, Skeleton } from '@sel/ui';
@@ -13,6 +14,7 @@ import { QueryFailed, QueryResult } from 'src/components/api-result';
 import { CommentsSection } from 'src/components/comments-section';
 import { BackButton } from 'src/components/link';
 import { MessageContent } from 'src/components/message-content';
+import { PageTitle } from 'src/components/page-title';
 
 import { EventNotFound } from '../event-not-found';
 
@@ -27,6 +29,8 @@ export function EventPage() {
 
   return (
     <div className="stack gap-4">
+      <PageTitle title={query.data?.title ?? msg`Event`} />
+
       <BackButton href={routes.events()}>
         <Trans>Events</Trans>
       </BackButton>

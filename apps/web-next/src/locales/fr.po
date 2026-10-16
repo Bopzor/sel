@@ -662,6 +662,10 @@ msgstr "Saisissez l’adresse email de votre compte du SEL pour accéder à l’
 msgid "Enter the sign-in code received by email."
 msgstr "Saisissez le code de connexion reçu par email."
 
+#: src/pages/events/details/event-page.tsx
+msgid "Event"
+msgstr "Événement"
+
 #: src/pages/home/feed.tsx
 msgctxt "feed item"
 msgid "Event"
@@ -818,6 +822,7 @@ msgid "History"
 msgstr "Historique"
 
 #: src/app/routes.ts
+#: src/pages/home/home-page.tsx
 msgid "Home"
 msgstr "Accueil"
 
@@ -932,6 +937,10 @@ msgstr "Installer"
 #: src/pages/home/profile-completion/09-install-app-step.tsx
 msgid "Install the app on your phone"
 msgstr "Installez l’application sur votre téléphone"
+
+#: src/pages/interests/interest-page.tsx
+msgid "Interest"
+msgstr "Intérêt"
 
 #: src/pages/interests/interest-page.tsx
 msgid "Interest not found"
@@ -1051,6 +1060,7 @@ msgid "Map"
 msgstr "Carte"
 
 #: src/components/transaction-dialog.tsx
+#: src/pages/members/details/member-page.tsx
 msgid "Member"
 msgstr "Membre"
 
@@ -1111,6 +1121,7 @@ msgid "Message"
 msgstr "Message"
 
 #: src/layout/layout.tsx
+#: src/pages/navigation.tsx
 msgid "More"
 msgstr "Plus"
 
@@ -1559,6 +1570,10 @@ msgstr "Retirer la photo"
 #: src/pages/home/feedback-card.tsx
 msgid "Report a bug"
 msgstr "Signaler un bug"
+
+#: src/pages/requests/details/request-page.tsx
+msgid "Request"
+msgstr "Demande"
 
 #: src/pages/home/feed.tsx
 msgctxt "feed item"

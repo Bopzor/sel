@@ -1,3 +1,4 @@
+import { msg } from '@lingui/core/macro';
 import { Trans } from '@lingui/react/macro';
 import { Button, LinkButton } from '@sel/ui';
 import { useState } from 'react';
@@ -6,6 +7,7 @@ import { routes } from 'src/app/routes';
 import { useSession } from 'src/app/session';
 import { Amount } from 'src/components/amount';
 import { Link } from 'src/components/link';
+import { PageTitle } from 'src/components/page-title';
 import { TransactionDialog } from 'src/components/transaction-dialog';
 import { Unit } from 'src/components/unit';
 
@@ -21,6 +23,8 @@ import { UpcomingEventsCard } from './upcoming-events-card';
 export function HomePage() {
   return (
     <div className="stack gap-8">
+      <PageTitle title={msg`Home`} />
+
       <PushNotificationsPrompt />
 
       <Header />

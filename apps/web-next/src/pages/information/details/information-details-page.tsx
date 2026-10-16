@@ -1,3 +1,4 @@
+import { msg } from '@lingui/core/macro';
 import { Trans } from '@lingui/react/macro';
 import type { Information } from '@sel/shared';
 import { Avatar, Card, LinkButton, Skeleton } from '@sel/ui';
@@ -14,6 +15,7 @@ import { CommentsSection } from 'src/components/comments-section';
 import { BackButton, Link } from 'src/components/link';
 import { MemberAvatar } from 'src/components/member-avatar';
 import { MessageContent } from 'src/components/message-content';
+import { PageTitle } from 'src/components/page-title';
 import { RelativeDate } from 'src/components/relative-date';
 
 import { InformationNotFound } from '../information-not-found';
@@ -24,6 +26,8 @@ export function InformationDetailsPage() {
 
   return (
     <div className="stack gap-4">
+      <PageTitle title={query.data?.title ?? msg`Information`} />
+
       <BackButton href={routes.information()}>
         <Trans>Information</Trans>
       </BackButton>
