@@ -11,6 +11,7 @@ import { watchColorScheme } from './app/color-scheme';
 import { loadConfig } from './app/config';
 import { watchInstallPrompt } from './app/install-app';
 import { activateLocale, getLocale } from './app/locale';
+import { initMatomo } from './app/matomo';
 import { getPushPermission, registerDevice } from './app/push-notifications';
 import { queries } from './app/queries';
 import { queryClient } from './app/query-client';
@@ -149,6 +150,8 @@ const router = wrapCreateBrowserRouter(createBrowserRouter)(
   ],
   { basename: import.meta.env.BASE_URL },
 );
+
+initMatomo(router);
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

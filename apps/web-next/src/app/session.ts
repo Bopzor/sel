@@ -3,6 +3,7 @@ import { useMutation, useQueryClient, useSuspenseQuery } from '@tanstack/react-q
 import { redirect, useNavigate, type MiddlewareFunction } from 'react-router';
 
 import { api, ApiError } from './api';
+import { setMatomoUser } from './matomo';
 import { unsubscribePushNotification } from './push-notifications';
 import { queries } from './queries';
 import { queryClient } from './query-client';
@@ -43,9 +44,8 @@ async function hasSession() {
   try {
     const member = await queryClient.query({ ...queries.session(), staleTime: 'static' });
 
-    Sentry.setUser({
-      id: member.id,
-    });
+    Sentry.setUser({ id: member.id });
+    setMatomoUser(member.id);
 
     return true;
   } catch (error) {
@@ -75,6 +75,7 @@ export function useSignOut() {
       // Before navigating: the authentication page would find the member's session in the cache.
       queryClient.clear();
       Sentry.setUser(null);
+      setMatomoUser(null);
 
       await navigate(routes.authentication());
     },
