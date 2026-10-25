@@ -120,7 +120,7 @@ describe('end-to-end', () => {
   });
 
   it('serves the web app manifest from the config', async () => {
-    await updateLetsConfig({ letsName: 'SEL', place: 'Cavaillon', primaryColor: '#005f7e' });
+    await updateLetsConfig({ letsName: 'SEL', place: 'Cavaillon' });
 
     const response = await supertest(server())
       .get('/manifest.webmanifest')
@@ -131,7 +131,6 @@ describe('end-to-end', () => {
       name: 'SEL',
       short_name: 'SEL',
       description: "L'application du Système d'Échange Local de Cavaillon.",
-      theme_color: '#005f7e',
     });
   });
 });

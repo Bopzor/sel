@@ -146,7 +146,7 @@ const configHandler: RequestHandler = async (req, res) => {
 };
 
 const manifestHandler: RequestHandler = async (req, res) => {
-  const { letsName, place, primaryColor } = await getLetsConfig();
+  const { letsName, place } = await getLetsConfig();
 
   res.type('application/manifest+json');
 
@@ -158,8 +158,8 @@ const manifestHandler: RequestHandler = async (req, res) => {
     start_url: '/',
     scope: '/',
     display: 'standalone',
-    background_color: '#FFFFFF',
-    theme_color: primaryColor,
+    background_color: '#f8f6f4',
+    theme_color: '#f8f6f4',
     icons: [
       { src: '/pwa-64x64.png', sizes: '64x64', type: 'image/png' },
       { src: '/pwa-192x192.png', sizes: '192x192', type: 'image/png' },
