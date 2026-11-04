@@ -11,7 +11,7 @@ interface ImportMetaEnv {
   readonly VITE_WEB_PUSH_PUBLIC_KEY?: string;
 }
 
-/** The version of package.json. */
+/** The release version, from the APP_VERSION build variable. */
 declare const __APP_VERSION__: string;
 
 declare module '*.po' {

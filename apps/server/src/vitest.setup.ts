@@ -14,7 +14,7 @@ const config: Config = {
   server: { host: '', port: 0 },
   files: { uploadDir: '' },
   session: { secret: '', secure: false },
-  app: { baseUrl: 'http://localhost' },
+  app: { version: 'test', baseUrl: 'http://localhost' },
   database: { url: databaseUrl, debug: false },
   email: { host: '', port: 0, secure: false, sender: '', password: '' },
   push: { subject: 'mailto:', ...vapidKeys },

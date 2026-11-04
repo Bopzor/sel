@@ -16,6 +16,7 @@ export interface Config {
   };
 
   app: {
+    version: string;
     baseUrl: string;
   };
 
@@ -72,6 +73,7 @@ export function createEnvConfig(): Config {
     },
 
     app: {
+      version: process.env.APP_VERSION ?? 'dev',
       baseUrl: getEnv('APP_BASE_URL'),
     },
 

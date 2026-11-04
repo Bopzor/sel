@@ -8,5 +8,8 @@ COPY . /app
 WORKDIR /app
 RUN pnpm install --offline --frozen-lockfile
 
+ARG APP_VERSION=dev
+ENV APP_VERSION=$APP_VERSION
+
 EXPOSE 3000
 CMD pnpm run --filter @sel/server start

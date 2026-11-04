@@ -9,10 +9,15 @@ import solid from 'vite-plugin-solid';
 import solidSvg from 'vite-plugin-solid-svg';
 import { defineConfig } from 'vitest/config';
 
-import pkg from './package.json' with { type: 'json' };
-
 export default defineConfig({
-  plugins: [qrcode(), devtools({ autoname: true }), solid(), solidSvg(), tailwindcss(), version(pkg.version)],
+  plugins: [
+    qrcode(),
+    devtools({ autoname: true }),
+    solid(),
+    solidSvg(),
+    tailwindcss(),
+    version(process.env.APP_VERSION ?? 'dev'),
+  ],
   server: {
     port: 8000,
     proxy: {

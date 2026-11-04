@@ -1,18 +1,43 @@
 name: Deploy
 
 on:
-  workflow_run:
-    branches: [master]
-    workflows: [Code quality]
-    types: [completed]
+  push:
+    tags: ['v[0-9]+.[0-9]+.[0-9]+*']
 
 concurrency:
   group: deploy
   cancel-in-progress: false
 
 jobs:
+  prepare:
+    name: Prepare
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+
+    outputs:
+      version: ${{ steps.target.outputs.version }}
+      production: ${{ steps.target.outputs.production }}
+
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Resolve the version
+        id: target
+        run: |
+          echo "Building ${GITHUB_REF_NAME#v}"
+          echo "version=${GITHUB_REF_NAME#v}" >> "$GITHUB_OUTPUT"
+
+          if [[ "$GITHUB_REF_NAME" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]] && git merge-base --is-ancestor "$GITHUB_SHA" origin/master; then
+            echo "Deploying to production"
+            echo "production=true" >> "$GITHUB_OUTPUT"
+          fi
+
   build:
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    needs: [prepare]
     name: Build ${{ matrix.image }} image
     runs-on: ubuntu-latest
 
@@ -26,8 +51,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v7
-        with:
-          ref: ${{ github.event.workflow_run.head_sha }}
 
       - uses: docker/setup-buildx-action@v4
 
@@ -38,36 +61,44 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Set image env
+        env:
+          VERSION: ${{ needs.prepare.outputs.version }}
+          PRODUCTION: ${{ needs.prepare.outputs.production }}
         run: |
-          repo=${{ github.repository }}
-          image=$(echo "${repo@L}")
-          echo "IMAGE=$image/${{ matrix.image }}" >> "$GITHUB_ENV"
+          image="ghcr.io/${GITHUB_REPOSITORY@L}/${{ matrix.image }}"
+
+          tags=("$image:$VERSION")
+          if [ "$PRODUCTION" = true ]; then tags+=("$image:production"); fi
+
+          echo "IMAGE=$image" >> "$GITHUB_ENV"
+          echo "IMAGE_TAGS=$(IFS=,; echo "${tags[*]}")" >> "$GITHUB_ENV"
 
       - uses: docker/build-push-action@v7
         with:
           context: .
           file: apps/${{ matrix.image }}/Dockerfile
           push: true
-          tags: |
-            ghcr.io/${{ env.IMAGE }}:latest
-            ghcr.io/${{ env.IMAGE }}:${{ github.event.workflow_run.head_sha }}
-          cache-from: type=registry,ref=ghcr.io/${{ env.IMAGE }}:cache
-          cache-to: type=registry,ref=ghcr.io/${{ env.IMAGE }}:cache,mode=max
+          build-args: APP_VERSION=${{ needs.prepare.outputs.version }}
+          tags: ${{ env.IMAGE_TAGS }}
+          cache-from: type=registry,ref=${{ env.IMAGE }}:cache
+          cache-to: type=registry,ref=${{ env.IMAGE }}:cache,mode=max
 
   deploy:
-    name: Deploy
-    needs: [build]
+    needs: [prepare, build]
+    if: needs.prepare.outputs.production == 'true'
+    name: Deploy ${{ needs.prepare.outputs.version }} to production
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        include:
-          - name: server
-            webhook: COOLIFY_SERVER_WEBHOOK
-          - name: web
-            webhook: COOLIFY_WEB_WEBHOOK
-          - name: web-next
-            webhook: COOLIFY_WEB_NEXT_WEBHOOK
+    environment: production
+
     steps:
-      - name: Deploy ${{ matrix.name }}
+      - name: Deploy server
         run: |
-          curl --fail-with-body -X POST "${{ secrets[matrix.webhook] }}" -H "Authorization: Bearer ${{ secrets.COOLIFY_TOKEN }}"
+          curl --fail-with-body -X POST "${{ secrets.COOLIFY_SERVER_WEBHOOK }}" -H "Authorization: Bearer ${{ secrets.COOLIFY_TOKEN }}"
+
+      - name: Deploy web
+        run: |
+          curl --fail-with-body -X POST "${{ secrets.COOLIFY_WEB_WEBHOOK }}" -H "Authorization: Bearer ${{ secrets.COOLIFY_TOKEN }}"
+
+      - name: Deploy web-next
+        run: |
+          curl --fail-with-body -X POST "${{ secrets.COOLIFY_WEB_NEXT_WEBHOOK }}" -H "Authorization: Bearer ${{ secrets.COOLIFY_TOKEN }}"

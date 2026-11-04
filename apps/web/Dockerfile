@@ -7,6 +7,7 @@ RUN pnpm fetch
 COPY . /app
 WORKDIR /app
 RUN pnpm install --offline --frozen-lockfile
+ARG APP_VERSION=dev
 RUN pnpm run --filter=@sel/web build
 
 FROM nginx:latest
