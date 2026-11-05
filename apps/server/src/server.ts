@@ -115,7 +115,9 @@ const authenticationProvider: RequestHandler = async (req, res, next) => {
 };
 
 const health: RequestHandler = (req, res) => {
-  res.status(HttpStatus.noContent).end();
+  const config = container.resolve(TOKENS.config);
+
+  res.json({ version: config.app.version });
 };
 
 const configHandler: RequestHandler = async (req, res) => {

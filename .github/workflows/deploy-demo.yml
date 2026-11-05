@@ -24,12 +24,15 @@ jobs:
       - uses: actions/checkout@v7
         with:
           ref: ${{ github.event.workflow_run.head_sha || github.sha }}
+          fetch-depth: 0
 
       - uses: ./.github/actions/setup
 
       - name: Build the demo
         working-directory: apps/web-next
-        run: pnpm exec vite build --mode demo --base /${{ github.event.repository.name }}/
+        run: |
+          version=$(git describe --tags --match 'v*' --always)
+          APP_VERSION=${version#v} pnpm exec vite build --mode demo --base /${{ github.event.repository.name }}/
 
       # GitHub Pages serves 404.html for the paths it doesn't know: the app's routes.
       - name: Add the routes fallback

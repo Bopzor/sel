@@ -6,8 +6,6 @@ import { routes } from 'src/application/routes';
 import { SpinnerFullScreen } from 'src/components/spinner';
 import { LogoTitle } from 'src/layout';
 
-import pkg from '../../../package.json';
-
 export function AuthenticationLayout(props: { children?: JSX.Element }) {
   const memberQuery = queryAuthenticatedMember();
 
@@ -46,7 +44,7 @@ function Header() {
 function AppVersion() {
   return (
     <footer class="fixed bottom-1 left-1/2 -translate-x-1/2 text-xs text-dim">
-      App version: {pkg.version}
+      App version: {__APP_VERSION__}
     </footer>
   );
 }

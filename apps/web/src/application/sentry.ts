@@ -1,7 +1,5 @@
 import * as Sentry from '@sentry/solid';
 
-import pkg from '../../package.json';
-
 import { ApiError } from './api';
 import { getAppConfig } from './config';
 
@@ -24,7 +22,7 @@ export function initSentry() {
 
       event.contexts ??= {};
       event.contexts.app ??= {};
-      event.contexts.app.app_version = pkg.version;
+      event.contexts.app.app_version = __APP_VERSION__;
 
       if (ApiError.is(error)) {
         if (Math.floor(error.status / 100) === 4) {

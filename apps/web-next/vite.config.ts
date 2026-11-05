@@ -7,8 +7,6 @@ import react, { reactCompilerPreset } from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
 import { VitePWA } from 'vite-plugin-pwa';
 
-import packageJson from './package.json' with { type: 'json' };
-
 export default defineConfig(({ mode }) => ({
   plugins: [
     react(),
@@ -27,7 +25,7 @@ export default defineConfig(({ mode }) => ({
     }),
   ],
   define: {
-    __APP_VERSION__: JSON.stringify(packageJson.version),
+    __APP_VERSION__: JSON.stringify(process.env.APP_VERSION ?? 'dev'),
   },
   build: {
     sourcemap: true,
