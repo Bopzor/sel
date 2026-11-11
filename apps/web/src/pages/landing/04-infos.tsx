@@ -50,18 +50,19 @@ export function Infos() {
 
           <ul class={'list-inside list-["👉_"]'}>
             <DocumentListItem
-              // cspell:disable-next-line
-              href="/storage/public/charte-selidaire.pdf"
+              href="https://gw.s3.selonsnous.fr/public/charte-selidaire.pdf"
               label={<T id="documents.charter" />}
             />
 
             <DocumentListItem
-              // cspell:disable-next-line
-              href="/storage/public/reglement-interieur.pdf"
+              href="https://gw.s3.selonsnous.fr/public/reglement-interieur.pdf"
               label={<T id="documents.rules" />}
             />
 
-            <DocumentListItem href="/storage/public/statuts.pdf" label={<T id="documents.statutes" />} />
+            <DocumentListItem
+              href="https://gw.s3.selonsnous.fr/public/statuts.pdf"
+              label={<T id="documents.statutes" />}
+            />
           </ul>
         </div>
       </div>
