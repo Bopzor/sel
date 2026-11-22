@@ -4,6 +4,7 @@ export type ColorScheme = (typeof colorSchemes)[number];
 
 const storageKey = 'color-scheme';
 const darkQuery = window.matchMedia('(prefers-color-scheme: dark)');
+const listeners = new Set<() => void>();
 
 export function getColorScheme(): ColorScheme {
   const stored = localStorage.getItem(storageKey);
@@ -29,9 +30,18 @@ export function watchColorScheme() {
   darkQuery.addEventListener('change', applyColorScheme);
 }
 
+export function subscribeColorScheme(listener: () => void) {
+  listeners.add(listener);
+
+  return () => {
+    listeners.delete(listener);
+  };
+}
+
 function applyColorScheme() {
   const scheme = getColorScheme();
   const dark = scheme === 'dark' || (scheme === 'system' && darkQuery.matches);
 
   document.documentElement.dataset.theme = dark ? 'dark' : 'light';
+  listeners.forEach((listener) => listener());
 }

@@ -19,6 +19,7 @@ import { routes } from './app/routes';
 import { captureError, initSentry } from './app/sentry';
 import { requireNoSession, requireSession } from './app/session';
 import { applyTheme } from './app/theme';
+import { ThemeColor } from './components/theme-color';
 import { Toaster } from './components/toaster';
 import './index.css';
 import { Layout } from './layout/layout';
@@ -159,6 +160,7 @@ createRoot(document.getElementById('root')!).render(
       <QueryClientProvider client={queryClient}>
         <RouterProvider router={router} onError={(error, { errorInfo }) => captureError(error, errorInfo)} />
         <Toaster />
+        <ThemeColor />
         <ReactQueryDevtools />
       </QueryClientProvider>
     </I18nProvider>
