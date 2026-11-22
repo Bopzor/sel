@@ -118,8 +118,8 @@ describe('member', () => {
 
     const dialog = await screen.findByRole('dialog');
 
-    expect(within(dialog).getByRole('group', { name: 'What do you want to do?' })).toBeInTheDocument();
-    expect(dialog).toHaveTextContent('Claire Dubois');
+    expect(dialog).toHaveAccessibleName('Exchange units with Claire Dubois');
+    expect(within(dialog).getByRole('button', { name: 'Send units' })).toBeInTheDocument();
   });
 
   it('links to the profile on my own page', async () => {

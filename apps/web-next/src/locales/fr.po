@@ -419,14 +419,6 @@ msgstr "Annuler la demande « {0} » ?"
 msgid "Canceled"
 msgstr "Annulée"
 
-#: src/components/transaction-dialog.tsx
-msgid "Change"
-msgstr "Changer"
-
-#: src/components/transaction-dialog.tsx
-msgid "Change the member"
-msgstr "Changer le membre"
-
 #: src/pages/profile/identity-section.tsx
 msgid "Change the photo"
 msgstr "Changer la photo"
@@ -464,6 +456,7 @@ msgstr "Effacer les filtres"
 #: src/components/address-form-dialog.tsx
 #: src/components/rich-text-toolbar.tsx
 #: src/components/toaster.tsx
+#: src/components/transaction-dialog.tsx
 #: src/pages/events/details/notify-dialog.tsx
 #: src/pages/home/push-notifications-prompt.tsx
 #: src/pages/interests/membership.tsx
@@ -590,10 +583,6 @@ msgstr "Refusés"
 msgid "Demo"
 msgstr "Démo"
 
-#: src/components/transaction-dialog.tsx
-msgid "Details"
-msgstr "Détails"
-
 #: src/app/routes.ts
 #: src/pages/documents/documents-page.tsx
 msgid "Documents"
@@ -712,6 +701,10 @@ msgstr "Échange"
 #: src/components/transaction-dialog.tsx
 msgid "Exchange {units}"
 msgstr "Échanger des {units}"
+
+#: src/components/transaction-dialog.tsx
+msgid "Exchange {units} with {name}"
+msgstr "Échanger des {units} avec {name}"
 
 #: src/pages/home/home-page.tsx
 #: src/pages/members/details/member-sidebar.tsx
@@ -1921,10 +1914,6 @@ msgid "Sort"
 msgstr "Trier"
 
 #: src/components/transaction-dialog.tsx
-msgid "Step {stepNumber} of {stepCount}"
-msgstr "Étape {stepNumber} sur {stepCount}"
-
-#: src/components/transaction-dialog.tsx
 msgid "Subject"
 msgstr "Objet"
 
@@ -1981,6 +1970,10 @@ msgstr "L’échange n’a pas pu être créé"
 msgid "The exchange couldn't be updated"
 msgstr "L’échange n’a pas pu être mis à jour"
 
+#: src/components/transaction-dialog.tsx
+msgid "The exchange will be completed right away."
+msgstr "L’échange sera conclu immédiatement."
+
 #: src/pages/home/profile-completion/10-help-step.tsx
 msgid "The help answers the most frequent questions about the LETS and the app."
 msgstr "L’aide répond aux questions les plus fréquentes sur le SEL et l’application."
@@ -2016,6 +2009,10 @@ msgstr "Le lien est peut-être erroné, ou la demande n’existe plus."
 #: src/pages/members/details/member-not-found.tsx
 msgid "The link may be wrong."
 msgstr "Le lien est peut-être erroné."
+
+#: src/components/transaction-dialog.tsx
+msgid "The member will need to confirm the exchange."
+msgstr "Le membre devra confirmer l’échange."
 
 #: src/pages/members/list/members-list.tsx
 msgid "The members of the association appear here once their account is active."
@@ -2354,10 +2351,6 @@ msgstr "En attente de la confirmation de {payer}"
 #: src/pages/help/help-page.tsx
 msgid "We prefer comments so that everyone stays in the loop."
 msgstr "Nous privilégions les commentaires pour que tout le monde reste informé."
-
-#: src/components/transaction-dialog.tsx
-msgid "What do you want to do?"
-msgstr "Que voulez-vous faire ?"
 
 #: src/pages/help/help-page.tsx
 msgid "What happened?\n"

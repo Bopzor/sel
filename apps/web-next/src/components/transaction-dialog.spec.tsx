@@ -61,6 +61,10 @@ describe('TransactionDialog', () => {
     await user.click(within(dialog).getByRole('button', { name: 'Next' }));
   }
 
+  async function back(dialog: HTMLElement) {
+    await user.click(within(dialog).getByRole('button', { name: 'Back' }));
+  }
+
   // The text read by a screen reader: without the initials of the decorative avatars.
   function recap(dialog: HTMLElement) {
     const spokenText = (element: Element | null) => {
@@ -80,32 +84,25 @@ describe('TransactionDialog', () => {
   it('sends units to a member found by the search', async () => {
     const dialog = await open();
 
-    expect(dialog).toHaveAccessibleName('Exchange units');
-    expect(dialog).toHaveTextContent('Step 1 of 3');
+    await user.click(within(dialog).getByRole('button', { name: 'Send units' }));
 
-    await user.click(within(dialog).getByRole('radio', { name: /^Send units/ }));
-    await user.type(within(dialog).getByRole('searchbox', { name: 'Member' }), 'clai'); // cspell:disable-line
-
-    const results = within(dialog).getByRole('list', { name: 'Members' });
+    const results = await within(dialog).findByRole('list', { name: 'Members' });
 
     expect(
       within(results)
         .getAllByRole('button')
         .map((button) => button.textContent),
-    ).toEqual(['Claire Dubois']);
+    ).toEqual(['Claire Dubois', 'Julien Petit']);
 
+    await user.type(within(dialog).getByRole('searchbox', { name: 'Member' }), 'clai'); // cspell:disable-line
     await user.click(within(results).getByRole('button', { name: 'Claire Dubois' }));
-    await next(dialog);
 
-    expect(dialog).toHaveTextContent('Step 2 of 3');
     expect(within(dialog).getByRole('textbox', { name: 'Amount' })).toHaveFocus();
 
     await fillDetails(dialog, { amount: '20', reason: 'Help with moving' });
     await user.type(within(dialog).getByRole('textbox', { name: 'Comment (optional)' }), 'Thanks!');
     await next(dialog);
 
-    expect(dialog).toHaveTextContent('Step 3 of 3');
-    expect(dialog.querySelector('dl')).toHaveFocus();
     expect(recap(dialog)).toEqual([
       ['Exchange', 'Send units'],
       ['Member', 'Claire Dubois'],
@@ -113,10 +110,6 @@ describe('TransactionDialog', () => {
       ['Subject', 'Help with moving'],
       ['Comment', 'Thanks!'],
     ]);
-
-    expect(within(dialog).getByRole('status')).toHaveTextContent(
-      "Claire Dubois doesn't need to confirm: the exchange is completed right away.",
-    );
 
     await user.click(within(dialog).getByRole('button', { name: 'Send 20 units' }));
 
@@ -134,116 +127,63 @@ describe('TransactionDialog', () => {
     ]);
   });
 
-  it('requests units from a given member, without the exchange step', async () => {
+  it('requests units from a given member, without the direction and member steps', async () => {
     const dialog = await open({ direction: 'request', counterpart: julien });
-
-    expect(dialog).toHaveAccessibleName('Request units from Julien Petit');
-    expect(dialog).toHaveTextContent('Step 1 of 2');
-    expect(server.find('/api/members')).toHaveLength(0);
 
     await fillDetails(dialog, { amount: '1', reason: 'Gardening' });
     await next(dialog);
-
-    expect(within(dialog).getByRole('status')).toHaveTextContent(
-      'Julien Petit needs to confirm to complete the exchange.',
-    );
-
     await user.click(within(dialog).getByRole('button', { name: 'Request 1 unit' }));
 
     expect(await screen.findByText('Request sent to Julien Petit')).toBeInTheDocument();
+    expect(server.find('/api/members')).toHaveLength(0);
 
     expect(server.transactions).toEqual<CreateTransactionBody[]>([
       { payerId: 'julien', recipientId: 'me', amount: 1, description: 'Gardening' },
     ]);
   });
 
-  it('shows the given member without the search', async () => {
+  it('chooses the direction with a given member, without the member step', async () => {
     const dialog = await open({ counterpart: julien });
 
-    expect(within(dialog).getByRole('radio', { name: /^Send units/ })).toBeInTheDocument();
-    expect(within(dialog).getByText('Julien Petit')).toBeInTheDocument();
-    expect(within(dialog).queryByRole('searchbox')).not.toBeInTheDocument();
-    expect(within(dialog).queryByRole('button', { name: /^Change/ })).not.toBeInTheDocument();
-  });
+    await user.click(within(dialog).getByRole('button', { name: 'Request units' }));
+    await fillDetails(dialog, { amount: '1', reason: 'Gardening' });
+    await next(dialog);
 
-  it('does not list the current member', async () => {
-    const dialog = await open();
-
-    const results = await within(dialog).findByRole('list', { name: 'Members' });
-
-    expect(
-      within(results)
-        .getAllByRole('button')
-        .map((button) => button.textContent),
-    ).toEqual(['Claire Dubois', 'Julien Petit']);
-  });
-
-  it('brings the search back to change the member', async () => {
-    const dialog = await open({ direction: 'send' });
-
-    await selectMember(dialog, 'Claire Dubois');
-
-    expect(within(dialog).queryByRole('searchbox')).not.toBeInTheDocument();
-    expect(within(dialog).getByRole('button', { name: 'Change the member' })).toHaveFocus();
-
-    await user.click(within(dialog).getByRole('button', { name: 'Change the member' }));
-
-    expect(within(dialog).getByRole('searchbox', { name: 'Member' })).toHaveFocus();
-    expect(within(dialog).getByRole('button', { name: 'Julien Petit' })).toBeInTheDocument();
-  });
-
-  it('selects the first member on enter, without going to the next step', async () => {
-    const dialog = await open({ direction: 'send' });
-
-    await within(dialog).findByRole('list', { name: 'Members' });
-    await user.type(within(dialog).getByRole('searchbox', { name: 'Member' }), 'p{Enter}');
-
-    expect(within(dialog).getByText('Julien Petit')).toBeInTheDocument();
-    expect(within(dialog).getByRole('button', { name: 'Change the member' })).toHaveFocus();
-    expect(dialog).toHaveTextContent('Step 1 of 3');
-  });
-
-  it('tells when no member matches the search', async () => {
-    const dialog = await open();
-
-    await within(dialog).findByRole('list', { name: 'Members' });
-    await user.type(within(dialog).getByRole('searchbox', { name: 'Member' }), 'nobody');
-
-    expect(within(dialog).getByText('No member matches this search')).toBeInTheDocument();
+    expect(recap(dialog)).toEqual([
+      ['Exchange', 'Request units'],
+      ['Member', 'Julien Petit'],
+      ['Amount', '1 unit'],
+      ['Subject', 'Gardening'],
+    ]);
+    expect(server.find('/api/members')).toHaveLength(0);
   });
 
   it('keeps the values when going back', async () => {
-    const dialog = await open({ direction: 'send' });
+    const dialog = await open();
 
+    await user.click(within(dialog).getByRole('button', { name: 'Send units' }));
     await selectMember(dialog, 'Claire Dubois');
-    await next(dialog);
     await fillDetails(dialog, { amount: '20', reason: 'Help with moving' });
     await next(dialog);
-    await user.click(within(dialog).getByRole('button', { name: 'Back' }));
+    await back(dialog);
 
     expect(within(dialog).getByRole('textbox', { name: 'Amount' })).toHaveValue('20');
 
-    await user.click(within(dialog).getByRole('button', { name: 'Back' }));
-
-    expect(within(dialog).getByText('Claire Dubois')).toBeInTheDocument();
-
-    await next(dialog);
+    await back(dialog);
+    await back(dialog);
+    await user.click(within(dialog).getByRole('button', { name: 'Request units' }));
+    await selectMember(dialog, 'Julien Petit');
 
     expect(within(dialog).getByRole('textbox', { name: /^Subject/ })).toHaveValue('Help with moving');
-  });
-
-  it('shows the errors of the exchange step', async () => {
-    const dialog = await open();
 
     await next(dialog);
 
-    expect(within(dialog).getByRole('group', { name: 'What do you want to do?' })).toHaveTextContent(
-      'Select an option',
-    );
-    expect(within(dialog).getByRole('searchbox', { name: 'Member' })).toHaveAccessibleErrorMessage(
-      'This field is required',
-    );
-    expect(dialog).toHaveTextContent('Step 1 of 3');
+    expect(recap(dialog)).toEqual([
+      ['Exchange', 'Request units'],
+      ['Member', 'Julien Petit'],
+      ['Amount', '20 units'],
+      ['Subject', 'Help with moving'],
+    ]);
   });
 
   it('shows the errors of the details step', async () => {
@@ -255,7 +195,6 @@ describe('TransactionDialog', () => {
     expect(within(dialog).getByRole('textbox', { name: 'Amount' })).toHaveAccessibleErrorMessage(
       'This field should be a whole number',
     );
-    expect(dialog).toHaveTextContent('Step 1 of 2');
   });
 
   it('shows an error when the exchange cannot be created', async () => {

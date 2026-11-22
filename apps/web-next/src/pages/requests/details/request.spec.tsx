@@ -398,7 +398,6 @@ describe('request', () => {
       await user.click(await screen.findByRole('button', { name: 'Exchange units' }));
 
       const dialog = await screen.findByRole('dialog', { name: 'Request units from Claire Dubois' });
-      expect(dialog).toHaveTextContent('Step 1 of 2');
       expect(within(dialog).getByRole('textbox', { name: /^Subject/ })).toHaveValue('Cat sitting');
 
       await fillAmount(dialog);

@@ -419,14 +419,6 @@ msgstr "Cancel the request “{0}”?"
 msgid "Canceled"
 msgstr "Canceled"
 
-#: src/components/transaction-dialog.tsx
-msgid "Change"
-msgstr "Change"
-
-#: src/components/transaction-dialog.tsx
-msgid "Change the member"
-msgstr "Change the member"
-
 #: src/pages/profile/identity-section.tsx
 msgid "Change the photo"
 msgstr "Change the photo"
@@ -464,6 +456,7 @@ msgstr "Clear filters"
 #: src/components/address-form-dialog.tsx
 #: src/components/rich-text-toolbar.tsx
 #: src/components/toaster.tsx
+#: src/components/transaction-dialog.tsx
 #: src/pages/events/details/notify-dialog.tsx
 #: src/pages/home/push-notifications-prompt.tsx
 #: src/pages/interests/membership.tsx
@@ -590,10 +583,6 @@ msgstr "Declined"
 msgid "Demo"
 msgstr "Demo"
 
-#: src/components/transaction-dialog.tsx
-msgid "Details"
-msgstr "Details"
-
 #: src/app/routes.ts
 #: src/pages/documents/documents-page.tsx
 msgid "Documents"
@@ -712,6 +701,10 @@ msgstr "Exchange"
 #: src/components/transaction-dialog.tsx
 msgid "Exchange {units}"
 msgstr "Exchange {units}"
+
+#: src/components/transaction-dialog.tsx
+msgid "Exchange {units} with {name}"
+msgstr "Exchange {units} with {name}"
 
 #: src/pages/home/home-page.tsx
 #: src/pages/members/details/member-sidebar.tsx
@@ -1921,10 +1914,6 @@ msgid "Sort"
 msgstr "Sort"
 
 #: src/components/transaction-dialog.tsx
-msgid "Step {stepNumber} of {stepCount}"
-msgstr "Step {stepNumber} of {stepCount}"
-
-#: src/components/transaction-dialog.tsx
 msgid "Subject"
 msgstr "Subject"
 
@@ -1981,6 +1970,10 @@ msgstr "The exchange couldn't be created"
 msgid "The exchange couldn't be updated"
 msgstr "The exchange couldn't be updated"
 
+#: src/components/transaction-dialog.tsx
+msgid "The exchange will be completed right away."
+msgstr "The exchange will be completed right away."
+
 #: src/pages/home/profile-completion/10-help-step.tsx
 msgid "The help answers the most frequent questions about the LETS and the app."
 msgstr "The help answers the most frequent questions about the LETS and the app."
@@ -2016,6 +2009,10 @@ msgstr "The link may be wrong, or the request may no longer exist."
 #: src/pages/members/details/member-not-found.tsx
 msgid "The link may be wrong."
 msgstr "The link may be wrong."
+
+#: src/components/transaction-dialog.tsx
+msgid "The member will need to confirm the exchange."
+msgstr "The member will need to confirm the exchange."
 
 #: src/pages/members/list/members-list.tsx
 msgid "The members of the association appear here once their account is active."
@@ -2354,10 +2351,6 @@ msgstr "Waiting for {payer} to confirm"
 #: src/pages/help/help-page.tsx
 msgid "We prefer comments so that everyone stays in the loop."
 msgstr "We prefer comments so that everyone stays in the loop."
-
-#: src/components/transaction-dialog.tsx
-msgid "What do you want to do?"
-msgstr "What do you want to do?"
 
 #: src/pages/help/help-page.tsx
 msgid "What happened?\n"
