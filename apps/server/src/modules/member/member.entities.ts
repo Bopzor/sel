@@ -10,6 +10,9 @@ export type MemberInsert = typeof schema.members.$inferInsert;
 export const withAvatar = { with: { avatar: true as const } };
 export type MemberWithAvatar = Member & { avatar: File | null };
 
+export type MembershipPayment = typeof schema.membershipPayment.$inferSelect;
+export type MembershipPaymentInsert = typeof schema.membershipPayment.$inferInsert;
+
 export class MemberCreatedEvent extends DomainEvent {}
 
 export class OnboardingCompletedEvent extends DomainEvent {}
@@ -17,3 +20,5 @@ export class OnboardingCompletedEvent extends DomainEvent {}
 export class NotificationDeliveryTypeChangedEvent extends DomainEvent<{
   notificationDeliveryType: Partial<Record<NotificationDeliveryType, boolean>>;
 }> {}
+
+export class MembershipPaymentCreated extends DomainEvent {}

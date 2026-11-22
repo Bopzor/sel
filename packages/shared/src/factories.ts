@@ -87,6 +87,7 @@ export const createAuthenticatedMember = createFactory<AuthenticatedMember>(() =
 export const createAdminMember = createFactory<AdminMember>(() => ({
   id: createId(),
   status: MemberStatus.active,
+  isMembershipUpToDate: false,
   firstName: '',
   lastName: '',
   number: 0,

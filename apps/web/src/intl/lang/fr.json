@@ -752,6 +752,7 @@
         "title": "Liste des membres",
         "name": "Nom",
         "status": "Statut",
+        "membershipStatus": "Cotisation",
         "email": "Adresse email",
         "phoneNumber": "Téléphone"
       },
